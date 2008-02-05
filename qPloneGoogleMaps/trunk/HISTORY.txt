@@ -1,0 +1,11 @@
+0.1.0
+
+  * updated README.txt, DEPENDENCY.txt
+
+  * partial adapter  implementation
+
+  * added tests
+
+  * added overlay manipulation
+
+  * provided initial functionality

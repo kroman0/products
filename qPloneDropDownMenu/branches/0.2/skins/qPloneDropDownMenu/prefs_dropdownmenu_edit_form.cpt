@@ -1,0 +1,90 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en-US"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="qPloneDropDownMenu">
+
+  <metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<head>
+  <metal:javascript_head_slot fill-slot="javascript_head_slot">
+        <script type="text/javascript" src="javascripts/prototype.js"></script>
+        <script type="text/javascript" src="javascripts/scriptaculous.js"></script>
+        <script type="text/javascript" src="javascripts/behaviour.js"></script>
+        <script type="text/javascript" src="javascripts/qplonedropdownmenu.js"></script>
+  </metal:javascript_head_slot>
+  <metal:cssslot fill-slot="css_slot">
+    <style type="text/css"  tal:content="string:@import url($portal_url/stylesheets/qplonedropdownmenu.css);" />
+  </metal:cssslot>
+</head>
+
+
+<body>
+  <div metal:fill-slot="prefs_configlet_main"
+       tal:define="dummy here/portal_dropdownmenu/generateSubMenuMapping;
+                   errors python:request.get('errors', {})">
+
+    <h1 i18n:translate="heading_plonedropdownmenu">Plone Drop Down Menu</h1>
+    <a href=""
+       class="link-parent"
+       tal:attributes="href string: $portal_url/plone_control_panel"
+       i18n:translate="label_up_to_plone_setup">
+    Up to Plone Setup
+    </a>
+
+    <div id="app">
+      <h1>Edit DropDown Menu<span id="busy"><img src='./images/busy_icon.gif' alt="Loading&hellip;" /></span></h1>
+      <ul id="rootMenu"
+          tal:condition="portal_tabs">
+        <tal:tabs tal:repeat="tab portal_tabs">
+            <li tal:attributes="id string:tab-${tab/name}"
+                tal:define="submenu python:here.portal_dropdownmenu.getValueByKey(tab['name'])">
+              <div class="reorderHover"
+                   tal:attributes="class python:test(len(submenu)>1,'reorderHover','')">
+                  <input name="submenu_path" value="" type="hidden"
+                         tal:attributes="value string:${tab/name}" />
+                  <img src="./images/live_tree_transparent_pixel.gif" alt="&gt;" class="item_icon collapsed_icon"
+                       tal:attributes="class python:test(len(submenu), 'item_icon expanded_icon', 'item_icon collapsed_icon')" />
+                  <span tal:content="tab/name"
+                        tal:attributes="title tab/description|nothing">
+                      Tab Name
+                  </span>
+                  <div class="reorder-controls"><a
+                       href="#" class="reorder">Reorder</a></div>
+                  <div class="sort-controls"><a
+                       href="#" class="save">Save</a> | <a href="#" class="cancel">Cancel</a></div>
+              </div>
+              <div class="sub-items">
+                  <ul tal:omit-tag=""
+                      tal:define="submenu_path tab/name;
+                                  first python:1">
+                      <div metal:use-macro="here/getSubmenu/macros/submenu" />
+                  </ul>
+              </div>
+            </li>
+        </tal:tabs>
+      </ul>
+
+<!--    <div class="field"
+         tal:define="generated_tabs python: not site_properties.disable_folder_sections;
+                     generated_tabs request/generated_tabs | generated_tabs;
+                     error errors/generated_tabs | nothing;"
+         tal:attributes="class python:test(error, 'field error', 'field')">
+      <input type="checkbox"
+             id="generated_tabs"
+             name="generated_tabs"
+             value="1"
+             tal:attributes="checked python:test(generated_tabs, 'checked', None)" />
+      <label for="generated_tabs" i18n:translate="label_generated_tabs_enable">Automatically generate tabs</label>
+      <div class="formHelp" i18n:translate="help_generated_tabs">
+        By default, all folders created at the root level will have global section
+        navigation generated. You can turn this off if you prefer manually constructing
+        this part of the navigation.
+      </div>
+    </div>-->
+   </div>
+  </div>
+</body>
+</html>

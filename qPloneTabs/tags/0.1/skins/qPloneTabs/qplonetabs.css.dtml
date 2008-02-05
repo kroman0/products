@@ -1,0 +1,259 @@
+/* <dtml-with base_properties> (do not remove this :) */
+/* <dtml-call "REQUEST.set('portal_url', portal_url())"> (not this either :) */
+
+#app ul.csshover          .delete {display: none;}
+#app.viewing ul.csshover li:hover .delete,
+#app.viewing ul.csshover li.hover .delete {display: inline;}
+
+#app.viewing .reorder-controls,
+#app.sorting .sort-controls,
+#app.editing li.current .editform,
+#app.adding  .message-error,
+#app.adding  .field-name dt,
+#app.adding  .field-action,
+#app.adding  .field-action label,
+#app.adding  .advanced,
+#app.adding  .field-id,
+#app.adding  .field-condition,
+#app.adding  .add-controls    {display: block;}
+
+             .reorder-controls,
+             .sort-controls,
+#app.editing li.current span,
+             .drag-handle,
+#app.sorting .delete,
+#app.adding  .delete,
+             .editform,
+#app.sorting #addaction,
+#app.editing #addaction,
+             #addaction legend,
+             .message-error,
+             .field-name dt,
+             .field-action,
+             .advanced,
+             .field-id,
+             .field-condition,
+             .add-controls    {display: none;}
+
+#app.sorting .drag-handle     {display: inline;}
+
+             #busy {display: none;}
+#app.working #busy {display: inline;}
+#app.sorting #tabslist img.drag-handle {cursor: move;}
+
+/*#app.adding .validation-error {border: 1px solid red;}*/
+
+/*common***************************************************/
+
+div.reorder-controls,
+div.sort-controls {
+    float:left;
+}
+
+.drag-handle {
+    float:left;
+    margin:0.5em 0.5em 0 0;
+}
+
+#app ul {
+  list-style-type: none;
+    list-style-image: none;
+    margin:2.5em 0 0 0;
+}
+
+#app .delete {
+  background: url(&dtml-portal_url;/trash.gif) 12px 50% no-repeat;
+    float:right;
+    padding: 0 0 0 25px;
+    line-height:1.8em;
+    font-size:80%;
+    border:0;   
+    position:relative;
+    margin-right:-6.3em;
+    color: &dtml-linkColor; !important;
+}
+
+#app ul.csshover li {
+  border: 1px &dtml-borderStyle; transparent;
+    border-right:0;
+    padding: 0 0.5em;
+    margin: 0.1em 0;
+    width:35em;
+    margin-right:6.5em;
+    line-height:1.5em;
+    clear:left;
+}
+
+* html #app ul.csshover li {
+    border-color:white;
+}
+
+#app ul.csshover li span {
+    display:block;
+}
+
+#app ul.csshover li.current {
+    padding:0;
+    margin: 0;
+    width:36em;
+}
+
+#app li.current form {
+    margin:-0.1em;
+}
+
+* html #app li.current form {
+    margin: -0.2em 0 0 0;
+}
+
+#app fieldset {
+    margin:0;
+    padding:0;
+    border:0;
+}
+
+#app dl {
+    margin:0;
+}
+
+#app dl label {
+    display:none;
+}
+
+#app dl dl label {
+    display:block;
+} 
+
+#app dd {
+    margin:0;
+}
+
+#app dd dl {
+    margin:0.5em 0;
+}
+
+#app legend {
+    padding:0 0.5em;
+    top:-1px;
+    color: &dtml-globalFontColor;;
+  float:left;
+    display:none;
+}
+
+#app input {
+    width:96.8%;
+    padding:0.17em 0.5em;
+}
+
+#app input:focus {
+    border:  1px inset threedface !important;
+}
+
+* html #app input {
+    width:97.3%;
+    padding: 0.1em 0.4em;
+}
+
+#app form div {
+    line-height:1.4em;
+    margin-top:0.1em;
+    min-height:1.6em;
+}
+
+* html #app form div {
+    margin-top:-0.2em;
+    position:relative;
+    height:1%;
+}
+
+#app div input {
+    width:auto;
+    padding: 0.05em 0.5em;
+    float:left;
+    margin:0 0.1em 0 0;
+}
+
+* html #app div input {
+    padding: 0 0.3em;
+}
+
+div.field { margin-top:2em; }
+
+/*hover***************************************************/
+
+#app.viewing ul.csshover li:hover,
+#app.viewing ul.csshover li.hover {
+  background-color: #FFFFDD;
+    border:  1px inset threedface;
+  cursor: text;
+}
+
+/*edit*****************************************************/
+
+#app dl.collapsible {
+    margin-top:0.15em;
+    position:relative;
+    padding:0;
+    border:0 !important;
+    height:auto;
+    line-height:1em;
+}
+
+#app dl.collapsible dt.collapsibleHeader {
+    font-weight:normal;
+    position:absolute;
+    padding-right:0.5em;
+    display:block;
+    margin:0;
+    top:0;
+    right:0;
+    color: &dtml-globalFontColor;;
+    line-height:2em;
+    background-color:transparent;
+}
+
+#app dl.collapsible dd.collapsibleContent {
+    padding:1em 1.5em 0 1.5em;
+    border:0;
+    background-color:&dtml-globalBackgroundColor;;
+}
+
+#app dl.advanced { 
+    clear: both;
+}
+
+/****************************************************************/
+
+#app #addaction {
+    width:36.2em;
+    position:relative;
+}
+
+* html #app #addaction {
+    width:36.1em;
+}
+
+#app.adding .field-action label {
+    position:absolute;
+    line-height:2.1em;
+    font-size:80%;
+    color: &dtml-globalBorderColor;;
+    right:0.5em;
+    font-weight:normal;
+    background-color:transparent;
+}
+
+#app.adding .field-action input {
+        margin-top:0.1em; 
+    padding-right:9em;
+    width:26.5em;
+}
+
+* html #app.adding .field-action input {
+    padding-right:0.5em;
+    width:96.9%;
+    margin-top:-0.05em;
+}
+
+
+/* </dtml-with> (do not remove this either :) */

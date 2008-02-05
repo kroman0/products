@@ -1,0 +1,3 @@
+[actions]
+action.success..Generate = traverse_to:string:prefs_portal_documentation_generator
+action.success..Cancel = redirect_to:string:plone_control_panel 

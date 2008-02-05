@@ -1,0 +1,13 @@
+[default]
+title=Ping setup
+
+[security]
+View=1:Authenticated
+
+[validators]
+validators=
+
+[actions]
+action.success..Save=traverse_to:string:save_ping_setup
+action.success..Ping=traverse_to:string:ping_now
+action.failure=traverse_to:string:ping_setup

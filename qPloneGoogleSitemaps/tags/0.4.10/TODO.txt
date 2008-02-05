@@ -1,0 +1,9 @@
+The items that are planned to implement within short timeframe
+
+* Provide changefreq and priority elements in url
+
+* pre-Compress the sitemaps
+
+* Make it possible to break sitemap into parts (with the use of siteindex)
+
+* implement several siteindex split policies: location, modification date, etc.

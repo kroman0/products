@@ -1,0 +1,80 @@
+Plone Audio Patch
+=================
+
+The following doctest suite is meant to be run against mp3 audio implementation
+to ensure that p4a.audiopatch added to p4a.audio support for correct reading not
+english id3 tag info. (This doctest suite borrows much from Plone4ArtistsAudio testsuite.)
+
+We begin this process by creating a new instance of a file content
+type.
+
+  >>> id = self.folder.invokeFactory(self.file_content_type, 'samplefile')
+  >>> samplefile = self.folder[id]
+
+Keeping the sample audio files small it should be no problem loading
+them into memory for testing purposes.  So we proceed to give the
+previous file instance the sample file binary data.
+
+  >>> f = open(self.samplefile, 'rb')
+  >>> data = f.read()
+  >>> f.close()
+  >>> samplefile.getRawFile().update_data(data, self.required_mimetype, len(data))
+
+This is all fine and dandy but since we went a little lowlevel to update
+the file, this means IAudio hasn't had a chance to update the audio
+metadata and related logic.  So we need to fire IObjectModifiedEvent to
+kick IAudio.
+
+  >>> from zope import event
+  >>> from zope.app.event import objectevent
+  >>> event.notify(objectevent.ObjectModifiedEvent(samplefile))
+
+Now lets look up IAudio and get the data we expect from importing the
+audio file.
+ 
+  >>> from p4a.audio.interfaces import IAudio
+  >>> audiofile = IAudio(samplefile)
+
+Lets check does audiofile provide IAudioEncoded interface (added by Plone4artistsAudioPatch)
+
+  >>> from p4a.audiopatch.interfaces import IAudioEncoded
+  >>> IAudioEncoded.providedBy(audiofile)
+  True
+  >>> audiofile.encoding == ''
+  True
+  >>> audiofile.original_encoding == self.eyeD3_encoding
+  True
+
+Lets check that audiofile info fields are encoded wrong
+
+  >>> audiofile.title == self.fields['title']
+  False
+  >>> audiofile.album == self.fields['album']
+  False
+  >>> audiofile.artist == self.fields['artist']
+  False
+
+Now we set right encoding of id3 tag.
+
+  >>> audiofile.encoding = self.tag_encoding
+  >>> audiofile.title == self.fields['title']
+  True
+  >>> audiofile.album == self.fields['album']
+  True
+  >>> audiofile.artist == self.fields['artist']
+  True
+
+Do a little CMF testing.
+
+  >>> samplefile.Title() == self.fields['title'].encode('utf-8')
+  True
+
+Test reset of encodings fields when IObjectModifiedEvent fired.
+
+  >>> event.notify(objectevent.ObjectModifiedEvent(samplefile))
+  >>> audiofile.encoding
+  ''
+  >>> audiofile.original_encoding
+  'utf_8'
+
+

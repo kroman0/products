@@ -1,0 +1,3 @@
+0.3
+
+  * MigrationTool integration to update skin layer of the product.

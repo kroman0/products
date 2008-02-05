@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="plone">
+<head><title></title></head>
+<body>
+
+<metal:view_macro define-macro="view"
+                  tal:define="result accessor">
+    <span tal:condition="result"
+          tal:define="lat python:result[0];
+                      lng python:result[1]"
+          tal:replace="structure string:Latitude: ${lat} <br /> Longitude: ${lng}" />
+    <tal:block replace="structure python:here.view_js(result)" />
+    <div id="mapView" style="position: relative; height: 480px"
+         xmlns:v="urn:schemas-microsoft-com:vml"></div>
+</metal:view_macro>
+
+<metal:edit_macro define-macro="edit">
+    <metal:use use-macro="field_macro | here/widgets/field/macros/edit">
+        <metal:fill fill-slot="widget_body"
+                    tal:define="latitude  python: value and value[0] or None;
+                                longitude python: value and value[1] or None">
+            <metal:coordinates>
+<!--                 <label for="latitude">Latitude:</label> -->
+                <input type="hidden" name="latitude" id="maplatitude"
+                       tal:attributes="name string:${fieldName}_latitude;
+                                       tabindex tabindex/next;
+                                       value latitude"/>
+<!--                 <label for="longitude">Longitude:</label> -->
+                <input type="hidden" name="longitude" id="maplongitude"
+                       tal:attributes="name string:${fieldName}_longitude;
+                                       tabindex tabindex/next;
+                                       value longitude"/>
+            </metal:coordinates>
+            <div id="mapView" style="position: relative; height: 480px"
+                     xmlns:v="urn:schemas-microsoft-com:vml"
+                     tal:attributes="tabindex tabindex/next"></div>
+            <tal:block define="coord python:test(latitude and longitude, (latitude, longitude), None);
+                               longlat here/getOverlayMarkers|python:[]"
+                       replace="structure python:context.edit_js(coord, longlat)" />
+        </metal:fill>
+    </metal:use>
+</metal:edit_macro>
+
+</body>
+</html>

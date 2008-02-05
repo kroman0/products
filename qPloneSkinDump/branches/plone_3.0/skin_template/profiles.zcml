@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="%(product_name_lowercase)s">
+
+  <genericsetup:registerProfile
+      name="default"
+      title="%(product_name)s"
+      directory="profiles/default"
+      description="Extension profile for %(product_name)s."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+</configure>

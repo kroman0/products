@@ -1,0 +1,20 @@
+0.1.2		      12-08-2005
+
+    * added show_header parameter to export_csv script
+
+0.1.1                 10-08-2005
+    
+    * added parameters to export script, automatic download eneabled
+   
+    * added page template for results view
+
+
+0.1 initial release   09-08-2005
+
+    Base features:
+
+    * simple export into csv script
+
+    * select catalog property
+
+    * export parameters

@@ -1,0 +1,1 @@
+<tal:x replace="structure string:<![CDATA["/><tal:x replace="structure here/getBody"/> <tal:x define="obj nocall:here"><tal:x metal:use-macro="here/SimpleBlog_macros/macros/technoratiTags"/></tal:x><tal:x replace="structure string:]]>"/>

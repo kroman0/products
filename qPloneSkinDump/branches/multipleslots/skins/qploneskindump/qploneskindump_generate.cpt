@@ -1,0 +1,144 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      i18n:domain="qploneskindump"
+      metal:use-macro="here/prefs_main_template/macros/master">
+
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<body>
+<div metal:fill-slot="prefs_configlet_main"
+     tal:define="errors options/state/getErrors;">
+
+    <h1 i18n:translate="heading_template_generation">Main Template Generation</h1>
+
+    <a href=""
+       class="link-parent"
+       tal:attributes="href string: $portal_url/plone_control_panel"
+       i18n:translate="label_up_to_plone_setup"
+       i18n:domain="plone">
+       Up to Site Setup
+    </a>
+
+    <div class="documentDescription"
+         i18n:translate="description_template_generation">
+        This is the Main Template Generation section, if you have installed qMultipleSlots product 
+        you can generate "main_template.pt" based on its extensions to portal_skins by filling this form.
+    </div>
+
+    <form name="edit_form"
+          action="href"
+          method="post"
+          enctype="multipart/form-data"
+          tal:attributes="action string:${here_url}/${template_id}">
+
+        <fieldset tal:define="error_subfolder python:errors.get('Subfolder');">
+            <legend i18n:translate="legend_generation_details">Generation details</legend>
+
+            <div class="field">
+                <label class="SkinName_title"
+                    i18n:translate="label_SkinName">Skin name</label>
+                <span class="fieldRequired"
+                    title="Required"
+                    i18n:translate="label_required"
+                    i18n:attributes="title title_required;">
+                (Required)
+                </span>
+                <div i18n:translate="help_SkinName"
+                    class="formHelp">
+                    Select name of skin, from where to get "main_template.pt"
+                </div>
+                <select class="SkinName_input"
+                        size="1" name="Skin"
+                        tal:define="value request/Skin|context/getCurrentSkinName;
+                                    skins portal/portal_skins/getSkinSelections"
+                        tal:attributes="value value;
+                                        tabindex tabindex/next;">
+                    <option selected=""
+                            value="#"
+                            tal:repeat="skin skins"
+                            tal:attributes="value nocall:skin;
+                                            selected python:test(skin==value, 'selected', None);"
+                            tal:content="skin"/>
+                </select>
+            </div>
+
+            <div class="field">
+                <label class="LayerName_title"
+                       i18n:translate="label_LayerName">Skin layer</label>
+                <span class="fieldRequired"
+                      title="Required"
+                      i18n:translate="label_required"
+                      i18n:attributes="title title_required;">
+                (Required)
+                </span>
+                <div i18n:translate="help_LayerName"
+                    class="formHelp">
+                    Select layer from portal_skins, where "main_template.pt" will be created.
+                </div>
+
+                <select class="LayerName_input"
+                        size="1" name="Layer"
+                        tal:define="value request/Layer|string:custom;
+                                    layers python:portal.portal_skins.objectIds(spec='Folder');
+                                    global layer_name value"
+                        tal:attributes="value value;
+                                        tabindex tabindex/next;">
+                    <option selected=""
+                            value="#"
+                            tal:repeat="layer layers"
+                            tal:attributes="value nocall:layer;
+                                            selected python:test(layer==value, 'selected', None);"
+                            tal:content="layer"/>
+                </select>
+            </div>
+
+            <div class="field"
+                tal:attributes="class python: test(error_subfolder, 'field error', 'field');">
+                <label class="Subfolder_title"
+                    i18n:translate="label_SubfolderName">Subfolder name</label>
+                <div i18n:translate="help_SubfolderName"
+                    class="formHelp">
+                    Type subfolder name, which will be created in selected layer and
+                    where to place generated "main_template.pt".
+                </div>
+
+                <tal:errorblock tal:condition="error_subfolder">
+                    <div> 
+                        <tal:message content="error_subfolder" i18n:translate="">
+                            Validation Error
+                        </tal:message>
+                        <a href="" tal:attributes="href string:${portal_url}/portal_skins/${layer_name}/manage_main">
+                        delete
+                        </a>
+                        old folder.
+                    </div>
+                </tal:errorblock>
+
+                <input class="Subfolder_input"
+                    type="text"
+                    name="Subfolder"
+                    value=""
+                    tal:attributes="value request/Subfolder|string:generated"
+                    />
+            </div>
+
+            <div class="formControls">
+                <input class="context"
+                       tabindex=""
+                       type="submit"
+                       name="form.button.form_submit"
+                       value="Generate"
+                       i18n:attributes="value label_save;"
+                       tal:attributes="tabindex tabindex/next;"
+                       />
+            </div>
+
+        </fieldset>
+
+        <input type="hidden" name="form.submitted" value="1" />
+
+    </form>
+</div>
+</body>
+</html>

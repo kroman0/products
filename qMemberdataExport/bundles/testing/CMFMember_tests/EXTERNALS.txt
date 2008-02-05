@@ -1,0 +1,2 @@
+qMemberdataExport http://svn.quintagroup.com/products/qMemberdataExport/trunk
+CMFMember http://svn.plone.org/svn/collective/CMFMember/tags/v1_0_final_RELEASE

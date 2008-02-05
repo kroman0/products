@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="SimpleBlog">
+<body>
+<div metal:fill-slot="main">
+    <tal:main-macro metal:define-macro="main">
+        <tal:block tal:define="obj python:here">
+        <div metal:define-macro="full">
+            <tal:block metal:use-macro="here/SimpleBlog_macros/macros/blogGlobals"/>
+            <div metal:use-macro="here/document_actions/macros/document_actions">
+                Document actions (print, sendto etc)
+            </div>
+            <h1 class="documentFirstHeading"
+                tal:condition="showIcons">
+               <span tal:define="item_type obj/portal_type;
+                                 item_type_class python:'contenttype-' + normalizeString(item_type);"
+                     tal:attributes="class string:simpleBlogIcons ${item_type_class}" tal:content="object_title"/></h1>
+            <h1 class="documentFirstHeading"
+                tal:content="object_title"
+                tal:condition="not:showIcons"></h1>
+            <span metal:use-macro="obj/review_history/macros/review_history" />
+            <p class="documentDescription"
+               tal:content="structure here/Description"
+               tal:condition="here/Description">
+                Description
+            </p>
+            <div style="float:left;"
+                 tal:condition="isTopAdsenceEnabled">
+                <div tal:replace="structure python:modules['Products.adsenseproduct.util'].getCompiledAdsense(here, blog.getTopAdsence())"
+                     tal:on-error="string: "></div></div>
+            <div tal:replace="structure python:obj.getBody()" />
+            <div style="float:left;"
+                 tal:condition="isBottomAdsenceEnabled">
+                <div tal:replace="structure python:modules['Products.adsenseproduct.util'].getCompiledAdsense(here, blog.getBottomAdsence())"
+                     tal:on-error="string: "></div></div>
+            <tal:tags metal:use-macro="obj/simpleblog_byline/macros/technoratiTags"/>
+            <tal:byline tal:condition="showByline">
+                <tal:x metal:use-macro="obj/simpleblog_byline/macros/byline-foot"/>
+            </tal:byline>
+        </div>
+        </tal:block>
+    </tal:main-macro>
+</div>
+<div metal:fill-slot="sub">
+   <tal:block tal:condition="showByline"> <metal:discussion use-macro="here/viewThreadsAtBottom/macros/discussionView" /></tal:block>
+</div>
+
+</body>
+</html>

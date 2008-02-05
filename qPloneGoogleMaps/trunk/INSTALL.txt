@@ -1,0 +1,11 @@
+qPloneGoogleMaps
+
+Install
+
+You can install this product in the same way as any other Plone product:
+
+  1. Install as Zope product: extract Plone skin from archive to directory of products and restart Zope (Plone).
+
+  2. Install in your Plone instance with QuickInstaller 'Plone Control Panel' -> 'Add/remove Products'
+
+  3. Now your Plone site should have the corresponding skin layer.

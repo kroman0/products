@@ -1,0 +1,107 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/prefs_main_template/macros/master">
+
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<body>
+
+
+<div metal:fill-slot="prefs_configlet_main" i18n:domain="plone"
+     tal:define="QI python:here.portal_url.getPortalObject().portal_quickinstaller">
+
+    <h1>Plone Epydoc</h1>
+
+    <a href=""
+       class="link-parent"
+       tal:attributes="href string: $portal_url/plone_control_panel"
+       i18n:translate="label_up_to_plone_setup">
+    Up to Plone Setup
+    </a>
+
+    <div class="documentDescription">
+     portal_documentation settings
+    </div>
+
+    <form method="post"
+              tal:attributes="action string:${here/absolute_url}/${template/id};">
+
+        <fieldset>
+            <legend i18n:translate="legend_PloneEpydoc">Plone Epydoc properties</legend>
+
+            <table>
+              <tr>
+               <td valign = "top">
+                    <div class="field"
+                        tal:define = "installable_products QI/listInstallableProducts;
+                                      installed_products QI/listInstalledProducts;
+                                      products python: installable_products + installed_products" >
+                       <label i18n:translate="label_policy">Products</label>
+                          <div></div>
+                          <select name="product"
+                                  tal:define="sel_product request/product|nothing">
+                                <option tal:repeat="prod products"
+                                        tal:content="prod/id"
+                                        tal:attributes="selected python: test(prod['id']==sel_product, prod['id'], nothing)"/>
+                         </select>
+
+
+                    </div>
+               </td>
+              </tr>
+                <!--<td valign = "top">
+                     <div class="field">
+                        <label i18n:translate="label_docformats">Docformats</label>
+                            <div></div>
+                            <input type="radio"  name="docformat"  value = "plaintext"/>plaintext<br>
+                            <input type="radio"  name="docformat"  value = "epytext"/>epytext<br>
+                            <input type="radio"  name="docformat"  value = "restructuredtext"/>restructuredtext<br>
+                            <input type="radio"  name="docformat"  value = "javadoc"/>javadoc<br>
+                   </div>
+                </td>
+                <td valign = "top">
+                     <div class="field">
+                        <label i18n:translate="label_css">CSS</label>
+                            <div></div>
+                            <input type="radio"  name="css"  value = "none"/>none<br>
+                            <input type="radio"  name="css"  value = "black"/>black<br>
+                            <input type="radio"  name="css"  value = "blue"/>blue<br>
+                            <input type="radio"  name="css"  value = "grayscale"/>grayscale<br>
+                            <input type="radio"  name="css"  value = "green"/>green<br>
+                            <input type="radio"  name="css"  value = "white"/>white<br>
+                   </div>
+                </td>-->
+                  <tr>
+                   <td valign = "top">
+                     <div class="field"
+                       tal:define = "portal_doc python:here.portal_url.getPortalObject().portal_documentation">
+                       <label i18n:translate="label_policy">Generated Documentation</label>
+                          <div></div>
+                           <dl>
+                            <tal:entry tal:repeat="doc portal_doc/objectIds">
+                            <dt metal:define-macro="listitem">
+                            <a  href="#"
+                                tal:attributes="href string:${portal_url}/portal_documentation/${doc}/index.html"
+                                tal:content="doc" />
+                           </dt>
+
+                           </tal:entry>
+                          </dl>
+                  </div>
+                  </td>
+                </tr>
+            </table>
+            <div class="formControls">
+               <input type="hidden" name="form.submitted" value="1" />
+               <input class="standalone" type="submit" name="form.button.Generate" value="Generate" />
+               <input class="standalone" type="submit" name="form.button.Cancel" value="Cancel" />
+            </div>
+            </fieldset>
+        </form>
+
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,12 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    >
+
+  <adapter
+    for="Products.Archetypes.public.BaseObject"
+    provides=".interfaces.IKeywords"
+    factory=".adapters.AdditionalKeywords"
+    />
+
+</configure>

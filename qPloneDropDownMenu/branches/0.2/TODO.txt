@@ -1,0 +1,6 @@
+
+  * add  qPloneTabs functionality
+  
+  * futher improvement of ajax configlet
+  
+  * CSS for configlet

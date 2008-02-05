@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+<head>
+  <metal:block fill-slot="javascript_head_slot">
+    <script type="text/javascript" src=""
+            tal:define="key here/getMapKey"
+            tal:attributes="src string:http://maps.google.com/maps?file=api&amp;v=2&amp;key=${here/getMapKey}">
+    </script>
+    <span tal:replace="structure python:here.maps_markers(longlat=here.getOverlayMarkers(), node='mapView', controls=here.getMapControl(), loc=here.geoLocation(), typeControls=here.getTypeControl(), overviewControls=here.getOverviewControl(), events=True, maptype=here.getMapType(), color=False, zoom=here.getZoom(), mapevents=True, auto=here.getAuto())" />
+  </metal:block>
+</head>
+
+<body>
+
+<metal:main fill-slot="main">
+  <tal:main-macro metal:define-macro="main">
+
+    <div metal:use-macro="here/document_actions/macros/document_actions">
+      Document actions (print, sendto etc)
+    </div>
+
+    <h1 tal:content="here/pretty_title_or_id" class="documentFirstHeading">
+      Title or id
+    </h1>
+
+    <div metal:use-macro="here/document_byline/macros/byline">
+      Get the byline - contains details about author and modification date.
+    </div>
+
+    <p class="documentDescription"
+       tal:content="here/Description"
+       tal:condition="here/Description">
+      Description
+    </p>
+
+    <div id="mapView" style="position: relative; height: 480px;"></div>
+<!--         tal:define="height here/getHeight"
+         tal:attributes="style string:height:${height}px"></div>-->
+
+  </tal:main-macro>
+</metal:main>
+
+</body>
+</html>

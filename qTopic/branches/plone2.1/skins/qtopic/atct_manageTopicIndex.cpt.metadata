@@ -1,0 +1,3 @@
+[actions]
+action.success..index_save=traverse_to:string:atct_saveTopicSetup
+action.success..Go=traverse_to:string:atct_manageTopicIndex

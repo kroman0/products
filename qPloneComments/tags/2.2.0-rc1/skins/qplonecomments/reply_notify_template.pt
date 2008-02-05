@@ -1,0 +1,19 @@
+<div i18n:domain="plone"
+     tal:omit-tag=""
+     tal:define="charset here/portal_properties/site_properties/default_charset|string:utf-8;
+                 dummy python:request.RESPONSE.setHeader('Content-Type', 'text/html;;charset=%s' % charset);
+                 organization_name options/organization_name;
+                 obj nocall:options/obj"
+>To: <tal:x replace="options/mto"/>
+From: <tal:x replace="options/mfrom"/>
+Subject: Someone replied to your comment on '<tal:x replace="obj/Title"/>'
+
+<tal:x replace="options/name"/>,
+Someone replied to your comment '<tal:x replace="obj/absolute_url" />'
+on '<tal:x replace="here/absolute_url" />'. To read the response, go to
+'<tal:x replace="obj/absolute_url"/>'.
+
+--
+<tal:x condition="organization_name" replace="string:$organization_name "/>Support Team.
+
+</div>

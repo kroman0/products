@@ -1,0 +1,139 @@
+# Ukrainian translation for qPloneComments
+# Copyright (c) 2006 Quintagroup
+# This file is distributed under the same license as the qPloneComments product.
+# Myroslav Opyr <myroslav@quintagroup.com>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: qPloneComments\n"
+"Report-Msgid-Bugs-To: Quintagroup Support <support@quintagroup.com>\n"
+"POT-Creation-Date: 2006-08-21 17:50+0000\n"
+"PO-Revision-Date: 2006-11-23 12:15+0000\n"
+"Last-Translator: Myroslav Opyr <myroslav@quintagroup.com>\n"
+"Language-Team: Ukrainian <uk@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: uk\n"
+"Language-Name: Українська\n"
+"Preferred-Encodings: utf-8 koi8-u windows-1251\n"
+"Domain: plonecomments\n"
+"X-Rosetta-Export-Date: 2006-11-23 12:18+0000\n"
+
+
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+msgid "Name"
+msgstr "Ім'я"
+
+#: skins/qplonecomments/2.0.5/discussionitem_view.pt
+msgid "Publish"
+msgstr "Опублікувати"
+
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+msgid "Required"
+msgstr "Обов'язково"
+
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+#: fuzzy
+msgid "Submitter"
+msgstr "Автор"
+
+#: skins/qplonecomments/approve_comment_template.pt
+msgid "approvemail_new_comment_link"
+msgstr ""
+"Будь-даска прегляньте новий коментар доданий до сторінки \\\" ${title} \\\": "
+"${link}"
+
+#: skins/qplonecomments/approve_comment_template.pt
+msgid "approvemail_subject"
+msgstr "Нові коментарі чекають на затвердження"
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "heading_comments_setup"
+msgstr "Настройки qPloneComments"
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "help_additional_email"
+msgstr ""
+"Вкажіть одну електронну адресу, куди надсилатимуться повідомлення пронові "
+"коментарі."
+
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+msgid "help_name"
+msgstr "Подайте своє ім'я."
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "help_organization_name"
+msgstr ""
+"Ви можете поміняти шаблон повідомлення змінюючи 'approve_comment_template' "
+"та 'published_comment_template' з шару qplonecomments в шкірах."
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_additional_email"
+msgstr "Посилати e-mail повідомлення про коментарі до:"
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_anonymous_commenting"
+msgstr "Дозволити анонімне коментування."
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_comments"
+msgstr "Модерування останніх коментарів"
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_configure"
+msgstr "Конфігурувати qPloneComments"
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_enable_approve_notification"
+msgstr "Дозволити повідомлення Менеджера дискусій (Discussion Manager) про нові коментарі."
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_enable_moderation"
+msgstr "Дозволити модерування."
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_enable_published_notification"
+msgstr "Дозволити повідомлення автора документу про нові коментарі."
+
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+msgid "label_name"
+msgstr "Ім'я"
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_organization_name"
+msgstr "Префікс заголовка електронних листів (назва організації)"
+
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+msgid "label_required"
+msgstr "(Обов'язково)"
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "legend_setup_options"
+msgstr "Опції настройки qPloneComments"
+
+#: skins/qplonecomments/published_comment_template.pt
+msgid "publishedmail_new_comment_link"
+msgstr "Перегляньте коментар доданий до сторінки \\\" ${title} \\\": ${link}"
+
+#: skins/qplonecomments/published_comment_template.pt
+msgid "publishedmail_subject"
+msgstr "Додано новий коментар"
+
+#: skins/qplonecomments/approve_comment_template.pt
+#: skins/qplonecomments/published_comment_template.pt
+msgid "signature"
+msgstr "Команда підтримки ${organization_name}."

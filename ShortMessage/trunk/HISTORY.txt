@@ -1,0 +1,28 @@
+0.1.4 2005-12-27
+================
+
+ - add docstring to all classes and functions
+ 
+0.1.3 2005-11-14
+================
+
+ - added reviewer_queue worklist to Sm_Workflow
+ - added new transition to Sm_Workflow named 'retract'
+ 
+0.1.2 2005-11-08
+================
+
+ - added default function for field named 'Sender'
+ 
+0.1.1 2005-09-28
+================
+ 
+ - added send_publishedMessage
+ - added SMSWorkflow
+ - added validator for text field named 'body'
+ - create a customization polisy
+ 
+0.1.0 2005-09-20
+================
+
+ - initial release

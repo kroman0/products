@@ -1,0 +1,9 @@
+[security]
+View=0:Authenticated
+
+[default]
+title=Edit Drop Down Menu
+
+[actions]
+action.success=redirect_to:string:prefs_dropdownmenu_edit_form
+action.failure=traverse_to:string:prefs_dropdownmenu_edit_form

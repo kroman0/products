@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="SimpleBlog">
+
+  <metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<body>
+
+<div metal:fill-slot="prefs_configlet_main"
+     tal:define="errors python:request.get('errors', {})">
+    <h1>Adsense Setup</h1>
+
+    <a href=""
+       class="link-parent"
+       tal:attributes="href string: $portal_url/plone_control_panel"
+       i18n:translate="label_up_to_plone_setup">
+        Up to Site Setup
+    </a>
+
+    <p i18n:translate="description_canonical_url">
+        Lets you control Adsense settings.
+    </p>
+
+    <form name="adseneseForm" method="post"
+          name="pref_adsense"
+          tal:define="errors options/state/getErrors;"
+          tal:attributes="action template/id">
+
+        <div class="field"
+            tal:define="error errors/customer_id | nothing;
+                        customer_id_value python:modules['Products.adsenseproduct.util'].getCustomerId(here)"
+            tal:attributes="class python:test(error, 'field error', 'field')">
+            <label>Customer ID</label>
+            <div tal:content="error">Validation error output</div>
+            <input name="customer_id" type="text" value="" tabindex=""
+                tal:attributes="value customer_id_value;tabindex tabindex/next;" />
+        </div>
+
+        <div class="formControls">
+            <input class="context"
+                tabindex=""
+                type="submit"
+                name="form.button.Save"
+                value="Save"
+                i18n:attributes="value"
+                tal:attributes="tabindex tabindex/next;"/>
+        </div>
+
+        <input type="hidden" name="sub" value="1" />
+        <input type="hidden" name="form.submitted" value="1" />
+
+    </form>
+</div>
+</body>
+</html>

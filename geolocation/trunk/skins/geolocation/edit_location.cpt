@@ -1,0 +1,145 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en-US"
+      lang="en-US"
+      metal:use-macro="here/main_template/macros/master"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="quills">
+
+<head>
+  <metal:block fill-slot="javascript_head_slot"
+               tal:define="key here/getMapKey|nothing"
+               tal:condition="key">
+    <script type="text/javascript" src=""
+            tal:attributes="src string:http://maps.google.com/maps?file=api&amp;v=2&amp;key=${key}">
+    </script>
+    <script type="text/javascript" src=""
+            tal:attributes="src string:$portal_url/editLocation.js"></script>
+  </metal:block>
+</head>
+
+  <body>
+    <div metal:fill-slot="main"
+         tal:define="errors options/state/getErrors"
+         id="weblog-topics">
+
+        <div tal:define="location context/@@LocationView;
+                         mapoptions context/@@MapView">
+        <tal:x define="mapcenter python:mapoptions and mapoptions.getMapCenter();
+                       maplatitude python:mapcenter and len(mapcenter)==2 and mapcenter[0] or None;
+                       maplongitude python:mapcenter and len(mapcenter)==2 and mapcenter[1] or None;
+                       mapzoom python:mapoptions and mapoptions.getMapZoom();
+                       maptype python:mapoptions and mapoptions.getMapType();
+                       latitude python:location and location.getLatitude();
+                       longitude python:location.getLongitude()">
+        <h1 class="documentFirstHeading"
+          i18n:translate="heading_location">Location</h1>
+        <form name="geolocation_form"
+              method="post"
+              action="."
+              tal:attributes="action string:${here_url}/${template/getId}">
+
+            <div class="field"
+                 tal:define="error errors/latitude|nothing;"
+                 tal:attributes="class python:test(error, 'field error', 'field')">
+<!--              <label for="latitude" i18n:translate="label_latitude">
+                Latitude
+              </label>-->
+              <div tal:content="error">Validation error output</div>
+              <input type="hidden" name="latitude" id="latitude"
+                     tal:attributes="value request/latitude|latitude" />
+            </div>
+            <div class="field"
+                 tal:define="error errors/longitude|nothing;"
+                 tal:attributes="class python:test(error, 'field error', 'field')">
+<!--              <label for="longitude" i18n:translate="label_longitude">
+                Longitude
+              </label>-->
+              <div tal:content="error">Validation error output</div>
+              <input type="hidden" name="longitude" id="longitude"
+                        tal:attributes="value request/longitude|longitude" />
+            </div>
+            <div class="field"
+                 tal:define="error errors/maplatitude|nothing;"
+                 tal:attributes="class python:test(error, 'field error', 'field')">
+              <label for="maplatitude" i18n:translate="label_maplatitude">
+                Map Latitude
+              </label>
+              <div tal:content="error">Validation error output</div>
+              <input type="text" name="maplatitude" id="maplatitude"
+                        tal:attributes="value request/maplatitude|maplatitude" />
+            </div>
+            <div class="field"
+                 tal:define="error errors/maplongitude|nothing;"
+                 tal:attributes="class python:test(error, 'field error', 'field')">
+              <label for="maplongitude" i18n:translate="label_maplongitude">
+                Map Longitude
+              </label>
+              <div tal:content="error">Validation error output</div>
+              <input type="text" name="maplongitude" id="maplongitude"
+                        tal:attributes="value request/maplongitude|maplongitude" />
+            </div>
+            <div class="field"
+                 tal:define="error errors/mapzoom|nothing;"
+                 tal:attributes="class python:test(error, 'field error', 'field')">
+              <label for="mapzoom" i18n:translate="label_mapzoom">
+                Map Zoom
+              </label>
+              <div tal:content="error">Validation error output</div>
+              <select name="mapzoom" id="mapzoom">
+                <option tal:repeat="zoom python:['',] + range(20)"
+                        tal:content="zoom"
+                        tal:attributes="selected python:str(zoom) == mapzoom;
+                                        value zoom">Zoom</option>
+              </select>
+            </div>
+            <div class="field"
+                 tal:define="error errors/maptype|nothing;"
+                 tal:attributes="class python:test(error, 'field error', 'field')">
+              <label for="maptype" i18n:translate="label_maptype">
+                Map Type
+              </label>
+              <div tal:content="error">Validation error output</div>
+              <input type="radio" name="maptype"  id="Map" value="Map"
+                     tal:attributes="checked python:maptype=='Map'" />
+              <label for="maptype1">Map</label>
+              <input type="radio" name="maptype"  id="Satellite" value="Satellite"
+                     tal:attributes="checked python:maptype=='Satellite'" />
+              <label for="maptype2">Satellite</label>
+              <input type="radio" name="maptype"  id="Hybrid" value="Hybrid"
+                     tal:attributes="checked python:maptype=='Hybrid'" />
+              <label for="maptype3">Hybrid</label>
+            </div>
+            <div class="formControls">
+              <input class="context"
+                     tabindex=""
+                     type="submit"
+                     name="form.button.Save"
+                     value="Save"
+                     i18n:attributes="value label_save;"
+                     tal:attributes="tabindex tabindex/next;" />
+              <input class="standalone"
+                     tabindex=""
+                     type="submit"
+                     id='cancel_button'
+                     name="form.button.Cancel"
+                     value="Cancel"
+                     i18n:attributes="value label_cancel;"
+                     tal:attributes="tabindex tabindex/next;" />
+            </div>
+
+            <input type="hidden" name="form.submitted" value="1" />
+
+        </form>
+
+        <div id="geomap" style="position: relative; height: 480px;"></div>
+
+        </tal:x>
+        <!--<tal:x condition="python:not(location.getLatitude() or location.getLatitude())">
+            The object can't be adapted to IGEOLocated
+        </tal:x>-->
+      </div>
+    </div>
+  </body>
+
+</html>

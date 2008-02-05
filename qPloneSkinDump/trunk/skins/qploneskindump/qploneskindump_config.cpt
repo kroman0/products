@@ -1,0 +1,431 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      i18n:domain="qploneskindump"
+      metal:use-macro="here/prefs_main_template/macros/master">
+<body>
+<div metal:fill-slot="prefs_configlet_main">
+
+    <div metal:define-macro="main"
+         tal:define="errors options/state/getErrors | nothing;">
+        <h1 class="QSDFirstHeading">
+            <img tal:replace="structure here/product_icon.gif" />
+            <span tal:replace="here/title_or_id">Title or id</span>
+        </h1>
+
+        <div metal:use-macro="here/document_actions/macros/document_actions">
+            Document actions (print, sendto etc)
+        </div>
+
+        <a href=""
+           class="link-parent"
+           i18n:translate="label_up_to_product_page"
+           tal:define="parent_url python:here.navigationParent(here, template.getId())"
+           tal:condition="parent_url"
+           tal:attributes="href parent_url">
+            Up to Product page
+        </a>
+
+        <h2 i18n:translate="heading_portalactions_lists">
+            qPloneSkinDump input FORM
+        </h2>
+        <form name="edit_form"
+              action="href"
+              method="post"
+              enctype="multipart/form-data"
+              tal:attributes="action string:$here_url/$template_id">
+            <fieldset tal:define="error_zmiSN python:errors.get('ZMISkinName');
+                                  error_zmiBSN python:errors.get('ZMIBaseSkinName')">
+                <legend>
+                  <label style="font-size: 110%" i18n:translate="legend_ZMI"> ZMI:</label>
+                </legend>
+                <div class="ZMISkinName"
+                     tal:attributes="class python: test(error_zmiSN, 'ZMISkinName error', 'ZMISkinName');">
+                <!-- folder in ZMI .../portal_skins, from which will be copyed content -->
+                    <label class="ZMISkinName_title"
+                           i18n:translate="label_ZMISkinName">Source ZMI skin folder</label>
+                    <span class="fieldRequired"
+                           title="Required"
+                           i18n:translate="label_required"
+                           i18n:attributes="title title_required;">
+                                (Required)
+                    </span>
+                    <div i18n:translate="help_ZMISkinName"
+                         class="formHelp">
+                        Select folder from portal_skins, which content should by copyed to FS product.
+                    </div>
+                    <div tal:condition="error_zmiSN"
+                         tal:content="error_zmiSN" i18n:translate="">Validation Error</div>
+
+                    <select class="ZMISkinName_input" id="ZMISkinName" 
+                            size="1" name="ZMISkinName"
+                            tal:define="value request/ZMISkinName|string:custom;
+                                        p_skins_ids python:portal.portal_skins.objectIds(spec='Folder')"
+                            tal:attributes="value value;
+                                            tabindex tabindex/next;">
+                        <option selected=""
+                                value="#"
+                                tal:repeat="ps_folder p_skins_ids"
+                                tal:attributes="value nocall:ps_folder;
+                                                selected python:test(ps_folder==value, 'selected', None);"
+                                tal:content="ps_folder"/>
+                        
+                    </select>
+                </div>
+                <p/>
+                <div class="ZMIBaseSkinName"
+                     tal:attributes="class python: test(error_zmiBSN, 'ZMIBaseSkinName error', 'ZMIBaseSkinName');">
+                <!-- base for building layers list -->
+                    <label class="ZMIBaseSkinName_title"
+                           i18n:translate="label_ZMIBaseSkinName">ZMI base skin name</label>
+                    <span class="fieldRequired"
+                           title="Required"
+                           i18n:translate="label_required"
+                           i18n:attributes="title title_required;">
+                                (Required)
+                    </span>
+                    <div i18n:translate="help_ZMIBaseSkinName"
+                         class="formHelp">
+                        Select Skin name, which layers list will be used for creating new skin.
+                    </div>
+                    <div tal:condition="error_zmiBSN"
+                         tal:content="error_zmiBSN" i18n:translate="">Validation Error</div>
+
+                    <select tal:define="value request/ZMIBaseSkinName|string:Plone Tableless;
+                                        skin_names portal/portal_skins/getSkinSelections"
+                            tal:attributes="value value;
+                                            name string:ZMIBaseSkinName;
+                                            id string:ZMIBaseSkinName;
+                                            size string:1;
+                                            tabindex tabindex/next;">
+                        <option selected=""
+                                value="#"
+                                tal:repeat="skin_name skin_names"
+                                tal:attributes="value nocall:skin_name;
+                                                selected python:test(skin_name==value, 'selected', None);"
+                                tal:content="skin_name"/>
+                        
+                    </select>
+                </div>
+                <p/>
+                <div class="EraseFromSkin">
+                <!-- erase content of folder in ZMI .../portal_skins after copying -->
+                    <div i18n:translate="help_Erase"
+                         class="formHelp">
+                        Select for erase content of skin's source folder.
+                    </div>
+
+                    <input class="EraseFromSkin_input"
+                           type="checkbox"
+                           name="EraseFromSkin"
+                           value="0"
+                           tal:attributes="checked python:test(request.has_key('EraseFromSkin'), 'checked', nothing)"
+                           />
+                    <label class="EraseFromSkin_title"
+                          i18n:translate="label_Erace">Erace </label>
+                </div>
+            </fieldset>
+
+            <fieldset tal:define="error_fsSkinDir python:errors.get('FSSkinDirectory');
+                                  error_fsProdName python:errors.get('FSProductName')">
+                <legend>
+                  <label style="font-size: 110%" i18n:translate="label_FS"> File system:</label>
+                </legend>
+                <div class="FSSkinDirectory"
+                     tal:attributes="class python: test(error_fsSkinDir, 'FSSkinDirectory error', 'FSSkinDirectory');">
+                    <label class="FSSkinDirectory_title"
+                          i18n:translate="label_FSSkinDirectory">Skin's name for new prodct</label>
+                    <span class="fieldRequired"
+                           title="Required"
+                           i18n:translate="label_required"
+                           i18n:attributes="title title_required;">
+                                (Required)
+                    </span>
+                    <div i18n:translate="help_FSSkinDirectory"
+                         class="formHelp">
+                         Input skin's name for new prodct. <br/>
+                         This name in lower case will be used as skin's folder name and as layer name too.<br/>
+                         The name must begin with alphabetical character, following with an alphanumeric combination, also underscore accepts, but not on boundaries.<br/>
+                    </div>
+                    <div tal:condition="error_fsSkinDir"
+                         tal:content="error_fsSkinDir" i18n:translate="">Validation Error</div>
+
+                    <input class="FSSkinDirectory_input"
+                           type="text"
+                           name="FSSkinDirectory"
+                           value=""
+                           size="50"
+                           tal:attributes="value request/FSSkinDirectory|nothing" />
+                </div>
+                <p/>
+                <div class="FSProductName"
+                     tal:attributes="class python: test(error_fsProdName, 'FSProductName error', 'FSProductName');">
+                    <label class="FSProductName_title"
+                          i18n:translate="label_FSProductName">Product name</label>
+                    <span class="fieldRequired"
+                           title="Required"
+                           i18n:translate="label_required"
+                           i18n:attributes="title title_required;">
+                                (Required)
+                    </span>
+                    <div i18n:translate="help_FSProductName"
+                         class="formHelp">
+                         Input name of new product.  <br/>
+                         This name can't be identical with other, presenting in your Products directory of Plone's instance. <br/>
+                         The name must begin with alphabetical character, following with an alphanumeric combination, also underscore accepts, but not on boundaries.
+                    </div>
+                    <div tal:condition="error_fsProdName"
+                         tal:content="error_fsProdName" i18n:translate="">Validation Error</div>
+
+                    <input class="FSProductName_input"
+                           type="text"
+                           name="FSProductName"
+                           value="qPloneSkinTemplate"
+                           size="50"
+                           tal:attributes="value request/FSProductName|nothing" />
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend class="DoesCustomizeSlots">
+                    <input class="noborder"
+                           type="checkbox"
+                           name="DoesCustomizeSlots"
+                           id="DoesCustomizeSlots"
+                           value="DOCustomizeSlots"
+                           tal:attributes="checked python:test(request.has_key('DoesCustomizeSlots'),'checked', nothing)"/>
+                    <label for="DoesCustomizeSlots"
+                           style="font-size: 110%"
+                           i18n:translate="label_Slots">Customize portal slots in new product</label>
+                </legend>
+                <div class="formHelp"
+                     i18n:translate="help_DoesCustomizeSlots">
+                  Customization portal slots in New Skin Product.
+                </div>
+
+                <p/>
+                <div class="SlotsCustomizing">
+                    <label class="SlotsCustomizing_title"
+                          i18n:translate="label_SlotsCustomizing">Portal slots</label>
+
+                    <div i18n:translate="help_SlotsCustomizing"
+                         class="formHelp">
+                         BE VERY ACCURACY!  
+                         Leave in the left and right slot lists only those portlets, which relate <br/>
+                         to your skin product and either bring with new product or is standard for Plone.
+                    </div>
+                    <div class="LeftSlotsCustomizing_title">
+                        <label class="LeftSlotsCustomizing_title"
+                              i18n:translate="label_LeftsSlotCustomizing">Left portal slots customizing</label>
+                        <textarea class="LeftSlotsCustomizing_lines"
+                               rows="6"
+                               cols="35"
+                               name="left_slots:lines"
+                               value=""
+                               tal:define="value python:'\n'.join(request.get('left_slots', portal.left_slots))"
+                               tal:attributes="value value"
+                               tal:content="value" ></textarea>
+                    </div>
+                    <p/>
+                    <div class="RightSlotsCustomizing_title">
+                        <label class="RightSlotsCustomizing_title"
+                              i18n:translate="label_RightSlotsCustomizing">Right portal slots customizing</label>
+                        <textarea class="RightSlotsCustomizing_lines"
+                               rows="6"
+                               cols="35"
+                               name="right_slots:lines"
+                               value=""
+                               tal:define="value python:'\n'.join(request.get('right_slots', portal.right_slots))"
+                               tal:attributes="value value" 
+                               tal:content="value"></textarea>
+                    </div>
+
+                </div>
+                <p/>
+                <div class="ColumnSlotsForming"
+                     tal:define="formers python:modules['Products.qPloneSkinDump.qPloneSkinDump'].getSlotsFormingList();
+                                 value request/slot_forming|formers/default"> 
+                    <label i18n:translate="label_ColumnSlotsForming">Slot's list forming</label>
+                    <div i18n:translate="help_ColumnSlotsForming"
+                         class="formHelp">
+                         Choose procedure of forming slots lists.<br/>
+                         Blend with skin - to SKIN PRODUCT's slots list added unknown slots from SITE.<br/>
+                         Blend with site - to SITE's slots list added unknown slots from SKIN PRODUCT.<br/>
+                         Replace - in left and right site's columns placed ONLY SKIN PRODUCT's slots.
+                    </div>
+                    <tal:loop tal:omit-tag=""
+                              tal:repeat="former formers/data">
+                        <div>
+                            <input type="radio"
+                                   name="slot_forming"
+                                   value="#"
+                                   tal:attributes="value python:former[0];
+                                                   checked python:test(former[0]==value,'checked', nothing)" />
+                            <label class="ColumnSlotsForming_title"
+                                   i18n:translate=""
+                                   tal:content="python:former[1]"></label>
+                        </div>
+                    </tal:loop>
+                </div>
+                <p/>
+                <div class="FavourColumn"
+                     tal:define="favour_columns python:modules['Products.qPloneSkinDump.qPloneSkinDump'].getMainColumnList();
+                                 value request/main_column|favour_columns/default">
+                    <label  i18n:translate="label_FavourColumn">Main column</label>
+                    <div i18n:translate="help_FavourColumn"
+                         class="formHelp">
+                         Choose favour column for slots forming procedure. IMPORTANT only for 'Blend with...' formers.<br/>
+                         Left/Right - if find same slots in left and right columns - than slots move accordingly to left/right column.<br/>
+                         Both - if find same slots in left and right columns - than slots positionings as in Master's slots lists 
+                         (from SKIN PRODUCT's slots for 'Blend with skin' procedure and SITE's slots for 'Blend with site').
+                    </div>
+                    <tal:loop tal:omit-tag=""
+                              tal:repeat="favour favour_columns/data">
+                        <div>
+                            <input type="radio"
+                                   name="main_column"
+                                   value="#"
+                                   tal:attributes="value python:favour[0];
+                                                   checked python:test(favour[0]==value,'checked', nothing)" />
+                            <label class="FavourColumn_title"
+                                   i18n:translate=""
+                                   tal:content="python:favour[1]"></label>
+                        </div>
+                    </tal:loop>
+                </div>
+
+            </fieldset>
+
+            <fieldset tal:define="exp_data python:modules['Products.qPloneSkinDump.qPloneSkinDump'].getExportingData(here);">
+                <legend class="DoesExportObjects">
+                    <input class="noborder"
+                           type="checkbox"
+                           name="DoesExportObjects"
+                           id="DoesExportObjects" 
+                           value="DoesExportObjects"
+                           tal:attributes="checked python:test(request.has_key('DoesExportObjects'), 'checked', nothing)" />
+                    <label for="DoesExportObjects"
+                           style="font-size: 110%"
+                           i18n:translate="label_DoesExportObjects">Exporting objects from portal root</label>
+                </legend>
+                <div class="formHelp"
+                     i18n:translate="help_DoesExportObjects">
+                  Selected below objects will be exported to New Skin Product. Then on installation generated Skin Product
+                  they will be imported to portal root, based on choosed policy.
+                </div>
+
+                <p/>
+                <div class="ImportPolicy"
+                     tal:define="value python:request.get('import_policy', exp_data['default_import_policy'])">
+                    <label  i18n:translate="label_ImportPolicy">Import Policy</label>
+                    <div i18n:translate="help_ImportPolicy"
+                         class="formHelp">
+                         Choose *Import policy* for generated Skin Product. *Import policy* define behavior in case 
+                         of meeting same id object in portal root with imported one. "only_new" - imported 
+                         objects with ids, identical to portal root objects ids Not imported. 
+                         "backup" - for portal root objects with same ids creates back_[date] directory and 
+                         they moved there. All imported objects - importing to portal root. 
+                         "overwrite" - all objects in portal root with same id overwrited with imported one.
+                    </div>
+                    <tal:loop tal:omit-tag=""
+                              tal:repeat="i_policy_value exp_data/import_policy_list/keys">
+                        <div tal:define="i_policy_name python:exp_data['import_policy_list'][i_policy_value];">
+                            <input type="radio"
+                                   name="import_policy"
+                                   value="#"
+                                   tal:attributes="value i_policy_value;
+                                                   checked python:test(i_policy_value==value, 'checked', nothing)" />
+                            <label class="default_import_policy"
+                                   i18n:translate=""
+                                   tal:content="i_policy_name"></label>
+                        </div>
+                    </tal:loop>
+                </div>
+                <p/>
+                <div class="ExportingOjects">
+                    <label class="ExportingOjects_title"
+                          i18n:translate="label_ExportingOjects">Exporting objects</label>
+                    <div i18n:translate="help_ExportingOjects"
+                         class="formHelp">
+                         Exporting object ids list. All selected objects will be exported to "&lt;Skin Product&gt;/import"
+                         directory and WILL BE IMPORTED to portal root on SkinProduct installation.
+                    </div>
+                    <select multiple="multiple"
+                            tal:define="value request/exporting_objects|python:[]"
+                            tal:condition="exp_data/export_object_id_list"
+                            tal:attributes="name string:exporting_objects:list;
+                                            id string:ExportingOjects_list;
+                                            size string:6;
+                                            tabindex tabindex/next;">
+                        <option selected=""
+                                value="#"
+                                tal:repeat="item exp_data/export_object_id_list"
+                                tal:attributes="value nocall:item;
+                                                selected python:test(item in value, 'selected', None);"
+                                tal:content="item"/>
+                        
+                    </select>
+                </div>
+            </fieldset>
+
+            <fieldset tal:define="isFirst python:not request.get('dump_registries', None);
+                                  checked_css python:test(isFirst, 'checked', test(request.has_key('DumpCSSRegistry'), 'checked', nothing));
+                                  checked_js python:test(isFirst, 'checked', test(request.has_key('DumpJSRegistry'), 'checked', nothing));">
+                <legend class="DoesExportResources">
+                    <label for="DoesExportResources"
+                           style="font-size: 110%"
+                           i18n:translate="label_DoesExportResources">Exporting portal resources</label>
+                </legend>
+                <div class="formHelp"
+                     i18n:translate="help_DoesExportResources">
+                  Checked Portal Resources with current property sets will be exported from corresponding portal registries to New Skin Product.
+                  Then on generated Skin Product installation, appropriate portal registry will be made identical to yours. This guarantee look and 
+                  behavior of generated Skin Product in desired way. You can make corrections of exported resources in config.py module of New
+                  Skin Product. This feature work only when generated Skin Product install on Plone v2.1+.
+                </div>
+                <input type="hidden" name="dump_registries" value="1" />
+                <p/>
+                <div class="DumpCSSRegistry">
+                <!-- Dump portal_CSS registry resources -->
+                    <input class="DumpCSSRegistry_input"
+                           type="checkbox"
+                           name="DumpCSSRegistry"
+                           value="0"
+                           tal:attributes="checked checked_css"
+                           />
+                    <label class="DumpCSSRegistry_title"
+                          i18n:translate="label_DumpCSSRegistry">Dump portal_css registry.</label>
+                </div>
+                <p/>
+                <div class="DumpJSRegistry">
+                <!-- Dump portal_javascripts registry resources -->
+                    <input class="DumpJSRegistry_input"
+                           type="checkbox"
+                           name="DumpJSRegistry"
+                           value="0"
+                           tal:attributes="checked checked_js"
+                           />
+                    <label class="DumpJSRegistry_title"
+                          i18n:translate="label_DumpJSRegistry">Dump portal_javascripts registry.</label>
+                </div>
+                <p/>
+            </fieldset>
+
+            <!-- fields for Controller Page Template -->
+            <input type="hidden" name="form.submitted" value="1" />
+            <div class="submitButton">
+                <div class="field">
+                    <input class="context"
+                        type="submit"
+                        name="form.button.form_submit"
+                        value="Generate"
+                        i18n:attributes="value"/>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+</body>
+</html>

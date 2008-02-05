@@ -1,0 +1,5 @@
+SimpleBlog depends on the next products:
+
+    * qPingTool - blogagregators pinging tool (http://prdownloads.sourceforge.net/quintagroup/qPingTool-0.2.0.tar.gz?download)
+
+    * qRSS2Syndication - RSS2 templates (http://prdownloads.sourceforge.net/quintagroup/qRSS2Syndication-0.4.0.tar.gz?download)

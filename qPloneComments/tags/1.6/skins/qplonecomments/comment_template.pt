@@ -1,0 +1,11 @@
+To: <tal:x replace="options/mto"/>
+From: <tal:x replace="options/mfrom"/>
+Subject: <tal:x replace="options/msubject"/>
+
+<tal:x define="obj nocall:options/obj">
+There has been a comment on  "<tal:x replace="obj/Title"/>" at:
+<tal:x replace="obj/absolute_url"/>
+</tal:x>
+
+--
+<tal:x replace="options/mbsign"/>

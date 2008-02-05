@@ -1,0 +1,8 @@
+[security]
+View=0:Authenticated
+
+[default]
+title=Edit Plone Tabs
+
+[actions]
+action.success=traverse_to:string:prefs_tabs_form

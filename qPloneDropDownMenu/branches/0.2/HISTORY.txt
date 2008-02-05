@@ -1,0 +1,64 @@
+0.2
+
+  * removed subMenu class
+
+  * improved dropdownmenu tool
+
+  * added plone ajax configlet with necessary functionality
+
+  * added menu editor tool in ZMI
+
+
+############################################################
+
+
+
+0.1.8 
+
+  * optimized page load time for IE
+
+0.1.7
+
+  * corrected and optimized csshover.htc script
+   
+0.1.6
+
+  * added to readme.txt explanation to use of dropdownmenutool
+
+0.1.5
+
+  * changed drop_down.css
+
+  * compatible with Plone 2.1
+
+0.1.4
+
+  * optimized csshover.htc script
+
+0.1.3+
+
+  * added portal_dropdownmenu tool for security of regenerate procedure
+
+  * added the possibility to regenerate menu
+
+0.1.3
+
+  * install procedure generate html code for portal menu and save it in portal properties
+
+0.1.2
+
+  * install procedure update default portal menu from config.py
+
+0.1.1
+
+  * added the possibility to change portal menu within Plone 
+
+  * Internet Explorer 5.0 and 6.0 compatibility
+
+  * added Plone colors and styles
+
+  * changed the look of second-level menu
+
+0.1.0
+
+  * initial realise

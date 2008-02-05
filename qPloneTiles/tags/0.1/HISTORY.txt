@@ -1,0 +1,11 @@
+2006-04-19 - version 0.0.1
+
+ * created install procedure
+
+ * initial tiles functionality:
+ 
+      - find elements with class="tile";
+
+      - find anchor elements within tiles elements;      
+      
+      - add 'onclick' functions to tiles elements;

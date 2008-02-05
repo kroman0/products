@@ -1,0 +1,2 @@
+[actions]
+action.success = traverse_to:string:audio_encoded_view

@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+    <div metal:fill-slot="prefs_configlet_main">
+        <div class="documentEditable">
+        <ul class="contentViews">
+            <li class="">
+                <a href=""
+                   tal:attributes="href string:prefs_smsCommunicator_properties"
+                   i18n:translate="label_properties">Properties</a>
+            </li>
+
+            <li class="selected">
+               <a href=""
+                  tal:attributes="href string: ${template/id}"
+                  i18n:translate="label_logs">Logs</a>
+            </li>
+        </ul>
+
+        <div class="contentActions">
+        &nbsp;
+        </div>
+
+        <div class="documentContent">
+        <h1 class="documentFirstHeading">
+            Plone SMS Communicator
+        </h1>
+
+        <a href=""
+           class="link-parent"
+           tal:attributes="href string: $portal_url/plone_control_panel"
+           i18n:translate="label_up_to_plone_setup">
+        Up to Plone Setup
+        </a>
+
+        <p i18n:translate="description_portal_smsCommunicator">
+            This page lists SMS transaction logs.
+        </p>
+        <iframe src="prefs_smsCommunicator_logviewer" style="width:100%; height:25em;">loading log...</iframe>
+    </div>
+    </div>
+    </div>
+</body>
+</html>

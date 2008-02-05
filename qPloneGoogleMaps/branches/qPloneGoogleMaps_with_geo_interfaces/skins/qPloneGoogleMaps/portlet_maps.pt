@@ -1,0 +1,36 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="plone">
+<body>
+<div metal:define-macro="portlet"
+     tal:define="brain python:here.portal_catalog(path='/'.join(here.getPhysicalPath()));
+                 longlat python:test(len(brain)==1 and brain[0].portal_type != 'Map' and brain[0].geoLocation, brain, [])"
+      tal:condition="longlat">
+
+    <script type="text/javascript" src=""
+            tal:attributes="src string:http://maps.google.com/maps?file=api&amp;v=2&amp;key=${here/getMapKey}">
+    </script>
+    <span tal:replace="structure python:here.maps_markers(longlat, loc=longlat[0].geoLocation, zoom=5, node='portlet_map', controls='small', auto='None')" />
+
+<dl class="portlet" id="portlet-maps">
+    <dt class="portletHeader">
+        <a href="#" 
+            tal:attributes="href string:http://maps.google.com/"
+            i18n:translate="box_maps">Google Maps</a>
+    </dt>
+    <dd class="portletItem">
+        <div id="portlet_map" style="position: relative; height: 200px;"></div>
+    </dd>
+    <dd class="portletFooter even">
+        <a href="#"
+           tal:attributes="href string:${here_url}/maps_view"
+           i18n:translate="box_maps_view">
+        Large Screen
+        </a>
+    </dd>
+
+</dl>
+
+</div>
+</body>
+</html>

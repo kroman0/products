@@ -1,0 +1,89 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five"
+    >
+  <include package="zope.app.annotation" />
+
+  <five:implements
+        class="Products.ATContentTypes.content.document.ATDocument"
+        interface="zope.app.annotation.IAttributeAnnotatable" />
+  <five:implements
+        class="Products.ATContentTypes.content.link.ATLink"
+        interface="zope.app.annotation.IAttributeAnnotatable" />
+  <five:implements
+        class="Products.ATContentTypes.content.event.ATEvent"
+        interface="zope.app.annotation.IAttributeAnnotatable" />
+  <five:implements
+        class="Products.ATContentTypes.content.image.ATImage"
+        interface="zope.app.annotation.IAttributeAnnotatable" />
+
+  <adapter
+      for="Products.ATContentTypes.interface.document.IATDocument"
+      provides="geo.interfaces.IPoint"
+      factory=".adapters.geolocation.Point"
+      />
+  <adapter
+      for="Products.ATContentTypes.interface.event.IATEvent"
+      provides="geo.interfaces.IPoint"
+      factory=".adapters.geolocation.Point"
+      />
+  <adapter
+      for="Products.ATContentTypes.interface.link.IATLink"
+      provides="geo.interfaces.IPoint"
+      factory=".adapters.geolocation.Point"
+      />
+  <adapter
+      for="Products.ATContentTypes.interface.image.IATImage"
+      provides="geo.interfaces.IPoint"
+      factory=".adapters.geolocation.Point"
+      />
+  <adapter
+      for="Products.ATContentTypes.interface.news.IATNewsItem"
+      provides="geo.interfaces.IPoint"
+      factory=".adapters.geolocation.Point"
+      />
+
+  <adapter
+      for="Products.ATContentTypes.interface.document.IATDocument"
+      provides=".interfaces.geomap.IGEOMap"
+      factory=".adapters.geomap.GEOMap"
+      />
+  <adapter
+      for="Products.ATContentTypes.interface.event.IATEvent"
+      provides=".interfaces.geomap.IGEOMap"
+      factory=".adapters.geomap.GEOMap"
+      />
+  <adapter
+      for="Products.ATContentTypes.interface.link.IATLink"
+      provides=".interfaces.geomap.IGEOMap"
+      factory=".adapters.geomap.GEOMap"
+      />
+  <adapter
+      for="Products.ATContentTypes.interface.image.IATImage"
+      provides=".interfaces.geomap.IGEOMap"
+      factory=".adapters.geomap.GEOMap"
+      />
+  <adapter
+      for="Products.ATContentTypes.interface.news.IATNewsItem"
+      provides=".interfaces.geomap.IGEOMap"
+      factory=".adapters.geomap.GEOMap"
+      />
+
+  <browser:page
+      for="*"
+      name="MapView"
+      class=".browser.map.GEOMapView"
+      permission="cmf.ModifyPortalContent"
+      allowed_interface=".interfaces.geomap.IGEOMapView"
+      />
+
+  <browser:page
+      for="*"
+      name="LocationView"
+      class=".browser.location.PointView"
+      permission="cmf.ModifyPortalContent"
+      allowed_interface=".interfaces.geolocation.IPointView"
+      />
+
+</configure>

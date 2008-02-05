@@ -1,0 +1,6 @@
+Todo:
+====
+Atom, blogger-api support.
+
+
+

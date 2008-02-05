@@ -1,0 +1,46 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="plone">
+<body>
+<div metal:define-macro="portlet"
+       i18n:domain="plone"
+       tal:omit-tag=""
+       tal:condition="python:context.portal_type == 'Map'"
+       tal:define="mapContent python:context.folderlistingFolderContents(contentFilter={'portal_type':'Overlay',})">
+
+<dl class="portlet" id="portlet-overlays">
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <a href="#"
+           class="tile"
+           tal:attributes="href string:${context/absolute_url}"
+           tal:content="string:${context/getId}'s Overlays"></a>
+        <span class="portletTopRight"></span>
+    </dt>
+    <dd class="portletItem lastItem"
+        tal:condition="mapContent">
+        <ul class="portletNavigationTree" id="listOverlays">
+            <tal:navitem repeat="item mapContent">
+            <li class="visualNoMarker">
+                    <input type="checkbox" id="overlayId" value="1" style="float: left" checked
+                           tal:attributes="id string:${item/getId}Box;
+                                           value string:${item/getMarkersColor}" />
+                    <div class="visualIconPadding"
+                         tal:content="item/Title">Item Title</div>
+            </li>
+            </tal:navitem>
+        </ul>
+        <span class="portletBottomLeft"></span>
+        <span class="portletBottomRight"></span>
+        <span tal:replace="structure context/switchOverlays" />
+    </dd>
+    <dd class="portletItem"
+        tal:condition="not: mapContent"
+        i18n:translate="box_empty_map">
+        Map has no overlays yet.
+    </dd>
+</dl>
+
+</div>
+</body>
+</html>

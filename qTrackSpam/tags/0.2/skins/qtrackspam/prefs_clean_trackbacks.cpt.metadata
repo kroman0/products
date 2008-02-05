@@ -1,0 +1,6 @@
+[actions] 
+action.success..Check = traverse_to:string:prefs_check_trackbacks
+action.success..BlackList = traverse_to:string:prefs_blacklist_trackbacks
+action.success..Publish = traverse_to:string:prefs_publish_trackbacks
+action.success = traverse_to:string:prefs_check_trackbacks
+action.failure = traverse_to:string:prefs_clean_trackbacks

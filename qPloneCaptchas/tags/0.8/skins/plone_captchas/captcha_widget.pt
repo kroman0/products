@@ -1,0 +1,14 @@
+<div metal:define-macro="captcha" tal:omit-tag="">
+  <div class="field" tal:define="captcha here/getCaptcha;
+                                 error errors/key|nothing;"
+       tal:attributes="class python:test(error, 'field error', 'field')">
+     <input type="hidden" name="hashkey"
+            tal:attributes="value captcha/key">
+     <input type="hidden" name="evalkey"
+            tal:attributes="value captcha/evalkey">
+     <label for="key">Please enter the validataion code</label>
+     <span class="fieldRequired" title="Required">(Required)</span><br />
+     <input type="text" name="key" size="10" value="">
+     <img tal:attributes="src string:${portal_url}/getCaptchaImage/${captcha/key}"/>
+  </div>
+</div>

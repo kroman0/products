@@ -1,0 +1,116 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="SimpleBlog">
+
+<body>
+
+    <div metal:define-macro="portlet" tal:omit-tag="">
+        <dl class="portlet" id="portlet-events"
+            tal:define="startpoint python:here.simpleblog_tool.getStartpointForSearch(here);
+                        inBlog python:startpoint.portal_type=='Blog';
+                        solo python:0">
+            <dt class="portletHeader" 
+                tal:condition="inBlog">
+                    <a tal:attributes="href startpoint/absolute_url;
+                                       title startpoint/title_or_id"
+                       tal:content="startpoint/title_or_id"/>
+            </dt>
+            <dt class="portletHeader" 
+                tal:condition="not: inBlog">
+                Blog
+            </dt>
+            <tal:calendar metal:use-macro="here/simpleblog_portlet_macros/macros/portletCalendar"/>
+            <tal:recent metal:use-macro="here/simpleblog_portlet_macros/macros/portletRecent"/>
+            <tal:categories metal:use-macro="here/simpleblog_portlet_macros/macros/portletCategories"/>
+        </dl>
+    </div>
+
+    <div metal:define-macro="portlet-recent" tal:omit-tag="">
+        <dl class="portlet" id="portlet-events"
+            tal:define="startpoint python:here.simpleblog_tool.getStartpointForSearch(here);
+                        inBlog python:startpoint.portal_type=='Blog';
+                        solo python:1">
+            <dt class="portletHeader" 
+                tal:condition="inBlog">
+                    <a tal:attributes="href startpoint/absolute_url;
+                                       title startpoint/title_or_id"
+                       tal:content="startpoint/title_or_id"/>
+            </dt>
+            <dt class="portletHeader" 
+                tal:condition="not: inBlog">
+                Blog
+            </dt>
+            <tal:recent metal:use-macro="here/simpleblog_portlet_macros/macros/portletRecent"/>
+        </dl>
+    </div>
+    <!-- portlet for in-context comments  -->
+    <div metal:define-macro="portlet-comments"
+         tal:omit-tag=""
+         tal:define="startpoint python:here.simpleblog_tool.getStartpointForSearch(here);
+                     inBlog python:startpoint.portal_type=='Blog'"
+         tal:condition="inBlog">
+         <div class="portlet"
+              tal:define="fpPath python:'/'.join(startpoint.getPhysicalPath());
+                          results python:here.portal_catalog.searchResults(
+                                   path=fpPath
+                                   , meta_type='Discussion Item'
+                                   , sort_on='created'
+                                   , sort_order='reverse'
+                                   , sort_limit=5);"
+              tal:condition="results">
+           <h5 i18n:translate="recent_comments">Recent Comments</h5>
+           <div class="portletBody">
+             <tal:block tal:repeat="item results">
+               <div class="portletContent odd"
+                    tal:attributes="class python:test(repeat['item'].index % 2, 'portletContent even', 'portletContent odd')">
+
+                 <tal:block tal:define="result_url item/getURL;
+                                   url string:$result_url/view;">
+                   <a href="#"
+                      tal:attributes="href url">
+                      <img src="#" height="16" width="16" alt=""
+                           tal:on-error="structure python:path('here/linkOpaque.gif')"
+                           tal:replace="structure python:path('here/%s' % item.getIcon)" /></a>&nbsp;<a
+                           href="#" tal:attributes="href url; title item/Description"
+                           tal:content="python:item.Title or item.getId" />
+                      <span class="discreet"
+                            tal:define="modificationDate item/ModificationDate;
+                                  modificationDate python:here.toLocalizedTime(modificationDate)"
+                            tal:content="string:(${item/Creator}) $modificationDate">
+                          creator   08/19/2001 03:01 AM </span>
+                </tal:block>
+             </div>
+           </tal:block>
+             <div class="portletContent odd">
+
+                 <a href="#"
+                    class="portletMore"
+                    i18n:translate="box_morelink"
+                    i18n:domain="plone"
+                    tal:attributes="href string:${startpoint/absolute_url}/search?path=${fpPath}&amp;meta_type=Discussion+Item&amp;sort_on=created&amp;sort_order=reverse;">
+                 More...</a>
+
+              </div>
+           </div>
+         </div>
+     </div>
+
+    <!-- old portlets for compatibility reasons -->
+    <div metal:define-macro="portletBlogFull_local" tal:omit-tag="">
+        <div metal:use-macro="here/portlet_simpleblog/macros/portlet"/>
+    </div>
+
+    <div metal:define-macro="portletBlogRecent_local" tal:omit-tag="">
+        <div metal:use-macro="here/portlet_simpleblog/macros/portlet-recent"/>
+    </div>
+
+    <div metal:define-macro="portletBlogFull_global" tal:omit-tag="">
+        <div metal:use-macro="here/portlet_simpleblog/macros/portlet"/>
+    </div>
+
+    <div metal:define-macro="portletBlogRecent_global" tal:omit-tag="">
+        <div metal:use-macro="here/portlet_simpleblog/macros/portlet-recent"/>
+    </div>
+
+</body>
+</html>

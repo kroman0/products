@@ -1,0 +1,67 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="googlemaps">
+
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<body>
+
+<div metal:fill-slot="prefs_configlet_main"
+     tal:define="errors options/state/getErrors;">
+
+    <h1 i18n:domain="plone" i18n:translate="">qPloneGoogleMaps Settings</h1>
+
+    <a href=""
+       class="link-parent"
+       tal:attributes="href string: $portal_url/plone_control_panel"
+       i18n:domain="plone"
+       i18n:translate="label_up_to_plone_setup">
+    Up to Site Setup
+    </a>
+
+    <p class="documentDescription" 
+       i18n:translate="description_atgooglemaps_settings">
+        Google Maps API Keys settings.
+    </p>
+
+    <form action=""
+          name="qplonegooglemaps"
+          method="post"
+          class="enableUnloadProtection"
+          tal:attributes="action string:${here_url}/${template_id}">
+
+        <div class="field"
+             tal:define="map_api_keys request/map_api_keys|here/portal_properties/maps_properties/map_api_keys;
+                         error errors/map_api_keys|nothing"
+             tal:attributes="class python:test(error, 'field error', 'field')">
+            <label for="map_api_keys" i18n:translate="label_map_api_keys">Map Api Keys</label>
+            <div class="formHelp" i18n:translate="help_map_api_keys">
+                Here you can enter "portal root|map api key" pairs for your maps.
+            </div>
+            <div tal:content="error">Validation error output</div>
+            <textarea cols="40"
+                    rows="20"
+                    tabindex=""
+                    name="map_api_keys:lines"
+                    tal:content="python:'\n'.join(map_api_keys)"
+                    tal:attributes="tabindex tabindex/next;" />
+        </div>
+
+        <div class="formControls"
+             tal:define="process_creation request/process_creation|nothing;">
+            <input class="context" tabindex="" type="submit" value="Save" name="form.button.Save"
+                    i18n:attributes="value"
+                    tal:attributes="tabindex tabindex/next" />
+            <input class="standalone" tabindex="" type="submit" value="Cancel" name="form.button.Cancel"
+                    i18n:attributes="value"
+                    tal:attributes="tabindex tabindex/next" />
+        </div>
+        <input type="hidden" name="form.submitted" value="1" />
+    </form>
+
+</div>
+
+</body>
+</html>

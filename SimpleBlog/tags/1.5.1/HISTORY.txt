@@ -1,0 +1,62 @@
+2005-11-10 Volodymyr Cherepanyak (1.3.5qg)
+   * AdminEmail hidden global property resolving
+
+2005-11-9 Volodymyr Cherepanyak (1.3.4qg)
+   * Code cleanup
+   * Fixed trackback ursl in SimpleBlog_macros
+   * Sending Trackbacks inside one instance fixed
+   
+2005-10-28 Andriy Mylenkyy (1.3.3qg)
+   * Resolved ReadConflictError bug on TrackBack sending
+   * Resolved problem of adding TrackBack to unpublished blog entry
+
+
+2005-XX-XX Volodymyr Cherepanyak (1.3.1qg)
+   * ???
+
+
+2005-07-27 Volodymyr Cherepanyak (1.3.0qg)
+
+   * Refactored tags representing macros
+   * <link alternate> added to the simpleblog_view
+   * Added render_body.pt - compiles <content:encoded> value for BlogEntry
+   
+
+2005-06-03 Volodymyr Cherepanyak (1.2.4qg)
+
+   * Skins update
+
+=====================================
+2005-05-05 Volodymyr Cherepanyak
+=====================================
+
+   * TrackBack functionality added
+   * Technorati tags added
+   * Blog layout revised
+   * Updated workflow publish transition (to ping&trackback automatically).
+
+=====================================
+2004-17-09 Danny Bloemendaal
+=====================================
+    
+    * Reinstated the link to the blog frontpage in the portlet
+    * Added dutch translations.
+    * Added new recent comments portlet. Thanks to Panjunyong.
+    * Fixed a problem with fetching categories which gave unicode problems.
+    * Added reST support.
+    * Added a computed field in a blog folder that shows the 'inherited' categories.
+    * Added icons for SimpleAlias
+
+=====================================
+2004-7-29 panjunyong <panjy at zopechina.com>
+=====================================
+
+   * add basic i18n support to SimpleBlog. 
+   * Chinese translations
+   * new recent comments portlet:
+      here/portlet_simpleblog/macros/portletRecentComments_local
+   * speedup: don't use getObject() when query catalog
+   * fix bug: local portlet invisible when view comments
+   * fix bug: category related url not quoted
+   * owner have AddBlogEntry permission by default
+   * fix problem with catalog

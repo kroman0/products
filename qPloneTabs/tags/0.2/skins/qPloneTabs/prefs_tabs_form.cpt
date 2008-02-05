@@ -1,0 +1,108 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en-US"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="qPloneTabs">
+
+  <metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+<head>
+  <metal:javascript_head_slot fill-slot="javascript_head_slot">
+        <script type="text/javascript"
+                tal:condition="exists: portal/register_function.js"
+                tal:attributes="src string:$portal_url/register_function.js"></script>
+        <script type="text/javascript"
+                tal:condition="exists: portal/nodeutilities.js"
+                tal:attributes="src string:$portal_url/nodeutilities.js"></script>
+        <script type="text/javascript"
+                tal:condition="exists: portal/cssQuery.js"
+                tal:attributes="src string:$portal_url/cssQuery.js"></script>
+        <script type="text/javascript"
+                tal:condition="exists: portal/collapsiblesections.js"
+                tal:attributes="src string:$portal_url/collapsiblesections.js"></script>
+        <script type="text/javascript" src="javascripts/prototype.js"></script>
+        <script type="text/javascript" src="javascripts/scriptaculous.js"></script>
+        <script type="text/javascript" src="javascripts/behaviour.js"></script>
+        <script type="text/javascript" src="javascripts/qplonetabs.js"></script>
+  </metal:javascript_head_slot>
+  <metal:cssslot fill-slot="css_slot">
+    <style type="text/css"  tal:content="string:@import url($portal_url/qplonetabs.css);" />
+  </metal:cssslot>
+</head>
+
+<body>
+  <div metal:fill-slot="prefs_configlet_main"
+       tal:define="errors python:request.get('errors', {})">
+
+    <div id="app" class="viewing">
+      <h1 i18n:translate="heading_plonetabs">Plone Tabs Configuration <span id="busy"><img src='busy_icon.gif' alt="" /></span></h1>
+      <a href=""
+       class="link-parent"
+       tal:attributes="href string:${portal_url}/plone_control_panel"
+       i18n:translate="label_up_to_plone_setup">
+          Up to Site Setup
+      </a>
+      <div class="reorder-controls">
+        <a href="#" id="reorder">Reorder</a>
+      </div>
+      <div class="sort-controls">
+        <a href="#" id="save">Save</a> |
+        <a href="#" id="cancel">Cancel</a>
+      </div>
+      <ul class="csshover"
+          id="tabslist" tal:content="structure here/qpt_gettabslist" />
+      <form id="addaction"
+            method="post"
+            action="addPTAction"
+            tal:attributes="action string:${portal_url}/prefs_tabs_form;">
+        <fieldset>
+        <legend>Add a new portal_tabs Action</legend>
+        <dl class="field-name"><dt><label>Name</label></dt>
+            <dd><input id="actname" type="text" value=""
+                        name="name" /></dd></dl>
+        <dl class="field-action"><dt><label>URL (Expression)</label></dt>
+            <dd><input id="actaction" type="text" value="" size="30"
+                        name="action" /></dd></dl>
+
+        <dl class="advanced collapsible collapsedOnLoad">
+          <dt class="collapsibleHeader">Advanced</dt>
+          <dd class="collapsibleContent">
+            <dl class="field-id"><dt><label>Id</label></dt>
+              <dd><input id="actid"        type="text" value=""
+                          name="id" /></dd></dl>
+            <dl class="field-condition"><dt><label>Condition (Expression)</label></dt>
+              <dd><input id="actcondition" type="text" value="" size="30"
+                          name="condition" /></dd></dl>
+            <div class="visualClear"><!-- --></div>
+          </dd>
+        </dl>
+        </fieldset>
+        <div class="add-controls">
+            <input type="submit" id="buttonadd"    i18n:attributes="value" value="Add" />
+            <input type="submit" id="buttoncancel" i18n:attributes="value" value="Cancel" />
+        </div>
+      </form>
+      <div class="field"
+           tal:define="generated_tabs python: not site_properties.disable_folder_sections;
+                       generated_tabs request/generated_tabs | generated_tabs;
+                       error errors/generated_tabs | nothing;"
+           tal:attributes="class python:test(error, 'field error', 'field')"
+           tal:on-error="string:">
+        <input type="checkbox"
+               id="generated_tabs"
+               name="generated_tabs"
+               value="1"
+               tal:attributes="checked python:test(generated_tabs, 'checked', None)" />
+        <label for="generated_tabs" i18n:translate="label_generated_tabs_enable">Automatically generate tabs</label>
+        <div class="formHelp" i18n:translate="help_generated_tabs">
+          By default, all folders created at the root level will have global section
+          navigation generated. You can turn this off if you prefer manually constructing
+          this part of the navigation.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+<head>
+  <metal:block fill-slot="javascript_head_slot">
+    <script type="text/javascript" src=""
+            tal:attributes="src string:http://maps.google.com/maps?file=api&amp;v=2&amp;key=${here/getMapKey}">
+    </script>
+    <span tal:define="brain python:here.portal_catalog(path='/'.join(here.getPhysicalPath()));
+                      longlat python:test(len(brain)==1 and brain[0].portal_type != 'Map' and brain[0].geoLocation, brain, [])"
+          tal:replace="structure python:here.maps_markers(longlat, node='mapView', events=True, controls='large', typeControls=True, overviewControls=True, zoom=6, loc=longlat[0].geoLocation, auto=None)"
+          tal:on-error="string:" />
+  </metal:block>
+</head>
+
+<body>
+
+<div metal:fill-slot="main">
+<metal:main_macro define-macro="main">
+    <metal:body define-macro="body_macro">
+        <div metal:use-macro="here/document_actions/macros/document_actions">
+             Document actions (print, sendto etc)
+        </div>
+
+        <h1 tal:content="here/title_or_id" class="documentFirstHeading">
+            Title or id
+        </h1>
+
+        <a href=""
+           class="link-parent"
+           tal:define="parent_url python:here.navigationParent(here, template_id)"
+           tal:condition="parent_url"
+           tal:attributes="href parent_url"
+           i18n:translate="go_to_parent_url">
+            Up one level
+        </a>
+
+        <div class="documentDescription" tal:content="structure here/Description">
+            description
+        </div>
+
+        <div id="mapView" style="position: relative; height: 480px;"></div>
+    </metal:body>
+</metal:main_macro>
+
+</div>
+
+</body>
+</html>

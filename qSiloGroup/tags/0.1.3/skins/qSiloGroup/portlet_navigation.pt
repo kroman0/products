@@ -1,0 +1,46 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="plone">
+<body>
+<div metal:define-macro="portlet"
+       i18n:domain="plone"
+       tal:omit-tag=""
+       tal:define="silo python:test(here.portal_type == 'Folder', here, here.aq_parent);
+                   default_page python:silo.getProperty('default_page',None);
+                   silo_list here/getSiloData">
+<dl class="portlet" id="portlet-navigation-tree">
+    <dt class="portletHeader">
+        <tal:title content="python:test(getattr(silo, 'portal_type', '') == 'Folder', silo.title_or_id(), 'Navigation')" />
+    </dt>
+
+    <dd class="portletItem">
+        <ul class="portletNavigationTree navTreeLevel0">
+            <tal:navitem repeat="item silo_list">
+              <li class="navTreeItem visualNoMarker"
+                  tal:define="item_id item/id;
+                              item_title item/title"
+                  tal:condition="python:item_id and item_id != default_page and item_title">
+                <div>
+                  <a tal:condition="item_title"
+                     tal:attributes="href string:${silo/absolute_url}/${item/path};"
+                     tal:content="item_title|nothing">
+                     Item Title</a>
+                </div>
+              </li>
+            </tal:navitem>
+        </ul>
+    </dd>
+    <dd class="portletFooter even"
+        tal:condition="python:getattr(silo.aq_explicit, 'portal_type','')=='Folder' and not isAnon and checkPermission('Manage Portal', silo)">
+        <span>
+            <a tal:attributes="href string:${silo/absolute_url}/folder_contents;">
+                Contents</a> &nbsp;|&nbsp;
+            <a tal:attributes="href string:${silo/absolute_url}/silo_navigation_form;">
+                Edit Nav</a>
+        </span>
+     </dd>
+</dl>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<zodb-roles title="">
+ <role role_id="Editor" title="Editor" description="">
+  <principal principal_id="Editors"/>
+ </role>
+</zodb-roles>

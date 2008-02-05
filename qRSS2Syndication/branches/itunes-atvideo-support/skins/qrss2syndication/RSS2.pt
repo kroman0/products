@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<rss version="2.0" 
+     xmlns:tal="http://xml.zope.org/namespaces/tal"
+     xmlns:metal="http://xml.zope.org/namespaces/metal"  
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+     tal:define="results python:here.getSyndicatableContent();"
+     tal:on-error="nothing">
+<tal:x define="dummy python:request.RESPONSE.setHeader('Content-Type', 'text/xml');" />
+    <channel tal:define="author python:here.getObjectCreator(here.Creator());
+                         author_email python:author and author.getProperty('email','') or '';
+                         author_fullname python:author and author.getProperty('fullname','') or '';
+                         syInfo python:here.getSynProp();
+                         itunesEnabled python: syInfo['enable_itunes']">
+        <title tal:define="portal_title here/portal_properties/title;
+            here_title here/title_or_id;
+            template_title template/title_or_id;
+            here_title python:test(portal_title != here_title, here_title, template_title)"
+            tal:content="string:$portal_title - $here_title">Title of page</title>
+        <link tal:content="here/absolute_url"></link>
+        <description tal:content="here/Description"></description>
+        <language>en-us</language>
+        <generator>Plone CMS</generator>
+        <author tal:condition="author_fullname" 
+                tal:content="author_fullname"></author>
+
+        <tal:block condition="itunesEnabled">
+        <ttl>240</ttl>
+        <itunes:author tal:condition="author_fullname" tal:content="author_fullname"></itunes:author>
+        <itunes:explicit tal:content="python:test(syInfo['itunes_explicit'],'yes','no')"></itunes:explicit>
+        <itunes:owner tal:condition="author">
+           <itunes:name tal:condition="author_fullname" tal:content="author_fullname"></itunes:name>
+           <itunes:email tal:condition="author_email" tal:content="author_email"></itunes:email>
+        </itunes:owner>
+        <itunes:image href="" 
+                      tal:condition="python:syInfo['itunes_image_url']"
+                      tal:attributes="href python:syInfo['itunes_image_url']"  />
+        <itunes:subtitle tal:condition="here/longDescription" tal:content="here/Description"></itunes:subtitle>
+        <itunes:summary tal:condition="here/longDescription|nothing" tal:content="here/longDescription"></itunes:summary>
+        </tal:block>
+
+        <tal:block repeat="res results">
+            <tal:block define="macros nocall: python:here.getItemMacros(res.portal_type); 
+                               item_path python: res.absolute_url();
+                               item_creator python:here.getObjectCreator(res.Creator());
+                               item_creator python:item_creator and '%s (%s)' % (item_creator.getProperty('fullname',''),item_creator.getProperty('email','')) or ''">
+                  <item>
+                      <title tal:content="res/title_or_id"></title>
+                      <link tal:content="item_path"></link>
+                      <description tal:content="res/Description">
+                      </description>
+                      <tal:block condition="itunesEnabled">
+                      	<itunes:subtitle tal:condition="res/longDescription|nothing" tal:content="res/Description"></itunes:subtitle>
+                      	<itunes:summary tal:condition="res/longDescription|nothing" tal:content="res/longDescription"></itunes:summary>
+                      </tal:block>
+                      <author tal:condition="item_creator"
+                              tal:content="item_creator"></author>
+                      <tal:repeat repeat="subj res/Subject">
+                          <category tal:content="subj">
+                          </category>
+                      </tal:repeat>
+                      <pubDate tal:content="structure python: DateTime(res.Date()).rfc822()"> </pubDate>
+                      <metal:block use-macro="macros"/>
+                  </item>
+            </tal:block>
+        </tal:block>
+    </channel>
+</rss>
+

@@ -1,0 +1,6 @@
+[validators]
+validators=
+
+[actions]
+action.success=traverse_to:string:qPloneComments_config
+action.failure=traverse_to:string:qPloneComments_config

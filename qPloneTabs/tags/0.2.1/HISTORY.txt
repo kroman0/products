@@ -1,0 +1,13 @@
+0.2.0
+
+  * fixed bug with reordering actions after delete
+  
+  * fixed bug with 'Advanced' section
+  
+  * compatible with Plone 2.0.5
+  
+  * focus 'name' text field on editing
+
+0.1.0
+
+  * initial realise

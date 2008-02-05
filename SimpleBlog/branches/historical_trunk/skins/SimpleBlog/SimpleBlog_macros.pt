@@ -1,0 +1,86 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="SimpleBlog">
+<body>
+
+<div metal:define-macro="blogGlobals"
+     tal:define="global blog python:here.simpleblog_tool.getFrontPage(here);
+                 global isDeliciousEnaled blog/isDeliciousEnabled;
+                 global isDiggEnabled blog/isDiggEnabled;
+                 global isYahooEnabled blog/isYahooEnabled;
+                 global isGoogleEnabled blog/isGoogleEnabled;
+                 global isSpurlEnabled blog/isSpurlEnabled;
+                 global isTagsEnabled blog/isTagsEnabled;
+                 global isAllowTrackback blog/getAllowTrackback;
+                 global showIcons blog/getShowIcons;
+                 global showByline blog/getShowByline;
+                 global isTopAdsenceEnabled blog/isTopAdsenceEnabled;
+                 global isBottomAdsenceEnabled blog/isBottomAdsenceEnabled;
+                 global bottomAdsence blog/getBottomAdsence;
+                 global topAdsence blog/getTopAdsence;"
+     tal:omit-tag="">
+</div>
+
+<div metal:define-macro="full" class="simpleBlogFull">
+    <h2 class="noMargin"
+        tal:condition="showIcons">
+        <a href="" tal:attributes="href obj/absolute_url" style="cursor:pointer;">
+        <span tal:define="item_type obj/portal_type;
+                    item_type_class python:'contenttype-' + normalizeString(item_type);"
+              tal:attributes="class string:simpleBlogIcons ${item_type_class}" tal:content="obj/title"/></a>
+    </h2>
+    <h2 class="noMargin" tal:condition="not:showIcons">
+        <a href="" tal:attributes="href obj/absolute_url" style="cursor:pointer;"
+           tal:content="obj/title"></a>
+    </h2>
+    <p class="simpleBlogDescription"
+       tal:content="structure python:obj.Description()"
+       tal:condition="obj/Description">Description</p>
+    <div tal:replace="structure python:obj.getBody()" class="simpleBlogBody"/>
+    <tal:tags metal:use-macro="obj/simpleblog_byline/macros/technoratiTags"/>
+    <tal:byline tal:condition="showByline">
+        <tal:x metal:use-macro="obj/simpleblog_byline/macros/byline-foot"/>
+    </tal:byline>
+</div>
+
+<div metal:define-macro="descriptionOnly" class="simpleBlogDescriptionOnly">
+    <h2 class="noMargin"
+        tal:condition="showIcons">
+        <a href="" tal:attributes="href obj/absolute_url" style="cursor:pointer;">
+        <span tal:define="item_type obj/portal_type;
+                    item_type_class python:'contenttype-' + normalizeString(item_type);"
+              tal:attributes="class string:simpleBlogIcons ${item_type_class}" tal:content="obj/title"/></a>
+    </h2>
+    <h2 class="noMargin" tal:condition="not:showIcons">
+        <a href="" tal:attributes="href obj/absolute_url" style="cursor:pointer;"
+           tal:content="obj/title"></a>
+    </h2>
+    <p class="simpleBlogDescription"
+       tal:content="structure python:obj.Description()"
+       tal:condition="obj/Description">Description</p>
+    <tal:tags metal:use-macro="obj/simpleblog_byline/macros/technoratiTags"/>
+    <tal:byline tal:condition="showByline">
+        <tal:x metal:use-macro="obj/simpleblog_byline/macros/byline-foot"/>
+    </tal:byline>
+</div>
+
+<div metal:define-macro="titleOnly" class="simpleBlogTitleOnly">
+    <h2 class="noMargin"
+        tal:condition="showIcons">
+        <a href="" tal:attributes="href obj/absolute_url" style="cursor:pointer;">
+        <span tal:define="item_type obj/portal_type;
+                    item_type_class python:'contenttype-' + normalizeString(item_type);"
+              tal:attributes="class string:simpleBlogIcons ${item_type_class}" tal:content="obj/title"/></a>
+    </h2>
+    <h2 class="noMargin" tal:condition="not:showIcons">
+        <a href="" tal:attributes="href obj/absolute_url" style="cursor:pointer;"
+           tal:content="obj/title"></a>
+    </h2>
+    <tal:tags metal:use-macro="obj/simpleblog_byline/macros/technoratiTags"/>
+    <tal:byline tal:condition="showByline">
+        <tal:x metal:use-macro="obj/simpleblog_byline/macros/byline-foot"/>
+    </tal:byline>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+0.2.0
+
+  * added special rendering of Link objects in Silo Navigation portlet
+
+0.1.3
+
+  * fixed: corrected condition for displaying manager's links
+
+0.1.2
+
+  * fixed bug: bad url in portlet_navigation form
+
+0.1.1
+
+  * automatic selection default page for silo on portlet_navigation
+  
+  * backward compatibility with 0.1.0
+
+0.1.0
+
+  * initial release

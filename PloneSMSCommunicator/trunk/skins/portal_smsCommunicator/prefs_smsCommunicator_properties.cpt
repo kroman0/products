@@ -1,0 +1,123 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+    <div metal:fill-slot="prefs_configlet_main">
+        <div class="documentEditable">
+        <ul class="contentViews">
+            <li class="selected">
+                <a href=""
+                   tal:attributes="href string:${template/id}"
+                   i18n:translate="label_properties">Properties</a>
+            </li>
+
+            <li class="">
+               <a href=""
+                  tal:attributes="href string: prefs_smsCommunicator_logs"
+                  i18n:translate="label_logs">Logs</a>
+            </li>
+        </ul>
+
+        <div class="contentActions">
+        &nbsp;
+        </div>
+
+        <div class="documentContent">
+        <h1 class="documentFirstHeading">
+            Plone SMS Communicator
+        </h1>
+
+        <a href=""
+           class="link-parent"
+           tal:attributes="href string: $portal_url/plone_control_panel"
+           i18n:translate="label_up_to_plone_setup">
+        Up to Plone Setup
+        </a>
+
+        <p i18n:translate="description_portal_smsCommunicator">
+            This page lists some properties of Plone SMS Communicator tool.
+            You can configure this properties.
+        </p>
+
+        <form method="post"
+              tal:define="errors options/state/getErrors"
+              tal:attributes="action string:${here/absolute_url}/${template/id};">
+
+        <fieldset tal:define="props here/portal_smsCommunicator/getProperties;
+                              server python: request.get('SERVER_URL');
+                              info python: context.portal_smsCommunicator.getServerInfo(server)">
+            <legend i18n:translate="legend_PloneSMSCommunicator">PloneSMSCommunicator properties</legend>
+            <dl class="serverInfo"
+                style="float: right;">
+                <dt>Server IP Address:</dt>
+                    <dd tal:content = "info/ip_addr"/>
+                <dt>Server Name:</dt>
+                    <dd tal:content = "info/host_name"/>
+                <dt>Address of responce function:</dt>
+                    <dd tal:content = "python: '/'+context['id']+'/portal_smsCommunicator/Response' "/> 
+            </dl>
+            <div class="field">
+                <label i18n:translate="label_server_url">Server URL</label>
+
+                <div></div>
+
+                <input type="text" 
+                       name="server_url" 
+                       size="40"
+                       tal:attributes="value request/server_url|props/server_url" />
+             </div>
+           <div class="field">
+                <label i18n:translate="label_policy">SMS Policy</label>
+
+                <div></div>
+
+                <select name="policy">
+                <option tal:content = "request/policy|props/policy"/>
+                <option tal:content = "python: test(request.get('policy') or props['policy'] == 'free', 'enforceOriginator', 'free')"/>
+                </select>
+
+
+            </div>
+           <div class="field">
+                <label i18n:translate="mtMessageOriginator">mtMessageOriginator</label>
+
+                <div></div>
+                <input type="text" 
+                       name="mtMessageOriginator" 
+                       size="20"
+                       tal:attributes="value props/mtMessageOriginator" />
+            </div>
+            <div class="field">
+                <label i18n:translate="label_provider_id">Providr ID</label>
+
+                <div></div>
+
+                <input type="text" 
+                       name="provider_id" 
+                       size="20"
+                       tal:attributes="value props/provider_id" />
+            </div>
+            <div class="field">
+                <label i18n:translate="label_log_flag">Log Flag</label>
+
+                <div></div>
+
+                <input type="checkbox" 
+                       name="log_flag"
+                       tal:attributes="checked props/log_flag|nothing" />
+            </div>
+            <div class="formControls">
+               <input type="hidden" name="form.submitted" value="1" />
+               <input class="standalone" type="submit" name="form.button.Save" value="Save" i18n:attributes="value" />
+               <input class="standalone" type="submit" name="form.button.Cancel" value="Cancel" i18n:attributes="value" />
+            </div>
+            </fieldset>
+        </form>
+    </div>
+    </div>
+    </div>
+</body>
+</html>

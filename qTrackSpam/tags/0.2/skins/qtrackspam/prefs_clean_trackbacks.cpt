@@ -1,0 +1,112 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en-US"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="niCommunityCategoriesImporter">
+
+  <metal:block fill-slot="top_slot"
+               tal:define="dummy python:request.set('disable_border',1)" />
+
+<body>
+    <div metal:fill-slot="prefs_configlet_main"
+         tal:define="errors options/state/getErrors;
+                     blacklisted python:request.get('blacklisted',[])">
+        <div  tal:define="trbacks python:here.portal_catalog(portal_type='TrackBack', review_state='pending',sort_on='Date', sort_limit=100);
+              checkURL nocall:here/portal_trackspam/checkURL">
+        <h1>Manage TrackBacks</h1>
+               <a href=""
+                   class="link-parent"
+                   tal:attributes="href string: $portal_url/plone_control_panel"
+                   i18n:translate="label_up_to_plone_setup">
+                   Up to Portal Setup
+                </a>
+        <form method="post" name="clean_trackbacks" action="prefs_clean_trackbacks">
+          <fieldset>
+            <legend>List of last 100 pending trackbacks</legend>
+                        <table id="sortable" class="listing">
+                            <thead>
+                                <tr>
+                                    <th class="nosort">
+                                        <input class="noborder"
+                                            type="checkbox"
+                                            src="select_all_icon.gif"
+                                            name="selectButton"
+                                            title="Select all items"
+                                            onClick="toggleSelect(this,'trbacks_checked:list');"
+                                            tal:attributes="src string:$portal_url/select_all_icon.gif"
+                                            alt="Select all items"
+                                            i18n:attributes="title label_select_all_items; alt label_select_all_items;" />
+                                    </th>
+                                    <th class="nosort">&nbsp;URL&nbsp;</th>
+                                    <th class="nosort">&nbsp;Blog name&nbsp;</th>
+                                    <th class="nosort">&nbsp;Excerpt&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tal:items tal:repeat="btrback trbacks">
+                                    <tr tal:define="oddrow               repeat/btrback/odd;
+                                                    trback               btrback/getObject;
+                                                    trback_id            trback/UID;
+                                                    trback_url           trback/getUrl|nothing;
+                                                    trback_blogname      trback/getBlog_name|nothing;
+                                                    trback_excerpt       trback/getExcerpt|nothing;"
+                                        tal:attributes="class python:test(oddrow, 'even', 'odd')" >
+                                        <td>
+                                            <input type="checkbox"
+                                                class="noborder"
+                                                name="trbacks_checked:list" value="#"
+                                                tal:attributes="value python:trback_id;
+                                                                checked python:trback_id in blacklisted and 'checked' or None"/>
+                                            <input type="hidden"
+                                                name="trbacks_id:list" value="#"
+                                                tal:attributes="value python: trback_id;"/>
+                                        </td>
+                                        <td>
+                                            <span tal:content="trback_url">trback Id</span>
+                                        </td>
+                                        <td>
+                                            <a href=""
+                                               tal:attributes="href trback/absolute_url"
+                                               tal:content="trback_blogname">trback Title</a>
+                                        </td>
+                                        <td>
+                                            <span tal:content="trback_excerpt">trback Title</span>
+                                        </td>
+                                    </tr>
+                                </tal:items>
+                            </tbody>
+                        </table>
+
+                <div class="formControls">
+                    <input class="context"
+                           tabindex=""
+                           type="submit"
+                           value="Check"
+                           name="form.button.Check"
+                           i18n:attributes="value"
+                           tal:attributes="tabindex tabindex/next" />
+                    <input class="context"
+                           tabindex=""
+                           type="submit"
+                           value="BlackList&Remove"
+                           name="form.button.BlackList"
+                           i18n:attributes="value"
+                           tal:attributes="tabindex tabindex/next" />
+                    <input class="context"
+                           tabindex=""
+                           type="submit"
+                           value="Publish"
+                           name="form.button.Publish"
+                           i18n:attributes="value"
+                           tal:attributes="tabindex tabindex/next" />
+                </div>
+
+
+                <input type="hidden" name="form.submitted" value="1" />
+                </fieldset>
+            </form>
+            </div>
+        </div>
+</body>
+</html>

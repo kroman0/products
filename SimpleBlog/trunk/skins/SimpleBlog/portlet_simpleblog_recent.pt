@@ -1,0 +1,20 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      i18n:domain="plone">
+  <body>
+     <div metal:define-macro="portlet" tal:omit-tag="">
+        <dl class="portlet" id="portlet-blog"
+            tal:define="startpoint blog;
+                        inBlog python:1;
+                        solo python:1">
+            <dt class="portletHeader" 
+                tal:condition="inBlog">
+                    <a tal:attributes="href startpoint/absolute_url;
+                                       title startpoint/title_or_id"
+                       tal:content="startpoint/title_or_id"/>
+            </dt>
+            <tal:recent metal:use-macro="here/simpleblog_portlet_macros/macros/portletRecent"/>
+        </dl>
+    </div>
+  </body>
+</html>

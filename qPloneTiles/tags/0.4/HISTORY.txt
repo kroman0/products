@@ -1,0 +1,43 @@
+2006-05-16 - version 0.4.0
+
+  * some code optimization)
+
+  * provided the same functionality on IE6
+
+  * corect functionality with nested tile elements
+
+  * added some visual link imitation effects for tile elements:
+
+     - mouse pointer over tile elements
+
+     - tile elements can be accessed via tabbing
+
+     - window status line changed while mouse is over tile elements
+
+  * added functions doc strings
+
+  * added 'Usage' section to README.txt file
+
+2006-04-20 - version 0.2.0
+
+  * added finding function
+ 
+  * fixed bug (onclick evaluation)
+  
+  * 'primary' class functionality
+  
+  * added TODO.txt
+
+
+
+2006-04-19 - version 0.1.0
+
+ * created install procedure
+
+ * initial tiles functionality:
+ 
+      - find elements with class="tile";
+
+      - find anchor elements within tiles elements;      
+      
+      - add 'onclick' functions to tiles elements;

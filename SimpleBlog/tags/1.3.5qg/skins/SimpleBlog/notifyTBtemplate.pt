@@ -1,0 +1,11 @@
+From: <<span tal:replace="options/from_email"/>>
+To: <<span tal:replace="options/to_email"/>>
+Subject: <span tal:replace="string:New trackback added"/>
+Content-Type: text/plain; charset=<span tal:replace="options/charset"/>
+Date: <span tal:replace="python: DateTime().rfc822()"/>
+
+New trackback added to article "<span tal:replace="options/post_title"/>"
+at <span tal:replace="options/obj_url"/>
+
+--
+Support Team.

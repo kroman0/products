@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+<div metal:fill-slot="main">
+    <tal:main-macro metal:define-macro="main" 
+           tal:define="utils python:modules['Products.qSiloGroup.utils'];
+                       silo python:utils.getCurrentFolder(context);
+                       default_page python:utils.getDefaultPage(silo);
+                       silo_dict here/getSiloNavigationDictionary;
+                       default_title python:silo_dict.get(default_page, {}).get('title', None);
+                       silo_list here/getSiloData;
+                       id context/getId">
+        <ul>
+              <li tal:condition="default_page">
+                <div>
+                  <a tal:define="item_title python:default_title or default_page"
+                     tal:condition="default_page"
+                     tal:attributes="href string:${silo/absolute_url}/${default_page};"
+                     tal:content="item_title|default_page">
+                     Item Title</a>
+                </div>
+              </li>
+            <tal:navitem repeat="item silo_list">
+              <li tal:define="item_id item/id;
+                              item_title item/title"
+                  tal:condition="python:item_id and (item_id not in [default_page, id]) and item_title">
+                <div>
+                  <a tal:condition="item_title"
+                     tal:attributes="href string:${silo/absolute_url}/${item/path};"
+                     tal:content="item_title|nothing">
+                     Item Title</a>
+                </div>
+              </li>
+            </tal:navitem>
+        </ul>
+    </tal:main-macro>
+</div>
+
+</body>
+
+</html>

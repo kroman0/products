@@ -1,0 +1,44 @@
+0.3.0 Added abillity to select content types
+
+    * Plone-2.1.1 compatibility
+    
+    * Configlet added
+    
+    * Tests added
+
+0.2.0
+
+    * Initial public release
+
+    * Plone-2.0.5 compatibility
+
+    * Uninstaller added
+
+0.1.2
+
+    * Added ability to edit HTML Comments
+
+    * Removed developer' HTML Comments from Plone header.pt
+
+0.1.1
+
+    * Renamed to qSEOptimizer (due to mistyping into initial product name)
+
+    * Added qseoptimizer.pot template for translators
+
+    * Added Ukrainian translation
+
+0.1
+
+    Initial release. 
+
+    It is possible to edit html header META tags esential 
+    for search engines:
+
+      * description
+
+      * keywords
+
+      * robots
+
+      * distribution

@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US"
+      lang="en-US"
+      metal:use-macro="here/main_template/macros/master">
+  <body>
+         <div metal:fill-slot="main"
+              tal:define="campaigns python:here.objectValues();
+                          Batch python:modules['Products.CMFPlone'].Batch;
+                          b_start python:request.get('b_start', 0);
+                          batch python:Batch(campaigns, 30, int(b_start), orphan=1)">
+      
+      <h1 tal:content="here/title_or_id">Title or id</h1>
+       
+      <div metal:use-macro="here/document_actions/macros/document_actions">
+          Document actions (print, sendto etc)
+      
+      </div>
+      <div metal:use-macro="here/batch_macros/macros/navigation"></div>
+      <dl tal:repeat="link batch">
+             <dt><span tal:content="string:${link/getId}: ${link/title}" /></dt>
+             <dt><a href="http://www.google.com/"
+                    tal:define="url link/getRemoteUrl"
+                    tal:attributes="href url"
+                    tal:content="url" /></dt>
+      </dl>
+
+     </div>
+  </body>
+</html>

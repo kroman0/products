@@ -1,0 +1,11 @@
+chooser
+credentials_cookie_auth
+credentials_basic_auth
+local_roles
+mutable_properties
+plugins
+sniffer
+source_groups
+source_users
+user_factory
+portal_role_manager

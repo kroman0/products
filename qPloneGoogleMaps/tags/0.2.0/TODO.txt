@@ -1,0 +1,24 @@
+
+#  * topic maps view
+  
+#  * centering, zooming
+  
+#  * folder view
+
+#  * marker functionality
+
+#  * map field and widget
+
+#  * navigation portlet view (turn on/off overlay functionality)
+
+#  * automatic selecting map api key
+
+#  * google maps adaptor for edit_location form
+
+#  * IE compatibility
+
+   * adding markers via map layer
+  
+#  * tests tests tests
+
+   * javascript tests

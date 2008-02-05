@@ -1,0 +1,131 @@
+qPloneSkinDump 0.8.1
+
+    - essential improvements of dumping portlets
+
+qPloneSkinDump 0.8.0
+    - configlet form improvement
+    - fixed migration bugs to plone3
+    - added support for plone_view_customizations dump
+    - refactor old-style installer to portal_setup
+
+qPloneSkinDump 0.7.3
+    - Add support skins, generated under older qPloneSkinDump version.
+    - Fix some issues
+
+qPloneSkinDump 0.7.2
+    - Fixed id.extension - meta_type confusing bug.
+
+qPloneSkinDump 0.7.1
+    - Fixed bug of dumping to new Skin Product objects with none ascii
+      characters
+
+qPloneSkinDump 0.7
+
+    - Added registration/unregistration possibility 
+      for Skin Product's ECMA scripts in portal_javascripts
+      registry through installation/uninstallation new Skin Product.
+      Only for Plone 2.1+
+    - Performed complete dumping of CSS and JavaScripts
+      registries from skin's designer Plone instance 
+      to Skin Product. Was realised dumping only "enable"
+      property.
+    - Added opportunity for skin designer to make desigion if perform 
+      portal resources(css and|or javascripts) dumping or not.
+      This feature added to configlet and also present in config.py
+      module of new Skin Product.
+    - Added complete documentation for Skin Product's config.py
+      module's
+      constants.
+    - Added flexible opportunity to extend installation
+      tuning functions in config.py module of generated Skin
+      Product. This function will be called on new Skin Product
+      installation.
+    - Purify qPloneSkinDump and serving modules.
+    - Resolved controller resources .metadata file dumping bug.
+    - Purify Install and utils modules of generated Skin Product.
+    - Changed qPloneSkinDump control interface.
+
+qPloneSkinDump 0.5.6
+    - Added possibility to import to portal root objects from
+      '<Product>/import' directory, based on import policy 
+      ["only_new","backup","overwrite"] from config.py of
+      Skin Product.
+
+qPloneSkinDump 0.5.3
+    - Completly rewrite instal/uninstall procedures of
+      generated skin-product with code reliability increasing.
+    - Replace blocking to automatically uninstalling 
+      other skin-product(s)
+    - Add README.txt and INSTALL.txt to generated product
+
+
+qPloneSkinDump 0.5
+    - Corrected installation/deinstallation of generated product
+    - update backup functionality for portal_css regestry
+    - add blocking from simultaneously presenting more than 1 
+      skin-product in a site for prevent styles overlapping
+
+
+qPloneSkinDump 0.4.0.1
+    - Reaadme corrected
+
+
+qPloneSkinDump 0.4.0
+    - added possibility of flexible customizing slots list
+      for new Skin Product
+    - update i18n
+
+
+qPloneSkinDump 0.3.0
+
+    - added registration/unregistration possibility 
+      for css content of Skin Product in portal_css registry
+      through installation/uninstallation new Skin Product 
+      in Plone 2.1
+
+
+qPloneSkinDump 0.2.3
+
+    - remove escaping of quotes and single quotes
+    - add validation on product and it's skin names
+
+
+qPloneSkinDump 0.2.2
+
+    - renamed to qPloneSkinDump
+
+QSkinDump 0.2.1
+
+    - Add possibility of write copying and recognizing objects 
+      from ZMI to FS Product. This functionality is actual for 
+      those objects, which has no extension in id. It's realize
+      by adding ".objects" file in skin directory on FS.
+
+    - Add i18n translation for Ukrain.
+
+
+QSkinDump 0.2
+
+    - Add possibility point base skin for SKIN PRODUCT. 
+        - Changed form, validator, script of configlet. 
+        - Changed 'createProduct' and 'makeNewProduct' functions
+          of QSkinDump.py module
+
+    - Optimized Install.py script of skin_template product.
+        - added possibility build NEW SKIN layer's list
+          on one of variants (base_skin [pointed earlier],
+          skin from uninstall_property, current default skin)
+        - raise up reliability through adding checkking
+          situations when in user sistem present
+          same name layer in base skin
+        - in 'uninstall' function added removing layer of 
+          removed skin from other skins (in case of base 
+          other skins on removed one)
+
+
+QSkinDump 0.1
+
+    - Initial release
+
+
+

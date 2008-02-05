@@ -1,0 +1,11 @@
+#
+#
+#
+SimpleBlog http://svn.quintagroup.com/products/SimpleBlog/trunk
+qPingTool http://svn.quintagroup.com/products/qPingTool/trunk
+RPCAuth http://svn.plone.org/svn/collective/RPCAuth/trunk
+qTrackSpam http://svn.quintagroup.com/products/qTrackSpam/trunk
+adsenseproduct http://svn.quintagroup.com/products/adsenseproduct/trunk
+qRSS2Syndication http://svn.quintagroup.com/products/qRSS2Syndication/trunk
+#XMLRPCMethod
+#1.1 version source repository: http://www.zope.org/Members/EIONET/XMLRPC/1.1/XMLRPCMethod-1-1.tgz

@@ -1,0 +1,149 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      i18n:domain="plone"
+      metal:use-macro="here/prefs_main_template/macros/master">
+        <!--      metal:use-macro="here/main_template/macros/master" -->
+<body>
+
+<div metal:fill-slot="prefs_configlet_main"
+     tal:define="errors python:request.get('controller_state', None).getErrors();">
+
+    <div metal:define-macro="main" i18n:domain="plone">
+
+        <h1 i18n:translate="qplonecomments_configuration">qPloneComments Configuration</h1>
+
+        <a href=""
+           class="link-parent"
+           tal:attributes="href string: $portal_url/plone_control_panel"
+           i18n:translate="label_up_to_plone_setup">
+           Up to Plone Setup
+        </a>
+
+        <form name="edit_form"
+              action="href"
+              method="post"
+              enctype="multipart/form-data"
+              tal:define ="pp here/portal_properties;
+                           ps_name python:modules['Products.qPloneComments.config'].PROPERTY_SHEET;
+                           props_sheet python:getattr(pp, ps_name);"
+              tal:attributes="action string:${here/getId}/${template/getId}">
+
+            <fieldset>
+                <legend i18n:translate="legend_mailhost_details">qPloneComments configuration Details</legend>
+
+                <div class="field"
+                     tal:define="property_id string:Email_of_discussion_manager;
+                                 email python:props_sheet.getProperty(property_id, '');
+                                 error python:test(errors.has_key(property_id), errors.get(property_id), None);"
+                     tal:attributes="class python:test(error, 'field error', 'field')"
+                     tal:condition="python:props_sheet.hasProperty(property_id)">
+        
+                    <label i18n:translate="label_discussion-manager_email">E-mail of discussion manager</label>
+        
+                    <div class="formHelp" id="smtp_server_help"
+                         i18n:translate="help_discussion-manager_email">
+                        The e-mail address where notifications about adding new comments will be sent.
+                    </div>
+                    
+                    <div tal:content="error">Validation error output</div>
+
+                    <input name="email_discussion-manager"
+                           value=""
+                           size="40"
+                           tabindex=""
+                           tal:attributes="name property_id;
+                                           value email;
+                                           tabindex tabindex/next;" />
+                </div>
+
+                <div class="field"
+                     tal:define="property_id string:Turning_on/off_notification;
+                                 isEnabledNotification python:props_sheet.getProperty(property_id, False);"
+                     tal:condition="python:props_sheet.hasProperty(property_id)">
+
+                    <input type="checkbox" 
+                           class="noborder"
+                           name="isEnabledNotification"
+                           id="isEnabledNotification"
+                           tabindex =""
+                           tal:attributes="name property_id;
+                                           value isEnabledNotification;
+                                           checked python:test(isEnabledNotification, 'True', '');
+                                           tabindex tabindex/next;"/>
+
+                    <label i18n:translate="label_enable_notification" 
+                           for="isEnabledNotification">Enable e-mail notification about comments adding.</label>
+                    
+                    <div class="formHelp" i18n:translate="help_enable_notification">
+                        If checked, notification will be sent to discussion manager's e-mail.
+                    </div>
+                </div>
+
+                <div class="field"
+                     tal:define="property_id string:Turning_on/off_Moderation;
+                                 isEnabledModeration python:props_sheet.getProperty(property_id, False);"
+                     tal:condition="python:props_sheet.hasProperty(property_id)">
+
+                    <input type="checkbox" 
+                           class="noborder"
+                           name="isEnabledModeration"
+                           id="isEnabledModeration"
+                           tabindex =""
+                           tal:attributes="name property_id;
+                                           value isEnabledModeration;
+                                           checked python:test(isEnabledModeration, 'True', '');
+                                           tabindex tabindex/next;"/>
+
+                    <label i18n:translate="label_enable_moderation" 
+                           for="isEnabledModeration">Enable moderation.</label>
+                    
+                    <div class="formHelp" i18n:translate="help_enable_moderation">
+                        If checked, moderation for new comments will be activated.
+                    </div>
+                </div>
+
+                <div class="field"
+                     tal:define="property_id string:Turning_on/off_Anonymous_Commenting;
+                                 isEnabledAnonymousCommenting python:props_sheet.getProperty(property_id, False);"
+                     tal:condition="python:props_sheet.hasProperty(property_id)">
+
+                    <input type="checkbox" 
+                           class="noborder"
+                           name="isEnabledAnonymousCommenting"
+                           id="isEnabledAnonymousCommenting"
+                           tabindex =""
+                           tal:attributes="name property_id;
+                                           value isEnabledAnonymousCommenting;
+                                           checked python:test(isEnabledAnonymousCommenting, 'True', '');
+                                           tabindex tabindex/next;"/>
+
+                    <label i18n:translate="label_anonymous_commenting" 
+                           for="isEnabledAnonymousCommenting">Enable commenting for anonymous users.</label>
+                    
+                    <div class="formHelp" i18n:translate="help_anonymous_commenting">
+                        If checked, anonymous users will be able to add comments and sign them.
+                    </div>
+                </div>
+
+                <div class="formControls">
+                    <input type="hidden" name="form.submitted" value="1" />
+
+                    <input class="context"
+                           tabindex=""
+                           type="submit"
+                           name="form.button.form_submit"
+                           value="Save"
+                           i18n:attributes="value"
+                           tal:attributes="tabindex tabindex/next;"
+                           />
+                </div>
+            </fieldset>  
+        </form>
+    </div>
+
+</div>
+
+</body>
+
+</html>

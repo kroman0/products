@@ -1,0 +1,6 @@
+[validators]
+validators = validate_smsCommunicator
+
+[actions]
+action.failure = traverse_to:string:prefs_smsCommunicator_properties
+action.success = redirect_to:string:prefs_smsCommunicator_properties

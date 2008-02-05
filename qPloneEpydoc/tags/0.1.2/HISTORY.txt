@@ -1,0 +1,21 @@
+0.1.2 2006-02-10
+================
+
+  - fixed bugs in prefs_portal_documentation.cpt
+  - changed 'createDocumentationDirectoryViews' method
+
+
+0.1.1 2006-02-08
+================
+
+  - added epydoc_pathc module for fixed bugs in epydoc
+  - added method "createDocumentationDirectoryViews" to create directory views for documentation
+  - added write_content_file_types, write_object_type, getProductModules
+  - added generate method
+  - added configlet
+
+
+0.1.0 2006-01-26
+================
+
+  - initial release

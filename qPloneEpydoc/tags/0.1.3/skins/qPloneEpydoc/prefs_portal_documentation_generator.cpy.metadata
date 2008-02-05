@@ -1,0 +1,3 @@
+[actions]
+action.failure = traverse_to:string:prefs_portal_documentation
+action.success = traverse_to:string:prefs_portal_documentation

@@ -1,0 +1,85 @@
+/* <dtml-with base_properties> (do not remove this :) */
+/* <dtml-call "REQUEST.set('portal_url', portal_url())"> (not this either :) */
+
+#app                        #busy,
+#app                        ul.hideLevel,
+#app                        .reorder-controls,
+#app li.childsort div.reorderHover:hover .reorder-controls,
+#app li.childsort div.reorderHover.hover .reorder-controls,
+#app                        .sort-controls,
+#app li.childsort ul        .sort-controls,
+#app                        .drag-handle,
+#app                        .delete,
+#app li.childsort div.deleteHover:hover .delete,
+#app li.childsort div.deleteHover.hover .delete,
+#app                        .editform,
+#app li.childedit           ul,
+#app li.childedit           span,
+#app li.childsort ul li     ul,
+#app li.childsort ul li     .item_icon,
+#app li.childsort           .addItem,
+#app                        .field-title  dt,
+#app                        .field-url,
+#app                        .add-controls    {display: none;}
+
+#app                         ul.showLevel,
+#app li.childedit            .editform,
+#app li.childadd             .field-title dt,
+#app li.childadd             .field-url,
+#app li.childadd             .add-controls    {display: block;}
+
+#app div.deleteHover:hover .delete,
+#app div.deleteHover.hover .delete,
+#app div.reorderHover:hover .reorder-controls,
+#app div.reorderHover.hover .reorder-controls,
+#app li.childsort        .sort-controls,
+#app li.childsort ul     .drag-handle,
+/*#app.editing li.curedit li       span,*/
+#app.working                     #busy {display: inline;}
+
+/*************************************************************/
+
+#app .tabslist img.drag-handle {cursor: move;}
+
+#app .delete {
+  background: url(&dtml-portal_url;/images/trash.gif) no-repeat;
+}
+
+.item_icon {
+    width: 11px;
+    height: 9px;
+}
+
+.expanded_icon {
+    background: url(&dtml-portal_url;/images/live_tree_branch_expanded_icon_win.gif) no-repeat;
+}
+
+.collapsed_icon {
+    background: url(&dtml-portal_url;/images/live_tree_branch_collapsed_icon_win.gif) no-repeat;
+}
+
+/*************************************************************/
+
+.overlay_alert {
+    background-color: #85BBEF; /*&dtml-globalBorderColor;;*/
+    filter:alpha(opacity=60);
+    -moz-opacity: 0.6;
+    opacity: 0.6;
+}
+
+.overlay_li {background-color: &dtml-backgroundColor;;}
+
+#app ul {
+  list-style: none;
+}
+
+#app ul.tabslist                      {background-color: #eee;}
+#app ul.tabslist ul                   {background-color: #ddd;}
+#app ul.tabslist ul ul                {background-color: #ccc;}
+#app ul.tabslist ul ul ul             {background-color: #bbb;}
+#app ul.tabslist ul ul ul ul          {background-color: #aaa;}
+
+
+/*************************************************************/
+
+/* </dtml-with> (do not remove this either :) */

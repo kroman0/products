@@ -1,0 +1,39 @@
+0.1.4 2005-12-27
+================
+ 
+ - add docstring to all classes and functions
+ 
+0.1.3 2005-11-14
+================
+
+ - added LOG method
+ - remove write_response method
+ - added log tab and log template
+ 
+0.1.2 2005-11-01
+================
+
+ - added new properties to configlet
+ - added configlet
+ - added install_configlet function
+ - added server_url property
+ - change getAllTextFromTag function
+ - added tests
+ - added response_message function to pyXIAM
+ - added setLogFlag method
+ - added setServer method
+ - added write_sms method
+ - added write_response method
+ - change Response method
+ - change send_Request method
+ 
+0.1.1 2005-09-22
+================
+
+ - added Response method
+ - added send_Request method
+ 
+0.1.0 2005-09-20
+================
+
+ - initial release

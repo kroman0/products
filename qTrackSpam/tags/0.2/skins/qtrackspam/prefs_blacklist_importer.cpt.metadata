@@ -1,0 +1,3 @@
+[actions] 
+action.success = traverse_to:string:prefs_importBlackList
+action.failure = traverse_to:string:prefs_blacklist_importer

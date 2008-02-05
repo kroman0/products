@@ -1,0 +1,97 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"      
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+<div metal:fill-slot="main"
+    tal:define="audio_info context/@@audio_encoded; errors options/state/getErrors">
+     
+    <tal:main-macro metal:define-macro="main">
+
+        <div metal:use-macro="context/document_actions/macros/document_actions">
+            Document actions (print, sendto etc)
+        </div>
+        
+        <h1>Audio file info</h1>
+
+        <div id="object_metadata">
+          <p>
+            <strong i18n:translate="">Title:</strong>
+            <span tal:content="audio_info/title">Title</span>
+          </p>
+          <p>
+            <strong i18n:translate="">Artist:</strong>
+            <span tal:condition="audio_info/artist|nothing" tal:content="audio_info/artist">Artist</span>
+          </p>
+          <p>
+            <strong i18n:translate="">Album:</strong> 
+            <span tal:condition="audio_info/album|nothing" tal:content="audio_info/album">Album</span>
+          </p>
+          <p>
+            <strong i18n:translate="">Comment:</strong>
+            <span tal:condition="audio_info/comment|nothing" tal:content="audio_info/comment">Comment</span>
+          </p>
+        </div>         
+        
+        <form 
+            method="post"
+            action="."
+            tal:attributes="action string:${here_url}/${template/getId}">
+            
+          <h1>ID3Tag text encoding</h1>
+                
+          <div class="field"
+              tal:define="error errors/encoding|nothing;"
+              tal:attributes="class python:test(error, 'field error', 'field')">
+              
+            <label i18n:translate="">
+              Encoding 
+              <span class="fieldRequired" title="Required">(Required)</span>
+            </label>
+
+            <div tal:content="error">Validation error output</div>
+            
+            <div class="formHelp">
+              If you can't read audio info and see in it not textual characters, audio tag data may be encoded wrong.
+              Try to manually set audio tag text encoding. If nothing changed better leave encoding selector empty. 
+            </div>
+            
+            <select name="encoding" id="encoding" 
+                tal:attributes="tabindex tabindex/next;">
+              <option selected tal:content="audio_info/encoding">current encoding</option>
+              <option tal:repeat="text_encoding audio_info/getEncodingsList" tal:content="text_encoding">
+                some text encoding
+              </option>
+            </select>
+          </div>
+
+          <div class="formControls"> 
+            <input class="context" 
+                type="submit" 
+                tabindex=""
+                name="form.button.Set" 
+                value="Set"
+                tal:attributes="tabindex tabindex/next;" 
+                i18n:attributes="value "/>    
+          </div>
+          
+          <input type="hidden" name="form.submitted" value="1" />
+          
+        </form>
+        
+        <div metal:use-macro="context/document_byline/macros/byline">
+            Get the byline - contains details about author and modification date.
+        </div>
+        
+        <div class="visualClear">&nbsp;</div>
+        
+    </tal:main-macro>
+</div>
+
+</body>
+
+</html>

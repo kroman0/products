@@ -1,0 +1,268 @@
+# Ukrainian translation for qPloneComments
+# Copyright (c) 2006 Quintagroup
+# This file is distributed under the same license as the qPloneComments product.
+# Myroslav Opyr <myroslav@quintagroup.com>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: qPloneComments\n"
+"Report-Msgid-Bugs-To: Quintagroup Support <support@quintagroup.com>\n"
+"POT-Creation-Date: 2007-06-12 09:17+0000\n"
+"PO-Revision-Date: 2007-06-12 09:18+0000\n"
+"Last-Translator: Myroslav Opyr <myroslav@quintagroup.com>\n"
+"Language-Team: Ukrainian <uk@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: uk\n"
+"Language-Name: Українська\n"
+"Preferred-Encodings: utf-8 koi8-u windows-1251\n"
+"Domain: plonecomments\n"
+"X-Rosetta-Export-Date: 2007-06-12 09:19+0000\n"
+
+
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+msgid "Name"
+msgstr "Ім'я"
+
+#: skins/qplonecomments/2.0.5/discussionitem_view.pt
+msgid "Publish"
+msgstr "Опублікувати"
+
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+msgid "Required"
+msgstr "Обов'язково"
+
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+#: fuzzy
+msgid "Submitter"
+msgstr "Автор"
+
+#: skins/qplonecomments/approve_comment_template.pt
+msgid "approvemail_new_comment_link"
+msgstr ""
+"Будь-даска прегляньте новий коментар доданий до сторінки \\\" ${title} \\\": "
+"${link}"
+
+#: skins/qplonecomments/approve_comment_template.pt
+msgid "approvemail_subject"
+msgstr "Нові коментарі чекають на затвердження"
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "heading_comments_setup"
+msgstr "Настройки qPloneComments"
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "help_additional_email"
+msgstr ""
+"Вкажіть одну електронну адресу, куди надсилатимуться повідомлення пронові "
+"коментарі."
+
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+msgid "help_name"
+msgstr "Подайте своє ім'я."
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "help_organization_name"
+msgstr ""
+"Ви можете поміняти шаблон повідомлення змінюючи 'approve_comment_template' "
+"та 'published_comment_template' з шару qplonecomments в шкірах."
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_additional_email"
+msgstr "Посилати e-mail повідомлення про коментарі до:"
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_anonymous_commenting"
+msgstr "Дозволити анонімне коментування."
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_comments"
+msgstr "Модерування останніх коментарів"
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_configure"
+msgstr "Конфігурувати qPloneComments"
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_enable_approve_notification"
+msgstr "Дозволити повідомлення Менеджера дискусій (Discussion Manager) про нові коментарі."
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_enable_moderation"
+msgstr "Дозволити модерування."
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_enable_published_notification"
+msgstr "Дозволити повідомлення автора документу про нові коментарі."
+
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+msgid "label_name"
+msgstr "Ім'я"
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_organization_name"
+msgstr "Префікс заголовка електронних листів (назва організації)"
+
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+msgid "label_required"
+msgstr "(Обов'язково)"
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "legend_setup_options"
+msgstr "Опції настройки qPloneComments"
+
+#: skins/qplonecomments/published_comment_template.pt
+msgid "publishedmail_new_comment_link"
+msgstr "Перегляньте коментар доданий до сторінки \\\" ${title} \\\": ${link}"
+
+#: skins/qplonecomments/published_comment_template.pt
+msgid "publishedmail_subject"
+msgstr "Додано новий коментар"
+
+#: skins/qplonecomments/approve_comment_template.pt
+#: skins/qplonecomments/published_comment_template.pt
+msgid "signature"
+msgstr "Команда підтримки ${organization_name}."
+
+#: skins/qplonecomments/prefs_recent_comments_form.cpt
+msgid "heading_comments"
+msgstr "Останні коментарі"
+
+#: skins/qplonecomments/prefs_recent_comments_form.cpt
+msgid "legend_recent_comments"
+msgstr "Перелік останніх коментарів"
+
+#: skins/qplonecomments/prefs_recent_comments_form.cpt
+msgid "text_no_new_comments"
+msgstr "Жодних нових коментарів."
+
+#: skins/qplonecomments/prefs_recent_comments_form.cpt
+msgid "Delete"
+msgstr "Видалити"
+
+#: skins/qplonecomments/2.0.5/viewThreadsAtBottom.pt
+#: skins/qplonecomments/2.1/viewThreadsAtBottom.pt
+#: skins/qplonecomments/2.5/viewThreadsAtBottom.pt
+msgid "label_reply"
+msgstr "Відповісти"
+
+#. Default: "Comment must be approved before replies to comment accepted."
+#: skins/qplonecomments/2.0.5/viewThreadsAtBottom.pt
+#: skins/qplonecomments/2.1/viewThreadsAtBottom.pt
+#: skins/qplonecomments/2.5/viewThreadsAtBottom.pt
+msgid "text_no_add_reply"
+msgstr "Незатверджений коментар коментувати неможна."
+
+#. Default: "Please enter your email:"
+#: skins/qplonecomments/2.0.5/discussion_reply_form.pt
+#: skins/qplonecomments/2.1/discussion_reply_form.pt
+#: skins/qplonecomments/2.5/discussion_reply_form.pt
+msgid "label_anonymous_email"
+msgstr "Будь-даска вкажіть вашу електронну адресу"
+
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_require_anonym_email"
+msgstr "Вимагати електронну адресу від Анонімного користувача."
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "enable_manager_moderation"
+msgstr "Дозволити модерування Менеджеру."
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_discussion-manager_email"
+msgstr "Надсилати повідомлення по коментарях на електронну адресу:"
+
+#. Default: "The e-mail address where notifications about adding new comments will be sent."
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "help_discussion-manager_email"
+msgstr "Електронна адреса на яку надсилатимуться повідомлення про нові коментарі."
+
+#. Default: "Notification tuning"
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "legend_qpc_notification_legend"
+msgstr "Настройки інформування"
+
+#. Default: "Enable Commentator notification on comment was published."
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_enable_approve_user_notification"
+msgstr "Дозволити повідомлення власника коментаря про його затвердження."
+
+#. Default: "Enable Commentator notification on comment was rejected."
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_enable_reject_notification"
+msgstr "Дозволити повідомлення власника коментаря про його відхилення."
+
+#. Default: "Enable Commentator notification on comment was replied."
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_enable_reply_notification"
+msgstr "Дозволити повідомлення власника коментаря про відповідь на його коментар."
+
+#. Default: "Save"
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "Save"
+msgstr "Зберегти"
+
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "listingheader_comment"
+msgstr "Коментар"
+
+#. Default: "Reply to this"
+#: skins/qplonecomments/2.0.5/viewThreadsAtBottom.pt
+msgid "Reply to this"
+msgstr "Відповісти на це"
+
+#. Default: "Until publishing this comment adding reply impossible."
+#: skins/qplonecomments/2.0.5/discussionitem_view.pt
+msgid "text_no_reply_until_published"
+msgstr "Незатверджений коментар коментувати неможна."
+
+#. Default: "Remove this reply"
+#: skins/qplonecomments/2.0.5/discussionitem_view.pt
+msgid "Remove this reply"
+msgstr "Видалити цей коментар"
+
+#. Default: "Your comment on \'${title}\' is now published"
+#: skins/qplonecomments/approve_comment_template.pt
+msgid "notifycomment_subject"
+msgstr "Ваш коментар до \\\'${title}\\\' затверджено"
+
+#. Default: "Your comment on \'${url}\' has been published. To see your comment, go to ${url}"
+#: skins/qplonecomments/approve_comment_template.pt
+msgid "notifycomment_link"
+msgstr "Ваш коментар до \\\'${url}\\\' затверджено. Щоб побачити ваш коментар зайдіть на ${url}"
+
+#. Default: "Your comment on \'${title}\' was now approved."
+#: skins/qplonecomments/approve_comment_template.pt
+msgid "notifyreject_subject"
+msgstr "Ваш коментар до \\\'${title}\\\' відхилено."
+
+#. Default: "Your comment on \'${url}\' did not receive approval. Please direct any questions or concerns to ${mfrom}."
+#: skins/qplonecomments/approve_comment_template.pt
+msgid "notifyreject_link"
+msgstr "Ваш коментар до \\\'${url}\\\' відхилено. Усі питання стосовно цього надсидайте на ${mfrom}."
+
+
+#. Default: "Someone replied to your comment on \'${title}\'"
+#: skins/qplonecomments/approve_comment_template.pt
+msgid "replynotify_subject"
+msgstr "Надійшла відповідь на ваш коментар до \\\'${title}\\\'"
+
+#. Default: "Someone replied to your comment \'${url}\' on \'${here_url}\'. To read the response, go to \'${url}\'."
+#: skins/qplonecomments/approve_comment_template.pt
+msgid "replynotify_link"
+msgstr "Надійшла відповідь на ваш коментар \\\'${url}\\\' до \\\'${here_url}\\\'. Щоб прочитати відповідь перейдіть на \\\'${url}\\\'."

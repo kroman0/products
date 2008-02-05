@@ -1,0 +1,13 @@
+Dependency
+
+    - Zope 2.9.3+
+    - CMF 1.6.1+
+    - Plone 2.5.0+
+    - geolocation (0.5 version) product to enable geolocation properties for plone content types
+    - Google Maps currently supports the following web browsers:
+        # IE 6.0+ (download: Windows)
+        # Firefox 0.8+ (download: Windows Mac Linux)
+        # Safari 1.2.4+ (download: Mac)
+        # Netscape 7.1+ (download: Windows Mac Linux)
+        # Mozilla 1.4+ (download: Windows Mac Linux)
+        # Opera 8.02+ (down

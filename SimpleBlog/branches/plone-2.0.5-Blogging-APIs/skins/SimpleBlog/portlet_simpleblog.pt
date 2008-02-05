@@ -1,0 +1,108 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="SimpleBlog">
+      
+<body>
+
+	<!-- local portlets, they will only show up inside a SimpleBlog -->
+    <div metal:define-macro="portletBlogFull_local" tal:omit-tag="">
+	    <!-- not the best way to do this but I have no idea how to fill the css_slot for this case where
+		       the portlet is not in one of simpleblog's templates -->
+	    <!--link rel="stylesheet" type="text/css" media="screen" href="" 
+                  tal:attributes="href string:$portal_url/SimpleBlogCSS.css" /-->
+		<div class="portlet" 
+                     tal:define="fp python:here.simpleblog_tool.getFrontPage(here)"
+                     tal:condition="python:fp!=None">
+        	<h5>
+                    <a tal:attributes="href fp/absolute_url;
+                                       title fp/title_or_id"
+                       tal:content="fp/title_or_id"/>
+                </h5>
+			<div class="portletBody">
+     			<div metal:use-macro="here/SimpleBlog_macros/macros/portletCalendar"/>
+				<div metal:use-macro="here/SimpleBlog_macros/macros/portletRecent"/>
+				<div metal:use-macro="here/SimpleBlog_macros/macros/portletCategories"/>
+                        </div>
+		</div>   
+    </div>
+
+    <div metal:define-macro="portletBlogRecent_local" tal:omit-tag="">
+		<div class="portlet" tal:condition="python: here.meta_type in ['Blog', 'BlogEntry', 'BlogFolder']">
+        	<h5>Blog</h5>
+			<div class="portletBody">
+				<div metal:use-macro="here/SimpleBlog_macros/macros/portletRecent"/>
+			</div>
+		</div>   
+    </div>
+
+    <div metal:define-macro="portletRecentComments_local"
+         tal:omit-tag=""
+         tal:define="fp python:here.simpleblog_tool.getFrontPage(here);"
+         tal:condition="python:fp!=None">
+         <div class="portlet"
+              tal:define="fpPath python:'/'.join(fp.getPhysicalPath());
+                          results python:here.portal_catalog.searchResults(path=fpPath, meta_type='Discussion Item', sort_on='created', sort_order='reverse')[:5];"
+              tal:condition="results">
+           <h5 i18n:translate="recent_comments">Recent Comments</h5>
+           <div class="portletBody">
+             <tal:block tal:repeat="item results">
+               <div class="portletContent odd"
+                    tal:attributes="class python:test(repeat['item'].index % 2, 'portletContent even', 'portletContent odd')">
+
+                 <tal:block tal:define="result_url item/getURL;
+                                   url string:$result_url/view;">
+                   <a href="#"
+                      tal:attributes="href url">
+                      <img src="#" height="16" width="16" alt=""
+                           tal:on-error="structure python:path('here/linkOpaque.gif')"
+                           tal:replace="structure python:path('here/%s' % item.getIcon)" /></a>&nbsp;<a
+                           href="#" tal:attributes="href url; title item/Description"
+                           tal:content="python:item.Title or item.getId" />
+                      <span class="discreet"
+                            tal:define="modificationDate item/ModificationDate;
+                                  modificationDate python:here.toPortalTime(modificationDate)"
+                            tal:content="string:(${item/Creator}) $modificationDate">
+                          creator   08/19/2001 03:01 AM </span>
+                </tal:block>
+             </div>
+           </tal:block>
+             <div class="portletContent odd">
+
+                 <a href="#"
+                    class="portletMore"
+                    i18n:translate="box_morelink"
+                    i18n:domain="plone"
+                    tal:attributes="href string:${fp/absolute_url}/search?path=${fpPath}&amp;meta_type=Discussion+Item&amp;sort_on=created&amp;sort_order=reverse;">
+                 More...</a>
+
+              </div>
+           </div>
+         </div>
+     </div>
+
+
+	<!-- global portlets, similar as above but this version show up everywhere -->
+    <div metal:define-macro="portletBlogFull_global" tal:omit-tag="">
+	    <!-- not the best way to do this but I have no idea how to fill the css_slot for this case where
+		       the portlet is not in one of simpleblog's templates -->
+	    <link rel="stylesheet" type="text/css" media="screen" href="" tal:attributes="href string:$portal_url/SimpleBlogCSS.css" />
+		<div class="portlet">
+        	<h5>Blog</h5>
+			<div class="portletBody">
+			    <div metal:use-macro="here/SimpleBlog_macros/macros/portletCalendar"/>
+				<div metal:use-macro="here/SimpleBlog_macros/macros/portletRecent"/>
+				<div metal:use-macro="here/SimpleBlog_macros/macros/portletCategories"/>
+			</div>
+		</div>   
+    </div>
+     
+    <div metal:define-macro="portletBlogRecent_global" tal:omit-tag="">
+		<div class="portlet">
+        	<h5>Blog</h5>
+			<div class="portletBody">
+				<div metal:use-macro="here/SimpleBlog_macros/macros/portletRecent"/>
+			</div>
+		</div>   
+    </div>
+</body>
+</html>

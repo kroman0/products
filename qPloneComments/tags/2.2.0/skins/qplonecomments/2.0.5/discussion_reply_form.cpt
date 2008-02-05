@@ -1,0 +1,218 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+<body>
+
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<div metal:fill-slot="main"
+     tal:define="errors options/state/getErrors;
+                 property_id string:require_email;
+                 props_sheet here/portal_properties/qPloneComments;
+                 require_email python:props_sheet.getProperty(property_id)">
+
+    <h1 i18n:translate="heading_add_comment">Add Comment</h1>
+
+    <p i18n:translate="description_add_comment">
+        You can add a comment by filling out the form below. Plain text formatting.
+    </p>
+
+    <form name="edit_form"
+          method="post"
+          action="talkback"
+          tal:attributes="action string:${here/getId}/${template/getId}"
+          tal:define="isForAnonymous python:here.portal_properties.qPloneComments.getProperty('enable_anonymous_commenting', 0)">
+        <fieldset>
+            <input type="hidden" name="require_email" value=""
+                    tal:attributes="value python:bool(require_email and isAnon)"/>
+
+            <legend i18n:translate="legend_comment_details">Comment Details</legend>
+
+            <input type="hidden" name="Creator" value=""
+                   tal:attributes="value member/getUserName" 
+                   tal:condition="not:isForAnonymous" />
+
+            <div class="field"
+                 tal:condition="isForAnonymous"
+                 i18n:domain="plonecomments">
+
+                <div class="field"
+                     tal:define="error errors/Creator|nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field');">
+
+                    <label for="username" i18n:translate="label_name">Name</label>
+
+                    <span class="fieldRequired" title="Required"
+                          tal:condition="isAnon"
+                          i18n:attributes="title"
+                          i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp" i18n:translate="help_name"
+                         tal:condition="isAnon">
+                    Please tell us your name.
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <div>
+                        <input name="Creator"
+                               id="username"
+                               value="" alt="Submitter" title="Name"
+                               size="40"
+                               tabindex=""
+                               i18n:attributes="alt title"
+                               tal:attributes="tabindex tabindex/next;
+                                               value python:test(isAnon, '', member.getUserName());
+                                               disabled python:test(isAnon, None, 'true')" />
+
+                    </div>
+                <div class="field"
+                     tal:define="error errors/email|nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')"
+                     tal:condition="python:require_email and isAnon">
+
+
+                    <label for="email" i18n:translate="label_discussion-manager_email">Please enter your email:</label>
+                    <span class="fieldRequired" title="Required"
+                          i18n:attributes="title title_required;"
+                          i18n:translate="label_required">(Required)
+                    </span>
+                    <div tal:content="error">Validation error output</div>
+
+                    <input name="email"
+                           value=""
+                           size="40"
+                           tabindex=""
+                           tal:attributes="tabindex tabindex/next;" />
+                </div>
+
+                </div>
+            </div>
+
+            <div class="portalMessage"
+                 tal:condition="python:(not isForAnonymous) and isAnon">
+
+                <tal:block replace="structure here/info.gif"/>
+
+                <span i18n:translate="legend_note_reply_anonymous">
+                    Note: you are not logged in.  You may optionally enter your username
+                    and password below.  If you don't enter your username and
+                    password below, this comment will be posted as the 'Anonymous User'.
+                </span>
+
+                <br/><br/>
+
+                <div class="field">
+
+                    <label for="username" i18n:translate="label_name">Name</label>
+
+                    <input name="username"
+                           id="username"
+                           value="" alt="Username" title="Name"
+                           size="40"
+                           tabindex=""
+                           i18n:attributes="title"
+                           tal:attributes="tabindex tabindex/next;" />
+
+                </div>
+
+                <div class="field">
+
+                    <label for="password" i18n:translate="label_password">Password</label>
+
+                    <input type="password"
+                           id="password"
+                           name="password"
+                           tabindex=""
+                           value="" alt="Password" title="Password"
+                           size="40"
+                           i18n:attributes="title"
+                           tal:attributes="tabindex tabindex/next;" />
+
+                </div>
+
+            </div>
+
+
+        <div class="field"
+        tal:define="error errors/subject|nothing;"
+        tal:attributes="class python:test(error, 'field error', 'field')">
+
+                <label for="title" i18n:translate="label_subject">Subject</label>
+
+        <span class="fieldRequired" title="Required"
+              i18n:attributes="title"
+              i18n:translate="label_required">(Required)</span>
+
+            <div class="formHelp" i18n:translate="help_subject">
+            The subject of your posting.
+            </div>
+
+            <div tal:content="error">Validation error output</div>
+
+                <input name="subject"
+                       id="subject"
+                       value=""
+                       size="40"
+                       tabindex=""
+                       tal:attributes="value request/subject|request/title_override|nothing;
+                                       tabindex tabindex/next" />
+
+            </div>
+
+        <div class="field"
+        tal:define="error errors/body_text|nothing;"
+        tal:attributes="class python:test(error, 'field error', 'field')">
+
+                <label for="text" i18n:translate="label_body_text">Body text</label>
+
+        <span class="fieldRequired" title="Required"
+              i18n:attributes="title"
+              i18n:translate="label_required">(Required)</span>
+
+            <div class="formHelp" i18n:translate="help_body_text">
+            The message of your posting.
+            </div>
+
+            <div tal:content="error">Validation error output</div>
+
+                <textarea name="body_text"
+                          id="body_text"
+                          cols="40"
+                          rows="8"
+                          tabindex=""
+                          tal:content="request/body_text|request/text_override | nothing"
+                          tal:attributes="tabindex tabindex/next"
+                        ></textarea>
+
+            </div>
+
+            <div tal:condition="nocall:here/captcha_widget|nothing"
+                 tal:omit-tag="">
+                <div metal:use-macro="here/captcha_widget/macros/captcha" />
+            </div>
+
+            <div class="formControls">
+
+                <input class="context"
+                       tabindex=""
+                       type="submit"
+                       value="Add Comment"
+                       name="form.button.Save"
+                       i18n:attributes="value"
+                       tal:attributes="tabindex tabindex/next;
+                                       name string:discussion_reply:method;" />
+
+            </div>
+          <input type="hidden" name="form.submitted" value="1" />
+
+        </fieldset>
+
+    </form>
+
+</div>
+
+</body>
+</html>

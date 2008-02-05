@@ -1,0 +1,6 @@
+[validators]
+validators=captcha_validator
+
+[actions]
+action.success = redirect_to:string:formmailer_sent
+action.failure = traverse_to_action:string:view

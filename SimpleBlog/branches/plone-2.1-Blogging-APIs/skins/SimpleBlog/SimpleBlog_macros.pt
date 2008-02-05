@@ -1,0 +1,449 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="SimpleBlog">
+<body>
+
+<div metal:define-macro="blogGlobals"
+     tal:define="global fp python:here.simpleblog_tool.getFrontPage(here);
+                 global isDeliciousEnaled fp/isDeliciousEnabled;
+                 global isDiggEnabled fp/isDiggEnabled;
+                 global isYahooEnabled fp/isYahooEnabled;
+                 global isGoogleEnabled fp/isGoogleEnabled;
+                 global isSpurlEnabled fp/isSpurlEnabled;
+                 global isTagsEnabled fp/isTagsEnabled;
+                 global isAllowTrackback fp/getAllowTrackback"
+     tal:omit-tag="">
+</div>
+
+<div metal:define-macro="full" tal:define="showReadMore python:0" class="simpleBlogEntry">
+    <div metal:use-macro="obj/SimpleBlog_macros/macros/blogGlobals"/>
+    <div tal:define="size headerSize | python:1;title obj/title_or_id;
+                    showIcons fp/simpleblog_tool/getShowIcons" 
+             class="simpleBlogTitle">
+                <tal:x replace='structure string:<h${size} class="noMargin">'/>
+            <a href="" tal:attributes="href obj/absolute_url" style="cursor:pointer;">
+                <img alt="" tal:condition="showIcons" src="#" tal:attributes="src string:${obj/portal_url}/${obj/getIcon};alt obj/title" />
+                <span tal:replace="title"/>
+            </a>
+                <tal:x replace="structure string:</h${size}>"/>
+
+    </div>
+    <div class="simpleBlogDescription documentDescription description" tal:content="structure python:obj.Description()"> 
+        description
+    </div>
+    <div tal:replace="structure python:obj.getBody()" class="simpleBlogBody"/><br/><br/>
+        <tal:tags metal:use-macro="obj/SimpleBlog_macros/macros/technoratiTags"/>
+        <tal:byLine metal:use-macro="obj/SimpleBlog_macros/macros/ByLineFoot"/>
+</div>
+
+<div metal:define-macro="descriptionOnly"  tal:define="showReadMore python:1" class="simpleBlogEntry">
+    <div metal:use-macro="obj/SimpleBlog_macros/macros/blogGlobals"/>
+    <div tal:define="size headerSize | python:1;title obj/title_or_id;
+                    showIcons fp/simpleblog_tool/getShowIcons" 
+             class="simpleBlogTitle">
+                <tal:x replace='structure string:<h${size} class="noMargin">'/>
+            <a href="" tal:attributes="href obj/absolute_url" style="cursor:pointer;">
+                <img alt="" tal:condition="showIcons" src="#" tal:attributes="src string:${obj/portal_url}/${obj/getIcon};alt obj/title" />
+                <span tal:replace="title"/> 
+            </a>
+                <tal:x replace="structure string:</h${size}>"/>
+    </div>
+    <div tal:content="structure python:obj.Description()" class="simpleBlogDescriptionOnly"> 
+        description
+    </div>
+        <tal:tags metal:use-macro="obj/SimpleBlog_macros/macros/technoratiTags"/>
+        <tal:byLine metal:use-macro="obj/SimpleBlog_macros/macros/ByLineFoot"/>
+
+</div>
+
+<div metal:define-macro="titleOnly" tal:define="showReadMore python:1" class="simpleBlogTitle">
+    <div metal:use-macro="obj/SimpleBlog_macros/macros/blogGlobals"/>
+    <tal:block tal:define="size headerSize | python:1;title obj/title_or_id;
+                        showIcons fp/simpleblog_tool/getShowIcons">
+                <tal:x replace='structure string:<h${size} class="noMargin">'/>
+            <a href="" tal:attributes="href obj/absolute_url" style="cursor:pointer;">
+                <img alt="" tal:condition="showIcons" src="#" tal:attributes="src string:${obj/portal_url}/${obj/getIcon};alt obj/title" />
+                <span tal:replace="title"/>
+            </a>
+                <tal:x replace="structure string:</h${size}>"/>
+    </tal:block>
+        <tal:tags metal:use-macro="obj/SimpleBlog_macros/macros/technoratiTags"/>
+        <tal:byLine metal:use-macro="obj/SimpleBlog_macros/macros/ByLineFoot"/>
+    <p />
+</div>
+
+<div metal:define-macro="ByLine" class="BlogByLine"
+     tal:define="fp nocall:fp | python:here.simpleblog_tool.getFrontPage(here);">
+     <span i18n:translate="blog_by_line">
+    Submitted by 
+        <a href="" i18n:name="author" tal:attributes="href python:container.portal_membership.getHomeUrl(obj.Creator());" tal:content="obj/Creator">author</a>.
+    on <span i18n:name="date" tal:replace="python:here.toPortalTime(obj.simpleblog_tool.getEntryDate(obj), long_format=1)">Jun 2, 2002 2:42 pm</span>.
+     </span>
+     <span tal:define="cats python:obj.EntryCategory();
+                       pss modules/Products.PythonScripts.standard;"
+           class="simpleBlogBylineCats">
+           <tal:categories tal:repeat="cat cats" tal:condition="cats">
+                <span tal:omit-tag="" tal:condition="not: repeat/cat/start">|&nbsp;</span>
+                <strong><a href="#" 
+                           tal:define="quotedCat python:pss.url_quote(cat)"
+                           tal:attributes="href string:${fp/absolute_url}/SimpleBlogCatSearch?category=${quotedCat}"
+                           title="category"><span  tal:omit-tag="" tal:content="cat"/></a></strong>
+           </tal:categories>
+     </span>
+</div>
+
+
+<div metal:define-macro="technoratiTags"
+     tal:define="cats python:obj.EntryTag();
+                 isTagsEnabled isTagsEnabled | here/isTagsEnabled"
+     tal:condition="python:isTagsEnabled and cats"
+     tal:omit-tag="">
+     _____<br/>
+     tags:
+     <span class="simpleBlogBylineCats">
+           <tal:categories tal:repeat="cat cats" tal:condition="cats"><span tal:omit-tag="" tal:condition="not: repeat/cat/start">|&nbsp;
+                      </span><strong><a href="#"
+                           rel="tag"   
+                           tal:define="quotedCat python:cat.lower().replace(' ', '+')"
+                           tal:attributes="href string:http://www.technorati.com/tag/${quotedCat}"><span  tal:omit-tag="" tal:content="cat"/></a></strong>
+           </tal:categories>
+     </span>
+</div>
+
+<div metal:define-macro="ByLineFoot" class="BlogByLine">
+    <tal:x define="allowed python:obj.portal_discussion.isDiscussionAllowedFor(obj);
+                   ccount python:allowed and obj.portal_discussion.getDiscussionFor(obj).replyCount(obj);
+                   tballowed isAllowTrackback | here/getAllowTrackback;
+                   tbcount python:len(obj.getTrackbacks());
+                   fp nocall:fp | python:here.simpleblog_tool.getFrontPage(here)">
+         <span i18n:translate="blog_by_line">
+         <span tal:define="edate python:obj.simpleblog_tool.getEntryDate(obj)"
+               i18n:name="date" tal:replace="python:DateTime(edate).strftime('%A, %B %d, %Y')">Jun 2, 2002 2:42 pm</span>
+         </span>
+         <span tal:define="cats python:obj.EntryCategory();
+                           pss modules/Products.PythonScripts.standard;"
+               tal:omit-tag="">
+               <tal:x tal:condition="cats"> in </tal:x>
+               <tal:categories tal:repeat="cat cats" tal:condition="cats"> 
+                    <span tal:omit-tag="" tal:condition="not: repeat/cat/start">|&nbsp;</span>
+                    <strong><a href="#" 
+                               tal:define="quotedCat python:pss.url_quote(cat)"
+                               tal:attributes="href string:${fp/absolute_url}/SimpleBlogCatSearch?category=${quotedCat}"
+                               title="category"><span  tal:omit-tag="" tal:content="cat"/></a></strong>
+               </tal:categories>
+         </span>&nbsp;|&nbsp;
+         <strong><a href=""
+            tal:attributes="href obj/absolute_url"
+            i18n:translate="permalink">Permalink</a></strong>&nbsp;|&nbsp;
+         <tal:block condition="allowed">
+         <strong><a href=""
+              tal:attributes="href string:${obj/absolute_url}#comments"
+              tal:content="string:Comments (${ccount})">Comments</a></strong>
+            <tal:x condition="tbcount">&nbsp;|&nbsp;</tal:x>
+         </tal:block>
+         <strong tal:condition="python:tballowed and tbcount">
+            <tal:x tal:replace="string:TrackBack (${tbcount})">TrackBack</tal:x></strong>
+         <div tal:condition="tballowed"> trackback URL: &nbsp;
+               <tal:x replace="string:${obj/absolute_url}/sbtrackback"/>
+         </div>
+         <div tal:define="entryURL obj/absolute_url;
+                          entryTitle obj/Title;
+                          entryDescription obj/Description;
+                          entryDiggTopic obj/getDiggTopic;
+                          encodeURLData python:modules['Products.SimpleBlog.util'].encodeURLData;"
+              tal:omit-tag="">
+                <span tal:condition="isDeliciousEnaled | obj/isDeliciousEnabled">
+                   <a href=""
+                      title=""
+                      tal:define="url_data python:encodeURLData({'url':entryURL,'title':entryTitle});"
+                      tal:attributes="href string:http://del.icio.us/post?${url_data};
+                                      title string:del.icio.us: ${entryTitle}">
+                      <img src=""
+                           alt="del.icio.us"
+                           tal:attributes="src string:$portal_url/delicious.gif;" /></a>
+                </span>&nbsp;<span tal:condition="isDiggEnabled | obj/isDiggEnabled">
+                    <a href=""
+                        title=""
+                        tal:define="url_data python:encodeURLData({'phase':'2','url':entryURL,'title':entryTitle,'bodytext':entryDescription,'topic':entryDiggTopic});"
+                        tal:attributes="href string:http://digg.com/submit?${url_data};
+                                        title string:Digg: ${entryTitle}">
+                    <img src=""
+                        alt="Digg"
+                        tal:attributes="src string:$portal_url/digg.gif;" /></a>
+                </span>&nbsp;<span tal:condition="isYahooEnabled | obj/isYahooEnabled">
+                   <a href=""
+                      title=""
+                      tal:define="url_data python:encodeURLData({'u':entryURL,'t':entryTitle});"
+                      tal:attributes="href string:http://myweb2.search.yahoo.com/myresults/bookmarklet?${url_data};
+                                      title string:Yahoo: ${entryTitle}">
+                      <img src=""
+                           alt="Yahoo"
+                           tal:attributes="src string:$portal_url/yahoo.gif;" /></a>
+                </span>&nbsp;<span tal:condition="isGoogleEnabled | obj/isGoogleEnabled">
+                   <a href=""
+                      title=""
+                      tal:define="url_data python:encodeURLData({'op':'edit','output':'popup','bkmk':entryURL,'title':entryTitle});"
+                      tal:attributes="href string:http://www.google.com/bookmarks/mark?${url_data};
+                                      title string:Google: ${entryTitle}">
+                      <img src=""
+                           alt="Google"
+                           tal:attributes="src string:$portal_url/google.gif;" /></a>
+                </span>&nbsp;<span tal:condition="isSpurlEnabled | obj/isSpurlEnabled">
+                   <a href=""
+                      title=""
+                      tal:define="url_data python:encodeURLData({'url':entryURL,'title':entryTitle});"
+                      tal:attributes="href string:http://www.spurl.net/spurl.php?${url_data};
+                                      title string:Spurl: ${entryTitle}">
+                      <img src=""
+                           alt="Spurl"
+                           tal:attributes="src string:$portal_url/spurl.gif;" /></a>
+                </span>
+         </div>
+
+   </tal:x>
+</div>
+
+<!-- macro for the commandline showing the categories for the current entry and the comments plus actions to read more and add comments -->
+<div tal:condition="not: standardButtons" metal:define-macro="commandLineNonStandard" tal:define="allowed python:obj.portal_discussion.isDiscussionAllowedFor(obj)" class="BlogCommandLine">
+    <tal:comments tal:condition="allowed"> 
+        <tal:block tal:define="comments python:obj.portal_discussion.getDiscussionFor(obj);
+                                       tb_number python:len(obj.getTrackbacks())">
+            <a href="" tal:attributes="href obj/absolute_url"
+                           i18n:translate="comments">Comments</a>: <span tal:content="python:comments.replyCount(obj)" />&nbsp;
+            |&nbsp;<a href="" tal:attributes="href obj/absolute_url"
+                           i18n:translate="trackbacks">Trackbacks</a>: <span tal:content="tb_number" />&nbsp;
+            <span tal:condition="python:obj.portal_membership.checkPermission('Reply to item', obj)">
+                |&nbsp;<a href="" tal:attributes="href string:${obj/absolute_url}/discussion_reply_form?backurl=${obj/absolute_url}" title="Add new comment"
+                              i18n:translate="add_new_comment"
+                              i18n:attributes="title add_new_comment">Add new comment</a>&nbsp;
+            </span>
+        </tal:block>
+    </tal:comments>
+    <tal:readmore tal:condition="showReadMore | python:0">
+        <span tal:condition="allowed">|</span>
+        <a href="" tal:attributes="href obj/absolute_url" title="Read more"
+                   i18n:attributes="title read_full_blog"
+                   i18n:translate="read_full_blog">Read more</a>
+    </tal:readmore>
+    <span tal:condition="python:obj.portal_membership.checkPermission('Modify portal content', obj)">|
+    <a href="" tal:attributes="href string:${obj/absolute_url}/base_edit" title="Edit"
+           i18n:translate="edit_blog">Edit</a>
+    </span>
+</div>
+
+<div tal:condition="standardButtons" metal:define-macro="commandLine" tal:define="allowed python:obj.portal_discussion.isDiscussionAllowedFor(obj)" class="BlogCommandLine">
+    <div class="simpleBlogLinkButtons">
+        <tal:comments tal:condition="allowed"> 
+            <tal:block tal:define="comments python:obj.portal_discussion.getDiscussionFor(obj);
+                                               tb_number python:len(obj.getTrackbacks())">
+                <a href="" tal:attributes="href obj/absolute_url" 
+                    i18n:translate="comments">Comments</a>: <span tal:content="python:comments.replyCount(obj)" />&nbsp;
+            |&nbsp;<a href="" tal:attributes="href obj/absolute_url"
+                           i18n:translate="trackbacks">Trackbacks</a>: <span tal:content="tb_number" />&nbsp;
+            </tal:block>
+        </tal:comments>
+        <tal:readmore tal:condition="showReadMore | python:0">
+            <span tal:condition="allowed">|</span>
+            <a href="" tal:attributes="href obj/absolute_url" title="Read more">Read more</a>
+        </tal:readmore>
+    </div>
+    <form action=""
+          method="post"
+          tal:condition="python:allowed and here.portal_membership.checkPermission('Reply to item', obj)" 
+          tal:attributes="action string:${obj/absolute_url}/discussion_reply_form">         
+        <input type="Hidden" name="backurl" value="" tal:attributes="value obj/absolute_url">
+        <input class="standalone" type="submit" value="Add Comment" i18n:attributes="value add_new_comment"/>
+    </form>
+    <form action=""
+          method="post"
+          tal:condition="python:obj.portal_membership.checkPermission('Modify portal content', obj)" 
+          tal:attributes="action string:${obj/absolute_url}/base_edit">         
+          <input class="standalone" type="submit" value="Edit" i18n:attributes="value edit_blog"/>
+    </form>
+</div>
+
+
+
+<!-- macro used by the portlets to compile a list of available categories -->
+<div metal:define-macro="portletCategories" 
+     tal:define="cats python:here.simpleblog_tool.getAvailableCategories(here)" 
+     tal:omit-tag="">
+    <tal:toggle tal:define="global toggle python:toggle or 0"/>
+    <dd tal:attributes="class python:test(toggle, 'portletItem even', 'portletItem odd')">
+        <strong i18n:translate="blog_categories">Categories:</strong>
+        <tal:toggle tal:define="global toggle python:test(toggle==1,0,1)"/>
+    </dd>
+    <tal:cats tal:repeat="cat python:here.simpleblog_tool.getSortedKeys(cats)">
+        <dd tal:define="pss modules/Products.PythonScripts.standard;
+                        fp nocall:fp | python:here.simpleblog_tool.getFrontPage(here);
+                        quotedCat python:pss.url_quote(cat);
+                        category python:'%s (%s)' %(cat,cats[cat])"
+            tal:condition="python:cats[cat]>0"
+            tal:attributes="class python:test(toggle, 'portletItem even', 'portletItem odd')">
+            <a href="#" 
+               tal:attributes="href string:${fp/absolute_url}/SimpleBlogCatSearch?category=${quotedCat};
+                               title cat"><span tal:content="category"/></a>
+            <tal:toggle tal:define="global toggle python:test(toggle==1,0,1)"/>
+        </dd>
+    </tal:cats>
+</div>
+
+<!-- macro used by the portlets to compile a list of recent additions -->
+<div metal:define-macro="portletRecent" 
+     tal:define="recent python:here.simpleblog_tool.searchForEntries(here)"
+     tal:omit-tag="">
+     <tal:toggle tal:define="global toggle python:toggle or 0"/>
+     <tal:block tal:condition="recent">
+        <dd tal:attributes="class python:test(toggle, 'portletItem even', 'portletItem odd')">
+            <strong i18n:translate="recent_additions">Recent entries:</strong>
+            <tal:toggle tal:define="global toggle python:test(toggle==1,0,1)"/>
+        </dd>
+        <tal:entries tal:repeat="entry recent">
+        <dd tal:attributes="class python:test(toggle, 'portletItem even', 'portletItem odd')">
+            <a href="#" 
+                           tal:attributes="href entry/getURL;" 
+                           title="entry">
+                           <img src="#" tal:attributes="src string:${portal_url}/${entry/getIcon};" alt="" /> 
+                           <span tal:content="python:entry.Title or entry.getId"/>
+                        </a>
+            <tal:toggle tal:define="global toggle python:test(toggle==1,0,1)"/>
+        </dd>
+        </tal:entries>
+        <dd tal:attributes="class python:test(toggle, 'portletItem even', 'portletItem odd')"
+            style="text-align:right;">
+            <a title="More..."
+               tal:attributes="href string:${here/absolute_url}/SimpleBlogFullSearch" 
+               i18n:attributes="title box_morelink"
+               i18n:translate="box_morelink"
+               i18n:domain="plone">More...</a>
+            <tal:toggle tal:define="global toggle python:test(toggle==1,0,1)"/>
+        </dd>
+    </tal:block>
+    <dd tal:condition="not: recent"
+        tal:attributes="class python:test(toggle, 'portletItem even', 'portletItem odd')">        
+        <span i18n:translate="no_published_blog_entries">No blog entries are published.</span>
+        <tal:toggle tal:define="global toggle python:test(toggle==1,0,1)"/>
+    </dd>
+</div>
+
+<div metal:define-macro="portletCalendar"
+     tal:omit-tag=""
+     tal:define="DateTime python:modules['DateTime'].DateTime;
+                 current python:DateTime();
+                 anchor_url request/anchor_url | here_url;
+                 anchor_method request/anchor_method | template/getId;
+                 yearmonth here/getYearAndMonthToDisplay;
+                 nextYearMax python: current+365;
+                 prevYearMin python: current-365;
+                 year python:yearmonth[0];
+                 month python:yearmonth[1];
+                 prevMonthTime python:here.getPreviousMonth(month, year);
+                 nextMonthTime python:here.getNextMonth(month, year);
+                 weeks python:here.simpleblog_tool.getEventsForCalendar(month=month, year=year, context=here);
+                 translation_service nocall:here/translation_service;
+                 day_msgid nocall:translation_service/day_msgid;
+                 weekday_english nocall:translation_service/weekday_english;
+                 utranslate nocall:here/utranslate;
+                 toLocalizedTime nocall:here/toLocalizedTime;
+                 published_state python:here.simpleblog_tool.getPublishedState()"
+    i18n:domain="plone">
+    <!-- The calendar, rendered as a table -->
+
+    <table cellspacing="0" class="simpleBlogCalendar" id="thePloneCalendar" summary="Calendar" i18n:attributes="summary">
+        <thead>
+            <tr>
+                <th id="calendar-previous">
+                    <a href="#" rel="nofollow"
+                       title="Previous month"
+                       tal:attributes="href python:'%s/%s?month:int=%d&amp;year:int=%d' % (anchor_url, anchor_method, prevMonthTime.month(),prevMonthTime.year())"
+                       tal:condition="python: yearmonth > (prevYearMin.year(), prevYearMin.month())"
+                       i18n:attributes="title title_previous_month;">&laquo;</a>
+                </th>
+                <th colspan="5">
+                    <span i18n:translate="" tal:omit-tag="">
+                        <span i18n:name="monthname"
+                              tal:define="month_english python:translation_service.month_english(month);"
+                              tal:attributes="id string:calendar-month-$month_english"
+                              tal:content="python: utranslate(translation_service.month_msgid(month), default=month_english)"
+                              tal:omit-tag=""
+                              id="calendar-month-month">monthname</span>
+                        <span i18n:name="year"
+                              tal:content="string:$year"
+                              tal:attributes="id string:calendar-year-$year;"
+                              tal:omit-tag=""
+                              id="calendar-year">year</span>
+                    </span>
+                </th>
+                <th id="calendar-next">
+                    <a href="#" rel="nofollow"
+                       title="Next month"
+                       tal:attributes="href python:'%s/%s?month:int=%d&amp;year:int=%d' % (anchor_url, anchor_method, nextMonthTime.month(),nextMonthTime.year())"
+                       tal:condition="python: yearmonth &lt; (nextYearMax.year(), nextYearMax.month())"
+                       i18n:attributes="title title_next_month;">&raquo;</a>
+                </th>
+            </tr>
+            <tr tal:define="weekdaynumbers here/portal_calendar/getDayNumbers" class="weekdays">
+                <tal:data tal:repeat="daynumber weekdaynumbers">
+                    <td tal:define="weekday_english python:weekday_english(daynumber,format='a');"
+                        tal:content="python: utranslate(day_msgid(daynumber, format='s'), default=weekday_english)">Su</td>
+                </tal:data>
+            </tr>
+        </thead>
+        <tbody>
+            <tr tal:repeat="week weeks">
+              <tal:block repeat="day week">
+                <tal:block define="daynumber day/day;
+                                   datestring python: '%d%0.2d%0.2d' % (year, month, daynumber);
+                                   javascriptstring string:javascript:%sDay('%s');">
+                  <td class="event" tal:condition="day/event"
+                      tal:attributes="onmouseout  python: javascriptstring % ('hide', datestring);
+                                      onmouseover python: javascriptstring % ('show', datestring);
+                                      class       python:test(current.year()==year and current.month()==month and current.day()==int(daynumber), 'todayevent', 'event')">
+                    <span tal:define="begEndTimes python:here.getBeginAndEndTimes(day=daynumber, month=month, year=year)" tal:omit-tag="">
+                      <span tal:define="begin python:DateTime(begEndTimes[0].timeTime()+86400).ISO();
+                                        end python:DateTime(begEndTimes[1].strftime('%m/%d/%y')).ISO();
+                                        pss python:modules['Products'].PythonScripts.standard" tal:omit-tag="">
+                      <a href="" tal:attributes="href python:here.absolute_url()+'/SimpleBlogDaySearch?startdate=%s'%(pss.url_quote(end))">
+                        <span tal:replace="python: daynumber or default">&nbsp;</span>
+                      </a>
+                      </span>
+                    </span>
+                  </td>
+                  <tal:notdayevent tal:condition="not: day/event">
+                  <td tal:condition="python: current.year()==year and current.month()==month and current.day()==int(daynumber)"
+                      tal:content="python: daynumber or default" class="todaynoevent">
+                    &nbsp;
+                  </td>
+                  <td tal:condition="not: python: current.year()==year and current.month()==month and current.day()==int(daynumber)"
+                      tal:content="python: daynumber or default">
+                    &nbsp;
+                  </td>
+                  </tal:notdayevent>
+                </tal:block>
+              </tal:block>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <!-- The sticky notes -->
+    <tal:week repeat="week weeks"><tal:day repeat="day week">
+        <div class="dayPopup"
+             id="dummy"
+             tal:attributes="id python:'day%d%0.2d%0.2d' % (year, month, day['day']) "
+             tal:condition="day/event">
+             <div class="date" tal:content="python:here.toLocalizedTime('%d/%0.2d/%0.2d' % (year, month, day['day']))">
+             2001-04-11
+             </div>
+             <tal:event repeat="anevent day/eventslist">
+             <div class="appointment" tal:content="python: here.getEventString(event=anevent)">an event</div>
+             </tal:event>
+        </div>
+      </tal:day>
+    </tal:week>
+
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+0.4.10 Configlet split into tabs
+
+  * Added workflow transitions configuration
+
+0.4.9 Introduced different sort options
+
+  * Added blackout list
+  
+  * Added opportunity to use sed command s
+
+0.4 Introduced sitemap ping to Google
+
+  * Added Google ping
+  
+  * Added configuration page
+  
+  * Added filter by content-types and states
+  
+0.3 Introduced product configlet 
+
+  * Added product configlet
+
+  * Added product usage docs on configlet
+
+0.2 Introduced XML format
+
+  * Moved to XML sitemaps format
+
+  * Added lastmod element to inform Google of object change date
+
+  * sitemap is comressed via HTTP gzip compression
+
+0.1 Initial version, proof of concept (i.e, Google working ;)
+
+  * plain text sitemaps format
+
+  * simple installer, no configuration
+
+  * no UI, just the working code ;)

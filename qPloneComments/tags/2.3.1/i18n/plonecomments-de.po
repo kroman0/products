@@ -1,0 +1,181 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2006-10-13 20:12+0000\n"
+"PO-Revision-Date: 2006-12-29 11:01+0100\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: de\n"
+"Language-Name: Deutsch\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plonecomments\n"
+"X-Is-Fallback-For: de-at de-li de-lu de-ch de-de\n"
+
+#. Default: "Delete"
+#: skins/qplonecomments/prefs_recent_comments_form.cpt
+msgid "Delete"
+msgstr "Löschen"
+
+#. Default: "Name"
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+msgid "Name"
+msgstr "Name"
+
+#. Default: "Publish"
+#: skins/qplonecomments/2.0.5/discussionitem_view.pt
+#: skins/qplonecomments/prefs_recent_comments_form.cpt
+msgid "Publish"
+msgstr "Veröffentlichen"
+
+#. Default: "Required"
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+msgid "Required"
+msgstr "Obligatorisch"
+
+#. Default: "Submitter"
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+msgid "Submitter"
+msgstr "Einreichende Person"
+
+#. Default: "Please review new comment added to the following page \" ${title} \": ${link}"
+#: skins/qplonecomments/approve_comment_template.pt
+msgid "approvemail_new_comment_link"
+msgstr "Bitte schalten Sie den neuen Kommentar auf der Seite \" ${title} \" (${link} frei "
+
+#. Default: "New comment awaits moderation"
+#: skins/qplonecomments/approve_comment_template.pt
+msgid "approvemail_subject"
+msgstr "Neuer Kommentar wartet auf Freigabe"
+
+#. Default: "Recent comments"
+#: skins/qplonecomments/prefs_recent_comments_form.cpt
+msgid "heading_comments"
+msgstr "Neuste Kommentare"
+
+#. Default: "qPloneComments Setup"
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "heading_comments_setup"
+msgstr "qPloneComments Konfiguration"
+
+#. Default: "Specify one e-mail address where notifications about adding new comments will be sent."
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "help_additional_email"
+msgstr "Geben Sie eine Email Adresse an, an welche die Benachrichtigung über neue Kommentare gesendet werden soll."
+
+#. Default: "Please tell us your name."
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+msgid "help_name"
+msgstr "Bitte geben Sie Ihren Namen ein."
+
+#. Default: "You can change notification message templates customizing 'approve_comment_template' and 'published_comment_template' from qplonecomments skin."
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "help_organization_name"
+msgstr ""
+
+#. Default: "Send comments notification emails to:"
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_additional_email"
+msgstr "Benachrichtigungs-Emails über neue Kommentare senden an:"
+
+#. Default: "Enable anonymous comenting."
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_anonymous_commenting"
+msgstr "Anonyme Kommentare aktivieren"
+
+#. Default: "Recent comments moderation"
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+#: skins/qplonecomments/prefs_recent_comments_form.cpt
+msgid "label_comments"
+msgstr ""
+
+#. Default: "Configure qPloneComments"
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+#: skins/qplonecomments/prefs_recent_comments_form.cpt
+msgid "label_configure"
+msgstr "qPloneComments konfigurieren"
+
+#. Default: "Enable Discussion Manager notification on new comments."
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_enable_approve_notification"
+msgstr "Benachrichtungs-Emails an Manager aktivieren"
+
+#. Default: "Enable moderation."
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_enable_moderation"
+msgstr "Moderation aktivieren"
+
+#. Default: "Enable Document Owner notification on new comments."
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_enable_published_notification"
+msgstr "Benachrichtigung für den Autor des Dokuments einschalten"
+
+#. Default: "Name"
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+msgid "label_name"
+msgstr "Name"
+
+#. Default: "Email subject prefix (organization name)"
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "label_organization_name"
+msgstr "Email Betreff"
+
+#. Default: "(Required)"
+#: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
+#: skins/qplonecomments/2.1/discussion_reply_form.cpt
+#: skins/qplonecomments/2.5/discussion_reply_form.cpt
+msgid "label_required"
+msgstr "(Obligatorisch)"
+
+#. Default: "List of recent comments"
+#: skins/qplonecomments/prefs_recent_comments_form.cpt
+msgid "legend_recent_comments"
+msgstr "Liste der neusten Kommentare"
+
+#. Default: "qPloneComments setup options"
+#: skins/qplonecomments/prefs_comments_setup_form.cpt
+msgid "legend_setup_options"
+msgstr "qPloneComments Optionen"
+
+#. Default: "Comment"
+#: skins/qplonecomments/prefs_recent_comments_form.cpt
+msgid "listingheader_comment"
+msgstr "Kommentar"
+
+#. Default: "View new comment added to the following page \" ${title} \": ${link}"
+#: skins/qplonecomments/published_comment_template.pt
+msgid "publishedmail_new_comment_link"
+msgstr ""
+
+#. Default: "New comment added"
+#: skins/qplonecomments/published_comment_template.pt
+msgid "publishedmail_subject"
+msgstr "Neue Kommentar hinzugefügt"
+
+#. Default: "${organization_name} Support Team"
+#: skins/qplonecomments/approve_comment_template.pt
+#: skins/qplonecomments/published_comment_template.pt
+msgid "signature"
+msgstr "${organization_name} Support Team"
+
+#. Default: "No new comments."
+#: skins/qplonecomments/prefs_recent_comments_form.cpt
+msgid "text_no_new_comments"
+msgstr "Keine neuen Kommentare"
+

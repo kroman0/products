@@ -1,0 +1,25 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five">
+
+    <!-- provide security for adapter classes -->
+    <class class=".localPortalState.LocalPortalState">
+        <require permission="zope2.View"
+                 interface="plone.app.layout.globals.interfaces.IPortalState" />
+    </class>
+
+    <class class=".styles.StylesView">
+        <require permission="zope.Public"
+                 interface="Products.ResourceRegistries.browser.interfaces.IStylesView" />
+    </class>
+
+    <class class=".scripts.ScriptsView">
+        <require permission="zope.Public"
+                 interface="Products.ResourceRegistries.browser.interfaces.IScriptsView" />
+    </class>
+
+    <class class=".kss.KSSView">
+        <require permission="zope.Public"
+                 interface="Products.ResourceRegistries.browser.interfaces.IKSSView" />
+    </class>
+
+</configure>

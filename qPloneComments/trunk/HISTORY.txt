@@ -1,0 +1,8 @@
+2.3.1
+    * Fix notification bug
+
+2.3
+    * bug with polish translation fixed
+    * new french translation added
+    * compatibility with Plone 2.5.3 added
+

@@ -1,0 +1,89 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="SimpleBlog">
+      
+<body>
+
+	<!-- local portlets, they will only show up inside a SimpleBlog -->
+    <div metal:define-macro="portletBlogFull_local" tal:omit-tag="">
+      <tal:toggle tal:define="global toggle python:0"/>
+      <dl class="portlet" id="portlet-simpleblog"
+          tal:define="fp python:here.simpleblog_tool.getFrontPage(here)"
+          tal:condition="python:fp!=None">
+       	<dt class="portletHeader">
+            <a tal:attributes="href fp/absolute_url;
+                               title fp/title_or_id"
+               tal:content="fp/title_or_id"/>
+        </dt>
+       	<dd class="portletItem">
+           <div metal:use-macro="here/SimpleBlog_macros/macros/portletCalendar"/>
+           <div metal:use-macro="here/SimpleBlog_macros/macros/portletRecent"/>
+           <div metal:use-macro="here/SimpleBlog_macros/macros/portletCategories"/>
+        </dd>
+      </dl>   
+    </div>
+
+    <div metal:define-macro="portletBlogRecent_local" tal:omit-tag="">
+      <tal:toggle tal:define="global toggle python:0"/>
+      <dl class="portlet" id="portlet-simpleblog"
+          tal:define="fp python:here.simpleblog_tool.getFrontPage(here)"
+          tal:condition="python: here.meta_type in ['Blog', 'BlogEntry', 'BlogFolder']">
+       	<dt class="portletHeader">
+            <a tal:attributes="href fp/absolute_url;
+                               title fp/title_or_id"
+               tal:content="fp/title_or_id"/>
+        </dt>
+       	<dd class="portletItem">
+           <div metal:use-macro="here/SimpleBlog_macros/macros/portletRecent"/>
+        </dd>
+      </dl>   
+    </div>
+
+    <div metal:define-macro="portletRecentComments_local"
+         tal:omit-tag=""
+         tal:define="fp python:here.simpleblog_tool.getFrontPage(here);"
+         tal:condition="python:fp!=None">
+      <tal:toggle tal:define="global toggle python:0"/>
+      <dl class="portlet" id="portlet-simpleblog"
+          tal:define="fpPath python:'/'.join(fp.getPhysicalPath());
+                      results python:here.portal_catalog.searchResults(path=fpPath, meta_type='Discussion Item', sort_on='created', sort_order='reverse')[:5];
+                      toLocalizedTime nocall:here/toLocalizedTime;"
+          tal:condition="results">
+       	<dt class="portletHeader">
+            <a tal:attributes="href fp/absolute_url;
+                               title fp/title_or_id"
+               tal:content="fp/title_or_id"/>
+        </dt>
+        <tal:comments tal:repeat="item results">
+        <dd tal:define="oddrow repeat/item/odd"
+            tal:attributes="class python:test(oddrow, 'portletItem even', 'portletItem odd')">
+            <tal:block tal:define="result_url item/getURL;
+                              url string:$result_url/view;">
+              <a href="#"
+                 tal:attributes="href url">
+                 <img src="#" height="16" width="16" alt=""
+                      tal:on-error="structure python:path('here/linkOpaque.gif')"
+                      tal:replace="structure python:path('here/%s' % item.getIcon)" /></a>&nbsp;<a
+                      href="#" tal:attributes="href url; title item/Description"
+                      tal:content="python:item.Title or item.getId" />
+                 <span class="discreet"
+                       tal:define="modificationDate item/ModificationDate;
+                             modificationDate python:toLocalizedTime(modificationDate)"
+                       tal:content="string:(${item/Creator}) $modificationDate">
+                     creator   08/19/2001 03:01 AM </span>
+           </tal:block>
+        </dd>
+        </tal:comments>
+      </dl>   
+      <dd class="portletFooter">
+          <a href="#"
+             class="portletMore"
+             i18n:translate="box_morelink"
+             i18n:domain="plone"
+             tal:attributes="href string:${fp/absolute_url}/search?path=${fpPath}&amp;meta_type=Discussion+Item&amp;sort_on=created&amp;sort_order=reverse;">
+          More...</a>
+      </dd>
+    </div>
+
+</body>
+</html>

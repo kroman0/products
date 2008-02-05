@@ -1,0 +1,6 @@
+[validators]
+validators=
+
+[actions]
+action.success=redirect_to:string:qploneskindump_config
+action.failure=traverse_to:string:qploneskindump_config

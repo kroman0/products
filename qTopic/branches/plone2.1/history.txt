@@ -1,0 +1,32 @@
+1.0                   20-07-2006
+
+    * added Plone 2.1.x - 2.15 support
+    
+    * added export to CSV action
+    
+    * tests addd
+    
+    * multicatalogs support in atct tool
+    
+    * new atct catalogs metadata registry configlets
+    
+0.1.2		          12-08-2005
+
+    * added show_header parameter to export_csv script
+
+0.1.1                 10-08-2005
+    
+    * added parameters to export script, automatic download eneabled
+   
+    * added page template for results view
+
+
+0.1 initial release   09-08-2005
+
+    Base features:
+
+    * simple export into csv script
+
+    * select catalog property
+
+    * export parameters

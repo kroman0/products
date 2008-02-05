@@ -1,0 +1,4 @@
+credentials_cookie_auth,Products.PlonePAS.plugins.cookie_handler.ExtendedCookieAuthHelper
+credentials_basic_auth,Products.PluggableAuthService.plugins.HTTPBasicAuthHelper.HTTPBasicAuthHelper
+portal_role_manager,Products.PluggableAuthService.plugins.ZODBRoleManager.ZODBRoleManager
+source_groups,Products.PluggableAuthService.plugins.ZODBGroupManager.ZODBGroupManager

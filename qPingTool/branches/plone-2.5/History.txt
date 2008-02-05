@@ -1,0 +1,9 @@
+0.2   05-05-2005
+
+  * reviewed ping specs
+  * added default sites to be pinged
+  * qPingTool works only with SimpleBlog currently
+
+0.1
+
+  * initial release

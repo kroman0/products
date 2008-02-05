@@ -1,0 +1,17 @@
+qPloneResolveUID - 0.2.5
+=========================
+
+  -- fixed links for items not in the same Folder
+
+qPloneResolveUID - 0.2.4
+=========================
+  -- fixed uid's replacement of broken or absent objects
+
+  -- resolve uid replacement for resized images added
+
+  -- fixed uninstallation problem
+
+  -- add README.txt
+
+  -- added test for product
+

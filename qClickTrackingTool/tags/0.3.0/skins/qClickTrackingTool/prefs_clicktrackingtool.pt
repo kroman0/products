@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="plone">
+   <metal:block fill-slot="top_slot"
+      tal:define="dummy python:request.set('disable_border',1)" />
+
+  <body>
+
+    <div metal:fill-slot="prefs_configlet_main">
+
+    <h1>Click Tracking Tool</h1>
+         
+      <a href=""
+         class="link-parent"
+         tal:attributes="href string: $portal_url/plone_control_panel"
+         i18n:translate="label_up_to_plone_setup">
+         Up to Plone Setup
+      </a>
+      <table class="listing">
+        <tr>
+          <th>Campaign</th>
+          <th>URL</th>
+        </tr>
+        <tr class="odd" 
+            tal:define="map here/getTrackMap"
+            tal:repeat="id python:map.keys()"
+            tal:attributes="class python:test(repeat['id'].odd(), 'even', 'odd')">
+          <td><a href="/track/google" 
+                 tal:attributes="href string:$portal_url/track/$id"
+                 tal:content="id">google</a></td>
+          <td tal:content="python:map[id]">http://www.google.com/</td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

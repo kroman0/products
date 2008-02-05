@@ -1,0 +1,3 @@
+[actions]
+action.success..Save = traverse_to:string:prefs_smsCommunicator_save
+action.success..Cancel = redirect_to:string:plone_control_panel

@@ -1,0 +1,23 @@
+2006-04-20 - version 0.2.0
+
+  * added finding function
+ 
+  * fixed bug (onclick evaluation)
+  
+  * 'pimary' class functionality
+  
+  * added TODO.txt
+
+
+
+2006-04-19 - version 0.1.0
+
+ * created install procedure
+
+ * initial tiles functionality:
+ 
+      - find elements with class="tile";
+
+      - find anchor elements within tiles elements;      
+      
+      - add 'onclick' functions to tiles elements;

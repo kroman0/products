@@ -1,0 +1,91 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<metal:block metal:fill-slot="main">
+
+    <h1 i18n:translate="heading_comment">Comment</h1>
+
+    <div tal:condition="here/talkback|nothing">
+
+        <small>
+            <span i18n:translate="description_above_in_comment_thread" tal:omit-tag="">Above in this comment thread:</span>
+            <span tal:replace="structure here/aboveInThread"></span>
+        </small>
+
+        <div class="comment"
+             tal:define="isPublished here/isDIPublished;
+                         ifModerate here/ifModerate;">
+
+            <h2>
+                <tal:block replace="structure here/discussionitem_icon.gif" />
+                <span tal:replace="here/title_or_id">Comment title</span>
+            </h2>
+
+           <div class="documentByLine"
+                tal:define="creator here/Creator;
+                            isMember python:not here.getProperty('isAnon',1)">
+               <span tal:content="python:test(isPublished, 'Published', 'Not Published')"
+                     tal:condition="ifModerate"> Publish state </span>
+               <span i18n:translate="label_comment_by">Posted by</span>
+               <strong tal:content="creator"
+                       tal:condition="isMember">Name</strong>
+               <tal:x tal:replace="creator"
+                      tal:condition="not:isMember">Name</tal:x>
+               <span i18n:translate="label_commented_at">at</span>
+               <span tal:replace="python:portal.toPortalTime(here.modified(),
+                                         long_format=1)">8/23/2001 12:40:44 PM</span>
+           </div>
+
+            <div class="commentBody"
+                 tal:content="structure here/CookedBody">
+            This is the body text of the comment.
+            </div>
+
+            <metal:block use-macro="here/viewThreadsAtBottom/macros/discussionView" />
+            <form name="delete"
+                  action=""
+                  method="post"
+                  style="display: inline;"
+                  tal:condition="python: checkPermission('Manage portal', here)"
+                  tal:attributes="action string:${here/absolute_url}/deleteDiscussion">
+
+                <input class="destructive"
+                   type="submit"
+                   value="Remove This Reply"
+                   i18n:attributes="value"
+                   />
+            </form>
+
+            <form name="publish_reply"
+                  action=""
+                  method="post"
+                  style="display: inline;"
+                  tal:condition="python:not isPublished"
+                  tal:attributes="action string:${here/absolute_url}/discussion_publish_comment">
+
+                <input class="standalone"
+                       type="submit"
+                       value="Publish This Reply"
+                       i18n:attributes="value"
+                       />
+            </form>
+
+            <div class="documentByLine"
+                 tal:condition="not:isPublished">Until publishing this comment adding reply impossible.</div>
+
+        </div>
+
+    </div>
+</metal:block>
+
+<metal:block metal:fill-slot="sub">
+&nbsp;
+</metal:block>
+
+</html>
+

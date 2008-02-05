@@ -1,0 +1,27 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five"
+    >
+  
+  <adapter
+      for="Products.ATContentTypes.interface.IATFolder"
+      provides=".interfaces.markers.IMarkersListing"
+      factory=".adapters.markers.MarkersListing"
+      />
+
+  <adapter
+      for="Products.ATContentTypes.interface.IATTopic"
+      provides=".interfaces.markers.IMarkersListing"
+      factory=".adapters.markers.MarkersListing"
+      />
+
+  <browser:page
+      for="*"
+      name="MarkersView"
+      class=".browser.markersview.MarkersView"
+      permission="zope2.View"
+      allowed_interface=".interfaces.markers.IMarkersView"
+      />  
+
+</configure>

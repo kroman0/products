@@ -1,0 +1,12 @@
+[default]
+title=Set Adsense properties
+
+[security]
+View = 0:Manager
+
+[validators]
+validators=
+
+[actions]
+action.success=traverse_to:string:prefs_adsense_script
+action.failure=traverse_to:string:prefs_adsense

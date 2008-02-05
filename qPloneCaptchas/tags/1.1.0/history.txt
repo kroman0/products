@@ -1,0 +1,25 @@
+1.1.0 - February 27,2007
+==============================
+ * fixed the '0.jpg' issue
+
+ * added status messages translation
+ 
+
+1.0 - November 28, 2006
+==============================
+
+ * qPloneComments related code moved to the comments product
+
+ * refactored skins for easier dynamic/static captchas switch
+
+
+0.9 - Released October 9, 2006
+==============================
+
+ * Added implementation of dynamic generation of captcha images using PIL
+
+ * Changed verification method of entered catchas word.
+
+ * Implemented locking for used captchas keys to prevent possibility the past keys reusage.
+
+ * Support of Plone 2.5 added

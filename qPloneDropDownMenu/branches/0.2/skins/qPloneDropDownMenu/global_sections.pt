@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      i18n:domain="plone">
+
+<body>
+
+<!-- THE SECTION TABS DEFINITION -->
+<div metal:define-macro="portal_tabs"
+     tal:omit-tag=""
+     tal:define="selected_tabs python:here.selectedTabs(template_id, here);
+                 selected_portal_tab selected_tabs/portal;"
+     tal:condition="portal_tabs">
+    <h5 class="hiddenStructure" i18n:translate="heading_sections">Sections</h5>
+
+<div id="portal-globalnav">
+  <div  class="csshover">
+    <ul>
+        <tal:tabs tal:repeat="tab portal_tabs">
+            <li tal:attributes="id string:portaltab-${tab/id};
+                class python:test(selected_portal_tab==tab['id'], 'selected', 'plain');">
+                <a href=""
+                   tal:content="tab/name"
+                   tal:attributes="href tab/url;
+                                   title tab/description|nothing">
+                    Tab Name
+                </a>
+                <tal:submenu tal:define="tab_id tab/id;
+                                         submenu python:here.portal_dropdownmenu.getValueByKey(tab['name'])"
+                             tal:condition="submenu">
+                    <ul>
+                        <div metal:use-macro="here/global_sections/macros/submenu" />
+                    </ul>
+                </tal:submenu>
+            </li>
+        </tal:tabs>
+        <li class="invisibleHeightKeeper">&nbsp;</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+<ul metal:define-macro="submenu"
+    tal:omit-tag="">
+<tal:menuitem tal:repeat="menuitem submenu">
+<li tal:attributes="id string:portaltab-${menuitem/getTitle}">
+    <a href=""
+       tal:content="menuitem/getTitle"
+       tal:attributes="href menuitem/getUrl">
+    MenuItem Title
+    </a>
+
+    <ul tal:define="submenu menuitem/listMenuItems"
+        tal:condition="python:len(submenu)>0">
+        <metal:submenu use-macro="here/global_sections/macros/submenu" />
+    </ul>
+</li>
+</tal:menuitem>
+</ul>
+
+</body>
+</html>

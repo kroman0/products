@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="SimpleBlog">
+<body>
+<div metal:fill-slot="main">
+    <tal:main-macro metal:define-macro="main"
+      tal:define="displayItems python:here.getDisplayItems();
+                  displayMode displayMode | python:here.getDisplayMode();
+                  results python:here.getEntries(maxResults=0, sort=1, join=1, addCrossPostInfo=1);
+                  b_size python:displayItems;
+                  b_start python:0;
+                  b_start request/b_start | b_start;
+                  Batch python:modules['Products.CMFPlone'].Batch;">
+        <tal:block metal:use-macro="here/SimpleBlog_macros/macros/blogGlobals"/>
+        <div metal:use-macro="here/document_actions/macros/document_actions">
+            Document actions (print, sendto etc)
+        </div>
+        <h1 tal:content="object_title" class="documentFirstHeading">
+          Title or id
+        </h1>
+        <div metal:use-macro="here/document_byline/macros/byline">
+          Get the byline - contains details about author and modification date.
+        </div>
+        <tal:warning tal:condition="here/getWarnForUnpublishedEntries">
+            <tal:block tal:define="unpublishedEntries python:here.simpleblog_tool.getUnpublishedEntries(here);">
+            <div class="portalMessage simpleBlogUnpublishedWarningbox" tal:condition="unpublishedEntries">
+                There are <span tal:content="python:len(unpublishedEntries)" /> unpublished entries in this blog. To see and manage all the existing entries in this blog, click <a href="folder_contents">here</a>
+            </div>
+            </tal:block>
+        </tal:warning>
+        <p class="documentDescription"
+           tal:content="here/Description"
+           tal:condition="here/Description">
+            Description
+        </p>
+        <div tal:condition="results" tal:define="batch python:Batch(results, b_size, int(b_start), orphan=1);">
+            <tal:block tal:repeat="entry batch"><tal:entry 
+                       tal:define="obj python:entry;"><div metal:use-macro="here/SimpleBlog_macros/macros/?displayMode"/>
+                <br/>
+                </tal:entry></tal:block>
+            <div metal:use-macro="here/batch_macros/macros/navigation" />
+        </div>
+        <tal:info tal:condition="not: results">
+            <tal:block tal:define="hasEntries python:here.simpleblog_tool.blogHasEntries(here);">
+                <p tal:condition="hasEntries">
+                    There are currently no published blog entries.
+                </p>
+                <p tal:condition="python: hasEntries and not here.getWarnForUnpublishedEntries()">
+                    To get a list of the already present (unpublished) entries, click on the contents
+                    tab or click <a href="folder_contents">here</a>.
+                </p>
+                <p tal:condition="not: hasEntries">
+                    There are currently no blog entries.
+                </p>
+            </tal:block>
+         </tal:info>
+    </tal:main-macro>
+</div>
+</body>
+
+</html>

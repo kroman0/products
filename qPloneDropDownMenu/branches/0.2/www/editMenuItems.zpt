@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<title>Zope</title>
+<link rel="stylesheet" type="text/css" href="/manage_page_style.css">
+
+<style type="text/css">
+
+div.menuitemform{
+    width: 45%;
+    float: left;
+}
+
+form {
+    margin-bottom: 2em;
+}
+
+label, input {
+    font-size: 80%;
+    font-family: sans-serif;
+    float: left;
+}
+
+legend input {
+    float: none;
+}
+
+label {
+    width: 11em;
+    text-align: right;
+    padding: 0.2em 0.4em;
+    font-weight: bold;
+    clear: left;
+}
+
+
+fieldset {
+    margin: 0.2em;
+    border: 1px solid black;
+    margin-bottom: 0.5em;
+    padding-bottom: 0;
+    clear: both;
+}
+
+legend {
+    font-size: 90%;
+}
+
+</style>
+
+</head>
+
+<body bgcolor="#ffffff" link="#000099" alink="#000099" vlink="#000099">
+
+<div tal:replace="structure here/manage_page_header" />
+<div tal:replace="structure here/manage_tabs" />
+<div id="submenuBreadcrumbs"
+     tal:define="dummy here/generateSubMenuMapping">
+<div tal:omit-tag="" i18n:translate="">Location:
+    <a href=""
+       tal:attributes="href string:${here/portal_url}/portal_dropdownmenu/manage_workspace">Root Menu</a>
+    </div> &nbsp;
+    <tal:block repeat="breadcrumb python:context.getBreadcrumbs(request.get('submenu_path'))">
+        &rArr;
+        <a href=""
+        tal:content="string:${breadcrumb/title}"
+        tal:attributes="href string:${breadcrumb/url}"
+        tal:omit-tag="repeat/breadcrumb/end">Breadcrumb Item</a>
+    </tal:block>
+</div>
+
+<div style="font-size: 160%;  font-weight: bold"
+     tal:content="string:Edit subMenu">
+    Edit subMenu
+</div>
+
+<form action="manage_saveMenuItems"
+      tal:define="submenu_path request/submenu_path;
+                  submenu python:here.getSubMenuByPath(submenu_path)"
+      tal:attributes="action python:here.absolute_url()+'/manage_saveMenuItems'"
+      method="post">
+    <div id='list'>
+        <tal:fieldset tal:condition="submenu"
+                      repeat="menuitem submenu">
+          <fieldset tal:define="index repeat/menuitem/index">
+            <legend>
+                <a href="#"
+                   title="Move up"
+                   tal:attributes="href string:manage_moveMenuItemUp?submenu_path=${submenu_path}/${index};"
+                   tal:condition="not:repeat/menuitem/start">
+                    &uArr;
+                </a>
+                <a href="#"
+                   title="Move down"
+                   tal:attributes="href string:manage_moveMenuItemDown?submenu_path=${submenu_path}/${index};"
+                   tal:condition="not:repeat/menuitem/end">
+                    &dArr;
+                </a>
+                <a href="#"
+                   title="Remove"
+                   style="color: blue;"
+                   tal:attributes="href string:manage_removeMenuItem?submenu_path=${submenu_path}/${index};">
+                    DELETE
+                </a>
+            </legend>
+            <div id="menuitemform1" class="menuitemform">
+                <label>Title</label>
+                <input type="text" name="menuitems.title:records"
+                       tal:attributes="value menuitem/getTitle" />
+                <label>URL</label>
+                <input type="text" name="menuitems.url:records"
+                       tal:attributes="value menuitem/getUrl" />
+            </div>
+            <div id="menuitemform2" class="menuitemform">
+                    <a href="editMenuItems?submenu_path=Path"
+                       tal:attributes="href string:manage_editMenuItems?submenu_path=${submenu_path}/${index}">
+                        Edit subMenu
+                    </a>
+            </div>
+            <div style="clear: both;">&nbsp;</div>
+          </fieldset>
+        </tal:fieldset>
+    </div>
+    <input type="hidden" name="submenu_path"
+           tal:attributes="value submenu_path" />
+    <input type="submit" i18n:attributes="value" value="Save"
+           tal:condition="submenu" />
+</form>
+
+<hr>
+
+<form action="manage_addMenuItem"
+      tal:define="submenu_path request/submenu_path"
+      tal:attributes="action python:here.absolute_url()+'/manage_addMenuItem'"
+      method="post">
+          <div tal:define="submenu_path request/submenu_path">
+              <input type="hidden" name="submenu_path"
+                     tal:attributes="value submenu_path" />
+          </div>
+          <h3>Add a new MenuItem</h3>
+          <div>
+              <label>Title</label>
+              <input type="text" name="title" size="26" />
+          </div>
+          <div>
+              <label>URL</label>
+              <input type="text" name="url" size="26" />
+          </div>
+          <div>
+              <input type="submit" i18n:attributes="value" value="Add" />
+          </div>
+</form>
+
+<div tal:replace="structure here/manage_page_footer" />
+
+</body>
+</html>

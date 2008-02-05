@@ -1,0 +1,188 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en-US"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="qPloneGoogleSitemaps"> 
+<body>
+    <div metal:fill-slot="prefs_configlet_main"
+        tal:define="errors python:request.get('errors', {})">
+
+        <div class="documentEditable">
+            <ul class="contentViews">
+                <li class="">
+                    <a href=""
+                    tal:attributes="href string: prefs_gsm_overview"
+                    i18n:translate="label_properties">Overview</a>
+                </li>
+
+                <li class="">
+                    <a href=""
+                    tal:attributes="href string:prefs_gsm_verification"
+                    i18n:translate="label_properties">Verification</a>
+                </li>
+
+                <li class="selected">
+                <a href=""
+                    tal:attributes="href string:${template/id}">
+                    Settings</a>
+                </li>
+
+                <li class="">
+                <a href=""
+                    tal:attributes="href string: prefs_gsm_pinging"
+                    i18n:translate="label_logs">Pinging</a>
+                </li>
+
+            </ul>
+
+            <div class="contentActions">
+            &nbsp;
+            </div>
+            <div class="documentContent">
+                <h1 i18n:translate="heading_plonegooglesitemaps">Plone Google Sitemaps</h1>
+                <a href=""
+                class="link-parent"
+                tal:attributes="href string: $portal_url/plone_control_panel"
+                i18n:translate="label_up_to_plone_setup">
+                Up to Plone Setup
+                </a>
+                <form name="edit_form"
+                    action="."
+                    method="post"
+                    enctype="multipart/form-data"
+                    tal:attributes="action string:${here_url}/${template/getId}" >
+
+                <fieldset tal:define="props portal/portal_properties/googlesitemap_properties;
+                                    portal_types portal/portal_types;">
+                    <legend i18n:translate="legend_plonesitemap_configuration_details">
+                        Google SiteMap configuration
+                    </legend>
+                    <div class="field" 
+                        tal:define="portalTypes props/portalTypes;">
+                        <label for="portalTypes " 
+                            i18n:translate="label_plonesitemap_metatypes_to_dig">
+                            MetaTypes to dig
+                        </label>
+
+                        <div class="formHelp" 
+                            i18n:translate="help_plonesitemap_metatypes_to_dig">
+                            These meta types will be explored.
+                        </div>
+                        <select multiple="multiple"
+                                name="portalTypes"
+                                id="portalTypes"
+                                tal:attributes="tabindex tabindex/next;">
+
+                        <tal:contenttypes repeat="type python:portal_types.listContentTypes()">
+                            <option tal:define="type python:portal_types.getTypeInfo(type);
+                                                type_name type/Title;
+                                                portal_type type/getId"
+                                    tal:attributes="value portal_type;
+                                                    selected python: test(portal_type in portalTypes, 'selected', None)"
+                                    tal:content="type_name">
+                                Article
+                            </option>
+                        </tal:contenttypes>
+                        </select>
+                    </div>
+
+                    <div class="field" 
+                        tal:define="states props/states;">
+                        <label for="states ">
+                            States
+                        </label>
+
+                        <div class="formHelp">
+                            The objects with the given state are displayed.
+                        </div>
+
+                        <textarea name="states:lines" 
+                                id="states"
+                                cols="20"
+                                rows="8"
+                                tabindex=""
+                                tal:attributes="tabindex tabindex/next;"
+                                tal:define="content python:modules['string'].join(states,'\n');"
+                                tal:content="content">
+                        </textarea>
+                    </div>
+                    <div class="field" 
+                        tal:define="blackout_list props/blackout_list;">
+                        <label for="blackout_list ">
+                            Blackout entries
+                        </label>
+
+                        <div class="formHelp">
+                            The objects with the given state are displayed.
+                        </div>
+
+                        <textarea name="blackout_list:lines" 
+                                id="reg_exp"
+                                cols="20"
+                                rows="8"
+                                tabindex=""
+                                tal:attributes="tabindex tabindex/next;"
+                                tal:define="content python:modules['string'].join(blackout_list ,'\n');"
+                                tal:content="content">
+                        </textarea>
+                    </div>
+                    <div class="field" 
+                        tal:define="reg_exp props/reg_exp;">
+                        <label for="reg_exp">
+                            Regular Expression
+                        </label>
+
+                        <div class="formHelp">
+                            Please, master regular expression in Perl syntax
+                        </div>
+
+                        <textarea name="reg_exp:lines" 
+                                id="reg_exp"
+                                cols="20"
+                                rows="8"
+                                tabindex=""
+                                tal:attributes="tabindex tabindex/next;"
+                                tal:define="content python:modules['string'].join(reg_exp ,'\n');"
+                                tal:content="content">
+                        </textarea>
+                    </div>
+                    <div class="field" 
+                        tal:define="urls props/urls;">
+                        <label for="urls">
+                        Additional URLs
+                        </label>
+                        <div class="formHelp">
+                            Add URLs that are not objects
+                        </div>
+                        <textarea name="urls:lines" 
+                                id="urls"
+                                cols="20"
+                                rows="8"
+                                tabindex=""
+                                tal:attributes="tabindex tabindex/next;"
+                                tal:define="content python:modules['string'].join(urls ,'\n');"
+                                tal:content="content">
+                        </textarea>
+                    </div>
+
+                    <div class="formControls"
+                        tal:define="process_creation request/process_creation|nothing;"
+                        i18n:domain="plone">
+                        <input class="context"
+                            tabindex=""
+                            type="submit"
+                            name="form.button.Save"
+                            value="Save"
+                            i18n:attributes="value"
+                            tal:attributes="tabindex tabindex/next;" />
+                    </div>
+                    </fieldset>
+                    <input type="hidden" name="form.submitted" value="1" />
+                </form>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

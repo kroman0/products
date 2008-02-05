@@ -1,0 +1,13 @@
+[default]
+title=qPloneComments configuration
+
+[security]
+View=1:Authenticated
+
+[validators]
+validators=validate_config
+
+[actions]
+action.success..form_submit=traverse_to:string:qPloneComments_config_script
+action.success=traverse_to:string:qPloneComments_config
+action.failure=traverse_to:string:qPloneComments_config

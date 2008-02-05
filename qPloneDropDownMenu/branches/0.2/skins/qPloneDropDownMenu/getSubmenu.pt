@@ -1,0 +1,80 @@
+<ul metal:define-macro="submenu"
+    class="tabslist hideLevel"
+    tal:define="submenu submenu|options/submenu;
+                submenu_path submenu_path|options/submenu_path;
+                first first|python:1;
+                openMenu python:('submenu' in options.keys() or len(submenu)) and first"
+    tal:attributes="class python:test(openMenu, 'tabslist showLevel', 'tabslist hideLevel')">
+
+<tal:menuitem tal:repeat="menuitem submenu"
+              tal:condition="submenu">
+<li tal:define="menuTitle menuitem/getTitle;
+                submenu   menuitem/listMenuItems;
+                sub       python:submenu;
+                idx       repeat/menuitem/index"
+    tal:attributes="id string:tabslist_${menuTitle}">
+    <div class="deleteHover">
+        <input name="submenu_path" value="" type="hidden"
+               tal:attributes="value string:${submenu_path}/${idx}" />
+        <img src="./images/live_tree_transparent_pixel.gif" alt="&gt;" class="item_icon collapsed_icon"/>
+        <img class="drag-handle" src="./images/drag.gif" alt="" height="11" width="25" />
+        <span tal:content="menuTitle">Menu Item Name</span>
+        <a class="delete" href="#">Delete</a>
+        <div class="reorder-controls"><a
+             href="#" class="reorder">Reorder</a></div>
+        <div class="sort-controls"><a
+             href="#" class="save">Save</a> | <a href="#" class="cancel">Cancel</a></div>
+        <form class="editform"
+              method="post"
+              action="editPTAction"
+              tal:attributes="action string:${here/portal_url}/prefs_dropdownmenu_edit_form;
+                              name string:f$idx">
+            <input type="hidden" name="idx" tal:attributes="value idx" />
+            <dl>
+              <dt><label>Name</label></dt>
+              <dd><input type="text" value="" name="title"
+                         tal:attributes="value menuTitle;
+                                         name string:i${idx}_${attrs/name}"/></dd>
+            </dl>
+            <dl>
+              <dt><label>URL</label></dt>
+              <dd><input type="text" value="" name="url"     size="30"
+                         tal:attributes="value menuitem/getUrl|nothing;
+                                         name string:i${idx}_${attrs/name}" /></dd>
+            </dl>
+            <div>
+              <input type="submit" class="editsave"   i18n:attributes="value" value="Save"   />
+              <input type="submit" class="editcancel" i18n:attributes="value" value="Cancel" />
+            </div>
+        </form>
+    </div>
+    <div class="sub-items">
+      <ul tal:omit-tag=""
+          tal:define="submenu_path string:${submenu_path}/${idx};
+                      first nothing">
+        <metal:submenu use-macro="here/getSubmenu/macros/submenu" />
+      </ul>
+    </div>
+</li>
+</tal:menuitem>
+<li class="addItem">
+    <form class="addform"
+          method="post"
+          action="addPTAction"
+          tal:attributes="action string:${here/portal_url}/prefs_dropdownmenu_edit_form">
+        <input type="hidden" name="submenu_path" value=""
+               tal:attributes="value submenu_path" />
+        <dl class="field-title"><dt><label>Name</label></dt>
+            <dd><img src="./images/live_tree_transparent_pixel.gif" alt="&gt;" class="item_icon" />
+                <input class="acttitle" type="text" value=""
+                       name="title" /></dd></dl>
+        <dl class="field-url"><dt><label>URL</label></dt>
+            <dd><input class="acturl" type="text" value="" size="30"
+                       name="url" /></dd></dl>
+        <div class="add-controls">
+            <input type="submit" class="buttonadd"    i18n:attributes="value" value="Add" />
+            <input type="submit" class="buttoncancel" i18n:attributes="value" value="Cancel" />
+        </div>
+    </form>
+</li>
+</ul>

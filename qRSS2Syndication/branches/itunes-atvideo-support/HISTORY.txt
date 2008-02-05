@@ -1,0 +1,26 @@
+0.4.5 2005-03-06
+
+   * added full body of article <content:encoded> support for Documents and SimpleBlog.
+
+   * added Smart Folders/Topic syndication suport in Plone 2.1.2. The standart CMFTopic in Plone 2.0.5 does not implement getSyndicatableValues.
+
+   * added basic iTunes support
+
+0.4.1 2005-08-25
+
+   * fixed RSS1 headers
+
+0.4  2005-07-27
+
+   * Fixed the getSindicatableContent script. Now if current object has custom synContentValues 
+     method then content is taken from portal_syndication. If not it will be taken from catalog 
+     based on the qRSS2 properties tab of the current object.
+
+   * Added include subfolders option.
+
+   * Added <content:encoded> support to RSS2 template. 
+
+   * blogentry_item.pt now supports <enclosure> for ATAudio.
+
+   * Added template RSS1, rssBody1 - RSS 0.92 feed with <content:encoded> tag.
+

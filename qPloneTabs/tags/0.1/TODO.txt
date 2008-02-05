@@ -1,0 +1,3 @@
+#  * write css
+  * Opera compatibility
+  * 'portal-globalnav' visualization without page reloading

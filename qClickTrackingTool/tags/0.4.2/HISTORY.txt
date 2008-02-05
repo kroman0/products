@@ -1,0 +1,50 @@
+0.4.2 -2006-02-03
+==================
+
+  - fixed bugs in portal_clicktracker_view.pt
+
+0.4.1 -2006-02-01
+==================
+
+  - changed archetype_name of campaign type to 'Campaign'
+
+0.4.0 -2006-01-12
+==================
+
+  - added FormConntrollerAction
+  - added new migration script
+  - changed old type by new one, based on Archetypes
+
+0.3.2+ -2005-08-22
+==================
+
+  - fixed install and migration scripts
+  
+0.3.2 - 2005-08-22
+==================
+
+  - cleaned up code
+
+0.3.1 - 2005-08-07
+==================
+
+  - added migration script
+
+  - added new type (Campaign)
+  
+  - added workflow for Campaign
+
+0.3.0 - 2005-07-02
+==================
+
+  - added portal_clicktracker tool
+
+0.2.0 - 2005-06-29
+==================
+
+  - added configlet
+
+0.1.0 - 2005-06-24
+================== 
+
+  - initial release

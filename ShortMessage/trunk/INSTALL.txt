@@ -1,0 +1,7 @@
+
+   Product installation
+   ====================
+
+   For installation you must first off all copy ShortMessage
+   to your Products directory, second restart your instance 
+   then go to plone setup->Add/Remove Products and install ShortMessage.

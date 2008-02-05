@@ -1,0 +1,4 @@
+<tal:lines define="dummy python:request.response.setHeader('Content-type', 'text/plain');
+                   lines python:here.portal_smsCommunicator.getLogs(128)"
+           repeat="line lines"><tal:line replace="structure line" />
+</tal:lines>

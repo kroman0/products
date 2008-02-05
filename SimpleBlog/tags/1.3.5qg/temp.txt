@@ -1,0 +1,36 @@
+    def addTrackback(self, url, title, excerpt, blog_name):
+        """Add a trackback line to this entry.
+
+        The passed variable can be the request containing the trackback
+        information or a dict with the appropriate trackback keys.
+        """
+
+        added = DateTime.DateTime()
+        s = '|'.join((url, title, excerpt, blog_name, str(added)))
+
+        current_trackback = self.getTrackbackPings()
+
+        updated_trackback = []
+        for line in current_trackback:
+            updated_trackback.append(line)
+
+        updated_trackback.append(s)
+
+        self.setTrackbackPings(updated_trackback)
+
+        return True
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    def getWeblogCategories(self):
+        """Return a list of the Categories this Entry is assigned"""
+
+        result = DisplayList()
+
+        weblog = self.quills_tool.getParentWeblog(self)
+
+        #topics = self.quills_tool.getWeblogTopics(weblog)
+        topics = weblog.getTopics()
+
+        for topic in topics:
+            result.add(topic.getId(), topic.Title())
+
+        return result

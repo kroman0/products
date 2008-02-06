@@ -1,0 +1,93 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2007-06-11 17:50+0000\n"
+"PO-Revision-Date: 2007-10-02 11:35+0100\n"
+"Last-Translator: Mikel Larreategi <mlarreategi@codesyntax.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: eu\n"
+"Language-Name: Basque\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plonecomments\n"
+
+#: skins/qplonecomments/prefs_comments_setup.cpy
+msgid "qPloneComments configuration changes saved."
+msgstr "qPloneComments-en konfigurazio aldaketak gordeta."
+
+#: skins/qplonecomments/prefs_recent_comments_delete.cpy
+msgid "Comment(s) deleted."
+msgstr "Erantzunak ezabatuta"
+
+#: skins/qplonecomments/prefs_recent_comments_publish.cpy
+msgid "Comment(s) published."
+msgstr "Erantzunak argitaratuta"
+
+#: skins/qplonecomments/validate_reply.vpy
+msgid "Reply not allowed because the response is to a comment waiting to be approved. Please wait for the comment to be approved before replying."
+msgstr "Ez da erantzunik onartzen erantzuna eman nahi diozun elementua onartu gabe dagoelako. Erantzuna emateko, itxaron elementua argitaratu arte."
+
+#: skins/qplonecomments/2.0.5/discussion_publish_comment.py
+#: skins/qplonecomments/2.0.5/discussion_reply.cpy
+#: skins/qplonecomments/2.1/discussion_publish_comment.py
+#: skins/qplonecomments/2.1/discussion_reply.cpy
+#: skins/qplonecomments/2.5/discussion_reply.cpy
+msgid "Comment published."
+msgstr "Erantzuna argitaratuta."
+
+#: skins/qplonecomments/2.0.5/discussion_reply.cpy
+#: skins/qplonecomments/2.1/discussion_reply.cpy
+#: skins/qplonecomments/2.5/discussion_reply.cpy
+msgid "Currently, all comments require approval before being published. Please check back later."
+msgstr "Erantzun guztiak moderatuta daude, beraz ez dira berehala argitaratzen."
+
+#: skins/qplonecomments/2.0.5/validate_talkback.vpy
+#: skins/qplonecomments/2.1/validate_talkback.vpy
+#: skins/qplonecomments/2.5/validate_talkback.vpy
+msgid "Please enter your name."
+msgstr "Zure izena idatzi."
+
+#: skins/qplonecomments/2.0.5/discussion_reply.cpy
+#: skins/qplonecomments/2.1/discussion_reply.cpy
+#: skins/qplonecomments/2.5/discussion_reply.cpy
+msgid "Comment added."
+msgstr "Erantzuna gehituta."
+
+#: skins/qplonecomments/2.0.5/validate_talkback.vpy
+#: skins/qplonecomments/2.1/validate_talkback.vpy
+#: skins/qplonecomments/2.5/validate_talkback.vpy
+msgid "Please submit a subject."
+msgstr "Gaia idatzi."
+
+#: skins/qplonecomments/2.0.5/validate_talkback.vpy
+#: skins/qplonecomments/2.1/validate_talkback.vpy
+#: skins/qplonecomments/2.5/validate_talkback.vpy
+msgid "Please submit a body."
+msgstr "Testua idatzi."
+
+#: skins/qplonecomments/2.0.5/validate_talkback.vpy
+#: skins/qplonecomments/2.1/validate_talkback.vpy
+#: skins/qplonecomments/2.5/validate_talkback.vpy
+msgid "Please submit email."
+msgstr "E-posta idatzi."
+
+#: skins/qplonecomments/2.0.5/deleteDiscussion.py
+#: skins/qplonecomments/2.1/deleteDiscussion.py
+#: skins/qplonecomments/2.5/deleteDiscussion.py
+msgid "Reply deleted."
+msgstr "Erantzuna ezabatuta."
+
+#: skins/qplonecomments/prefs_recent_comments_delete.cpy
+msgid "Please select items to be processed."
+msgstr "Aukeratu elementuak."
+
+#: skins/qplonecomments/validate_setup.vpy
+msgid "Please submit a valid e-mail address."
+msgstr "Baliozko e-posta bat idatzi."
+

@@ -2,7 +2,7 @@
 title=Send this page to somebody
 
 [validators]
-validators=validate_sendto, captcha_validator
+validators=validate_sendto
 
 [actions]
 action.success=traverse_to:string:sendto

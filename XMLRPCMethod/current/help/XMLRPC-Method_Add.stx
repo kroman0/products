@@ -1,0 +1,20 @@
+XMLRPC Method - Add: Create a new XMLRPC Method.
+  
+  Description
+
+    Creates a new XML-RPC method and adds it to the 
+    current Folder.
+
+  Controls
+
+    'ID' -- Specifies the id of the remote method.
+    
+    'Title' -- Allows you to specify the title of the remote method.
+    
+    'URL' -- Specifies the URL of the object defining the method.
+    
+    'Method name' -- Allows you to specify the name of the function 
+    to use for the external method.
+
+    'timeout' -- The number of seconds the procedure call may take.
+    It is a floating point number.

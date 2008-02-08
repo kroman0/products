@@ -1,0 +1,10 @@
+#
+#
+#
+SimpleBlog http://svn.quintagroup.com/products/SimpleBlog/trunk
+qPingTool http://svn.quintagroup.com/products/qPingTool/trunk
+qTrackSpam http://svn.quintagroup.com/products/qTrackSpam/trunk
+adsenseproduct http://svn.quintagroup.com/products/adsenseproduct/trunk
+qRSS2Syndication http://svn.quintagroup.com/products/qRSS2Syndication/trunk
+XMLRPCMethod http://svn.quintagroup.com/products/XMLRPCMethod/current
+RPCAuth http://svn.quintagroup.com/products/RPCAuth/current

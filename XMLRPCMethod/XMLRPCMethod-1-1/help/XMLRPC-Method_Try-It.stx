@@ -1,0 +1,9 @@
+XMLRPC Method - Try It: Test the remote method.
+  
+  Description
+
+    This view executes the remote method and returns the results if
+    any.  Only parameters from the web request are passed the
+    remote method.
+
+

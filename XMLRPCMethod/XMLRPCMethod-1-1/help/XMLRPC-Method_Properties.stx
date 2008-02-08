@@ -1,0 +1,20 @@
+XMLRPC Method - Properties: Manage the properties of an XMLRPC method.
+  
+  Description
+
+    View and manage the properties of an XMLRPC Method. 
+
+  Controls
+
+    'ID' -- Specifies the id of the external method.
+    
+    'Title' -- Allows you to specify the title of the external method.
+    
+    'URL' -- Specifies the URL of the object defining the method.
+    
+    'Method name' -- Allows you to specify the name of the function 
+    (method) to use for the external method.
+
+    'timeout' -- The number of seconds the procedure call may take.
+    It is a floating point number.
+

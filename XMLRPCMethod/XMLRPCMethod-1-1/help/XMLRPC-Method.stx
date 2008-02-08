@@ -1,0 +1,5 @@
+XMLRPC Method: Call Python methods from Zope
+  
+  XML-RPC Methods associate a function on a remote server with
+  an object in Zope.  This object can be called from DTML and Python
+  like other Zope methods.

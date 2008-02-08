@@ -1,10 +1,10 @@
 #
 #
 #
-SimpleBlog http://svn.quintagroup.com/products/SimpleBlog/trunk
-qPingTool http://svn.quintagroup.com/products/qPingTool/trunk
-qTrackSpam http://svn.quintagroup.com/products/qTrackSpam/trunk
-adsenseproduct http://svn.quintagroup.com/products/adsenseproduct/trunk
-qRSS2Syndication http://svn.quintagroup.com/products/qRSS2Syndication/trunk
-XMLRPCMethod http://svn.quintagroup.com/products/XMLRPCMethod/current
-RPCAuth http://svn.quintagroup.com/products/RPCAuth/current
+SimpleBlog http://svn.quintagroup.com/products/SimpleBlog/tags/qg2.5.4
+qPingTool http://svn.quintagroup.com/products/qPingTool/tags/0.3.1
+qTrackSpam http://svn.quintagroup.com/products/qTrackSpam/tags/0.2
+adsenseproduct http://svn.quintagroup.com/products/adsenseproduct/tags/0.1
+qRSS2Syndication http://svn.quintagroup.com/products/qRSS2Syndication/tags/0.5.1
+XMLRPCMethod http://svn.quintagroup.com/products/XMLRPCMethod/XMLRPCMethod-1-1
+RPCAuth http://svn.quintagroup.com/products/RPCAuth/RPCAuth-0.0.4

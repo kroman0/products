@@ -1,3 +1,4 @@
+from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from Products.ZCatalog.ProgressHandler import ZLogHandler
 from plone.app.linkintegrity.handlers import referencedRelationship as li_relation
@@ -19,13 +20,15 @@ def fix_catalog(ob):
 
 def fix_linkintegrity(ob):
     """Fix losed references."""
-    ob_li_refs = reference_catalog.getReferences(ob, relationship=li_relation)
-    if ob_li_refs:
-        annotations = ob._getReferenceAnnotations()
-        uniqueUIDs = uid_catalog.uniqueValuesFor('UID')
-        # delete references to non-existent objects
-        [annotations._delObject(ref.id) for ref in ob_li_refs \
-         if not ref.targetUID in uniqueUIDs]
+    uobject = aq_base(ob)
+    if reference_catalog.isReferenceable(uobject):
+        ob_li_refs = reference_catalog.getReferences(ob, relationship=li_relation)
+        if ob_li_refs:
+            annotations = ob._getReferenceAnnotations()
+            uniqueUIDs = uid_catalog.uniqueValuesFor('UID')
+            # delete references to non-existent objects
+            [annotations._delObject(ref.id) for ref in ob_li_refs \
+             if not ref.targetUID in uniqueUIDs]
         
 def fix_all(ob):
     """ Recursive function for perform registered

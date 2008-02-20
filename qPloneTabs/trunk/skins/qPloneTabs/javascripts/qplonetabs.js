@@ -9,7 +9,7 @@ var category = 'portal_tabs';
 var myrules = {
   '#app #reorder' : function(el){
     el.onclick = function(ev){
-      var ev = ev?ev:window.event;
+      var ev = ev ? ev : window.event;
       gBeforeReorderFragment = document.getElementById('tabslist').innerHTML;
       shiftClassNames('app', 'viewing', 'sorting');
       Sortable.create('tabslist', {handle: 'drag-handle'});
@@ -30,7 +30,7 @@ var myrules = {
                inputs = function(li){return $A(li.getElementsByTagName('INPUT'))};
            lis.each(function(el,idx){
              inputs(el).each(function(inpt){
-               inpt.type=='hidden'?inpt.value=idx:inpt.name=inpt.name.replace(/i\d+_/, 'i'+idx+'_');
+               inpt.type == 'hidden' ? inpt.value = idx : inpt.name = inpt.name.replace(/i\d+_/, 'i'+idx+'_');
              });
            });
            shiftClassNames('app', 'sorting', 'viewing');
@@ -46,11 +46,11 @@ var myrules = {
   },
   '#app #cancel' : function(el){
     el.onclick = function(ev){
-      var ev = ev?ev:window.event;
+      var ev = ev ? ev : window.event;
       Sortable.destroy('tabslist');
       shiftClassNames('app', 'sorting', 'viewing');
       Element.update('tabslist', gBeforeReorderFragment);
-      el.attachEvent ? ieHover():'';
+      el.attachEvent ? ieHover() : '';
       Behaviour.apply();
       Event.stop(ev);
       return false;
@@ -373,6 +373,6 @@ function validateField(id, val) {
 };
 
 function removeEdition(el) {
-  var el = el?el:'tabslist';
-  $A($(el).getElementsByTagName('LI')).each(function(li,idx){if(li != el) li.onclick='';});
+  var el = el ? el : 'tabslist';
+  $A($(el).getElementsByTagName('LI')).each(function(li,idx){if(li != el) li.onclick=function(event){return false;};});
 };

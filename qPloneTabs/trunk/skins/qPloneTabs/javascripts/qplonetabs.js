@@ -44,6 +44,7 @@ var myrules = {
            shiftClassNames('app', 'sorting', 'viewing');
            Sortable.destroy('tabslist');
            new Effect.Highlight('tabslist',{});
+           updateGlobalSections();
          },
          onComplete: function(request){Behaviour.apply();}
         }
@@ -87,6 +88,7 @@ var myrules = {
               else {
                 Element.addClassName(li, 'invisible');
               };
+              updateGlobalSections();
             },
             onFailure: function(request){
               var message = (/Error Value\s*<\/dt>\s*<dd>(.*?)<\/dd>/i).exec(request.responseText);
@@ -127,6 +129,7 @@ var myrules = {
                  Element.addClassName('reorder', 'noitems');
              };
            }});
+           updateGlobalSections();
          }
         }
       );
@@ -184,7 +187,8 @@ var myrules = {
                   Element.update(spans[0], $F(tds[2]));
                   Behaviour.apply();
                 }
-              })
+              });
+              updateGlobalSections();
             },
             onFailure: function(request){
               var message = (/Error Value\s*<\/dt>\s*<dd>(.*?)<\/dd>/i).exec(request.responseText);
@@ -264,6 +268,7 @@ var myrules = {
                  Behaviour.apply();
                }
              });
+             updateGlobalSections();
            },
            onFailure: function(request){
              var message = (/Error Value\s*<\/dt>\s*<dd>(.*?)<\/dd>/i).exec(request.responseText);
@@ -301,6 +306,7 @@ var myrules = {
             onComplete : function(){
               el.attachEvent?ieHover():'';
               Behaviour.apply();
+              updateGlobalSections();
             }
           });
        }
@@ -397,6 +403,18 @@ function removeEdition(el) {
   var el = el ? el : 'tabslist';
   $A($(el).getElementsByTagName('LI')).each(function(li,idx){if(li != el) li.onclick=function(event){return false;};});
 };
+
+
+// API for updating global_sections tabs
+
+function updateGlobalSections() {
+    new Ajax.Updater({success : 'portal-globalnav'}, 'qpt_globalsections', {
+            method : 'post',
+            onSuccess : function(){
+              new Effect.Highlight('portal-globalnav', {});
+            }
+    });
+}
 
 
 //**********************************************

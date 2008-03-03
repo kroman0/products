@@ -9,10 +9,14 @@
              tal:define="dummy python:request.set('disable_border',1)" />
 <head>
   <metal:javascript_head_slot fill-slot="javascript_head_slot">
-        <script type="text/javascript" src="javascripts/prototype.js"></script>
-        <script type="text/javascript" src="javascripts/scriptaculous.js"></script>
-        <script type="text/javascript" src="javascripts/behaviour.js"></script>
-        <script type="text/javascript" src="javascripts/qplonetabs.js"></script>
+        <script type="text/javascript" src="javascripts/prototype.js"
+                tal:attributes="src string:${portal_url}/${attrs/src}"></script>
+        <script type="text/javascript" src="javascripts/scriptaculous.js"
+                tal:attributes="src string:${portal_url}/${attrs/src}"></script>
+        <script type="text/javascript" src="javascripts/behaviour.js"
+                tal:attributes="src string:${portal_url}/${attrs/src}"></script>
+        <script type="text/javascript" src="javascripts/qplonetabs.js"
+                tal:attributes="src string:${portal_url}/${attrs/src}"></script>
   </metal:javascript_head_slot>
   <metal:cssslot fill-slot="css_slot">
     <style type="text/css"  tal:content="string:@import url($portal_url/qplonetabs.css);" />

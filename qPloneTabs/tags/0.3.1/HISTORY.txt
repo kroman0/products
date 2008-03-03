@@ -1,0 +1,54 @@
+0.3.1
+
+  * fixed js bug: after cancel of sort action innerHTML return not actual data for updating action to previous state,
+                  now instead of innerHTML property used DOM creation of actions list
+
+  * fixed css bug: when action's url is too long it overlap drag handle on sorting thus disabling drug&drop of this action
+
+0.3.0
+
+  * added support for any actions category
+
+  * fixed reordering bug on server with empty list
+  
+  * hidden reordering controls when the list of actions is empty
+
+0.2.2
+
+  * possibility to change portal_tabs visibility
+  
+  * better url processing
+  
+  * fixed editing bug
+  
+  * corrected some piece of css
+  
+  * fully remade elements state css logic
+  
+  * fixed adding and editing javascript bugs in IE5.5
+  
+  * corrected IE hovering
+  
+  * don't collapse editing and adding forms after sorting
+  
+  * possibility to edit any number of items at the same time
+  
+  * display url in right side near the tab name
+  
+  * generated tabs functionality
+  
+  * sliding 'advanced' section & everything that push down forward content on the page
+
+0.2.0
+
+  * fixed bug with reordering actions after delete
+  
+  * fixed bug with 'Advanced' section
+  
+  * compatible with Plone 2.0.5
+  
+  * focus 'name' text field on editing
+
+0.1.0
+
+  * initial release

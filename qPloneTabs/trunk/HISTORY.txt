@@ -1,3 +1,10 @@
+0.3.1
+
+  * fixed js bug: after cancel of sort action innerHTML return not actual data for updating action to previous state,
+                  now instead of innerHTML property used DOM creation of actions list
+
+  * fixed css bug: when action's url is too long it overlap drag handle on sorting thus disabling drug&drop of this action
+
 0.3.0
 
   * added support for any actions category

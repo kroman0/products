@@ -19,7 +19,7 @@
         action="editPTAction"
         tal:attributes="action string:${here/portal_url}/prefs_tabs_form;
                         name string:f$index">
-    <input type="hidden" name="idx" tal:attributes="value index" />
+      <input type="hidden" name="idx" tal:attributes="value index" />
       <dl>
         <dt><label>Name</label></dt>
         <dd><input type="text" value="" name="name"
@@ -50,10 +50,10 @@
           <div class="visualClear"><!-- --></div>
         </dd>
       </dl>
-    <div>
-      <input type="submit" class="editsave"   i18n:attributes="value" value="Save"   />
-      <input type="submit" class="editcancel" i18n:attributes="value" value="Cancel" />
-    </div>
+      <div>
+        <input type="submit" class="editsave"   i18n:attributes="value" value="Save"   />
+        <input type="submit" class="editcancel" i18n:attributes="value" value="Cancel" />
+      </div>
   </form>
 </li>
 </tal:tabs>

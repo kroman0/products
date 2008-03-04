@@ -15,16 +15,16 @@
                  selected_portal_tab selected_tabs/portal;"
      tal:condition="portal_tabs">
 
-    <tal:tabs tal:repeat="tab portal_tabs">
-        <li tal:attributes="id string:portaltab-${tab/id};
-                            class python:test(selected_portal_tab==tab['id'], 'selected', 'plain');">
-            <a href=""
-               tal:content="tab/name"
-               tal:attributes="href tab/url;
-                               title tab/description|nothing">
-                Tab Name
-            </a>
-        </li>
-    </tal:tabs>
+        <tal:tabs tal:repeat="tab portal_tabs">
+            <li tal:attributes="id string:portaltab-${tab/id};
+                                class python:test(selected_portal_tab==tab['id'], 'selected', 'plain');">
+                <a href=""
+                   tal:content="tab/name"
+                   tal:attributes="href tab/url;
+                                   title tab/description|nothing">
+                    Tab Name
+                </a>
+            </li>
+        </tal:tabs>
 
 </div>

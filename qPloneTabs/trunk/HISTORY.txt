@@ -2,6 +2,10 @@
 
   * now global_sections tabs updated asynchronous during changes on qPloneTabs ajax configlet
 
+  * fixed templates used as response to ajax requests: added omitted http header 'content-type'
+
+  * added compatibility with IE7
+
 0.3.1
 
   * fixed js bug: after cancel of sort action innerHTML return not actual data for updating action to previous state,

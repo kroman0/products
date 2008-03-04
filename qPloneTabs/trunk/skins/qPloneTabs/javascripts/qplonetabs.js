@@ -410,12 +410,29 @@ function removeEdition(el) {
 function updateGlobalSections() {
     new Ajax.Updater({success : 'portal-globalnav'}, 'qpt_globalsections', {
             method : 'post',
-            onSuccess : function(){
-              new Effect.Highlight('portal-globalnav', {});
-            }
+            insertion : Insertion.Instead
     });
 }
 
+// Insertion object defined in prototype javascript library
+Insertion.Instead = Class.create();
+Insertion.Instead.prototype = Object.extend(new Abstract.Insertion('beforeEnd'), {
+  initialize: function(element, content) {
+    this.element = $(element);
+    this.content = content.stripScripts();
+
+    var ul = document.createElement("UL");
+    ul.id = "portal-globalnav";
+    ul.innerHTML = this.content;
+
+    var parent = this.element.parentNode;
+    parent.removeChild(this.element);
+    parent.appendChild(ul);
+
+    setTimeout(function() {content.evalScripts()}, 10);
+  }
+
+});
 
 //**********************************************
 

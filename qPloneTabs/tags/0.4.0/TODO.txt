@@ -1,0 +1,7 @@
+  * Opera compatibility
+
+DONE  * 'portal-globalnav' visualization without page reloading
+
+  * using kukit framework
+
+  * plone 3 compatibility

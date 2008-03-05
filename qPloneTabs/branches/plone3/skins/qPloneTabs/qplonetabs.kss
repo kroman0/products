@@ -1,0 +1,13 @@
+/* <dtml-call expr="RESPONSE.setHeader('pragma','no-cache')"> */
+
+/*
+    The above trick to let this file not be cached does not work, unless this file is renamed to have
+    a kss.dtml extension.
+*/
+
+
+/* General stylesheet for qPloneTabs AJAX configlet */
+
+/* Add class to body to allow conditional styling when kss is available */
+
+

@@ -17,6 +17,37 @@ configlets = ({'id':PROJECTNAME,
     'permission':VIEW_PERMISSION,
     'imageUrl':'qplonetabs.gif' },)
 
+def installResources(self, out):
+    # register stylesheets
+    portal_css = getToolByName(self, 'portal_css', None)
+    if portal_css is not None:
+        for css in CSSES:
+            if css['id'] not in portal_css.getResourceIds():
+                portal_css.registerStylesheet(**css)
+                out.write("Registered %s stylesheet\n" % css['id'])
+            else:
+                out.write("Skipped registering %s stylesheet\n" % css['id'])
+    
+    # register javascripts
+    portal_javascripts = getToolByName(self, 'portal_javascripts', None)
+    if portal_javascripts is not None:
+        for js in JAVASCRIPTS:
+            if js['id'] not in portal_javascripts.getResourceIds():
+                portal_javascripts.registerScript(**js)
+                out.write("Registered %s javascript " % js['id'])
+            else:
+                out.write("Skipped registering %s javascript\n" % js['id'])
+    
+    # register kss sheets
+    portal_kss = getToolByName(self, 'portal_kss', None)
+    if portal_kss is not None:
+        for kss in KSSES:
+            if kss['id'] not in portal_kss.getResourceIds():
+                portal_kss.registerKineticStylesheet(**kss)
+                out.write("Registered %s kss " % kss['id'])
+            else:
+                out.write("Skipped registering %s kss\n" % kss['id'])
+
 def addPropertySheet(self, out):
     """ Add tabs_properties property sheet to portal_properties and some needed field to it """
     portal_props = getToolByName(self, 'portal_properties')
@@ -96,6 +127,9 @@ def install(self):
     skinstool = getToolByName(self, 'portal_skins')
     addDirectoryViews(skinstool, SKINS_DIR, GLOBALS)
     setupSkin(self, out, PROJECTNAME)
+
+    installResources(self, out)
+    out.write("Installed Resources... \n")
 
     mtool = getToolByName(self, 'portal_migration')
     plone_version = mtool.getFileSystemVersion()

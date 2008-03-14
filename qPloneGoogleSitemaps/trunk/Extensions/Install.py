@@ -5,9 +5,9 @@ from Products.CMFCore.DirectoryView import addDirectoryViews
 from Products.qPloneGoogleSitemaps import qPGS_globals
 
 try:
-    from Products.CMFCore.CMFCorePermissions import ManagePortal
-except ImportError:
     from Products.CMFCore.permissions import ManagePortal
+except ImportError:
+    from Products.CMFCore.CMFCorePermissions import ManagePortal
 
 from OFS.ObjectManager import BadRequestException
 

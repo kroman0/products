@@ -345,14 +345,17 @@ def copyDir(srcDirectory, dstDirectory, productName):
                 os.mkdir(dst_path)
             copyDir(src_path, dst_path, productName)
 
-def fsDirectoryViewsXML(folder_names, product_name):
+def fsDirectoryViewsXML(folder_names, product_name, remove=False):
     pattern = """ <object name="%(folder_name)s" meta_type="Filesystem Directory View"
-       directory="Products.%(product_name)s:skins/%(folder_name)s"/>\n"""
+       directory="Products.%(product_name)s:skins/%(folder_name)s" %(remove)s/>\n"""
     xml = ''
     if type(folder_names) not in (type([]), type(())):
         folder_names = [folder_names,]
     for name in folder_names:
-       xml += pattern % {'product_name' : product_name, 'folder_name' : name}
+       xml += pattern % {'product_name' : product_name, \
+                         'folder_name'  : name, \
+                         'remove'       : remove and 'remove="True"' or '', \
+                        }
     return xml
 
 def makeNewProduct(context, productName, productSkinName, \
@@ -367,6 +370,7 @@ def makeNewProduct(context, productName, productSkinName, \
     if not (productName in os.listdir(products_path)):
         os.mkdir(productPath)
     files_to_remove = []
+    files_to_add    = []
     # Form CSS and JS importing list and regestry data (looking in subdir too) for Plone 2.1.0+ 
     stylesheets_xml = ''
     javascripts_xml = ''
@@ -405,6 +409,19 @@ def makeNewProduct(context, productName, productSkinName, \
     # Prepare XML strings for add to skins.xml
     skin_layers = buildSkinLayers(context, zmi_base_skin_name)
 
+    # Prepare profiles
+    default_marker, afterinstall_marker, uninstall_marker = {}, {}, {}
+    profiles = ['default', 'afterinstall', 'uninstall']
+    profiles_path = ospJoin(products_path, productName, 'profiles')
+    for profile in profiles:
+        varname = "%s_marker" % profile
+        file_name = "%s_%s.txt" % (productName.lower(), profile)
+        locals()[varname].update({'fname' : file_name, \
+                                  'fpath' : ospJoin(profiles_path, profile, file_name), \
+                                  'fdata' : "# Marker file for %s profile of %s skin" % \
+                                            (profile, productName) })
+        files_to_add.append(locals()[varname])
+
     # dump customized objects from portal_view_customization
     custom_views = []
     if dump_custom_views:
@@ -441,24 +458,42 @@ def makeNewProduct(context, productName, productSkinName, \
                 ,"slot_structure" : str(slots) \
                 ,"skin_layers" : skin_layers \
                 ,"custom_views" : str(custom_views) \
-                ,"directory_views_xml" : fsDirectoryViewsXML(zmi_skin_names, productName)}
+                ,"directory_views_xml" : fsDirectoryViewsXML(zmi_skin_names, productName) \
+                ,"remove_directory_views_xml" : fsDirectoryViewsXML(zmi_skin_names, productName, remove=True) \
+                ,"creation_date" : time.strftime('%d/%m/%Y') \
+                ,"install_profile_marker" : default_marker['fname'] \
+                ,"afterinstall_profile_marker" : afterinstall_marker['fname'] \
+                ,"uninstall_profile_marker" : uninstall_marker['fname'] \
+    }
     sp_updated_files = ['config.py' \
                        ,'README.txt' \
+                       ,'HISTORY.txt' \
                        ,'setuphandlers.py' \
+                       ,'uninstallhandlers.py' \
                        ,'profiles.zcml' \
                        ,'utils.py' \
                        ,'configure.zcml' \
                        ,'skins.zcml' \
+                       ,ospJoin('Extensions', 'Install.py')\
                        ,ospJoin('browser', 'interfaces.py')\
                        ,ospJoin('browser', 'viewlets.zcml')\
                        ,ospJoin('browser', 'configure.zcml')\
-                       ,ospJoin('profiles', 'default', 'import_steps.xml')\
                        ,ospJoin('profiles', 'default', 'skins.xml')\
                        ,ospJoin('profiles', 'default', 'cssregistry.xml')\
                        ,ospJoin('profiles', 'default', 'jsregistry.xml')\
-                       ,ospJoin('browser', 'configure.zcml')
+                       ,ospJoin('profiles', 'default', 'propertiestool.xml')\
+                       ,ospJoin('profiles', 'afterinstall', 'import_steps.xml')\
+                       ,ospJoin('profiles', 'uninstall', 'import_steps.xml')\
+                       ,ospJoin('profiles', 'uninstall', 'skins.xml')\
+                       ,ospJoin('browser', 'configure.zcml') \
+                       #,ospJoin('profiles', 'uninstall', 'cssregistry.xml')\
+                       #,ospJoin('profiles', 'uninstall', 'jsregistry.xml')\
                        ]
     for fp in sp_updated_files:
         fillinFileTemplate(ospJoin(productPath, fp), dict=conf_dict)
     for fp in files_to_remove:
         os.remove(ospJoin(productPath,fp))
+    for data in files_to_add:
+        f = file(data['fpath'],'w')
+        f.write(data['fdata'])
+        f.close()

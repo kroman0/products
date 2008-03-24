@@ -110,3 +110,8 @@ CUSTOM_VIEWS = %(custom_views)s
 # absolute file system path to product
 from Globals import package_home
 PRODUCTS_PATH = os.sep.join(package_home(GLOBALS).split(os.sep)[:-1])
+
+## GenericSetup constants
+GS_INSTALL_PROFILE      = "profile-Products.%(product_name)s:default"
+GS_AFTERINSTALL_PROFILE = "profile-Products.%(product_name)s:afterinstall"
+GS_UNINSTALL_PROFILE    = "profile-Products.%(product_name)s:uninstall"

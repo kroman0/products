@@ -11,4 +11,20 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="afterinstall"
+      title="%(product_name)s:afterinstall"
+      directory="profiles/afterinstall"
+      description="Extension profile for install zexps and other dependent objects of %(product_name)s."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="%(product_name)s:uninstall"
+      directory="profiles/uninstall"
+      description="Extension profile for UNINSTALL %(product_name)s."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
 </configure>

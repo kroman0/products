@@ -1,3 +1,9 @@
+import sys
+from logging import getLogger
+
+from BTrees.OOBTree import OOBTree
+from persistent.list import PersistentList
+
 from zope.dottedname.resolve import resolve
 from zope.component import getUtility, getSiteManager, getMultiAdapter
 
@@ -14,9 +20,8 @@ from Products.GenericSetup.utils import _getDottedName, _resolveDottedName
 
 from Products.%(product_name)s.config import *
 from Products.%(product_name)s.utils import *
+from Products.%(product_name)s.utilsPortlets import dumpPortlets
 
-import sys
-from logging import getLogger
 logger = getLogger('%(product_name)s')
 
 def assignPortlet(mapping, info):
@@ -55,9 +60,15 @@ def setupPortletsForContext(context, data, managers):
     for name, info in data:
         manager = managers.get(name, None)
         if manager is not None:
+            # set portlet assignments
+            mapping = getMultiAdapter((context, manager), IPortletAssignmentMapping, context=context)
+
+            # purge mapping
+            mapping._data = OOBTree()
+            mapping._order = PersistentList()
+
             if info['assignments']:
                 # set portlet assignments
-                mapping = getMultiAdapter((context, manager), IPortletAssignmentMapping, context=context)
                 for assignment in info['assignments']:
                     assignPortlet(mapping, assignment)
             if info['blacklists']:
@@ -66,8 +77,26 @@ def setupPortletsForContext(context, data, managers):
                 for category, status in info['blacklists']:
                     localassignmentmanager.setBlacklistStatus(category, status)
 
+
+def saveBeforeInstallPortlets(context):
+    # Save information about portlets before installation
+
+    beforeInstall = dumpPortlets(context=context, dump_policy='root', dump_portlets_selection=[] )
+
+    # update properties list
+    pp = getToolByName(context, 'portal_properties')
+    skin_props = pp._getOb('%(product_name_lowercase)s_properties')
+    skin_props._updateProperty('portlets_before_install', str(beforeInstall) )
+
+
 def importPortlets(context):
+
+    if context.readDataFile("%(afterinstall_profile_marker)s") is None:
+        return
+
     site = context.getSite()
+
+    saveBeforeInstallPortlets(site)
 
     components = getSiteManager(site)
     ms = [r for r in components.registeredUtilities() if r.provided.isOrExtends(IPortletManager)]
@@ -93,17 +122,29 @@ def importPortlets(context):
                 setupPortletsForContext(obj, info, context_managers)
 
 def importZexps(context):
+
+    if context.readDataFile("%(afterinstall_profile_marker)s") is None:
+        return
+
     site = context.getSite()
     if checkIfImport():
         performImportToPortal(site)
 
 def importVarious(context):
+
+    if context.readDataFile("%(afterinstall_profile_marker)s") is None:
+        return
+
     site = context.getSite()
     out = StringIO()
     if FINAL_CUSTOMIZATION_FUNCTIONS:
         dummy = [func(site, out) for func in FINAL_CUSTOMIZATION_FUNCTIONS]
 
 def importCustomViews(context):
+
+    if context.readDataFile("%(afterinstall_profile_marker)s") is None:
+        return
+
     site = context.getSite()
 
     for view in CUSTOM_VIEWS:

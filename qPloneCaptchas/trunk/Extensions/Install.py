@@ -5,7 +5,12 @@ from Products.CMFCore.DirectoryView import addDirectoryViews
 import string
 from App.Common import package_home
 from os.path import exists as path_exists, join as path_join
-from Products.CMFCore.CMFCorePermissions import ManagePortal
+
+try:
+    from Products.CMFCore.permissions import ManagePortal
+except:
+    from Products.CMFCore.CMFCorePermissions import ManagePortal
+
 from random import randint
 from Products.CMFPlone.migrations.migration_util import safeEditProperty
 
@@ -38,6 +43,8 @@ def install(self):
         plone_version = '2.0.5'
     elif plone_version.startswith('2.5'):
         plone_version = '2.5'
+    elif plone_version.startswith('3.0'):
+        plone_version = '3.0'
     else:
         raise Exception("Error - Unsupported version. Suported versions: Plone 2.0.5-2.5")
 

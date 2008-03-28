@@ -6,5 +6,5 @@ View=1:Authenticated
 
 [actions]
 action.success..form_submit=traverse_to:string:prefs_captchas_setup
-action.success=traverse_to:string:prefs_captchas_setup_form
-action.failure=traverse_to:string:prefs_captchas_setup_form
+action.success=redirect_to:string:prefs_captchas_setup_form
+action.failure=redirect_to:string:prefs_captchas_setup_form

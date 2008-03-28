@@ -39,7 +39,6 @@ property_map=[(m['id'], m['type']) for m in captcha_props.propertyMap() if not m
 kw={}
 for id,type in property_map:
     if type == 'boolean':
-        print id
         if id in request_ids:
             kw[id] = True
         else:
@@ -48,6 +47,6 @@ for id,type in property_map:
         if id in request_ids:
             kw[id] = form[id]
 
-captcha_props.manage_changeProperties(kw)
+captcha_props.manage_changeProperties(**kw)
 
 return state.set(portal_status_message = 'Changes saved.')

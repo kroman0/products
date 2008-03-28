@@ -13,6 +13,7 @@ Supported Plone versions:
     * 2.0.x
     * 2.1.x
     * 2.5.x
+    * 3.0.x
 
 Dependency:
 

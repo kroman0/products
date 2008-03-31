@@ -100,19 +100,7 @@
 
                      <div tal:content="error">Validation error output</div>
 
-                     <div tal:define="captcha_view nocall:context/@@captcha">
-                         <div>
-                             <img tal:replace="structure captcha_view/image_tag"/>
-                             <a tal:attributes="href captcha_view/audio_url">[audio]</a>
-                         </div>
-                         <input name="captcha"
-                                id="captcha"
-                                value="" alt="Enter the word above" title="Enter the word above"
-                                size="15"
-                                tabindex=""
-                                i18n:attributes="alt; title"
-                                tal:attributes="tabindex tabindex/next" />
-                     </div>
+                     
                  </div>
 
                 <div class="field"

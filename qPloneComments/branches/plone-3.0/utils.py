@@ -156,6 +156,7 @@ def send_email(reply, context, state):
 
     if args:
         msg = getMsg(context, template, args)
+        #__import__("pdb").set_trace()
         context.MailHost.send(str(msg))
 
 

@@ -80,7 +80,8 @@ if hasattr(dtool.aq_explicit, 'cookReply'):
     dtool.cookReply(reply, text_format='plain')
 
 parent = tb.aq_parent
-# Send notification e-mail  
+# Send notification e-mail
+
 manage_mails(reply, context, 'aproving')
 if not ifModerate:
     manage_mails(reply, context, 'publishing')

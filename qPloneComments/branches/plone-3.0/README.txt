@@ -51,9 +51,7 @@ Installation
 
 Requirements
 
-    * Plone 2.0.5
-    * Plone 2.1 - 2.1.4
-    * Plone 2.5 - 2.5.3
+    * Plone 3.0.x
 
 License
 

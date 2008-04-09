@@ -1,5 +1,8 @@
 import re, os
-from Products.CMFCore import CMFCorePermissions
+try:
+    from Products.CMFCore import CMFCorePermissions
+except ImportError:
+    from Products.CMFCore import permissions as CMFCorePermissions
 
 ## Base Product Constants
 GLOBALS = globals()

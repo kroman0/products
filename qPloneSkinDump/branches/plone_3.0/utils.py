@@ -340,7 +340,8 @@ def copyDir(srcDirectory, dstDirectory, productName):
             f_dst = open(dst_path,'w')
             f_dst.write(data)
             f_dst.close()
-        elif os.path.isdir(src_path):
+        elif os.path.isdir(src_path) \
+             and not ".svn" in src_path:
             if not os.path.exists(dst_path):
                 os.mkdir(dst_path)
             copyDir(src_path, dst_path, productName)

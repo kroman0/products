@@ -19,6 +19,7 @@ zmi_skin_names = REQUEST.get('ZMISkinName')
 zmi_base_skin_name = REQUEST.get('ZMIBaseSkinName')
 
 # File system data
+fs_dest_directory = REQUEST.get("FSDestinationDirectory")
 fs_skin_directory = REQUEST.get('FSSkinDirectory')
 fs_product_name = REQUEST.get('FSProductName')
 erase_from_skin = REQUEST.get('EraseFromSkin')
@@ -60,6 +61,7 @@ dump_custom_views = REQUEST.get('dump_viewlets', None)
 # create Product
 result = createProduct(context, zmi_skin_names=zmi_skin_names,\
               zmi_base_skin_name=zmi_base_skin_name,\
+              fs_dest_directory=fs_dest_directory, \
               fs_skin_directory=fs_skin_directory,\
               fs_product_name=fs_product_name,\
               erase_from_skin=erase_from_skin,\
@@ -74,9 +76,9 @@ result = createProduct(context, zmi_skin_names=zmi_skin_names,\
               dump_CSS=dump_CSS, \
               dump_JS=dump_JS, \
               dump_portlets=dump_portlets, \
-              dump_policy=dump_policy,
-              dump_portlets_selection=dump_portlets_selection,
-              dump_custom_views=dump_custom_views)
+              dump_policy=dump_policy, \
+              dump_portlets_selection=dump_portlets_selection, \
+              dump_custom_views=dump_custom_views )
 
 portal_status_message = u'"%s" Product successfully created.' % fs_product_name
 if result:

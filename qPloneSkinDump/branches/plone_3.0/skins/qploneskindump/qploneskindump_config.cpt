@@ -41,7 +41,8 @@
 
             <fieldset id="fieldset-product"
                       tal:define="error_fsSkinDir python:errors.get('FSSkinDirectory');
-                                  error_fsProdName python:errors.get('FSProductName')">
+                                  error_fsProdName python:errors.get('FSProductName');
+                                  error_fsDestinationDir python:errors.get('FSDestinationDirectory');">
                 <legend id="fieldsetlegend-product">
                   <label style="font-size: 110%" i18n:translate="label_product">Product</label>
                 </legend>
@@ -56,7 +57,7 @@
                            i18n:attributes="title title_required;">(Required)</span>
                     <div i18n:translate="help_FSProductName"
                          class="formHelp">
-                        Name for dumped product. This name should be unique in your Products directory of Plone's instance. The name must begin with alphabetical character, following with an alphanumeric combination, also underscore accepts, but not on boundaries.
+                        Name for dumped product. This name should be unique in Destination directory. The name must begin with alphabetical character, following with an alphanumeric combination, also underscore accepts, but not on boundaries.
                     </div>
                     <div tal:condition="error_fsProdName"
                          tal:content="error_fsProdName" i18n:translate="">Validation Error</div>
@@ -90,6 +91,30 @@
                            value=""
                            size="50"
                            tal:attributes="value request/FSSkinDirectory|nothing" />
+                </div>
+                <p />
+                <div class="FSDestinationDirectory"
+                     tal:define="destinationDir python:modules['Products.qPloneSkinDump.qPloneSkinDump'].getProductsPath();"
+                     tal:attributes="class python: test(error_fsDestinationDir, 'FSDestinationDirectory error', 'FSDestinationDirectory');">
+                    <label class="FSDestinationDirectory_title"
+                          i18n:translate="label_FSDestinationDirectory">Destination directory</label>
+                    <span class="fieldRequired"
+                           title="Required"
+                           i18n:translate="label_required"
+                           i18n:attributes="title title_required;">(Required)</span>
+                    <div i18n:translate="help_FSDestinationDirectory"
+                         class="formHelp">
+                         Absolute path to directory, where SkinProduct will be created.
+                    </div>
+                    <div tal:condition="error_fsDestinationDir"
+                         tal:content="error_fsDestinationDir" i18n:translate="">Validation Error</div>
+
+                    <input class="FSDestinationDirectory_input"
+                           type="text"
+                           name="FSDestinationDirectory"
+                           value=""
+                           size="50"
+                           tal:attributes="value request/FSDestinationDirectory|destinationDir" />
                 </div>
             </fieldset>
 

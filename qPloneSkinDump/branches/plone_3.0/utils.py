@@ -223,11 +223,11 @@ def buildSkinLayers(context, zmi_base_skin_name):
     layers = (pskins.getSkinPath(zmi_base_skin_name) or '').split(',')
     return "\n".join(['   <layer name="%s"/>' % l for l in layers])
 
-def getFSSkinPath(folder, fs_product_name):
+def getFSSkinPath(folder, fs_dest_directory, fs_product_name):
     """ Return file system skin path for subdir."""
 
     folder_path = '/'.join(folder.getPhysicalPath()[list(folder.getPhysicalPath()).index('portal_skins')+1:])
-    skinpath = "%s/%s/skins/%s" % (PRODUCTS_PATH, fs_product_name, folder_path)
+    skinpath = "%s/%s/skins/%s" % (fs_dest_directory, fs_product_name, folder_path)
 
     # If in skin's subfolder - get its path
     #skinp, subp = [obj.getPhysicalPath() for obj in [skin_obj, subdir]]
@@ -236,8 +236,8 @@ def getFSSkinPath(folder, fs_product_name):
         #skinpath += '/' + '/'.join( subp[len(skinp):] )
     return skinpath
 
-def dumpFolder(folder, fs_product_name):
-    skinpath = getFSSkinPath(folder, fs_product_name)
+def dumpFolder(folder, fs_dest_directory, fs_product_name):
+    skinpath = getFSSkinPath(folder, fs_dest_directory, fs_product_name)
     # Create directory in FS if not yet exist
     if not os.path.exists(skinpath):
         os.makedirs(skinpath)
@@ -255,7 +255,7 @@ def dumpFolder(folder, fs_product_name):
             if id in ['stylesheet_properties', 'base_properties'] or id.startswith('base_properties'):
                 writeProps(o, skinpath, extension = '.props')
             else:
-                dumpFolder(o, fs_product_name)
+                dumpFolder(o, fs_product_name, fs_product_name)
         elif meta_type in _write_custom_meta_type_list:
             #writeProps( o, skinpath )      # write object's properties
             # extract content from object(depend on metatype) and write it to the file
@@ -266,13 +266,14 @@ def dumpFolder(folder, fs_product_name):
     if obj_meta :
         writeObjectsMeta(obj_meta, skinpath)
 
-def dumpSkin(context, skin_names=['custom',], fs_product_name='QSkinTemplate', erase_from_skin=0):
+def dumpSkin(context, skin_names=['custom',], fs_dest_directory=PRODUCTS_PATH,
+             fs_product_name='QSkinTemplate', erase_from_skin=0):
     """Dump custom information to file."""
     if type(skin_names) not in (type([]), type(())):
         skin_names = [skin_names,]
     for skin_name in list(skin_names):
         folder = getToolByName(context, 'portal_skins')[skin_name]
-        dumpFolder(folder, fs_product_name)
+        dumpFolder(folder, fs_dest_directory, fs_product_name)
         # delete objects from the skin, if request
         if erase_from_skin:
             folder.manage_delObjects(ids = folder.objectIds())
@@ -359,14 +360,14 @@ def fsDirectoryViewsXML(folder_names, product_name, remove=False):
                         }
     return xml
 
-def makeNewProduct(context, productName, productSkinName, \
+def makeNewProduct(context, destinationDir, productName, productSkinName, \
                    zmi_skin_names, zmi_base_skin_name, subdir,\
                    doesCustomizeSlots, left_slots, right_slots, slot_forming, main_column, \
                    doesExportObjects, import_policy, dump_CSS, dump_JS, \
                    dump_portlets, dump_policy, dump_portlets_selection, dump_custom_views):
     """Create new skin-product's directory and 
        copy skin-product template with little modification"""
-    products_path = PRODUCTS_PATH
+    products_path = destinationDir
     productPath = ospJoin(products_path, productName)
     if not (productName in os.listdir(products_path)):
         os.mkdir(productPath)
@@ -429,7 +430,7 @@ def makeNewProduct(context, productName, productSkinName, \
         custom_views = dumpPortalViewCustomization(context)
 
     # Copy skin_template to SKIN_PRODUCT directory
-    templatePath = ospJoin(products_path, PROJECTNAME, TEMPLATE_PATH)
+    templatePath = ospJoin(PRODUCTS_PATH, PROJECTNAME, TEMPLATE_PATH)
     copyDir(templatePath, productPath, productName)
     # Form data dictionary and form Skin Product's files
     conf_dict = {"IMPORT_POLICY" : import_policy \

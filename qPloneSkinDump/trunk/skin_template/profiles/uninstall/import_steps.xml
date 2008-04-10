@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<import-steps>
+ <import-step id="%(skin_name)s_uninstallPortlets" version="20080312-1"
+              handler="Products.%(product_name)s.uninstallhandlers.uninstallPortlets"
+              title="Uninstall %(product_name)s portlets">
+   Uninstall custom %(product_name)s left and right portlets.
+ </import-step>
+ <import-step id="%(skin_name)s_uninstallProperties" version="20080312-2"
+              handler="Products.%(product_name)s.uninstallhandlers.uninstallProperties"
+              title="Remove %(product_name)s properties">
+  <dependency step="%(skin_name)s_uninstallPortlets"/>
+    Remove %(product_name)s properties.
+ </import-step>
+</import-steps>

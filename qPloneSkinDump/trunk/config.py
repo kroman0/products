@@ -1,13 +1,13 @@
 import re, os
 try:
-    from Products.CMFCore import CMFCorePermissions
-except ImportError:
-    from Products.CMFCore import permissions as CMFCorePermissions
+    from Products.CMFCore import permissions
+except:
+    from Products.CMFCore import CMFCorePermissions as permissions
 
 ## Base Product Constants
 GLOBALS = globals()
 PROJECTNAME = "qPloneSkinDump"
-ADD_CONTENT_PERMISSION = CMFCorePermissions.AddPortalContent
+ADD_CONTENT_PERMISSION = permissions.AddPortalContent
 CONFIGURATION_CONFIGLET = "qploneskindump_configuration"
 
 
@@ -26,7 +26,7 @@ DEFAULT_MAIN_COLUMN = "both"
 IMPORTING_POLICY_LIST = ["only_new","backup","overwrite"]
 DEFAULT_IMPORTING_POLICY = "only_new"
 FORBIDDEN_EXP_PREFIXES = re.compile('^(portal_)')
-FORBIDDEN_EXP_NAMES = ["MailHost", "HTTPCache", "Members", "RAMCache", "acl_users",\
+FORBIDDEN_EXP_NAMES = ["ResourceRegistryCache", "MailHost", "HTTPCache", "Members", "RAMCache", "acl_users",\
                        "archetype_tool", "caching_policy_manager", "content_type_registry", \
                        "cookie_authentication", "error_log", "kupu_library_tool",\
                        "mimetypes_registry", "plone_utils", "reference_catalog",\

@@ -8,6 +8,10 @@ from exportingObjects import exportObjects
 
 security = ModuleSecurityInfo( 'Products.qPloneSkinDump.qPloneSkinDump' )
 
+security.declarePublic('getProductsPath')
+def getProductsPath():
+    return PRODUCTS_PATH
+
 security.declarePublic('getExportingData')
 def getExportingData(context):
     result_list = { 'default_import_policy':DEFAULT_IMPORTING_POLICY
@@ -34,10 +38,19 @@ def getMainColumnList():
            ,'data':[[s, s.capitalize()] for s in MAIN_COLUMN_LIST]}
 
 security.declarePublic('isValidProductName')
-def isValidProductName(product_name):
+def isValidProductName(product_name, fs_dest_directory):
     """ Check for product presence in installed products list"""
-    return (product_name not in get_product_listdirs() \
-            and isValidDirName(product_name))
+    if not fs_dest_directory==PRODUCTS_PATH:
+       return (not product_name in os.listdir(fs_dest_directory)) \
+              and isValidDirName(product_name)
+
+    return (not product_name in get_product_listdirs()) \
+           and isValidDirName(product_name)
+
+security.declarePublic('isValidDestinationDir')
+def isValidDestinationDir(destination_dir):
+    """ Check for existance of destination directory."""
+    return os.path.isdir(destination_dir)
 
 DIR_NAME_PATTERN = re.compile("^[a-zA-Z]+[a-zA-Z0-9_]*[a-zA-Z0-9]$")
 security.declarePublic('isValidDirName')
@@ -48,9 +61,10 @@ def isValidDirName(dir_name):
 
 security.declarePublic('createProduct')
 def createProduct(context, \
-                  zmi_skin_name='custom', \
+                  zmi_skin_names=['custom',], \
                   zmi_base_skin_name='', \
                   subdir=None,\
+                  fs_dest_directory=PRODUCTS_PATH, \
                   fs_skin_directory='custom',\
                   fs_product_name='QSkinTemplate',\
                   erase_from_skin=0,\
@@ -63,16 +77,19 @@ def createProduct(context, \
                   import_policy=DEFAULT_IMPORTING_POLICY,\
                   exporting_objects=[], \
                   dump_CSS=True, \
-                  dump_JS=True ):
+                  dump_JS=True, \
+                  dump_portlets=0, \
+                  dump_policy='root', \
+                  dump_portlets_selection=[], \
+                  dump_custom_views=False):
     """ Main Skin Product creating procedure."""
-    makeNewProduct(context, fs_product_name, fs_skin_directory, \
-                   zmi_skin_name, zmi_base_skin_name, subdir, \
+    makeNewProduct(context, fs_dest_directory, fs_product_name, fs_skin_directory, \
+                   zmi_skin_names, zmi_base_skin_name, subdir, \
                    doesCustomizeSlots, left_slots, right_slots, slot_forming, main_column, \
                    doesExportObjects, import_policy, \
-                   dump_CSS, dump_JS )
-    dumpSkin(context, zmi_skin_name, subdir, fs_skin_directory.lower(),
-             fs_product_name, erase_from_skin)
-    result = exportObjects(context, doesExportObjects, exporting_objects, fs_product_name)
+                   dump_CSS, dump_JS, dump_portlets, dump_policy, dump_portlets_selection, dump_custom_views)
+    dumpSkin(context, zmi_skin_names, fs_dest_directory, fs_product_name, erase_from_skin)
+    result = exportObjects(context, doesExportObjects, exporting_objects, fs_dest_directory, fs_product_name)
     return result
 
 security.apply(globals())

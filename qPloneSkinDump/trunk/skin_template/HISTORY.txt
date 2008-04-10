@@ -1,0 +1,5 @@
+%(SKIN_PRODUCT_NAME)s Change Log
+
+  %(creation_date)s - 0.1 Release
+
+    - Initial version for plone 3;

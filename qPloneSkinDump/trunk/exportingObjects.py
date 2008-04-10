@@ -5,6 +5,7 @@ from zLOG import LOG, INFO
 from time import gmtime, strftime
 import os, os.path
 osp = os.path
+from config import PRODUCTS_PATH
 
 def copyFile(src_dir, dst_dir, f_name):
     # Copy file from src_dir to dst_dir under original name
@@ -32,12 +33,13 @@ def moveToDir(file_list, src_dir_path, temp_dir_path):
 ###############################################################
 ##                         EXPORTING                         ##
 ###############################################################
-def exportObjects(context, doesExportObjects, exporting_objects, product_name):
+def exportObjects(context, doesExportObjects, exporting_objects,
+                  fs_dest_directory, product_name):
     # Check whether should perform exporting
     if not doesExportObjects:
         return None
     # Get Instance's exported and Product's imoprt pathes
-    instance_epath, product_epath = getImportedPathes(product_name)
+    instance_epath, product_epath = getImportedPathes(fs_dest_directory, product_name)
     # Move same named files from Instance export dir to Temp dir
     temp_dir_path, product_elist = moveSameFilesToTemp(instance_epath, product_epath, exporting_objects)
     # Export objects
@@ -61,11 +63,11 @@ def exportObjects(context, doesExportObjects, exporting_objects, product_name):
         os.rmdir(temp_dir_path)
     return fail_export
 
-def getImportedPathes(product_name):
+def getImportedPathes(fs_dest_directory, product_name):
     # Based on instance path, construct import pathes 
     cfg = getConfiguration()
     instance_epath = cfg.clienthome
-    product_epath = osp.join(cfg.instancehome, 'Products', product_name, "import")
+    product_epath = osp.join(fs_dest_directory, product_name, "import")
     # Check presence of Product import directory
     if not osp.isdir(product_epath):        
         raise BadRequest, "Skin Product's import directory '%s' - does not exist or isn't direcory" % product_epath

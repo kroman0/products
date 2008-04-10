@@ -1,5 +1,22 @@
-qPloneSkinDump 0.7.4
-    - Prevent copying .svn directories on skin product creating
+qPloneSkinDump 0.8.4
+    
+    - Implemented correct installation/uninstallation
+      for generated skin product
+    - Prevent copying .svn directory into generated skin product
+      from template
+    - Added "Destination directory" field to skin dump form.
+      Allow change destination directory for generated product
+
+
+qPloneSkinDump 0.8.1
+
+    - essential improvements of dumping portlets
+
+qPloneSkinDump 0.8.0
+    - configlet form improvement
+    - fixed migration bugs to plone3
+    - added support for plone_view_customizations dump
+    - refactor old-style installer to portal_setup
 
 qPloneSkinDump 0.7.3
     - Add support skins, generated under older qPloneSkinDump version.

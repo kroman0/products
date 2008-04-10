@@ -10,7 +10,9 @@
 ##
 
 from Products.CMFCore.utils import getToolByName
-from Products.qPloneSkinDump.qPloneSkinDump import isValidProductName, isValidDirName
+from Products.qPloneSkinDump.qPloneSkinDump import isValidProductName
+from Products.qPloneSkinDump.qPloneSkinDump import isValidDirName
+from Products.qPloneSkinDump.qPloneSkinDump import isValidDestinationDir
 errors = state.getErrors()
 
 def update_errors(existent_errors, new_errors):
@@ -21,7 +23,7 @@ def update_errors(existent_errors, new_errors):
             existent_errors[e_name] = e_value
 
 # Check REQUIRED fields
-REQUIRED_FIELDS = ['ZMISkinName', 'ZMIBaseSkinName', 'FSProductName', 'FSSkinDirectory']
+REQUIRED_FIELDS = ['ZMISkinName', 'ZMIBaseSkinName', 'FSProductName', 'FSSkinDirectory', 'FSDestinationDirectory']
 theform = {}
 for f in REQUIRED_FIELDS:
     fdata = context.REQUEST.get(f, None)
@@ -29,8 +31,12 @@ for f in REQUIRED_FIELDS:
         update_errors(errors, {f:u'Field is required.'})
     theform[f]=fdata
 
-if not( theform['FSProductName'] and isValidProductName(theform['FSProductName']) ):
-    update_errors(errors, {'FSProductName': u"Not valid Product name - read help attentively."})
+if not( theform["FSDestinationDirectory"] and isValidDestinationDir(theform["FSDestinationDirectory"]) ):
+    update_errors(errors, {"FSDestinationDirectory": u"Not valid Destination directory"})
+
+if not( theform['FSProductName'] and theform["FSDestinationDirectory"] \
+        and isValidProductName(theform['FSProductName'], theform["FSDestinationDirectory"]) ):
+    update_errors(errors, {'FSProductName': u"Not valid Product name or problem with destination directory - read help attentively."})
 
 if not( theform['FSSkinDirectory'] and isValidDirName(theform['FSSkinDirectory']) ):
     update_errors(errors, {'FSSkinDirectory': u"Not valid Skin name - read help attentively."})

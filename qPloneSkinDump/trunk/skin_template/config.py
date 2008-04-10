@@ -1,3 +1,4 @@
+import os
 ## PLONE AND SKIN PRODUCT SPECIFIC CONSTANTS
 GLOBALS = globals()
 GENERATOR_PRODUCT = "%(GENERATOR_PRODUCT)s"
@@ -13,8 +14,8 @@ BASE_SKIN_NAME = "%(BASE_SKIN_NAME)s"
 ## 'None' - mean that on installation slot will not be changed.
 ## ['some/portlet1','some/portlet2'] - will change appropriate (left or right)
 ##                                     slot to listed portlets
-LEFT_SLOTS = %(LEFT_SLOTS)s
-RIGHT_SLOTS = %(RIGHT_SLOTS)s
+#LEFT_SLOTS = %(LEFT_SLOTS)s
+#RIGHT_SLOTS = %(RIGHT_SLOTS)s
 
 ## Slot's list forming procedure.
 ## "blend_with_skin" [default]- to SKIN PRODUCT'S slots list added unknown slots from SITE.
@@ -23,7 +24,7 @@ RIGHT_SLOTS = %(RIGHT_SLOTS)s
 #SLOT_FORMING = "blend_with_skin"
 #SLOT_FORMING = "blend_with_site"
 #SLOT_FORMING = "replace"
-SLOT_FORMING = "%(SLOT_FORMING)s"
+#SLOT_FORMING = "%(SLOT_FORMING)s"
 
 ## Favour column for slots forming procedure. IMPORTANT only for 'Blend with...' 
 ## Slot's list forming procedure.
@@ -36,7 +37,7 @@ SLOT_FORMING = "%(SLOT_FORMING)s"
 #MAIN_COLUMN = "left"
 #MAIN_COLUMN = "right"
 #MAIN_COLUMN = "both"
-MAIN_COLUMN = "%(MAIN_COLUMN)s"
+#MAIN_COLUMN = "%(MAIN_COLUMN)s"
 
 
 ##
@@ -99,3 +100,18 @@ IMPORT_POLICY = "%(IMPORT_POLICY)s"
 ## FINAL_CUSTOMIZATION_FUNCTIONS = [myCustomization]
 from Products.CMFCore.utils import getToolByName
 FINAL_CUSTOMIZATION_FUNCTIONS = []
+
+# site portlets registry
+SLOT_STRUCTURE = %(slot_structure)s
+
+# portal_view_customization content
+CUSTOM_VIEWS = %(custom_views)s
+
+# absolute file system path to product
+from Globals import package_home
+PRODUCTS_PATH = os.sep.join(package_home(GLOBALS).split(os.sep)[:-1])
+
+## GenericSetup constants
+GS_INSTALL_PROFILE      = "profile-Products.%(product_name)s:default"
+GS_AFTERINSTALL_PROFILE = "profile-Products.%(product_name)s:afterinstall"
+GS_UNINSTALL_PROFILE    = "profile-Products.%(product_name)s:uninstall"

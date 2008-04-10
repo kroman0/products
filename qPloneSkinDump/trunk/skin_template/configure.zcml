@@ -1,0 +1,12 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
+    i18n_domain="%(product_name_lowercase)s">
+
+ <include file="profiles.zcml" />
+
+ <include file="skins.zcml" />
+
+ <include package=".browser" />
+
+</configure>

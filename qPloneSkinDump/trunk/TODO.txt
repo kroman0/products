@@ -1,3 +1,11 @@
-*** Under consideration ***
+*** TODO LIST ***
 
-  - Create more usable interface.
+  - improvements in resource dumping
+  - refactor portal_view_customizations dump
+  - add dump of portal_properties
+  - add dump of viewlets.xml
+  - add dump of portlets.xml
+  - core refactorization, divide into small chunks all functionality (too difficult to upgrade current skindump structure)
+       * maybe using zope 3 component architecture
+maybe in future:
+  - refactor qPloneSkinDump to work with python paster package, for use ZopeSkel templates styling

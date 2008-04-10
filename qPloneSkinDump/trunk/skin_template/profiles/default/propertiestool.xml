@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<object name="portal_properties" meta_type="Plone Properties Tool">
+ <object name="%(product_name_lowercase)s_properties" meta_type="Plone Property Sheet">
+  <property name="title">%(product_name)s properties</property>
+  <property name="portlets_before_install" type="string">[]</property>
+ </object>
+</object>

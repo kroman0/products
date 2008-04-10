@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="custom_i18n_domain">
+
+    <interface
+        interface=".interfaces.ITheme%(skin_name_capital)s"
+        type="zope.publisher.interfaces.browser.IBrowserSkinType"
+        name="%(skin_name)s"
+        />
+
+    <include file="viewlets.zcml"/>
+
+</configure>

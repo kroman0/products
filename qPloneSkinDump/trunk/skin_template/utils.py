@@ -1,4 +1,6 @@
+import transaction
 import os, sys, re, string
+from sets import Set
 from StringIO import StringIO
 from time import gmtime, strftime
 from zLOG import LOG, INFO
@@ -7,6 +9,7 @@ from App.config import getConfiguration
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.DirectoryView import addDirectoryViews
 from Products.%(SKIN_PRODUCT_NAME)s.config import *
+from fixes import fix
 
 ######################################################################
 ##                      IMPORTING UTILS                             ##
@@ -39,7 +42,7 @@ def getImportedPathes():
     # Based on instance path, construct import pathes 
     cfg = getConfiguration()
     instance_ipath = osp.join(cfg.instancehome, "import")
-    product_ipath = osp.join(cfg.instancehome, 'Products', PRODUCT_NAME, "import")
+    product_ipath = osp.join(PRODUCTS_PATH, PRODUCT_NAME, "import")
     # Check presence of Product import directory
     if not osp.isdir(product_ipath):        
         raise BadRequest, "Skin Product's import directory '%%s' - does not exist or is'nt direcory" %% product_ipath
@@ -112,12 +115,13 @@ def makeBackUp(portal, portal_objects, temp_dir_path, obj_id):
         durty_path,temp_id = osp.split(durty_path)
     # Get temp folder-object
     if temp_id not in portal_objects:
-        portal.invokeFactory('Folder', id=temp_id)
+        portal.invokeFactory('Large Plone Folder', id=temp_id)
         print >> import_out, "! Created '%%s' backup directory with same-ids " \
                              "objects from portal root." %% temp_id
     temp_dir = getattr(portal, temp_id)
     # Move object with same id to temp folder-object
-    get_transaction().commit(1)
+    #get_transaction().commit(1)
+    transaction.savepoint()
     obj = portal.manage_cutObjects(ids=[obj_id])
     temp_dir.manage_pasteObjects(obj)
     print >> import_out, "! '%%s' Object moved from portal root to '%%s' backup directory." %% (obj_id, temp_id)
@@ -190,13 +194,24 @@ def cleanInstanceImport(instance_ipath, product_file_names, temp_dir_path):
             LOG('performImportToPortal',INFO,'moveFromTempToImport', msg)
     print >> import_out, SUMMARY_CLEAN
 
+def fixImportingIssues(portal, beforeimporting_objects):
+    ''' Fix defects of importing process: reindexing, other'''
+    afterimporting_objects = portal.objectItems()
+    diff_objects = list(Set(afterimporting_objects)-Set(beforeimporting_objects))
+    for id, ob in diff_objects:
+        if id.startswith('back_'):
+            continue
+        fix(ob)
+
 ################    MAIN    ################
 def performImportToPortal(portal):
     """ Import objects from Skin Product to Portal root."""
     globals()['import_out'] = StringIO()
     instance_ipath, product_ipath, temp_dir_path, product_file_names = copyToInstanceImport()
     if product_file_names:
+        beforeimporting_objects = portal.objectItems()
         importToPortalRoot(portal, product_file_names, temp_dir_path)
+        fixImportingIssues(portal, beforeimporting_objects)
         cleanInstanceImport(instance_ipath, product_file_names, temp_dir_path)
     else:
         print >> import_out, "!!! Failure importing: there is no file for importing to be found."
@@ -414,3 +429,44 @@ def getProperty(pp, ps, id, default=[]):
     if ps in pp.objectIds() and pp[ps].hasProperty(id):
         res = pp[ps].getProperty(id, default)
     return res
+
+
+###################################
+## OLD INSTALL
+
+def prepareInstallation(portal, pp, out):
+    #uninstallOtherSkinProducts(portal)
+    if not ('uninstall_properties' in pp.objectIds()) :
+        pp.addPropertySheet(id='uninstall_properties', title= 'uninstall_properties')
+        print >> out, "Created 'portal_properties.uninstall_properties' PropertySheet (UP) for backup purpose"
+    return pp.uninstall_properties
+CHECKED_MESSAGE = "The base installation checkings completed."
+
+def uninstallOtherSkinProducts(portal):
+    qi=getToolByName(portal, 'portal_quickinstaller', None)
+    if not qi:
+        raise Exception("Can't work without QuickInstaller tool.")
+    # Get installed products
+    installed_products = [getattr(qi, p_dict['id']) \
+                          for p_dict in qi.listInstalledProducts()
+                          if p_dict['id'] != PRODUCT_NAME]
+    seek_str = "%%s generated product" %% GENERATOR_PRODUCT
+    installed_skin_products = []
+    # Looking for installed skin-products
+    for p in installed_products:
+        transcript = p.getTranscriptAsText()
+        if transcript.find(seek_str) >= 0 :
+            installed_skin_products.append(p.getId())
+    # Uninstall found skin-products
+    if installed_skin_products:
+        qi.uninstallProducts(products=installed_skin_products)
+
+###################################
+## Prepare UNINSTALL
+
+def prepareUninstallSkin(portal, pp_up, out): # ??
+    # Checking for presense SKIN_NAME in portal_skins directory view or among Skin Names
+    skinsTool = getToolByName(portal, 'portal_skins')
+    # Get unique product_skin_name and remember it in case of differ from SKIN_NAME.
+    default_skin = skinsTool.getDefaultSkin()
+    addProperty(pp_up, 'q_default_skin', default_skin, 'string', out)

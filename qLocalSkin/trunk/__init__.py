@@ -30,4 +30,4 @@ def urltool_getPortalPath(self):
     return '/'.join(self.getPortalObject().getPhysicalPath()) + url_suffix
 
 URLTool.__call__ = urltool_call
-URLTool.getPortalPath = urltool_getPortalPath
+#URLTool.getPortalPath = urltool_getPortalPath

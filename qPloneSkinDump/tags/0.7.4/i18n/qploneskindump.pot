@@ -1,0 +1,278 @@
+# Gettext Message File for qPloneSkinDump
+msgid ""
+msgstr ""
+"Project-Id-Version: qPloneSkinDump 0.2.1\n"
+"POT-Creation-Date: 2005-10-18 13:00+0000\n"
+"PO-Revision-Date: 2005-10-18 13:30+0000\n"
+"Last-Translator: Andriy Mylenkyy <mylenkyj@yahoo.co.uk>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: latin1 utf-8\n"
+"Domain: qploneskindump\n"
+
+#
+# <h2 i18n:translate="heading_portalactions_lists">
+#
+msgid "heading_portalactions_lists"
+msgstr "qPloneSkinDump input FORM"
+
+#
+# <div i18n:translate="help_ZMISkinName" class="formHelp">
+#
+msgid "help_ZMISkinName"
+msgstr "Input folder name from ../portal_skins, which content should by copyed to FS product."
+
+#
+# <label class="ZMISkinName_title" i18n:translate="label_ZMISkinName">Source ZMI skin folder</label>
+#
+msgid "label_ZMISkinName"
+msgstr "Source ZMI skin folder:"
+
+#
+# <div i18n:translate="help_ZMIBaseSkinName" class="formHelp">
+#
+msgid "help_ZMIBaseSkinName"
+msgstr "Input Skin name, which layers list will be used for creating new skin."
+
+#
+# <label class="ZMIBaseSkinName_title" i18n:translate="label_ZMIBaseSkinName">ZMI base skin name</label>
+#
+msgid "label_ZMIBaseSkinName"
+msgstr "ZMI base skin name:"
+
+#
+# <div i18n:translate="help_EraseFromSkin" class="formHelp">
+#
+msgid "help_Erase"
+msgstr "Select for erase content of skin's source folder."
+
+#
+# <label class="EraseFromSkin_title" i18n:translate="label_Erace">Erace </label>
+#
+msgid "label_Erace"
+msgstr "Erace:"
+
+#
+# <h4 i18n:translate="label_FS">File system:</h4>
+#
+msgid "label_FS"
+msgstr "File system:"
+
+#
+# <div i18n:translate="help_FSSkinDirectory" class="formHelp">
+#
+msgid "help_FSSkinDirectory"
+msgstr "Input skin's name for new prodct.<br>This name in lower case will be used as skin's folder name and as layer name too.<br>The name must begin with alphabetical character, following with an alphanumeric combination."
+
+#
+# <label class="FSSkinDirectory_title" i18n:translate="label_FSSkinDirectory">Skin's name for new prodct</label>
+#
+msgid "label_FSSkinDirectory"
+msgstr "Skin's name for new prodct:"
+
+#
+# <div i18n:translate="help_FSProductName" class="formHelp">
+#
+msgid "help_FSProductName"
+msgstr "Input name of new product.<br>Name must begin with alphabetical character, following with an alphanumeric combination."
+
+#
+# <label class="FSProductName_title" i18n:translate="label_FSProductName">Product name</label>
+#
+msgid "label_FSProductName"
+msgstr "Product name:"
+
+#
+# <h4 i18n:translate="label_Slots">Customization portal slots in new product:</h4>
+#
+msgid "label_Slots"
+msgstr "Customization portal slots in new product:"
+
+#
+# <div class="formHelp" i18n:translate="help_DoesCustomizeSlots">Switch on/Switch off SLOTS CUSTOMIZATION in New Skin Product.</div>
+#
+msgid "help_DoesCustomizeSlots"
+msgstr "Switch on/Switch off SLOTS CUSTOMIZATION in New Skin Product."
+
+#
+# <label i18n:translate="label_DoesCustomizeSlots">Do customize slots</label> 
+#
+msgid "label_DoesCustomizeSlots"
+msgstr "Do customize slots"
+
+#
+# <div i18n:translate="help_SlotsCustomizing"
+#      class="formHelp">
+#      Portal slots. BE VERY ACCURACY!<br/> 
+#      Leave in the left and right slot lists only those portlets, which relate <br/>
+#      to your skin product and either bring with new product or is standard for Plone.
+# </div>
+#
+msgid "help_SlotsCustomizing"
+msgstr "Portal slots. BE VERY ACCURACY!<br/>Leave in the left and right slot lists only those portlets, which relate<br/>to your skin product and either bring with new product or is standard for Plone."
+
+#
+# <label class="LeftSlotsCustomizing_title" i18n:translate="label_LeftsSlotCustomizing">Left portal slots customizing</label>
+#
+msgid "label_LeftsSlotCustomizing"
+msgstr "Left portal slots customizing"
+
+#
+# <label class="RightSlotsCustomizing_title" i18n:translate="label_RightSlotsCustomizing">Right portal slots customizing</label>
+#
+msgid "label_RightSlotsCustomizing"
+msgstr "Right portal slots customizing"
+
+#
+# <label i18n:translate="label_ColumnSlotsForming">Slot's list forming</label>
+#
+msgid "label_ColumnSlotsForming"
+msgstr "Slot's list forming"
+
+#
+# <div i18n:translate="help_ColumnSlotsForming"
+#      class="formHelp">
+#      Choose procedure of forming slots lists.<br/>
+#      Blend with skin - to SKIN PRODUCT'S slots list added unknown slots from SITE.<br/>
+#      Blend with site -  to SITE's slots list added unknown slots from SKIN PRODUCT.<br/>
+#      Replace - in left and right site's columns placed ONLY SKIN PRODUCT's slots.
+# </div>
+#
+msgid "help_ColumnSlotsForming"
+msgstr "Choose procedure of forming slots lists.<br/>Blend with skin - to SKIN PRODUCT'S slots list added unknown slots from SITE.<br/>Blend with site - to SITE's slots list added unknown slots from SKIN PRODUCT.<br/>Replace - in left and right site's columns placed ONLY SKIN PRODUCT's slots."
+
+#
+# <label class="ColumnSlotsForming_title" i18n:translate="" tal:content="python:former[1]"></label>
+#
+msgid "Blend with skin"
+msgstr "Blend with skin"
+
+msgid "Blend with site"
+msgstr "Blend with site"
+
+msgid "Replace"
+msgstr "Replace"
+
+#
+# <label  i18n:translate="label_ColumnSlotsForming">Main column</label>
+#
+msgid "label_FavourColumn"
+msgstr "Main column"
+
+#
+# <div i18n:translate="help_FavourColumn" class="formHelp">
+#       Choose favour column for slots forming procedure. IMPORTANT only for 'Blend with...' formers.<br/>
+#       Left/Right - if find same slots in left and right columns - than slots move accordingly to left/right column.<br/>
+#       Both - if find same slots in left and right columns - than slots positionings as in Master's slots lists 
+#       (from SKIN PRODUCT's slots for 'Blend with skin' procedure and SITE's slots for 'Blend with site').
+# </div>
+#
+msgid "help_FavourColumn"
+msgstr "Choose favour column for slots forming procedure. IMPORTANT only for 'Blend with...' formers.<br/>Left/Right - if find same slots in left and right columns - than slots move accordingly to left/right column.<br/>Both - if find same slots in left and right columns - than slots positionings as in Master's slots lists (from SKIN PRODUCT's slots for 'Blend with skin' procedure and SITE's slots for 'Blend with site' one)."
+
+#
+# <label class="FavourColumn_title" i18n:translate="" tal:content="python:favour[1]"></label>
+#
+msgid "Left"
+msgstr "Left"
+
+msgid "Right"
+msgstr "Right"
+
+msgid "Both"
+msgstr "Both"
+
+
+
+
+
+
+
+#
+# <label for="DoesExportObjects" style="font-size: 110%" i18n:translate="label_DoesExportObjects">Exporting objects from portal root</label>
+#
+msgid "label_DoesExportObjects"
+msgstr "Exporting objects from portal root"
+
+#
+# 
+#
+msgid ""
+msgstr ""
+
+#
+# <div class="formHelp" i18n:translate="help_DoesExportObjects">Selected below objects will be exported to New Skin Product. Then on installation generated Skin Product they will be imported to portal root, based on choosed policy.
+#
+msgid "help_DoesExportObjects"
+msgstr "Selected below objects will be exported to New Skin Product. Then on installation generated Skin Product they will be imported to portal root, based on choosed policy."
+
+#
+# <label  i18n:translate="label_ImportPolicy">Import Policy</label>
+#
+msgid "label_ImportPolicy"
+msgstr "Import Policy"
+
+#
+# <div i18n:translate="help_ImportPolicy" class="formHelp">Choose *Import policy* for generated Skin Product. *Import policy* define behavior in case of meeting same id object in portal root with imported one. "only_new" - imported objects with ids, identical to portal root objects ids Not imported. "backup" - for portal root objects with same ids creates back_[date] directory and they moved there. All imported objects - importing to portal root. "overwrite" - all objects in portal root with same id overwrited with imported one.</div>
+#
+msgid "help_ImportPolicy"
+msgstr "Choose *Import policy* for generated Skin Product. *Import policy* define behavior in case of meeting same id object in portal root with imported one. 'only_new' - imported objects with ids, identical to portal root objects ids Not imported. 'backup' - for portal root objects with same ids creates back_[date] directory and they moved there. All imported objects - importing to portal root. 'overwrite' - all objects in portal root with same id overwrited with imported one."
+
+#
+# <label class="default_import_policy" i18n:translate="" tal:content="i_policy_name"></label>
+#
+msgid "Only new"
+msgstr "Only new"
+
+msgid "Backup"
+msgstr "Backup"
+
+msgid "Overwrite"
+msgstr "Overwrite"
+
+#
+# <label class="ExportingOjects_title" i18n:translate="label_ExportingOjects">Exporting objects</label>
+#
+msgid "label_ExportingOjects"
+msgstr "Exporting objects"
+
+#
+# <div i18n:translate="help_ExportingOjects" class="formHelp">Exporting object ids list. All selected objects will be exported to "&lt;Skin Product&gt;/import" directory and WILL BE IMPORTED to portal root on SkinProduct installation.</div>
+#
+msgid "help_ExportingOjects"
+msgstr "Exporting object ids list. All selected objects will be exported to '&lt;Skin Product&gt;/import' directory and WILL BE IMPORTED to portal root on SkinProduct installation."
+
+#
+# <label for="DoesExportResources" style="font-size: 110%" i18n:translate="label_DoesExportResources">Exporting portal resources</label>
+#
+msgid "label_DoesExportResources"
+msgstr "Exporting portal resources"
+
+#
+# <div class="formHelp" i18n:translate="help_DoesExportResources">Checked Portal Resources with current property sets will be exported from corresponding portal registries to New Skin Product. Then on generated Skin Product installation, appropriate portal registry will be made identical to yours. This guarantee look and behavior of generated Skin Product in desired way. You can make corrections of exported resources in config.py module of New Skin Product. This feature work only when generated Skin Product install on Plone v2.1+.</div>
+#
+msgid "help_DoesExportResources"
+msgstr "Checked Portal Resources with current property sets will be exported from corresponding portal registries to New Skin Product. Then on generated Skin Product installation, appropriate portal registry will be made identical to yours. This guarantee look and behavior of generated Skin Product in desired way. You can make corrections of exported resources in config.py module of New Skin Product. This feature work only when generated Skin Product install on Plone v2.1+."
+
+#
+# <label class="DumpCSSRegistry_title" i18n:translate="label_DumpCSSRegistry">Dump portal_CSS registry.</label>
+#
+msgid "label_DumpCSSRegistry"
+msgstr "Dump portal_css registry."
+
+#
+# <label class="DumpJSRegistry_title" i18n:translate="label_DumpJSRegistry">Dump portal_javascripts registry.</label>
+#
+msgid "label_DumpJSRegistry"
+msgstr "Dump portal_javascripts registry."
+
+
+#
+# <input class=context type="submit" name="form.button.form_submit" value="Generate" i18n:attributes="value"/>
+#
+msgid "Generate"
+msgstr "Generate"

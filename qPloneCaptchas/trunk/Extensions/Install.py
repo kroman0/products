@@ -43,10 +43,10 @@ def install(self):
         plone_version = '2.0.5'
     elif plone_version.startswith('2.5'):
         plone_version = '2.5'
-    elif plone_version.startswith('3.0'):
+    elif plone_version.startswith('3'):
         plone_version = '3.0'
     else:
-        raise Exception("Error - Unsupported version. Suported versions: Plone 2.0.5-2.5")
+        raise Exception("Error - Unsupported version. Suported versions: Plone 2.0.5-3")
 
     DiscussionLayer = LAYER_DISCUSSION
     qi = getToolByName(self, 'portal_quickinstaller')

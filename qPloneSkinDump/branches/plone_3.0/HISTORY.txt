@@ -1,3 +1,10 @@
+qPloneSkinDump 0.8.5
+    
+    - Fix importing bug: wrong import directory calculating
+      for generated skin. Discover itself when skin places in
+      different directory, than instance's Products.
+
+
 qPloneSkinDump 0.8.4
     
     - Implemented correct installation/uninstallation

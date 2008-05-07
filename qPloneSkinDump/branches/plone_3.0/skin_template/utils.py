@@ -10,6 +10,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.DirectoryView import addDirectoryViews
 from Products.%(SKIN_PRODUCT_NAME)s.config import *
 from fixes import fix
+from Globals import package_home
 
 ######################################################################
 ##                      IMPORTING UTILS                             ##
@@ -42,7 +43,7 @@ def getImportedPathes():
     # Based on instance path, construct import pathes 
     cfg = getConfiguration()
     instance_ipath = osp.join(cfg.instancehome, "import")
-    product_ipath = osp.join(PRODUCTS_PATH, PRODUCT_NAME, "import")
+    product_ipath = osp.join(package_home(GLOBALS), "import")
     # Check presence of Product import directory
     if not osp.isdir(product_ipath):        
         raise BadRequest, "Skin Product's import directory '%%s' - does not exist or is'nt direcory" %% product_ipath

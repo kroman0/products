@@ -1,0 +1,6 @@
+[validators]
+validators = formmailer_validator
+
+[actions]
+action.success = traverse_to:string:formmailer_send
+action.failure = traverse_to_action:string:view

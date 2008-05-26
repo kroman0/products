@@ -1,0 +1,149 @@
+1.5.1
+
+    * added support of additional keywords
+
+1.5.0
+
+    * added layer for plone 2.5.5 version
+
+1.4.0
+
+    * added layer for plone 2.5.4 version
+    
+    * refactored additional keywords adapter (now lynx is required)
+    
+    * fixed sorting of keywords in keywords meta tag
+
+1.3.0
+
+    * added default_custom_metatags functionality
+
+1.2.1
+
+    * refactored keywords checking mechanism
+
+1.2.0
+
+    * added custom meta tags functionality
+
+1.1.0
+
+    * Fixed to not reset the SEO property sheet content when reinstaling
+      the product.
+
+    * Added the additional keywords feature.
+
+    * Added a new test suite for the additinal keywords.
+
+    * Reformatted the history file.
+
+
+1.0.1
+
+    * Bug fix release
+
+    * Update HISTORY.txt and README.txt
+
+
+1.0.0
+
+    * Plone 3.0 support release
+
+    * Macros replaced with viewlets
+
+
+0.5.3
+
+    * Plone 2.5.3 support release.
+
+
+0.5.2
+
+    * Fixed IE related javascript bug in word counters.
+
+
+0.5
+
+    * Plone 2.1.4 support release.
+
+
+0.5-pre
+
+    * Added word statistics and field length counters.
+
+
+0.3.3
+
+    * Plone-2.0 compatibility release.
+
+    * Fixed bug that broke Plone-2.0.x with product installed in Zope and
+      not reinstalled in Plone.
+
+
+0.3.2
+
+    * Cleanup and Plone-2.1.2 compatibility.
+
+    * Cleaned up confilet.
+
+    * Made Plone-2.1.2 compatible.
+
+
+0.3.1
+
+    * Added exposeDCMetaTags propery to configlet.
+
+    * Added exposeDCMetaTags property to site_properties in Plone-2.0.x.
+
+    * More tests introduced.
+
+
+0.3.0
+
+    * Added abillity to select content types.
+
+    * Plone-2.1.1 compatibility.
+
+    * Configlet added.
+
+    * Tests added.
+
+
+0.2.0
+
+    * Initial public release.
+
+    * Plone-2.0.5 compatibility.
+
+    * Uninstaller added.
+
+
+0.1.2
+
+    * Added ability to edit HTML Comments.
+
+    * Removed developer' HTML Comments from Plone header.pt.
+
+
+0.1.1
+
+    * Renamed to qSEOptimizer (due to mistyping into initial product name).
+
+    * Added qseoptimizer.pot template for translators.
+
+    * Added Ukrainian translation.
+
+
+0.1
+
+    * Initial release.
+
+    * It is possible to edit html header META tags esential for search engines:
+
+      * description
+
+      * keywords
+
+      * robots
+
+      * distribution

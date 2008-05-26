@@ -9,9 +9,19 @@
 ##
 
 prop_name = 'qSEO_keywords'
+add_keywords = 'additional_keywords'
 
+keywords = []
 if context.hasProperty(prop_name):
-    return context.getProperty(prop_name)
+    keywords = context.getProperty(prop_name)
+
+pprops = context.portal_properties
+sheet = getattr(pprops, 'seo_properties', None)
+if sheet and sheet.hasProperty(add_keywords):
+    keywords += sheet.getProperty(add_keywords)
+
+if keywords:
+    return keywords
 
 accessor = 'Subject'
 

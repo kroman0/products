@@ -110,7 +110,6 @@ def setupActions(self, out):
             except AttributeError:
                 action = ptype.getActionById('seo_properties', default=None )
 
-
             if action is None:
                 out.write( '  Added SEO Properties tab for %s\n' % ptype.getId() )
                 ptype.addAction( 'seo_properties',

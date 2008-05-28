@@ -1,5 +1,4 @@
 from Products.CMFCore.utils import getToolByName
-
 # Get apropriate property from (propery_sheeet) configlet
 def getProp(self, prop_name, marker=None):
     result = marker
@@ -94,7 +93,9 @@ def send_email(reply, context, state):
     creator_name = reply.getOwnerTuple()[1]
     admin_email = context.portal_url.getPortalObject().getProperty('email_from_address')
 
+    subject = ''
     if state == 'enable_approve_user_notification':
+        subject = 'Your comment on %s is now published'%context.Title()
         if user_email:
             template = 'notify_comment_template'
             args={'mto': user_email,
@@ -106,6 +107,7 @@ def send_email(reply, context, state):
             args = {}
 
     elif state == 'enable_rejected_user_notification':
+        subject = 'Your comment on %s was not approved.'%context.Title()
         if user_email:
             template = 'rejected_comment_template'
             args={'mto': user_email,
@@ -118,6 +120,7 @@ def send_email(reply, context, state):
 
     elif state == 'enable_reply_user_notification':
         template = 'reply_notify_template'
+        subject = 'Someone replied to your comment on %s'%context.Title()
         di_parrent = getDIParent(reply)
         if di_parrent:
             user_email = getEmail(di_parrent, context)
@@ -140,6 +143,7 @@ def send_email(reply, context, state):
                   'mfrom':admin_email,
                   'obj':reply_parent,
                   'organization_name':organization_name}
+            subject = '[%s] New comment added'%organization_name
         else:
             args = {}
 
@@ -151,13 +155,21 @@ def send_email(reply, context, state):
                   'mfrom':admin_email,
                   'obj':reply_parent,
                   'organization_name':organization_name}
+            subject = '[%s] New comment awaits moderation'%organization_name
         else:
             args = {}
 
     if args:
         msg = getMsg(context, template, args)
-        #__import__("pdb").set_trace()
-        context.MailHost.send(str(msg))
+        p_utils = context.plone_utils
+        site_props = context.portal_properties.site_properties
+        host = p_utils.getMailHost()
+        host.secureSend(msg, user_email, admin_email,
+                        subject = subject,
+                        subtype = 'plain',
+                        debug = False,
+                        charset = site_props.getProperty('default_charset', 'utf-8'),
+                        From = admin_email)
 
 
 HAS_MESSAGEFACTORY = True

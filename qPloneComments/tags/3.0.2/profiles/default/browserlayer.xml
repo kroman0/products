@@ -1,0 +1,4 @@
+<layers>
+    <layer name="qPloneComments" 
+       interface="Products.qPloneComments.interfaces.IPloneCommentsLayer" />
+</layers>

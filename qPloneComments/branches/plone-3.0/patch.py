@@ -8,53 +8,6 @@ import rfc822
 from StringIO import StringIO
 from utils import *
 
-def _mungeHeaders( messageText, mto=None, mfrom=None, subject=None):
-    """Sets missing message headers, and deletes Bcc.
-       returns fixed message, fixed mto and fixed mfrom"""
-    mfile=StringIO(messageText.lstrip())
-    mo=rfc822.Message(mfile)
-
-    # Parameters given will *always* override headers in the messageText.
-    # This is so that you can't override or add to subscribers by adding them to
-    # the message text.
-    if subject:
-        mo['Subject'] = subject
-    elif not mo.getheader('Subject'):
-        mo['Subject'] = '[No Subject]'
-
-    if mto:
-        if isinstance(mto, basestring):
-            mto = [rfc822.dump_address_pair(addr) for addr in rfc822.AddressList(mto) ]
-        if not mo.getheader('To'):
-            mo['To'] = ','.join(mto)
-    else:
-        mto = []
-        for header in ('To', 'Cc', 'Bcc'):
-            v = mo.getheader(header)
-            if v:
-                mto += [rfc822.dump_address_pair(addr) for addr in rfc822.AddressList(v)]
-        if not mto:
-            raise MailHostError, "No message recipients designated"
-
-    if mfrom:
-        mo['From'] = mfrom
-    else:
-        if mo.getheader('From') is None:
-            raise MailHostError,"Message missing SMTP Header 'From'"
-        mfrom = mo['From']
-
-    if mo.getheader('Bcc'):
-        mo.__delitem__('Bcc')
-
-    if not mo.getheader('Date'):
-        mo['Date'] = DateTime().rfc822()
-
-    mo.rewindbody()
-    finalmessage = mo
-    finalmessage = mo.__str__() + '\n' + mfile.read()
-    mfile.close()
-    return finalmessage, mto, mfrom
-
 # Patching createReply method of 
 # Products.CMFDefault.DiscussionItem.DiscussionItemContainer
 def createReply( self, title, text, Creator=None, email=''):
@@ -138,11 +91,3 @@ InitializeClass(DiscussionItemContainer)
 
 DiscussionItemContainer.createReply = createReply
 DiscussionItemContainer.getReplies = getReplies
-
-"""
-try:
-    from Products.MailHost import MailHost
-    MailHost._mungeHeaders = _mungeHeaders
-except ImportError:
-    pass
-"""

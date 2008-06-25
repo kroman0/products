@@ -1,3 +1,7 @@
+qPloneSkinDump 0.8.6
+
+    - fixed profile names for correct displaying in quickinstaller tool
+
 qPloneSkinDump 0.8.5
     
     - Fix importing bug: wrong import directory calculating

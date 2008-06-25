@@ -12,7 +12,7 @@
       />
 
   <genericsetup:registerProfile
-      name="afterinstall"
+      name="installafter"
       title="%(product_name)s:afterinstall"
       directory="profiles/afterinstall"
       description="Extension profile for install zexps and other dependent objects of %(product_name)s."

@@ -113,5 +113,5 @@ PRODUCTS_PATH = os.sep.join(package_home(GLOBALS).split(os.sep)[:-1])
 
 ## GenericSetup constants
 GS_INSTALL_PROFILE      = "profile-Products.%(product_name)s:default"
-GS_AFTERINSTALL_PROFILE = "profile-Products.%(product_name)s:afterinstall"
+GS_AFTERINSTALL_PROFILE = "profile-Products.%(product_name)s:installafter"
 GS_UNINSTALL_PROFILE    = "profile-Products.%(product_name)s:uninstall"

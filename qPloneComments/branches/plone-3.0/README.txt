@@ -85,9 +85,10 @@ Installation
    2. Install *qPloneComments* with Quick Installer.
 
   **Atention**: If you are using a Plone version **before** 3.1 you need to install
-  "plone.browserlayer":http://pypi.python.org/pypi/plone.browserlayer in your Plone
-  site. It shows up as **Local browser layer support** in the Plone Add-on Products
-  Control Panel.
+  "plone.browserlayer":http://pypi.python.org/pypi/plone.browserlayer (which also
+  requires a "GenericSetup":http://pypi.python.org/pypi/Products.GenericSetup version
+  greater than 1.4) in your Plone site. It shows up as **Local browser layer support**
+  in the Plone Add-on Products Control Panel.
 
 License
 

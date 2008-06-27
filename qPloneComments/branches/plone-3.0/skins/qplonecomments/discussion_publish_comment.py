@@ -15,7 +15,7 @@ from Products.CMFPlone import MessageFactory
 qpcMF = MessageFactory('plonecomments')
 
 if obj is None:
-    obj=context
+    obj = context
 
 parent = obj.inReplyTo()
 if parent is not None:
@@ -24,7 +24,7 @@ if parent is not None:
 else:
     talkback = parent = obj.aq_parent
 
-reply = talkback.getReply( obj.getId() )
+reply = talkback.getReply(obj.getId())
 publishDiscussion(reply)
 manage_mails(reply, context, action='publishing')
 

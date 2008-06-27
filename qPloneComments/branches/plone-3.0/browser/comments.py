@@ -5,12 +5,13 @@ from Products.CMFPlone.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.viewlets import comments
 
+
 class CommentsViewlet(comments.CommentsViewlet):
-    """A custom version of the comments viewlet 
+    """A custom version of the comments viewlet
     """
 
     render = ViewPageTemplateFile('comments.pt')
-    
+
     def is_moderation_enabled(self):
         """ Returns a boolean indicating whether the user has enabled moderation
             in the qPloneComments configlet
@@ -20,7 +21,7 @@ class CommentsViewlet(comments.CommentsViewlet):
             return portal_properties.qPloneComments.getProperty('enable_moderation', None)
         except AttributeError:
             return False
-        
+
     def can_moderate(self):
         """ Returns a boolean indicating whether the user has the 'Moderate Discussion'
             permission

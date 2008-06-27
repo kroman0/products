@@ -1,8 +1,13 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
     xmlns:gs="http://namespaces.zope.org/genericsetup"
     xmlns:five="http://namespaces.zope.org/five">
+
+  <five:registerPackage package="." />
+
+  <cmf:registerDirectory name="skins" directory="skins" recursive="True" />
 
   <gs:registerProfile
       name="default"

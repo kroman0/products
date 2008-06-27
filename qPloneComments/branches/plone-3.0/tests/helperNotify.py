@@ -4,13 +4,7 @@
 
 import sys
 import os, os.path
-from Products.MailHost.MailHost import MailBase
-ver = "2.0.5"
-try:
-    from Products.SecureMailHost.SecureMailHost import SecureMailBase
-    ver = "2.1"
-except ImportError:
-    pass
+from Products.SecureMailHost.SecureMailHost import SecureMailBase
 
 PREFIX = os.path.abspath(os.path.dirname(__file__))
 
@@ -60,12 +54,9 @@ def send_SMH(self, message, mto=None, mfrom=None, subject=None, encode=None):
     writeToFile(output_file_path(fn), message)
 
 def prepareMailSendTest():
-    # patch MailHost
-    MailBase._send = _send_MH
-    if ver == "2.1":
-        # patch SecureMailHost
-        SecureMailBase.send = send_SMH
-        SecureMailBase._send = _send_SMH
+    # patch SecureMailHost
+    SecureMailBase.send = send_SMH
+    SecureMailBase._send = _send_SMH
 
 def setProperties(prop_sheet, *props):
     for p in ALL_PROPS:
@@ -78,9 +69,11 @@ def testMailExistance():
     return False
 
 def getMails():
-    return [file(output_file_path(f),'r').read() for f in os.listdir(output_file_path("")) if f.startswith('mail')]
-
+    return [file(output_file_path(f),'r').read()
+            for f in os.listdir(output_file_path(""))
+            if f.startswith('mail')]
 
 def cleanOutputDir():
     for f in os.listdir(output_file_path("")):
-        if f.startswith('mail'): os.remove(output_file_path(f))
+        if f.startswith('mail'):
+            os.remove(output_file_path(f))

@@ -2,17 +2,9 @@
 # Test configuration form working
 #
 
-import os, sys, string
-if __name__ == '__main__':
-    execfile(os.path.join(sys.path[0], 'framework.py'))
-
 from Products.PloneTestCase import PloneTestCase
 from Products.CMFCore.utils import getToolByName
-try:
-    from Products.CMFCore.permissions import ManagePortal, ReplyToItem
-except ImportError:
-    from Products.CMFCore.CMFCorePermissions import ManagePortal,ReplyToItem
-from Products.MailHost.MailHost import MailBase
+from Products.CMFCore.permissions import ReplyToItem
 from AccessControl.SecurityManagement import noSecurityManager
 
 PRODUCT = 'qPloneComments'
@@ -36,14 +28,13 @@ DM_USERS_IDS = [u for u in USERS.keys() if u.startswith('dm_')]
 PloneTestCase.installProduct(PRODUCT)
 PloneTestCase.setupPloneSite()
 
-
 def addUsers(self):
     self.loginAsPortalOwner()
     # Add all users
     self.membership = getToolByName(self.portal, 'portal_membership', None)
     for user_id in USERS.keys():
         self.membership.addMember(user_id, USERS[user_id]['passw'] , USERS[user_id]['roles'], [])
-    
+
     # Add users to Discussion Manager group
     portal_groups = getToolByName(self.portal, 'portal_groups')
     dm_group = portal_groups.getGroupById('DiscussionManager')
@@ -65,7 +56,7 @@ class TestConfiglet(PloneTestCase.FunctionalTestCase):
         portal_types = getToolByName(self.portal, 'portal_types', None)
         doc_fti = portal_types.getTypeInfo('Document')
         doc_fti._updateProperty('allow_discussion', 1)
-        
+
         # Make sure Documents are visible by default
         # XXX only do this for plone 3
         self.portal.portal_workflow.setChainForPortalTypes(('Document',), 'plone_workflow')
@@ -86,12 +77,11 @@ class TestConfiglet(PloneTestCase.FunctionalTestCase):
         member = self.portal.portal_membership.getAuthenticatedMember()
         member.setMemberProperties({'email':'creator@test.com'})
         #self.fail(member.getMemberId()+' :: '+member.getUserName()+' :: '+str(member.getRoles())+' :: '+member.getProperty('email'))
-        
+
         # Add testing document to portal
         my_doc = self.portal.invokeFactory('Document', id='my_doc')
         self.my_doc = self.portal['my_doc']
         self.my_doc.edit(text_format='plain', text='hello world')
-
 
     def testAnonymousCommenting(self):
         getPortalReplyPerm = self.portal.rolesOfPermission
@@ -110,7 +100,6 @@ class TestConfiglet(PloneTestCase.FunctionalTestCase):
         actual_reply_permission = getReplyRoles()
         self.assert_(not 'Anonymous' in actual_reply_permission, \
                      "'Reply to Item' permission set for %s. 'Anonymous' role NOT erased" %  actual_reply_permission)
-
 
     def testSwitchONModeration(self):
         addUsers(self)
@@ -136,7 +125,6 @@ class TestConfiglet(PloneTestCase.FunctionalTestCase):
             noSecurityManager()
             self.assert_(not getReplies(), "Viewing discussion item allow for Anonymous user")
 
-
     def testSwitchOFFModeration(self):
         addUsers(self)
         self.discussion = self.portal.portal_discussion
@@ -158,7 +146,6 @@ class TestConfiglet(PloneTestCase.FunctionalTestCase):
             replies = self.discussion.getDiscussionFor(self.my_doc).getReplies()
             self.assert_(replies, "No discussion item added or discussion forbidden for %s user" % u)
 
-
     def testApproveNotification(self):
         # Check ON Notification Anonymous Commenting
         self.request.form['enable_approve_notification'] = 'True'
@@ -170,7 +157,6 @@ class TestConfiglet(PloneTestCase.FunctionalTestCase):
            del self.request.form['enable_approve_notification']
         self.portal.prefs_comments_setup()
         self.assert_(self.prefs.getProperty('enable_approve_notification')==0,"Approve Notification not terned OFF")
-
 
     def testPublishedNotification(self):
         # Check ON Notification Anonymous Commenting
@@ -185,15 +171,8 @@ class TestConfiglet(PloneTestCase.FunctionalTestCase):
         self.assert_(self.prefs.getProperty('enable_published_notification')==0,"Published Notification not terned OFF")
 
 
-
-TESTS = [TestConfiglet]
-
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestConfiglet))
     return suite
-
-if __name__ == '__main__':
-    framework()
-

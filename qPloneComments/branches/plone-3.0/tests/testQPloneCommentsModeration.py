@@ -2,10 +2,6 @@
 # Test moderation behavior
 #
 
-import os, sys, string
-if __name__ == '__main__':
-    execfile(os.path.join(sys.path[0], 'framework.py'))
-
 from Products.PloneTestCase import PloneTestCase
 from Products.CMFCore.utils import getToolByName
 import re
@@ -14,6 +10,7 @@ from common import *
 
 PloneTestCase.installProduct(PRODUCT)
 PloneTestCase.setupPloneSite()
+
 
 class TestModeration(PloneTestCase.FunctionalTestCase):
 
@@ -30,7 +27,7 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
 
         # Add all users
         addMembers(self.portal, USERS)
-            
+
         # For correct testing notification - add 'portal_owner' with 'email'
         #self.membership.addMember('portal_owner', 'secret' , ['Manager'], [])
         #member = self.membership.getMemberById('portal_owner')
@@ -39,7 +36,7 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
 
         # Add users to Discussion Manager group
         add2Group(self.portal, 'DiscussionManager', DM_USERS_IDS)
-        
+
         #portal_groups = getToolByName(self.portal, 'portal_groups')
         ##portal_groups.addGroup('DiscussionManager', roles=['DiscussionManager'])
         #dm_group = portal_groups.getGroupById('DiscussionManager')
@@ -49,7 +46,7 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
         portal_types = getToolByName(self.portal, 'portal_types', None)
         doc_fti = portal_types.getTypeInfo('Document')
         doc_fti._updateProperty('allow_discussion', 1)
-        
+
         # Make sure Documents are visible by default
         # XXX only do this for plone 3
         self.portal.portal_workflow.setChainForPortalTypes(('Document',), 'plone_workflow')
@@ -83,7 +80,7 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
         # All common users SHOULD NOT VIEW NOT PUBLISHED comments
         doc = getattr(self.portal, 'doc_%s' % DM_USERS_IDS[0])
         roles = [r['name'] for r in self.portal.rolesOfPermission('Moderate Discussion') if r['selected'] == 'SELECTED']
-	authorized_users = [user for user in COMMON_USERS_IDS if user !='anonym']
+        authorized_users = [user for user in COMMON_USERS_IDS if user !='anonym']
         users_without_md_perm = [u for u in authorized_users if filter(lambda x: x not in roles, USERS[u]['roles'])]
         for u in users_without_md_perm:
             self.logout()
@@ -111,21 +108,21 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
     ## TEST PUBLISHING
 
     def testViewPublishButtonNonDMUsers(self):
-        # Publish button MUST BE ABSENT in document view form 
+        # Publish button MUST BE ABSENT in document view form
         # Pattern for publish button presence checking
         if self.version.startswith("2.1"):
             pattern = re.compile('.*<input\\s*class="standalone"\\s*type="submit"\\s*value="Publish"\\s*/>',\
                                  re.S|re.M)
         elif self.version.startswith("2.5") or self.version.startswith('3.0'):
-    	    pattern = re.compile('.*<input.+?value="Publish"',\
+            pattern = re.compile('.*<input.+?value="Publish"',\
                                  re.S|re.M)
         else:
-    	    pattern = re.compile('.*<input\\s*class="standalone"\\s*type="submit"\\s*value="Publish This Discussion"\\s*/>',\
+            pattern = re.compile('.*<input\\s*class="standalone"\\s*type="submit"\\s*value="Publish This Discussion"\\s*/>',\
                                  re.S|re.M)
 
-	roles = [r['name'] for r in self.portal.rolesOfPermission('Moderate Discussion') if r['selected'] == 'SELECTED']
-	authorized_users = [user for user in COMMON_USERS_IDS if user !='anonym']
-	users_without_md_perm = [u for u in authorized_users if filter(lambda x: x not in roles, USERS[u]['roles'])]
+        roles = [r['name'] for r in self.portal.rolesOfPermission('Moderate Discussion') if r['selected'] == 'SELECTED']
+        authorized_users = [user for user in COMMON_USERS_IDS if user !='anonym']
+        users_without_md_perm = [u for u in authorized_users if filter(lambda x: x not in roles, USERS[u]['roles'])]
         for u in users_without_md_perm:
             self.logout()
             auth = "%s:" % u
@@ -144,10 +141,10 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
             pattern = re.compile('.*<input\\s*class="standalone"\\s*type="submit"\\s*value="Publish"\\s*/>',\
                                  re.S|re.M)
         elif self.version.startswith("2.5") or self.version.startswith('3.0'):
-    	    pattern = re.compile('.*<input.+?value="Publish"',\
+            pattern = re.compile('.*<input.+?value="Publish"',\
                                  re.S|re.M)
         else:
-    	    pattern = re.compile('.*<input\\s*class="standalone"\\s*type="submit"\\s*value="Publish"\\s*/>',\
+            pattern = re.compile('.*<input\\s*class="standalone"\\s*type="submit"\\s*value="Publish"\\s*/>',\
                                  re.S|re.M)
         for u in DM_USERS_IDS:
             self.logout()
@@ -166,10 +163,10 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
             pattern = re.compile('.*<input\\s*class="standalone"\\s*type="submit"\\s*value="Publish"\\s*/>',\
                                  re.S|re.M)
         elif self.version.startswith("2.5") or self.version.startswith('3.0'):
-    	    pattern = re.compile('.*<input.+?value="Publish"',\
+            pattern = re.compile('.*<input.+?value="Publish"',\
                                  re.S|re.M)
         else:
-    	    pattern = re.compile('.*<input\\s*class="standalone"\\s*type="submit"\\s*value="Publish This Discussion"\\s*/>',\
+            pattern = re.compile('.*<input\\s*class="standalone"\\s*type="submit"\\s*value="Publish This Discussion"\\s*/>',\
                                  re.S|re.M)
         for u in DM_USERS_IDS:
             doc_id = "doc_%s" % u
@@ -213,10 +210,10 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
             pattern = re.compile('.*<input\\s*class="destructive"\\s*type="submit"\\s*value="Remove"\\s*/>',\
                                  re.S|re.M)
         elif self.version.startswith("2.5") or self.version.startswith('3.0'):
-    	    pattern = re.compile('.*<input\\s*class="destructive"\\s*type="submit"\\s*value="Remove"\\s*/>',\
+            pattern = re.compile('.*<input\\s*class="destructive"\\s*type="submit"\\s*value="Remove"\\s*/>',\
                                  re.S|re.M)
         else:
-    	    pattern = re.compile('.*<input\\s*class="destructive"\\s*type="submit"\\s*value="Remove"\\s*/>',\
+            pattern = re.compile('.*<input\\s*class="destructive"\\s*type="submit"\\s*value="Remove"\\s*/>',\
                                  re.S|re.M)
         for u in COMMON_USERS_IDS:
             self.logout()
@@ -258,14 +255,8 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
             self.assert_(not getReplies(), "%s - user with Manager role not really delete discussion" % u)
 
 
-TESTS = [TestModeration]
-
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestModeration))
     return suite
-
-if __name__ == '__main__':
-    framework()
-

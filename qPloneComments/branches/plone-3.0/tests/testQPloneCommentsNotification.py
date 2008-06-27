@@ -1,24 +1,14 @@
-#   
+#
 # Test configuration form working
 #
 
-import os, sys, string
-
-if __name__ == '__main__':
-    execfile(os.path.join(sys.path[0], 'framework.py'))
-
 from Products.PloneTestCase import PloneTestCase
 from Products.CMFCore.utils import getToolByName
-try:
-    from Products.CMFCore.permissions import ManagePortal, ReplyToItem
-except ImportError:
-    from Products.CMFCore.CMFCorePermissions import ManagePortal,ReplyToItem
-from Products.MailHost.MailHost import MailBase
+from Products.CMFCore.permissions import ManagePortal, ReplyToItem
 
 import re
-
-from Products.qPloneComments.utils import getMsg
 from helperNotify import *
+from Products.qPloneComments.utils import getMsg
 
 PRODUCT = 'qPloneComments'
 PROPERTY_SHEET = "qPloneComments"
@@ -47,7 +37,7 @@ class TestNotification(PloneTestCase.FunctionalTestCase):
         portal_types = getToolByName(self.portal, 'portal_types', None)
         doc_fti = portal_types.getTypeInfo('Document')
         doc_fti._updateProperty('allow_discussion', 1)
-        
+
         # Make sure Documents are visible by default
         # XXX only do this for plone 3
         self.portal.portal_workflow.setChainForPortalTypes(('Document',), 'plone_workflow')
@@ -194,16 +184,8 @@ class TestNotification(PloneTestCase.FunctionalTestCase):
                      ,'No notification for rejecting comment' % properties)
 
 
-    #def test_
-
-TESTS = [TestNotification]
-
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestNotification))
     return suite
-
-if __name__ == '__main__':
-    framework()
-

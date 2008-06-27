@@ -1,26 +1,18 @@
-#   
+#
 # Test configuration form working
 #
 
-import os, sys, string
-
-if __name__ == '__main__':
-    execfile(os.path.join(sys.path[0], 'framework.py'))
-
 from Products.PloneTestCase import PloneTestCase
 from Products.CMFCore.utils import getToolByName
-try:
-    from Products.CMFCore.permissions import ManagePortal, ReplyToItem
-except ImportError:
-    from Products.CMFCore.CMFCorePermissions import ManagePortal,ReplyToItem
-from Products.MailHost.MailHost import MailBase
-
-import re
+from Products.CMFCore.permissions import ManagePortal, ReplyToItem
 
 from Products.qPloneComments.utils import getMsg
-from testQPloneCommentsModeration import USERS, COMMON_USERS_IDS, DM_USERS_IDS
-from helperNotify import *
+
+import re
 from common import *
+from helperNotify import *
+from testQPloneCommentsModeration import USERS, COMMON_USERS_IDS, DM_USERS_IDS
+
 
 PRODUCT = 'qPloneComments'
 PROPERTY_SHEET = "qPloneComments"
@@ -41,6 +33,7 @@ DM_USERS_IDS = [u for u in USERS.keys() if u.startswith('dm_')]
 REXP_TO = re.compile("To:\s*(.*?)$",re.M)
 REXP_SUBJ = re.compile("Subject:\s*(.*?)$",re.M)
 
+
 class TestNotificationRecipients(PloneTestCase.FunctionalTestCase):
     """ Test is notifications sends to right recipients. """
 
@@ -50,7 +43,6 @@ class TestNotificationRecipients(PloneTestCase.FunctionalTestCase):
         self.request.form['Creator'] = self.membership.getAuthenticatedMember().getUserName()
         self.request.form['subject'] = "Reply of '%s'" % self.request.form['Creator']
         self.request.form['body_text'] = "text of reply"
-
 
     def afterSetUp(self):
         self.loginAsPortalOwner()
@@ -67,7 +59,7 @@ class TestNotificationRecipients(PloneTestCase.FunctionalTestCase):
         portal_types = getToolByName(self.portal, 'portal_types', None)
         doc_fti = portal_types.getTypeInfo('Document')
         doc_fti._updateProperty('allow_discussion', 1)
-        
+
         # Make sure Documents are visible by default
         # XXX only do this for plone 3
         self.portal.portal_workflow.setChainForPortalTypes(('Document',), 'plone_workflow')
@@ -111,7 +103,6 @@ class TestNotificationRecipients(PloneTestCase.FunctionalTestCase):
         mails = getMails()
         self.assertEqual(len(mails), 1)
         self.checkToANDSubj(mails, to="discussion.manager@test.com", subj="New comment awaits moderation")
-
 
     def test_PublishReply(self):
         self.prepareRequest4Reply('replier1')
@@ -158,15 +149,8 @@ class TestNotificationRecipients(PloneTestCase.FunctionalTestCase):
         self.checkToANDSubj(mails, to="replier1@test.com", subj="Your comment on 'Test document' was not approved.")
 
 
-TESTS = [TestNotificationRecipients]
-
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
-    for t in TESTS:
-        suite.addTest(makeSuite(t))
+    suite.addTest(makeSuite(TestNotificationRecipients))
     return suite
-
-if __name__ == '__main__':
-    framework()
-

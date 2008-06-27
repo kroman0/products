@@ -2,14 +2,9 @@
 # Test adding comments possibility on switching on/off moderation
 #
 
-import os, sys, string
-if __name__ == '__main__':
-    execfile(os.path.join(sys.path[0], 'framework.py'))
-
 from Products.PloneTestCase import PloneTestCase
 from Products.CMFCore.utils import getToolByName
 from zExceptions import Unauthorized
-import re
 
 PRODUCT = 'qPloneComments'
 USERS = {# Common Members
@@ -46,7 +41,7 @@ class TestCommBase(PloneTestCase.FunctionalTestCase):
         self.membership = getToolByName(self.portal, 'portal_membership', None)
         for user_id in USERS.keys():
             self.membership.addMember(user_id, USERS[user_id]['passw'] , USERS[user_id]['roles'], [])
-        
+
         # Add users to Discussion Manager group
         portal_groups = getToolByName(self.portal, 'portal_groups')
         dm_group = portal_groups.getGroupById('DiscussionManager')
@@ -297,7 +292,7 @@ class TestMixinModerationOff:
         # Create talkback for document and Add comment to 'doc_moderatio_off'
         self.discussion.getDiscussionFor(doc_obj)
         doc_obj.discussion_reply("A Reply to '%s'" % self.doc_moder_off_id,"text of reply to '%s'" % self.doc_moder_off_id)
-            
+
 
     def testAddCommentToReplyAllowableUsers(self):
         # Users CAN ADD COMMENTS
@@ -345,7 +340,7 @@ class TestModerationAnonymComm(TestCommBase, TestMixinAnonymOn, TestMixinModerat
     def afterSetUp(self):
         TestCommBase.afterSetUp(self)
         # Preparation for functional testing
-        # Tern On Moderation and tern on Anonymous commenting 
+        # Tern On Moderation and tern on Anonymous commenting
         self.request.form['enable_anonymous_commenting'] = 'True'
         self.request.form['enable_moderation'] = 'True'
         self.portal.prefs_comments_setup()
@@ -359,13 +354,12 @@ class TestModerationOFFAnonymComm(TestCommBase, TestMixinAnonymOff, TestMixinMod
     def afterSetUp(self):
         TestCommBase.afterSetUp(self)
         # Preparation for functional testing
-        # Tern On Moderation and tern off Anonymous commenting 
+        # Tern On Moderation and tern off Anonymous commenting
         self.request.form['enable_moderation'] = 'True'
         self.portal.prefs_comments_setup()
         # Initialize base classes
         TestMixinAnonymOff.afterSetUp(self)
         TestMixinModerationOn.afterSetUp(self)
-
 
 
 class TestAnonymCommOFFModeration(TestCommBase, TestMixinAnonymOn, TestMixinModerationOff):
@@ -386,15 +380,12 @@ class TestOFFModerationOFFAnonymComm(TestCommBase, TestMixinAnonymOff, TestMixin
     def afterSetUp(self):
         TestCommBase.afterSetUp(self)
         # Preparation for functional testing
-        # Tern Off Moderation and tern off Anonymous commenting 
+        # Tern Off Moderation and tern off Anonymous commenting
         self.portal.prefs_comments_setup()
         # Initialize base classes
         TestMixinAnonymOff.afterSetUp(self)
         TestMixinModerationOff.afterSetUp(self)
 
-    
-
-TESTS = [TestModerationAnonymComm, TestModerationOFFAnonymComm, TestAnonymCommOFFModeration, TestOFFModerationOFFAnonymComm]
 
 def test_suite():
     from unittest import TestSuite, makeSuite
@@ -405,7 +396,3 @@ def test_suite():
     suite.addTest(makeSuite(TestOFFModerationOFFAnonymComm))
 
     return suite
-
-if __name__ == '__main__':
-    framework()
-

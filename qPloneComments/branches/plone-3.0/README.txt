@@ -74,23 +74,28 @@ Links
 
   * Get latest development version from "SVN":http://svn.quintagroup.com/products/qPloneComments/trunk
 
-Installation
-
-   1. Unpack into /Products folder of your Zope instance.
-
-   2. Install qPloneComments with Quick Installer.
-
 Requirements
 
-  * Plone 3.x
+  * Plone 3.0.x (with plone.browserlayer) or Plone 3.1.x.
+
+Installation
+
+   1. Unpack into the **Products** folder of your Zope instance.
+
+   2. Install *qPloneComments* with Quick Installer.
+
+  **Atention**: If you are using a Plone version **before** 3.1 you need to install
+  "plone.browserlayer":http://pypi.python.org/pypi/plone.browserlayer in your Plone
+  site. It shows up as **Local browser layer support** in the Plone Add-on Products
+  Control Panel.
 
 License
 
-  Please find license in LICENSE.GPL
+  Please find license in *LICENSE.GPL*.
 
 Author
 
-  The product is developed and maintained by quintagoup.com team.
+  The product is developed and maintained by http://quintagroup.com team.
 
   Authors:
 

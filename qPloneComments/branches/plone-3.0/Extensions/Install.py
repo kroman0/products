@@ -3,9 +3,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.DirectoryView import addDirectoryViews
 from Products.CMFCore.permissions import ManagePortal, ReplyToItem
 
-from plone.browserlayer.utils import register_layer, unregister_layer
 from Products.qPloneComments.config import *
-from Products.qPloneComments.interfaces import IPloneCommentsLayer
 
 def install(self):
     out = StringIO()
@@ -13,9 +11,6 @@ def install(self):
     # Fire GenericSetup imports
     portal_setup = getToolByName(self, 'portal_setup')
     portal_setup.runAllImportStepsFromProfile('profile-Products.qPloneComments:default')
-
-    # Register our browser layer
-    register_layer(IPloneCommentsLayer, name='qPloneComments')
 
     # Add Property sheet to portal_properies
     pp = getToolByName(self, 'portal_properties')
@@ -78,12 +73,6 @@ def uninstall(self):
                 path.append(p)
         path = ','.join(path)
         skinstool.addSkinSelection(skinName, path)
-
-    # remove browser layer
-    try:
-        unregister_layer(name='qPloneComments')
-    except KeyError:
-        pass
 
     # Remove configlet
     controlpanel_tool = getToolByName(self, 'portal_controlpanel')

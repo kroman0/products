@@ -1,4 +1,6 @@
+from Products.CMFPlone import MessageFactory
 from Products.CMFCore.utils import getToolByName
+
 # Get apropriate property from (propery_sheeet) configlet
 def getProp(self, prop_name, marker=None):
     result = marker
@@ -14,7 +16,6 @@ def publishDiscussion(self):
     self.manage_permission('View', roles, acquire=1)
     self._p_changed = 1
     self.reindexObject()
-
 
 def setAnonymCommenting(context, allow=False):
     portal = getToolByName(context, 'portal_url').getPortalObject()
@@ -70,8 +71,10 @@ def send_email(reply, context, state):
         return ''
 
     def getParent(reply):
-        reply = reply.inReplyTo()
-        return reply.meta_type == 'Discussion Item' and getParent(reply) or reply
+        if reply.meta_type == 'Discussion Item':
+            reply = reply.inReplyTo()
+            return getParent(reply)
+        return reply
 
     def getDIParent(reply):
         r = reply.inReplyTo()
@@ -95,7 +98,7 @@ def send_email(reply, context, state):
 
     subject = ''
     if state == 'enable_approve_user_notification':
-        subject = 'Your comment on %s is now published'%context.Title()
+        subject = 'Your comment on "%s" is now published' % getParent(context).Title()
         if user_email:
             template = 'notify_comment_template'
             args={'mto': user_email,
@@ -107,7 +110,7 @@ def send_email(reply, context, state):
             args = {}
 
     elif state == 'enable_rejected_user_notification':
-        subject = 'Your comment on %s was not approved.'%context.Title()
+        subject = 'Your comment on "%s" was not approved' % getParent(context).Title()
         if user_email:
             template = 'rejected_comment_template'
             args={'mto': user_email,
@@ -120,7 +123,7 @@ def send_email(reply, context, state):
 
     elif state == 'enable_reply_user_notification':
         template = 'reply_notify_template'
-        subject = 'Someone replied to your comment on %s'%context.Title()
+        subject = 'Someone replied to your comment on "%s"' % getParent(context).Title()
         di_parrent = getDIParent(reply)
         if di_parrent:
             user_email = getEmail(di_parrent, context)
@@ -143,7 +146,7 @@ def send_email(reply, context, state):
                   'mfrom':admin_email,
                   'obj':reply_parent,
                   'organization_name':organization_name}
-            subject = '[%s] New comment added'%organization_name
+            subject = '[%s] New comment added' % organization_name
         else:
             args = {}
 
@@ -155,7 +158,7 @@ def send_email(reply, context, state):
                   'mfrom':admin_email,
                   'obj':reply_parent,
                   'organization_name':organization_name}
-            subject = '[%s] New comment awaits moderation'%organization_name
+            subject = '[%s] New comment awaits moderation' % organization_name
         else:
             args = {}
 
@@ -171,23 +174,9 @@ def send_email(reply, context, state):
                         charset = site_props.getProperty('default_charset', 'utf-8'),
                         From = admin_email)
 
-
-HAS_MESSAGEFACTORY = True
-try:
-    from Products.CMFPlone import MessageFactory
-except ImportError:
-    HAS_MESSAGEFACTORY = False
-
 def getTranslFunction(context):
-    if HAS_MESSAGEFACTORY:
-        func = MessageFactory('plonecomments')
-    else:
-        func = lambda x:context.translate(x, domain='plonecomments')
-    return func
+    return MessageFactory('plonecomments')
 
 def setStatusMsg(state, context, msg):
     transl = getTranslFunction(context)
-    if HAS_MESSAGEFACTORY:
-        context.plone_utils.addPortalMessage(transl(msg))
-    else:
-        state.set(portal_status_message=transl(msg))
+    context.plone_utils.addPortalMessage(transl(msg))

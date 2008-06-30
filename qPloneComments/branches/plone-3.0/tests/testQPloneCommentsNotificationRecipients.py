@@ -11,6 +11,7 @@ from Products.qPloneComments.utils import getMsg
 import re
 from common import *
 from helperNotify import *
+from email.Header import Header
 from testQPloneCommentsModeration import USERS, COMMON_USERS_IDS, DM_USERS_IDS
 
 
@@ -72,19 +73,21 @@ class TestNotificationRecipients(PloneTestCase.FunctionalTestCase):
         add2Group(self.portal, 'DiscussionManager', DM_USERS_IDS)
         self.createMemberarea('owner')
 
-        ## Prepare mail sending - enter an e-mail adress, and allow all possible notifications
+        # Prepare mail sending - enter an e-mail adress, and allow all possible notifications
+        self.portal.email_from_address = 'mail@plone.test'
         setProperties(self.prefs, 'enable_moderation', 'enable_approve_notification',
                                   'enable_approve_user_notification','enable_reply_user_notification',
                                   'enable_published_notification', 'enable_rejected_user_notification')
         self.prefs._updateProperty('email_discussion_manager', 'discussion.manager@test.com')
+        self.prefs._updateProperty('email_subject_prefix', 'PREFIX')
 
-        ## Add testing document to portal
+        # Add testing document to portal
         self.login('owner')
         self.portal.Members['owner'].invokeFactory('Document', id='my_doc', title="Test document")
         self.my_doc = self.portal.Members['owner']['my_doc']
         self.my_doc.edit(text_format='plain', text='hello world')
 
-        ## Create talkback for document and Prepare REQUEST
+        # Create talkback for document and Prepare REQUEST
         self.discussion.getDiscussionFor(self.my_doc)
 
         prepareMailSendTest()
@@ -92,7 +95,8 @@ class TestNotificationRecipients(PloneTestCase.FunctionalTestCase):
     def checkToANDSubj(self, mails, to, subj):
         messages = [m for m in mails if REXP_TO.search(m) and REXP_TO.search(m).group(1)==to]
         self.assert_(len(messages) > 0, "No message sent to '%s' recipient" % to)
-        self.assert_([1 for m in messages if REXP_SUBJ.search(m) and REXP_SUBJ.search(m).group(1)==subj],\
+        mangled = str(Header(subj, 'utf-8'))
+        self.assert_([1 for m in messages if REXP_SUBJ.search(m) and REXP_SUBJ.search(m).group(1)==mangled],\
                      "There is no message for '%s' recipient with '%s' subject" % (to,subj))
 
     def test_Reply(self):
@@ -102,7 +106,8 @@ class TestNotificationRecipients(PloneTestCase.FunctionalTestCase):
 
         mails = getMails()
         self.assertEqual(len(mails), 1)
-        self.checkToANDSubj(mails, to="discussion.manager@test.com", subj="New comment awaits moderation")
+        self.checkToANDSubj(mails, to="discussion.manager@test.com",
+                            subj="[PREFIX] New comment awaits moderation")
 
     def test_PublishReply(self):
         self.prepareRequest4Reply('replier1')
@@ -114,8 +119,8 @@ class TestNotificationRecipients(PloneTestCase.FunctionalTestCase):
         reply.discussion_publish_comment()
         mails = getMails()
         self.assertEqual(len(mails), 2)
-        self.checkToANDSubj(mails, to="owner@test.com", subj="New comment added")
-        self.checkToANDSubj(mails, to="replier1@test.com", subj="Your comment on 'Test document' is now published")
+        self.checkToANDSubj(mails, to="owner@test.com", subj="[PREFIX] New comment added")
+        self.checkToANDSubj(mails, to="replier1@test.com", subj='Your comment on "Test document" is now published')
 
     def test_Publish2ndReply(self):
         self.prepareRequest4Reply('replier1')
@@ -132,9 +137,9 @@ class TestNotificationRecipients(PloneTestCase.FunctionalTestCase):
         reply2.discussion_publish_comment()
         mails = getMails()
         self.assertEqual(len(mails), 3)
-        self.checkToANDSubj(mails, to="owner@test.com", subj="New comment added")
-        self.checkToANDSubj(mails, to="replier1@test.com", subj="Someone replied to your comment on 'Test document'")
-        self.checkToANDSubj(mails, to="replier2@test.com", subj="Your comment on 'Test document' is now published")
+        self.checkToANDSubj(mails, to="owner@test.com", subj="[PREFIX] New comment added")
+        self.checkToANDSubj(mails, to="replier1@test.com", subj='Someone replied to your comment on "Test document"')
+        self.checkToANDSubj(mails, to="replier2@test.com", subj='Your comment on "Test document" is now published')
 
     def test_DeleteReply(self):
         self.prepareRequest4Reply('replier1')
@@ -146,7 +151,7 @@ class TestNotificationRecipients(PloneTestCase.FunctionalTestCase):
         reply.deleteDiscussion()
         mails = getMails()
         self.assertEqual(len(mails), 1)
-        self.checkToANDSubj(mails, to="replier1@test.com", subj="Your comment on 'Test document' was not approved.")
+        self.checkToANDSubj(mails, to="replier1@test.com", subj='Your comment on "Test document" was not approved')
 
 
 def test_suite():

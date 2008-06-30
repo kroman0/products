@@ -8,6 +8,7 @@ from Products.CMFCore.permissions import ManagePortal, ReplyToItem
 
 import re
 from helperNotify import *
+from email.Header import Header
 from Products.qPloneComments.utils import getMsg
 
 PRODUCT = 'qPloneComments'
@@ -53,12 +54,13 @@ class TestNotification(PloneTestCase.FunctionalTestCase):
         self.logout()
         self.login('dm')
         # For prepare mail sending - enter an e-mail adress
+        self.portal.email_from_address = 'mail@plone.test'
         self.prefs._updateProperty('email_discussion_manager', 'discussion.manager@test.com')
         member = self.portal.portal_membership.getAuthenticatedMember()
         member.setMemberProperties({'email':'creator@test.com'})
 
         # Add testing document to portal
-        my_doc = self.portal.invokeFactory('Document', id='my_doc')
+        my_doc = self.portal.invokeFactory('Document', id='my_doc', title='Doc')
         self.my_doc = self.portal['my_doc']
         self.my_doc.edit(text_format='plain', text='hello world')
         # Create talkback for document and Prepare REQUEST
@@ -88,7 +90,7 @@ class TestNotification(PloneTestCase.FunctionalTestCase):
               'name': parent_reply.getOwnerTuple()[1]}
 
         msg = getMsg(self.portal, 'reply_notify_template', args)
-        patt = re.compile('\\n\\n([^,]*)')
+        patt = re.compile('\\n([^,]*?),\\n\\n')
         m = patt.search(msg)
         if m:
             name = m.group(1)
@@ -180,7 +182,9 @@ class TestNotification(PloneTestCase.FunctionalTestCase):
         cleanOutputDir()
         reply.deleteDiscussion()
         mails = getMails()
-        self.assert_([1 for m in mails if re.search('^Subject:.*(not approved).*$', m, re.I|re.M)] \
+        regexp = re.compile("Subject:\s*(.*?)$",re.M)
+        subject = str(Header('Your comment on "Doc" was not approved', 'utf-8'))
+        self.assert_([1 for m in mails if regexp.search(m).group(1) == subject] \
                      ,'No notification for rejecting comment' % properties)
 
 

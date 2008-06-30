@@ -27,7 +27,7 @@ def getFileContent(f_path):
 
 def writeToFile(f_path, text):
     result_f = open(f_path,'w')
-    result_f.write(text+'\n')
+    result_f.write(text.as_string()+'\n')
     result_f.close()
 
 def clearFile(f_path):

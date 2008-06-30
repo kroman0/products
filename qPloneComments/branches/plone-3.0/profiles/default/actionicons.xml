@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<action-icons xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="plonecomments">
+ <action-icon category="controlpanel"
+              action_id="access"
+              title="qPloneComments" priority="0"
+              icon_expr="group.gif" i18n:attributes="title" />
+</action-icons>

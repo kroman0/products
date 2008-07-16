@@ -13,11 +13,10 @@
 
   <gs:registerProfile
       name="default"
-      title="qPloneComments profile"
+      title="qPloneComments"
       directory="profiles/default"
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      description=""
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      description="Extension profile for the Plone Comments product."
       />
 
   <permission

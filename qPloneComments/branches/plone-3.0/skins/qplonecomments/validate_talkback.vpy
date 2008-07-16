@@ -27,13 +27,13 @@ if not subject:
 if not body_text:
     state.setError('body_text', qpcMF(u'Please submit a body.'), 'body_required')
 
-if require_email != 'False':
+if require_email:
     if not (email and context.portal_registration.isValidEmail(email)):
         state.setError('email', qpcMF(u'Please submit email.'), 'email_required')
 
 if hasattr(context, 'captcha_validator'):
     context.captcha_validator()
-    
+
 pp = getToolByName(context, 'portal_properties')
 isForAnonymous = pp['qPloneComments'].getProperty('enable_anonymous_commenting', None)
 if isForAnonymous:
@@ -43,7 +43,7 @@ if isForAnonymous:
         req = context.REQUEST
         if not (req.form.has_key('Creator') and not req.form['Creator'] == ""):
             state.setError('Creator', qpcMF(u'Please enter your name.'), 'name_required')
-            
+
         try:
             captcha_view = context.restrictedTraverse('@@captcha')
             if not captcha_view.verify(captcha):

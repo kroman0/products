@@ -16,39 +16,20 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
 
     def afterSetUp(self):
         self.loginAsPortalOwner()
-
-        self.qi = getToolByName(self.portal, 'portal_quickinstaller', None)
-        self.qi.installProduct(PRODUCT)
-        # VERY IMPORTANT to guarantee product skin's content visibility
-        self._refreshSkinData()
-
-        # Get Plone version
-        self.version = getToolByName(self.portal, 'portal_migration').getFileSystemVersion()
+        self.portal.portal_quickinstaller.installProduct(PRODUCT)
 
         # Add all users
         addMembers(self.portal, USERS)
 
-        # For correct testing notification - add 'portal_owner' with 'email'
-        #self.membership.addMember('portal_owner', 'secret' , ['Manager'], [])
-        #member = self.membership.getMemberById('portal_owner')
-        #member.setMemberProperties({'email':'creator@test.com'})
-        #self.login('portal_owner')
-
         # Add users to Discussion Manager group
         add2Group(self.portal, 'DiscussionManager', DM_USERS_IDS)
 
-        #portal_groups = getToolByName(self.portal, 'portal_groups')
-        ##portal_groups.addGroup('DiscussionManager', roles=['DiscussionManager'])
-        #dm_group = portal_groups.getGroupById('DiscussionManager')
-        #dm_users = [dm_group.addMember(u) for u in DM_USERS_IDS]
-
         # Allow discussion for Document
-        portal_types = getToolByName(self.portal, 'portal_types', None)
+        portal_types = getToolByName(self.portal, 'portal_types')
         doc_fti = portal_types.getTypeInfo('Document')
         doc_fti._updateProperty('allow_discussion', 1)
 
         # Make sure Documents are visible by default
-        # XXX only do this for plone 3
         self.portal.portal_workflow.setChainForPortalTypes(('Document',), 'plone_workflow')
 
         # Add testing documents to portal. Add one document for avery user.
@@ -70,11 +51,9 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
         # All members of DiscussionManager group MUST VIEW comments
         doc = getattr(self.portal, 'doc_%s' % DM_USERS_IDS[0])
         for u in DM_USERS_IDS:
-            self.logout()
             self.login(u)
             replies = self.discussion.getDiscussionFor(doc).getReplies()
             self.assert_(replies, "Viewing discussion item forbiden for %s - member of DiscussionManager group" % u)
-
 
     def testViewRepliesNotPublishedNotDMUsers(self):
         # All common users SHOULD NOT VIEW NOT PUBLISHED comments
@@ -110,16 +89,7 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
     def testViewPublishButtonNonDMUsers(self):
         # Publish button MUST BE ABSENT in document view form
         # Pattern for publish button presence checking
-        if self.version.startswith("2.1"):
-            pattern = re.compile('.*<input\\s*class="standalone"\\s*type="submit"\\s*value="Publish"\\s*/>',\
-                                 re.S|re.M)
-        elif self.version.startswith("2.5") or self.version.startswith('3.0'):
-            pattern = re.compile('.*<input.+?value="Publish"',\
-                                 re.S|re.M)
-        else:
-            pattern = re.compile('.*<input\\s*class="standalone"\\s*type="submit"\\s*value="Publish This Discussion"\\s*/>',\
-                                 re.S|re.M)
-
+        pattern = re.compile('.*<input.+?value="Publish"', re.S|re.M)
         roles = [r['name'] for r in self.portal.rolesOfPermission('Moderate Discussion') if r['selected'] == 'SELECTED']
         authorized_users = [user for user in COMMON_USERS_IDS if user !='anonym']
         users_without_md_perm = [u for u in authorized_users if filter(lambda x: x not in roles, USERS[u]['roles'])]
@@ -137,17 +107,10 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
     def testViewPublishButtonDMUsers(self):
         # Publish button MUST PRESENT in document view form
         # Pattern for publish button presence checking
-        if self.version.startswith("2.1"):
-            pattern = re.compile('.*<input\\s*class="standalone"\\s*type="submit"\\s*value="Publish"\\s*/>',\
-                                 re.S|re.M)
-        elif self.version.startswith("2.5") or self.version.startswith('3.0'):
-            pattern = re.compile('.*<input.+?value="Publish"',\
-                                 re.S|re.M)
-        else:
-            pattern = re.compile('.*<input\\s*class="standalone"\\s*type="submit"\\s*value="Publish"\\s*/>',\
-                                 re.S|re.M)
+        pattern = re.compile('.*<input.+?value="Publish"',re.S|re.M)
+        # pattern = re.compile('.*<input\\s*class="standalone"\\s*type="submit"\\s*value="Publish"\\s*/>', re.S|re.M)
+        import pdb; pdb.set_trace()
         for u in DM_USERS_IDS:
-            self.logout()
             self.login(u)
             auth = '%s:%s' % (u,USERS[u]['passw'])
             doc_id = "doc_%s" % u
@@ -159,15 +122,7 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
     def testPublishing(self):
         # Check whether perform real publishing
         # Pattern for publish button presence checking
-        if self.version.startswith("2.1"):
-            pattern = re.compile('.*<input\\s*class="standalone"\\s*type="submit"\\s*value="Publish"\\s*/>',\
-                                 re.S|re.M)
-        elif self.version.startswith("2.5") or self.version.startswith('3.0'):
-            pattern = re.compile('.*<input.+?value="Publish"',\
-                                 re.S|re.M)
-        else:
-            pattern = re.compile('.*<input\\s*class="standalone"\\s*type="submit"\\s*value="Publish This Discussion"\\s*/>',\
-                                 re.S|re.M)
+        pattern = re.compile('.*<input.+?value="Publish"',re.S|re.M)
         for u in DM_USERS_IDS:
             doc_id = "doc_%s" % u
             doc_obj = getattr(self.portal, doc_id)
@@ -190,7 +145,6 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
             self.logout()
             self.assert_(getReplies(), "%s - member of DiscussionManager group NOT PUBLISH reply" % u)
 
-
     ## TEST DELETING
 
     def testViewDeleteButtonNonDMUsers(self):
@@ -206,15 +160,7 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
             reply = self.discussion.getDiscussionFor(doc_obj).getReplies()[0]
             reply.discussion_publish_comment()
         # Prepare pattern for delete reply button presence checking
-        if self.version.startswith("2.1"):
-            pattern = re.compile('.*<input\\s*class="destructive"\\s*type="submit"\\s*value="Remove"\\s*/>',\
-                                 re.S|re.M)
-        elif self.version.startswith("2.5") or self.version.startswith('3.0'):
-            pattern = re.compile('.*<input\\s*class="destructive"\\s*type="submit"\\s*value="Remove"\\s*/>',\
-                                 re.S|re.M)
-        else:
-            pattern = re.compile('.*<input\\s*class="destructive"\\s*type="submit"\\s*value="Remove"\\s*/>',\
-                                 re.S|re.M)
+        pattern = re.compile('.*<input\\s*class="destructive"\\s*type="submit"\\s*value="Remove"\\s*/>', re.S|re.M)
         for u in COMMON_USERS_IDS:
             self.logout()
             auth = "%s:" % u
@@ -237,14 +183,12 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
         dm_man = [u for u in managers if u.startswith('dm_')][0]
         common_man = [u for u in managers if not u.startswith('dm_')][0]
         # Publish document for common manager
-        self.logout()
         self.login(dm_man)
         doc_obj = getattr(self.portal, "doc_%s" % common_man)
         reply = self.discussion.getDiscussionFor(doc_obj).getReplies()[0]
         reply.discussion_publish_comment()
         # Check for really deleting
         for u in managers:
-            self.logout()
             self.login(u)
             auth = '%s:%s' % (u,USERS[u]['passw'])
             doc_id = "doc_%s" % u

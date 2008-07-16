@@ -6,10 +6,8 @@
 <metal:block define-macro="item">
      <tal:repeat repeat="tag res/EntryTag">
         <category tal:content="tag"></category>
-     </tal:repeat>
-      <content:encoded>
-        <tal:x replace="structure python:'&lt;![CDATA['+res.getBody()+']]&gt;'"/>
-      </content:encoded>
+     </tal:repeat>        
+        <content:encoded tal:content="structure res/render_body">  </content:encoded>
      <tal:x tal:on-error="string:"
            define="files python:res.objectValues('ATAudio');
                    file python:files and files[0].getFile() or None;"

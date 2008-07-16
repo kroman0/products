@@ -18,7 +18,7 @@
             action="."
             method="post"
             enctype="multipart/form-data"
-            tal:attributes="action string:${here/getId}/${template/getId}" >
+            tal:attributes="action template_id" >
 
         <fieldset>
 
@@ -48,7 +48,7 @@
                         i18n:translate="">Document</option>
               </metal:block>
 		
-	    </select>
+	    		</select>
           </div>
 
           <div class="field">
@@ -74,7 +74,6 @@
 
           </div>
 
-           
           <div class="field"
                tal:define="error errors/articles_number|nothing;"
                tal:attributes="class python:test(error, 'field error', 'field')">
@@ -91,8 +90,39 @@
                    tal:attributes="value articles_number"/>
           </div>
 
-
-
+		  <fieldset>
+			 <legend i18n:translate="legend_itunes">iTunes</legend>
+	          <div class="field">
+	            <input type="checkbox" 
+	                   name="enable_itunes" 
+	                   value="0"
+	                   tal:define="checked python:sy_info['enable_itunes'] and 'checked'"
+	                   tal:attributes="checked checked"/>
+	            <label for="enable_itunes" i18n:translate="label_enable_itunes">Enable support for iTunes Music Store (good for Podcasts/Vodcasts)</label>
+	          </div>
+	
+	          <div class="field">
+	            <input type="checkbox" 
+	                   name="itunes_explicit" 
+	                   value="0"
+	                   tal:define="checked python:sy_info['itunes_explicit'] and 'checked'"
+	                   tal:attributes="checked checked"/>
+	            <label for="itunes_explicit" i18n:translate="label_itunes_explicit">This channel contains explicit content, strong language, sexuality, ...</label>
+	          </div>
+	
+	          <div class="field">
+	            <label for="itunes_image_url" i18n:translate="label_itunes_image_url">Artwork for this Channel</label>
+	            <div class="formHelp" i18n:translate="help_itunes_image_url">
+	              Please enter a url to a image for the artwork of this channel. Should be in JPEG or PNG format and 300x300 pixels.
+	            </div>
+	            <input type="text" 
+	                   name="itunes_image_url" 
+	                   value=""
+					  size="60"
+	                   tal:define="itunes_image_url python:request.get('itunes_image_url',None) or sy_info['itunes_image_url'] or ''"
+	                   tal:attributes="value itunes_image_url"/>
+	          </div>
+		  </fieldset>
           <div class="formControls">
         
             <input class="context"

@@ -11,7 +11,7 @@ from Products.qRSS2Syndication.utils import listSyndicatableContent
 if not obj:
    obj = context
 if hasattr(context,'synContentValues') or context.portal_type=='Topic':
-   count = int(context.portal_syndication.getMaxItems(obj))
+   count = context.portal_syndication.getMaxItems(obj) 
    res = context.portal_syndication.getSyndicatableContent(obj)
    # has to check and cut number of items to be displayed 
    # to prevent feed bloat 

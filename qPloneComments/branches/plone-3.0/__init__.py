@@ -5,5 +5,3 @@ from AccessControl.Permission import registerPermissions
 from Products.qPloneComments import patch
 
 allow_module('Products.qPloneComments.utils')
-
-registerPermissions((('Moderate Discussion', (), ('Manager',)),))

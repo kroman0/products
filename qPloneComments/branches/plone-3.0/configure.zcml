@@ -20,4 +20,9 @@
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       />
 
+  <permission
+      id="moderate.discussion"
+      title="Moderate Discussion"
+      />
+
 </configure>

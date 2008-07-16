@@ -13,9 +13,6 @@ def setupRSS2Types(context,
                     REQUEST = None):
     """ Save all needed RSS2 properties into 'syndication_information' """	
     obj=aq_base(context)
-    status = 'success'
-    message = 'Your changes have been saved'
-
     syInfo = getattr(obj, 'syndication_information', None)
 
     if syInfo is None:
@@ -29,7 +26,9 @@ def setupRSS2Types(context,
         syInfo.enable_itunes = enable_itunes
         syInfo.itunes_image_url = itunes_image_url
         syInfo.itunes_explicit = itunes_explicit
-    return status, message
+        status = 'success'
+        message = 'Your changes have been saved'
+    return status, message
 
 def getRSS2Properties(context):
      """ Return directory of RSS2 properties from 'syndication_information' """
@@ -75,7 +74,8 @@ def listSyndicatableContent(context):
             args['review_state'] = 'published'
         if include_subfolders == 0:
             args['sort_limit'] = articles_number
-            res=catalog.searchResults(args)
+        res=catalog.searchResults(args)
+        if include_subfolders == 0:
             for i in res :
                 if i.getPath()[path_length:].find('/')<0:
                     res1.append(i)

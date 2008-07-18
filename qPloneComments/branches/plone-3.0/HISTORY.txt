@@ -4,6 +4,9 @@ Changelog
 3.1.0 - Unreleased
 ------------------
 
+- Added pt-br translation.
+  [erico_andrei]
+
 - Converted `Extension/Install.py` into a complete GenericSetup profile.
   [deo]
 

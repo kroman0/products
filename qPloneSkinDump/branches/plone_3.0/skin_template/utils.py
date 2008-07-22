@@ -116,15 +116,7 @@ def makeBackUp(portal, portal_objects, temp_dir_path, obj_id):
         durty_path,temp_id = osp.split(durty_path)
     # Get temp folder-object
     if temp_id not in portal_objects:
-        # Temporary allow implicitly adding Large Plone Folder
-        types_tool = getToolByName(portal, 'portal_types')
-        lpf_fti = types_tool['Large Plone Folder']
-        lpf_global_setting = lpf_fti.global_allow
-        lpf_fti.global_allow = 1
-
         portal.invokeFactory('Large Plone Folder', id=temp_id)
-
-        lpf_fti.global_allow = lpf_global_setting
         print >> import_out, "! Created '%%s' backup directory with same-ids " \
                              "objects from portal root." %% temp_id
     temp_dir = getattr(portal, temp_id)
@@ -168,7 +160,15 @@ def importToPortalRoot(portal, product_file_names, temp_dir_path):
     print >> import_out, INTRO_TO_ROOT %% (product_file_names, IMPORT_POLICY)
     for file_name in product_file_names:
         try:
-            performImport(portal, temp_dir_path, file_name)
+            # Temporary allow implicitly adding Large Plone Folder
+            types_tool = getToolByName(portal, 'portal_types')
+            lpf_fti = types_tool['Large Plone Folder']
+            lpf_global_setting = lpf_fti.global_allow
+            lpf_fti.global_allow = 1
+            try:
+                performImport(portal, temp_dir_path, file_name)
+            finally:
+                lpf_fti.global_allow = lpf_global_setting
         except Exception, error:
             msg = '!!! Under "%%s" policy importing exception occur: %%s.' %% (IMPORT_POLICY, str(error))
             print >> import_out, msg

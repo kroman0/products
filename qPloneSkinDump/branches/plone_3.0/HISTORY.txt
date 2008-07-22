@@ -1,5 +1,7 @@
-qPloneSkinDump 0.8.8
+qPloneSkinDump 0.8.9
 
+    - fixed bug with erasing imported with objects on
+      on unistallation SkinProduct.
     - fixed bug of exporting objects into SkinProduct with 
       'backup' policy
     - fixed bug with importing portlet for single selected 

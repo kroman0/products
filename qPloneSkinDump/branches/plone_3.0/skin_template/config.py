@@ -115,3 +115,5 @@ PRODUCTS_PATH = os.sep.join(package_home(GLOBALS).split(os.sep)[:-1])
 GS_INSTALL_PROFILE      = "profile-Products.%(product_name)s:default"
 GS_AFTERINSTALL_PROFILE = "profile-Products.%(product_name)s:installafter"
 GS_UNINSTALL_PROFILE    = "profile-Products.%(product_name)s:uninstall"
+GS_AFTERINSTALL_STEPS   = ["%(skin_name)s_zexps", "%(skin_name)s_customviews",
+                           "%(skin_name)s_portlets", "%(skin_name)s_various"]

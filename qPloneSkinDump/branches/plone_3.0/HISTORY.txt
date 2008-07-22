@@ -1,6 +1,9 @@
-qPloneSkinDump 0.8.7
+qPloneSkinDump 0.8.8
 
-    - fixed bug with importing portlet for single selected content object
+    - fixed bug of exporting objects into SkinProduct with 
+      'backup' policy
+    - fixed bug with importing portlet for single selected 
+      content object
 
 
 qPloneSkinDump 0.8.6

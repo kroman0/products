@@ -1,4 +1,4 @@
-import os, re, string, sets, time
+import os, re, string, sets, time, types
 from zope.app import zapi
 from App.config import getConfiguration
 from Products.CMFCore.utils import getToolByName
@@ -210,6 +210,9 @@ def dumpPortlets(context, dump_policy, dump_portlets_selection):
     elif dump_policy == 'all':
         dumpAllPortlets(portal, slot_structure, typesToShow, context_managers)
     elif dump_policy == 'selection':
+        dump_portlets_selection = type(dump_portlets_selection) in types.StringTypes \
+                                      and dump_portlets_selection.split("/") \
+                                      or  dump_portlets_selection
         for ppath in dump_portlets_selection:
             obj = portal.restrictedTraverse(ppath)
             extractPortletsFromContext(obj, slot_structure, typesToShow, context_managers)

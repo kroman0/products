@@ -1,0 +1,11 @@
+Changelog
+=========
+
+Version 0.1
+-----------
+
+  Initial import Theme template with nested namespace.
+  Support ZopeSkel' "addcommad" local command for extend
+  Theme template, support extending with portlet, view local
+  templates.
+  [mylan]

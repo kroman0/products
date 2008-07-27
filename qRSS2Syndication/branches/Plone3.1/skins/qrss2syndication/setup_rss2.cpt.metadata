@@ -9,4 +9,5 @@ validators=validate_rss2_setup
 
 [actions]
 action.success..Save=traverse_to:string:save_rss2_setup
+action.success=traverse_to:string:setup_rss2
 action.failure=traverse_to:string:setup_rss2

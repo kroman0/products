@@ -30,6 +30,8 @@
     meta_type="Filesystem Directory View"
     directory="${namespace_package}.${namespace_package2}.${package}:skins/${namespace_package}_${namespace_package2}_${package}_styles"/>
 
+   <!-- -*- extra stuff goes here -*- -->
+
 #if str($include_doc) == 'True'
  <!-- A skin-path in this file corresponds to a Skin Selection in the
      'Properties' tab of the portal_skins tool, in the ZMI.
@@ -51,6 +53,9 @@
      insert-after="${namespace_package}_${namespace_package2}_${package}_custom_images"/>
   <layer name="${namespace_package}_${namespace_package2}_${package}_styles"
      insert-after="${namespace_package}_${namespace_package2}_${package}_custom_templates"/>
+
+  <!-- -*- extra sublayer stuff goes here -*- -->
+
  </skin-path>
 
 </object>

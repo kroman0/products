@@ -10,6 +10,7 @@
        name="${namespace_package}_${namespace_package2}_${package}_custom_templates"/>
    <cmf:registerDirectory
        name="${namespace_package}_${namespace_package2}_${package}_styles"/>
+   <!-- -*- extra stuff goes here -*- -->
 
 #if str($include_doc) == 'True'
    <!-- Note: This could also be done for all folders at once

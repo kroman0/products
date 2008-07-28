@@ -70,3 +70,33 @@ class CSSSubTemplate(QThemeSubTemplate):
                              vars['css_file_path'] )
         vars['css_resource_content'] = file(vars['css_file_path'],'rb').read()
 
+
+class JSSubTemplate(QThemeSubTemplate):
+    """
+    A Plone JS resource skeleton
+    """
+    _template_dir = 'templates/jsresource'
+    summary = "A Plone 3 JS resource template"
+    
+
+    vars = [
+      var('js_resource_name', 'Name of JS resource', default="foo.js"),
+      var('js_file_path', 'Path to JS file'),
+      var('jsreg_inline', 'Optional.Boolean', default="False"),
+      var('jsreg_cacheable', '', default="True"),
+      var('jsreg_compression', 'Compression type.Possible:none,safe,full,safe-encode,full-encode',
+          default="safe"),
+      var('jsreg_cookable', 'Boolean, aka merging allowed', default="True"),
+      var('jsreg_enables', 'Optional.Boolean', default="1"),
+      var('jsreg_expression', 'Optional.A tal condition.', default=""),
+           ]
+
+    def pre(self, command, output_dir, vars):
+        """ Set 'js_resource_content' value from js_file_path
+        """
+        
+        if not os.path.isfile(vars['js_file_path']):
+            raise ValueError('%s - wrong file path for js resource' % \
+                             vars['js_file_path'] )
+        vars['js_resource_content'] = file(vars['js_file_path'],'rb').read()
+

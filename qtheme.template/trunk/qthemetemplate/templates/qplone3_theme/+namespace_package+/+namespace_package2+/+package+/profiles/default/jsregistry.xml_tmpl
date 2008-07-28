@@ -6,6 +6,8 @@
 #end if
 <object name="portal_javascripts">
 
+ <!-- -*- extra stuff goes here -*- -->
+
 #if str($include_doc) == 'True'
  <!-- Javascript files that will be registered with the
       portal_javascripts tool are defined here. You can also specify values
@@ -26,6 +28,5 @@
     cacheable="False" compression="safe" cookable="False"
     enabled="True" expression=""  inline="False"/>
 -->
-
 #end if
 </object>

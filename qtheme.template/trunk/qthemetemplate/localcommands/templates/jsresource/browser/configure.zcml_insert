@@ -1,0 +1,5 @@
+    <browser:resourceDirectory
+        name="${namespace_package}.${namespace_package2}.${package}.scripts"
+        directory="scripts"
+        layer=".interfaces.IThemeSpecific"
+        />

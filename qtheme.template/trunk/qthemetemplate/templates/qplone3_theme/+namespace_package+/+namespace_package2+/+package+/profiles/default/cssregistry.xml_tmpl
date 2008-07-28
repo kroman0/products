@@ -32,4 +32,6 @@
     cacheable="True" compression="safe" cookable="True"
     enabled="1" expression=""/>
 
+ <!-- -*- extra stuff goes here -*- -->
+
 </object>

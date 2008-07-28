@@ -3,3 +3,4 @@ include CONTRIBUTORS.txt
 include LICENSE
 recursive-include ez_setup *.txt *.py
 recursive-include qthemetemplate/templates *
+recursive-include qthemetemplate/localcommands *

@@ -1,0 +1,5 @@
+ <stylesheet title=""
+    id="++resource++${namespace_package}.${namespace_package2}.${package}.stylesheets/${css_resource_name}"
+    media="${cssreg_media}" rel="${cssreg_rel}" rendering="${cssreg_rendering}"
+    cacheable="${cssreg_cacheable}" compression="${cssreg_compression}" cookable="${cssreg_cookable}"
+    enabled="${cssreg_enables}" expression="${cssreg_expression}"/>

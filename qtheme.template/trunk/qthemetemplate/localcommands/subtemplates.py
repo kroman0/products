@@ -37,3 +37,36 @@ class SkinSublayerSubTemplate(QThemeSubTemplate):
             default='custom'),
            ]
 
+
+class CSSSubTemplate(QThemeSubTemplate):
+    """
+    A Plone CSS resource skeleton
+    """
+    _template_dir = 'templates/cssresource'
+    summary = "A Plone 3 CSS resource template"
+    
+
+    vars = [
+      var('css_resource_name', 'Name of CSS resource',
+           default="main.css"),
+      var('css_file_path', 'Path to CSS file'),
+      var('cssreg_media', 'Optional.Possible values:screen,print,projection,handheld',
+           default="screen", ),
+      var('cssreg_rel', 'Optional', default="stylesheet"),
+      var('cssreg_rendering', 'Optional.Possible values:import,link,inline', default="inline"),
+      var('cssreg_cacheable', '', default="True"),
+      var('cssreg_compression', 'Compression type', default="safe"),
+      var('cssreg_cookable', 'Boolean, aka merging allowed', default="True"),
+      var('cssreg_enables', 'Optional.Boolean', default="1"),
+      var('cssreg_expression', 'Optional.A tal condition.', default=""),
+           ]
+
+    def pre(self, command, output_dir, vars):
+        """ Set 'css_resource_content' value from css_file_path
+        """
+        
+        if not os.path.isfile(vars['css_file_path']):
+            raise ValueError('%s - wrong file path for css resource' % \
+                             vars['css_file_path'] )
+        vars['css_resource_content'] = file(vars['css_file_path'],'rb').read()
+

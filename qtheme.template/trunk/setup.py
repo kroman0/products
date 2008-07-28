@@ -25,6 +25,11 @@ setup(name='qtheme.template',
           [paste.paster_create_template]
           qplone3_theme = qthemetemplate:qPlone3Theme
 
+          [zopeskel.zopeskel_sub_template]
+          skin_layer    = qthemetemplate.localcommands.subtemplates:SkinLayerSubTemplate
+          skin_sublayer = qthemetemplate.localcommands.subtemplates:SkinSublayerSubTemplate
+          css_resource = qthemetemplate.localcommands.subtemplates:CSSSubTemplate
+
       # -*- Entry points: -*-
       """,
       )

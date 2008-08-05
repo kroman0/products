@@ -36,3 +36,8 @@ class qPlone3Theme(Plone3Theme):
         p = vars['package']
         sdir = os.path.join(output_dir, np, np2, p, 'skins')
 
+        # Prevent overriding passed config file
+        # Result config will be written to same 
+        # name file with '.result' postfix
+        if command.options.config:
+            command.options.config += '.result'

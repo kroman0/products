@@ -55,3 +55,63 @@ initialization files::
     skins.zcml
     tests.py
     version.txt
+
+=========================
+Test localcommnands
+=========================
+  This theme support ZopeSkel local command 'addcontent'.
+
+    >>> paster('addcontent -a')
+    paster addcontent -a
+    ...
+
+So you can extend your theme with following subtemplates:
+  - portlet
+  - layer
+  - sublayer
+  - css resource
+  - js resource
+
+Check portlet
+    >>> paster('addcontent -l')
+    paster addcontent -l
+    Available templates:
+        css_resource:   A Plone 3 CSS resource template
+        js_resource:    A Plone 3 JS resource template
+        skin_layer:     A Plone 3 Skin Layer
+        skin_sublayer:  A Plone 3 Skin SubLayer registration in GS' skins.xml
+
+Test of portlet adding
+    >>> paster('addcontent --no-interactive portlet')
+    paster addcontent --no-interactive portlet
+    Recursing into portlets
+    ...
+
+Test of skin_layer adding
+    >>> paster('addcontent --no-interactive skin_layer')
+    paster addcontent --no-interactive skin_layer
+    Recursing into profiles
+    ...
+
+Test of skin_sublayer adding
+    >>> paster('addcontent --no-interactive skin_sublayer')
+    paster addcontent --no-interactive skin_sublayer
+    Recursing into profiles
+    ...
+
+Test of css_resource
+     >>> paster("addcontent --no-interactive css_resource")
+     Traceback (most recent call last):
+     ...
+     ValueError:  - wrong file path for css resource
+
+Test of js_resource
+    >>> paster('addcontent --no-interactive js_resource')
+    Traceback (most recent call last):
+    ...
+    ValueError:  - wrong file path for js resource
+
+
+Exceptions for last two templates raised because of both templates
+expect for path to file object with data with appropriate content
+for that resource.

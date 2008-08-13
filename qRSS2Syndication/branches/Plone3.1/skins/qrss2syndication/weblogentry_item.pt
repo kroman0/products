@@ -4,6 +4,9 @@
      xmlns:content="http://purl.org/rss/1.0/modules/content/"
      xmlns:metal="http://xml.zope.org/namespaces/metal" >
 <metal:block define-macro="item">
+     <tal:repeat tal:define="tags res/tags|res/EntryTag|nothing" repeat="tag tags">
+        <category tal:content="tag"></category>
+     </tal:repeat>  
     <content:encoded tal:content="structure res/render_body"></content:encoded>
 </metal:block>
 </rss>

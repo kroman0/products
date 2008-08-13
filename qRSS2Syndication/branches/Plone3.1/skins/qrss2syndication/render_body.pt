@@ -1,1 +1,1 @@
-<tal:x replace="structure string:<![CDATA["/><tal:x replace="structure here/getText"/><tal:x replace="structure string:]]>"/>
+<tal:x replace="structure string:<![CDATA["/><tal:x replace="structure context/getText"/><tal:x define="entry nocall:context; weblog python:entry.getWeblog()"><tal:x metal:use-macro="context/entry_macros/macros/technoratiTags"/></tal:x><tal:x replace="structure string:]]>"/>

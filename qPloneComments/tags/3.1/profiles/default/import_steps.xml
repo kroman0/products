@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<import-steps>
+  <import-step
+      id="qPloneComments.various"
+      version="20080626-01"
+      handler="Products.qPloneComments.setuphandlers.setupVarious"
+      title="qPloneComments">
+    Run the extra steps to install the qPloneComments product.
+  </import-step>
+</import-steps>

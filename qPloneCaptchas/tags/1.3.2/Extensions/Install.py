@@ -36,7 +36,6 @@ def install(self):
 
     mtool = getToolByName(self, 'portal_migration')
     plone_version = mtool.getFileSystemVersion()
-
     if plone_version.startswith('2.1'):
         plone_version = '2.1.2'
     elif plone_version.startswith('2.0'):
@@ -94,7 +93,7 @@ def setupSkin(self, out, layers):
             else:
                 out.write('  Layer %s was already installed into skin %s.\n' % (layer,skin))
         if modified:
-            path = string.join( path, ', ' )
+            path = string.join( path, ',' )
             skinstool.addSkinSelection( skin, path )
 
 def uninstall(self):

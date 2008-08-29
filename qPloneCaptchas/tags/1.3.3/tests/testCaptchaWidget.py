@@ -20,7 +20,7 @@ class TestCaptchaWidget(PloneTestCase.FunctionalTestCase):
         self.loginAsPortalOwner()
         self.addProduct('qPloneCaptchas')
         self.portal.invokeFactory('Document', 'index_html')
-        self.portal['index_html'].allow_discussion = True
+        self.portal['index_html'].allowDiscussion(True)
         self.absolute_url = self.portal['index_html'].absolute_url_path()
 
         self.basic_auth = 'portal_manager:secret'
@@ -35,7 +35,7 @@ class TestCaptchaWidget(PloneTestCase.FunctionalTestCase):
     def testImage(self):
         path = '%s/discussion_reply_form'%self.absolute_url
         resp1 = self.publish(path, self.basic_auth, request_method='GET').getBody()
-        patt = re.compile('<img\s+src="%s(/getCaptchaImage/[0-9a-fA-F]+)"'%self.portal.absolute_url())
+        patt = re.compile('\s+src="%s(/getCaptchaImage/[0-9a-fA-F]+)"'%self.portal.absolute_url())
         match_obj = patt.search(resp1)
         img_url = match_obj.group(1)
         content_type = self.publish('/plone'+img_url, self.basic_auth).getHeader('content-type')

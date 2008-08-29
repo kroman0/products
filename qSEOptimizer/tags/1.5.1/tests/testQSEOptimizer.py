@@ -197,19 +197,27 @@ class TestResponse(PloneTestCase.FunctionalTestCase):
         self.assert_(m, 'Title not set in')
 
     def testDescription(self):
-        m = re.match('.*<meta name="description" content="it is description" />', self.html, re.S|re.M)
+        t1 = '.*<meta name="description" content="it is description" />'
+        t2 = '.*<meta content="it is description" name="description" />'
+        m = re.match(t1, self.html, re.S|re.M) or re.match(t2, self.html, re.S|re.M)
         self.assert_(m, 'Description not set in')
 
     def testKeywords(self):
-        m = re.match('.*<meta name="keywords" content="my1|key2" />', self.html, re.S|re.M)
+        t1 = '.*<meta name="keywords" content="my1|key2" />'
+        t2 = '.*<meta content="my1|key2" name="keywords" />'
+        m = re.match(t1, self.html, re.S|re.M) or re.match(t2, self.html, re.S|re.M)
         self.assert_(m, 'Keywords not set in')
 
     def testRobots(self):
-        m = re.match('.*<meta name="robots" content="ALL" />', self.html, re.S|re.M)
+        t1 = '.*<meta name="robots" content="ALL" />'
+        t2 = '.*<meta content="ALL" name="robots" />'
+        m = re.match(t1, self.html, re.S|re.M) or re.match(t2, self.html, re.S|re.M)
         self.assert_(m, 'Robots not set in')
 
     def testDistribution(self):
-        m = re.match('.*<meta name="distribution" content="Global" />', self.html, re.S|re.M)
+        t1 = '.*<meta content="Global" name="distribution" />'
+        t2 = '.*<meta name="distribution" content="Global" />'
+        m = re.match(t1, self.html, re.S|re.M) or re.match(t2, self.html, re.S|re.M)
         self.assert_(m, 'Distribution not set in')
 
     def testHTMLComments(self):
@@ -222,7 +230,9 @@ class TestResponse(PloneTestCase.FunctionalTestCase):
 
     def testCustomMetaTags(self):
         for tag in custom_metatags:
-            m = re.search('<meta name="%(meta_name)s" content="%(meta_content)s" />' % tag, self.html, re.S|re.M)
+            t1 = '<meta name="%(meta_name)s" content="%(meta_content)s" />'
+            t2 = '<meta content="%(meta_content)s" name="%(meta_name)s" />'
+            m = re.search(t1 % tag, self.html, re.S|re.M) or re.search(t2 % tag, self.html, re.S|re.M)
             self.assert_(m, "Custom meta tag %s not applied." % tag['meta_name'])
 
 class TestAdditionalKeywords(PloneTestCase.FunctionalTestCase):

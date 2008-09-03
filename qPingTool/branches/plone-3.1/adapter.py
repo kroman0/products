@@ -1,4 +1,7 @@
 from zope.interface import Interface, implements #, Attribute
+from zope.component import adapts
+
+from Products.CMFPlone.interfaces import IPloneBaseTool
 from Products.CMFCore.utils import getToolByName
 
 class ICanonicalURL(Interface):
@@ -20,6 +23,7 @@ class ICanonicalURL(Interface):
 class CanonicalURL(object):
     """ CanonicalURL adapter
     """
+    adapts(IPloneBaseTool)
     implements(ICanonicalURL)
 
     def __init__(self, context):
@@ -57,7 +61,7 @@ class CanonicalURL(object):
 
 # Register adapter
 
-def registerAdapter():
-    from Products.CMFPlone.interfaces import IPloneBaseTool
-    from zope.component import provideAdapter
-    provideAdapter(CanonicalURL, adapts=[IPloneBaseTool,], provides=ICanonicalURL )
+#def registerAdapter():
+#    from Products.CMFPlone.interfaces import IPloneBaseTool
+#    from zope.component import provideAdapter
+#    provideAdapter(CanonicalURL, adapts=[IPloneBaseTool,], provides=ICanonicalURL )

@@ -1,13 +1,11 @@
+from Globals import DTMLFile
+from AccessControl import ClassSecurityInfo
 from Products.Archetypes.public import *
 from Products.Archetypes.BaseContent import BaseContentMixin
-from Products.CMFCore.ActionInformation import ActionInformation
-from Products.CMFCore.Expression import Expression, createExprContext
+from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
-from Acquisition import aq_inner, aq_parent
 from Products.CMFDefault.utils import _dtmldir
 from config import *
-from AccessControl import ClassSecurityInfo
-from Globals import InitializeClass, DTMLFile
 
 schema = BaseContentMixin.schema +  Schema((
     #StringField('id',
@@ -54,14 +52,8 @@ class PingInfo(BaseContentMixin):
     def Contributors(self):
         return self.contributors
 
-    try:
-	from Products.CMFCore import permissions
-	security.declareProtected(permissions.ModifyPortalContent, 'manage_metadata' )
-    except:
-	from Products.CMFCore.CMFCorePermissions import ModifyPortalContent
-	security.declareProtected(ModifyPortalContent, 'manage_metadata' )
-
+    security.declareProtected(ModifyPortalContent, 'manage_metadata' )
     manage_metadata = DTMLFile('zmi_metadata', _dtmldir)
 
 
-registerType(PingInfo)
+registerType(PingInfo, PROJECTNAME)

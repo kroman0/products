@@ -1,17 +1,16 @@
-from Products.CMFCore import CMFCorePermissions
 from Products.Archetypes.utils import DisplayList
+from Products.CMFCore.permissions import ManagePortal
 
-SKINS_DIR = 'skins'
 GLOBALS = globals()
 PROJECTNAME = 'qPingTool'
 
-ADD_PERMISSION = CMFCorePermissions.ManagePortal
+ADD_PERMISSION = ManagePortal
 
 TOOL_ID = 'portal_pingtool'
 
 TOOL_ICON = 'skins/qpingtool/tool.gif'
 
-RSS_LIST = DisplayList((('Blog','Blog'),('RSS','RSS1'),('RSS2','RSS2')))
+RSS_LIST = DisplayList((('Weblog','Weblog'),('RSS','RSS1'),('RSS2','RSS2')))
 
 CONFIGURATION_CONFIGLET = 'pingtool_config'
 SITES_LIST=(('weblogs',    'www.weblogs.com (blog url)',                'http://rpc.weblogs.com/'),

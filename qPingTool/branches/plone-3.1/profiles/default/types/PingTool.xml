@@ -12,20 +12,37 @@
  <property name="global_allow">True</property>
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types">
-  <element value="PingInfo"/></property>
+  <element value="PingInfo"/>
+ </property>
  <property name="allow_discussion">False</property>
+ <property name="default_view">base_view</property>
+ <property name="view_methods">
+  <element value="base_view"/>
+ </property>
+ <property name="default_view_fallback">False</property>
+
  <alias from="(Default)" to="base_view"/>
  <alias from="edit" to="base_edit"/>
  <alias from="index.html" to="(Default)"/>
- <alias from="properties" to="base_metadata"/>
  <alias from="view" to="(Default)"/>
+
  <action title="View"
          action_id="view"
          category="object"
          condition_expr=""
-         url_expr="string:folder_contents"
+         url_expr="string:${object_url}/view"
          visible="True"
          i18n:attributes="title">
   <permission value="Manage portal"/>
  </action>
+ <action title="Edit"
+         action_id="edit"
+         category="object"
+         condition_expr=""
+         url_expr="string:${object_url}/edit"
+         visible="True"
+         i18n:attributes="title">
+  <permission value="Modify portal content"/>
+ </action>
+
 </object>

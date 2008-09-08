@@ -33,7 +33,7 @@ def modify_fti(fti):
     #fti['default_view'] = 'view'
 
 
-class PingTool(ATFolder, PloneFolder, ActionProviderBase): #(BaseFolder, PloneFolder, ActionProviderBase):
+class PingTool(ATFolder, PloneFolder):
     """This tool serve for operation with ActionInfo objects
     """
     security = ClassSecurityInfo()

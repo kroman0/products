@@ -1,19 +1,15 @@
 from Globals import DTMLFile
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.public import *
-from Products.Archetypes.BaseContent import BaseContentMixin
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
 from Products.CMFDefault.utils import _dtmldir
+from Products.ATContentTypes.content.base import ATCTContent
+from Products.ATContentTypes.content.schemata import ATContentTypeSchema, finalizeATCTSchema
+from Products.ATContentTypes.lib.historyaware import HistoryAwareMixin
 from config import *
 
-schema = BaseContentMixin.schema +  Schema((
-    #StringField('id',
-    #            required=1,
-    #            widget=StringWidget(size=70,
-    #                                label_msgid = 'label_id',
-    #                                description_msgid = 'help_id'),
-    #            ),
+PingInfoSchema =  ATContentTypeSchema.copy() +  Schema((
     StringField('url',
                 required=1,
                 widget=StringWidget(label_msgid = 'label_url',
@@ -30,19 +26,23 @@ schema = BaseContentMixin.schema +  Schema((
 		default='Blog',
                 widget=SelectionWidget(label_msgid = 'label_rss_version',
                                     description_msgid = 'help_rss_version'),
-                ),
-    ))
+    )),
+    marshall=RFC822Marshaller()
+    )
+    
+finalizeATCTSchema(PingInfoSchema)
 
-
-class PingInfo(BaseContentMixin):
+class PingInfo(ATCTContent, HistoryAwareMixin):
     """Ping Info container
        id - name of the server to ping
        url - server ping url
        method_name - ping method
        rss_version - rss version supported by the server
     """
-
-    schema = schema
+    __implements__ = (ATCTContent.__implements__,
+                      HistoryAwareMixin.__implements__,
+                     )
+    schema = PingInfoSchema
 
     """
         Added some support of DublinCore

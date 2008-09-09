@@ -1,7 +1,0 @@
-[default]
-title=Ping Now
-
-
-[actions]
-action.success=redirect_to:string:ping_setup
-action.failure=redirect_to:string:ping_setup

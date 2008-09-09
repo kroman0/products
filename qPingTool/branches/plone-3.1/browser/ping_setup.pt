@@ -1,14 +1,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
       lang="en"
-      metal:use-macro="here/main_template/macros/master"
-      i18n:domain="plone">
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="qPingTool">
 
   <body>
 
     <div metal:fill-slot="main"
-         tal:define="errors options/state/getErrors;
-                     editor python:member.getProperty('wysiwyg_editor','None');
-                     wysiwyg python:test(editor and editor!='None', editor, 'None');
+         tal:define="editor python:member.getProperty('wysiwyg_editor','None');
+                     wysiwyg python:view.test(editor and editor!='None', editor, 'None');
                      lockable python:hasattr(here, 'wl_isLocked');
                      isLocked python:lockable and here.wl_isLocked();
                      pingProperties python: here.portal_pingtool.getPingProperties(here)">
@@ -25,12 +24,14 @@
       <p i18n:translate="description_edit_document">
         Fill in the details of this document.
       </p>
-
+      <div tal:define="message view/ping_message" tal:omit-tag="" tal:condition="message">
+        <pre tal:content="message"/>
+      </div>
       <form name="edit_form"
             action="."
             method="post"
             enctype="multipart/form-data"
-            tal:attributes="action string:${here/getId}/${template/getId}" >
+            tal:attributes="action string:${context/absolute_url}/@@ping_setup" >
 
         <fieldset>
 
@@ -63,27 +64,24 @@
            </tal:block>
           </div>
 
-
-          <div class="formControls"
+          <div class="formControls" 
                tal:define="process_creation request/process_creation|nothing;">
-
-
-            <input class="context"
+            <input type="submit"
                    tabindex=""
-                   type="submit"
+                   value="Apply Changes"
                    name="form.button.Save"
-                   value="Save"
-                   i18n:attributes="value"
-                   tal:attributes="tabindex tabindex/next;" />
-
-            <!--input class="standalone"
+                   class="context"
+                   i18n:attributes="value label_apply_changes;
+                                    tabindex tabindex/next;" />
+            <input type="submit"
                    tabindex=""
-                   type="submit"
-                   name="form.button.Cancel"
                    value="Cancel"
-                   i18n:attributes="value"
-                   tal:attributes="tabindex tabindex/next;" /-->
+                   name="form.button.Cancel"
+                   class="context"
+                   i18n:attributes="value label_cancel;
+                                    tabindex tabindex/next;" />
           </div>
+
         </fieldset>
         <fieldset>
 

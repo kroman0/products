@@ -8,7 +8,7 @@
   <object name="ping" meta_type="CMF Action">
    <property name="title">Ping setup</property>
    <property name="description" i18n:translate=""></property>
-   <property name="url_expr">string:${folder_url}/ping_setup</property>
+   <property name="url_expr">string:${folder_url}/@@ping_setup</property>
    <property name="available_expr">python: folder==object and portal.portal_syndication.isSyndicationAllowed(object)</property>
    <property name="permissions">
     <element value="Manage properties"/>

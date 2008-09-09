@@ -23,7 +23,7 @@ PingInfoSchema =  ATContentTypeSchema.copy() +  Schema((
                ),
     StringField('rss_version',
 		vocabulary=RSS_LIST,
-		default='Blog',
+		default='Weblog',
                 widget=SelectionWidget(label_msgid = 'label_rss_version',
                                     description_msgid = 'help_rss_version'),
     )),

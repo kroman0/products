@@ -14,7 +14,7 @@ class TestSetup(TestCase):
         self.loginAsPortalOwner()
 
     def testRegisterSkins(self):
-        test_content = ['ping_setup', 'ping_now', 'save_ping_setup', 'tool.gif']
+        test_content = ['tool.gif']
         self.failUnless(not getattr(self.portal.portal_skins, 'qpingtool', None)==None)
         content = [i.id for i in self.portal.portal_skins.qpingtool.objectValues()]
         content.sort()

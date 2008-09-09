@@ -26,7 +26,7 @@ class TestPingTool(TestCase):
         # test default ping setup
         status, message = self.ptool.setupPing(context=obj)
         self.failUnless(status=='success')
-        self.failUnless(message=='Your changes have been saved')
+        self.failUnless(message=='Changes saved.')
         syInfo = getattr(obj, 'syndication_information', None)
         self.failUnless(syInfo.ping_sites==[])
         self.failUnless(syInfo.enable_ping==0)
@@ -43,7 +43,7 @@ class TestPingTool(TestCase):
         self.b1.enableSyndication()
         status, message = self.ptool.setupPing(context=obj, enable_ping=1, ping_sites=('http://nohost',), REQUEST=None)
         self.failUnless(status=='success')
-        self.failUnless(message=='Your changes have been saved')
+        self.failUnless(message=='Changes saved.')
         syInfo = getattr(obj, 'syndication_information', None)
         self.failUnless(syInfo.ping_sites==['http://nohost'])
         self.failUnless(syInfo.enable_ping==1)
@@ -64,15 +64,19 @@ class TestPingTool(TestCase):
         status, message = self.ptool.pingFeedReader(obj)
         self.failUnless(status=='failed')
         self.failUnless(message=='Ping is dissabled.')
+"""
+        # test with customized properties
+        self.ptool.invokeFactory(id = 'testsite', type_name = "PingInfo", title = 'www.TESTSITE.com (blog url)', url = 'http://pingsite')
+        self.ptool.setupPing(context=obj, enable_ping=1, ping_sites=('testsite',))
+        status, message = self.ptool.pingFeedReader(obj)
+        self.failUnless(status=='failed')
+        self.failUnless(message=='Ping is impossible.Setup canonical_url.')
 
         # test with customized properties
-        self.ptool.invokeFactory(id = 'testsite', type_name = "PingInfo", title = 'www.TESTSITE.com (blog url)', url = 'http://nohost/')
-        self.ptool.setupPing(context=obj, enable_ping=1, ping_sites=('testsite',))
-
         status, message = self.ptool.pingFeedReader(obj)
         self.failUnless(status=='success')
-        self.failUnless(message=='The servers are pinged.\nReturned message: The site http://nohost/ generated error for plone/b1.')
-
+        self.failUnless(message=='The servers are pinged.\nReturned message from http://pingsite: The site http://pingsite generated error for plone/b1.')
+"""
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()

@@ -12,7 +12,7 @@ class TestPingTool(TestCase):
 
     def afterSetUp(self):
         self.loginAsPortalOwner()
-        self.ptool = self.portal._getOb(TOOL_ID)
+        self.ptool = self.portal._getOb('portal_pingtool')
         self.portal.invokeFactory('Weblog', id='b1',title='Blog 1')
         self.b1 = getattr(self.portal, 'b1', None)
         self.b1.enableSyndication()

@@ -47,6 +47,7 @@
                          />
                  <label for="enable_ping" i18n:translate="label_enable_ping">Enable Ping</label>
           </div>
+
           <div class="field" 
 	       tal:define="ping_sites python:pingProperties['ping_sites']">
 
@@ -60,7 +61,9 @@
 			                 value id;
 					 id id; "
                          />
-                 <label for="id" tal:content="python:here.portal_pingtool[id].Title()" >Site name</label><br/>
+                 <label  for="id"
+                     tal:content="python:here.portal_pingtool[id].Title()"
+                     tal:attributes="for id" >Site name</label><br/>
            </tal:block>
           </div>
 

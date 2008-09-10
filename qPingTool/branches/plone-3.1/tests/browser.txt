@@ -1,0 +1,181 @@
+qPingTool control panel
+==================
+
+Viewing the control panel and PingTool
+--------------------------------
+
+Unauthorized
+
+    >>> self.browser.open('http://nohost/plone/plone_control_panel')
+    >>> self.browser.url == 'http://nohost/plone/plone_control_panel'
+    False
+
+Authorized
+
+    >>> self.loginAsManager()
+    >>> self.browser.open('http://nohost/plone/plone_control_panel')
+    >>> self.browser.url == 'http://nohost/plone/plone_control_panel'
+    True
+
+Go to viewing PingTool
+
+    >>> self.browser.open('http://nohost/plone/portal_pingtool/folder_contents')
+    >>> 'http://nohost/plone/portal_pingtool/folder_contents' in self.browser.url
+    True
+
+
+Create PingInfo
+--------------------------------
+
+Create PingInfo in site
+
+    >>> self.browser.open('http://nohost/plone/')
+    >>> '/createObject?type_name=PingInfo' in self.browser.contents
+    False
+
+Create PingInfo in PingTool
+
+    >>> self.browser.open('http://nohost/plone/')
+    >>> self.browser.getLink(url='/createObject?type_name=PingTool').click()
+    >>> self.browser.getControl('Title').value = 'Test ping tool'
+    >>> self.browser.getControl('Save').click()
+    >>> self.browser.open('http://nohost/plone/test-ping-tool')
+    >>> self.browser.url == 'http://nohost/plone/test-ping-tool'
+    True
+    >>> '/createObject?type_name=PingInfo' in self.browser.contents
+    True
+    >>> self.browser.getLink(url='/createObject?type_name=PingInfo').click()
+    >>> self.browser.getControl('Method_name').value == 'weblogUpdates.ping'
+    True
+    >>> self.browser.getControl('Weblog').selected
+    True
+    >>> self.browser.getControl('Title').value = 'Test ping info'
+    >>> self.browser.getControl('Description').value = 'Test description'
+    >>> self.browser.getControl('Url').value = 'http://www.testsite.com'
+    >>> self.browser.getControl('Save').click()
+    >>> 'http://nohost/plone/test-ping-tool/test-ping-info' in self.browser.url
+    True
+    >>> self.browser.contents
+    '...Info...Changes saved...
+     ...documentFirstHeading...Test ping info...
+     ...formQuestion...Description...Test description...
+     ...formQuestion...Url...http://www.testsite.com...
+     ...formQuestion...Method_name...weblogUpdates.ping...
+     ...formQuestion...Rss_version...Weblog...'
+
+Create PingInfo in portal_pingtool
+
+    >>> self.browser.open('http://nohost/plone/portal_pingtool')
+    >>> self.browser.url == 'http://nohost/plone/portal_pingtool'
+    True
+    >>> '/createObject?type_name=PingInfo' in self.browser.contents
+    True
+    >>> self.browser.getLink(url='/createObject?type_name=PingInfo').click()
+    >>> self.browser.getControl('Title').value = 'Ping info'
+    >>> self.browser.getControl('Description').value = 'Test description'
+    >>> self.browser.getControl('Url').value = 'http://www.testsite.com'
+    >>> self.browser.getControl('Save').click()
+
+    >>> 'http://nohost/plone/portal_pingtool/ping-info' in self.browser.url
+    True
+    >>> self.browser.contents
+    '...Info...Changes saved...
+     ...documentFirstHeading...Ping info...
+     ...formQuestion...Description...Test description...
+     ...formQuestion...Url...http://www.testsite.com...
+     ...formQuestion...Method_name...weblogUpdates.ping...
+     ...formQuestion...Rss_version...Weblog...'
+
+Ping
+--------------------------------
+
+Create Weblog
+
+    >>> self.browser.open('http://nohost/plone/')
+    >>> '/createObject?type_name=Weblog' in self.browser.contents
+    True
+    >>> self.browser.getLink(url='/createObject?type_name=Weblog').click()
+    >>> self.browser.getControl('Title').value = 'Test weblog'
+    >>> self.browser.getControl('Description').value = 'Test description'
+    >>> self.browser.getControl('Save').click()
+    >>> 'http://nohost/plone/test-weblog' in self.browser.url
+    True
+    >>> self.browser.contents
+    '...Info...Changes saved...
+     ...documentFirstHeading...Test weblog...
+     ...Description...Test description...'
+
+Enable Syndication
+
+    >>> self.browser.open('http://nohost/plone/test-weblog/enableSyndication')
+    >>> self.browser.contents
+    '...portalMessage info...Syndication enabled...'
+
+Setup enable ping and ping
+
+    >>> self.browser.getLink('Ping setup').click()
+    >>> 'http://nohost/plone/test-weblog/@@ping_setup' in self.browser.url
+    True
+    >>> self.browser.getControl('Enable Ping').selected
+    False
+    >>> self.browser.getControl(name='form.button.Ping').click()
+    >>> 'Ping is dissabled.' in self.browser.contents
+    True
+    >>> self.browser.getControl('Enable Ping').selected = True
+    >>> self.browser.getControl(name='form.button.Save').click()
+    >>> 'Changes saved.' in self.browser.contents
+    True
+    >>> self.browser.getControl('Enable Ping').selected
+    True
+
+Setup canonical_url and ping
+
+    >>> self.browser.getLink('Ping setup').click()
+    >>> 'http://nohost/plone/test-weblog/@@ping_setup' in self.browser.url
+    True
+    >>> self.browser.getControl(name='form.button.Ping').click()
+    >>> self.browser.contents
+    '...Ping is impossible...Setup canonical_url...'
+    >>> self.portal.hasProperty('canonical_url') == True
+    False
+    >>> self.browser.open('http://nohost/plone/portal_pingtool/manage_overview')
+    >>> self.browser.getControl(name='canonical_url_value').value
+    ''
+    >>> self.browser.getControl(name='canonical_url_value').value = 'www.site1.com'
+    >>> self.browser.getControl(name='submit').value
+    'Add'
+    >>> self.browser.getControl(name='submit').click()
+    >>> self.browser.getControl(name='submit').value
+    'Update'
+    >>> self.portal.hasProperty('canonical_url') == True
+    True
+    >>> self.portal.getProperty('canonical_url')
+    'www.site1.com'
+    >>> self.browser.open('http://nohost/plone/portal_pingtool/manage_overview')
+    >>> self.browser.getControl(name='canonical_url_value').value = 'www.site2.com'
+    >>> self.browser.getControl(name='submit').click()
+    >>> self.portal.getProperty('canonical_url')
+    'www.site2.com'
+
+Ping Setup Details and ping
+
+    >>> self.browser.open('http://nohost/plone/test-weblog')
+    >>> self.browser.getLink('Ping setup').click()
+    >>> 'http://nohost/plone/test-weblog/@@ping_setup' in self.browser.url
+    True
+    >>> self.browser.getControl(name='form.button.Ping').click()
+    >>> 'The servers are pinged' in self.browser.contents
+    True
+    >>> 'http://nohost/plone/portal_pingtool/ping-info' in self.browser.contents
+    False
+
+    >>> self.browser.getControl('Ping info').selected
+    False
+    >>> self.browser.getControl('Ping info').selected = True
+    >>> self.browser.getControl(name='form.button.Save').click()
+    >>> 'Changes saved.' in self.browser.contents
+    True
+    >>> self.browser.getControl(name='form.button.Ping').click()
+    >>> self.browser.contents
+    '...portalMessage info...Info...The servers are pinged...
+    ...Returned message from...'

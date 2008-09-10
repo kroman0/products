@@ -6,8 +6,6 @@ PROJECTNAME = 'qPingTool'
 
 ADD_PERMISSION = ManagePortal
 
-TOOL_ID = 'portal_pingtool'
-
 TOOL_ICON = 'skins/qpingtool/tool.gif'
 
 RSS_LIST = DisplayList((('Weblog','Weblog'),('RSS','RSS1'),('RSS2','RSS2')))

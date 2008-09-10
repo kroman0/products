@@ -22,7 +22,13 @@ class ICanonicalURL(Interface):
 
 class CanonicalURL(object):
     """ CanonicalURL adapter
+
+    >>> ICanonicalURL.implementedBy(CanonicalURL)
+    True
+    >>> ICanonicalURL(CanonicalURL(object)) is not None
+    True
     """
+
     adapts(IPingTool)
     implements(ICanonicalURL)
 

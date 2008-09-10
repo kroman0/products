@@ -1,28 +1,20 @@
-#from Globals import InitializeClass
 import os
 from Acquisition import aq_base
 from zLOG import LOG
 from zope.interface import implements
 from AccessControl import ClassSecurityInfo
-
-from Products.Archetypes.public import *
-
-from Products.CMFCore.ActionProviderBase import ActionProviderBase
-from Products.CMFPlone.interfaces.OrderedContainer import IOrderedContainer
-from Products.CMFPlone.PloneFolder import PloneFolder
-
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
-
+from Products.Archetypes.public import *
+from Products.CMFCore.ActionProviderBase import ActionProviderBase
 from Products.CMFCore.permissions import ManagePortal
 from Products.CMFCore.utils import getToolByName
-
 from Products.ATContentTypes.content.folder import ATFolder
-
+from Products.CMFPlone.interfaces.OrderedContainer import IOrderedContainer
+from Products.CMFPlone.PloneFolder import PloneFolder
 from Products.XMLRPCMethod.XMLRPCMethod import RPCThread, XMLRPCMethod
 
 from interfaces import IPingTool
 from adapter import ICanonicalURL
-#from util import getCanonicalURL
 from config import PROJECTNAME
 
 _marker = []
@@ -37,7 +29,10 @@ def modify_fti(fti):
 
 
 class PingTool(ATFolder, PloneFolder):
-    """This tool serve for operation with ActionInfo objects
+    """
+
+    >>> IPingTool.implementedBy(PingTool)
+    True
     """
     security = ClassSecurityInfo()
 

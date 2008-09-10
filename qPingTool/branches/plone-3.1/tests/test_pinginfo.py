@@ -12,8 +12,10 @@ class TestPingInfo(TestCase):
 
     def afterSetUp(self):
         self.loginAsPortalOwner()
-        self.portal.invokeFactory('PingInfo', id='pi1',title='Ping Info 1')
-        self.pi1 = getattr(self.portal, 'pi1', None)
+        self.portal.invokeFactory('PingTool', id='pt1',title='Ping Tool 1')
+        self.pt1 = getattr(self.portal, 'pt1', None)
+        self.pt1.invokeFactory('PingInfo', id='pi1',title='Ping Info 1')
+        self.pi1 = getattr(self.pt1, 'pi1', None)
 
     def testAddedPingInfo(self):
         self.pi1.setUrl('http://nohost')

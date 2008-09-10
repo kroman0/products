@@ -58,5 +58,3 @@ class PingView(BrowserView):
             return trueVal
         else:
             return falseVal
-
-

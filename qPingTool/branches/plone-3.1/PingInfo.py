@@ -2,14 +2,20 @@ from Globals import DTMLFile
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.public import *
 from Products.CMFCore.permissions import ModifyPortalContent
-from Products.CMFCore.utils import getToolByName
 from Products.CMFDefault.utils import _dtmldir
 from Products.ATContentTypes.content.base import ATCTContent
 from Products.ATContentTypes.content.schemata import ATContentTypeSchema, finalizeATCTSchema
 from Products.ATContentTypes.lib.historyaware import HistoryAwareMixin
-from config import *
+from config import RSS_LIST, PROJECTNAME
 
 PingInfoSchema =  ATContentTypeSchema.copy() +  Schema((
+    TextField('description',
+        default = '',
+        searchable = 0,
+        widget = TextAreaWidget(
+            label_msgid = 'label_description',
+            description_msgid = 'help_description',),
+               ),
     StringField('url',
                 required=1,
                 widget=StringWidget(label_msgid = 'label_url',

@@ -7,7 +7,7 @@
       name="qPingTool"
       title="qPingTool"
       directory="profiles/default"
-      description='Extension profile for the type of qPingTool.'
+      description='Extension profile for the types of qPingTool.'
       provides="Products.GenericSetup.interfaces.EXTENSION"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       />

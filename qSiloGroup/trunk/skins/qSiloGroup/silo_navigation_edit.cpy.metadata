@@ -1,6 +1,0 @@
-[validators]
-validators =
-
-[actions]
-action.failure=traverse_to_action:string:edit_silo_navigation
-action.success=redirect_to_action:string:view

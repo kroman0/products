@@ -105,21 +105,37 @@ Create Weblog
      ...documentFirstHeading...Test weblog...
      ...Description...Test description...'
 
+Setup enable ping and ping with disable syndication
+
+    >>> self.browser.open('http://nohost/plone/test-weblog')
+    >>> 'Ping setup' in self.browser.contents
+    False
+    >>> self.browser.open('http://nohost/plone/test-weblog/@@ping_setup')
+    >>> 'http://nohost/plone/test-weblog/@@ping_setup' in self.browser.url
+    True
+    >>> self.browser.getControl('Enable Ping').selected
+    False
+    >>> self.browser.getControl(name='form.button.Ping').click()
+    >>> self.browser.contents
+    '...Warning...Ping is dissabled...'
+    >>> self.browser.getControl('Enable Ping').selected = True
+    >>> self.browser.getControl(name='form.button.Save').click()
+    >>> self.browser.contents
+    '...Warning...Syndication is Disabled...'
+    >>> self.browser.getControl('Enable Ping').selected
+    False
+
 Enable Syndication
 
     >>> self.browser.open('http://nohost/plone/test-weblog/enableSyndication')
     >>> self.browser.contents
     '...portalMessage info...Syndication enabled...'
 
-Setup enable ping and ping
+Setup enable ping and ping with enable syndication
 
+    >>> self.browser.open('http://nohost/plone/test-weblog')
     >>> self.browser.getLink('Ping setup').click()
     >>> 'http://nohost/plone/test-weblog/@@ping_setup' in self.browser.url
-    True
-    >>> self.browser.getControl('Enable Ping').selected
-    False
-    >>> self.browser.getControl(name='form.button.Ping').click()
-    >>> 'Ping is dissabled.' in self.browser.contents
     True
     >>> self.browser.getControl('Enable Ping').selected = True
     >>> self.browser.getControl(name='form.button.Save').click()
@@ -130,6 +146,7 @@ Setup enable ping and ping
 
 Setup canonical_url and ping
 
+    >>> self.browser.open('http://nohost/plone/test-weblog')
     >>> self.browser.getLink('Ping setup').click()
     >>> 'http://nohost/plone/test-weblog/@@ping_setup' in self.browser.url
     True
@@ -157,18 +174,17 @@ Setup canonical_url and ping
     >>> self.portal.getProperty('canonical_url')
     'www.site2.com'
 
-Ping Setup Details and ping
+Setup Ping Details and ping
 
     >>> self.browser.open('http://nohost/plone/test-weblog')
     >>> self.browser.getLink('Ping setup').click()
     >>> 'http://nohost/plone/test-weblog/@@ping_setup' in self.browser.url
     True
     >>> self.browser.getControl(name='form.button.Ping').click()
-    >>> 'The servers are pinged' in self.browser.contents
-    True
-    >>> 'http://nohost/plone/portal_pingtool/ping-info' in self.browser.contents
+    >>> self.browser.contents
+    '...portalMessage info...Info...The servers are pinged...'
+    >>> 'Returned message from' in self.browser.contents
     False
-
     >>> self.browser.getControl('Ping info').selected
     False
     >>> self.browser.getControl('Ping info').selected = True

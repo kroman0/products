@@ -64,12 +64,9 @@ class PingTool(ATFolder, PloneFolder):
     security.declareProtected(ManagePortal, 'pingFeedReader')
     def pingFeedReader(self,context):
         """ ping """
+        
         status = 'failed'
-        if context.meta_type == 'WeblogEntry':
-    	    blog = context.getWeblog()
-    	else:
-    	    blog = context
-
+        blog = context
         pingProp = self.getPingProperties(blog)
     	if not pingProp['enable_ping']:
     	    message = 'Ping is dissabled.'

@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><metal:block use-macro="here/global_defines/macros/defines" />
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      tal:attributes="lang language;
+                      xml:lang language"><tal:cache tal:define="lang language;
+                         charset site_properties/default_charset|string:utf-8"><metal:cache use-macro="here/global_cache_settings/macros/cacheheaders">
+      Get the global cache headers located in global_cache_settings.</metal:cache></tal:cache>
+  <head metal:use-macro="here/header/macros/html_header">
+    <metal:fillbase fill-slot="base">
+      <base href="" tal:attributes="href here/renderBase" />
+    </metal:fillbase>
+    <metal:headslot fill-slot="head_slot">
+      <tal:comment replace="nothing"> A slot where you can insert elements in the header from a template</tal:comment>
+    </metal:headslot>
+    <metal:styleslot fill-slot="style_slot">
+      <tal:comment replace="nothing"> A slot where you can insert CSS in the header from a template</tal:comment>
+    </metal:styleslot>
+    <metal:cssslot fill-slot="css_slot">
+      <tal:comment replace="nothing"> This is deprecated, please use style_slot instead.</tal:comment>
+    </metal:cssslot>
+    <metal:javascriptslot fill-slot="javascript_head_slot">
+      <tal:comment replace="nothing"> A slot where you can insert javascript in the header from a template</tal:comment>
+    </metal:javascriptslot>
+  </head>
+  <body onload="if (parent.adjustIFrameSize) parent.adjustIFrameSize(window);"
+        style="min-width: 100px; text-align: left; background-color: #F5F6F6"
+        tal:attributes="class here/getSectionFromURL;
+                        dir python:test(isRTL, 'rtl', 'ltr')">
+
+    <dl class="portlet" id="portlet-navigation-tree" style="border-bottom-color: #FFFFFF"
+        tal:define="silo python:test(here.portal_type == 'Folder', here, here.aq_parent);
+                    default_page python:silo.getProperty('default_page',None);
+                    silo_list here/getSiloData">
+      <dt class="portletHeader">
+        <tal:title content="python:test(getattr(silo, 'portal_type', '') == 'Folder', silo.title_or_id(), 'Navigation')" />
+      </dt>
+
+      <dd class="portletItem">
+        <ul class="portletNavigationTree navTreeLevel0">
+          <tal:navitem repeat="item silo_list">
+            <li class="navTreeItem visualNoMarker"
+                tal:define="item_id item/id;
+                            item_title item/title;"
+                tal:condition="python:item_id and item_id != default_page and item_title">
+              <div>
+                <a target="_parent"
+                   tal:condition="item_title"
+                   tal:attributes="href python:test(item['link'], item['path'], silo.absolute_url()+'/'+item['path'])"
+                   tal:content="item_title|nothing">Item Title</a>
+              </div>
+            </li>
+          </tal:navitem>
+        </ul>
+      </dd>
+      <dd class="portletFooter even"
+          tal:condition="python:getattr(silo.aq_explicit, 'portal_type','')=='Folder' and not isAnon and checkPermission('Manage Portal', silo)">
+        <span>
+          <a target="_parent" tal:attributes="href string:${silo/absolute_url}/folder_contents;">Contents</a> &nbsp;|&nbsp;
+          <a target="_parent" tal:attributes="href string:${silo/absolute_url}/silo_navigation_form;">Edit Nav</a>
+        </span>
+      </dd>
+    </dl>
+  </body>
+</html>

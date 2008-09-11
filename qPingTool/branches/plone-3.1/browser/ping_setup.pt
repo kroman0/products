@@ -6,11 +6,7 @@
   <body>
 
     <div metal:fill-slot="main"
-         tal:define="editor python:member.getProperty('wysiwyg_editor','None');
-                     wysiwyg python:view.test(editor and editor!='None', editor, 'None');
-                     lockable python:hasattr(here, 'wl_isLocked');
-                     isLocked python:lockable and here.wl_isLocked();
-                     pingProperties python: here.portal_pingtool.getPingProperties(here)">
+         tal:define="pingProperties python: here.portal_pingtool.getPingProperties(here)">
 
       <h1 i18n:translate="heading_edit_item">
         Edit
@@ -38,30 +34,26 @@
           <legend i18n:translate="legend_ping_setup">Ping Setup Details</legend>
 
           <div class="field">
-                  <input type="checkbox"
-                         id="enable_ping"
-                         name="enable_ping"
-                         tabindex=""
-                         tal:attributes="tabindex tabindex/next;
-			                 checked python:pingProperties['enable_ping'] and 'checked' or None"
-                         />
-                 <label for="enable_ping" i18n:translate="label_enable_ping">Enable Ping</label>
+            <input type="checkbox"
+                   id="enable_ping"
+                   name="enable_ping"
+                   tal:attributes="checked python:pingProperties['enable_ping'] and 'checked' or None"
+                   />
+            <label for="enable_ping" i18n:translate="label_enable_ping">Enable Ping</label>
           </div>
 
           <div class="field" 
 	       tal:define="ping_sites python:pingProperties['ping_sites']">
 
            <tal:block repeat="id here/portal_pingtool/objectIds"> 
-                  <input type="checkbox"
-                         id="id"
-                         name="ping_sites:list"
-                         tabindex=""
-                         tal:attributes="tabindex tabindex/next;
-			                 checked python:id in ping_sites and 'checked' or None;
-			                 value id;
-					 id id; "
-                         />
-                 <label  for="id"
+             <input type="checkbox"
+                    id="id"
+                    name="ping_sites:list"
+                    tal:attributes="checked python:id in ping_sites and 'checked' or None;
+ 		                    value id;
+				    id id; "
+                    />
+             <label  for="id"
                      tal:content="python:here.portal_pingtool[id].Title()"
                      tal:attributes="for id" >Site name</label><br/>
            </tal:block>
@@ -70,19 +62,17 @@
           <div class="formControls" 
                tal:define="process_creation request/process_creation|nothing;">
             <input type="submit"
-                   tabindex=""
                    value="Apply Changes"
                    name="form.button.Save"
                    class="context"
-                   i18n:attributes="value label_apply_changes;
-                                    tabindex tabindex/next;" />
+                   i18n:attributes="value label_apply_changes;"
+                   />
             <input type="submit"
-                   tabindex=""
                    value="Cancel"
                    name="form.button.Cancel"
                    class="context"
-                   i18n:attributes="value label_cancel;
-                                    tabindex tabindex/next;" />
+                   i18n:attributes="value label_cancel;"
+                   />
           </div>
 
         </fieldset>
@@ -93,12 +83,11 @@
           <div class="formControls"
                tal:define="process_creation request/process_creation|nothing;">
             <input class="context"
-                   tabindex=""
                    type="submit"
                    name="form.button.Ping"
                    value="Ping"
-                   i18n:attributes="value"
-                   tal:attributes="tabindex tabindex/next;" />
+                   i18n:attributes="value" 
+                   />
           </div>
 
         </fieldset>

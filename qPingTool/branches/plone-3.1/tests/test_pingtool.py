@@ -2,10 +2,6 @@
 # PingTool TestCase
 #
 
-import os, sys
-if __name__ == '__main__':
-    execfile(os.path.join(sys.path[0], 'framework.py'))
-
 from base import *
 
 class TestPingTool(TestCase):
@@ -64,7 +60,7 @@ class TestPingTool(TestCase):
         status, message = self.ptool.pingFeedReader(obj)
         self.failUnless(status=='failed')
         self.failUnless(message=='Ping is dissabled.')
-"""
+
         # test with customized properties
         self.ptool.invokeFactory(id = 'testsite', type_name = "PingInfo", title = 'www.TESTSITE.com (blog url)', url = 'http://pingsite')
         self.ptool.setupPing(context=obj, enable_ping=1, ping_sites=('testsite',))
@@ -72,17 +68,9 @@ class TestPingTool(TestCase):
         self.failUnless(status=='failed')
         self.failUnless(message=='Ping is impossible.Setup canonical_url.')
 
-        # test with customized properties
-        status, message = self.ptool.pingFeedReader(obj)
-        self.failUnless(status=='success')
-        self.failUnless(message=='The servers are pinged.\nReturned message from http://pingsite: The site http://pingsite generated error for plone/b1.')
-"""
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestPingTool))
     return suite
-
-if __name__ == '__main__':
-    framework()
-

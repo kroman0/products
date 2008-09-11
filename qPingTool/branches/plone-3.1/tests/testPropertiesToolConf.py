@@ -1,4 +1,3 @@
-
 from base import TestCase
 from config import nt_properties, s_properties
 

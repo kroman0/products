@@ -2,10 +2,6 @@
 # PingInfo TestCase
 #
 
-import os, sys
-if __name__ == '__main__':
-    execfile(os.path.join(sys.path[0], 'framework.py'))
-
 from base import *
 
 class TestPingInfo(TestCase):
@@ -32,7 +28,3 @@ def test_suite():
     suite = TestSuite()
     suite.addTest(makeSuite(TestPingInfo))
     return suite
-
-if __name__ == '__main__':
-    framework()
-

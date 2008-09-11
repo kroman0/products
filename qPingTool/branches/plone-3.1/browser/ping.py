@@ -4,6 +4,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 
+
 class PingView(BrowserView):
     """A class with helper methods for use in views/templates.
     """
@@ -49,12 +50,3 @@ class PingView(BrowserView):
         else:
             state = 'info'
         return state
-
-    def test(self, value, trueVal, falseVal):
-        """
-           helper method, mainly for setting html attributes.
-        """
-        if value:
-            return trueVal
-        else:
-            return falseVal

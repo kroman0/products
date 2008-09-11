@@ -33,32 +33,62 @@
 
           <legend i18n:translate="legend_ping_setup">Ping Setup Details</legend>
 
-          <div class="field">
+          <table class="listing">
+            <tr>
+            <th>
             <input type="checkbox"
                    id="enable_ping"
                    name="enable_ping"
                    tal:attributes="checked python:pingProperties['enable_ping'] and 'checked' or None"
                    />
-            <label for="enable_ping" i18n:translate="label_enable_ping">Enable Ping</label>
-          </div>
+              <label  for="enable_ping" class="hiddenStructure">Enable Ping</label>
+            </th>
+            <th i18n:translate="label_enable_ping">Enable Ping</th>
+            </tr>
+          </table>
 
-          <div class="field" 
-	       tal:define="ping_sites python:pingProperties['ping_sites']">
+          <table class="listing" summary="Ping Site Listing" tal:define="ping_sites python:pingProperties['ping_sites']">
+            <tr>
+              <th>
+                <input class="noborder"
+                              type="checkbox"
+                              id="select_all_items"
+                              src="select_all_icon.gif"
+                              name="selectButton"
+                              title="Select all items"
+                              onClick="toggleSelect(this, 'ping_sites:list');"
+                              tal:attributes="src string:$portal_url/select_all_icon.gif"
+                              alt="Select all items"
+                              i18n:attributes="title label_select_all_items;
+                                               alt label_select_all_items;"
+                              />
+                <label  for="select_all_items" class="hiddenStructure">Ping Site</label>
+              </th>
+              <th i18n:translate="listingheader_group_user_name">Ping Site</th>
+            </tr>
+            <tal:block tal:repeat="id here/portal_pingtool/objectIds">
+              <tr tal:define="check python:(id in ping_sites) and True or False"
+                  tal:attributes="class python:check and 'even' or 'odd'">
+                <td class="listingCheckbox">
+                  <input type="checkbox"
+                               id="id"
+                               class="noborder notify"
+                               name="ping_sites:list"
+                               tal:attributes="checked python:check and 'checked' or None;
+                                               value id;
+                                               id id; "
+                               />
+                  <label  for="id"
+                          tal:content="python:here.portal_pingtool[id].Title()"
+                          tal:attributes="for id" 
+                          class="hiddenStructure">Site name</label>
+                </td>
+                <td  tal:content="python:here.portal_pingtool[id].Title()"
+                     tal:attributes="for id" >Site name</td>
 
-           <tal:block repeat="id here/portal_pingtool/objectIds"> 
-             <input type="checkbox"
-                    id="id"
-                    name="ping_sites:list"
-                    tal:attributes="checked python:id in ping_sites and 'checked' or None;
- 		                    value id;
-				    id id; "
-                    />
-             <label  for="id"
-                     tal:content="python:here.portal_pingtool[id].Title()"
-                     tal:attributes="for id" >Site name</label><br/>
-           </tal:block>
-          </div>
-
+              </tr>
+            </tal:block>
+          </table>
           <div class="formControls" 
                tal:define="process_creation request/process_creation|nothing;">
             <input type="submit"

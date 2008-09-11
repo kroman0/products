@@ -6,23 +6,36 @@
                       xml:lang language"><tal:cache tal:define="lang language;
                          charset site_properties/default_charset|string:utf-8"><metal:cache use-macro="here/global_cache_settings/macros/cacheheaders">
       Get the global cache headers located in global_cache_settings.</metal:cache></tal:cache>
-  <head metal:use-macro="here/header/macros/html_header">
-    <metal:fillbase fill-slot="base">
-      <base href="" tal:attributes="href here/renderBase" />
-    </metal:fillbase>
-    <metal:headslot fill-slot="head_slot">
-      <tal:comment replace="nothing"> A slot where you can insert elements in the header from a template</tal:comment>
-    </metal:headslot>
-    <metal:styleslot fill-slot="style_slot">
-      <tal:comment replace="nothing"> A slot where you can insert CSS in the header from a template</tal:comment>
-    </metal:styleslot>
-    <metal:cssslot fill-slot="css_slot">
-      <tal:comment replace="nothing"> This is deprecated, please use style_slot instead.</tal:comment>
-    </metal:cssslot>
-    <metal:javascriptslot fill-slot="javascript_head_slot">
-      <tal:comment replace="nothing"> A slot where you can insert javascript in the header from a template</tal:comment>
-    </metal:javascriptslot>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"
+          tal:define="charset site_properties/default_charset|string:utf-8"
+          tal:attributes="content string:text/html;;charset=${charset}" />
+
+    <base tal:attributes="href here/renderBase" /><!--[if lt IE 7]></base><![endif]-->
+
+    <meta name="generator" content="Plone - http://plone.org" />
+
+    <div tal:replace="structure provider:plone.htmlhead" />
+
+    <meta tal:define="metatags python:putils.listMetaTags(here).items()"
+          tal:condition="metatags"
+          tal:repeat="keyval metatags"
+          tal:attributes="name python:keyval[0];
+                          content python:keyval[1];" />
+
+    <!-- Internet Explorer CSS Fixes -->
+    <tal:iefixstart replace="structure string:&lt;!--[if IE]&gt;" />
+    <style type="text/css" media="all" tal:condition="exists: portal/IEFixes.css"
+           tal:content="string:@import url($portal_url/IEFixes.css);">
+    </style>
+    <tal:iefixend replace="structure string:&lt;![endif]--&gt;" />
+
+    <link tal:replace="structure provider:plone.htmlhead.links" />
+
+    <!-- Disable IE6 image toolbar -->
+    <meta http-equiv="imagetoolbar" content="no" />
   </head>
+
   <body onload="if (parent.adjustIFrameSize) parent.adjustIFrameSize(window);"
         style="min-width: 100px; text-align: left; background-color: #F5F6F6"
         tal:attributes="class here/getSectionFromURL;

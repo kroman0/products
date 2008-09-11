@@ -47,22 +47,26 @@ def setupActions(self, out):
     types_tool = getToolByName(self, 'portal_types')
     for ptype in types_tool.objectValues():
         if ptype.getId() == 'Folder':
-            action = ptype.getActionById( 'edit_silo_navigation', default=None )
-            if action is None:
+            action_obj = ptype.getActionObject('object/edit_silo_navigation')
+            if action_obj is None:
                 out.write( '  Added Silo Navigation tab for %s\n' % ptype.getId() )
-                ptype.addAction( 'edit_silo_navigation'
-                               , 'Silo Navigation'
-                               , 'string:${object_url}/silo_navigation_form'
-                               , ''
-                               , 'Modify portal content'
-                               , 'object'
-                               , visible=1
-                               )
+                ptype.addAction('edit_silo_navigation',
+                                'Silo Navigation',
+                                'string:${object_url}/silo_navigation_form',
+                                '',
+                                ('Modify portal content',),
+                                'object',
+                                visible=True)
+            else:
+                action_obj.edit(title=title, action=action,
+                                condition=condition,
+                                permissions=tuple(permissions),
+                                visible=visible)
 def removeActions(self):
     tool = getToolByName(self, 'portal_types')
     for ptype in tool.objectValues():
         if ptype.getId() == 'Folder':
-            action = ptype.getActionById( 'edit_silo_navigation', default=None )
+            action = ptype.getActionObject('object/edit_silo_navigation')
             if action != None:
                 acts = list(ptype.listActions())
                 ptype.deleteActions([acts.index(a) for a in acts if a.getId()=='edit_silo_navigation'])
@@ -70,7 +74,7 @@ def removeActions(self):
 def setupResources(self, out):
     portal_js = getToolByName(self, 'portal_javascripts', None)
     portal_css = getToolByName(self, 'portal_css', None)
-    
+
     if portal_js is not None:
         scripts = portal_js.getResourceIds()
         for script in JS:

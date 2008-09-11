@@ -1,6 +1,6 @@
-from Products.CMFCore import CMFCorePermissions
+from Products.CMFCore import permissions
 
-VIEW_PERMISSION = CMFCorePermissions.ManagePortal
+VIEW_PERMISSION = permissions.ManagePortal
 
 PROJECTNAME = 'qSiloGroup'
 SKINS_DIR = 'skins'

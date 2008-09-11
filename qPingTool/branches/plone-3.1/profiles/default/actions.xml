@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!-- Install our custom portal_actions. Plone's defaults are in CMFPlone/profiles/default/actions.xml -->
+
+<!-- PORTAL ACTIONS -->
+<object name="portal_actions" meta_type="Plone Actions Tool"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <object name="object" meta_type="CMF Action Category">
+  <object name="ping" meta_type="CMF Action">
+   <property name="title">Ping setup</property>
+   <property name="description" i18n:translate=""></property>
+   <property name="url_expr">string:${folder_url}/@@ping_setup</property>
+   <property name="available_expr">python: folder==object and portal.portal_syndication.isSyndicationAllowed(object)</property>
+   <property name="permissions">
+    <element value="Manage properties"/>
+   </property>
+   <property name="visible">True</property>
+  </object>
+ </object>
+</object>

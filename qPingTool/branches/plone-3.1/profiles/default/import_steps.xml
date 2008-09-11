@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<import-steps>
+  <import-step id="qPingTool.various"
+               version="20080903-01"
+               handler="Products.qPingTool.setuphandlers.setupVarious"
+               title="qPingTool miscellaneous import steps">
+    <dependency step="typeinfo"/>
+    <dependency step="toolset"/>
+    Various import steps that are not handled by GS import/export
+    handlers.
+  </import-step>
+</import-steps>

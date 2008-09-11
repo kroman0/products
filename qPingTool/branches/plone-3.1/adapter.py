@@ -1,4 +1,7 @@
-from zope.interface import Interface, implements #, Attribute
+from zope.component import adapts
+from zope.interface import Interface, implements
+
+from interfaces import IPingTool
 from Products.CMFCore.utils import getToolByName
 
 class ICanonicalURL(Interface):
@@ -19,7 +22,14 @@ class ICanonicalURL(Interface):
 
 class CanonicalURL(object):
     """ CanonicalURL adapter
+
+    >>> ICanonicalURL.implementedBy(CanonicalURL)
+    True
+    >>> ICanonicalURL(CanonicalURL(object)) is not None
+    True
     """
+
+    adapts(IPingTool)
     implements(ICanonicalURL)
 
     def __init__(self, context):
@@ -54,10 +64,3 @@ class CanonicalURL(object):
         #"""
         #portal = getToolByName(self, 'portal_url').getPortalObject()
         #return portal.hasProperty('canonical_url')
-
-# Register adapter
-
-def registerAdapter():
-    from Products.CMFPlone.interfaces import IPloneBaseTool
-    from zope.component import provideAdapter
-    provideAdapter(CanonicalURL, adapts=[IPloneBaseTool,], provides=ICanonicalURL )

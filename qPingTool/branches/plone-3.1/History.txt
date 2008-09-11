@@ -1,3 +1,9 @@
+1.0.0 - Unreleased
+
+  * Converted `Extension/Install.py` into a complete GenericSetup profile.
+  * Updated tests to run with Plone 3.x.
+  * General code cleanup and modernization.
+
 0.3
 
   * Pingtool migrated to ATCT

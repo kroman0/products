@@ -19,7 +19,13 @@ class ICanonicalURL(Interface):
 
 class CanonicalURL(object):
     """ CanonicalURL adapter
+
+    >>> ICanonicalURL.implementedBy(CanonicalURL)
+    True
+    >>> ICanonicalURL(CanonicalURL(object)) is not None
+    True
     """
+
     implements(ICanonicalURL)
 
     def __init__(self, context):

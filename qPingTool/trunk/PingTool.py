@@ -100,6 +100,7 @@ class PingTool(ATFolder, PloneFolder, ActionProviderBase): #(BaseFolder, PloneFo
             url = context.portal_url.getRelativeContentURL(blog)
             url = canonical_url + url
         else:
+            status = 'failed'
             return status, 'Ping is impossible.See portal_pingtool.'
 
     	ps = getToolByName(context,'portal_syndication')
@@ -107,8 +108,9 @@ class PingTool(ATFolder, PloneFolder, ActionProviderBase): #(BaseFolder, PloneFo
         pingProp = self.getPingProperties(blog)
     	result = 'ok'
     	if not pingProp['enable_ping']:
-    	   message = 'Ping is dissabled'
-    	   return status, message
+            status = 'failed'
+            message = 'Ping is dissabled'
+            return status, message
     	if ps.isSyndicationAllowed(blog):
 	    sites = pingProp['ping_sites']
 	    if sites:

@@ -1,0 +1,22 @@
+
+Test Add/Update canonical_url
+==================
+
+    >>> self.loginAsManager()
+    >>> response = self.publish('/plone/portal_pingtool/manage_overview', self.basic_auth)
+    >>> 'value="Add"' in  response.getBody()
+    True
+    >>> self.failUnless(self.portal.getProperty('canonical_url', None) is None)
+    >>> self.portal.manage_addProperty('canonical_url', 'localhost', 'string')
+    >>> self.failUnless(self.portal.getProperty('canonical_url', None) == 'localhost')
+    >>> response = self.publish('/plone/portal_pingtool/manage_overview', self.basic_auth)
+    >>> 'value="Add"' in  response.getBody()
+    False
+    >>> 'value="Update"' in  response.getBody()
+    True
+    >>> self.portal.manage_changeProperties(canonical_url='')
+    >>> response = self.publish('/plone/portal_pingtool/manage_overview', self.basic_auth)
+    >>> 'value="Add"' in  response.getBody()
+    False
+    >>> 'value="Update"' in  response.getBody()
+    True

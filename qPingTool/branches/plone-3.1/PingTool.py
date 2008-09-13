@@ -44,9 +44,7 @@ class PingTool(ATFolder, PloneFolder):
             {'label' : 'Overview', 'action' : 'manage_overview'},
         ) + ATFolder.manage_options
 
-    manage_overview = PageTemplateFile(os.path.join('www','overview'), globals())
-    manage_overview.__name__ = 'manage_overview'
-    manage_overview._need__name__ = 0
+    manage_overview = PageTemplateFile(os.path.join('www', 'overview'), globals(), __name__='manage_overview')
 
     def om_icons(self):
         """ Checking on ZMI for canonical_url setting."""

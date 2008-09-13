@@ -33,7 +33,6 @@ class TestSetup(TestCase):
         content = [i.id for i in self.portal.portal_skins.qpingtool.objectValues()]
         content.sort()
         skins_content.sort()
-        import pdb;pdb.set_trace()
         self.failUnless(content==skins_content)
 
     def test_installedAllTypes(self):

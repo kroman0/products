@@ -29,7 +29,7 @@
       <h3 tal:content="string:$action Canonical URL">Update Canonical URL</h3>
       <p tal:condition="not:hasCanonicalURL">Until you setup canonical_url - Ping Tool will not work.</p>
 
-      <form method="post" action="" tal:attributes="action python:'manage_'+template.getId()">
+      <form method="post" action="" tal:attributes="action template/getId">
          <input type="hidden" name="submitted" value="1" />
          <p class="form-help"
             tal:content="string:To $action the property, enter a canonical URL value and click the &quot;$action&quot; button">

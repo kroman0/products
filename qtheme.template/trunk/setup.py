@@ -30,6 +30,7 @@ setup(name='qtheme.template',
           skin_sublayer = qthemetemplate.localcommands.subtemplates:SkinSublayerSubTemplate
           css_resource = qthemetemplate.localcommands.subtemplates:CSSSubTemplate
           js_resource = qthemetemplate.localcommands.subtemplates:JSSubTemplate
+          viewlet = qthemetemplate.localcommands.subtemplates:ViewletSubTemplate
 
       # -*- Entry points: -*-
       """,

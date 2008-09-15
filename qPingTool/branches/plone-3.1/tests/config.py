@@ -3,7 +3,7 @@ nt_properties = (("metaTypesNotToList", "lines", ["PingTool", "PingInfo"]), )
 
 s_properties = (("use_folder_tabs", "lines", ["PingTool"]),
                 ("typesLinkToFolderContentsInFC", "lines", ["PingTool"]),
-                ("typesUseViewActionInListings", "lines", ["PingTool"]),)
+                ("typesUseViewActionInListings", "lines", ["PingInfo"]),)
 
 # for test_skin_installed
 skins_content = ['tool.gif']

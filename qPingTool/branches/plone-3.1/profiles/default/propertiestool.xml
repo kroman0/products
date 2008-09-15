@@ -16,7 +16,7 @@
     <element value="PingTool"/>
   </property>
   <property name="typesUseViewActionInListings" type="lines" purge="False">
-    <element value="PingTool"/>
+    <element value="PingInfo"/>
   </property>
  </object>
 </object>

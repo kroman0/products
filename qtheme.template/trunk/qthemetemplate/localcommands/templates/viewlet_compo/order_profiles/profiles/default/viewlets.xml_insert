@@ -1,0 +1,8 @@
+  <order manager="${viewlet_manager_name}"
+         skinname="${skinname}"
+         #if not $skinname=="*":
+         based-on="${skinbase}"
+         #end if
+    >
+   <!-- -*- $viewlet_profile_marker -*- -->
+  </order>

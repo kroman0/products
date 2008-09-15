@@ -1,0 +1,2 @@
+    <viewlet name="${viewlet_name}" insert-${insert_type}="${insert_control_viewlet}" />
+

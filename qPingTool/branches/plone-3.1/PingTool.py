@@ -17,6 +17,11 @@ from interfaces import IPingTool
 from adapter import ICanonicalURL
 from config import PROJECTNAME
 
+try:
+    from Products.qRSS2Syndication.interfaces import IPublishFeed
+except ImportError:
+    IPublishFeed = None
+
 _marker = []
 
 def modify_fti(fti):
@@ -64,42 +69,33 @@ class PingTool(ATFolder, PloneFolder):
         """ ping """
         
         status = 'failed'
-        blog = context
-        pingProp = self.getPingProperties(blog)
+        pingProp = self.getPingProperties(context)
     	if not pingProp['enable_ping']:
     	    message = 'Ping is dissabled.'
     	    return status, message
-        canonical_url = ICanonicalURL(self).getCanonicalURL()
-        if canonical_url:
-            url = context.portal_url.getRelativeContentURL(blog)
-            url = canonical_url + url
-        else:
+        self.c_url = ICanonicalURL(self).getCanonicalURL()
+        if not self.c_url:
             return status, 'Ping is impossible.Setup canonical_url.'
-
     	ps = getToolByName(context,'portal_syndication')
-    	rss_templates = {'Weblog':'','RSS1':'/RSS','RSS2':'/RSS2'}
-    	if ps.isSyndicationAllowed(blog):
-            status = 'success'
-            message = 'The servers are pinged.'
+    	if ps.isSyndicationAllowed(context):
 	    sites = pingProp['ping_sites']
-	    if sites:
-    	        for site in sites:
-    	            site_obj = getattr(self,site)
-    	            site_rss_version = rss_templates[site_obj.getRss_version()]
-    	            site_method = site_obj.getMethod_name()
-    	            site_url = site_obj.getUrl()
-
-                    PingMethod = XMLRPCMethod('myid',"",site_url,site_method,25)
-                    blog_url = url + site_rss_version
-                    title = blog.Title()
-                    try: 
-                        #LOG('qPing', 0, title, blog_url, site_url)
-                        result_ping = PingMethod(title,blog_url)
-                        result = result_ping['message']
-                    except:
-                        result = 'The site %s generated error for %s.' % (site_url, blog_url)
-			LOG('qPingTool', 100, result)
-                    message += '\nReturned message from %s: %s' % (site_url, str(result))
+            message = 'Select servers.'
+            for site in sites:
+                status = 'success'
+                message = 'The servers are pinged.'
+                self.site_obj = getattr(self, site)
+                site_method = self.site_obj.getMethod_name()
+                site_url = self.site_obj.getUrl()
+                PingMethod = XMLRPCMethod('myid', "", site_url, site_method, 25)
+                title = context.Title()
+                ping_url = self.getPingUrl(context)
+                try: 
+                    result_ping = PingMethod(title, ping_url)
+                    result = result_ping['message']
+                except:
+                    result = 'The site %s generated error for %s.' % (site_url, ping_url)
+		LOG('qPingTool', 100, result)
+                message += '\nReturned message from %s: %s' % (site_url, str(result))
         else:
             message = 'The %s is not syndication allowed' % url 
         return status, message
@@ -134,5 +130,20 @@ class PingTool(ATFolder, PloneFolder):
         pingPropeties['ping_sites'] = getattr(syInfo,'ping_sites',[])
         pingPropeties['enable_ping'] = getattr(syInfo,'enable_ping',0)
         return  pingPropeties
+
+    security.declareProtected(ManagePortal, 'getPingUrl')
+    def getPingUrl(self, context):
+        rss_templates = {'Weblog':'','RSS1':'/RSS','RSS2':'/RSS2'}
+        url = getToolByName(context, 'portal_url').getRelativeContentURL(context)
+        if not self.c_url[-1] == os.path.sep:
+            self.c_url += os.path.sep
+        url = self.c_url + url
+        site_rss_version = rss_templates[self.site_obj.getRss_version()]
+        ping_url = ''
+        if IPublishFeed:
+            ping_url = IPublishFeed(self).getPublishFeedUrl(url)
+        if not ping_url:
+            ping_url = url + site_rss_version
+        return ping_url
 
 registerType(PingTool, PROJECTNAME)

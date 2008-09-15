@@ -182,9 +182,7 @@ Setup Ping Details and ping
     True
     >>> self.browser.getControl(name='form.button.Ping').click()
     >>> self.browser.contents
-    '...portalMessage info...Info...The servers are pinged...'
-    >>> 'Returned message from' in self.browser.contents
-    False
+    '...portalMessage info...Warning...Select servers...'
     >>> self.browser.getControl('Ping info').selected
     False
     >>> self.browser.getControl('Ping info').selected = True

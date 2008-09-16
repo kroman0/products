@@ -144,7 +144,20 @@ Setup enable ping and ping with enable syndication
     >>> self.browser.getControl('Enable Ping').selected
     True
 
-Setup canonical_url and ping
+Check default ping_url with default canonical_url
+
+    >>> self.browser.open('http://nohost/plone/test-weblog')
+    >>> self.browser.getLink('Ping setup').click()
+    >>> 'http://nohost/plone/test-weblog/@@ping_setup' in self.browser.url
+    True
+    >>> self.browser.getControl('Weblog Url').value
+    ''
+    >>> self.browser.getControl('RSS1 Url').value
+    ''
+    >>> self.browser.getControl('RSS2 Url').value
+    ''
+    
+Setup canonical_url
 
     >>> self.browser.open('http://nohost/plone/test-weblog')
     >>> self.browser.getLink('Ping setup').click()
@@ -174,6 +187,40 @@ Setup canonical_url and ping
     >>> self.portal.getProperty('canonical_url')
     'www.site2.com'
 
+Check default ping_url with set canonical_url
+
+    >>> self.browser.open('http://nohost/plone/test-weblog')
+    >>> self.browser.getLink('Ping setup').click()
+    >>> 'http://nohost/plone/test-weblog/@@ping_setup' in self.browser.url
+    True
+    >>> self.browser.getControl('Weblog Url').value
+    'www.site2.com/test-weblog'
+    >>> self.browser.getControl('RSS1 Url').value
+    'www.site2.com/test-weblog/RSS'
+    >>> self.browser.getControl('RSS2 Url').value
+    'www.site2.com/test-weblog/RSS2'
+    
+Set custom ping_url
+
+    >>> self.browser.open('http://nohost/plone/test-weblog')
+    >>> self.browser.getLink('Ping setup').click()
+    >>> 'http://nohost/plone/test-weblog/@@ping_setup' in self.browser.url
+    True
+    >>> self.browser.getControl('Weblog Url').value = 'www.site1.com/test-weblog'
+    >>> self.browser.getControl('RSS1 Url').value = 'www.site1.com/test-weblog/RSS'
+    >>> self.browser.getControl('RSS2 Url').value = 'www.site1.com/test-weblog/RSS2'
+    >>> self.browser.getControl(name='form.button.Save').click()
+    >>> 'Changes saved.' in self.browser.contents
+    True
+    >>> self.browser.open('http://nohost/plone/test-weblog')
+    >>> self.browser.getLink('Ping setup').click()
+    >>> self.browser.getControl('Weblog Url').value
+    'www.site1.com/test-weblog'
+    >>> self.browser.getControl('RSS1 Url').value
+    'www.site1.com/test-weblog/RSS'
+    >>> self.browser.getControl('RSS2 Url').value
+    'www.site1.com/test-weblog/RSS2'
+    
 Setup Ping Details and ping
 
     >>> self.browser.open('http://nohost/plone/test-weblog')

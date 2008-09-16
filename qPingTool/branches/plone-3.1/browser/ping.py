@@ -30,7 +30,10 @@ class PingView(BrowserView):
         elif setup_save:
             enable_ping = form.get('enable_ping', False)
             ping_sites = form.get('ping_sites', ())
-            status, message = portal_pingtool.setupPing(context, enable_ping, ping_sites)
+            ping_Weblog = form.get('ping_Weblog', '')
+            ping_RSS1 = form.get('ping_RSS1', '')
+            ping_RSS2 = form.get('ping_RSS2', '')
+            status, message = portal_pingtool.setupPing(context, enable_ping, ping_sites, ping_Weblog, ping_RSS1, ping_RSS2)
             state = self.get_state(status)
             portal.plone_utils.addPortalMessage(_(message), state)
 

@@ -67,14 +67,13 @@ class PingTool(ATFolder, PloneFolder):
     security.declareProtected(ManagePortal, 'pingFeedReader')
     def pingFeedReader(self,context):
         """ ping """
-        
         status = 'failed'
         pingProp = self.getPingProperties(context)
     	if not pingProp['enable_ping']:
     	    message = 'Ping is dissabled.'
     	    return status, message
-        self.c_url = ICanonicalURL(self).getCanonicalURL()
-        if not self.c_url:
+        canonical_url = ICanonicalURL(self).getCanonicalURL()
+        if not canonical_url:
             return status, 'Ping is impossible.Setup canonical_url.'
     	ps = getToolByName(context,'portal_syndication')
     	if ps.isSyndicationAllowed(context):
@@ -83,12 +82,13 @@ class PingTool(ATFolder, PloneFolder):
             for site in sites:
                 status = 'success'
                 message = 'The servers are pinged.'
-                self.site_obj = getattr(self, site)
-                site_method = self.site_obj.getMethod_name()
-                site_url = self.site_obj.getUrl()
+                site_obj = getattr(self, site)
+                site_method = site_obj.getMethod_name()
+                site_url = site_obj.getUrl()
                 PingMethod = XMLRPCMethod('myid', "", site_url, site_method, 25)
                 title = context.Title()
-                ping_url = self.getPingUrl(context)
+                rss_version = site_obj.getRss_version()
+                ping_url = pingProp['ping_'+rss_version]
                 try: 
                     result_ping = PingMethod(title, ping_url)
                     result = result_ping['message']
@@ -104,6 +104,9 @@ class PingTool(ATFolder, PloneFolder):
     def setupPing(self,context,
                   enable_ping=0,
                   ping_sites=(),
+                  ping_Weblog='',
+                  ping_RSS1='',
+                  ping_RSS2='',
                   REQUEST=None):
         """   """	
         obj=aq_base(context)
@@ -117,32 +120,46 @@ class PingTool(ATFolder, PloneFolder):
         else:
     	    syInfo.ping_sites = list(ping_sites)
     	    syInfo.enable_ping = enable_ping
-
+            syInfo.ping_Weblog = ping_Weblog
+            syInfo.ping_RSS1 = ping_RSS1
+            syInfo.ping_RSS2 = ping_RSS2
+            
         return status, message
 
     security.declareProtected(ManagePortal, 'getPingProperties')
     def getPingProperties(self, context):
         """ """
         obj=aq_base(context)
-
         syInfo = getattr(obj, 'syndication_information', None)
-        pingPropeties={}
-        pingPropeties['ping_sites'] = getattr(syInfo,'ping_sites',[])
-        pingPropeties['enable_ping'] = getattr(syInfo,'enable_ping',0)
-        return  pingPropeties
+        pingProperties={}
+        pingProperties['ping_sites'] = getattr(syInfo, 'ping_sites', [])
+        pingProperties['enable_ping'] = getattr(syInfo, 'enable_ping', 0)
 
-    security.declareProtected(ManagePortal, 'getPingUrl')
-    def getPingUrl(self, context):
+        pingProperties['ping_Weblog'] = getattr(syInfo, 'ping_Weblog', '')
+        if not pingProperties['ping_Weblog']:
+            pingProperties['ping_Weblog'] = self.getPingDefaultUrl(context, 'Weblog')
+
+        pingProperties['ping_RSS1'] = getattr(syInfo, 'ping_RSS1', '')
+        if not pingProperties['ping_RSS1']:
+            pingProperties['ping_RSS1'] = self.getPingDefaultUrl(context, 'RSS1')
+
+        pingProperties['ping_RSS2'] = getattr(syInfo, 'ping_RSS2', '')
+        if not pingProperties['ping_RSS2']:
+            pingProperties['ping_RSS2'] = self.getPingDefaultUrl(context, 'RSS2')
+
+        return  pingProperties
+        
+    security.declareProtected(ManagePortal, 'getPingDefaultUrl')
+    def getPingDefaultUrl(self, context, rss_version='Weblog'):
         rss_templates = {'Weblog':'','RSS1':'/RSS','RSS2':'/RSS2'}
         url = getToolByName(context, 'portal_url').getRelativeContentURL(context)
-        if not self.c_url[-1] == os.path.sep:
-            self.c_url += os.path.sep
-        url = self.c_url + url
-        site_rss_version = rss_templates[self.site_obj.getRss_version()]
+        canonical_url = ICanonicalURL(self).getCanonicalURL()
         ping_url = ''
-        if IPublishFeed:
-            ping_url = IPublishFeed(self).getPublishFeedUrl(url)
-        if not ping_url:
+        if canonical_url:
+            if not canonical_url[-1] == '/':
+                canonical_url += '/'
+            url = canonical_url + url
+            site_rss_version = rss_templates[rss_version]
             ping_url = url + site_rss_version
         return ping_url
 

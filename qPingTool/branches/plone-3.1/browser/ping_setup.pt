@@ -35,19 +35,62 @@
 
           <table class="listing">
             <tr>
-            <th>
-            <input type="checkbox"
-                   id="enable_ping"
-                   name="enable_ping"
-                   tal:attributes="checked python:pingProperties['enable_ping'] and 'checked' or None"
-                   />
-              <label  for="enable_ping" class="hiddenStructure">Enable Ping</label>
-            </th>
-            <th i18n:translate="label_enable_ping">Enable Ping</th>
+              <th>
+                <input type="checkbox"
+                       id="enable_ping"
+                       name="enable_ping"
+                       tal:attributes="checked python:pingProperties['enable_ping'] and 'checked' or None"
+                       />
+                <label  for="enable_ping" class="hiddenStructure">Enable Ping</label>
+              </th>
+              <th i18n:translate="label_enable_ping">Enable Ping</th>
             </tr>
           </table>
 
-          <table class="listing" summary="Ping Site Listing" tal:define="ping_sites python:pingProperties['ping_sites']">
+          <table class="listing" style="width:60%">
+            <tr>
+              <th i18n:translate="label_ping_Weblog">Name Alternative Ping Url</th>
+              <th i18n:translate="label_ping_Weblog">Value</th>
+            </tr>
+            <tr class="odd">
+              <td i18n:translate="label_ping_Weblog">Weblog</td>
+              <td>
+                <input type="text"
+                       id="ping_Weblog"
+                       name="ping_Weblog"
+                       style="width:100%"
+                       tal:attributes="value python:pingProperties['ping_Weblog']"
+                       />
+                <label  for="ping_Weblog" class="hiddenStructure">Weblog Url</label>
+              </td>
+            </tr>
+            <tr class="odd">
+              <td i18n:translate="label_ping_RSS1">RSS1</td>
+              <td>
+                <input type="text"
+                       id="ping_RSS1"
+                       name="ping_RSS1"
+                       style="width:100%"
+                       tal:attributes="value python:pingProperties['ping_RSS1']"
+                       />
+                <label  for="ping_RSS1" class="hiddenStructure">RSS1 Url</label>
+              </td>
+            </tr>
+            <tr class="odd">
+              <td i18n:translate="label_ping_RSS2">RSS2</td>
+              <td>
+                <input type="text"
+                       id="ping_RSS2"
+                       name="ping_RSS2"
+                       style="width:100%"
+                       tal:attributes="value python:pingProperties['ping_RSS2']"
+                       />
+                <label  for="ping_RSS2" class="hiddenStructure">RSS2 Url</label>
+              </td>
+            </tr>
+          </table>
+
+          <table class="listing" summary="Ping Site Listing" style="width:60%" tal:define="ping_sites python:pingProperties['ping_sites']">
             <tr>
               <th>
                 <input class="noborder"
@@ -59,6 +102,7 @@
                               onClick="toggleSelect(this, 'ping_sites:list');"
                               tal:attributes="src string:$portal_url/select_all_icon.gif"
                               alt="Select all items"
+                              i18n:domain="plone"
                               i18n:attributes="title label_select_all_items;
                                                alt label_select_all_items;"
                               />

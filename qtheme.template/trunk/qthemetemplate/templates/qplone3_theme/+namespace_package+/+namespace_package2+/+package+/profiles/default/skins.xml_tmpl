@@ -54,7 +54,7 @@
   <layer name="${namespace_package}_${namespace_package2}_${package}_styles"
      insert-after="${namespace_package}_${namespace_package2}_${package}_custom_templates"/>
 
-  <!-- -*- extra sublayer stuff goes here -*- -->
+  <!-- -*- extra layer stuff goes here -*- -->
 
  </skin-path>
 

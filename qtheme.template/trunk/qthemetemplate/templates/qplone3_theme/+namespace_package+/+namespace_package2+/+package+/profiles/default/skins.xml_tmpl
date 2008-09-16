@@ -18,17 +18,11 @@
  <!-- This list registers the folders that are stored in the skins directory
       of your product (on the filesystem) as Filesystem Directory Views within
       the portal_skins tool, so that they become usable as skin layers.
-      -->
-#end if
  <object name="${namespace_package}_${namespace_package2}_${package}_custom_images"
     meta_type="Filesystem Directory View"
     directory="${namespace_package}.${namespace_package2}.${package}:skins/${namespace_package}_${namespace_package2}_${package}_custom_images"/>
- <object name="${namespace_package}_${namespace_package2}_${package}_custom_templates"
-    meta_type="Filesystem Directory View"
-    directory="${namespace_package}.${namespace_package2}.${package}:skins/${namespace_package}_${namespace_package2}_${package}_custom_templates"/>
- <object name="${namespace_package}_${namespace_package2}_${package}_styles"
-    meta_type="Filesystem Directory View"
-    directory="${namespace_package}.${namespace_package2}.${package}:skins/${namespace_package}_${namespace_package2}_${package}_styles"/>
+      -->
+#end if
 
    <!-- -*- extra stuff goes here -*- -->
 
@@ -47,13 +41,6 @@
        -->
 #end if
  <skin-path name="$skinname" based-on="$skinbase">
-  <layer name="${namespace_package}_${namespace_package2}_${package}_custom_images"
-     insert-after="custom"/>
-  <layer name="${namespace_package}_${namespace_package2}_${package}_custom_templates"
-     insert-after="${namespace_package}_${namespace_package2}_${package}_custom_images"/>
-  <layer name="${namespace_package}_${namespace_package2}_${package}_styles"
-     insert-after="${namespace_package}_${namespace_package2}_${package}_custom_templates"/>
-
   <!-- -*- extra layer stuff goes here -*- -->
 
  </skin-path>

@@ -13,14 +13,10 @@ from Products.CMFPlone.interfaces.OrderedContainer import IOrderedContainer
 from Products.CMFPlone.PloneFolder import PloneFolder
 from Products.XMLRPCMethod.XMLRPCMethod import RPCThread, XMLRPCMethod
 
+from Products.qPingTool import qPingToolMessageFactory as _
 from interfaces import IPingTool
 from adapter import ICanonicalURL
 from config import PROJECTNAME
-
-try:
-    from Products.qRSS2Syndication.interfaces import IPublishFeed
-except ImportError:
-    IPublishFeed = None
 
 _marker = []
 
@@ -70,18 +66,18 @@ class PingTool(ATFolder, PloneFolder):
         status = 'failed'
         pingProp = self.getPingProperties(context)
     	if not pingProp['enable_ping']:
-    	    message = 'Ping is dissabled.'
+    	    message = _(u'Ping is dissabled.')
     	    return status, message
         canonical_url = ICanonicalURL(self).getCanonicalURL()
         if not canonical_url:
-            return status, 'Ping is impossible.Setup canonical_url.'
+            return status, _(u'Ping is impossible.Setup canonical_url.')
     	ps = getToolByName(context,'portal_syndication')
     	if ps.isSyndicationAllowed(context):
 	    sites = pingProp['ping_sites']
-            message = 'Select servers.'
+            message = _(u'Select servers.')
             for site in sites:
                 status = 'success'
-                message = 'The servers are pinged.'
+                message = _(u'The servers are pinged.')
                 site_obj = getattr(self, site)
                 site_method = site_obj.getMethod_name()
                 site_url = site_obj.getUrl()
@@ -111,11 +107,11 @@ class PingTool(ATFolder, PloneFolder):
         """   """	
         obj=aq_base(context)
         status = 'success'
-        message = "Changes saved."
+        message = _(u'Changes saved.')
         syInfo = getattr(obj, 'syndication_information', None)
 
         if syInfo is None:
-            message = 'Syndication is Disabled'
+            message = _(u'Syndication is Disabled')
             status = 'failed'
         else:
     	    syInfo.ping_sites = list(ping_sites)

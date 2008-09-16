@@ -3,6 +3,7 @@
   * Converted `Extension/Install.py` into a complete GenericSetup profile.
   * Updated tests to run with Plone 3.x.
   * General code cleanup and modernization.
+  * Added form for setup links of feed.
 
 0.3
 

@@ -61,7 +61,7 @@
                        style="width:100%"
                        tal:attributes="value python:pingProperties['ping_Weblog']"
                        />
-                <label  for="ping_Weblog" class="hiddenStructure">Weblog Url</label>
+                <label for="ping_Weblog" class="hiddenStructure">Weblog Url</label>
               </td>
             </tr>
             <tr class="odd">
@@ -108,7 +108,7 @@
                               />
                 <label  for="select_all_items" class="hiddenStructure">Ping Site</label>
               </th>
-              <th i18n:translate="listingheader_group_user_name">Ping Site</th>
+              <th i18n:translate="listing_ping_servies">Ping Site</th>
             </tr>
             <tal:block tal:repeat="id here/portal_pingtool/objectIds">
               <tr tal:define="check python:(id in ping_sites) and True or False"
@@ -128,7 +128,7 @@
                           class="hiddenStructure">Site name</label>
                 </td>
                 <td  tal:content="python:here.portal_pingtool[id].Title()"
-                     tal:attributes="for id" >Site name</td>
+                     i18n:translate="" >Site name</td>
 
               </tr>
             </tal:block>

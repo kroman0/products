@@ -1,5 +1,5 @@
 from Acquisition import aq_inner
-from Products.CMFPlone import PloneMessageFactory as _
+from Products.qPingTool import qPingToolMessageFactory as _
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName

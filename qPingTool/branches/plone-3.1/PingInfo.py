@@ -7,36 +7,65 @@ from Products.ATContentTypes.content.base import ATCTContent
 from Products.ATContentTypes.content.schemata import ATContentTypeSchema, finalizeATCTSchema
 from Products.ATContentTypes.lib.historyaware import HistoryAwareMixin
 from config import RSS_LIST, PROJECTNAME
+from zope.i18nmessageid import MessageFactory
+
+from Products.qPingTool import qPingToolMessageFactory as _
 
 PingInfoSchema =  ATContentTypeSchema.copy() +  Schema((
     TextField('description',
-        default = '',
-        searchable = 0,
-        widget = TextAreaWidget(
-            label_msgid = 'label_description',
-            description_msgid = 'help_description',),
-               ),
+        default='',
+        searchable=False,
+        widget=TextAreaWidget(
+            label=_(
+                u'label_description',
+                default=u'Description'),
+            description=_(
+                u'help_description',
+                default=u'Description of ping info'),
+        ),
+    ),
     StringField('url',
-                required=1,
-                widget=StringWidget(label_msgid = 'label_url',
-                                    description_msgid = 'help_url'),
-               ),
+        default='',
+        required=1,
+        searchable=False,
+        widget=StringWidget(
+            label=_(
+                u'label_url',
+                default=u'Url ping servies'),
+            description=_(
+                u'help_url',
+                default=u''),
+        ),
+    ),
     StringField('method_name',
-                default='weblogUpdates.ping',
-                required=1,
-                widget=StringWidget(label_msgid = 'label_method_name',
-                                    description_msgid = 'help_method_name'),
-               ),
+        default='weblogUpdates.ping',
+        required=1,
+        searchable=False,
+        widget=StringWidget(
+            label=_(
+                u'label_method_name',
+                default=u'Method name'),
+            description=_(
+                u'help_method_name',
+                default=u''),
+        ),
+    ),
     StringField('rss_version',
-		vocabulary=RSS_LIST,
-		default='Weblog',
-                widget=SelectionWidget(label_msgid = 'label_rss_version',
-                                    description_msgid = 'help_rss_version'),
-    )),
-    marshall=RFC822Marshaller()
-    )
-    
-finalizeATCTSchema(PingInfoSchema)
+        default='Weblog',
+        searchable=False,
+	vocabulary=RSS_LIST,
+        widget=SelectionWidget(
+            label=_(
+                u'label_rss_version',
+                default=u'RSS version'),
+            description=_(
+                u'help_rss_version',
+                default=u''),
+        ),
+    ),
+),marshall=RFC822Marshaller())
+
+#finalizeATCTSchema(PingInfoSchema)
 
 class PingInfo(ATCTContent, HistoryAwareMixin):
     """Ping Info container

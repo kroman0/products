@@ -1,5 +1,9 @@
+from zope.i18nmessageid import MessageFactory
 from Products.Archetypes.public import process_types, listTypes
 from Products.CMFCore import utils
+
+qPingToolMessageFactory = MessageFactory('qPingTool')
+
 import PingInfo, PingTool
 from config import *
 

@@ -3,7 +3,7 @@
 
 <!-- PORTAL ACTIONS -->
 <object name="portal_actions" meta_type="Plone Actions Tool"
-   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n" i18n:domain="qPingTool">
  <object name="object" meta_type="CMF Action Category">
   <object name="ping" meta_type="CMF Action">
    <property name="title">Ping setup</property>

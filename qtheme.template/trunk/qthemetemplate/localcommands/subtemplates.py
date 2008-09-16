@@ -105,8 +105,6 @@ class ViewletSubTemplate(QThemeSubTemplate):
         ('order_profiles',   'object stuff goes here'),
     ]
 
-
-
     vars = [
       var('viewlet_name', "Viewlet name", default='example'),
       var('viewlet_manager_interface', "Viewlet manager interface",
@@ -116,12 +114,12 @@ class ViewletSubTemplate(QThemeSubTemplate):
 
       var('insert_type', 'Where insert the viewlet ("after" or "before")', default="after"),
       var('insert_control_viewlet', 'Viewlet after or before which your viewlet will be inserted, ' \
-          '"*" accepted, which mean all', default=''),
+          '"*" accepted, which mean all', default='*'),
 
       var('layer_interface', "Layer interface for registry this viewlet on", default=""),
       var('layer_name', "Layer name for registry this viewlet on", default=""),
-      var('skinname', "Skin name", default=""),
-      var('skinbase', "Base skin", default=""),
+      var('skinname', "Skin name, for bind viewlet to, '*' - mean for all", default=""),
+      var('skinbase', "Base skin, for get viewlets from", default=""),
            ]
 
     def pre(self, command, output_dir, vars):
@@ -141,7 +139,3 @@ class ViewletSubTemplate(QThemeSubTemplate):
         vars['viewlet_profile_marker'] = viewlet_profile_marker
         self.compo_template_markers.append(
             ('viewlet_profiles',viewlet_profile_marker))
-
-        print 'vars', vars['viewlet_profile_marker']
-        print 'compo_template_markers', self.compo_template_markers
-

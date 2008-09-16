@@ -92,12 +92,13 @@ class JSSubTemplate(QThemeSubTemplate):
                              vars['js_file_path'] )
         vars['js_resource_content'] = file(vars['js_file_path'],'rb').read()
 
-class ViewletSubTemplate(QThemeSubTemplate):
+
+class ViewletOrderSubTemplate(QThemeSubTemplate):
     """
-    A Plone Viewlet skeleton
+    A Plone Order Viewlet skeleton
     """
     _template_dir = 'templates/viewlet'
-    summary = "A Plone 3 Viewlet template"
+    summary = "A Plone 3 Order Viewlet template"
     
     # list of 2 item tuple -
     # (compotemplate_name, compo marker), for ex.:
@@ -133,9 +134,38 @@ class ViewletSubTemplate(QThemeSubTemplate):
         vars['viewlet_interface_name'] = "I"+VnCamel
         vars['viewlet_template_name'] = vn_lower_nospc+'_viewlet.pt'
 
-        viewlet_profile_marker = "[%s]  viewlet stuff goes here" % \
+        viewlet_profile_marker = "[order_%s] viewlet stuff goes here" % \
             '.'.join([vars['viewlet_manager_name'], vars['skinname'], vars['skinbase']])
 
         vars['viewlet_profile_marker'] = viewlet_profile_marker
         self.compo_template_markers.append(
             ('viewlet_profiles',viewlet_profile_marker))
+
+
+class ViewletHiddenSubTemplate(QThemeSubTemplate):
+    """
+    A Plone Hidden Viewlet skeleton
+    """
+    _template_dir = 'templates/viewlet_hidden'
+    summary = "A Plone 3 Hidden Viewlet template"
+    compo_template_markers = [
+        ('hidden_profiles',   'object stuff goes here'),
+    ]
+    
+    vars = [
+      var('viewlet_name', "Viewlet name", default='plone.global_sections'),
+      var('viewlet_manager_name', "Viewlet manager name", default='plone.portalheader'),
+      var('skinname', "Skin name, for bind viewlet to, may be '*'", default=""),
+           ]
+
+    def pre(self, command, output_dir, vars):
+        """ Set 'css_resource_content' value from css_file_path
+        """
+        
+        viewlet_profile_marker = "[hidden_%s] viewlet stuff goes here" % \
+            '.'.join([vars['viewlet_manager_name'], vars['skinname']])
+
+        vars['viewlet_profile_marker'] = viewlet_profile_marker
+        self.compo_template_markers.append(
+            ('viewlet_hidden_profiles',viewlet_profile_marker))
+

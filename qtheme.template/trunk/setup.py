@@ -29,7 +29,8 @@ setup(name='qtheme.template',
           skin_layer    = qthemetemplate.localcommands.subtemplates:SkinLayerSubTemplate
           css_resource = qthemetemplate.localcommands.subtemplates:CSSSubTemplate
           js_resource = qthemetemplate.localcommands.subtemplates:JSSubTemplate
-          viewlet = qthemetemplate.localcommands.subtemplates:ViewletSubTemplate
+          viewlet_order = qthemetemplate.localcommands.subtemplates:ViewletOrderSubTemplate
+          viewlet_hidden = qthemetemplate.localcommands.subtemplates:ViewletHiddenSubTemplate
 
       # -*- Entry points: -*-
       """,

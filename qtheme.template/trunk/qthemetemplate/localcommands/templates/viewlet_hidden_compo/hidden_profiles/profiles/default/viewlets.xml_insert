@@ -1,0 +1,3 @@
+  <hidden manager="${viewlet_manager_name}" skinname="${skinname}">
+   <!-- -*- $viewlet_profile_marker -*- -->
+  </hidden>

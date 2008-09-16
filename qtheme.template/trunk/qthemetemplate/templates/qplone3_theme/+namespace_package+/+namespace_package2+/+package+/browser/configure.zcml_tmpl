@@ -51,6 +51,12 @@
         layer=".interfaces.IThemeSpecific"
         />
 
+    <browser:resourceDirectory
+        name="${namespace_package}.${namespace_package2}.${package}.templates"
+        directory="templates"
+        layer=".interfaces.IThemeSpecific"
+        />
+
     <!-- -*- extra stuff goes here -*- -->
 
 </configure>

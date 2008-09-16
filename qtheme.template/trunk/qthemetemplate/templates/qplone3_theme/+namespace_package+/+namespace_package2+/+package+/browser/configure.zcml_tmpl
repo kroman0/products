@@ -19,19 +19,6 @@
         name="$skinname"
         />
 
-    <!-- Viewlets registration -->
-#if str($include_doc) == 'True'
-<!-- EXAMPLE (UNCOMMENT TO MAKE AVAILABLE):
-     <browser:viewlet
-         name="${namespace_package}.${namespace_package2}.someviewlet"
-         manager="plone.app.layout.viewlets.interfaces.IPortalFooter"
-         class=".viewlets.SomeViewlet"
-         layer=".interfaces.IThemeSpecific"
-         permission="zope2.View"
-         />
--->
-
-#end if
     <!-- Zope 3 browser resources -->
 
 #if str($include_doc) == 'True'

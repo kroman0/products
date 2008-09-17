@@ -95,7 +95,7 @@ def setupSkin(self, out, layers):
             else:
                 out.write('  Layer %s was already installed into skin %s.\n' % (layer,skin))
         if modified:
-            path = string.join( path, ', ' )
+            path = string.join( path, ',' )
             skinstool.addSkinSelection( skin, path )
 
 def uninstall(self):

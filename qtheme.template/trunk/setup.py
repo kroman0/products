@@ -32,6 +32,12 @@ setup(name='qtheme.template',
           viewlet_order = qthemetemplate.localcommands.subtemplates:ViewletOrderSubTemplate
           viewlet_hidden = qthemetemplate.localcommands.subtemplates:ViewletHiddenSubTemplate
 
+          [distutils.setup_keywords]
+          theme_vars = qthemetemplate:assert_dict
+
+          [egg_info.writers]
+          theme_vars.txt = qthemetemplate:write_map
+
       # -*- Entry points: -*-
       """,
       )

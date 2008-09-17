@@ -47,10 +47,20 @@ setup(name=${repr($project)},
 
       [distutils.setup_keywords]
       paster_plugins = setuptools.dist:assert_string_list
+      theme_vars = qthemetemplate:assert_dict
 
       [egg_info.writers]
       paster_plugins.txt = setuptools.command.egg_info:write_arg
+      theme_vars.txt = qthemetemplate:write_map
+
       """,
       paster_plugins = ["ZopeSkel", "PasteScript"],
-      setup_requires = ["setuptools", "ZopeSkel", "PasteScript"],
+      setup_requires = ["setuptools", "ZopeSkel", "PasteScript", "qtheme.template"],
+      theme_vars = {'skinname': '$skinname',
+          'skinbase'          : '$skinbase',
+          'namespace_package' : '$namespace_package',
+          'namespace_package2': '$namespace_package2',
+          'package'           : '$package',
+          
+      },
       )

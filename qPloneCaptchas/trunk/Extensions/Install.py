@@ -43,8 +43,10 @@ def install(self):
         plone_version = '2.0.5'
     elif plone_version.startswith('2.5'):
         plone_version = '2.5'
-    elif plone_version.startswith('3'):
+    elif plone_version.startswith('3.0'):
         plone_version = '3.0'
+    elif plone_version.startswith('3.1'):
+        plone_version = '3.1'
     else:
         raise Exception("Error - Unsupported version. Suported versions: Plone 2.0.5-3")
 
@@ -58,8 +60,7 @@ def install(self):
 
     join_form_layer = '/'.join([LAYER_JOIN_FORM, plone_version])
     Layers.append(join_form_layer)
-    
-    
+
     sendto_form_layer = '/'.join([LAYER_SENDTO_FORM, plone_version])
     Layers.append(sendto_form_layer)
 
@@ -94,7 +95,7 @@ def setupSkin(self, out, layers):
             else:
                 out.write('  Layer %s was already installed into skin %s.\n' % (layer,skin))
         if modified:
-            path = string.join( path, ', ' )
+            path = string.join( path, ',' )
             skinstool.addSkinSelection( skin, path )
 
 def uninstall(self):

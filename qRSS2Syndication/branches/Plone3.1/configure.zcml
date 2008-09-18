@@ -4,6 +4,5 @@
 
    <cmf:registerDirectory name="qrss2syndication"/>
    <include file="profiles.zcml" />
-   <adapter factory=".adapter.PublishFeed" />
 
 </configure>

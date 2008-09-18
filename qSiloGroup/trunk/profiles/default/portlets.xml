@@ -17,7 +17,7 @@
         category="context"
         key="/"
         type="portlets.Classic"
-        name="portal_mysearchbox"
+        name="portlet_navigation"
         insert_before="*">
         <property name="template">portlet_navigation</property>
         <property name="macro">portlet</property>

@@ -106,6 +106,10 @@ def install(self):
 
     setupResources(self, out)
 
+    # setup our GenericSetup profile
+    setup_tool = getToolByName(self, 'portal_setup')
+    setup_tool.runAllImportStepsFromProfile('profile-Products.qSiloGroup:qsilogroup')
+
     return out.getvalue()
 
 def uninstall(self):

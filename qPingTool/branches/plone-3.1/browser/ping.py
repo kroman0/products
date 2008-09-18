@@ -1,8 +1,8 @@
 from Acquisition import aq_inner
-from Products.qPingTool import qPingToolMessageFactory as _
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
+from Products.qPingTool import qPingToolMessageFactory as _
 
 
 class PingView(BrowserView):

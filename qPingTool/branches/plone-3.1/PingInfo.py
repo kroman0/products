@@ -7,7 +7,6 @@ from Products.ATContentTypes.content.base import ATCTContent
 from Products.ATContentTypes.content.schemata import ATContentTypeSchema, finalizeATCTSchema
 from Products.ATContentTypes.lib.historyaware import HistoryAwareMixin
 from config import RSS_LIST, PROJECTNAME
-from zope.i18nmessageid import MessageFactory
 
 from Products.qPingTool import qPingToolMessageFactory as _
 

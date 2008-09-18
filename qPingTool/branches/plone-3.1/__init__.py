@@ -10,9 +10,6 @@ from config import *
 tools = ( PingTool.PingTool, )
 
 def initialize(context):
-    from AccessControl import allow_module
-    allow_module('Products.qPingTool.util')
-
     utils.ToolInit("PingTool", tools=tools, icon=TOOL_ICON,
                   ).initialize(context)
 

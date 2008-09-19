@@ -7,8 +7,6 @@
 
   <include package="plone.browserlayer" />
 
-  <five:registerPackage package="." />
-
   <cmf:registerDirectory name="skins" directory="skins" recursive="True" />
 
   <gs:registerProfile

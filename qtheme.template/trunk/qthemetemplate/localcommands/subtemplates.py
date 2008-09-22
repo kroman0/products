@@ -87,6 +87,7 @@ class JSSubTemplate(QThemeSubTemplate):
     def pre(self, command, output_dir, vars):
         """ Set 'js_resource_content' value from js_file_path
         """
+        super(JSSubTemplate, self).pre(command, output_dir, vars)
         
         if not os.path.isfile(vars['js_file_path']):
             raise ValueError('%s - wrong file path for js resource' % \

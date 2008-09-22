@@ -56,7 +56,8 @@ class CSSSubTemplate(QThemeSubTemplate):
     def pre(self, command, output_dir, vars):
         """ Set 'css_resource_content' value from css_file_path
         """
-        
+        super(CSSSubTemplate, self).pre(command, output_dir, vars)
+
         if not os.path.isfile(vars['css_file_path']):
             raise ValueError('%s - wrong file path for css resource' % \
                              vars['css_file_path'] )
@@ -126,7 +127,7 @@ class ViewletOrderSubTemplate(QThemeSubTemplate):
     def pre(self, command, output_dir, vars):
         """ Set 'css_resource_content' value from css_file_path
         """
-        
+
         vn_lower_nospc = RESP.sub('',vars['viewlet_name']).lower()
         vn_lower_under = RESP.sub('_',vars['viewlet_name']).lower()
         VnCamel = ''.join([i.capitalize() for i in vars['viewlet_name'].split()])
@@ -161,7 +162,7 @@ class ViewletHiddenSubTemplate(QThemeSubTemplate):
     def pre(self, command, output_dir, vars):
         """ Set 'css_resource_content' value from css_file_path
         """
-        
+         
         viewlet_profile_marker = "[hidden_%s] viewlet stuff goes here" % \
             '.'.join([vars['viewlet_manager_name'], vars['skinname']])
 

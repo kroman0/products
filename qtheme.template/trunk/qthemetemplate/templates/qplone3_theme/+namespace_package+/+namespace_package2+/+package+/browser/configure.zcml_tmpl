@@ -36,21 +36,6 @@
         layer=".interfaces.IThemeSpecific"
         />
 
-#if str($include_doc) == 'True'
-    <!-- Resource directory for stylesheets
-      See ${namespace_package}/${namespace_package2}/${package}/browser/stylesheets/README.txt
-      for more information about registering stylesheets as Zope 3 browser
-      resources.
-      -->
-#else
-    <!-- Resource directory for stylesheets -->
-#end if
-    <browser:resourceDirectory
-        name="${namespace_package}.${namespace_package2}.${package}.stylesheets"
-        directory="stylesheets"
-        layer=".interfaces.IThemeSpecific"
-        />
-
     <browser:resourceDirectory
         name="${namespace_package}.${namespace_package2}.${package}.templates"
         directory="templates"

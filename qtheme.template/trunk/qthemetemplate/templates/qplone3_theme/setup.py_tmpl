@@ -61,6 +61,6 @@ setup(name=${repr($project)},
           'namespace_package' : '$namespace_package',
           'namespace_package2': '$namespace_package2',
           'package'           : '$package',
-          
+          'used_subtemplates' : '',
       },
       )

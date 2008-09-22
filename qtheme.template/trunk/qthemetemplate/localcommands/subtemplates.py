@@ -187,9 +187,7 @@ class ViewletHiddenSubTemplate(QThemeSubTemplate):
 
     shared_vars = ['viewlet_profile_marker',]
 
-    compo_template_markers = [
-        ('hidden_profiles',   'object stuff goes here'),
-    ]
+    compo_template_markers = []
     
     vars = [
       var('viewlet_name', "Viewlet name", default='plone.global_sections'),
@@ -205,15 +203,14 @@ class ViewletHiddenSubTemplate(QThemeSubTemplate):
         viewlet_profile_marker = "[hidden_%s] viewlet stuff goes here" % \
             '.'.join([vars['viewlet_manager_name'], vars['qplone3_theme_skinname']])
 
-        self.update_compo_templates(output_dir, vars, viewlet_profile_marker)
-
+        vars['add_hidden_tag'] = self.add_hidden_tag(output_dir, vars, viewlet_profile_marker)
         vars['viewlet_profile_marker'] = viewlet_profile_marker
         self.compo_template_markers.append(
             ('viewlet_hidden_profiles',viewlet_profile_marker))
 
 
-    def update_compo_templates(self, output_dir, vars, pmarker):
-
+    def add_hidden_tag(self, output_dir, vars, pmarker):
+        add_hidden = True
         egg_info = pluginlib.find_egg_info_dir(output_dir)
         theme_vars_fp = os.path.join(egg_info, 'theme_vars.txt')
 
@@ -235,8 +232,5 @@ class ViewletHiddenSubTemplate(QThemeSubTemplate):
                 pmarkers = [config.get(sec, 'viewlet_profile_marker') \
                             for sec in sections]
                 if pmarker in pmarkers:
-                    self.compo_template_markers.remove(
-                        ('hidden_profiles',   'object stuff goes here'),
-
-                    )
-
+                    add_hidden = False
+        return add_hidden

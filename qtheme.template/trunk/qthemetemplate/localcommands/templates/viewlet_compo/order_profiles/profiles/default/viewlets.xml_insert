@@ -1,8 +1,0 @@
-  <order manager="${viewlet_manager_name}"
-         skinname="${qplone3_theme_skinname}"
-         #if not $qplone3_theme_skinname=="*":
-         based-on="${qplone3_theme_skinbase}"
-         #end if
-    >
-   <!-- -*- $viewlet_profile_marker -*- -->
-  </order>

@@ -107,9 +107,7 @@ class ViewletOrderSubTemplate(QThemeSubTemplate):
     
     # list of 2 item tuple -
     # (compotemplate_name, compo marker), for ex.:
-    compo_template_markers = [
-        ('order_profiles',   'object stuff goes here'),
-    ]
+    compo_template_markers = []
 
     shared_vars = ['viewlet_profile_marker',]
 
@@ -146,15 +144,14 @@ class ViewletOrderSubTemplate(QThemeSubTemplate):
             '.'.join([vars['viewlet_manager_name'], vars['qplone3_theme_skinname'], 
                       vars['qplone3_theme_skinbase']])
         
-        self.update_compo_templates(output_dir, vars, viewlet_profile_marker)
-
+        vars['add_order_tag'] = self.add_order_tag(output_dir, vars, viewlet_profile_marker)
         vars['viewlet_profile_marker'] = viewlet_profile_marker
         self.compo_template_markers.append(
             ('viewlet_profiles',viewlet_profile_marker))
 
 
-    def update_compo_templates(self, output_dir, vars, pmarker):
-
+    def add_order_tag(self, output_dir, vars, pmarker):
+        need_update = True
         egg_info = pluginlib.find_egg_info_dir(output_dir)
         theme_vars_fp = os.path.join(egg_info, 'theme_vars.txt')
 
@@ -176,10 +173,9 @@ class ViewletOrderSubTemplate(QThemeSubTemplate):
                 pmarkers = [config.get(sec, 'viewlet_profile_marker') \
                             for sec in sections]
                 if pmarker in pmarkers:
-                    self.compo_template_markers.remove(
-                        ('order_profiles', 'object stuff goes here')
-                    )
+                    need_update = False
 
+        return need_update
 
 
 class ViewletHiddenSubTemplate(QThemeSubTemplate):

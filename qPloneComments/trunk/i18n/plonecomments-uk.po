@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: qPloneComments\n"
 "Report-Msgid-Bugs-To: Quintagroup Support <support@quintagroup.com>\n"
 "POT-Creation-Date: 2007-06-12 09:17+0000\n"
-"PO-Revision-Date: 2008-09-17 16:18+0300\n"
+"PO-Revision-Date: 2008-09-22 10:55+0300\n"
 "Last-Translator: Olha <olha.pelishok@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr "Будь-ласка, перегляньте новий коментар,
 
 #: skins/qplonecomments/approve_comment_template.pt
 msgid "approvemail_subject"
-msgstr "Новий коментар чекає на затвердження"
+msgstr "Новий коментар очікує затвердження"
 
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "heading_comments_setup"
@@ -236,7 +236,7 @@ msgstr "Ваш коментар до \\\'${title}\\\' опубліковано"
 #. Default: "Your comment on \'${url}\' has been published. To see your comment, go to ${url}"
 #: skins/qplonecomments/approve_comment_template.pt
 msgid "notifycomment_link"
-msgstr "Ваш коментар до \\\'${url}\\\' опубліковано. Щоб побачити ваш коментар - зайдіть на ${url}"
+msgstr "Ваш коментар до \\\'${url}\\\' опубліковано. Щоб переглянути його - зайдіть на ${url}"
 
 #. Default: "Your comment on \'${title}\' was now approved."
 #: skins/qplonecomments/approve_comment_template.pt
@@ -256,5 +256,5 @@ msgstr "Надійшла відповідь на ваш коментар до \\
 #. Default: "Someone replied to your comment \'${url}\' on \'${here_url}\'. To read the response, go to \'${url}\'."
 #: skins/qplonecomments/approve_comment_template.pt
 msgid "replynotify_link"
-msgstr "Надійшла відповідь на ваш коментар \\\'${url}\\\' до \\\'${here_url}\\\'. Щоб прочитати відповідь - перейдіть на \\\'${url}\\\'."
+msgstr "Надійшла відповідь на ваш коментар \\\'${url}\\\' до \\\'${here_url}\\\'. Для перегляду  - перейдіть на \\\'${url}\\\'."
 

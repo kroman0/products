@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: qPloneComments\n"
 "Report-Msgid-Bugs-To: Quintagroup Support <support@quintagroup.com>\n"
 "POT-Creation-Date: 2007-06-11 17:50+0000\n"
-"PO-Revision-Date: 2008-09-17 16:01+0300\n"
+"PO-Revision-Date: 2008-09-22 10:51+0300\n"
 "Last-Translator: Olha <olha.pelishok@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +49,7 @@ msgstr "Коментар опубліковано."
 #: skins/qplonecomments/2.1/discussion_reply.cpy
 #: skins/qplonecomments/2.5/discussion_reply.cpy
 msgid "Currently, all comments require approval before being published. Please check back later."
-msgstr "Наразі коментарі очікають на опублікування. Завітайте сюди пізніше."
+msgstr "Наразі коментарі очікують на опублікування. Завітайте сюди пізніше."
 
 #: skins/qplonecomments/2.0.5/validate_talkback.vpy
 #: skins/qplonecomments/2.1/validate_talkback.vpy
@@ -89,7 +89,7 @@ msgstr "Коментар знищено."
 
 #: skins/qplonecomments/prefs_recent_comments_delete.cpy
 msgid "Please select items to be processed."
-msgstr "Будь-ласка, відзначте коментарі для подальшої обробки."
+msgstr "Будь-ласка, відзначте коментарі для подальшого опрацювання."
 
 #: skins/qplonecomments/validate_setup.vpy
 msgid "Please submit a valid e-mail address."

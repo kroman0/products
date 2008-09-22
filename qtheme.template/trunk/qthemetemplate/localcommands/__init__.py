@@ -66,7 +66,7 @@ class QThemeSubTemplate(ZopeSkelLocalTemplate):
             
             for section in config.sections():
                 for option in config.options(section):
-                    key = section + '.' + option
+                    key = section + '_' + option
                     val = config.get(section, option)
                     if section == 'multiple_templates':
                         val = val.split(',')
@@ -76,9 +76,6 @@ class QThemeSubTemplate(ZopeSkelLocalTemplate):
 
     def add_template_vars(self, output_dir, vars):
 
-        if not self.shared_vars:
-            return
-
         egg_info = pluginlib.find_egg_info_dir(output_dir)
         theme_vars_fp = os.path.join(egg_info, 'theme_vars.txt')
 
@@ -86,28 +83,38 @@ class QThemeSubTemplate(ZopeSkelLocalTemplate):
             config = SafeConfigParser()
             config.read(theme_vars_fp)
 
-            thesection = self.name
-            if config.has_section(thesection):
-                msection = 'multiple_templates'
-                moption = self.name
+            # Update qplone3_theme used_subtemplate option
+            sec, opt = 'qplone3_theme', 'used_subtemplates'
+            val = filter(None,[st.strip() \
+                         for st in config.get(sec,opt).split(',')])
+            val.append(self.name)
+            config.set(sec, opt, ','.join(set(val)))
 
-                if not config.has_section(msection):
-                    config.add_section(msection)
+            # Add subtemplate vars
+            if self.shared_vars:
+                thesection = self.name
+                if config.has_section(thesection):
+                    msection = 'multiple_templates'
+                    moption = self.name
 
-                val = []
-                if config.has_option(msection, moption):
-                    val = config.get(msection, moption).split(',')
-                else:
-                    val.append(moption)
-                thesection = "%s_%d"%(moption,len(val))
-                val.append(thesection)
+                    if not config.has_section(msection):
+                        config.add_section(msection)
 
-                config.set(msection, moption, ','.join(val))
+                    val = []
+                    if config.has_option(msection, moption):
+                        val = config.get(msection, moption).split(',')
+                    else:
+                        val.append(moption)
+                    thesection = "%s_%d"%(moption,len(val))
+                    val.append(thesection)
 
-            config.add_section(thesection)
-            for k in self.shared_vars:
-                config.set(thesection, k, vars[k])
+                    config.set(msection, moption, ','.join(val))
 
+                config.add_section(thesection)
+                for k in self.shared_vars:
+                    config.set(thesection, k, vars[k])
+
+            # Save theme_vars.txt file
             theme_file = file(theme_vars_fp,'w')
             config.write(theme_file)
             theme_file.close()

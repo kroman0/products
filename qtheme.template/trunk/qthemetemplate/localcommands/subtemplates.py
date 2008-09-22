@@ -2,6 +2,9 @@
 Local templates for the qplone3_theme
 """
 import os, sys, re
+from ConfigParser import SafeConfigParser
+from paste.script import pluginlib
+
 from zopeskel.base import var
 from zopeskel.localcommands import ZopeSkelLocalTemplate
 from qthemetemplate.localcommands import QThemeSubTemplate
@@ -108,6 +111,8 @@ class ViewletOrderSubTemplate(QThemeSubTemplate):
         ('order_profiles',   'object stuff goes here'),
     ]
 
+    shared_vars = ['viewlet_profile_marker',]
+
     vars = [
       var('viewlet_name', "Viewlet name", default='example'),
       var('viewlet_manager_interface', "Viewlet manager interface",
@@ -121,13 +126,14 @@ class ViewletOrderSubTemplate(QThemeSubTemplate):
 
       var('layer_interface', "Layer interface for registry this viewlet on", default=""),
       var('layer_name', "Layer name for registry this viewlet on", default=""),
-      var('skinname', "Skin name, for bind viewlet to, '*' - mean for all", default=""),
-      var('skinbase', "Base skin, for get viewlets from", default=""),
+      #var('skinname', "Skin name, for bind viewlet to, '*' - mean for all", default=""),
+      #var('skinbase', "Base skin, for get viewlets from", default=""),
            ]
 
     def pre(self, command, output_dir, vars):
         """ Set 'css_resource_content' value from css_file_path
         """
+        super(ViewletOrderSubTemplate, self).pre(command, output_dir, vars)
 
         vn_lower_nospc = RESP.sub('',vars['viewlet_name']).lower()
         vn_lower_under = RESP.sub('_',vars['viewlet_name']).lower()
@@ -137,11 +143,43 @@ class ViewletOrderSubTemplate(QThemeSubTemplate):
         vars['viewlet_template_name'] = vn_lower_nospc+'_viewlet.pt'
 
         viewlet_profile_marker = "[order_%s] viewlet stuff goes here" % \
-            '.'.join([vars['viewlet_manager_name'], vars['skinname'], vars['skinbase']])
+            '.'.join([vars['viewlet_manager_name'], vars['qplone3_theme_skinname'], 
+                      vars['qplone3_theme_skinbase']])
+        
+        self.update_compo_templates(output_dir, vars, viewlet_profile_marker)
 
         vars['viewlet_profile_marker'] = viewlet_profile_marker
         self.compo_template_markers.append(
             ('viewlet_profiles',viewlet_profile_marker))
+
+
+    def update_compo_templates(self, output_dir, vars, pmarker):
+
+        egg_info = pluginlib.find_egg_info_dir(output_dir)
+        theme_vars_fp = os.path.join(egg_info, 'theme_vars.txt')
+
+        if egg_info and os.path.exists(theme_vars_fp):
+            config = SafeConfigParser()
+            config.read(theme_vars_fp)
+
+            sec, opt = 'qplone3_theme', 'used_subtemplates'
+            used_subtemplates = filter(None,[st.strip() \
+                         for st in config.get(sec,opt).split(',')])
+            
+            if self.name in used_subtemplates:
+                sections = [self.name,]
+                if config.has_section('multiple_templates') and \
+                  config.has_option('multiple_templates',self.name):
+                    ms_sections = config.get('multiple_templates',self.name)
+                    sections = [s.strip() for s in ms_sections.split(',')]
+
+                pmarkers = [config.get(sec, 'viewlet_profile_marker') \
+                            for sec in sections]
+                if pmarker in pmarkers:
+                    self.compo_template_markers.remove(
+                        ('order_profiles', 'object stuff goes here')
+                    )
+
 
 
 class ViewletHiddenSubTemplate(QThemeSubTemplate):
@@ -150,6 +188,9 @@ class ViewletHiddenSubTemplate(QThemeSubTemplate):
     """
     _template_dir = 'templates/viewlet_hidden'
     summary = "A Plone 3 Hidden Viewlet template"
+
+    shared_vars = ['viewlet_profile_marker',]
+
     compo_template_markers = [
         ('hidden_profiles',   'object stuff goes here'),
     ]
@@ -157,17 +198,49 @@ class ViewletHiddenSubTemplate(QThemeSubTemplate):
     vars = [
       var('viewlet_name', "Viewlet name", default='plone.global_sections'),
       var('viewlet_manager_name', "Viewlet manager name", default='plone.portalheader'),
-      var('skinname', "Skin name, for bind viewlet to, may be '*'", default=""),
+      #var('skinname', "Skin name, for bind viewlet to, may be '*'", default=""),
            ]
 
     def pre(self, command, output_dir, vars):
         """ Set 'css_resource_content' value from css_file_path
         """
+        super(ViewletHiddenSubTemplate, self).pre(command, output_dir, vars)
          
         viewlet_profile_marker = "[hidden_%s] viewlet stuff goes here" % \
-            '.'.join([vars['viewlet_manager_name'], vars['skinname']])
+            '.'.join([vars['viewlet_manager_name'], vars['qplone3_theme_skinname']])
+
+        self.update_compo_templates(output_dir, vars, viewlet_profile_marker)
 
         vars['viewlet_profile_marker'] = viewlet_profile_marker
         self.compo_template_markers.append(
             ('viewlet_hidden_profiles',viewlet_profile_marker))
+
+
+    def update_compo_templates(self, output_dir, vars, pmarker):
+
+        egg_info = pluginlib.find_egg_info_dir(output_dir)
+        theme_vars_fp = os.path.join(egg_info, 'theme_vars.txt')
+
+        if egg_info and os.path.exists(theme_vars_fp):
+            config = SafeConfigParser()
+            config.read(theme_vars_fp)
+
+            sec, opt = 'qplone3_theme', 'used_subtemplates'
+            used_subtemplates = filter(None,[st.strip() \
+                         for st in config.get(sec,opt).split(',')])
+            
+            if self.name in used_subtemplates:
+                sections = [self.name,]
+                if config.has_section('multiple_templates') and \
+                  config.has_option('multiple_templates',self.name):
+                    ms_sections = config.get('multiple_templates',self.name)
+                    sections = [s.strip() for s in ms_sections.split(',')]
+
+                pmarkers = [config.get(sec, 'viewlet_profile_marker') \
+                            for sec in sections]
+                if pmarker in pmarkers:
+                    self.compo_template_markers.remove(
+                        ('hidden_profiles',   'object stuff goes here'),
+
+                    )
 

@@ -13,6 +13,7 @@
 
     <base tal:attributes="href here/renderBase" /><!--[if lt IE 7]></base><![endif]-->
 
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
     <meta name="generator" content="Plone - http://plone.org" />
 
     <div tal:replace="structure provider:plone.htmlhead" />

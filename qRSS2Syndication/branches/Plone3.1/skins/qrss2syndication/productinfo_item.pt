@@ -3,7 +3,7 @@
      xmlns:tal="http://xml.zope.org/namespaces/tal"
      xmlns:metal="http://xml.zope.org/namespaces/metal" >
 <metal:block define-macro="item">
-  <tal:repeat define="swtypes res/softwaretype;
+  <tal:repeat define="swtypes res/getSoftwaretype;
                       swtypes python:test(same_type(swtypes,[]) or same_type(swtypes,()), swtypes, [swtypes,]);"
               repeat="swtype swtypes">
     <category tal:content="swtype">

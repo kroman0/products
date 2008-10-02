@@ -58,10 +58,7 @@ if isForAnonymous and comment_creator:
     comment_creator = comment_creator
 else:
     member = mtool.getAuthenticatedMember()
-    # Get Member Full name.If not entered - get user login name
-    comment_creator = member.getProperty('fullname')
-    if not comment_creator:
-        comment_creator = member.getUserName()
+    comment_creator = member.getUserName()
 tb = dtool.getDiscussionFor(context)
 if requireEmail:
     if mtool.isAnonymousUser():

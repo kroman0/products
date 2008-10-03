@@ -4,7 +4,7 @@
         xmlns:i18n="http://xml.zope.org/namespaces/i18n">
     <property name="title">Captcha Field</property>
     <property
-             name="description">Extension for PloneFormGen. Field that helps from automatic page submit.</property>
+             name="description">Extension for PloneFormGen. Field that prevents automatic page submit.</property>
     <property name="content_icon">captcha_field.gif</property>
     <property name="content_meta_type">CaptchaField</property>
     <property name="product">qPloneCaptchaField</property>

@@ -3,7 +3,7 @@
         manager="${viewlet_manager_interface}"
         class=".viewlets.${viewlet_class_name}"
         #if $layer_interface:
-        layer=".interfaces.${layer_interface}
+        layer=".interfaces.${layer_interface}"
         #end if
         permission="${viewlet_permission}"
         />

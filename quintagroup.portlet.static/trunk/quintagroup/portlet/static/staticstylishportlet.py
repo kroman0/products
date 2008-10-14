@@ -45,14 +45,6 @@ class Assignment(static.Assignment):
         
         self.styling = styling
     
-    @property
-    def title(self):
-        """This property is used to give the title of the portlet in the
-        "manage portlets" screen.
-        """
-        return "Static Stylish portlet"
-
-
 class Renderer(static.Renderer):
     """Portlet renderer.
 

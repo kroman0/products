@@ -1,0 +1,6 @@
+(c) "Quintagroup"
+
+  * Myroslav Opyr
+  * Andriy Mylenkyy
+  * Vitaliy Podoba
+

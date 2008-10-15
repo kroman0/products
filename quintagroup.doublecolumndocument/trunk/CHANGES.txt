@@ -1,0 +1,11 @@
+Changelog
+=========
+
+0.2 (2008-10-15)
+------------------
+
+ - Made it compatible with plone 3
+ - Made it in zope 3/plone 3 way
+ - Made it as a python egg
+ - Updated translations
+ [Vitaliy Podoba]

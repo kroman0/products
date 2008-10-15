@@ -1,0 +1,15 @@
+README.txt
+setup.cfg
+setup.py
+quintagroup/__init__.py
+quintagroup.transmogrifier.simpleblog2quills.egg-info/PKG-INFO
+quintagroup.transmogrifier.simpleblog2quills.egg-info/SOURCES.txt
+quintagroup.transmogrifier.simpleblog2quills.egg-info/dependency_links.txt
+quintagroup.transmogrifier.simpleblog2quills.egg-info/entry_points.txt
+quintagroup.transmogrifier.simpleblog2quills.egg-info/namespace_packages.txt
+quintagroup.transmogrifier.simpleblog2quills.egg-info/not-zip-safe
+quintagroup.transmogrifier.simpleblog2quills.egg-info/requires.txt
+quintagroup.transmogrifier.simpleblog2quills.egg-info/top_level.txt
+quintagroup/transmogrifier/__init__.py
+quintagroup/transmogrifier/simpleblog2quills/__init__.py
+quintagroup/transmogrifier/simpleblog2quills/tests.py

@@ -1,0 +1,9 @@
+Changelog for quintagroup.transmogrifier.simpleblog2quills
+
+    (name of developer listed in brackets)
+
+quintagroup.transmogrifier.simpleblog2quills - 0.1 Unreleased
+
+    - Initial package structure.
+      [zopeskel]
+

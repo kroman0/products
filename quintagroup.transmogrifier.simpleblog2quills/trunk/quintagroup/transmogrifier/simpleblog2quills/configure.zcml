@@ -1,0 +1,31 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
+    i18n_domain="quintagroup.simpleblog2quills">
+
+    <!--<include package="quintagroup.transmogrifier" />-->
+    <include package="quintagroup.transmogrifier" file="meta.zcml" />
+
+    <transmogrifier:stylesheet
+        source="marshall"
+        from="Blog"
+        to="Weblog"
+        file="blog-weblog.xsl"
+        />
+
+    <transmogrifier:stylesheet
+        source="marshall"
+        from="BlogEntry"
+        to="WeblogEntry"
+        file="blogentry-weblogentry.xsl"
+        />
+
+    <transmogrifier:stylesheet
+        source="marshall"
+        from="BlogFolder"
+        to="Folder"
+        file="blogfolder-folder.xsl"
+        />
+
+</configure>

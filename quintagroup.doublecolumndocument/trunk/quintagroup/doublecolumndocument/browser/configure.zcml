@@ -10,5 +10,10 @@
         name="doublecolumndocument_view"
         />
 
+    <!-- Resource registration -->
+    <browser:resource
+        name="doublecolumndocument.css"
+        file="resources/doublecolumndocument.css"
+        />
 
 </configure>

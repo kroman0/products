@@ -2,6 +2,15 @@ from Products.CMFPlone.URLTool import URLTool
 
 from adapters.interfaces import IRequestPortalUrlAnnotator
 
+## XXX PATCH FOR FILERESOURCE, UNTILL ADD 'POST' METHOD OR FIX 
+## ResourceRegistries.tools.BaseRegistry.BaseRegistryTool.getResourceContent method
+marker = []
+from Products.Five.browser.resource import FileResource
+
+if getattr(FileResource, 'POST', marker) == marker:
+    FileResource.POST = FileResource.GET
+
+
 def urltool_call(self, relative=0, *args, **kw):
     """ Get by default the absolute URL of the portal. If request is annonated then add suffix to portal_url
     """

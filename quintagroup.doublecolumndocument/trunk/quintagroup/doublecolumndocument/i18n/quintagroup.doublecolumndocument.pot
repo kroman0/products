@@ -44,3 +44,6 @@ msgstr ""
 msgid "label_body-2_text"
 msgstr ""
 
+#: ./content/doublecolumndocument.py:28
+msgid "Columns"
+msgstr ""

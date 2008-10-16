@@ -44,3 +44,6 @@ msgstr "Текстове поле 1"
 msgid "label_body-2_text"
 msgstr "Текстове поле 2"
 
+#: ./content/doublecolumndocument.py:28
+msgid "Columns"
+msgstr "Колонки"

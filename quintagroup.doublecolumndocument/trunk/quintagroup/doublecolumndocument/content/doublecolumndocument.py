@@ -25,7 +25,7 @@ DoubleColumnDocumentSchema = ATContentTypeSchema.copy() + Schema((
     ),
 
     TextField("body1",
-        schemata="first",
+        schemata=_(u"Columns"),
         default="",
         searchable=True,
         validators=("isTidyHtmlWithCleanup",),
@@ -40,7 +40,7 @@ DoubleColumnDocumentSchema = ATContentTypeSchema.copy() + Schema((
     ),
 
     TextField("body2",
-        schemata="second",
+        schemata=_(u"Columns"),
         default="",
         searchable=True,
         validators=("isTidyHtmlWithCleanup",),

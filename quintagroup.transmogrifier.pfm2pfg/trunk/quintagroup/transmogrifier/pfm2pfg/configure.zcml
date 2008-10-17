@@ -1,7 +1,52 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:transmogrifier="http://namespaces.zope.org/transmogrifier"
     i18n_domain="quintagroup.pfm2pfg">
 
+    <include package="quintagroup.transmogrifier" />
+    <include package="quintagroup.transmogrifier" file="meta.zcml" />
+
+    <configure zcml:condition="installed Products.PloneFormMailer">
+
+        <implements 
+            class="Products.PloneFormMailer.PloneFormMailer.PloneFormMailer"
+            interface=".exporting.IPloneFormMailer"
+            />
+
+        <adapter
+            factory=".exporting.PloneFormMailerExporter"
+            name="marshall"
+            />
+
+    </configure>
+
+    <configure zcml:condition="installed Products.PloneFormGen">
+
+        <transmogrifier:stylesheet
+            source="marshall"
+            from="PloneFormMailer"
+            to="FormFolder"
+            file="formmailer-formfoler.xsl"
+            />
+
+        <transmogrifier:stylesheet
+            source="marshall"
+            from="PloneFormMailer"
+            to="FormMailerAdapter"
+            file="formmaileradapter.xsl"
+            />
+
+        <transmogrifier:stylesheet
+            source="marshall"
+            from="PloneFormMailer"
+            to="FormThanksPage"
+            file="formthankspage.xsl"
+            />
+
+        <include file="formgen.zcml" />
+
+    </configure>
 
 </configure>

@@ -4,21 +4,21 @@
   //height:1%;
   }
 .contentColumnOneTwo { 
-  clear: both; 
-  //overflow-x: hidden;  
-  //padding-right: 1px; 
-  width: 100%; 
+  clear:both; 
+  //overflow-x:hidden;  
+  //padding-right:1px; 
+  width:100%; 
   }
 .contentColumnOne { 
-  float: left; 
-  width: 50%;
+  float:left; 
+  width:50%;
   }
 .contentColumnOne .visualPaddingColumn {
   padding-right:1em;
   }
 .contentColumnTwo { 
-  float: left; 
-  width: 50%;
+  float:left; 
+  width:50%;
   }
 .contentColumnTwo .visualPaddingColumn {
   padding-left:1em;

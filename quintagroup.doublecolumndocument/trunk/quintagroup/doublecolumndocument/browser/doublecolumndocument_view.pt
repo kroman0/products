@@ -20,16 +20,22 @@
         <div tal:replace="structure provider:plone.abovecontentbody" />
 
         <div class="documentDescription" tal:content="context/description" />
+        
+	<div class="contentColumnOneTwo">
+        <div class="contentColumnOne">
+    	     <div class="visualPaddingColumn"
+                 tal:define="body1 here/body1"
+                 tal:condition="body1"
+	         tal:content="structure body1">Body 1</div>
+        </div>
 
-        <div class="body1"
-             tal:define="body1 here/body1"
-             tal:condition="body1"
-             tal:content="structure body1">Body 1</div>
-
-        <div class="body2"
-             tal:define="body2 here/body2;"
-             tal:condition="body2"
-             tal:content="structure body2">Body 2</div>
+	<div class="contentColumnTwo">
+    	     <div class="visualPaddingColumn"
+                 tal:define="body2 here/body2;"
+                 tal:condition="body2"
+	         tal:content="structure body2">Body 2</div>
+        </div>
+	</div>
 
         <div class="visualClear" id="clear-after-doublecolumn-document"><!-- --></div>
 

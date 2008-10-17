@@ -44,7 +44,8 @@ class CSSSubTemplate(QThemeSubTemplate):
     vars = [
       var('css_resource_name', 'Name of CSS resource',
            default="main.css"),
-      var('css_file_path', 'Path to CSS file'),
+      var('css_file_path', 'Path to CSS file. If no path-empty file will be created.',
+           default=''),
       var('cssreg_media', 'Optional.Possible values:screen,print,projection,handheld',
            default="screen", ),
       var('cssreg_rel', 'Optional', default="stylesheet"),
@@ -61,10 +62,9 @@ class CSSSubTemplate(QThemeSubTemplate):
         """
         super(CSSSubTemplate, self).pre(command, output_dir, vars)
 
-        if not os.path.isfile(vars['css_file_path']):
-            raise ValueError('%s - wrong file path for css resource' % \
-                             vars['css_file_path'] )
-        vars['css_resource_content'] = file(vars['css_file_path'],'rb').read()
+        vars['css_resource_content'] = ''
+        if os.path.isfile(vars['css_file_path']):
+            vars['css_resource_content'] = file(vars['css_file_path'],'rb').read()
 
 
 class JSSubTemplate(QThemeSubTemplate):
@@ -77,7 +77,8 @@ class JSSubTemplate(QThemeSubTemplate):
 
     vars = [
       var('js_resource_name', 'Name of JS resource', default="foo.js"),
-      var('js_file_path', 'Path to JS file'),
+      var('js_file_path', 'Path to JS file. If no path - empty file will be created',
+          default=''),
       var('jsreg_inline', 'Optional.Boolean', default="False"),
       var('jsreg_cacheable', '', default="True"),
       var('jsreg_compression', 'Compression type.Possible:none,safe,full,safe-encode,full-encode',
@@ -92,10 +93,9 @@ class JSSubTemplate(QThemeSubTemplate):
         """
         super(JSSubTemplate, self).pre(command, output_dir, vars)
         
-        if not os.path.isfile(vars['js_file_path']):
-            raise ValueError('%s - wrong file path for js resource' % \
-                             vars['js_file_path'] )
-        vars['js_resource_content'] = file(vars['js_file_path'],'rb').read()
+        vars['js_resource_content'] = ''
+        if os.path.isfile(vars['js_file_path']):
+            vars['js_resource_content'] = file(vars['js_file_path'],'rb').read()
 
 
 class ViewletOrderSubTemplate(QThemeSubTemplate):
@@ -117,6 +117,7 @@ class ViewletOrderSubTemplate(QThemeSubTemplate):
           default="plone.app.layout.viewlets.interfaces.IPortalHeader"),
       var('viewlet_manager_name', "Viewlet manager name", default='plone.portalheader'),
       var('viewlet_permission', "Viewlet permission", default="zope2.View"),
+
 
       var('insert_type', 'Where insert the viewlet ("after" or "before")', default="after"),
       var('insert_control_viewlet', 'Viewlet after or before which your viewlet will be inserted, ' \

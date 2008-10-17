@@ -387,12 +387,70 @@ We see, that in cssregistry.xml, registries new main.css stylesheet resource.
 
 
 Test of js_resource
+------------------------------
+
     >>> paster('addcontent --no-interactive js_resource')
     paster addcontent --no-interactive js_resource
     Recursing into browser
     ...
     Recursing into profiles
     ...
+
+From upper log - we see that there is adding/updating some staff
+in browser and profiles directories
+
+    >>> ls('browser')
+    __init__.py
+    ...
+    scripts
+    ...
+
+There is added scripts resource directory with empty foo.js javascript
+
+    >>> ls('browser/scripts')
+    README.txt
+    foo.js
+    >>> cat('browser/scripts/foo.js')
+    <BLANKLINE>
+
+By default it is added empty foo.js file
+
+
+But this new resource directory also should be registered in configure.zcml
+
+    >>> cat('browser/configure.zcml')
+    <configure
+    ...
+        <browser:resourceDirectory
+            name="quintagroup.theme.ploneexample.scripts"
+            directory="scripts"
+            layer=".interfaces.IThemeSpecific"
+            />
+    ...
+    
+
+Now look into profiles/default directory
+
+    >>> ls('profiles/default')
+    cssregistry.xml
+    ...
+    jsregistry.xml
+    ...
+    >>> cat('profiles/default/jsregistry.xml')
+    <?xml version="1.0"?>
+    <object name="portal_javascripts">
+    ...
+     <javascript
+        id="++resource++quintagroup.theme.ploneexample.scripts/foo.js"
+        inline="False" cacheable="True" compression="safe"
+        cookable="True" enabled="1"
+        expression=""
+        />
+    ...
+
+We see, that in jsregistry.xml, registries new foo.js javascript resource.
+
+
 
 
 

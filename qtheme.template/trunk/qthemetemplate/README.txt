@@ -180,14 +180,23 @@ View for setuphandlers.py module
     ...
 
 
+
 =========================
 Test localcommnands
 =========================
-  This theme support ZopeSkel local command 'addcontent'.
+
+One of the best features, which bring us ZopeSkel package - is localcommand.
+
+Now review localcommands = possibility to extend your theme with additional
+staff - viewlets, skin layers, css and javascript resources, portlets
+
+
+qplone3_theme generated package theme support ZopeSkel local command 'addcontent'.
 
     >>> paster('addcontent -a')
     paster addcontent -a
-    ...
+    
+
 
 So you can extend your theme with following subtemplates:
   - portlet

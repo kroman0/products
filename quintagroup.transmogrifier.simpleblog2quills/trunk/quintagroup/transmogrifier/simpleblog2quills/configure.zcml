@@ -4,7 +4,7 @@
     xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
     i18n_domain="quintagroup.simpleblog2quills">
 
-    <!--<include package="quintagroup.transmogrifier" />-->
+    <include package="quintagroup.transmogrifier" />
     <include package="quintagroup.transmogrifier" file="meta.zcml" />
 
     <transmogrifier:stylesheet

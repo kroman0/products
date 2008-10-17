@@ -58,6 +58,7 @@ initialization files::
     __init__.py
     browser
     configure.zcml
+    portlets
     profiles
     profiles.zcml
     setuphandlers.py
@@ -260,11 +261,64 @@ We see, that:
 
 
 
+
 Test of portlet adding
+------------------------------
+
+Review portlets directory before adding new portlet
+
+    >>> ls('portlets')
+    __init__.py
+    configure.zcml
+
+Add portlet
     >>> paster('addcontent --no-interactive portlet')
     paster addcontent --no-interactive portlet
     Recursing into portlets
     ...
+
+In configure.zcml included registries from portlets:
+    >>> cat('configure.zcml')
+    <configure
+    ...
+    <include package=".portlets" />
+    ...
+
+Check changes in portlets directory
+    >>> ls('portlets')
+    __init__.py
+    configure.zcml
+    exampleportlet.pt
+    exampleportlet.py
+
+In portlets/configure.zcml - should register new portlet
+    >>> cat('portlets/configure.zcml')
+    <configure
+    ...
+         <plone:portlet
+             name="quintagroup.theme.ploneexample.portlets.ExamplePortlet"
+             interface=".exampleportlet.IExamplePortlet"
+             assignment=".exampleportlet.Assignment"
+             view_permission="zope2.View"
+             edit_permission="cmf.ManagePortal"
+             renderer=".exampleportlet.Renderer"
+             addview=".exampleportlet.AddForm"
+             editview=".exampleportlet.EditForm"
+             />
+    ...
+
+And now review configure.zcml profile
+    >>> cat('profiles/default/portlets.xml')
+    <?xml version="1.0"?>
+    ...
+       <portlet
+         addview="quintagroup.theme.ploneexample.portlets.ExamplePortlet"
+         title="Example portlet"
+         description=""
+       />
+    ...
+
+So new portlet registered.
 
 
 

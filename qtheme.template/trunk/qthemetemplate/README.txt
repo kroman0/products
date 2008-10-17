@@ -17,32 +17,43 @@ Let's check the content of created plone.example package::
     >>> ls(package_dir)
     MANIFEST.in
     README.txt
-    distwriters.py
-    docs
+    ...
     plone.example-configure.zcml
-    plone.example.egg-info
+    ...
     quintagroup
-    setup.cfg
-    setup.py
+    ...
 
 So you have python package with *quintagroup* upper level namespace.
+Also there are *README.txt* with information about your theme, 
+*plone.example-configure.zcml* - zcml file for adding into package-includes
+directory 
 
-Now check namespaces::
+
+With qplone3_theme template - creates theme with nested namespace.
+By default - theme placed in 
+
+    quintagroup.theme.<package name without dot> namespace
+
+in our case - quintagroup.theme.ploneexample
+
+
+So check namespaces::
+    >>> 'quintagroup' in os.listdir(package_dir)
+    True
+
     >>> cd(package_dir)
-    >>> ls('quintagroup')
-    __init__.py
-    theme
+    >>> 'theme' in os.listdir('quintagroup')
+    True
 
-    >>> cd('quintagroup')
-    >>> ls('theme')
-    __init__.py
-    ploneexample
+    >>> path = os.path.join('quintagroup','theme')
+    >>> 'ploneexample' in os.listdir(path)
+    True
+    
 
-So we receave quitagroup.theme namespace with ploneexample python package.
 
 Package holds 3 subdirectory (browser, profiles, skins) and 
 initialization files::
-    >>> cd('theme')
+    >>> cd('quintagroup/theme')
     >>> ls('ploneexample')
     __init__.py
     browser
@@ -54,6 +65,120 @@ initialization files::
     skins.zcml
     tests.py
     version.txt
+
+
+Review browser directory
+------------------------
+
+In browser directory created 'templates' resource directory
+for views, viewlets, ...; interfaces.py module with IThemeSpecific
+marker interface. In configure.zcml register theme marker interface.
+
+
+    >>> cd('ploneexample')
+    >>> ls('browser')
+    __init__.py
+    configure.zcml
+    interfaces.py
+    templates
+
+    >>> cat('browser/interfaces.py')
+    from plone.theme.interfaces import IDefaultPloneLayer
+    <BLANKLINE>
+    class IThemeSpecific(IDefaultPloneLayer):
+    ...
+
+    >>> cat('browser/configure.zcml')
+    <configure
+    ...
+        <interface
+            interface=".interfaces.IThemeSpecific"
+            type="zope.publisher.interfaces.browser.IBrowserSkinType"
+            name="Custom Theme"
+            />
+    ...
+
+As we saw by default name of the theme is 'Custom Theme', but on theme
+creation you can point own name. Check it ...
+
+First create configuration file with other skin name
+    >>> conf_data = """
+    ... [pastescript]
+    ... skinname=My Theme Name
+    ... """
+    >>> file('theme_config.conf','w').write(conf_data)
+
+Create same theme with own skin name and check this
+    >>> paster('create -t qplone3_theme plone.example --no-interactive --overwrite --config=theme_config.conf')
+    paster create ...
+    >>> cd(package_dir)
+    >>> cat('quintagroup/theme/ploneexample/browser/configure.zcml')
+    <configure
+    ...
+        <interface
+            interface=".interfaces.IThemeSpecific"
+            type="zope.publisher.interfaces.browser.IBrowserSkinType"
+            name="My Theme Name"
+            />
+    ...
+
+
+Now lets vew to skins directory of generated theme - it's contain only
+README.txt file and no skin layers yet. This job for localcommand ;)
+But check am I right ...
+    >>> cd('quintagroup/theme/ploneexample')
+    >>> ls('skins')
+    README.txt
+
+
+Now check profiles directory.
+--------------------------------
+There is 'default' profile in it
+    >>> ls('profiles')
+    default
+
+In default profile there is:
+ - import_steps.xml - for any reason.
+ - skins.xml - register skins directory
+
+    >>> cd('profiles/default')
+    >>> ls('.')
+    import_steps.xml
+    ...
+    skins.xml
+
+Skins profile make your theme default on installation
+and base layers list on 'Plone Default' theme, without
+any new layers.
+    >>> cat('skins.xml')
+    <?xml version="1.0"?>
+    <object name="portal_skins" ...
+            default_skin="My Theme Name">
+    ...
+    <skin-path name="My Theme Name" based-on="Plone Default">
+      <!-- -*- extra layer stuff goes here -*- -->
+    <BLANKLINE>
+    </skin-path>
+    ...
+
+import_steps.xml - connect setupVarious function from
+setuphandlers module for additional installation steps.
+    >>> cat('import_steps.xml')
+    <?xml version="1.0"?>
+    ...
+    <import-step id="quintagroup.theme.ploneexample.various"
+    ...
+                 handler="quintagroup.theme.ploneexample.setuphandlers.setupVarious"
+    ...
+    </import-step>
+    ...
+
+View for setuphandlers.py module
+    >>> cd('../..')
+    >>> cat('setuphandlers.py')
+        def setupVarious(context):
+    ...
+
 
 =========================
 Test localcommnands

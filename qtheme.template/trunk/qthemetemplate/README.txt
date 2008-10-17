@@ -2,12 +2,12 @@
 qplone3 theme template
 ======================
 
-This theme allow you to create plone3 theme python package 
+This theme template allow you to create plone3 theme python package 
 with nested namespace.
 
 For create such theme use `paster create` command::
 
-    >>> paster('create -t qplone3_theme plone.example --no-interactive')
+    >>> paster('create -t qplone3_theme plone.example --no-interactive --overwrite')
     paster create -t qplone3_theme plone.example --no-interactive
     ...
 
@@ -17,6 +17,7 @@ Let's check the content of created plone.example package::
     >>> ls(package_dir)
     MANIFEST.in
     README.txt
+    distwriters.py
     docs
     plone.example-configure.zcml
     plone.example.egg-info
@@ -30,13 +31,11 @@ Now check namespaces::
     >>> cd(package_dir)
     >>> ls('quintagroup')
     __init__.py
-    __init__.pyc
     theme
 
     >>> cd('quintagroup')
     >>> ls('theme')
     __init__.py
-    __init__.pyc
     ploneexample
 
 So we receave quitagroup.theme namespace with ploneexample python package.
@@ -67,19 +66,21 @@ Test localcommnands
 
 So you can extend your theme with following subtemplates:
   - portlet
-  - layer
-  - sublayer
+  - skin layer
   - css resource
   - js resource
+  - viewlet (order/hidden)
 
 Check portlet
     >>> paster('addcontent -l')
     paster addcontent -l
     Available templates:
-        css_resource:   A Plone 3 CSS resource template
-        js_resource:    A Plone 3 JS resource template
-        skin_layer:     A Plone 3 Skin Layer
-        skin_sublayer:  A Plone 3 Skin SubLayer registration in GS' skins.xml
+        css_resource:    A Plone 3 CSS resource template
+        js_resource:     A Plone 3 JS resource template
+        skin_layer:      A Plone 3 Skin Layer
+        viewlet_hidden:  A Plone 3 Hidden Viewlet template
+        viewlet_order:   A Plone 3 Order Viewlet template
+
 
 Test of portlet adding
     >>> paster('addcontent --no-interactive portlet')
@@ -93,23 +94,23 @@ Test of skin_layer adding
     Recursing into profiles
     ...
 
-Test of skin_sublayer adding
-    >>> paster('addcontent --no-interactive skin_sublayer')
-    paster addcontent --no-interactive skin_sublayer
+
+Test of css_resource
+    >>> paster("addcontent --no-interactive css_resource")
+    paster addcontent --no-interactive css_resource
+    Recursing into browser
+    ...
     Recursing into profiles
     ...
 
-Test of css_resource
-     >>> paster("addcontent --no-interactive css_resource")
-     Traceback (most recent call last):
-     ...
-     ValueError:  - wrong file path for css resource
-
 Test of js_resource
     >>> paster('addcontent --no-interactive js_resource')
-    Traceback (most recent call last):
+    paster addcontent --no-interactive js_resource
+    Recursing into browser
     ...
-    ValueError:  - wrong file path for js resource
+    Recursing into profiles
+    ...
+
 
 
 Exceptions for last two templates raised because of both templates

@@ -9,6 +9,7 @@
 
 #end if
    <include package=".browser" />
+   <include package=".portlets" />
 
    <include file="skins.zcml" />
    <include file="profiles.zcml" />

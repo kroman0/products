@@ -188,14 +188,25 @@ Test localcommnands
 One of the best features, which bring us ZopeSkel package - is localcommand.
 
 Now review localcommands = possibility to extend your theme with additional
-staff - viewlets, skin layers, css and javascript resources, portlets
+staff - skin layers, views, viewlets, portlets, css and javascript resources
 
 
 qplone3_theme generated package theme support ZopeSkel local command 'addcontent'.
 
     >>> paster('addcontent -a')
     paster addcontent -a
-    
+      ...
+        css_resource:    A Plone 3 CSS resource template
+      ...
+        js_resource:     A Plone 3 JS resource template
+      N portlet:         A Plone 3 portlet
+      ...
+        skin_layer:      A Plone 3 Skin Layer
+      ...
+      N view:            A browser view skeleton
+        viewlet_hidden:  A Plone 3 Hidden Viewlet template
+        viewlet_order:   A Plone 3 Order Viewlet template
+      ...
 
 
 So you can extend your theme with following subtemplates:
@@ -204,16 +215,42 @@ So you can extend your theme with following subtemplates:
   - css resource
   - js resource
   - viewlet (order/hidden)
+  - view
+'N' character tell us that this subtemplates are registered for other (archetype)
+template, but no metter - it can correctly extend our theme.
 
-Check portlet
-    >>> paster('addcontent -l')
-    paster addcontent -l
-    Available templates:
-        css_resource:    A Plone 3 CSS resource template
-        js_resource:     A Plone 3 JS resource template
-        skin_layer:      A Plone 3 Skin Layer
-        viewlet_hidden:  A Plone 3 Hidden Viewlet template
-        viewlet_order:   A Plone 3 Order Viewlet template
+Skin layer
+------------
+Review what changes when adding skin_layer to the theme
+
+    >>> paster('addcontent --no-interactive skin_layer')
+    paster addcontent --no-interactive skin_layer
+    Recursing into profiles
+    ...
+
+Now check skins directory - new 'skin_layer' (default name) directory must be added,
+which contain only CONTENT.txt file
+    >>> 'skin_layer' in os.listdir('skins')
+    True
+    >>> ls('skins/skin_layer')
+    CONTENT.txt
+
+    >>> cat('profiles/default/skins.xml')
+    <?xml version="1.0"?>
+    <object name="portal_skins" allow_any="False" cookie_persistence="False"
+       default_skin="My Theme Name">
+    ...
+     <object name="skin_layer"
+        meta_type="Filesystem Directory View"
+        directory="quintagroup.theme.ploneexample:skins/skin_layer"/>
+    <BLANKLINE>
+     <skin-path name="My Theme Name" based-on="Plone Default">
+    ...
+      <layer name="skin_layer"
+         insert-after="custom"/>
+    <BLANKLINE>
+     </skin-path>
+    ...
 
 
 Test of portlet adding
@@ -222,11 +259,6 @@ Test of portlet adding
     Recursing into portlets
     ...
 
-Test of skin_layer adding
-    >>> paster('addcontent --no-interactive skin_layer')
-    paster addcontent --no-interactive skin_layer
-    Recursing into profiles
-    ...
 
 
 Test of css_resource

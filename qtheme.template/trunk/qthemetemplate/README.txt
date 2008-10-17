@@ -323,12 +323,68 @@ So new portlet registered.
 
 
 Test of css_resource
+------------------------------
+
     >>> paster("addcontent --no-interactive css_resource")
     paster addcontent --no-interactive css_resource
     Recursing into browser
     ...
     Recursing into profiles
     ...
+
+From upper log - we see that there is adding/updating some staff
+in browser and profiles directories
+
+    >>> ls('browser')
+    __init__.py
+    ...
+    stylesheets
+    ...
+
+There is added styles resource directory with empty main.css stylesheet
+resource
+
+    >>> ls('browser/stylesheets')
+    README.txt
+    main.css
+    >>> cat('browser/stylesheets/main.css')
+    <BLANKLINE>
+
+By default it is added empty main.css file
+
+
+But this new resource directory also should be registered in configure.zcml
+
+    >>> cat('browser/configure.zcml')
+    <configure
+    ...
+        <browser:resourceDirectory
+            name="quintagroup.theme.ploneexample.stylesheets"
+            directory="stylesheets"
+            layer=".interfaces.IThemeSpecific"
+            />
+    ...
+    
+
+Now look into profiles/default directory
+
+    >>> ls('profiles/default')
+    cssregistry.xml
+    ...
+    >>> cat('profiles/default/cssregistry.xml')
+    <?xml version="1.0"?>
+    <object name="portal_css">
+    <BLANKLINE>
+     <stylesheet title=""
+        id="++resource++quintagroup.theme.ploneexample.stylesheets/main.css"
+        media="screen" rel="stylesheet" rendering="inline"
+        cacheable="True" compression="safe" cookable="True"
+        enabled="1" expression=""/>
+    ...
+
+We see, that in cssregistry.xml, registries new main.css stylesheet resource.
+
+
 
 Test of js_resource
     >>> paster('addcontent --no-interactive js_resource')

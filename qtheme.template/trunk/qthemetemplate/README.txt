@@ -235,6 +235,7 @@ which contain only CONTENT.txt file
     >>> ls('skins/skin_layer')
     CONTENT.txt
 
+There is also skins.xml profile must be updated:
     >>> cat('profiles/default/skins.xml')
     <?xml version="1.0"?>
     <object name="portal_skins" allow_any="False" cookie_persistence="False"
@@ -251,6 +252,12 @@ which contain only CONTENT.txt file
     <BLANKLINE>
      </skin-path>
     ...
+
+We see, that: 
+  - skin_layer directory registered as Filesystem Directory View
+  - skin_layer Filesystem Directory View added to our theme layers list
+
+
 
 
 Test of portlet adding

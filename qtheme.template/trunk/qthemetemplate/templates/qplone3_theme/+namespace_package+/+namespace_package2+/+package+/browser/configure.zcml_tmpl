@@ -28,14 +28,8 @@
       resources.
       -->
 #else
-    <!-- Resource directory for images -->
+    <!-- Resource directory for templates -->
 #end if
-    <browser:resourceDirectory
-        name="${namespace_package}.${namespace_package2}.${package}.images"
-        directory="images"
-        layer=".interfaces.IThemeSpecific"
-        />
-
     <browser:resourceDirectory
         name="${namespace_package}.${namespace_package2}.${package}.templates"
         directory="templates"

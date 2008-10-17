@@ -451,9 +451,54 @@ Now look into profiles/default directory
 We see, that in jsregistry.xml, registries new foo.js javascript resource.
 
 
+Test viewlets subtemplates:
+------------------------------
 
+There is 2 types of viewlet subtemplate:
+ - viewlet_order
+ - viewlet_hidden
 
+Of the two subtemplates, the former is for adding new viewlet and
+set order for it in ViewletManager, other one only hide viewlet in
+pointed ViewletManager
 
-Exceptions for last two templates raised because of both templates
-expect for path to file object with data with appropriate content
-for that resource.
+    >>> paster('addcontent --no-interactive viewlet_order')
+    paster addcontent --no-interactive viewlet_order
+    Recursing into browser
+    ...
+    Recursing into templates
+    ...
+    Recursing into profiles
+    ...
+
+From upper log - we see that there is adding/updating some staff
+in browser and profiles directories
+
+    >>> ls('browser')
+    __init__.py
+    ...
+    viewlets.py
+
+Added viewlets.py python module
+
+    >>> cat('browser/viewlets.py')
+    from Products.CMFCore.utils import getToolByName
+    from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+    from plone.app.layout.viewlets import common
+    ...
+    class Example(common.PersonalBarViewlet):
+        render = ViewPageTemplateFile('templates/example_viewlet.pt')
+    <BLANKLINE>
+
+We see that added viewlet class with example_viewlet.pt template.
+Check if exist this template in templates directory
+
+    >>> ls('browser/templates')
+    README.txt
+    example_viewlet.pt
+
+There is also empty example_viewlet.pt template.
+
+    >>> cat('browser/templates/example_viewlet.pt')
+    <BLANKLINE>
+

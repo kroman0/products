@@ -2,11 +2,11 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:zcml="http://namespaces.zope.org/zcml"
-    xmlns:transmogrifier="http://namespaces.zope.org/transmogrifier"
+    xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
     i18n_domain="quintagroup.pfm2pfg">
 
-    <include package="quintagroup.transmogrifier" />
     <include package="quintagroup.transmogrifier" file="meta.zcml" />
+    <include package="quintagroup.transmogrifier" />
 
     <configure zcml:condition="installed Products.PloneFormMailer">
 
@@ -28,7 +28,7 @@
             source="marshall"
             from="PloneFormMailer"
             to="FormFolder"
-            file="formmailer-formfoler.xsl"
+            file="formmailer-formfolder.xsl"
             />
 
         <transmogrifier:stylesheet

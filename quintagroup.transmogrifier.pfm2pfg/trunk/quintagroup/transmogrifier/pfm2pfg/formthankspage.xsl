@@ -27,10 +27,9 @@
 <xsl:template match="at:field">
     <xsl:choose>
         <xsl:when test="@name='sent_title'">
-            <xsl:copy select=".">
-                <xsl:attribute name="name">title</xsl:attribute>
-                <xsl:value-of select="." />
-            </xsl:copy>
+            <dc:title>
+                <xsl:value-of select="."/>
+            </dc:title>
         </xsl:when>
         <xsl:when test="@name='sent_message'">
             <xsl:copy select=".">

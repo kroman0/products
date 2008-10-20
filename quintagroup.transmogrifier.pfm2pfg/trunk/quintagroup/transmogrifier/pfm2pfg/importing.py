@@ -7,6 +7,7 @@ from zope.interface import implements, Interface
 from zope.component import getUtility
 
 from ZODB.POSException import ConflictError
+from Acquisition import aq_inner, aq_parent
 
 from Products.Marshall.registry import getComponent
 from Products.Marshall.config import AT_NS
@@ -16,10 +17,10 @@ from quintagroup.transmogrifier.interfaces import IImportDataCorrector
 from quintagroup.transmogrifier.adapters.importing import ReferenceImporter
 from quintagroup.transmogrifier.xslt import XSLTSection
 
-def info(obj, good=True):
+def debug(obj, good=True):
     type_name = obj.getPortalTypeName()
-    path = os.path.join(obj.getPhysicalPath()[1:])
-    msg = 'path=%s, type=%s' % (type_name, path) 
+    path = os.path.join(*obj.getPhysicalPath()[1:])
+    msg = 'type=%s, path=%s' % (type_name, path) 
     if good:
         logging.getLogger('pfm2pfg').info(msg)
     else:
@@ -74,10 +75,12 @@ class FormFolderImporter(ReferenceImporter):
     def __call__(self, data):
         data = super(FormFolderImporter, self).__call__(data)
         xml = data['data']
+
         data['data'] = self.updateFormFolder(xml)
 
         # update FormMailerAdapter and FormThanksPage objects
         cleaned_xml = self.updateMailer(xml)
+
         self.updateResponsePage(cleaned_xml)
 
         self.updateFormFields(xml)
@@ -132,7 +135,7 @@ class FormFolderImporter(ReferenceImporter):
 
     def updateMailer(self, xml):
         mailer = self.context['mailer']
-        transformed = self.transform(xml)
+        transformed = self.transform(xml, 'FormMailerAdapter')
         self.demarshaller.demarshall(mailer, transformed)
         mailer.indexObject()
         debug(mailer)
@@ -140,8 +143,10 @@ class FormFolderImporter(ReferenceImporter):
 
     def updateResponsePage(self, xml):
         page = self.context['thank-you']
-        transformed = self.transform(xml)
+        transformed = self.transform(xml, 'FormThanksPage')
         self.demarshaller.demarshall(page, transformed)
+        # override default value of description field
+        page.getField('description').getMutator(page)('')
         page.indexObject()
         debug(page)
         return transformed
@@ -153,8 +158,10 @@ class FormFolderImporter(ReferenceImporter):
             _from='PloneFormMailer',
             _to=to,
             _files=dict(
-                name='.marshall.xml',
-                data=xml
+                marshall=dict(
+                    name='.marshall.xml',
+                    data=xml
+                )
             )
         )
         section = XSLTSection(object(), 'xslt', {'blueprint': ''}, iter((item,)))
@@ -227,11 +234,11 @@ class FormFolderImporter(ReferenceImporter):
 
         try:
             IXMLDemarshaller(field).demarshall(field_node, **options)
-            info(field)
+            debug(field)
         except ConflictError:
             raise
         except:
-            info("on updating %s %s" % (type_name, field_id), False)
+            debug("on updating %s %s" % (type_name, field_id), False)
 
     def createFieldset(self, title):
         """ Create FieldsetFolder with id=title
@@ -258,6 +265,7 @@ class BaseFieldDemarshaller(object):
 
     def __init__(self, context):
         self.context = context
+        self.date_fields = ['creation_date', 'modification_date']
 
     def demarshall(self, node, **kw):
         self.extractData(node)
@@ -276,9 +284,14 @@ class BaseFieldDemarshaller(object):
             if not mutator:
                 continue
             mutator(value)
-        self.context.reindexObject()
 
-        return True
+        # set creation and modification date equal to dates in form folder
+        form_folder = aq_parent(aq_inner(self.context))
+        for field in self.date_fields:
+            value = form_folder.getField(field).getAccessor(form_folder)()
+            self.context.getField(field).getMutator(self.context)(value)
+
+        self.context.indexObject()
 
     def extractData(self, node):
         tree = XMLObject()

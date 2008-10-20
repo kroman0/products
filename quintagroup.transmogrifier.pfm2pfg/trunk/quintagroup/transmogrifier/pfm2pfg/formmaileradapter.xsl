@@ -24,8 +24,8 @@
                     <xsl:when test="name()='dc:creator'" />
                     <xsl:when test="name()='dc:rights'" />
                     <xsl:when test="name()='dc:language'" />
-                    <xsl:when test="name()='xmp:CreateDate'" />
-                    <xsl:when test="name()='xmp:ModifyDate'" />
+                    <!--xsl:when test="name()='xmp:CreateDate'" /-->
+                    <!-- xsl:when test="name()='xmp:ModifyDate'" /-->
                     <xsl:when test="name()='cmf:type'" />
                     <xsl:when test="name()='cmf:workflow_history'" />
                     <xsl:when test="name()='cmf:security'" />

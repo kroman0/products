@@ -1,0 +1,17 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier">
+
+    <utility
+        component=".test_import.Source"
+        name="quintagroup.transmogrifier.pfm2pfg.tests.source"
+        />
+
+    <transmogrifier:registerConfig
+        name="test_import"
+        title="Import pipeline configuration"
+        description="Customized for PloneFormMailer/PloneFormGen content types content import pipeline."
+        configuration="test_import.cfg"
+        />
+
+</configure>

@@ -13,7 +13,7 @@ msgstr ""
 "Language-Code: pt-br\n"
 "Language-Name: Português do Brasil\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: plonecomments\n"
+"Domain: plone\n"
 
 #: skins/qplonecomments/prefs_comments_setup.cpy
 msgid "qPloneComments configuration changes saved."

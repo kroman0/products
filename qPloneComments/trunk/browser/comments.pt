@@ -3,7 +3,8 @@
                    replies view/get_replies;
                    isAnon view/is_anonymous;
                    ifModerate view/is_moderation_enabled;
-                   isModerationAllowed view/can_moderate">
+                   isModerationAllowed view/can_moderate"
+                   i18n:domain="plone">
     <div class="discussion"
          tal:condition="python:replies or (userHasReplyPermission and isDiscussionAllowed) or (isAnon and not userHasReplyPermission and isDiscussionAllowed)">
         <form name="reply"

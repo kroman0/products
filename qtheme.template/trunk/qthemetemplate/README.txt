@@ -2,8 +2,23 @@
 qplone3 theme template
 ======================
 
+Overview
+-------------------------
+
 This theme template allow you to create plone3 theme python package 
-with nested namespace.
+with nested namespace. Initial package is theme package skeleton.
+Than this package could be extended with:
+ - skin-layer(s),
+ - portlet(s),
+ - viewlet(s),
+ - css, js resource(s).
+
+Creation package performed with `paster create` PasteScript command.
+Extending theme with other resources doing with `paster addcontent`
+local ZopeSkel command (extended in this product).
+
+Let's create theme package
+---------------------------
 
 For create such theme use `paster create` command::
 

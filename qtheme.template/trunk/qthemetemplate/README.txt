@@ -452,7 +452,7 @@ We see, that in jsregistry.xml, registries new foo.js javascript resource.
 
 
 Test viewlets subtemplates:
-------------------------------
+==============================
 
 There is 2 types of viewlet subtemplate:
  - viewlet_order
@@ -461,6 +461,11 @@ There is 2 types of viewlet subtemplate:
 Of the two subtemplates, the former is for adding new viewlet and
 set order for it in ViewletManager, other one only hide viewlet in
 pointed ViewletManager
+
+
+Ordered NEW viewlet
+------------------------------
+For that case you can use viewlet_order subtemplate
 
     >>> paster('addcontent --no-interactive viewlet_order')
     paster addcontent --no-interactive viewlet_order
@@ -501,4 +506,76 @@ There is also empty example_viewlet.pt template.
 
     >>> cat('browser/templates/example_viewlet.pt')
     <BLANKLINE>
+
+This new viewlet must be registered in configure.zcml
+
+    >>> cat('browser/configure.zcml')
+    <configure
+    ...
+       <browser:viewlet
+            name="quintagroup.theme.ploneexample.example"
+            manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+            class=".viewlets.Example"
+            permission="zope2.View"
+            />
+    ...
+    
+
+Now look into profiles/default directory
+
+    >>> ls('profiles/default')
+    cssregistry.xml
+    ...
+    viewlets.xml
+
+    >>> cat('profiles/default/viewlets.xml')
+    <?xml version="1.0"?>
+    <object>
+    ...
+     <order manager="plone.portalheader"
+             based-on="Plone Default"
+             skinname="My Theme Name" >
+    ...
+        <viewlet name="quintagroup.theme.ploneexample.example" insert-after="*" />
+    <BLANKLINE>
+      </order>
+    <BLANKLINE>
+    </object>
+
+We see, that in viewlets.xml, ordered new viewlet for plone.portalheader viewlet manager.
+
+
+Hide EXISTANT viewlet
+------------------------------
+For that case you can use viewlet_hidden subtemplate
+
+    >>> paster('addcontent --no-interactive viewlet_hidden')
+    paster addcontent --no-interactive viewlet_hidden
+    Recursing into profiles
+    ...
+
+As we see from upper log - there is adding/updating only profiles staff.
+    
+
+So look into profiles/default directory
+
+    >>> ls('profiles/default')
+    cssregistry.xml
+    ...
+    viewlets.xml
+
+    >>> cat('profiles/default/viewlets.xml')
+    <?xml version="1.0"?>
+    <object>
+    ...
+      <hidden manager="plone.portalheader" skinname="My Theme Name">
+    ...
+        <viewlet name="example" />
+    <BLANKLINE>
+      </hidden>
+    ...
+    </object>
+
+We see, that in viewlets.xml, hide example viewlet for plone.portalheader viewlet manager.
+
 

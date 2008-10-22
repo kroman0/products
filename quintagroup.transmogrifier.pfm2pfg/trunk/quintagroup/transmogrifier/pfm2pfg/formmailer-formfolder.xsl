@@ -7,7 +7,7 @@
 <xsl:template match="/">
     <xsl:for-each select="*">
         <!-- matched 'metadata' element and we copy it -->
-        <xsl:copy select=".">
+        <xsl:copy>
             <xsl:for-each select="*|text()">
                 <xsl:choose>
                     <!-- do some special with 'field' elements -->
@@ -38,26 +38,26 @@
 
         <!-- change field's name attribute from 'body' to 'text' -->
         <xsl:when test="@name='form_pre'">
-            <xsl:copy select=".">
+            <xsl:copy>
                 <xsl:attribute name="name">formPrologue</xsl:attribute>
                 <xsl:value-of select="." />
             </xsl:copy>
         </xsl:when>
         <!-- change field's name attribute from 'form_post' to 'text' -->
         <xsl:when test="@name='form_post'">
-            <xsl:copy select=".">
+            <xsl:copy>
                 <xsl:attribute name="name">formEpilogue</xsl:attribute>
                 <xsl:value-of select="." />
             </xsl:copy>
         </xsl:when>
         <xsl:when test="@name='sent_redirect'">
-            <xsl:copy select=".">
+            <xsl:copy>
                 <xsl:attribute name="name">thanksPageOverride</xsl:attribute>
                 <xsl:value-of select="." />
             </xsl:copy>
         </xsl:when>
         <xsl:when test="@name='cpyaction'">
-            <xsl:copy select=".">
+            <xsl:copy>
                 <xsl:attribute name="name">afterValidationOverride</xsl:attribute>
                 <xsl:value-of select="." />
             </xsl:copy>
@@ -70,7 +70,7 @@
 </xsl:template>
 
 <xsl:template match="cmf:type">
-    <xsl:copy select=".">
+    <xsl:copy>
         <xsl:text>FormFolder</xsl:text>
     </xsl:copy>
 </xsl:template>

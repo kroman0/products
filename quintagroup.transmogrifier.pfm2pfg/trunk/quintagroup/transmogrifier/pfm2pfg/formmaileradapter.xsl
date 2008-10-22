@@ -8,7 +8,7 @@
 <xsl:template match="/">
     <xsl:for-each select="*">
         <!-- matched 'metadata' element and we copy it -->
-        <xsl:copy select=".">
+        <xsl:copy>
             <xsl:for-each select="*|text()">
                 <xsl:choose>
                     <!-- do some special with 'field' elements -->
@@ -54,21 +54,21 @@
 
         <!-- change field's name attribute from 'recipient_email' to 'recipientOverride' (TALESString) -->
         <xsl:when test="@name='recipient_email'">
-            <xsl:copy select=".">
+            <xsl:copy>
                 <xsl:attribute name="name">recipientOverride</xsl:attribute>
                 <xsl:value-of select="." />
             </xsl:copy>
         </xsl:when>
         <!-- change field's name attribute from 'subject' to 'subjectOverride' (TALESString) -->
         <xsl:when test="@name='subject'">
-            <xsl:copy select=".">
+            <xsl:copy>
                 <xsl:attribute name="name">subjectOverride</xsl:attribute>
                 <xsl:value-of select="." />
             </xsl:copy>
         </xsl:when>
 
         <xsl:when test="@name='body_type'">
-            <xsl:copy select=".">
+            <xsl:copy>
                 <xsl:attribute name="name">body_type</xsl:attribute>
                 <xsl:choose>
                     <xsl:when test="contains(string(), 'text/plain')">

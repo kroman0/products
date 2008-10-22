@@ -7,7 +7,7 @@
 <xsl:template match="/">
     <xsl:for-each select="*">
         <!-- matched 'metadata' element and we copy it -->
-        <xsl:copy select=".">
+        <xsl:copy>
             <xsl:for-each select="*|text()">
                 <xsl:choose>
                     <!-- do some special with 'field' elements -->
@@ -32,7 +32,7 @@
             </dc:title>
         </xsl:when>
         <xsl:when test="@name='sent_message'">
-            <xsl:copy select=".">
+            <xsl:copy>
                 <xsl:attribute name="name">thanksPrologue</xsl:attribute>
                 <xsl:value-of select="." />
             </xsl:copy>

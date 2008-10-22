@@ -17,15 +17,6 @@ from quintagroup.transmogrifier.interfaces import IImportDataCorrector
 from quintagroup.transmogrifier.adapters.importing import ReferenceImporter
 from quintagroup.transmogrifier.xslt import XSLTSection
 
-def debug(obj, good=True):
-    type_name = obj.getPortalTypeName()
-    path = os.path.join(*obj.getPhysicalPath()[1:])
-    msg = 'type=%s, path=%s' % (type_name, path) 
-    if good:
-        logging.getLogger('pfm2pfg').info(msg)
-    else:
-        logging.getLogger('pfm2pfg').warning(msg)
-
 BOOL_FIELD_PROPS = ['enabled', 'required', 'hidden']
 
 FIELD_MAP = {
@@ -70,13 +61,14 @@ class FormFolderImporter(ReferenceImporter):
     def __init__(self, context):
         self.context = context
         self.demarshaller = getComponent("atxml")
-        self.auto_added_fields = ['replyto', 'topic', 'comments']
+        self.auto_added_fgfields = ['replyto', 'topic', 'comments']
+        self.date_fields = {}
 
     def __call__(self, data):
         data = super(FormFolderImporter, self).__call__(data)
         xml = data['data']
 
-        data['data'] = self.updateFormFolder(xml)
+        data['data'] = self.transformWithMinidom(xml)
 
         # update FormMailerAdapter and FormThanksPage objects
         cleaned_xml = self.updateMailer(xml)
@@ -87,11 +79,17 @@ class FormFolderImporter(ReferenceImporter):
 
         return data
 
-    def updateFormFolder(self, xml):
+    def transformWithMinidom(self, xml):
         """ Do some extra transformations on xml document (that can be done by XSLT).
         """
         doc = minidom.parseString(xml)
         root = doc.documentElement
+
+        # get 'modification_date' and 'creation_date' for next usage when creating fields
+        for i in root.getElementsByTagName('xmp:CreateDate'):
+            self.date_fields['creation_date'] = i.firstChild.nodeValue.strip()
+        for i in root.getElementsByTagName('xmp:ModifyDate'):
+            self.date_fields['modification_date'] = i.firstChild.nodeValue.strip()
 
         # xxx: update button labels (those elements are now skiped by xslt)
         # PFM has only one field 'form_buttons', but PFG has two: 'submitLabel', 'resetLabel' and
@@ -135,23 +133,21 @@ class FormFolderImporter(ReferenceImporter):
 
     def updateMailer(self, xml):
         mailer = self.context['mailer']
-        transformed = self.transform(xml, 'FormMailerAdapter')
+        transformed = self.transformWithXSLT(xml, 'FormMailerAdapter')
         self.demarshaller.demarshall(mailer, transformed)
         mailer.indexObject()
-        debug(mailer)
         return transformed
 
     def updateResponsePage(self, xml):
         page = self.context['thank-you']
-        transformed = self.transform(xml, 'FormThanksPage')
+        transformed = self.transformWithXSLT(xml, 'FormThanksPage')
         self.demarshaller.demarshall(page, transformed)
         # override default value of description field
         page.getField('description').getMutator(page)('')
         page.indexObject()
-        debug(page)
         return transformed
 
-    def transform(self, xml, to):
+    def transformWithXSLT(self, xml, to):
         """ Apply XSLT transformations using XSLT transmogrifier section.
         """
         item = dict(
@@ -171,10 +167,8 @@ class FormFolderImporter(ReferenceImporter):
     def updateFormFields(self, data):
         """ Walk trough xml tree and create fields in FormFolder.
         """
-        # get id of form folder for logging purposes
-        self.form_id = self.context.getId()
         # delete fields that were added on FormFolder creation
-        for oid in [i for i in self.auto_added_fields if i in self.context]:
+        for oid in [i for i in self.auto_added_fgfields if i in self.context]:
             self.context._delObject(oid)
 
         doc = minidom.parseString(data)
@@ -205,20 +199,16 @@ class FormFolderImporter(ReferenceImporter):
 
             Use demarshalling adapter.
         """
-        # create path to field for logging
-        if context is self.context:
-            path = "%s/%s" % (self.form_id, field_id)
-        else:
-            path = "%s/%s/%s" % (self.form_id, context.getId(), field_id)
-
         if FIELD_MAP.get(type_name) is None:
-            debug(type_name, False)
             return
 
         if isinstance(FIELD_MAP[type_name], tuple):
             type_name, options = FIELD_MAP[type_name]
         else:
             type_name, options = FIELD_MAP[type_name], {}
+        # update options with 'creation_date' and 'modification_date', that are
+        # the same as in FormFolder (dates on fields must be the same)
+        options.update(self.date_fields)
 
         if field_id not in context.contentIds():
             try:
@@ -226,19 +216,16 @@ class FormFolderImporter(ReferenceImporter):
             except ConflictError:
                 raise
             except:
-                debug('%s %s' % (type_name, field_id), False)
                 return
-            debug(field)
         else:
             field = context._getOb(field_id)
 
         try:
             IXMLDemarshaller(field).demarshall(field_node, **options)
-            debug(field)
         except ConflictError:
             raise
-        except:
-            debug("on updating %s %s" % (type_name, field_id), False)
+        except Exception, e:
+            return
 
     def createFieldset(self, title):
         """ Create FieldsetFolder with id=title
@@ -249,9 +236,7 @@ class FormFolderImporter(ReferenceImporter):
             except ConflictError:
                 raise
             except:
-                debug('FieldsetFolder with id="%s"' % title, False)
                 return
-            debug(fieldset)
         else:
             fieldset = self.context._getOb(title)
         fieldset.Schema()['title'].getMutator(fieldset)(title)
@@ -265,11 +250,10 @@ class BaseFieldDemarshaller(object):
 
     def __init__(self, context):
         self.context = context
-        self.date_fields = ['creation_date', 'modification_date']
 
     def demarshall(self, node, **kw):
         self.extractData(node)
-        # update data dictionary form extra arguments
+        # update data dictionary form keyword arguments
         for k, v in kw.items():
             self.data[k] = v
         # call special hook for changing data
@@ -284,12 +268,6 @@ class BaseFieldDemarshaller(object):
             if not mutator:
                 continue
             mutator(value)
-
-        # set creation and modification date equal to dates in form folder
-        form_folder = aq_parent(aq_inner(self.context))
-        for field in self.date_fields:
-            value = form_folder.getField(field).getAccessor(form_folder)()
-            self.context.getField(field).getMutator(self.context)(value)
 
         self.context.indexObject()
 
@@ -317,6 +295,12 @@ class BaseFieldDemarshaller(object):
             else:
                 data[name] = str(value.text)
 
+        # get tales expressions
+        tales = tree.first.field.first.tales
+        for name in tales.getElementNames():
+            value = getattr(tales.first, name)
+            data["tales:"+name] = str(value.text)
+
         self.data = data
 
     def modifyData(self):
@@ -326,14 +310,27 @@ class BaseFieldDemarshaller(object):
         if self.data.has_key(old):
             self.data[new] = self.data.pop(old)
 
+    def entryIsDigit(self, key):
+        """ Formulator exports empty fields in xml as empty elements without
+            'type' attribute. That's is why we get in data dictionary for 
+            integer fields values that are empty strings. This method is 
+            used to check whether integer field has integer value.
+        """
+        if key in self.data and isinstance(self.data[key], int):
+            return True
+        else:
+            return False
+
 class StringFieldDemarshaller(BaseFieldDemarshaller):
     """ Demarshaller of StringField and other fields of this kind.
     """
 
     def modifyData(self):
         self.renameEntry('default', 'fgDefault')
-        self.renameEntry('max_length', 'fgmaxlength')
-        self.renameEntry('display_width', 'fgsize')
+        if self.entryIsDigit('display_maxwidth'):
+            self.renameEntry('display_maxwidth', 'fgmaxlength')
+        if self.entryIsDigit('display_width'):
+            self.renameEntry('display_width', 'fgsize')
 
 class TextFieldDemarshaller(BaseFieldDemarshaller):
     """ Demarshaller of TextField.
@@ -341,8 +338,10 @@ class TextFieldDemarshaller(BaseFieldDemarshaller):
 
     def modifyData(self):
         self.renameEntry('default', 'fgDefault')
-        self.renameEntry('max_length', 'fgmaxlength')
-        self.renameEntry('height', 'fgRows')
+        if self.entryIsDigit('max_length'):
+            self.renameEntry('max_length', 'fgmaxlength')
+        if self.entryIsDigit('height'):
+            self.renameEntry('height', 'fgRows')
 
 class LabelFieldDemarshaller(BaseFieldDemarshaller):
     """ Demarshaller of  LabelField.
@@ -351,14 +350,20 @@ class LabelFieldDemarshaller(BaseFieldDemarshaller):
     def modifyData(self):
         self.renameEntry('default', 'fgDefault')
 
-class IntegerFieldDemarshaller(StringFieldDemarshaller):
+class IntegerFieldDemarshaller(BaseFieldDemarshaller):
     """ Demarshaller of IntegerField.
     """
 
     def modifyData(self):
-        super(IntegerFieldDemarshaller, self).modifyData()
-        self.renameEntry('start', 'minval')
-        self.renameEntry('end', 'maxval')
+        self.renameEntry('default', 'fgDefault')
+        if self.entryIsDigit('display_maxwidth'):
+            self.renameEntry('display_maxwidth', 'fgmaxlength')
+        if self.entryIsDigit('display_width'):
+            self.renameEntry('display_width', 'fgsize')
+        if self.entryIsDigit('start'):
+            self.renameEntry('start', 'minval')
+        if self.entryIsDigit('end'):
+            self.renameEntry('end', 'maxval')
 
 class DateTimeFieldDemarshaller(BaseFieldDemarshaller):
     """ Demarshaller of DateTimeField.
@@ -372,7 +377,6 @@ class DateTimeFieldDemarshaller(BaseFieldDemarshaller):
             self.renameEntry('default', 'fgDefault')
         # date_only is boolean flag
         self.data['fgShowHM'] = not bool(self.data['date_only'])
-        del self.data['date_only']
         if 'start_datetime' in self.data:
             self.data['start_datetime'] = self.data['start_datetime'].year()
             self.renameEntry('start_datetime', 'fgStartingYear')
@@ -386,7 +390,8 @@ class LinesFieldDemarshaller(BaseFieldDemarshaller):
 
     def modifyData(self):
         self.renameEntry('default', 'fgDefault')
-        self.renameEntry('height', 'fgRows')
+        if self.entryIsDigit('height'):
+            self.renameEntry('height', 'fgRows')
 
 class BooleanFieldDemarshaller(BaseFieldDemarshaller):
     """ Demarshaller of BooleanField.
@@ -403,17 +408,22 @@ class SelectionFieldDemarshaller(BaseFieldDemarshaller):
 
     def modifyData(self):
         self.renameEntry('default', 'fgDefault')
-        self.data['items'] = ['|'.join(i) for i in self.data['items']]
+        l = []
+        for i in self.data['items']:
+            i = list(i)
+            i.reverse()
+            l.append(i)
+        self.data['items'] = ['|'.join(i) for i in l]
         self.renameEntry('items', 'fgVocabulary')
 
-class MultiSelectFieldDemarshaller(LinesFieldDemarshaller):
+class MultiSelectFieldDemarshaller(SelectionFieldDemarshaller):
     """ Demarshaller of MultiSelectField.
     """
 
     def modifyData(self):
         super(MultiSelectFieldDemarshaller, self).modifyData()
-        self.data['items'] = ['|'.join(i) for i in self.data['items']]
-        self.renameEntry('items', 'fgVocabulary')
+        if self.entryIsDigit('size'):
+            self.renameEntry('size', 'fgRows')
 
 
 # next code was stolen from Formulator product

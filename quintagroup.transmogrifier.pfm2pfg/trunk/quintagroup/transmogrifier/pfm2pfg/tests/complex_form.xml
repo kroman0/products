@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata xmlns="http://plone.org/ns/archetypes/" xmlns:cmf="http://cmf.zope.org/namespaces/default/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xmp="adobe:ns:meta">
     <dc:title>
-        Publish new content management product or module
+        Test form
     </dc:title>
     <dc:creator>
         admin
@@ -21,8 +21,41 @@
     <field name="effectiveDate">
         2007/12/04 03:25:47.294 US/Central
     </field>
+    <field name="subject">
+        string:Test form submit
+    </field>
+    <field name="recipient_name">
+        Test
+    </field>
     <field name="recipient_email">
-        string:test@mail.com
+        string:recipient@mail.org
+    </field>
+    <field name="cc_recipients">
+        cc1@mail.org
+    </field>
+    <field name="cc_recipients">
+        cc2@mail.org
+    </field>
+    <field name="bcc_recipients">
+        bcc1@mail.org
+    </field>
+    <field name="bcc_recipients">
+        bcc2@mail.org
+    </field>
+    <field name="additional_headers">
+        Header1: value1
+    </field>
+    <field name="additional_headers">
+        Header2: value2
+    </field>
+    <field name="body_pre">
+        Next are input fields
+    </field>
+    <field name="body_post">
+        You have filled all necessary fields
+    </field>
+    <field name="body_footer">
+        It's built on Plone
     </field>
     <field name="body_pt">
         &lt;tal:block i18n:domain=&quot;pfm&quot;
@@ -78,12 +111,18 @@
         Reset|reset|reset|standalone
     </field>
     <field name="sent_title">
-        The form was send to editor.
+        The form was sent.
     </field>
     <field name="sent_message">
-        
-&lt;p&gt;Thank you for new content. Our editor will review your request.&lt;br /&gt;&lt;/p&gt;
 
+        &lt;p&gt;Thank you for submiting it.&lt;br /&gt;&lt;/p&gt;
+
+    </field>
+    <field name="sent_redirect">
+        string:test
+    </field>
+    <field name="cpyaction">
+        script
     </field>
     <uid>
         738f9995ffd82394ff8a3fb75450c354
@@ -112,13 +151,6 @@
     <cmf:security>
         <cmf:local_role role="Owner" user_id="admin"/>
     </cmf:security>
-    <field name="recipient_name">
-        ContentManagementSoftware.Info
-    </field>
-    <field name="subject">
-        string:Update Software
-    </field>
-
 <form>
   <title>PFM Formulator</title>
   <row_length>4</row_length>

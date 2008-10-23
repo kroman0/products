@@ -370,9 +370,8 @@ class DateTimeFieldDemarshaller(BaseFieldDemarshaller):
     """
 
     def modifyData(self):
-        # if 'default' element in field's xml is not empty, self.data['default'] is DateTime object
-        # we need to from it simple string
         if 'default' in self.data:
+            # convert from DateTime object to string
             self.data['default'] = str(self.data['default'])
             self.renameEntry('default', 'fgDefault')
         # date_only is boolean flag

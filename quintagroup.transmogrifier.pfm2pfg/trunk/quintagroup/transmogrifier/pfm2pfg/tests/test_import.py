@@ -1,5 +1,6 @@
 import unittest
 import os.path
+import email
 
 from zope.interface import classProvides, implements
 import transaction
@@ -83,20 +84,27 @@ class TestImport(ptc.PloneTestCase):
         self.failUnless('complex-form' in self.portal)
         form = self.portal['complex-form']
 
-        self.assertEqual(form['title'], 'Publish new content management product or module')
+        self.assertEqual(form['title'], 'Test form')
         self.assertEqual(form.getFormPrologue(), '<p>form prologue</p>')
         self.assertEqual(form.getFormEpilogue(), '<p>form epilogue</p>')
-        #self.assertEqual(form['thanksPageOverride'], 'string:')
-        #self.assertEqual(form['afterValidationOverride'], 'redirect_to:')
+        self.assertEqual(form['thanksPageOverride'], 'redirect_to:string:test')
+        self.assertEqual(form['afterValidationOverride'], 'string:script')
 
     def test_mailer(self):
         form = self.portal['complex-form']
         self.failUnless('mailer' in form)
         mailer = form['mailer']
 
-        self.assertEqual(mailer['subjectOverride'], 'string:Update Software')
-        self.assertEqual(mailer['recipientOverride'], 'string:test@mail.com')
+        self.assertEqual(mailer['subjectOverride'], 'string:Test form submit')
+        self.assertEqual(mailer['recipient_name'], 'Test')
+        self.assertEqual(mailer['recipientOverride'], 'string:recipient@mail.org')
+        self.assertEqual(mailer['additional_headers'], ('Header1: value1', 'Header2: value2'))
         self.assertEqual(mailer['body_type'], 'html')
+        self.assertEqual(mailer.getBody_pre(), 'Next are input fields')
+        self.assertEqual(mailer.getBody_post(), 'You have filled all necessary fields')
+        self.assertEqual(mailer.getBody_footer(), 'It\'s built on Plone')
+        self.assertEqual(mailer['cc_recipients'], ('cc1@mail.org', 'cc2@mail.org'))
+        self.assertEqual(mailer['bcc_recipients'], ('bcc1@mail.org', 'bcc2@mail.org'))
 
         self.assertEqual(mailer.created(), form.created())
         self.assertEqual(mailer.modified(), form.modified())
@@ -106,9 +114,9 @@ class TestImport(ptc.PloneTestCase):
         self.failUnless('thank-you' in form)
         page = form['thank-you']
 
-        self.assertEqual(page.Title(), 'The form was send to editor.')
+        self.assertEqual(page.Title(), 'The form was sent.')
         self.assertEqual(page.getThanksPrologue(), 
-            '<p>Thank you for new content. Our editor will review your request.<br /></p>')
+            '<p>Thank you for submiting it.<br /></p>')
 
         self.assertEqual(page.created(), form.created())
         self.assertEqual(page.modified(), form.modified())
@@ -408,8 +416,40 @@ class TestImport(ptc.PloneTestCase):
         self.assertEqual(fieldset['title'], 'Other')
         self.assertEqual(fieldset.objectIds(), ['email', 'float', 'string'])
 
+class FakeRequest(dict):
+
+    def __init__(self, **kwargs):
+        self.form = kwargs
+
+class TestSubmit(ptc.PloneTestCase):
+    """ test ya_gpg.py """
+
+    def dummy_send(self, mfrom, mto, messageText):
+        self.mfrom = mfrom
+        self.mto = mto
+        self.messageText = messageText
+
+    def afterSetUp(self):
+        transmogrifier = ITransmogrifier(self.portal)
+        transmogrifier('test_import')
+        self.form = getattr(self.folder, 'complex-form')
+        for i in self.form.contentValues():
+            field = i.getField('required')
+            if field is not None:
+                field.getMutator(i)(False)
+        self.mailhost = self.folder.MailHost
+        self.mailhost._send = self.dummy_send
+
+    def test_submitting(self):
+        """ Test submitting of form """
+        request = FakeRequest(field2='field2@mail.org')
+        errors = self.form.fgvalidate(REQUEST=request)
+        msg = email.message_from_string(self.messageText)
+        self.assertEqual(msg.get('To'), 'Test <recipient@mail.org>')
+        self.assertEqual(msg.get('Subject'), '=?utf-8?q?Test_form_submit?=')
 
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestImport))
+    suite.addTest(unittest.makeSuite(TestSubmit))
     return suite

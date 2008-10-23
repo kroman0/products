@@ -10,7 +10,7 @@
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone import MessageFactory
-qpcMF = MessageFactory('plonecomments')
+_ = MessageFactory('plonecomments')
 
 dtool = context.portal_discussion
 try:
@@ -22,14 +22,14 @@ if not dtool.isDiscussionAllowedFor(content):
     raise Exception, "Discussion not allowed."
 
 if not subject:
-    state.setError('subject', qpcMF(u'Please submit a subject.'), 'subject_required')
+    state.setError('subject', _(u'Please submit a subject.'), 'subject_required')
 
 if not body_text:
-    state.setError('body_text', qpcMF(u'Please submit a body.'), 'body_required')
+    state.setError('body_text', _(u'Please submit a body.'), 'body_required')
 
 if require_email:
     if not (email and context.portal_registration.isValidEmail(email)):
-        state.setError('email', qpcMF(u'Please submit email.'), 'email_required')
+        state.setError('email', _(u'Please submit email.'), 'email_required')
 
 if hasattr(context, 'captcha_validator'):
     context.captcha_validator()
@@ -42,12 +42,12 @@ if isForAnonymous:
     if isAnonym:
         req = context.REQUEST
         if not (req.form.has_key('Creator') and not req.form['Creator'] == ""):
-            state.setError('Creator', qpcMF(u'Please enter your name.'), 'name_required')
+            state.setError('Creator', _(u'Please enter your name.'), 'name_required')
 
         try:
             captcha_view = context.restrictedTraverse('@@captcha')
             if not captcha_view.verify(captcha):
-                state.setError('captcha', qpcMF(u'You must correctly enter the word.'), 'captcha')
+                state.setError('captcha', _(u'You must correctly enter the word.'), 'captcha')
         except:
             # no collective.captcha installed
             pass

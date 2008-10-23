@@ -12,7 +12,7 @@ from Products.PythonScripts.standard import url_quote_plus
 from Products.CMFCore.utils import getToolByName
 from Products.qPloneComments.utils import manage_mails
 from Products.CMFPlone import MessageFactory
-qpcMF = MessageFactory('plonecomments')
+_ = MessageFactory('plonecomments')
 
 mtool = getToolByName(context, 'portal_membership')
 dtool = getToolByName(context, 'portal_discussion')
@@ -90,15 +90,15 @@ view = redirect_target.getTypeInfo().getActionInfo('object/view',
 anchor = reply.getId()
 
 # Inform user about awaiting moderation
-portal_status_message='Comment published.'
+portal_status_message=u'Comment published.'
 if ifModerate and reply:
-    portal_status_message='Currently, all comments require approval before being published. Please check back later.'
+    portal_status_message=u'Currently, all comments require approval before being published. Please check back later.'
 
 from Products.CMFPlone.utils import transaction_note
 transaction_note('Added comment to %s at %s' % (parent.title_or_id(),
                                                 reply.absolute_url()))
 
-context.plone_utils.addPortalMessage(qpcMF(portal_status_message))
-context.plone_utils.addPortalMessage(qpcMF(u'Comment added.'))
+context.plone_utils.addPortalMessage(_(portal_status_message))
+context.plone_utils.addPortalMessage(_(u'Comment added.'))
 target = '%s#%s' % (view, anchor)
 return req.RESPONSE.redirect(target)

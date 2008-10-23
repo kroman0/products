@@ -12,7 +12,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.qPloneComments.utils import publishDiscussion
 from Products.qPloneComments.utils import manage_mails
 from Products.CMFPlone import MessageFactory
-qpcMF = MessageFactory('plonecomments')
+_ = MessageFactory('plonecomments')
 
 if obj is None:
     obj = context
@@ -35,7 +35,7 @@ anchor = reply.getId()
 
 transaction_note('Published discussion item')
 
-context.plone_utils.addPortalMessage(qpcMF(u'Comment published.'))
+context.plone_utils.addPortalMessage(_(u'Comment published.'))
 target = '%s/%s#%s' % (redirect_target.absolute_url(), view, anchor)
 
 return context.REQUEST.RESPONSE.redirect(target)

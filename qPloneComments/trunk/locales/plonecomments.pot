@@ -1,17 +1,19 @@
-# Érico Andrei <erico@simplesconsultoria.com.br>, 2008.
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: qPloneComments\n"
-"POT-Creation-Date: 2007-06-11 17:50+0000\n"
-"PO-Revision-Date: 2008-07-18 03:51-0300\n"
-"Last-Translator: Érico Andrei <erico@simplesconsultoria.com.br>\n"
-"Language-Team: Simples Consultoria\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2007-06-12 09:12+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
-"Language-Code: pt-br\n"
-"Language-Name: Português do Brasil\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plonecomments\n"
 
@@ -20,270 +22,344 @@ msgstr ""
 #: skins/qplonecomments/2.1/discussion_reply_form.cpt
 #: skins/qplonecomments/2.5/discussion_reply_form.cpt
 msgid "Name"
-msgstr "Nome"
+msgstr ""
 
 #. Default: "Publish"
 #: skins/qplonecomments/2.0.5/discussionitem_view.pt
 #: skins/qplonecomments/prefs_recent_comments_form.cpt
 msgid "Publish"
-msgstr "Publicar"
+msgstr ""
 
 #. Default: "Required"
 #: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
 #: skins/qplonecomments/2.1/discussion_reply_form.cpt
 #: skins/qplonecomments/2.5/discussion_reply_form.cpt
 msgid "Required"
-msgstr "Obrigatório"
+msgstr ""
 
 #. Default: "Submitter"
 #: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
 #: skins/qplonecomments/2.1/discussion_reply_form.cpt
 #: skins/qplonecomments/2.5/discussion_reply_form.cpt
 msgid "Submitter"
-msgstr "Respondente"
+msgstr ""
 
 #. Default: "Please review new comment added to the following page \" ${title} \": ${link}"
 #: skins/qplonecomments/approve_comment_template.pt
 msgid "approvemail_new_comment_link"
-msgstr "Por favor avalie o novo comentário adicionado à página \" ${title} \": ${link}"
+msgstr ""
 
 #. Default: "New comment awaits moderation"
 #: skins/qplonecomments/approve_comment_template.pt
 msgid "approvemail_subject"
-msgstr "Comentários aguardam sua aprovação"
+msgstr ""
 
 #. Default: "Recent comments"
 #: skins/qplonecomments/prefs_recent_comments_form.cpt
 msgid "heading_comments"
-msgstr "Comentários recentes"
+msgstr ""
 
 #. Default: "qPloneComments Setup"
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "heading_comments_setup"
-msgstr "Configurações do qPloneComments"
+msgstr ""
 
 #. Default: "Specify one e-mail address where notifications about adding new comments will be sent."
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "help_additional_email"
-msgstr "Informe o endereço de e-mail para o qual as notificações de novos comentários serão enviados."
+msgstr ""
 
 #. Default: "Please tell us your name."
 #: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
 #: skins/qplonecomments/2.1/discussion_reply_form.cpt
 #: skins/qplonecomments/2.5/discussion_reply_form.cpt
 msgid "help_name"
-msgstr "Por favor, informe-nos seu nome."
+msgstr ""
 
 #. Default: "You can change notification message templates customizing 'approve_comment_template' and 'published_comment_template' from qplonecomments skin."
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "help_organization_name"
-msgstr "Você pode modificar os templates de e-mail de notificação editando os arquivos 'approve_comment_template' e 'published_comment_template' do layer qplonecomments (na pasta de skins)."
+msgstr ""
 
 #. Default: "Send comments notification emails to:"
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "label_additional_email"
-msgstr "Envie notificações de novos comentários para:"
+msgstr ""
 
 #. Default: "Enable anonymous comenting."
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "label_anonymous_commenting"
-msgstr "Permitir comentários anônimos"
+msgstr ""
 
 #. Default: "Recent comments moderation"
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 #: skins/qplonecomments/prefs_recent_comments_form.cpt
 msgid "label_comments"
-msgstr "Moderação de comentários recentes"
+msgstr ""
 
 #. Default: "Configure qPloneComments"
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 #: skins/qplonecomments/prefs_recent_comments_form.cpt
 msgid "label_configure"
-msgstr "Configurar o qPloneComments"
+msgstr ""
 
 #. Default: "Enable Discussion Manager notification on new comments."
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "label_enable_approve_notification"
-msgstr "Habilitar a notificação de novos comentários ao Editor de Participações."
+msgstr ""
 
 #. Default: "Enable moderation."
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "label_enable_moderation"
-msgstr "Habilitar a moderação."
+msgstr ""
 
 #. Default: "Enable Document Owner notification on new comments."
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "label_enable_published_notification"
-msgstr "Permitir o envio de notificações ao dono do documento na inclusão de novos comentários."
+msgstr ""
 
 #. Default: "Name"
 #: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
 #: skins/qplonecomments/2.1/discussion_reply_form.cpt
 #: skins/qplonecomments/2.5/discussion_reply_form.cpt
 msgid "label_name"
-msgstr "Nome"
+msgstr ""
 
 #. Default: "Email subject prefix (organization name)"
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "label_organization_name"
-msgstr "Prefixo do assunto do e-mail (nome do site)"
+msgstr ""
 
 #. Default: "(Required)"
 #: skins/qplonecomments/2.0.5/discussion_reply_form.cpt
 #: skins/qplonecomments/2.1/discussion_reply_form.cpt
 #: skins/qplonecomments/2.5/discussion_reply_form.cpt
 msgid "label_required"
-msgstr "(Obrigatório)"
+msgstr ""
 
 #. Default: "List of recent comments"
 #: skins/qplonecomments/prefs_recent_comments_form.cpt
 msgid "legend_recent_comments"
-msgstr "Lista de comentários recentes"
+msgstr ""
 
 #. Default: "qPloneComments setup options"
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "legend_setup_options"
-msgstr "Configuração das opções do qPloneComments"
+msgstr ""
 
 #. Default: "Comment"
 #: skins/qplonecomments/prefs_recent_comments_form.cpt
 msgid "listingheader_comment"
-msgstr "Comentário"
+msgstr ""
 
 #. Default: "View new comment added to the following page \" ${title} \": ${link}"
 #: skins/qplonecomments/published_comment_template.pt
 msgid "publishedmail_new_comment_link"
-msgstr "Visualizar comentários adicionados à página \" ${title} \": ${link}"
+msgstr ""
 
 #. Default: "New comment added"
 #: skins/qplonecomments/published_comment_template.pt
 msgid "publishedmail_subject"
-msgstr "Novo comentário adicionado"
+msgstr ""
 
 #. Default: "${organization_name} Support Team"
 #: skins/qplonecomments/approve_comment_template.pt
 #: skins/qplonecomments/published_comment_template.pt
 msgid "signature"
-msgstr "Equipe de suporte ${organization_name}"
+msgstr ""
 
 #. Default: "No new comments."
 #: skins/qplonecomments/prefs_recent_comments_form.cpt
 msgid "text_no_new_comments"
-msgstr "Não há novos comentários."
+msgstr ""
 
 #. Default: "Delete"
 #: skins/qplonecomments/prefs_recent_comments_form.cpt
 msgid "Delete"
-msgstr "Apagar"
+msgstr ""
 
 #. Default: "Reply"
 #: skins/qplonecomments/2.0.5/viewThreadsAtBottom.pt
 #: skins/qplonecomments/2.1/viewThreadsAtBottom.pt
 #: skins/qplonecomments/2.5/viewThreadsAtBottom.pt
 msgid "label_reply"
-msgstr "Responder"
+msgstr ""
 
 #. Default: "Comment must be approved before replies to comment accepted."
 #: skins/qplonecomments/2.0.5/viewThreadsAtBottom.pt
 #: skins/qplonecomments/2.1/viewThreadsAtBottom.pt
 #: skins/qplonecomments/2.5/viewThreadsAtBottom.pt
 msgid "text_no_add_reply"
-msgstr "O comentário deve ser aprovado antes de poder receber respostas."
+msgstr ""
 
 #. Default: "Please enter your email:"
 #: skins/qplonecomments/2.0.5/discussion_reply_form.pt
 #: skins/qplonecomments/2.1/discussion_reply_form.pt
 #: skins/qplonecomments/2.5/discussion_reply_form.pt
 msgid "label_anonymous_email"
-msgstr "Por favor, informe seu e-mail:"
+msgstr ""
 
 #. Default: "Require Anonym Email."
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "label_require_anonym_email"
-msgstr "Requerer e-mail de usuários anônimos."
+msgstr ""
 
 #. Default: "Enable Manager moderation."
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "enable_manager_moderation"
-msgstr "Habilitar a moderação por um editor."
+msgstr ""
 
 #. Default: "Send comments notification emails to:"
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "label_discussion-manager_email"
-msgstr "Enviar a notificação de novos comentários para:"
+msgstr ""
 
 #. Default: "The e-mail address where notifications about adding new comments will be sent."
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "help_discussion-manager_email"
-msgstr "Endereço de e-mail que receberá as notificações sobre novos comentários."
+msgstr ""
 
 #. Default: "Notification tuning"
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "legend_qpc_notification_legend"
-msgstr "Configurar notificações"
+msgstr ""
 
 #. Default: "Enable Commentator notification on comment was published."
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "label_enable_approve_user_notification"
-msgstr "Avisar ao usuário que seu comentário foi aprovado."
+msgstr ""
 
 #. Default: "Enable Commentator notification on comment was rejected."
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "label_enable_reject_notification"
-msgstr "Avisar ao usuário que seu comentário foi rejeitado."
+msgstr ""
 
 #. Default: "Enable Commentator notification on comment was replied."
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "label_enable_reply_notification"
-msgstr "Avisar ao usuário que seu comentário recebeu uma resposta."
+msgstr ""
 
 #. Default: "Save"
 #: skins/qplonecomments/prefs_comments_setup_form.cpt
 msgid "Save"
-msgstr "Salvar"
+msgstr ""
 
 #. Default: "Reply to this"
 #: skins/qplonecomments/2.0.5/viewThreadsAtBottom.pt
 msgid "Reply to this"
-msgstr "Responder"
+msgstr ""
 
 #. Default: "Until publishing this comment adding reply impossible."
 #: skins/qplonecomments/2.0.5/discussionitem_view.pt
 msgid "text_no_reply_until_published"
-msgstr "Até a publicação do comentário é impossível criar uma resposta a ele."
+msgstr ""
 
 #. Default: "Remove this reply"
 #: skins/qplonecomments/2.0.5/discussionitem_view.pt
 msgid "Remove this reply"
-msgstr "Apagar esta resposta"
+msgstr ""
 
 #. Default: "Your comment on \'${title}\' is now published"
 #: skins/qplonecomments/approve_comment_template.pt
 msgid "notifycomment_subject"
-msgstr "Seu comentário para \'${title}\' está publicado."
+msgstr ""
 
 #. Default: "Your comment on \'${url}\' has been published. To see your comment, go to ${url}"
 #: skins/qplonecomments/approve_comment_template.pt
 msgid "notifycomment_link"
-msgstr "Seu comentário em \'${url}\' foi publicado. Para acessá-lo, visite: ${url}"
+msgstr ""
 
 #. Default: "Your comment on \'${title}\' was now approved."
 #: skins/qplonecomments/approve_comment_template.pt
 msgid "notifyreject_subject"
-msgstr "Seu comentário para ${title} não foi aceito."
+msgstr ""
 
 #. Default: "Your comment on \'${url}\' did not receive approval. Please direct any questions or concerns to ${mfrom}."
 #: skins/qplonecomments/approve_comment_template.pt
 msgid "notifyreject_link"
-msgstr "Seu comentário em \'${url}\' não foi aceito. Por favor direcione suas dúvidas e questionamentos para ${mfrom}."
+msgstr ""
 
 #. Default: "Someone replied to your comment on \'${title}\'"
 #: skins/qplonecomments/approve_comment_template.pt
 msgid "replynotify_subject"
-msgstr "Seu comentário para \'${title}\' recebeu uma resposta."
+msgstr ""
 
 #. Default: "Someone replied to your comment \'${url}\' on \'${here_url}\'. To read the response, go to \'${url}\'."
 #: skins/qplonecomments/approve_comment_template.pt
 msgid "replynotify_link"
-msgstr "Alguém respondeu ao seu comentário \'${url}\' em \'${here_url}\'. Para ler esta resposta, visite: \'${url}\'."
+msgstr ""
 
+#: skins/qplonecomments/prefs_comments_setup.cpy
+msgid "qPloneComments configuration changes saved."
+msgstr ""
+
+#: skins/qplonecomments/prefs_recent_comments_delete.cpy
+msgid "Comment(s) deleted."
+msgstr ""
+
+#: skins/qplonecomments/prefs_recent_comments_publish.cpy
+msgid "Comment(s) published."
+msgstr ""
+
+#: skins/qplonecomments/validate_reply.vpy
+msgid "Reply not allowed because the response is to a comment waiting to be approved. Please wait for the comment to be approved before replying."
+msgstr ""
+
+#: skins/qplonecomments/2.0.5/discussion_publish_comment.py
+#: skins/qplonecomments/2.0.5/discussion_reply.cpy
+#: skins/qplonecomments/2.1/discussion_publish_comment.py
+#: skins/qplonecomments/2.1/discussion_reply.cpy
+#: skins/qplonecomments/2.1/discussion_publish_comment.py
+#: skins/qplonecomments/2.5/discussion_reply.cpy
+msgid "Comment published."
+msgstr ""
+
+#: skins/qplonecomments/2.0.5/discussion_reply.cpy
+#: skins/qplonecomments/2.1/discussion_reply.cpy
+#: skins/qplonecomments/2.5/discussion_reply.cpy
+msgid "Currently, all comments require approval before being published. Please check back later."
+msgstr ""
+
+#: skins/qplonecomments/2.0.5/validate_talkback.vpy
+#: skins/qplonecomments/2.1/validate_talkback.vpy
+#: skins/qplonecomments/2.5/validate_talkback.vpy
+msgid "Please enter your name."
+msgstr ""
+
+#: skins/qplonecomments/2.0.5/discussion_reply.cpy
+#: skins/qplonecomments/2.1/discussion_reply.cpy
+#: skins/qplonecomments/2.5/discussion_reply.cpy
+msgid "Comment added."
+msgstr ""
+
+#: skins/qplonecomments/2.0.5/validate_talkback.vpy
+#: skins/qplonecomments/2.1/validate_talkback.vpy
+#: skins/qplonecomments/2.5/validate_talkback.vpy
+msgid "Please submit a subject."
+msgstr ""
+
+#: skins/qplonecomments/2.0.5/validate_talkback.vpy
+#: skins/qplonecomments/2.1/validate_talkback.vpy
+#: skins/qplonecomments/2.5/validate_talkback.vpy
+msgid "Please submit a body."
+msgstr ""
+
+#: skins/qplonecomments/2.0.5/validate_talkback.vpy
+#: skins/qplonecomments/2.1/validate_talkback.vpy
+#: skins/qplonecomments/2.5/validate_talkback.vpy
+msgid "Please submit email."
+msgstr ""
+
+#: skins/qplonecomments/2.0.5/deleteDiscussion.py
+#: skins/qplonecomments/2.1/deleteDiscussion.py
+#: skins/qplonecomments/2.5/deleteDiscussion.py
+msgid "Reply deleted."
+msgstr ""
+
+#: skins/qplonecomments/prefs_recent_comments_delete.cpy
+msgid "Please select items to be processed."
+msgstr ""
+
+#: skins/qplonecomments/validate_setup.vpy
+msgid "Please submit a valid e-mail address."
+msgstr ""

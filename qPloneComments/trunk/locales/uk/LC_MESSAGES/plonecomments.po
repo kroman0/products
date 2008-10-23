@@ -258,3 +258,76 @@ msgstr "Надійшла відповідь на ваш коментар до \\
 msgid "replynotify_link"
 msgstr "Надійшла відповідь на ваш коментар \\\'${url}\\\' до \\\'${here_url}\\\'. Для перегляду  - перейдіть на \\\'${url}\\\'."
 
+#: skins/qplonecomments/prefs_comments_setup.cpy
+msgid "qPloneComments configuration changes saved."
+msgstr "Записано зміни конфігурації qPloneComments."
+
+#: skins/qplonecomments/prefs_recent_comments_delete.cpy
+msgid "Comment(s) deleted."
+msgstr "Коментар(і) знищено."
+
+#: skins/qplonecomments/prefs_recent_comments_publish.cpy
+msgid "Comment(s) published."
+msgstr "Коментар(і) опубліковано."
+
+#: skins/qplonecomments/validate_reply.vpy
+msgid "Reply not allowed because the response is to a comment waiting to be approved. Please wait for the comment to be approved before replying."
+msgstr "Відповіати на неопубліковані коментарі заборонено. Зачекайте на затвердження коментаря перед тим, як відповідати."
+
+#: skins/qplonecomments/2.0.5/discussion_publish_comment.py
+#: skins/qplonecomments/2.0.5/discussion_reply.cpy
+#: skins/qplonecomments/2.1/discussion_publish_comment.py
+#: skins/qplonecomments/2.1/discussion_reply.cpy
+#: skins/qplonecomments/2.5/discussion_reply.cpy
+msgid "Comment published."
+msgstr "Коментар опубліковано."
+
+#: skins/qplonecomments/2.0.5/discussion_reply.cpy
+#: skins/qplonecomments/2.1/discussion_reply.cpy
+#: skins/qplonecomments/2.5/discussion_reply.cpy
+msgid "Currently, all comments require approval before being published. Please check back later."
+msgstr "Наразі коментарі очікують на опублікування. Завітайте сюди пізніше."
+
+#: skins/qplonecomments/2.0.5/validate_talkback.vpy
+#: skins/qplonecomments/2.1/validate_talkback.vpy
+#: skins/qplonecomments/2.5/validate_talkback.vpy
+msgid "Please enter your name."
+msgstr "Введіть своє ім'я, будь-ласка."
+
+#: skins/qplonecomments/2.0.5/discussion_reply.cpy
+#: skins/qplonecomments/2.1/discussion_reply.cpy
+#: skins/qplonecomments/2.5/discussion_reply.cpy
+msgid "Comment added."
+msgstr "Коментар додано."
+
+#: skins/qplonecomments/2.0.5/validate_talkback.vpy
+#: skins/qplonecomments/2.1/validate_talkback.vpy
+#: skins/qplonecomments/2.5/validate_talkback.vpy
+msgid "Please submit a subject."
+msgstr "Будь-ласка, введіть тему коментаря."
+
+#: skins/qplonecomments/2.0.5/validate_talkback.vpy
+#: skins/qplonecomments/2.1/validate_talkback.vpy
+#: skins/qplonecomments/2.5/validate_talkback.vpy
+msgid "Please submit a body."
+msgstr "Будь-ласка, введіть коментар."
+
+#: skins/qplonecomments/2.0.5/validate_talkback.vpy
+#: skins/qplonecomments/2.1/validate_talkback.vpy
+#: skins/qplonecomments/2.5/validate_talkback.vpy
+msgid "Please submit email."
+msgstr "Будь-ласка, введіть електронну адресу."
+
+#: skins/qplonecomments/2.0.5/deleteDiscussion.py
+#: skins/qplonecomments/2.1/deleteDiscussion.py
+#: skins/qplonecomments/2.5/deleteDiscussion.py
+msgid "Reply deleted."
+msgstr "Коментар знищено."
+
+#: skins/qplonecomments/prefs_recent_comments_delete.cpy
+msgid "Please select items to be processed."
+msgstr "Будь-ласка, відзначте коментарі для подальшого опрацювання."
+
+#: skins/qplonecomments/validate_setup.vpy
+msgid "Please submit a valid e-mail address."
+msgstr "Будь-ласка, введіть дійсну електронну адресу."

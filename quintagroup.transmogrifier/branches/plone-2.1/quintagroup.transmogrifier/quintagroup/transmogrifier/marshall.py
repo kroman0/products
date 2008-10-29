@@ -1,13 +1,12 @@
 from zope.interface import classProvides, implements
 from ZODB.POSException import ConflictError
 
+from Products.Marshall import registry
+
 from collective.transmogrifier.interfaces import ISection, ISectionBlueprint
 from collective.transmogrifier.utils import defaultMatcher
-
-from Products.Marshall import registry
-from Products.Archetypes.interfaces import IBaseObject
-from Products.Archetypes.event import ObjectInitializedEvent
-from Products.Archetypes.event import ObjectEditedEvent
+from plone.app.transmogrifier.interfaces import IBaseObject, ObjectInitializedEvent,  \
+    ObjectEditedEvent
 
 class MarshallerSection(object):
     classProvides(ISectionBlueprint)

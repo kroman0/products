@@ -3,6 +3,22 @@ import time
 from tarfile import TarInfo, DIRTYPE
 from StringIO import StringIO
 
+try:
+    # if we have GenericSetup product we don't need to register steps in python
+    import Products.GenericSetup
+except ImportError:
+    from Products.CMFSetup import profile_registry, EXTENSION
+
+    if 'quintagroup.transmogrifier:default' not in profile_registry.listProfiles():
+        profile_path = os.path.join(os.path.split(__file__)[0], 'profiles/default')
+        profile_registry.registerProfile("default",
+                                         "Transmogrifier",
+                                         "Export the site's structure and content.",
+                                         profile_path,
+                                         #"quintagroup.transmogrifier",
+                                         profile_type=EXTENSION
+                                         )
+
 # TarballExportContext don't write dirs in tarball and we need to fix this
 
 #security.declareProtected( ManagePortal, 'writeDataFile' )
@@ -35,10 +51,20 @@ def writeDataFile( self, filename, text, content_type, subdir=None ):
     info.mtime = mod_time
     self._archive.addfile( info, stream )
 
-from Products.GenericSetup.context import TarballExportContext
+try:
+    from Products.GenericSetup.context import TarballExportContext
+except ImportError:
+    import Products.CMFSetup
+    import sys
+    sys.modules['Products.GenericSetup'] = Products.CMFSetup
+    TarballExportContext = Products.CMFSetup.context.TarballExportContext
+
 TarballExportContext.writeDataFile = writeDataFile
 
-from Products.GenericSetup.context import SKIPPED_FILES, SKIPPED_SUFFIXES
+try:
+    from Products.GenericSetup.context import SKIPPED_FILES, SKIPPED_SUFFIXES
+except ImportError:
+    SKIPPED_FILES, SKIPPED_SUFFIXES = (), ()
 
 def listDirectory(self, path, skip=SKIPPED_FILES,
                     skip_suffixes=SKIPPED_SUFFIXES):
@@ -75,5 +101,10 @@ def listDirectory(self, path, skip=SKIPPED_FILES,
 
     return names
 
-from Products.GenericSetup.context import TarballImportContext
-TarballImportContext.listDirectory = listDirectory
+try:
+    from Products.GenericSetup.context import TarballImportContext
+    TarballImportContext.listDirectory = listDirectory
+except ImportError:
+    # we don't have TarballImportContext
+    # do nothing
+    pass

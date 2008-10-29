@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<export-steps>
+ <export-step id="content"
+              handler="quintagroup.transmogrifier.exportimport.exportSiteStructure"
+              title="Content">
+  Export the site's structure and content.
+ </export-step>
+</export-steps>

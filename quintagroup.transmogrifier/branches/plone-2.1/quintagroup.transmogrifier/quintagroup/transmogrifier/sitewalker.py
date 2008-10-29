@@ -2,8 +2,9 @@ from zope.interface import classProvides, implements
 
 from collective.transmogrifier.interfaces import ISection, ISectionBlueprint
 
-from Products.CMFCore.interfaces import IFolderish
-from Products.Archetypes.interfaces import IBaseFolder
+from collective.transmogrifier.interfaces import IFolderish
+
+from interfaces import IBaseFolder
 
 class SiteWalkerSection(object):
     classProvides(ISectionBlueprint)

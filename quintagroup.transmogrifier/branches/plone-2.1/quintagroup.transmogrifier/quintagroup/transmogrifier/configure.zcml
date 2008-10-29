@@ -2,7 +2,7 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
-    xmlns:gs="http://namespaces.zope.org/genericsetup"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="quintagroup.transmogrifier">
 
     <include package="collective.transmogrifier" file="meta.zcml" />
@@ -13,51 +13,61 @@
     <utility
         component=".sitewalker.SiteWalkerSection"
         name="quintagroup.transmogrifier.sitewalker"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
         />
 
     <utility
         component=".manifest.ManifestExporterSection"
         name="quintagroup.transmogrifier.manifestexporter"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
         />
 
     <utility
         component=".manifest.ManifestImporterSection"
         name="quintagroup.transmogrifier.manifestimporter"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
         />
 
     <utility
         component=".marshall.MarshallerSection"
         name="quintagroup.transmogrifier.marshaller"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
         />
 
     <utility
         component=".marshall.DemarshallerSection"
         name="quintagroup.transmogrifier.demarshaller"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
         />
 
     <utility
         component=".propertymanager.PropertiesExporterSection"
         name="quintagroup.transmogrifier.propertiesexporter"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
         />
 
     <utility
         component=".propertymanager.PropertiesImporterSection"
         name="quintagroup.transmogrifier.propertiesimporter"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
         />
 
     <utility
         component=".comments.CommentsExporterSection"
         name="quintagroup.transmogrifier.commentsexporter"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
         />
 
     <utility
         component=".comments.CommentsImporterSection"
         name="quintagroup.transmogrifier.commentsimporter"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
         />
 
     <utility
         component=".datacorrector.DataCorrectorSection"
         name="quintagroup.transmogrifier.datacorrector"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
         />
 
     <!-- registration of adapters for data corrector section -->
@@ -66,31 +76,37 @@
     <utility
         component=".writer.WriterSection"
         name="quintagroup.transmogrifier.writer"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
         />
 
     <utility
         component=".reader.ReaderSection"
         name="quintagroup.transmogrifier.reader"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
         />
 
     <utility
         component=".substitution.SubstitutionSection"
         name="quintagroup.transmogrifier.substitution"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
         />
 
     <utility
         component=".xslt.XSLTSection"
         name="quintagroup.transmogrifier.xslt"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
         />
 
     <utility
         component=".logger.LoggerSection"
         name="quintagroup.transmogrifier.logger"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
         />
 
     <utility
         component=".references.ReferencesImporterSection"
         name="quintagroup.transmogrifier.referencesimporter"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
         />
 
     <transmogrifier:registerConfig
@@ -100,24 +116,30 @@
         configuration="export.cfg"
         />
 
-    <!-- We registry this export step in zcml and it will override Plone's standard 
-         Content export step. Than we need to go in ZMI to Manage tab of portal_setup
-         tool and delete old step. (I also detected that steps registered in zcml
-         overriede those registered in profile without deleting them on manage tab)
-    -->
-    <gs:exportStep
-        name="content"
-        title="Content (transmogrifier)"
-        description="Export the site's structure and content."
-        handler=".exportimport.exportSiteStructure"
-        />
-
     <transmogrifier:registerConfig
         name="import"
         title="Import pipeline configuration"
         description="This is a Plone content import pipeline configuration."
         configuration="import.cfg"
         />
+
+    <!-- conditional registration of gs steps -->
+    <configure 
+        zcml:condition="installed Products.GenericSetup"
+        xmlns:gs="http://namespaces.zope.org/genericsetup">
+
+    <!-- We registry this export step in zcml and it will override Plone's standard 
+         Content export step. Than we need to go in ZMI to Manage tab of portal_setup
+         tool and delete old step. (I also detected that steps registered in zcml
+         overriede those registered in profile without deleting them on manage tab)
+    -->
+
+<!--    <gs:exportStep
+        name="content"
+        title="Content (transmogrifier)"
+        description="Export the site's structure and content."
+        handler=".exportimport.exportSiteStructure"
+        />-->
 
     <!-- With import step we can't do the same. Plone's portal_setup tool currently
          works such that if we delete standard Content import step on Manage tab
@@ -142,11 +164,24 @@
             />
     -->
 
-    <gs:importStep
+<!--    <gs:importStep
         name="content"
         title="Content (transmogrifier)"
         description="Import the site's structure and content."
         handler=".exportimport.importSiteStructure"
+        />-->
+
+    </configure>
+
+    <!-- implements for Plone 2.1 -->
+    <five:implements
+        class="Products.Archetypes.BaseFolder.BaseFolderMixin"
+        interface=".interfaces.IBaseFolder"
+        />
+
+    <five:implements
+        class="OFS.PropertyManager.PropertyManager"
+        interface=".interfaces.IPropertyManager"
         />
 
 </configure>

@@ -2,10 +2,9 @@ import re
 from xml.dom import minidom
 
 from zope.interface import implements
-from zope.component import adapts
 
-from Products.Archetypes.interfaces import IBaseObject
 from Products.Archetypes import atapi
+from plone.app.transmogrifier.interfaces import IBaseObject
 
 from quintagroup.transmogrifier.interfaces import IImportDataCorrector
 
@@ -16,7 +15,6 @@ class ReferenceImporter(object):
     """ Demarshall content from xml file by using of Marshall product.
     """
     implements(IImportDataCorrector)
-    adapts(IBaseObject)
 
     def __init__(self, context):
         self.context = context

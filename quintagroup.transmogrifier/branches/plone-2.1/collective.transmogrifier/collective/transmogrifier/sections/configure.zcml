@@ -5,46 +5,55 @@
 <utility
     component=".constructor.ConstructorSection"
     name="collective.transmogrifier.sections.constructor"
+    provides="collective.transmogrifier.interfaces.ISectionBlueprint"
     />
 
 <utility
     component=".codec.CodecSection"
     name="collective.transmogrifier.sections.codec"
+    provides="collective.transmogrifier.interfaces.ISectionBlueprint"
     />
 
 <utility
     component=".inserter.InserterSection"
     name="collective.transmogrifier.sections.inserter"
+    provides="collective.transmogrifier.interfaces.ISectionBlueprint"
     />
 
 <utility
     component=".condition.ConditionSection"
     name="collective.transmogrifier.sections.condition"
+    provides="collective.transmogrifier.interfaces.ISectionBlueprint"
     />
 
 <utility
     component=".manipulator.ManipulatorSection"
     name="collective.transmogrifier.sections.manipulator"
+    provides="collective.transmogrifier.interfaces.ISectionBlueprint"
     />
 
 <utility
     component=".pathresolver.PathResolverSection"
     name="collective.transmogrifier.sections.pathresolver"
+    provides="collective.transmogrifier.interfaces.ISectionBlueprint"
     />
 
 <utility
     component=".splitter.SplitterSection"
     name="collective.transmogrifier.sections.splitter"
+    provides="collective.transmogrifier.interfaces.ISectionBlueprint"
     />
 
 <utility
     component=".savepoint.SavepointSection"
     name="collective.transmogrifier.sections.savepoint"
+    provides="collective.transmogrifier.interfaces.ISectionBlueprint"
     />
 
 <utility
     component=".csvsource.CSVSourceSection"
     name="collective.transmogrifier.sections.csvsource"
+    provides="collective.transmogrifier.interfaces.ISectionBlueprint"
     />
 
 </configure>

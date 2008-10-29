@@ -5,11 +5,12 @@ from zope.interface import classProvides, implements
 from collective.transmogrifier.interfaces import ISection, ISectionBlueprint
 from collective.transmogrifier.utils import defaultMatcher
 
-from Products.GenericSetup import context
 from Products.CMFCore import utils
 
 # import monkey pathes for GS TarballContext
 import quintagroup.transmogrifier.patches
+
+from Products.GenericSetup import context
 
 class ReaderSection(object):
     classProvides(ISectionBlueprint)

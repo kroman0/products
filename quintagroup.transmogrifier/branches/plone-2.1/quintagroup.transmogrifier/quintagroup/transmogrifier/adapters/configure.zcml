@@ -4,41 +4,67 @@
 
     <!-- 'marshall' adapters -->
     <adapter
+        for="plone.app.transmogrifier.interfaces.IBaseObject"
+        provides="..interfaces.IExportDataCorrector"
         factory=".exporting.ReferenceExporter"
         name="marshall"
         />
 
     <adapter
+        for="plone.app.transmogrifier.interfaces.IBaseObject"
+        provides="..interfaces.IImportDataCorrector"
         factory=".importing.ReferenceImporter"
         name="marshall"
         />
 
     <adapter
-        for="Products.ATContentTypes.interface.IATFile"
-        factory=".exporting.FileExporter"
-        name="marshall"
-        />
-    <adapter
-        for="Products.ATContentTypes.interface.IATFile"
-        factory=".importing.FileImporter"
-        name="marshall"
-        />
-
-    <adapter
-        for="Products.ATContentTypes.interface.IATImage"
+        for="..interfaces.IATFile"
+        provides="..interfaces.IExportDataCorrector"
         factory=".exporting.FileExporter"
         name="marshall"
         />
 
     <adapter
-        for="Products.ATContentTypes.interface.IATImage"
+        for="..interfaces.IATFile"
+        provides="..interfaces.IImportDataCorrector"
         factory=".importing.FileImporter"
         name="marshall"
         />
 
     <adapter
+        for="..interfaces.IATImage"
+        provides="..interfaces.IExportDataCorrector"
+        factory=".exporting.FileExporter"
+        name="marshall"
+        />
+
+    <adapter
+        for="..interfaces.IATImage"
+        provides="..interfaces.IImportDataCorrector"
+        factory=".importing.FileImporter"
+        name="marshall"
+        />
+
+    <adapter
+        for="..interfaces.IATTopicCriterion"
+        provides="..interfaces.IExportDataCorrector"
         factory=".exporting.CriterionExporter"
         name="marshall"
+        />
+
+    <five:implements
+        class="Products.ATContentTypes.content.file.ATFile"
+        interface="..interfaces.IATFile"
+        />
+
+    <five:implements
+        class="Products.ATContentTypes.content.image.ATImage"
+        interface="..interfaces.IATImage"
+        />
+
+    <five:implements
+        class="Products.ATContentTypes.criteria.base.ATBaseCriterion"
+        interface="..interfaces.IATTopicCriterion"
         />
 
 </configure>

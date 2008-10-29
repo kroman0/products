@@ -1,0 +1,44 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five">
+
+    <!-- 'marshall' adapters -->
+    <adapter
+        factory=".exporting.ReferenceExporter"
+        name="marshall"
+        />
+
+    <adapter
+        factory=".importing.ReferenceImporter"
+        name="marshall"
+        />
+
+    <adapter
+        for="Products.ATContentTypes.interface.IATFile"
+        factory=".exporting.FileExporter"
+        name="marshall"
+        />
+    <adapter
+        for="Products.ATContentTypes.interface.IATFile"
+        factory=".importing.FileImporter"
+        name="marshall"
+        />
+
+    <adapter
+        for="Products.ATContentTypes.interface.IATImage"
+        factory=".exporting.FileExporter"
+        name="marshall"
+        />
+
+    <adapter
+        for="Products.ATContentTypes.interface.IATImage"
+        factory=".importing.FileImporter"
+        name="marshall"
+        />
+
+    <adapter
+        factory=".exporting.CriterionExporter"
+        name="marshall"
+        />
+
+</configure>

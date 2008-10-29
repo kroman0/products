@@ -1,0 +1,8 @@
+TODO
+====
+
+- Remove importing of object UIDs
+
+- Create tests for ``datacorrector`` adapters and GS Content steps.
+
+- Rewrite FileExporter/FileImporter adapters as pipeline sections.

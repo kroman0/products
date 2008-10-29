@@ -1,0 +1,46 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    i18n_domain="plone.app.transmogrifier">
+
+<five:implements
+    class="Products.Archetypes.BaseObject.BaseObject"
+    interface=".interfaces.IBaseObject"
+    />
+
+<five:implements
+    class="Products.ATContentTypes.content.topic.ATTopic"
+    interface=".interfaces.IATTopic"
+    />
+
+<utility
+    component=".atschemaupdater.ATSchemaUpdaterSection"
+    name="plone.app.transmogrifier.atschemaupdater"
+    provides="collective.transmogrifier.interfaces.ISectionBlueprint"
+    />
+
+<utility
+    component=".workflowupdater.WorkflowUpdaterSection"
+    name="plone.app.transmogrifier.workflowupdater"
+    provides="collective.transmogrifier.interfaces.ISectionBlueprint"
+    />
+
+<utility
+    component=".browserdefault.BrowserDefaultSection"
+    name="plone.app.transmogrifier.browserdefault"
+    provides="collective.transmogrifier.interfaces.ISectionBlueprint"
+    />
+
+<utility
+    component=".criteria.CriterionAdder"
+    name="plone.app.transmogrifier.criterionadder"
+    provides="collective.transmogrifier.interfaces.ISectionBlueprint"
+    />
+
+<utility
+    component=".portaltransforms.PortalTransformsSection"
+    name="plone.app.transmogrifier.portaltransforms"
+    provides="collective.transmogrifier.interfaces.ISectionBlueprint"
+    />
+
+</configure>

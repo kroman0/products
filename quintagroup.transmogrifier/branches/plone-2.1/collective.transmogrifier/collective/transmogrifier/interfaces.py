@@ -45,3 +45,10 @@ class ISection(zope.interface.Interface):
         for the next pipe section.
         
         """
+
+try:
+    from Products.CMFCore.interfaces import IFolderish
+except ImportError:
+    class IFolderish(zope.interface.Interface):
+        """ General interface for "folderish" content items.
+        """

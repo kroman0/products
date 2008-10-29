@@ -1,14 +1,24 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="collective.transmogrifier"
     >
 
 <include package=".sections"/>
 
-<adapter factory=".transmogrifier.Transmogrifier"/>
+<five:implements
+    class="Products.CMFPlone.Portal.PloneSite"
+    interface=".interfaces.IFolderish"
+    />
 
-<configure 
+<adapter
+    for=".interfaces.IFolderish"
+    provides=".interfaces.ITransmogrifier"
+    factory=".transmogrifier.Transmogrifier"
+    />
+
+<!--<configure 
     zcml:condition="installed Products.GenericSetup"
     xmlns:gs="http://namespaces.zope.org/genericsetup"
     >
@@ -26,6 +36,11 @@
   <class class=".transmogrifier.Transmogrifier">
     <implements interface="zope.annotation.interfaces.IAttributeAnnotatable" />
   </class>
-</configure>
+</configure>-->
+
+<five:implements 
+    class=".transmogrifier.Transmogrifier"
+    interface="zope.app.annotation.interfaces.IAttributeAnnotatable"
+    />
 
 </configure>

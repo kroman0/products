@@ -13,19 +13,14 @@ except ImportError:
         profile_path = os.path.join(os.path.split(__file__)[0], 'profiles/default')
         profile_registry.registerProfile("default",
                                          "Transmogrifier",
-                                         "Export the site's structure and content.",
+                                         "Export/import the site's structure and content.",
                                          profile_path,
                                          #"quintagroup.transmogrifier",
                                          profile_type=EXTENSION
                                          )
 
 # TarballExportContext don't write dirs in tarball and we need to fix this
-
-#security.declareProtected( ManagePortal, 'writeDataFile' )
 def writeDataFile( self, filename, text, content_type, subdir=None ):
-
-    """ See IExportContext.
-    """
     mod_time = time.time()
 
     if subdir is not None:
@@ -105,6 +100,6 @@ try:
     from Products.GenericSetup.context import TarballImportContext
     TarballImportContext.listDirectory = listDirectory
 except ImportError:
-    # we don't have TarballImportContext
-    # do nothing
+    # we don't have TarballImportContext, because setup_tool don't support importing
+    # profiles from tarball
     pass

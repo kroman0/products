@@ -4,7 +4,6 @@ from collective.transmogrifier.interfaces import ITransmogrifier
 from collective.transmogrifier.transmogrifier import _load_config, constructPipeline
 
 from Products.GenericSetup import context as gscontext
-#from Products.GenericSetup.interfaces import IFilesystemImporter
 
 from quintagroup.transmogrifier.writer import WriterSection
 from quintagroup.transmogrifier.reader import ReaderSection
@@ -46,8 +45,11 @@ def exportSiteStructure(context):
 def importSiteStructure(context):
     # this function is also called when adding Plone site, so call standard handler
     if not context.readDataFile('.objects.xml', subdir='structure'):
-        from Products.GenericSetup.interfaces import IFilesystemImporter
-        IFilesystemImporter(context.getSite()).import_(context, 'structure', True)
+        try:
+            from Products.GenericSetup.interfaces import IFilesystemImporter
+            IFilesystemImporter(context.getSite()).import_(context, 'structure', True)
+        except ImportError:
+            pass
         return
 
     transmogrifier = ITransmogrifier(context.getSite())
@@ -79,25 +81,3 @@ def importSiteStructure(context):
     # Pipeline execution
     for item in pipeline:
         pass # discard once processed
-
-
-#class PloneSiteImporter(object):
-    #""" Importer of plone site.
-    #"""
-    #implements(IFilesystemImporter)
-
-    #def __init__(self, context):
-        #self.context = context
-
-    #def import_(self, import_context, subdir="structure", root=False):
-        ## When performing import steps we need to use standart importing adapter,
-        ## if 'object.xml' file is absent in 'structure' directory of the profile.
-        ## This may be because it is the base plone profile or extension profile, that has
-        ## structure part in other format.
-
-        #objects_xml = import_context.readDataFile('.objects.xml', subdir)
-        #if objects_xml is not None:
-            #importSiteStructure(import_context)
-        #else:
-            #from Products.CMFCore.exportimport.content import StructureFolderWalkingAdapter
-            #StructureFolderWalkingAdapter(self.context).import_(import_context, "structure", True)

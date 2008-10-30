@@ -1,10 +1,10 @@
 from xml.dom import minidom
 
 from zope.interface import Interface, implements
-from zope.component import adapts
 
 from Products.Archetypes import atapi
 from Products.Marshall.config import AT_NS
+from Products.PageTemplates.TALES import CompilerError
 
 from quintagroup.transmogrifier.interfaces import IExportDataCorrector
 from quintagroup.transmogrifier.adapters.exporting import ReferenceExporter
@@ -17,12 +17,11 @@ class PloneFormMailerExporter(ReferenceExporter):
     """ Marshalls PloneFormMailer to XML.
     """
     implements(IExportDataCorrector)
-    adapts(IPloneFormMailer)
 
     def __init__(self, context):
         self.context = context
         self.tales_fnames = ['recipient_name', 'bcc_recipients', 'cc_recipients']
-        self.mail_subject_field = 'subject' 
+        self.mail_subject_field = 'subject'
 
     def __call__(self, data):
         xml = data['data']
@@ -43,7 +42,12 @@ class PloneFormMailerExporter(ReferenceExporter):
             nodes = [i for i in root.getElementsByTagName('field') if i.getAttribute('name') == fname]
             for node in nodes:
                 root.removeChild(node)
-            values = schema[fname].getAccessor(self.context)()
+            # trying to get value of TALES field
+            # if expression can't be evaluated skip this field
+            try:
+                values = schema[fname].getAccessor(self.context)()
+            except CompilerError:
+                continue
             if not isinstance(values, (list, tuple)):
                 values = [values]
             values = filter(None, values)
@@ -64,7 +68,7 @@ class PloneFormMailerExporter(ReferenceExporter):
         if value:
             node = doc.createElementNS(AT_NS, "field")
             name_attr = doc.createAttribute("name")
-            name_attr.value = mail_subject_field
+            name_attr.value = self.mail_subject_field
             node.setAttributeNode(name_attr)
             value_node = doc.createTextNode(str(value))
             node.appendChild(value_node)

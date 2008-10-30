@@ -214,4 +214,3 @@ msgstr "Tutti i commenti richiedono un'approvazione prima di essere pubblicati. 
 #: skins/qplonecomments/2.5/validate_talkback.vpy
 msgid "Please enter your name."
 msgstr "Per favore inserisci il tuo nome."
-

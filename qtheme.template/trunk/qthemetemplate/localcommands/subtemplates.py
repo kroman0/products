@@ -1,7 +1,7 @@
 """
 Local templates for the qplone3_theme
 """
-import os, sys, re
+import os, sys, re, datetime
 from ConfigParser import SafeConfigParser
 from paste.script import pluginlib
 
@@ -235,3 +235,18 @@ class ViewletHiddenSubTemplate(QThemeSubTemplate):
                 if pmarker in pmarkers:
                     add_hidden = False
         return add_hidden
+
+class ImportSubTemplate(QThemeSubTemplate):
+    """
+    A skeleton for importing zexp objects into portal on theme installation
+    """
+    _template_dir = 'templates/importing'
+    summary = "A template for importing zexp-objects into portal on installation"
+    
+    def pre(self, command, output_dir, vars):
+        """ Set timestamp var for generate import_steps profile id
+        """
+        super(ImportSubTemplate, self).pre(command, output_dir, vars)
+
+        vars['timestamp'] = datetime.date.today().strftime("%Y%m%d")
+

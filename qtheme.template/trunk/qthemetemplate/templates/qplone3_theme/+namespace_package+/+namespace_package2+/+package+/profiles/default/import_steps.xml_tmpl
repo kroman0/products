@@ -8,4 +8,5 @@
     Various import steps that are not handled by GS import/export
     handlers.
   </import-step>
+ <!-- -*- extra stuff goes here -*- -->
 </import-steps>

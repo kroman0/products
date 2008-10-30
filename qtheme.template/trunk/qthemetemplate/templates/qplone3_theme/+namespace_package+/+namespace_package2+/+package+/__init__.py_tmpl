@@ -7,6 +7,8 @@ from zope.i18nmessageid import MessageFactory
 # This will be imported with the special name "_" in most modules. Strings
 # like _(u"message") will then be extracted by i18n tools for translation.
 
+GLOBALS = globals()
+
 ${package}MessageFactory = MessageFactory('${namespace_package}.${namespace_package2}.${package}')
 #if str($zope2product) == 'True'
 

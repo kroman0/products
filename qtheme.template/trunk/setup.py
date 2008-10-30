@@ -31,6 +31,7 @@ setup(name='qtheme.template',
           js_resource = qthemetemplate.localcommands.subtemplates:JSSubTemplate
           viewlet_order = qthemetemplate.localcommands.subtemplates:ViewletOrderSubTemplate
           viewlet_hidden = qthemetemplate.localcommands.subtemplates:ViewletHiddenSubTemplate
+          import_zexps = qthemetemplate.localcommands.subtemplates:ImportSubTemplate
 
           [distutils.setup_keywords]
           theme_vars = qthemetemplate:assert_dict

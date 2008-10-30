@@ -9,3 +9,5 @@ def setupVarious(context):
         return
 
     # Add additional setup code here
+
+\#\# -*- extra stuff goes here -*-

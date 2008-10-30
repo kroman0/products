@@ -10,18 +10,21 @@
 
     <configure zcml:condition="installed Products.PloneFormMailer">
 
-        <implements 
+        <five:implements 
             class="Products.PloneFormMailer.PloneFormMailer.PloneFormMailer"
             interface=".exporting.IPloneFormMailer"
             />
 
         <adapter
+            for=".exporting.IPloneFormMailer"
+            provides="quintagroup.transmogrifier.interfaces.IExportDataCorrector"
             factory=".exporting.PloneFormMailerExporter"
             name="marshall"
             />
 
     </configure>
 
+    <!-- comment next if you are running Plone 2.1.5 -->
     <configure zcml:condition="installed Products.PloneFormGen">
 
         <transmogrifier:stylesheet

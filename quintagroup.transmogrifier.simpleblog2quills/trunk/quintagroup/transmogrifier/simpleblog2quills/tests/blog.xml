@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?><metadata xmlns="http://plone.org/ns/archetypes/" xmlns:cmf="http://cmf.zope.org/namespaces/default/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xmp="adobe:ns:meta">
+    <dc:title>
+        Test Blog
+    </dc:title>
+    <dc:description>
+        This is test blog.
+    </dc:description>
+    <xmp:CreateDate>
+        2005-08-29T11:32:01Z
+    </xmp:CreateDate>
+    <xmp:ModifyDate>
+        2006-04-26T11:04:31Z
+    </xmp:ModifyDate>
+    <field name="id">
+        blog
+    </field>
+    <field name="displayMode">
+        descriptionOnly
+    </field>
+    <field name="displayItems">
+        15
+    </field>
+    <field name="categories">
+        Zope
+    </field>
+    <field name="categories">
+        Plone
+    </field>
+    <field name="tags">
+        Python
+    </field>
+    <field name="tags">
+        Testing
+    </field>
+    <field name="tagsEnabled">
+        True
+    </field>
+    <cmf:type>
+        Blog
+    </cmf:type>
+</metadata>

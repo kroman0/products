@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><metadata xmlns="http://plone.org/ns/archetypes/" xmlns:cmf="http://cmf.zope.org/namespaces/default/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xmp="adobe:ns:meta">
+    <dc:title>
+        Blog folder
+    </dc:title>
+    <dc:description>
+        Folder in blog.
+    </dc:description>
+    <xmp:ModifyDate>
+        2005-11-04T11:31:06Z
+    </xmp:ModifyDate>
+    <field name="id">
+        folder
+    </field>
+    <field name="existingCats">
+        &lt;ul&gt;&lt;li&gt;Zope&lt;/li&gt;&lt;li&gt;Plone&lt;/li&gt;
+    </field>
+    <cmf:type>
+        BlogFolder
+    </cmf:type>
+</metadata>

@@ -13,28 +13,38 @@
         <div tal:replace="structure provider:plone.abovecontenttitle" />
 
         <h1 class="documentFirstHeading">
-            <span tal:content="here/title_or_id">Title</span>
+            <metal:field use-macro="python:context.widget('title', mode='view')">
+            Title
+            </metal:field>
         </h1>
 
         <div tal:replace="structure provider:plone.belowcontenttitle" />
         <div tal:replace="structure provider:plone.abovecontentbody" />
 
-        <div class="documentDescription" tal:content="context/description" />
-        
-	<div class="contentColumnOneTwo">
-        <div class="contentColumnOne">
-    	     <div class="visualPaddingColumn"
-                 tal:define="body1 here/body1"
-                 tal:condition="body1"
-	         tal:content="structure body1">Body 1</div>
-        </div>
+        <p class="documentDescription">
+            <metal:field use-macro="python:context.widget('description', mode='view')">
+            Description
+            </metal:field>
+        </p>
 
-	<div class="contentColumnTwo">
-    	     <div class="visualPaddingColumn"
-                 tal:define="body2 here/body2;"
-                 tal:condition="body2"
-	         tal:content="structure body2">Body 2</div>
-        </div>
+	<div class="contentColumnOneTwo">
+            <div class="contentColumnOne">
+                <div class="visualPaddingColumn"
+                     tal:condition="context/body1">
+                    <metal:field use-macro="python:context.widget('body1', mode='view')">
+                    Body text 1
+                    </metal:field>
+                </div>
+            </div>
+
+	    <div class="contentColumnTwo">
+    	        <div class="visualPaddingColumn"
+                     tal:condition="context/body2">
+                    <metal:field use-macro="python:context.widget('body2', mode='view')">
+                    Body text 2
+                    </metal:field>
+                </div>
+            </div>
 	</div>
 
         <div class="visualClear" id="clear-after-doublecolumn-document"><!-- --></div>

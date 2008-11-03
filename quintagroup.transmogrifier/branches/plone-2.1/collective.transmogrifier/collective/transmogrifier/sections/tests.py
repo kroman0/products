@@ -1,6 +1,11 @@
 import itertools
 import pprint
 import unittest
+
+# that module does monkey patching in zope.component if we have Zope X3.0
+# it gives provideUtility, providedAdapter and adapts functions
+import collective.transmogrifier.zopex3
+
 from zope.component import provideUtility
 from zope.interface import classProvides, implements
 from zope.testing import doctest
@@ -80,6 +85,10 @@ class SplitterConditionSectionTests(unittest.TestCase):
             self.assertFalse(original is yielded)
 
 class SplitterSectionTests(unittest.TestCase):
+    def setUp(self):
+        import Products.Five
+        zcml.load_config('configure.zcml', Products.Five)
+
     def _makeOne(self, transmogrifier, options, previous):
         from splitter import SplitterSection
         return SplitterSection(transmogrifier, 'unittest', options, previous)
@@ -93,6 +102,7 @@ class SplitterSectionTests(unittest.TestCase):
     
     def testInsertExtra(self):
         class Inserter(object):
+            classProvides(ISectionBlueprint)
             implements(ISection)
             def __init__(self, transmogrifier, name, options, previous):
                 self.previous = previous
@@ -125,6 +135,7 @@ class SplitterSectionTests(unittest.TestCase):
     
     def testSkipItems(self):
         class Skip(object):
+            classProvides(ISectionBlueprint)
             implements(ISection)
             def __init__(self, transmogrifier, name, options, previous):
                 self.previous = previous
@@ -218,10 +229,13 @@ def sectionsSetUp(test):
         
     from collective.transmogrifier.transmogrifier import Transmogrifier
     test.globs['transmogrifier'] = Transmogrifier(test.globs['plone'])
-    
-    import zope.component
+
+    import Products.Five
+    zcml.load_config('configure.zcml', Products.Five)
+
+    #import zope.component
     import collective.transmogrifier.sections
-    zcml.load_config('meta.zcml', zope.component)
+    #zcml.load_config('meta.zcml', zope.component)
     zcml.load_config('configure.zcml', collective.transmogrifier.sections)
     
     provideUtility(SampleSource,

@@ -3,10 +3,16 @@ import shutil
 import tempfile
 import unittest
 import operator
-from zope.interface import classImplements, implements
+
+# that module does monkey patching in zope.component if we have Zope X3.0
+# it gives provideUtility, providedAdapter and adapts functions
+import collective.transmogrifier.zopex3
+
+from zope.interface import classImplements, implements, classProvides
 from zope.component import provideUtility
 from zope.testing import doctest, cleanup
 from Products.Five import zcml
+import Products.Five
 
 import collective.transmogrifier
 from collective.transmogrifier.transmogrifier import configuration_registry
@@ -22,7 +28,7 @@ class MetaDirectivesTests(unittest.TestCase):
         
     def tearDown(self):
         configuration_registry.clear()
-        cleanup.cleanUp()
+        #cleanup.cleanUp()
         
     def testEmptyZCML(self):
         zcml.load_string('''\
@@ -184,6 +190,10 @@ bar +=
         self.assertEquals(opts['bar']['baz'], '')
 
 class ConstructPipelineTests(cleanup.CleanUp, unittest.TestCase):
+    def setUp(self):
+        import Products.Five
+        zcml.load_config('configure.zcml', Products.Five)
+    
     def _doConstruct(self, transmogrifier, sections, pipeline=None):
         from collective.transmogrifier.utils import constructPipeline
         return constructPipeline(transmogrifier, sections, pipeline)
@@ -194,6 +204,7 @@ class ConstructPipelineTests(cleanup.CleanUp, unittest.TestCase):
                 blueprint='collective.transmogrifier.tests.noisection'))
         
         class NotAnISection(object):
+            classProvides(ISectionBlueprint)
             def __init__(self, transmogrifier, name, options, previous):
                 self.previous = previous
             def __iter__(self):
@@ -328,11 +339,12 @@ def setUp(test):
         ISection=ISection,
         plone=PloneSite(),
         ))
+    zcml.load_config('configure.zcml', Products.Five)
 
 def tearDown(test):
     from collective.transmogrifier import transmogrifier
     shutil.rmtree(BASEDIR)
-    cleanup.cleanUp()
+    #cleanup.cleanUp()
 
 def test_suite():
     import sys

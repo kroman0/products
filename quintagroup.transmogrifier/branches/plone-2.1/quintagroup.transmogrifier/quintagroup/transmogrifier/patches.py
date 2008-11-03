@@ -7,6 +7,10 @@ try:
     # if we have GenericSetup product we don't need to register steps in python
     import Products.GenericSetup
 except ImportError:
+    import sys
+    import Products.CMFSetup
+    sys.modules['Products.GenericSetup'] = Products.CMFSetup
+
     from Products.CMFSetup import profile_registry, EXTENSION
 
     if 'quintagroup.transmogrifier:default' not in profile_registry.listProfiles():
@@ -46,14 +50,8 @@ def writeDataFile( self, filename, text, content_type, subdir=None ):
     info.mtime = mod_time
     self._archive.addfile( info, stream )
 
-try:
-    from Products.GenericSetup.context import TarballExportContext
-except ImportError:
-    import Products.CMFSetup
-    import sys
-    sys.modules['Products.GenericSetup'] = Products.CMFSetup
-    TarballExportContext = Products.CMFSetup.context.TarballExportContext
 
+from Products.GenericSetup.context import TarballExportContext
 TarballExportContext.writeDataFile = writeDataFile
 
 try:

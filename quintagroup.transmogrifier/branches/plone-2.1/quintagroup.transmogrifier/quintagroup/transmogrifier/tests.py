@@ -2,9 +2,12 @@ import unittest
 import pprint
 import os
 
-from zope.testing import doctest, cleanup
+import collective.transmogrifier.zopex3
+
+from zope.interface import Interface, classProvides, implements
 from zope.component import provideUtility, provideAdapter, adapts
-from zope.interface import classProvides, implements
+
+from zope.testing import doctest, cleanup
 
 from collective.transmogrifier.interfaces import ISectionBlueprint, ISection
 from collective.transmogrifier.tests import tearDown
@@ -48,9 +51,6 @@ class DataPrinter(object):
 ctSectionsSetup = sectionsSetUp
 def sectionsSetUp(test):
     ctSectionsSetup(test)
-    # load meta.zcml of directives that are used in out package config
-    import Products.GenericSetup
-    zcml.load_config('meta.zcml', Products.GenericSetup)
     zcml.load_config('configure.zcml', quintagroup.transmogrifier)
 
     from Products.CMFCore import utils
@@ -69,8 +69,8 @@ def sectionsSetUp(test):
 def siteWalkerSetUp(test):
     sectionsSetUp(test)
 
-    from Products.CMFCore.interfaces import IFolderish
-    from Products.Archetypes.interfaces import IBaseFolder
+    from collective.transmogrifier.interfaces import IFolderish
+    from quintagroup.transmogrifier.interfaces import IBaseFolder
 
     class MockContent(object):
         path = ()
@@ -163,16 +163,33 @@ def manifestSetUp(test):
 def marshallSetUp(test):
     sectionsSetUp(test)
 
-    from Products.Archetypes.interfaces import IBaseObject
+    from plone.app.transmogrifier.interfaces import IBaseObject
 
-    class MockCriterion(object):
-        implements(IBaseObject)
-        _last_path = None
+    class MockBase(object):
+        def checkCreationFlag(self):
+            return True
+
+        def unmarkCreationFlag(self):
+            pass
+
+        def at_post_create_script(self):
+            pass
+
+        def at_post_edit_script(self):
+            pass
+
         indexed = ()
         def indexObject(self):
             self.indexed += (self._last_path,)
 
-    class MockPortal(object):
+    class MockCriterion(MockBase):
+        implements(IBaseObject)
+        _last_path = None
+
+        def indexObject(self):
+            self.indexed += (self._last_path,)
+
+    class MockPortal(MockBase):
         implements(IBaseObject)
 
         criterion = MockCriterion()
@@ -196,10 +213,6 @@ def marshallSetUp(test):
 
         def getId(self):
             return "plone"
-
-        indexed = ()
-        def indexObject(self):
-            self.indexed += (self._last_path,)
 
         marshalled = ()
         def marshall(self, instance, **kwargs):
@@ -244,7 +257,7 @@ def marshallSetUp(test):
 def propertyManagerSetUp(test):
     sectionsSetUp(test)
 
-    from OFS.interfaces import IPropertyManager
+    from interfaces import IPropertyManager
 
     class MockPortal(object):
         implements(IPropertyManager)
@@ -412,7 +425,12 @@ def commentsSetUp(test):
 def dataCorrectorSetUp(test):
     sectionsSetUp(test)
 
+    class IPortal(Interface):
+        pass
+
     class MockPortal(object):
+        implements(IPortal)
+
         def unrestrictedTraverse(self, path, default):
             if path[0] == '/':
                 return default # path is absolute
@@ -432,26 +450,26 @@ def dataCorrectorSetUp(test):
         IImportDataCorrector
 
     class MockExportAdapter(object):
-        implements(IExportDataCorrector)
-        adapts(MockPortal)
+        #implements(IExportDataCorrector)
+        #adapts(MockPortal)
         def __init__(self, context):
             self.context = context
 
         def __call__(self, data):
             return "modified export data"
 
-    provideAdapter(MockExportAdapter, name="marshall")
+    provideAdapter(MockExportAdapter, (IPortal,), IExportDataCorrector, name="marshall")
 
     class MockImportAdapter(object):
-        implements(IImportDataCorrector)
-        adapts(MockPortal)
+        #implements(IImportDataCorrector)
+        #adapts(MockPortal)
         def __init__(self, context):
             self.context = context
 
         def __call__(self, data):
             return "modified import data"
 
-    provideAdapter(MockImportAdapter, name="manifest")
+    provideAdapter(MockImportAdapter, (IPortal,), IImportDataCorrector, name="manifest")
 
     class DataCorrectorSource(SampleSource):
         classProvides(ISectionBlueprint)
@@ -622,7 +640,7 @@ class MetaDirectivesTests(unittest.TestCase):
 
     def tearDown(self):
         stylesheet_registry.clear()
-        cleanup.cleanUp()
+        #cleanup.cleanUp()
 
     def testEmptyZCML(self):
         zcml.load_string('''\

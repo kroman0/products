@@ -1,4 +1,7 @@
 import unittest
+
+import collective.transmogrifier.zopex3
+
 from zope.component import provideUtility
 from zope.interface import classProvides, implements
 from zope.testing import doctest
@@ -33,7 +36,7 @@ def portalTransformsSetUp(test):
 def aTSchemaUpdaterSetUp(test):
     sectionsSetUp(test)
     
-    from Products.Archetypes.interfaces import IBaseObject
+    from plone.app.transmogrifier.interfaces import IBaseObject
     class MockPortal(object):
         implements(IBaseObject)
         
@@ -156,7 +159,7 @@ def workflowUpdaterSetUp(test):
 def browserDefaultSetUp(test):
     sectionsSetUp(test)
 
-    from Products.CMFDynamicViewFTI.interface import ISelectableBrowserDefault
+    from plone.app.transmogrifier.interfaces import ISelectableBrowserDefault
     class MockPortal(object):
         implements(ISelectableBrowserDefault)
 

@@ -1,3 +1,4 @@
+#if not $already_used:
 from ${namespace_package}.${namespace_package2}.${package}.utils import checkIfImport, performImportToPortal
 
 def importZexps(context):
@@ -8,3 +9,4 @@ def importZexps(context):
     site = context.getSite()
     if checkIfImport():
         performImportToPortal(site)
+#end if

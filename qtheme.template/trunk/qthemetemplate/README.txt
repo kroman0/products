@@ -214,6 +214,7 @@ qplone3_theme generated package theme support ZopeSkel local command 'addcontent
       ...
         css_resource:    A Plone 3 CSS resource template
       ...
+        import_zexps:    A template for importing zexp-objects into portal on installation
         js_resource:     A Plone 3 JS resource template
       N portlet:         A Plone 3 portlet
       ...
@@ -592,5 +593,67 @@ So look into profiles/default directory
     </object>
 
 We see, that in viewlets.xml, hide example viewlet for plone.portalheader viewlet manager.
+
+
+Import ZEXPs
+------------------------------
+This subtemplate allow you to add to your theme ZEXP objects, which will be exporting
+into portal root on theme installation
+
+    >>> paster('addcontent --no-interactive import_zexps')
+    paster addcontent --no-interactive import_zexps
+    ...
+    Recursing into import
+    ...
+    Recursing into profiles
+    ...
+    Inserting from setuphandlers.py_insert into ...
+    ...
+
+As we see from upper log - there is:
+   - adding 'import' directory into theme directory;
+   - update profiles staff.
+   - insert some staff into setuphandlers.py module
+    
+1. Look into 'import' directory:
+    >>> ls('import')
+    CONTENT.txt
+
+It's empty - here you can put any zexp objects for install into portal root.
+
+
+2. Look into profiles/default directory
+
+    >>> ls('profiles/default')
+    cssregistry.xml
+    import_steps.xml
+    ...
+
+
+    >>> cat('profiles/default/import_steps.xml')
+    <?xml version="1.0"?>
+    <import-steps>
+    ...
+      <import-step id="quintagroup.theme.ploneexample.import_zexps"
+                   version="20081104-02"
+                   handler="quintagroup.theme.ploneexample.setuphandlers.importZEXPs"
+                   title="My Theme Name: Import zexps objects">
+        <dependency step="skins" />
+        Import zexp objects into portal on My Theme Name theme installation
+      </import-step>
+    <BLANKLINE>
+    </import-steps>
+
+We see, that in import_steps.xml, added 'Import zexp' step.
+
+3. Check setuphandlers.py module - there is must be importZEXPs function defined
+
+    >>> cat('setuphandlers.py')
+    def setupVarious(context):
+    ...
+    def importZEXPs(context):
+    ...
+
+So everything fine with setuphandlers too ;)
 
 

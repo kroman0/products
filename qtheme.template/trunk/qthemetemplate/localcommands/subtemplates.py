@@ -249,4 +249,8 @@ class ImportSubTemplate(QThemeSubTemplate):
         super(ImportSubTemplate, self).pre(command, output_dir, vars)
 
         vars['timestamp'] = datetime.date.today().strftime("%Y%m%d")
+        vars['already_used'] = self.already_used(vars)
 
+    def already_used(self, vars):
+        used = vars.get('qplone3_theme_used_subtemplates','').split(',')
+        return self.name in filter(None,[st.strip() for st in used])

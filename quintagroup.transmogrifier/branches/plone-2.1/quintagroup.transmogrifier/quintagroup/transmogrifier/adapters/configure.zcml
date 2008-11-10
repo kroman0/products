@@ -18,48 +18,10 @@
         />
 
     <adapter
-        for="..interfaces.IATFile"
-        provides="..interfaces.IExportDataCorrector"
-        factory=".exporting.FileExporter"
-        name="marshall"
-        />
-
-    <adapter
-        for="..interfaces.IATFile"
-        provides="..interfaces.IImportDataCorrector"
-        factory=".importing.FileImporter"
-        name="marshall"
-        />
-
-    <adapter
-        for="..interfaces.IATImage"
-        provides="..interfaces.IExportDataCorrector"
-        factory=".exporting.FileExporter"
-        name="marshall"
-        />
-
-    <adapter
-        for="..interfaces.IATImage"
-        provides="..interfaces.IImportDataCorrector"
-        factory=".importing.FileImporter"
-        name="marshall"
-        />
-
-    <adapter
         for="..interfaces.IATTopicCriterion"
         provides="..interfaces.IExportDataCorrector"
         factory=".exporting.CriterionExporter"
         name="marshall"
-        />
-
-    <five:implements
-        class="Products.ATContentTypes.content.file.ATFile"
-        interface="..interfaces.IATFile"
-        />
-
-    <five:implements
-        class="Products.ATContentTypes.content.image.ATImage"
-        interface="..interfaces.IATImage"
         />
 
     <five:implements

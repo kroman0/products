@@ -718,6 +718,161 @@ def xsltSetUp(test):
     XSLTSection.applyTransformations = lambda self, xml, xslt: 'transformed xml'
     test.globs['stylesheet_registry'] = stylesheet_registry
 
+def binarySetUp(test):
+    sectionsSetUp(test)
+
+    from plone.app.transmogrifier.interfaces import IBaseObject
+
+    class MockPortal(object):
+        implements(IBaseObject)
+
+        _last_path = None
+        def unrestrictedTraverse(self, path, default):
+            if path[0] == '/':
+                return default # path is absolute
+            if isinstance(path, unicode):
+                return default
+            if path == 'not/existing/bar':
+                return default
+            if path.endswith('/notatcontent'):
+                return object()
+            self._last_path = path
+            return self
+
+        fields = ['id', 'title', 'file', 'image']
+
+        def Schema(self):
+            return dict.fromkeys(self.fields)
+
+        def isBinary(self, field):
+            return field in ('file',) #, 'image')
+
+        def getField(self, field):
+            return self
+
+        def getBaseUnit(self, obj):
+            return self
+
+        def getFilename(self):
+            return "archive.tar.gz"
+
+        def getContentType(self):
+            return 'application/x-tar'
+
+        def getRaw(self):
+            return "binary data"
+
+        def getMutator(self, obj):
+            return self
+
+        updated = ()
+        def __call__(self, data, filename=None, mimetype=None):
+            self.updated += (filename, mimetype, data)
+
+    portal = MockPortal()
+    test.globs['plone'] = portal
+    test.globs['transmogrifier'].context = test.globs['plone']
+
+    class BinarySource(SampleSource):
+        classProvides(ISectionBlueprint)
+        implements(ISection)
+
+        def __init__(self, *args, **kw):
+            super(BinarySource, self).__init__(*args, **kw)
+            self.sample = (
+                dict(),
+                dict(_path='not/existing/bar'),
+                dict(_path='spam/eggs/notatcontent'),
+                dict(_path='spam/eggs/foo'),
+            )
+
+    provideUtility(BinarySource,
+        name=u'quintagroup.transmogrifier.tests.binarysource')
+
+from DateTime import DateTime
+
+def catalogSourceSetUp(test):
+    sectionsSetUp(test)
+
+    class MockContent(dict):
+        def __init__(self, **kw):
+            self.update(kw)
+
+        def getPath(self):
+            return self['path']
+
+        @property
+        def getId(self):
+            path = self.getPath()
+            return path.rsplit('/', 1)[-1]
+
+        @property
+        def Type(self):
+            return self['portal_type']
+
+        @property
+        def is_folderish(self):
+            return self['portal_type'] == 'Folder' and True or False
+
+    class MockPortal(dict):
+        #implements(IFolderish)
+
+        content = ()
+        def __call__(self, **kw):
+            res = []
+            for obj in self.content:
+                matched = True
+                for index, query in kw.items():
+                    if index not in obj:
+                        matched = False
+                        break
+                    if matched and index == 'modified':
+                        if isinstance(query, dict):
+                            value = query['query']
+                            range_ = query['range']
+                            if range_ == 'min' and DateTime(obj[index]) >= DateTime(value):
+                                matched = True
+                            elif range_ == 'max' and DateTime(obj[index]) <= DateTime(value):
+                                matched = True
+                            else:
+                                matched = False
+                        else:
+                            if DateTime(obj[index]) == DateTime(query):
+                                matched = True
+                            else:
+                                matched = False
+                    elif matched and index == 'path':
+                        if obj[index].startswith(query):
+                            matched = True
+                        else:
+                            matched = False
+                    elif matched:
+                        if obj[index] == query:
+                            matched = True
+                        else:
+                            matched = False
+                if matched:
+                    res.append(obj)
+
+            return res
+
+    portal = MockPortal()
+    doc1 = MockContent(path='/plone/document1', portal_type='Document',
+        modified='2008-11-01T12:00:00Z')
+    folder1 = MockContent(path='/plone/folder1', portal_type='Folder',
+        modified='2008-11-04T12:00:00Z')
+    doc2 = MockContent(path='/plone/folder1/document2', portal_type='Document',
+        modified='2008-11-02T12:00:00Z')
+    doc3 = MockContent(path='/plone/folder1/document3', portal_type='Document',
+        modified='2008-11-01T12:00:00Z')
+    doc4 = MockContent(path='/plone/document4', portal_type='Document',
+        modified='2008-11-03T12:00:00Z')
+    # items are sorted on their modification date
+    portal.content = (doc1, doc3, doc2, doc4, folder1)
+
+    test.globs['plone'] = portal
+    test.globs['transmogrifier'].context = test.globs['plone']
+
 def test_suite():
     import sys
     suite = unittest.findTestCases(sys.modules[__name__])
@@ -752,5 +907,11 @@ def test_suite():
         doctest.DocFileSuite(
             'xslt.txt',
             setUp=xsltSetUp, tearDown=tearDown),
+        doctest.DocFileSuite(
+            'binary.txt',
+            setUp=binarySetUp, tearDown=tearDown),
+        doctest.DocFileSuite(
+            'catalogsource.txt',
+            setUp=catalogSourceSetUp, tearDown=tearDown),
     ))
     return suite

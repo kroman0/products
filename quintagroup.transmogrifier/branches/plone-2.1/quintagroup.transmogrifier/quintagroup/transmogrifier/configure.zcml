@@ -109,6 +109,24 @@
         provides="collective.transmogrifier.interfaces.ISectionBlueprint"
         />
 
+    <utility
+        component=".binary.FileExporterSection"
+        name="quintagroup.transmogrifier.fileexporter"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
+        />
+
+    <utility
+        component=".binary.FileImporterSection"
+        name="quintagroup.transmogrifier.fileimporter"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
+        />
+
+    <utility
+        component=".catalogsource.CatalogSourceSection"
+        name="quintagroup.transmogrifier.catalogsource"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
+        />
+
     <transmogrifier:registerConfig
         name="export"
         title="Export pipeline configuration"

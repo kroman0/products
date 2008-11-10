@@ -17,18 +17,17 @@
        class="link-parent"
        tal:attributes="href string: $portal_url/plone_control_panel"
        i18n:translate="label_up_to_plone_setup">
-    Up to Plone Setup
+      Up to Plone Setup
     </a>
 
     <div class="documentDescription"
          i18n:translate="description_plonedropdownmenu">
-    Plone Drop Down Menu ...
+      Plone Drop Down Menu ...
     </div>
 
     <h2>Post-install instructions</h2>
 
-    <p>Congratulations, you've installed Plone Drop Down Menu product from 
-    Quintagroup.</p>
+    <p>Congratulations, you've installed Plone Drop Down Menu product from Quintagroup.</p>
 
     <p>In case you have some problems following editing DropDown Menu you
     can only click <a href="dropdownmenu_update">regenerate menu</a>, and
@@ -39,44 +38,51 @@
           method="post" 
           tal:attributes="action string:${here/absolute_url}/${template/getId}" >
 
-     <div class="formControls" align="right"
-             tal:define="process_creation request/process_creation|nothing;">
-         <input class="context"
-                tabindex=""
-                type="submit"
-                value="Regenerate Menu"
-                name="form.button.Regenerate"
-                i18n:attributes="value"
-                tal:attributes="tabindex tabindex/next" />
-     </div>
+      <div class="formControls" align="right"
+           tal:define="process_creation request/process_creation|nothing;">
+          <input class="context"
+                 tabindex=""
+                 type="submit"
+                 value="Regenerate Menu"
+                 name="form.button.Regenerate"
+                 i18n:attributes="value"
+                 tal:attributes="tabindex tabindex/next" />
+      </div>
 
-     <div class="field">
-         <label for="menu" i18n:translate="label_portaltabs">Portal tabs</label>
-         <div class="formHelp" i18n:translate="help_portaltabs_edit">
-         Here you can change your portal tabs. 
-         </div>
-         <textarea cols="80" 
-                   rows="20"
-                   tabindex=""
-                   name="menu"
-                   id="menu"
-                   tal:content="portal/portal_properties/dropdownmenu_properties/menu"
-                   tal:attributes="tabindex tabindex/next;"
-                   >Portal Tabs</textarea>
-     </div>
+      <dl class="portalMessage warning"
+          tal:condition="not: portal/portal_properties/dropdownmenu_properties/menu|nothing">
+        <dt>Warning</dt>
+        <dd>
+          Dropdown menu property sheet or it's 'menu' field were deleted from portal_properties tool.
+          Before saving any portal tabs you have to 'Regenerate Menu'. This action will add
+          'menu' field back to your properties.
+        </dd>
+      </dl>
 
-     <div class="formControls"
-             tal:define="process_creation request/process_creation|nothing;">
-         <input class="context"
-                tabindex=""
-                type="submit"
-                value="Save"
-                name="form.button.Save"
-                i18n:attributes="value"
-                tal:attributes="tabindex tabindex/next" />
-     </div>
+      <div class="field">
+          <label for="menu" i18n:translate="label_portaltabs">Portal tabs</label>
+          <div class="formHelp" i18n:translate="help_portaltabs_edit">Here you can change your portal tabs.</div>
+          <textarea cols="80" 
+                    rows="20"
+                    tabindex=""
+                    name="menu"
+                    id="menu"
+                    tal:content="portal/portal_properties/dropdownmenu_properties/menu|string:"
+                    tal:attributes="tabindex tabindex/next;">Portal Tabs</textarea>
+      </div>
 
-     <input type="hidden" name="form.submitted" value="1" />
+      <div class="formControls"
+           tal:define="process_creation request/process_creation|nothing;">
+        <input class="context"
+               tabindex=""
+               type="submit"
+               value="Save"
+               name="form.button.Save"
+               i18n:attributes="value"
+               tal:attributes="tabindex tabindex/next" />
+      </div>
+
+      <input type="hidden" name="form.submitted" value="1" />
     </form>
 
   </div>

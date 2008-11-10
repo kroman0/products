@@ -1,2 +1,0 @@
-
-# * next optimization of csshover.htc script

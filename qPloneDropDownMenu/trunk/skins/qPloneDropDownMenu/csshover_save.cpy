@@ -37,4 +37,6 @@ if cssreg is not None:
 else:
     message += "For activating csshover.css customize ploneCustom.css and add <dtml-var csshover.css> line before <dtml-var drop_down.css>"
 
-return state.set(status='success', portal_status_message=message)
+context.plone_utils.addPortalMessage(message)
+
+return state.set(status='success')

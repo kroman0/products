@@ -6,15 +6,13 @@ Quintagroup Plone Drop Down Menu
   "Product Homepage":http://quintagroup.com/services/plone-development/products/ |
   "Download":http://sourceforge.net/projects/quintagroup
 
-  (c) "Quintagroup":http://quintagroup.com/ , 2005. 
+  (c) "Quintagroup":http://quintagroup.com/ , 2008. 
 
   support@quintagroup.com * quintessence of modern business
 
 Requires
 
-  Plone 2.0+
-  CMF 1.4.7+
-  Zope 2.7+
+  Plone 3.0+
 
 Install
 
@@ -77,7 +75,5 @@ If you want to 'regenerate menu' you should pay attention to status of
 
 
 Authors
-
-  * Myroslav Opyr
 
   * Vitaliy Podoba

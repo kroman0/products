@@ -5,13 +5,27 @@
 ##bind script=script
 ##bind state=state
 ##bind subpath=traverse_subpath
-##parameters=menu=None, RESPONSE=None
+##parameters=menu
 ##title=
 ##
 
-REQUEST=context.REQUEST
+from Products.CMFCore.utils import getToolByName
 
-properties = context.portal_properties.dropdownmenu_properties
-properties.manage_editProperties(REQUEST)
+# some checks whether dropdown properties exist
+pp = getToolByName(context, 'portal_properties')
+if 'dropdownmenu_properties' not in pp.objectIds():
+    context.plone_utils.addPortalMessage('Dropdown menu property sheet does not exist. Please, firstly regenerate menu before editing it.',
+                                         type='error')
+    return state.set(status='failure')
 
-return state.set(status='success', portal_status_message='DropDown Menu updated.')
+
+properties = pp.dropdownmenu_properties
+if not properties.hasProperty('menu'):
+    context.plone_utils.addPortalMessage('menu field does not exist in dropdown menu property sheet. Please, firstly regenerate menu before editing it.',
+                                         type='error')
+    return state.set(status='failure')
+
+# do actual work
+properties.manage_changeProperties(menu=menu)
+context.plone_utils.addPortalMessage('DropDown Menu updated.')
+return state.set(status='success')

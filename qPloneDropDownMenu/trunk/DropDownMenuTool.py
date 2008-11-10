@@ -4,8 +4,8 @@ from AccessControl import ClassSecurityInfo
 
 from Products.CMFCore.utils import UniqueObject, getToolByName
 
-from Products.qPloneDropDownMenu.Extensions.Install import updateMenu
-from config import VIEW_PERMISSION, PROJECT_NAME, UNIQUE_ID
+from utils import updateMenu
+from config import MANAGE_PERMISSION, PROJECT_NAME, UNIQUE_ID
 
 
 class DropDownMenuTool(UniqueObject, SimpleItem):
@@ -16,8 +16,9 @@ class DropDownMenuTool(UniqueObject, SimpleItem):
 
     security = ClassSecurityInfo()
 
-    security.declareProtected(VIEW_PERMISSION, 'regenerateMenu')
+    security.declareProtected(MANAGE_PERMISSION, 'regenerateMenu')
     def regenerateMenu(self):
-        updateMenu(self)
+        portal = getToolByName(self, 'portal_url').getPortalObject()
+        updateMenu(portal)
 
 InitializeClass(DropDownMenuTool)

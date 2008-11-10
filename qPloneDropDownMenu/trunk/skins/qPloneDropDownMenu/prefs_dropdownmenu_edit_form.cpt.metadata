@@ -7,9 +7,12 @@ title=Edit Drop Down Menu
 [validators]
 validators..Save=validate_dropdownmenu_edit
 validators..Regenerate=validate_dropdownmenu_edit
+validators=validate_dropdownmenu_edit
 
 [actions]
 action.success..Save=traverse_to:string:dropdownmenu_edit
 action.success..Regenerate=redirect_to:string:dropdownmenu_update
+action.success=traverse_to:string:dropdownmenu_edit
 action.failure..Save=traverse_to:string:prefs_dropdownmenu_edit_form
 action.failure..Regenerate=traverse_to:string:prefs_dropdownmenu_edit_form
+action.failure=traverse_to:string:prefs_dropdownmenu_edit_form

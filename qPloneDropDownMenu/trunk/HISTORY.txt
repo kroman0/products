@@ -1,3 +1,9 @@
+0.2
+
+  * some minor fixes to portal status messages and validation stuff
+
+  * compatible with plone 3
+
 0.1.12
 
   * added caching for static objects via .metadata

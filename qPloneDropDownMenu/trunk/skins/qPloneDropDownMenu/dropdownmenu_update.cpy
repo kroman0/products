@@ -8,9 +8,9 @@
 ##parameters=
 ##title=
 ##
-request = container.REQUEST
-RESPONSE =  request.RESPONSE
 
-context.portal_dropdownmenu.regenerateMenu()
+from Products.CMFCore.utils import getToolByName
 
-return state.set(status='success', portal_status_message='DropDown Menu regenerated.')
+getToolByName(context, 'portal_dropdownmenu').regenerateMenu()
+context.plone_utils.addPortalMessage('DropDown Menu regenerated.')
+return state.set(status='success')

@@ -5,7 +5,18 @@ Changelog
 ------------------
 
  - Made it compatible with plone 3
+   [piv]
+   
  - Made it in zope 3/plone 3 way
+   [piv]
+   
  - Made it as a python egg
+   [piv]
+
+ - Fixed css issues
+   [gvizdyk]
+
  - Updated translations
- [Vitaliy Podoba]
+   [piv]
+   
+

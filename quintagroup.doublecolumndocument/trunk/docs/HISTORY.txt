@@ -1,9 +1,14 @@
 0.2
 
    1. Made it compatible with plone 3
+   
    2. Made it in zope 3/plone 3 way
+   
    3. Made it as a python egg
+   
    4. Updated translations
+   
+   5. Fixed a few css issues
 
 0.1.5
    1. Added "visualClear" div in view template.

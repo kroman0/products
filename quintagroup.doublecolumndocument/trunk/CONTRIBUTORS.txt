@@ -3,4 +3,5 @@
   * Myroslav Opyr
   * Andriy Mylenkyy
   * Vitaliy Podoba
+  * Yuriy Gvozdovych
 

@@ -6,7 +6,7 @@ Authors
   *  Myroslav Opyr
   *  Andriy Mylenkyy
   *  Vitaliy Podoba
-  *  Yuriy Gvozdovych
+  *  Yuriy Hvozdovych
 
   "Product Homepage":http://quintagroup.com/services/plone-development/products/
   "Download":http://sourceforge.net/projects/quintagroup

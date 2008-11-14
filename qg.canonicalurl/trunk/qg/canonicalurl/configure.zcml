@@ -1,0 +1,28 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+
+    <five:registerPackage package="." initialize=".zope2.initialize" />
+
+    <!-- Declare interface -->
+    <interface interface=".interfaces.ICanonicalURL" />
+
+    <!-- Make any Plone Site Canonical URL Root -->
+
+    <class class="Products.CMFPlone.Portal.PloneSite">
+        <implements interface=".interfaces.ICanonicalURLRoot" />
+    </class>
+
+    <adapter factory=".adapters.CanonicalURL" />
+
+    <genericsetup:registerProfile
+        name="default"
+        title="Canonical URL product registration"
+        directory="profiles/default"
+        description="Registers a qg.canonicalurl product"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+
+</configure>

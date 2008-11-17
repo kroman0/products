@@ -3,14 +3,16 @@
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
 
-    <five:registerPackage package="." initialize=".zope2.initialize" />
-
     <!-- Declare interface -->
     <interface interface=".interfaces.ICanonicalURL" />
 
-    <!-- Make any Plone Site Canonical URL Root -->
+    <!-- Make any Plone Site and Zope root Canonical URL Root provider -->
 
     <class class="Products.CMFPlone.Portal.PloneSite">
+        <implements interface=".interfaces.ICanonicalURLRoot" />
+    </class>
+
+    <class class="OFS.interfaces.IApplication">
         <implements interface=".interfaces.ICanonicalURLRoot" />
     </class>
 

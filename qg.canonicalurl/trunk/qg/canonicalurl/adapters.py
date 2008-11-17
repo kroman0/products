@@ -19,10 +19,7 @@ class CanonicalURL(object):
             self.context.manage_changeProperies(**{self.property_name:value})
             return True
         return False
-    
+
     def getCanonicalURL(self):
         return self.context.getProperty(self.property_name, 
             d=self.context.absolute_url())
-
-
-        

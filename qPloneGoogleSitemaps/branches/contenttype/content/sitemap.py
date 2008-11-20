@@ -12,13 +12,26 @@ from Products.qPloneGoogleSitemaps import qPloneGoogleSitemapsMessageFactory as 
 from Products.qPloneGoogleSitemaps.interfaces import ISitemap
 from Products.qPloneGoogleSitemaps.config import PROJECTNAME
 
+SITEMAPS_LIST = ['content','mobile','news']
+
 SitemapSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 
     # -*- Your Archetypes field definitions here ... -*-
+    atapi.StringField(
+        name='sitemapType',
+        storage = atapi.AnnotationStorage(),
+        required=True,
+        default='content',
+        vocabulary=SITEMAPS_LIST,
+        widget=atapi.SelectionWidget(
+            label=_(u"Sitemap type"),
+            description=_(u"Select Type of the sitemap."),
+        ),
+    ),
     atapi.LinesField(
         name='portalTypes',
         storage = atapi.AnnotationStorage(),
-        required=False,
+        required=True,
         default=['Document',],
         vocabulary="availablePortalTypes",
         #schemata ='default',
@@ -30,7 +43,7 @@ SitemapSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     atapi.LinesField(
         name='states',
         storage = atapi.AnnotationStorage(),
-        required=False,
+        required=True,
         default=['published',],
         vocabulary="getWorkflowStates",
         #schemata ='default',

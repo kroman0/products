@@ -1,0 +1,13 @@
+#
+# $$
+#
+[default]
+title=Google Sitemap Ping
+
+[security]
+View=0:Authenticated
+
+[validators]
+
+[actions]
+action.success=traverse_to:string:prefs_gsm_pinging

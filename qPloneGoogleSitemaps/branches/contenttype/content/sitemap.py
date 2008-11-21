@@ -161,7 +161,7 @@ class Sitemap(base.ATCTContent):
             for wf_tr in wf.transitions.values():
                 if wf_tr.after_script_name in ['', 'ping_googlesitemap']:
                     wf_trans.append(("%s#%s" % (wf_id,wf_tr.id),
-                                     "%s : %s" % (wf_id,wf_tr.id)))
+                        "%s : %s (%s)" % (wf_id,wf_tr.id,wf_tr.title_or_id())))
         return atapi.DisplayList(wf_trans)
 
     def setPingTransitions(self, value, **kw):

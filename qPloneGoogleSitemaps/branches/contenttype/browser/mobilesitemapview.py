@@ -19,5 +19,6 @@ class MobileSitemapView(CommonSitemapView):
         path = self.portal.getPhysicalPath()
         return applyOperations(
             self.portal_catalog(path = path,
-                                review_state = ['published'],),
+                                review_state = ['published'],
+                                hasMobileContent = True),
             [])

@@ -18,7 +18,7 @@ OPERATORS = {'s': searchAndReplace,}
 def applyOperations(objects, operations):
     """Parse Operations """
     operations=[OPERATIONS_PARSE.match(op).groups() for op in operations]
-    result, urls = [],[]
+    result = {}
     for ob in objects:
         url = ob.getURL()
         for operator, what, with in operations:
@@ -27,12 +27,11 @@ def applyOperations(objects, operations):
         #it is senseless in the case we need intelligent
         #result set. Better condition would be to place
         #freshest brain into result
-        if url in urls:
+        if url in result.keys():
             continue
-        urls.append(url)
-        result.append({'url' : url,
-                       'modification_date' : DateTime(ob.ModificationDate).HTML4()
-                       })
+        #TODO: replace brain with only data necessary to 
+        #generate sitemap
+        result[url]=ob
     return result
 
 def additionalURLs(context):

@@ -1,3 +1,4 @@
+from DateTime import DateTime
 from commonview import *
 
 class MobileSitemapView(CommonSitemapView):
@@ -5,6 +6,10 @@ class MobileSitemapView(CommonSitemapView):
     Mobile Sitemap browser view
     """
     implements(ISitemapView)
+
+    additional_maps = (
+        ('modification_date', lambda x:DateTime(x.ModificationDate).HTML4()),
+    )
 
     def getFilteredObjects(self):
         path = self.portal.getPhysicalPath()
@@ -14,11 +19,3 @@ class MobileSitemapView(CommonSitemapView):
                 portal_type = portal_types,
                 review_state = review_states, 
                 hasMobileContent = True)
-
-    def getExceptionResults(self):
-        path = self.portal.getPhysicalPath()
-        return applyOperations(
-            self.portal_catalog(path = path,
-                                review_state = ['published'],
-                                hasMobileContent = True),
-            [])

@@ -11,6 +11,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.qPloneGoogleSitemaps import qPloneGoogleSitemapsMessageFactory as _
 from Products.qPloneGoogleSitemaps.interfaces import ISitemap
 from Products.qPloneGoogleSitemaps.config import PROJECTNAME
+from Products.qPloneGoogleSitemaps.config import ping_googlesitemap
 
 SITEMAPS_LIST = ['content','mobile','news']
 
@@ -103,6 +104,18 @@ SitemapSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(u"Default verification file name for this sitemaps"),
         ),
     ),
+    atapi.LinesField(
+        name='pingTransitions',
+        storage = atapi.AnnotationStorage(),
+        required=False,
+        default='content',
+        vocabulary='getWorkflowTransitions',
+        schemata="pinging",
+        widget=atapi.MultiSelectionWidget(
+            label=_(u"Pinging workflow transitions"),
+            description=_(u"Select workflow transitions for pinging google on."),
+        ),
+    ),
 
 ))
 
@@ -126,6 +139,7 @@ class Sitemap(base.ATCTContent):
 
     #title = atapi.ATFieldProperty('title')
     #description = atapi.ATFieldProperty('description')
+
     def availablePortalTypes(self):
         pt = getToolByName(self, 'portal_types')
         types = pt.listContentTypes()
@@ -137,5 +151,55 @@ class Sitemap(base.ATCTContent):
         states.sort()
         return atapi.DisplayList(zip(states, states))
 
+    def getWorkflowTransitions(self):
+        wf_trans = []
+        pw = getToolByName(self,'portal_workflow')
+        for wf_id in pw.getWorkflowIds():
+            wf = pw.getWorkflowById(wf_id)
+            if not wf:
+                continue
+            for wf_tr in wf.transitions.values():
+                if wf_tr.after_script_name in ['', 'ping_googlesitemap']:
+                    wf_trans.append(("%s#%s" % (wf_id,wf_tr.id),
+                                     "%s : %s" % (wf_id,wf_tr.id)))
+        return atapi.DisplayList(wf_trans)
+
+    def setPingTransitions(self, value, **kw):
+        """Add 'Ping sitemap' afterscript for selected workflow transitions.
+        """
+        pw = getToolByName(self, 'portal_workflow')
+        transmap = {}
+        for key in value:
+            if key.find('#')>0:
+                ids = key.split('#')
+                wfid = ids[0]
+                if not wfid in transmap.keys():
+                    transmap[wfid]=[]
+                transmap[wfid].append(ids[1])
+        for wfid in transmap.keys():
+            workflow = pw.getWorkflowById(wfid)
+            if ping_googlesitemap not in workflow.scripts.objectIds():
+                workflow.scripts.manage_addProduct['ExternalMethod'].manage_addExternalMethod(
+                    ping_googlesitemap,
+                    'Ping sitemap',
+                    'qPloneGoogleSitemaps.ping_googlesitemap',
+                    ping_googlesitemap)
+            transitions_set = transmap[wfid]
+            for transition in workflow.transitions.values():
+                trid = transition.id
+                tras = transition.after_script_name
+                if (tras == '') and (trid in transitions_set):
+                    #set
+                    after_script = ping_googlesitemap
+                elif (tras == ping_googlesitemap) and not (trid in transitions_set):
+                    #reset
+                    after_script = ''
+                else:
+                    #avoid properties set
+                    continue
+                transition.setProperties(title=transition.title,
+                    new_state_id=transition.new_state_id,
+                    after_script_name=after_script,
+                    actbox_name=transition.actbox_name)
 
 atapi.registerType(Sitemap, PROJECTNAME)

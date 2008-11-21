@@ -23,4 +23,13 @@
       permission="zope.Public"
     />
 
+    <browser:page
+      for="..interfaces.ISitemap"
+      name="news-sitemap.xml"
+      class=".newssitemapview.NewsSitemapView"
+      template="templates/newssitemapview.pt"
+      allowed_interface=".commonview.ISitemapView"
+      permission="zope.Public"
+    />
+
 </configure>

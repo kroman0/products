@@ -3,7 +3,10 @@ from zope.interface import implements
 from collective.transmogrifier.interfaces import ITransmogrifier
 from collective.transmogrifier.transmogrifier import _load_config, constructPipeline
 
-from Products.GenericSetup import context as gscontext
+try:
+    from Products.GenericSetup import context as gscontext
+except ImportError:
+    from Products.CMFSetup import context as gscontext
 
 from quintagroup.transmogrifier.writer import WriterSection
 from quintagroup.transmogrifier.reader import ReaderSection

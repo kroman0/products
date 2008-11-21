@@ -45,8 +45,8 @@ section.
 ... [printer]
 ... blueprint = collective.transmogrifier.sections.tests.pprinter
 ... """
->>> registerConfig(u'quintagroup.transmogrifier.tests.marshall', binary)
->>> transmogrifier(u'quintagroup.transmogrifier.tests.marshall') # doctest: +REPORT_NDIFF, +ELLIPSIS
+>>> registerConfig(u'quintagroup.transmogrifier.tests.binary', binary)
+>>> transmogrifier(u'quintagroup.transmogrifier.tests.binary') # doctest: +REPORT_NDIFF, +ELLIPSIS
 {}
 {'_path': 'not/existing/bar'}
 {'_path': 'spam/eggs/notatcontent'}

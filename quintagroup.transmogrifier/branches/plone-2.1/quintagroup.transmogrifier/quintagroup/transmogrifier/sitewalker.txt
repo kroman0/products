@@ -18,6 +18,9 @@ pairs of contained items.
 ...
 ... [sitewalker]
 ... blueprint = quintagroup.transmogrifier.sitewalker
+... excluded-types = 
+...     File
+...     Image
 ... 
 ... [printer]
 ... blueprint = collective.transmogrifier.sections.tests.pprinter

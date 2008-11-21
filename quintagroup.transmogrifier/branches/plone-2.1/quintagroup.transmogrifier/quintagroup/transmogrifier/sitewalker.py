@@ -14,10 +14,18 @@ class SiteWalkerSection(object):
         self.previous = previous
         self.context = transmogrifier.context
 
+        excluded_types = options.get('excluded-types', '')
+        self.excluded_types = filter(None, [i.strip() for i in excluded_types.splitlines()])
+
+    def getContained(self, obj):
+        contained = [(k, v.getPortalTypeName()) for k, v in obj.contentItems()]
+        contained = [i for i in contained if i[1] not in self.excluded_types]
+        return tuple(contained)
+
     def walk(self, obj):
         if IFolderish.providedBy(obj) or IBaseFolder.providedBy(obj):
-            contained = [(k, v.getPortalTypeName()) for k, v in obj.contentItems()]
-            yield obj, tuple(contained)
+            contained = self.getContained(obj)
+            yield obj, contained
             for v in obj.contentValues():
                 for x in self.walk(v):
                     yield x
@@ -29,11 +37,13 @@ class SiteWalkerSection(object):
             yield item
 
         for obj, contained in self.walk(self.context):
+            type_ = obj.getPortalTypeName()
+            if type_ in self.excluded_types:
+                continue
             item = {
                 '_path': '/'.join(obj.getPhysicalPath()[2:]),
-                '_type': obj.getPortalTypeName(),
+                '_type': type_,
             }
             if contained:
                 item['_entries'] = contained
             yield item
-

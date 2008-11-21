@@ -10,7 +10,10 @@ from Products.CMFCore import utils
 # import monkey pathes for GS TarballContext
 import quintagroup.transmogrifier.patches
 
-from Products.GenericSetup import context
+try:
+    from Products.GenericSetup import context
+except ImportError:
+    from Products.CMFSetup import context
 
 class ReaderSection(object):
     classProvides(ISectionBlueprint)

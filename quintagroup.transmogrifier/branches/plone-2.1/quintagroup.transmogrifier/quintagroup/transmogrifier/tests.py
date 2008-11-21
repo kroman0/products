@@ -84,6 +84,9 @@ def siteWalkerSetUp(test):
     class Document(MockContent):
         pass
 
+    class File(MockContent):
+        pass
+
     class Folder(MockContent, dict):
         implements(IBaseFolder)
 
@@ -110,8 +113,12 @@ def siteWalkerSetUp(test):
     portal['folder1']['document2'].path = ('', 'plone', 'folder1', 'document2')
     portal['folder1']['folder2'] = Folder()
     portal['folder1']['folder2'].path = ('', 'plone', 'folder1', 'folder2')
+    portal['folder1']['folder2']['file'] = File()
+    portal['folder1']['folder2']['file'].path  = ('', 'plone', 'folder1', 'folder2', 'file')
     portal['document3'] = Document()
     portal['document3'].path = ('', 'plone', 'document3')
+    portal['file'] = File()
+    portal['file'].path = ('', 'plone', 'file')
 
 def manifestSetUp(test):
     sectionsSetUp(test)
@@ -517,7 +524,10 @@ def writerSetUp(test):
             return "<%s %s>" % (self.__class__.__name__, s)
 
 
-    from Products.GenericSetup import context
+    try:
+        from Products.GenericSetup import context
+    except ImportError:
+        from Products.CMFSetup import context
 
     context.DirectoryExportContext = type('Directory', (MockExportContext,), {})
     context.TarballExportContext = type('Tarball', (MockExportContext,), {})
@@ -607,7 +617,10 @@ def readerSetUp(test):
                 names.append(name)
             return names
 
-    from Products.GenericSetup import context
+    try:
+        from Products.GenericSetup import context
+    except ImportError:
+        from Products.CMFSetup import context
 
     context.DirectoryImportContext = type('Directory', (MockImportContext,),
         {'listDirectory': lambda self, path: []})

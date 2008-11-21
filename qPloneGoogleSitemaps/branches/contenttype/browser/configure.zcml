@@ -10,7 +10,7 @@
       name="sitemap.xml"
       class=".sitemapview.SitemapView"
       template="templates/sitemapview.pt"
-      allowed_interface=".sitemapview.ISitemapView"
+      allowed_interface=".commonview.ISitemapView"
       permission="zope.Public"
     />
 
@@ -19,7 +19,7 @@
       name="mobile-sitemap.xml"
       class=".mobilesitemapview.MobileSitemapView"
       template="templates/mobilesitemapview.pt"
-      allowed_interface=".mobilesitemapview.IMobileSitemapView"
+      allowed_interface=".commonview.ISitemapView"
       permission="zope.Public"
     />
 

@@ -122,6 +122,7 @@ SitemapSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 # Set storage on fields copied from ATContentTypeSchema, making sure
 # they work well with the python bridge properties.
 
+SitemapSchema['id'].widget.ignore_visible_ids = True
 SitemapSchema['title'].storage = atapi.AnnotationStorage()
 SitemapSchema['title'].widget.visible = {'edit':'invisible', 'view':'invisible'}
 SitemapSchema['description'].storage = atapi.AnnotationStorage()
@@ -130,7 +131,6 @@ SitemapSchema['description'].widget.visible = {'edit':'invisible', 'view':'invis
 schemata.finalizeATCTSchema(SitemapSchema, moveDiscussion=False)
 SitemapSchema['relatedItems'].schemata='metadata'
 SitemapSchema['relatedItems'].widget.visible = {'edit':'invisible', 'view':'invisible'}
-SitemapSchema['id'].widget.visible={'edit':'visible', 'view' : 'visible'}
 
 class Sitemap(base.ATCTContent):
     """Search engine Sitemap content type"""

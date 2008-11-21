@@ -14,5 +14,13 @@
       permission="zope.Public"
     />
 
+    <browser:page
+      for="..interfaces.ISitemap"
+      name="mobile-sitemap.xml"
+      class=".mobilesitemapview.MobileSitemapView"
+      template="templates/mobilesitemapview.pt"
+      allowed_interface=".mobilesitemapview.IMobileSitemapView"
+      permission="zope.Public"
+    />
 
 </configure>

@@ -34,6 +34,11 @@ class CommonSitemapView(BrowserView):
     """
     implements(ISitemapView)
 
+    # key, function map for extend return results
+    # with mapping data
+    additional_maps = ()
+
+
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -47,23 +52,28 @@ class CommonSitemapView(BrowserView):
         return getToolByName(self.context, 'portal_url').getPortalObject()
 
     def getFilteredObjects(self):
-        return []
-
-    def getExceptionResults(self):
+        """ Return brains
+        """
         return []
 
     def results(self):
-        try:
-            objects = self.getFilteredObjects()
-        except AttributeError:
-            # We are run without being properly installed, do default processing
-            return self.getExceptionResults()
-
+        """ Prepare mapping for template
+        """
+        result = []
+        objects = self.getFilteredObjects()
         blackout_list = self.context.getBlackout_list()
         reg_exps = self.context.getReg_exp()
-        return applyOperations([ob for ob in objects 
+
+        brain_url_map = applyOperations([ob for ob in objects 
             if (ob.getId not in blackout_list)],
             reg_exps)
+
+        # Prepare dictionary for view
+        for url, b in brain_url_map.items():
+            res_map = {'url' : url,}
+            [res_map.update({k : f(b)}) for k, f in self.additional_maps]
+            result.append(res_map)
+        return result
 
     def updateRequest(self):
         self.request.RESPONSE.setHeader('Content-Type', 'text/xml')

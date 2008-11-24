@@ -8,4 +8,15 @@ ADD_PERMISSIONS = {
     'Sitemap': 'qPloneGoogleSitemaps: Add Sitemap',
 }
 
-ping_googlesitemap = 'ping_googlesitemap'
+SITEMAPS_LIST = ['content','mobile','news']
+
+ping_googlesitemap = 'pingGoogleSitemap'
+
+AVAILABLE_WF_SCRIPTS = [ping_googlesitemap, '']
+
+try:
+    from Products.DCWorkflow.events import AfterTransitionEvent
+except ImportError:
+    IS_PLONE_3 = False
+else:
+    IS_PLONE_3 = True

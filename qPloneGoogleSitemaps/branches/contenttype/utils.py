@@ -4,9 +4,9 @@ from Products.CMFCore.utils import getToolByName
 import re
 import Products.qPloneGoogleSitemaps.config as config
 from OFS.ObjectManager import BadRequestException
-def ping_google(url):
+def ping_google(url, sitemap_id):
     """Ping sitemap to Google"""
-    sitemap_url = urlquote(url + "/google-sitemaps")
+    sitemap_url = urlquote(url + "/" + sitemap_id)
     g = urlopen('http://www.google.com/webmasters/sitemaps/ping?sitemap='+sitemap_url)
     result = g.read()
     g.close()
@@ -63,46 +63,46 @@ def additionalURLs(self):
     return res
 
 """workflows & co"""
-def getWorkflowTransitions(self,workflow_id):
-    pw = getToolByName(self,'portal_workflow')
-    wf = pw.getWorkflowById(workflow_id)
-    if not wf:
-        return None
-    return wf.transitions.values()
+#def getWorkflowTransitions(self,workflow_id):
+    #pw = getToolByName(self,'portal_workflow')
+    #wf = pw.getWorkflowById(workflow_id)
+    #if not wf:
+        #return None
+    #return wf.transitions.values()
 
-def setWorkflowTransitions(self,transitions):
-    """set workflow transitions properties"""
-    portal_workflow = getToolByName(self, 'portal_workflow')
-    transmap = {}
-    for key in transitions:
-        if key.find('#')>0:
-            ids = key.split('#')
-            wfid = ids[0]
-            if not wfid in transmap.keys():
-                transmap[wfid]=[]
-            transmap[wfid].append(ids[1])
-    for wfid in transmap.keys():
-        workflow = portal_workflow.getWorkflowById(wfid)
-        if config.ping_googlesitemap not in workflow.scripts.objectIds():
-            workflow.scripts.manage_addProduct['ExternalMethod'].manage_addExternalMethod(
-                                config.ping_googlesitemap,
-                                'Ping sitemap',
-                                'qPloneGoogleSitemaps.ping_googlesitemap',
-                                config.ping_googlesitemap)
-        transitions_set = transmap[wfid]
-        for transition in workflow.transitions.values():
-            trid = transition.id
-            tras = transition.after_script_name
-            if (tras == '') and (trid in transitions_set):
-                #set
-                after_script = config.ping_googlesitemap
-            elif (tras == config.ping_googlesitemap) and not (trid in transitions_set):
-                #reset
-                after_script = ''
-            else:
-                #avoid properties set
-                continue
-            transition.setProperties(title=transition.title,
-                                     new_state_id=transition.new_state_id,
-                                     after_script_name=after_script,
-                                     actbox_name=transition.actbox_name)
+#def setWorkflowTransitions(self,transitions):
+    #"""set workflow transitions properties"""
+    #portal_workflow = getToolByName(self, 'portal_workflow')
+    #transmap = {}
+    #for key in transitions:
+        #if key.find('#')>0:
+            #ids = key.split('#')
+            #wfid = ids[0]
+            #if not wfid in transmap.keys():
+                #transmap[wfid]=[]
+            #transmap[wfid].append(ids[1])
+    #for wfid in transmap.keys():
+        #workflow = portal_workflow.getWorkflowById(wfid)
+        #if config.ping_googlesitemap not in workflow.scripts.objectIds():
+            #workflow.scripts.manage_addProduct['ExternalMethod'].manage_addExternalMethod(
+                                #config.ping_googlesitemap,
+                                #'Ping sitemap',
+                                #'qPloneGoogleSitemaps.ping_googlesitemap',
+                                #config.ping_googlesitemap)
+        #transitions_set = transmap[wfid]
+        #for transition in workflow.transitions.values():
+            #trid = transition.id
+            #tras = transition.after_script_name
+            #if (tras == '') and (trid in transitions_set):
+                ##set
+                #after_script = config.ping_googlesitemap
+            #elif (tras == config.ping_googlesitemap) and not (trid in transitions_set):
+                ##reset
+                #after_script = ''
+            #else:
+                ##avoid properties set
+                #continue
+            #transition.setProperties(title=transition.title,
+                                     #new_state_id=transition.new_state_id,
+                                     #after_script_name=after_script,
+                                     #actbox_name=transition.actbox_name)

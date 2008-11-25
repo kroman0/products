@@ -32,4 +32,12 @@
       permission="zope.Public"
     />
 
+    <browser:page
+      for="*"
+      name="sitemap_settings"
+      class=".configletview.ConfigletSettingsView"
+      allowed_interface=".configletview.IConfigletSettingsView"
+      permission="zope.Public"
+    />
+
 </configure>

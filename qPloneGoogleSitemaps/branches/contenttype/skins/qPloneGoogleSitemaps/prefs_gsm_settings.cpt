@@ -48,112 +48,80 @@
                     enctype="multipart/form-data"
                     tal:attributes="action string:${here_url}/${template/getId}" >
 
-                <fieldset tal:define="props portal/portal_properties/googlesitemap_properties;
-                                      portal_types portal/portal_types;">
+                <fieldset tal:define="view here/@@sitemap_settings;
+                                      sitemaps here/@@sitemap_settings/sitemaps;
+                                      sitemap_types here/@@sitemap_settings/sitemapsKeys;">
                     <legend i18n:translate="legend_plonesitemap_configuration_details">
-                        Google SiteMap configuration
+                        Google SiteMaps configuration
                     </legend>
-                    <div class="field" 
-                        tal:define="portalTypes props/portalTypes;">
-                        <label for="portalTypes ">
-                            Define the types
-                        </label>
-                        <div class="formHelp">
-                            Define the types to be included in sitemap.
-                        </div>
+                    
+                    
+                    
+          <table class="listing"
+                 summary="Sitemaps management"
+                 i18n:attributes="summary summary_sitemaps_management;">
+            <thead>
+              <metal:block tal:condition="sitemaps">
+                <tr>
+                  <th></th>
+                  <th>&nbsp;Type&nbsp;</th>
+                  <th>&nbsp;Default Sitemap Id&nbsp;</th>
+                  <th>&nbsp;Edit Sitemap&nbsp;</th>
+                </tr>
+              </metal:block>
+            </thead>
 
+            <metal:block tal:condition="sitemaps">
+            <tbody>
+                <tal:items tal:repeat="item sitemap_types">
+                  <tr tal:define="oddrow repeat/item/odd;
+                                  data python:view.getSMDataByType(item)"
+                      tal:attributes="class python:test(oddrow, 'even', 'odd')" >
+
+                    <td>
+                      <input type="checkbox" class="noborder"
+                             name="smtypes:list" id="#" value="#" tabindex=""
+                             tal:attributes="value    item;
+                                             id       string:cb_$item;
+                                             alt      data/smtype_title;
+                                             title    data/smtype_title;
+                                             tabindex tabindex/next;" />
+                    </td>
+                    <td>
+                      <strong tal:content="data/smtype_title"> Sitemap type </strong>
+                    </td>
+                    <td>
                         <select multiple="multiple"
-                                name="portalTypes"
-                                id="portalTypes"
-                                tal:attributes="tabindex tabindex/next;">
-
-                        <tal:contenttypes repeat="type python:portal_types.listContentTypes()">
-                            <option tal:define="type python:portal_types.getTypeInfo(type);
-                                                type_name type/Title;
-                                                portal_type type/getId"
-                                    tal:attributes="value portal_type;
-                                                    selected python: test(portal_type in portalTypes, 'selected', None)"
-                                    tal:content="type_name">
-                                Article
-                            </option>
-                        </tal:contenttypes>
+                                name="defaultSM" id="portalTypes" tabindex="0"
+                                tal:attributes="name string:defaultSM_$item;
+                                                tabindex tabindex/next;">
+                            <tal:loop tal:repeat="opt data/sm_list">
+                            <option value="ATBooleanCriterion"
+                                    tal:content="python:opt[0]"
+                                    tal:attributes="value python:opt[1];
+                                                    selected python:test(opt[2],'selected', None)">Sitemap item</option>
+                            </tal:loop>
                         </select>
-                    </div>
+                    </td>
+                    <td>
+                      <a alt="" title="" href="http://"
+                         tal:condition="data/sm_def_id"
+                         tal:attributes="href data/sm_def_editurl;
+                                         title data/sm_def_id;
+                                         alt string:Edit ${data/sm_def_id}"
+                         tal:content="string:Edit ${data/sm_def_id}">Edit default sitemap type </a>
+                    </td>
+                  </tr>
+                </tal:items>
+            </tbody>
+            </metal:block>
+            </table>
 
-                    <div class="field" 
-                        tal:define="states props/states;">
-                        <label for="states ">
-                            Review status
-                        </label>
-
-                        <div class="formHelp">
-                            You may include items in sitemap depend of their review state.
-                        </div>
-
-                        <textarea name="states:lines" 
-                                id="states"
-                                cols="20"
-                                rows="8"
-                                tabindex=""
-                                tal:attributes="tabindex tabindex/next;"
-                                tal:define="content python:modules['string'].join(states,'\n');"
-                                tal:content="content">
-                        </textarea>
-                    </div>
-                    <div class="field" 
-                        tal:define="blackout_list props/blackout_list;">
-                        <label for="blackout_list ">
-                            Blackout entries
-                        </label>
-                        <div class="formHelp">
-                            The objects with the given ids will not be included in sitemap.
-                        </div>
-                        <textarea name="blackout_list:lines" 
-                                id="reg_exp"
-                                cols="20"
-                                rows="8"
-                                tabindex=""
-                                tal:attributes="tabindex tabindex/next;"
-                                tal:define="content python:modules['string'].join(blackout_list ,'\n');"
-                                tal:content="content">
-                        </textarea>
-                    </div>
-                    <div class="field" 
-                        tal:define="reg_exp props/reg_exp;">
-                        <label for="reg_exp">
-                            URL processing Regular Expressions
-                        </label>
-                        <div class="formHelp">
-                            Provide regular expressions (in Perl syntax), one per line to be applied to URLs before including them into Sitemap. For instance, "s/\/index_html//" will remove /index_html from URLs representing default documents.
-                        </div>
-
-                        <textarea name="reg_exp:lines" 
-                                id="reg_exp"
-                                cols="20"
-                                rows="8"
-                                tabindex=""
-                                tal:attributes="tabindex tabindex/next;"
-                                tal:define="content python:modules['string'].join(reg_exp ,'\n');"
-                                tal:content="content">
-                        </textarea>
-                    </div>
-                    <div class="field" 
-                        tal:define="urls props/urls;">
-                        <label for="urls"> Additional URLs
-                        </label>
-                        <div class="formHelp">
-                            Define additional URLs that are not objects and that should be included in sitemap.
-                        </div>
-                        <textarea name="urls:lines" 
-                                id="urls"
-                                cols="20"
-                                rows="8"
-                                tabindex=""
-                                tal:attributes="tabindex tabindex/next;"
-                                tal:define="content python:modules['string'].join(urls ,'\n');"
-                                tal:content="content">
-                        </textarea>
-                    </div>
+            
+                    
+                    
+                    
+                    
 
                     <div class="formControls"
                         tal:define="process_creation request/process_creation|nothing;"
@@ -161,8 +129,29 @@
                         <input class="context"
                             tabindex=""
                             type="submit"
-                            name="form.button.Save"
-                            value="Save"
+                            name="form.button.Add"
+                            value="Add Sitemap"
+                            i18n:attributes="value"
+                            tal:attributes="tabindex tabindex/next;" />
+                        <input class="context"
+                            tabindex=""
+                            type="submit"
+                            name="form.button.Delete"
+                            value="Delete"
+                            i18n:attributes="value"
+                            tal:attributes="tabindex tabindex/next;" />
+                        <input class="context"
+                            tabindex=""
+                            type="submit"
+                            name="form.button.Default"
+                            value="Set default"
+                            i18n:attributes="value"
+                            tal:attributes="tabindex tabindex/next;" />
+                        <input class="context"
+                            tabindex=""
+                            type="submit"
+                            name="form.button.Ping"
+                            value="Ping"
                             i18n:attributes="value"
                             tal:attributes="tabindex tabindex/next;" />
                     </div>

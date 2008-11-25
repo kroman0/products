@@ -10,4 +10,9 @@
    <element value="Sitemap"/>
   </property>
  </object>
+ <object name="googlesitemap_properties" meta_type="Plone Property Sheet">
+  <property name="content_default" type="string" />
+  <property name="mobile_default" type="string" />
+  <property name="news_default" type="string" />
+ </object>
 </object>

@@ -54,107 +54,98 @@
                     <legend i18n:translate="legend_plonesitemap_configuration_details">
                         Google SiteMaps configuration
                     </legend>
-                    
-                    
-                    
-          <table class="listing"
-                 summary="Sitemaps management"
-                 i18n:attributes="summary summary_sitemaps_management;">
-            <thead>
-              <metal:block tal:condition="sitemaps">
-                <tr>
-                  <th></th>
-                  <th>&nbsp;Type&nbsp;</th>
-                  <th>&nbsp;Default Sitemap Id&nbsp;</th>
-                  <th>&nbsp;Edit Sitemap&nbsp;</th>
-                </tr>
-              </metal:block>
-            </thead>
 
-            <metal:block tal:condition="sitemaps">
-            <tbody>
-                <tal:items tal:repeat="item sitemap_types">
-                  <tr tal:define="oddrow repeat/item/odd;
-                                  data python:view.getSMDataByType(item)"
-                      tal:attributes="class python:test(oddrow, 'even', 'odd')" >
+                    <table class="listing"
+                            summary="Sitemaps management"
+                            i18n:attributes="summary summary_sitemaps_management;">
+                        <thead>
+                        <metal:block tal:condition="sitemaps">
+                            <tr>
+                            <th></th>
+                            <th>&nbsp;Type&nbsp;</th>
+                            <th>&nbsp;Default Sitemap Id&nbsp;</th>
+                            <th>&nbsp;Edit Sitemap&nbsp;</th>
+                            </tr>
+                        </metal:block>
+                        </thead>
+                        <metal:block tal:condition="sitemaps">
+                        <tbody>
+                            <tal:items tal:repeat="item sitemap_types">
+                            <tr tal:define="oddrow repeat/item/odd;
+                                            data python:view.getSMDataByType(item)"
+                                tal:attributes="class python:test(oddrow, 'even', 'odd')" >
+                                <td>
+                                <input type="checkbox" class="noborder"
+                                        name="smtypes:list" id="#" value="#" tabindex=""
+                                        tal:attributes="value    item;
+                                                        id       string:cb_$item;
+                                                        alt      data/smtype_title;
+                                                        title    data/smtype_title;
+                                                        tabindex tabindex/next;" />
+                                </td>
+                                <td>
+                                <strong tal:content="data/smtype_title"> Sitemap type </strong>
+                                </td>
+                                <td>
+                                    <select multiple="multiple"
+                                            name="defaultSM" id="portalTypes" tabindex="0"
+                                            tal:attributes="name string:defaultSM_$item;
+                                                            tabindex tabindex/next;">
+                                        <tal:loop tal:repeat="opt data/sm_list">
+                                        <option value="ATBooleanCriterion"
+                                                tal:content="python:opt[0]"
+                                                tal:attributes="value python:opt[1];
+                                                                selected python:test(opt[2],'selected', None)">Sitemap item</option>
+                                        </tal:loop>
+                                    </select>
+                                </td>
+                                <td>
+                                <a alt="" title="" href="http://"
+                                    tal:condition="data/sm_def_id"
+                                    tal:attributes="href data/sm_def_editurl;
+                                                    title data/sm_def_id;
+                                                    alt string:Edit ${data/sm_def_id}"
+                                    tal:content="string:Edit ${data/sm_def_id}">Edit default sitemap type </a>
+                                </td>
+                            </tr>
+                            </tal:items>
+                        </tbody>
+                        </metal:block>
+                        </table>
 
-                    <td>
-                      <input type="checkbox" class="noborder"
-                             name="smtypes:list" id="#" value="#" tabindex=""
-                             tal:attributes="value    item;
-                                             id       string:cb_$item;
-                                             alt      data/smtype_title;
-                                             title    data/smtype_title;
-                                             tabindex tabindex/next;" />
-                    </td>
-                    <td>
-                      <strong tal:content="data/smtype_title"> Sitemap type </strong>
-                    </td>
-                    <td>
-                        <select multiple="multiple"
-                                name="defaultSM" id="portalTypes" tabindex="0"
-                                tal:attributes="name string:defaultSM_$item;
-                                                tabindex tabindex/next;">
-                            <tal:loop tal:repeat="opt data/sm_list">
-                            <option value="ATBooleanCriterion"
-                                    tal:content="python:opt[0]"
-                                    tal:attributes="value python:opt[1];
-                                                    selected python:test(opt[2],'selected', None)">Sitemap item</option>
-                            </tal:loop>
-                        </select>
-                    </td>
-                    <td>
-                      <a alt="" title="" href="http://"
-                         tal:condition="data/sm_def_id"
-                         tal:attributes="href data/sm_def_editurl;
-                                         title data/sm_def_id;
-                                         alt string:Edit ${data/sm_def_id}"
-                         tal:content="string:Edit ${data/sm_def_id}">Edit default sitemap type </a>
-                    </td>
-                  </tr>
-                </tal:items>
-            </tbody>
-            </metal:block>
-            </table>
+                        <div class="formControls"
+                            tal:define="process_creation request/process_creation|nothing;"
+                            i18n:domain="plone">
+                            <input class="context"
+                                tabindex=""
+                                type="submit"
+                                name="form.button.Add"
+                                value="Add Sitemap"
+                                i18n:attributes="value"
+                                tal:attributes="tabindex tabindex/next;" />
+                            <input class="context"
+                                tabindex=""
+                                type="submit"
+                                name="form.button.Delete"
+                                value="Delete"
+                                i18n:attributes="value"
+                                tal:attributes="tabindex tabindex/next;" />
+                            <input class="context"
+                                tabindex=""
+                                type="submit"
+                                name="form.button.Default"
+                                value="Set default"
+                                i18n:attributes="value"
+                                tal:attributes="tabindex tabindex/next;" />
+                            <input class="context"
+                                tabindex=""
+                                type="submit"
+                                name="form.button.Ping"
+                                value="Ping"
+                                i18n:attributes="value"
+                                tal:attributes="tabindex tabindex/next;" />
+                        </div>
 
-            
-                    
-                    
-                    
-                    
-
-                    <div class="formControls"
-                        tal:define="process_creation request/process_creation|nothing;"
-                        i18n:domain="plone">
-                        <input class="context"
-                            tabindex=""
-                            type="submit"
-                            name="form.button.Add"
-                            value="Add Sitemap"
-                            i18n:attributes="value"
-                            tal:attributes="tabindex tabindex/next;" />
-                        <input class="context"
-                            tabindex=""
-                            type="submit"
-                            name="form.button.Delete"
-                            value="Delete"
-                            i18n:attributes="value"
-                            tal:attributes="tabindex tabindex/next;" />
-                        <input class="context"
-                            tabindex=""
-                            type="submit"
-                            name="form.button.Default"
-                            value="Set default"
-                            i18n:attributes="value"
-                            tal:attributes="tabindex tabindex/next;" />
-                        <input class="context"
-                            tabindex=""
-                            type="submit"
-                            name="form.button.Ping"
-                            value="Ping"
-                            i18n:attributes="value"
-                            tal:attributes="tabindex tabindex/next;" />
-                    </div>
                     </fieldset>
                     <input type="hidden" name="form.submitted" value="1" />
                 </form>

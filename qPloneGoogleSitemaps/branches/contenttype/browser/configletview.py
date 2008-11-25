@@ -13,11 +13,11 @@ class IConfigletSettingsView(Interface):
     sitemaps = Attribute("return mapping of sitemap's type to list of appropriate objects")
 
     def sitemapsKeys(self):
-        """
+        """Return sitemap type existent
         """
 
     def getSMDataByType(self, smtype):
-        """
+        """ Return dictionary like object with data for table
         """
 
 class ConfigletSettingsView(BrowserView):

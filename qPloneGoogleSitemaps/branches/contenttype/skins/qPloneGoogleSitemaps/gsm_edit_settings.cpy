@@ -11,7 +11,6 @@
 
 from Products.CMFCore.utils import getToolByName
 from Products.qPloneGoogleSitemaps.utils import ping_google
-#import Products.qPloneGoogleSitemaps.config as config
 
 portal_url = getToolByName(context,'portal_url')
 portalURL = portal_url()
@@ -54,13 +53,18 @@ else:
 
     elif req.get('form.button.Ping', False):
         pinged = []
+        message = "Google pinged. It will review your sitemap as soon as it will be able to. Processed: %s"
         for smtype in smtypes:
             defPath = req.get("defaultSM_%s"% smtype, '')
             if defPath:
-                
-                #ping_google(portalURL, defPath)
-                pinged.append((portalURL, defPath))
-        message = "Succesfully pinged: %s" % pinged
+                try:
+                    ping_google(portalURL, defPath)
+                except:
+                    message = "Cannot contact Google. Try again in a while. But pinged for: %s"
+                    break
+                else:
+                    pinged.append(defPath)
+        message = message % pinged
 
 return state.set(next_action='traverse_to:string:prefs_gsm_settings',
                  portal_status_message = message)

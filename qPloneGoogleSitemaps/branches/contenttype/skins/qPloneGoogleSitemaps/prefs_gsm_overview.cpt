@@ -29,12 +29,6 @@
                   Settings</a>
             </li>
 
-            <li class="">
-               <a href=""
-                  tal:attributes="href string: prefs_gsm_pinging"
-                  i18n:translate="label_logs">Pinging</a>
-            </li>
-
         </ul>
 
         <div class="contentActions">

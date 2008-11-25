@@ -25,11 +25,6 @@
                    tal:attributes="href string:${template/id}">
                    Settings</a>
                 </li>
-                <li class="">
-                <a href=""
-                   tal:attributes="href string: prefs_gsm_pinging">
-                   Pinging</a>
-                </li>
             </ul>
             <div class="contentActions">
             &nbsp;

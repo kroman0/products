@@ -6,3 +6,4 @@ def pingGoogleSitemap(stch):
            stch.workflow, stch.old_state, stch.new_state,
            stch.transition, stch.status, stch.kwargs))
     return 0
+

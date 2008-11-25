@@ -37,6 +37,15 @@
                    i18n:translate="label_up_to_plone_setup">
                    Up to Plone Setup
                 </a>
+
+                <p> For <strong>add new sitemap</strong> - simple use appropriate button on the bottom of the page.</p>
+                <p>You can <strong>edit</strong> only <strong>default</strong> sitemap with <strong>edit</strong> link.</p>
+                <p> For <strong>delete</strong> sitemap - select the appropriate sitemap's type and the sitemap id from 
+                available selection list (any one can be selected), use appropriate button.</p>
+                <p>You can <strong>set default</strong> sitemap: select sitemap type and desired id and use <strong>set default</strong> button.</p>
+                <p>You can <strong>Ping</strong> desired sitemap: select sitemap type and push <strong>Ping</strong> button.</p>
+                
+
                 <form name="edit_form"
                     action="."
                     method="post"
@@ -82,8 +91,7 @@
                                 <strong tal:content="data/smtype_title"> Sitemap type </strong>
                                 </td>
                                 <td>
-                                    <select multiple="multiple"
-                                            name="defaultSM" id="portalTypes" tabindex="0"
+                                    <select name="defaultSM" id="portalTypes" tabindex="0"
                                             tal:attributes="name string:defaultSM_$item;
                                                             tabindex tabindex/next;">
                                         <tal:loop tal:repeat="opt data/sm_list">
@@ -115,9 +123,10 @@
                                 tabindex=""
                                 type="submit"
                                 name="form.button.Add"
-                                value="Add Sitemap"
+                                value="Add New Sitemap"
                                 i18n:attributes="value"
                                 tal:attributes="tabindex tabindex/next;" />
+                            <tal:block condition="sitemaps">
                             <input class="context"
                                 tabindex=""
                                 type="submit"
@@ -139,6 +148,7 @@
                                 value="Ping"
                                 i18n:attributes="value"
                                 tal:attributes="tabindex tabindex/next;" />
+                            </tal:block>
                         </div>
 
                     </fieldset>

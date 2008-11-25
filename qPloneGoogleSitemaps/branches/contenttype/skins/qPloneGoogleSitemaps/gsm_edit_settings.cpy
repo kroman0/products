@@ -22,26 +22,28 @@ if req.get('form.button.Add', False):
                 "%s/createObject?type_name=Sitemap" % portalURL)
 else:
     smtypes = req.get('smtypes', [])
+    pp = getToolByName(context,'portal_properties')
+    props = pp.googlesitemap_properties
 
     message = ""
 
     if req.get('form.button.Delete', False):
         deleted = []
-        forDel = filter(None, [req.get("defaultSM_%s"% smt,'') \
-                                    for smt in smtypes])
-        for defsm in forDel:
-            parent, delid = portal, defsm
-            if '/' in defsm:
-                parent_path, delid = defsm.rsplit('/',1)
-                parent = portal.restrictedTraverse(parent_path)
+        for smtype in smtypes:
+            defsm = req.get("defaultSM_%s"% smtype, '')
+            if defsm:
+                parent, delid = portal, defsm
+                if '/' in defsm:
+                    parent_path, delid = defsm.rsplit('/',1)
+                    parent = portal.restrictedTraverse(parent_path)
 
-            parent.manage_delObjects(ids=[delid,])
-            deleted.append(defsm)
+                parent.manage_delObjects(ids=[delid,])
+                pname = "%s_default" % smtype
+                props.manage_changeProperties(**{pname : ''})
+                deleted.append(defsm)
         message = "Succesfully deleted: %s" % deleted
 
     elif req.get('form.button.Default', False):
-        pp = getToolByName(context,'portal_properties')
-        props = pp.googlesitemap_properties
         default = {}
         for smtype in smtypes:
             defPath = req.get("defaultSM_%s"% smtype, '')

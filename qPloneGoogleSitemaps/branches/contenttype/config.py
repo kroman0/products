@@ -8,7 +8,11 @@ ADD_PERMISSIONS = {
     'Sitemap': 'qPloneGoogleSitemaps: Add Sitemap',
 }
 
-SITEMAPS_LIST = ['content','mobile','news']
+SITEMAPS_VIEW_MAP = {
+    'content'   : 'sitemap.xml',
+    'mobile'    : 'mobile-sitemap.xml',
+    'news'      : 'news-sitemap.xml'
+}
 
 ping_googlesitemap = 'pingGoogleSitemap'
 

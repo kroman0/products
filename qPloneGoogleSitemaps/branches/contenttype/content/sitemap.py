@@ -20,7 +20,7 @@ SitemapSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage = atapi.AnnotationStorage(),
         required=True,
         default='content',
-        vocabulary=SITEMAPS_LIST,
+        vocabulary=SITEMAPS_VIEW_MAP.keys(),
         widget=atapi.SelectionWidget(
             label=_(u"Sitemap type"),
             description=_(u"Select Type of the sitemap."),
@@ -139,6 +139,11 @@ class Sitemap(base.ATCTContent):
 
     #title = atapi.ATFieldProperty('title')
     #description = atapi.ATFieldProperty('description')
+
+    def at_post_create_script(self):
+        # Set default layout on creation
+        default_layout = SITEMAPS_VIEW_MAP[self.getSitemapType()]
+        self._setProperty('layout', default_layout)
 
     def availablePortalTypes(self):
         pt = getToolByName(self, 'portal_types')

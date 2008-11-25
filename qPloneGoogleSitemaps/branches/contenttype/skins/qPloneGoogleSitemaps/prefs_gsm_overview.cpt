@@ -58,15 +58,42 @@
 <!--              -->
             <dl>
             <dt>First step</dt>
-            <dd>Your site is Google Sitemaps enabled already. Check 
+            <dd>For make your site is Google Sitemaps enabled. Add a sitemap on 
+            <a href="prefs_gsm_settings"
+                tal:attributes="href string:$portal_url/prefs_gsm_settings">Google Sitemap settings</a>.
+            You can add one of the following sitemap types: <strong 
+                tal:content="python:' or '.join(modules['Products.qPloneGoogleSitemaps.config'].SITEMAPS_VIEW_MAP.keys())" />.
+            And than chose on that sitemap as default one for appropriate sitemap type.
+            For mobile site, you can mark mobile objects with <strong>hasMobileContent</strong> python script, and 
+            reindex same-name index in portal catalog. Different sitemap types indexed own content and leaves independent
+            from other ones.
+            </dd>
+            <dt>Second step</dt>
+            <dd tal:define="gsm_prop here/portal_properties/googlesitemap_properties | nothing;
+                           content_sm gsm_prop/content_default | nothing;
+                           mobile_sm gsm_prop/mobile_default | nothing;
+                           news_sm gsm_prop/news_default | nothing;">
+            Your site is Google Sitemaps enabled already. Check 
             <a href="google-sitemaps"
-                tal:attributes="href string:$portal_url/google-sitemaps">sitemap XML</a> 
+               tal:attributes="href string:$portal_url/$content_sm"
+               tal:condition="content_sm">content sitemap XML</a>
+            <span tal:replace="string: or "
+                  tal:condition="python:content_sm and (mobile_sm or news_sm)"/>
+            <a href="mobile-sitemaps"
+               tal:attributes="href string:$portal_url/$mobile_sm"
+               tal:condition="mobile_sm">mobile sitemap XML</a>
+            <span tal:replace="string: or "
+                  tal:condition="python:(content_sm or mobile_sm) and news_sm"/>
+            <a href="news-sitemaps"
+               tal:attributes="href string:$portal_url/$news_sm"
+               tal:condition="news_sm">news sitemap XML</a>
+
             to see generated sitemap document of your website. It should contain URLs of 
             all published objects. If you see something that should not be indexed by 
             Google, retract objects or exclude sections with robots.txt (that GoogleBot 
             obey).
             </dd>
-            <dt>Second step</dt>
+            <dt>Third step</dt>
             <dd>Make Google know of your sitemap:
             <ol>
                 <li>go to <a href="https://www.google.com/webmasters/sitemaps">Google 

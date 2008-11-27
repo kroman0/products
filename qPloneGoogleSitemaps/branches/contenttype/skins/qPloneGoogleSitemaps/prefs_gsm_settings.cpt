@@ -38,12 +38,6 @@
                    Up to Plone Setup
                 </a>
 
-                <p> For <strong>add new sitemap</strong> - simple use appropriate button on the bottom of the page.</p>
-                <p>You can <strong>edit</strong> only <strong>default</strong> sitemap with <strong>edit</strong> link.</p>
-                <p> For <strong>delete</strong> sitemap - select the appropriate sitemap's type and the sitemap id from 
-                available selection list (any one can be selected), use appropriate button.</p>
-                <p>You can <strong>set default</strong> sitemap: select sitemap type and desired id and use <strong>set default</strong> button.</p>
-                <p>You can <strong>Ping</strong> desired sitemap: select sitemap type and push <strong>Ping</strong> button.</p>
                 
 
                 <form name="edit_form"
@@ -59,20 +53,27 @@
                         Google SiteMaps configuration
                     </legend>
 
+                    <p> For <strong>add new sitemap</strong> - simple use appropriate button on the bottom of the page.</p>
+                    <tal:block condition="sitemaps">
+                    <p>You can <strong>edit</strong> only <strong>default</strong> sitemap with <strong>edit</strong> link.</p>
+                    <p> For <strong>delete</strong> sitemap - select the appropriate sitemap's type and the sitemap id from 
+                    available selection list (any one can be selected), use appropriate button.</p>
+                    <p>You can <strong>set default</strong> sitemap: select sitemap type and desired id and use <strong>set default</strong> button.</p>
+                    <p>You can <strong>Ping</strong> desired sitemap: select sitemap type and push <strong>Ping</strong> button.</p>
+                    </tal:block>
+
                     <table class="listing"
-                            summary="Sitemaps management"
-                            i18n:attributes="summary summary_sitemaps_management;">
+                           summary="Sitemaps management"
+                           i18n:attributes="summary summary_sitemaps_management;"
+                           tal:condition="sitemaps">
                         <thead>
-                        <metal:block tal:condition="sitemaps">
                             <tr>
                             <th></th>
                             <th>&nbsp;Type&nbsp;</th>
                             <th>&nbsp;Default Sitemap Id&nbsp;</th>
                             <th>&nbsp;Edit Sitemap&nbsp;</th>
                             </tr>
-                        </metal:block>
                         </thead>
-                        <metal:block tal:condition="sitemaps">
                         <tbody>
                             <tal:items tal:repeat="item sitemap_types">
                             <tr tal:define="oddrow repeat/item/odd;
@@ -113,7 +114,6 @@
                             </tr>
                             </tal:items>
                         </tbody>
-                        </metal:block>
                         </table>
 
                         <div class="formControls"

@@ -1,5 +1,5 @@
 from string import find
-from zope.interface import implements, Interface
+from zope.interface import implements, Interface, Attribute
 
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
@@ -27,6 +27,7 @@ class ISitemapView(Interface):
             if allowed
         """
 
+    numEntries = Attribute("Return number of entries")
 
 class CommonSitemapView(BrowserView):
     """
@@ -73,6 +74,7 @@ class CommonSitemapView(BrowserView):
             res_map = {'url' : url,}
             [res_map.update({k : f(b)}) for k, f in self.additional_maps]
             result.append(res_map)
+        self.num_entries = len(result)
         return result
 
     def updateRequest(self):
@@ -86,3 +88,7 @@ class CommonSitemapView(BrowserView):
 
     def getAdditionalURLs(self):
         return additionalURLs(self.context)
+
+    @property
+    def numEntries(self):
+        return len(self.results()) + len(self.getAdditionalURLs())

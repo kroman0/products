@@ -69,9 +69,11 @@
                         <thead>
                             <tr>
                             <th></th>
-                            <th>&nbsp;Type&nbsp;</th>
-                            <th>&nbsp;Default Sitemap Id&nbsp;</th>
-                            <th>&nbsp;Edit Sitemap&nbsp;</th>
+                            <th>Type</th>
+                            <th>Default Sitemap Id</th>
+                            <th>Edit Sitemap</th>
+                            <th>Size (bytes)</th>
+                            <th>Entries</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -111,8 +113,17 @@
                                                     alt string:Edit ${data/sm_def_id}"
                                     tal:content="string:Edit ${data/sm_def_id}">Edit default sitemap type </a>
                                 </td>
+                                <td tal:content="string:${data/sm_def_size}"> 10 000 in bytes
+                                </td>
+                                <td tal:content="string:${data/sm_def_entries}"> 50 000 items
+                                </td>
                             </tr>
                             </tal:items>
+                            <tr>
+                            <th colspan="4"><strong>Limitations:</strong></th>
+                            <th><strong>10,485,760</strong></th>
+                            <th><strong>50,000</strong></th>
+                            </tr>
                         </tbody>
                         </table>
 

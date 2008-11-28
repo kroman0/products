@@ -54,8 +54,8 @@ setup(name=${repr($project)},
       theme_vars.txt = distwriters:write_map
 
       """,
-      paster_plugins = ["ZopeSkel", "PasteScript"],
-      setup_requires = ["setuptools", "ZopeSkel", "PasteScript"],
+      paster_plugins = ["ZopeSkel",],
+      setup_requires = ["setuptools",],
       theme_vars = {'skinname': '$skinname',
           'skinbase'          : '$skinbase',
           'namespace_package' : '$namespace_package',

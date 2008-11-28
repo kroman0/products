@@ -5,6 +5,7 @@
     i18n_domain="collective.transmogrifier"
     >
 
+<include package="zope.app.annotation" />
 <include package=".sections"/>
 
 <five:implements

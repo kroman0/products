@@ -1,4 +1,6 @@
 from zope.interface import classProvides, implements
+from zope import event
+
 from ZODB.POSException import ConflictError
 
 from Products.Marshall import registry

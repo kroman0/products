@@ -51,6 +51,8 @@ class DataPrinter(object):
 ctSectionsSetup = sectionsSetUp
 def sectionsSetUp(test):
     ctSectionsSetup(test)
+    import zope.app.annotation
+    zcml.load_config('configure.zcml', zope.app.annotation)
     zcml.load_config('configure.zcml', quintagroup.transmogrifier)
 
     from Products.CMFCore import utils
@@ -128,7 +130,8 @@ def manifestSetUp(test):
         _entries=(
             ('news', 'Folder'),
             ('events', 'Folder'),
-            ('front-page', 'Document')
+            ('front-page', 'Document'),
+            ('only-in-manifest', 'Document')
         )
     )
 
@@ -136,7 +139,7 @@ def manifestSetUp(test):
         _path='news',
         _entries=(
             ('aggregator', 'Topic'),
-            ('not-existing', 'SomeType')
+            ('once-more', 'File')
         )
     )
 
@@ -153,7 +156,7 @@ def manifestSetUp(test):
     )
 
     members = dict(
-        _path='Memebers'
+        _path='Members'
     )
 
     class ManifestSource(SampleSource):
@@ -810,6 +813,7 @@ def catalogSourceSetUp(test):
     class MockContent(dict):
         def __init__(self, **kw):
             self.update(kw)
+            self['id'] = self.getId
 
         def getPath(self):
             return self['path']
@@ -820,7 +824,7 @@ def catalogSourceSetUp(test):
             return path.rsplit('/', 1)[-1]
 
         @property
-        def Type(self):
+        def portal_type(self):
             return self['portal_type']
 
         @property
@@ -828,7 +832,6 @@ def catalogSourceSetUp(test):
             return self['portal_type'] == 'Folder' and True or False
 
     class MockPortal(dict):
-        #implements(IFolderish)
 
         content = ()
         def __call__(self, **kw):
@@ -873,15 +876,19 @@ def catalogSourceSetUp(test):
     doc1 = MockContent(path='/plone/document1', portal_type='Document',
         modified='2008-11-01T12:00:00Z')
     folder1 = MockContent(path='/plone/folder1', portal_type='Folder',
-        modified='2008-11-04T12:00:00Z')
+        modified='2008-11-01T12:00:00Z')
     doc2 = MockContent(path='/plone/folder1/document2', portal_type='Document',
         modified='2008-11-02T12:00:00Z')
     doc3 = MockContent(path='/plone/folder1/document3', portal_type='Document',
+        modified='2008-11-02T12:00:00Z')
+    folder2 = MockContent(path='/plone/folder2', portal_type='Folder',
+        modified='2008-11-02T12:00:00Z')
+    doc4 = MockContent(path='/plone/folder2/document4', portal_type='Document',
         modified='2008-11-01T12:00:00Z')
-    doc4 = MockContent(path='/plone/document4', portal_type='Document',
-        modified='2008-11-03T12:00:00Z')
+    comment = MockContent(path='/plone/folder2/document4/talkback/1234567890', portal_type='Discussion Item',
+        modified='2008-11-02T12:00:00Z')
     # items are sorted on their modification date
-    portal.content = (doc1, doc3, doc2, doc4, folder1)
+    portal.content = (doc1, folder1, folder2, doc2, doc3, doc4, comment)
 
     test.globs['plone'] = portal
     test.globs['transmogrifier'].context = test.globs['plone']

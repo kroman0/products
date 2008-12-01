@@ -105,18 +105,9 @@ class TestSitemapType(PloneTestCase.FunctionalTestCase):
 
     def afterSetUp(self):
         self.loginAsPortalOwner()
-
-        self.membership = self.portal.portal_membership
-        self.workflow = self.portal.portal_workflow
         self.auth = 'admin:admin'
         self.contentSM = _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
-        self.sitemapUrl = '/'+self.portal.absolute_url(1) + '/google-sitemaps'
-        self.membership.addMember('admin', 'admin', ('Manager',), [])
-
-        # Add testing document to portal
-        my_doc = self.portal.invokeFactory('Document', id='my_doc')
-        self.my_doc = self.portal['my_doc']
-        self.my_doc.edit(text_format='plain', text='hello world')
+        self.portal.portal_membership.addMember('admin', 'admin', ('Manager',), [])
 
     def testFields(self):
         field_ids = map(lambda x:x.getName(), self.contentSM.Schema().fields())
@@ -170,12 +161,11 @@ class TestqPloneGoogleSitemaps(PloneTestCase.FunctionalTestCase):
     def afterSetUp(self):
         self.loginAsPortalOwner()
 
-        self.membership = self.portal.portal_membership
         self.workflow = self.portal.portal_workflow
         self.auth = 'admin:admin'
-        self.contentSM = _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
+        _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
         self.sitemapUrl = '/'+self.portal.absolute_url(1) + '/google-sitemaps'
-        self.membership.addMember('admin', 'admin', ('Manager',), [])
+        self.portal.portal_membership.addMember('admin', 'admin', ('Manager',), [])
 
         # Add testing document to portal
         my_doc = self.portal.invokeFactory('Document', id='my_doc')
@@ -222,7 +212,6 @@ class TestSettings(PloneTestCase.FunctionalTestCase):
     def afterSetUp(self):
         self.loginAsPortalOwner()
 
-        self.membership = self.portal.portal_membership
         self.workflow = self.portal.portal_workflow
         self.gsm_props = self.portal.portal_properties['googlesitemap_properties']
         self.auth = 'admin:admin'
@@ -230,7 +219,7 @@ class TestSettings(PloneTestCase.FunctionalTestCase):
 
         self.sitemapUrl = '/'+self.portal.absolute_url(1) + '/google-sitemaps'
 
-        self.membership.addMember('admin', 'admin', ('Manager',), [])
+        self.portal.portal_membership.addMember('admin', 'admin', ('Manager',), [])
 
         # Add testing document to portal
         my_doc = self.portal.invokeFactory('Document', id='my_doc')

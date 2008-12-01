@@ -5,8 +5,11 @@
 from Products.Five import zcml
 from Products.Five import fiveconfigure
 from Products.PloneTestCase import PloneTestCase
-from XMLParser import parse, hasURL
+
+from Products.CMFPlone.utils import _createObjectByType
 import Products.qPloneGoogleSitemaps
+
+from XMLParser import parse, hasURL
 
 PRODUCT = 'qPloneGoogleSitemaps'
 PRODUCTS = (PRODUCT,)
@@ -93,7 +96,6 @@ class TestqPloneGoogleSitemapsInstallation(PloneTestCase.FunctionalTestCase):
             'No "hasMobileContent" index in portal_catalog')
 
 
-
 class TestqPloneGoogleSitemaps(PloneTestCase.FunctionalTestCase):
 
     def afterSetUp(self):
@@ -102,6 +104,7 @@ class TestqPloneGoogleSitemaps(PloneTestCase.FunctionalTestCase):
         self.membership = self.portal.portal_membership
         self.workflow = self.portal.portal_workflow
         self.auth = 'admin:admin'
+        self.contentSM = _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
         self.sitemapUrl = '/'+self.portal.absolute_url(1) + '/google-sitemaps'
         self.membership.addMember('admin', 'admin', ('Manager',), [])
 
@@ -109,6 +112,7 @@ class TestqPloneGoogleSitemaps(PloneTestCase.FunctionalTestCase):
         my_doc = self.portal.invokeFactory('Document', id='my_doc')
         self.my_doc = self.portal['my_doc']
         self.my_doc.edit(text_format='plain', text='hello world')
+
 
 
     def testSitemap(self):
@@ -152,6 +156,8 @@ class TestSettings(PloneTestCase.FunctionalTestCase):
         self.workflow = self.portal.portal_workflow
         self.gsm_props = self.portal.portal_properties['googlesitemap_properties']
         self.auth = 'admin:admin'
+        self.contentSM = _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
+
         self.sitemapUrl = '/'+self.portal.absolute_url(1) + '/google-sitemaps'
 
         self.membership.addMember('admin', 'admin', ('Manager',), [])
@@ -167,35 +173,36 @@ class TestSettings(PloneTestCase.FunctionalTestCase):
         sitemap = self.publish(self.sitemapUrl, self.auth).getBody()
         self.assert_(hasURL(sitemap, self.my_doc_url))
 
-        self.gsm_props.manage_changeProperties(portalTypes = [])
+        self.contentSM.setPortalTypes([])
 
         sitemap = self.publish(self.sitemapUrl, self.auth).getBody()
         self.assert_(not hasURL(sitemap, self.my_doc_url))
 
-        self.gsm_props.manage_changeProperties(portalTypes = ['Document'])
+        self.contentSM.setPortalTypes(['Document'])
 
         sitemap = self.publish(self.sitemapUrl, self.auth).getBody()
         self.assert_(hasURL(sitemap, self.my_doc_url))
 
     def testStates(self):
         self.workflow.doActionFor(self.my_doc, 'publish')
-        self.gsm_props.manage_changeProperties(states = ['visible'])
+        self.contentSM.setStates(['visible'])
 
         sitemap = self.publish(self.sitemapUrl, self.auth).getBody()
         self.assert_(not hasURL(sitemap, self.my_doc_url))
 
-        self.gsm_props.manage_changeProperties(states = ['published'])
+        self.contentSM.setStates(['published'])
 
         sitemap = self.publish(self.sitemapUrl, self.auth).getBody()
         self.assert_(hasURL(sitemap, self.my_doc_url))
 
     def test_blackout_entries(self):
         self.workflow.doActionFor(self.my_doc, 'publish')
-        self.gsm_props.manage_changeProperties(blackout_list = (self.my_doc.getId(),))
+        self.contentSM.setBlackout_list((self.my_doc.getId(),))
+
         sitemap = self.publish(self.sitemapUrl, self.auth).getBody()
         self.assert_(not hasURL(sitemap, self.my_doc_url))
 
-        self.gsm_props.manage_changeProperties(blackout_list = [])
+        self.contentSM.setBlackout_list([])
         sitemap = self.publish(self.sitemapUrl, self.auth).getBody()
         self.assert_(hasURL(sitemap, self.my_doc_url))
 
@@ -205,13 +212,13 @@ class TestSettings(PloneTestCase.FunctionalTestCase):
         self.assert_(not hasURL(sitemap, self.portal.absolute_url()))
 
         regexp = "s/\/%s//"%self.my_doc.getId()
-        self.gsm_props.manage_changeProperties(reg_exp = [regexp])
+        self.contentSM.setReg_exp([regexp])
 
         sitemap = self.publish(self.sitemapUrl, self.auth).getBody()
         self.assert_(hasURL(sitemap, self.portal.absolute_url()))
 
     def test_add_urls(self):
-        self.gsm_props.manage_changeProperties(urls = ['http://w1', 'w2', '/w3'])
+        self.contentSM.setUrls(['http://w1', 'w2', '/w3'])
         w1_url = 'http://w1'
         w2_url = self.portal.absolute_url() + '/w2'
         w3_url = self.portal.getPhysicalRoot().absolute_url() + '/w3'
@@ -225,8 +232,8 @@ def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestqPloneGoogleSitemapsInstallation))
-    #suite.addTest(makeSuite(TestqPloneGoogleSitemaps))
-    #suite.addTest(makeSuite(TestSettings))
+    suite.addTest(makeSuite(TestqPloneGoogleSitemaps))
+    suite.addTest(makeSuite(TestSettings))
     return suite
 
 if __name__ == '__main__':

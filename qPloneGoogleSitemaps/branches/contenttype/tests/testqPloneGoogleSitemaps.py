@@ -2,12 +2,17 @@
 # Tests for qPloneGoogleSitemaps
 #
 
+from urllib import urlencode
+from StringIO import StringIO
+
 from Products.Five import zcml
 from Products.Five import fiveconfigure
 from Products.PloneTestCase import PloneTestCase
 
 from Products.CMFPlone.utils import _createObjectByType
+
 import Products.qPloneGoogleSitemaps
+from Products.qPloneGoogleSitemaps.config import ping_googlesitemap
 
 from XMLParser import parse, hasURL
 
@@ -22,7 +27,7 @@ fiveconfigure.debug_mode = False
 PloneTestCase.installProduct(PRODUCT)
 PloneTestCase.setupPloneSite(extension_profiles=("Products.%s:default" % PRODUCT,))
 
-class TestqPloneGoogleSitemapsInstallation(PloneTestCase.FunctionalTestCase):
+class TestqPloneGoogleSitemapsInstallation(PloneTestCase.PloneTestCase):
 
     def afterSetUp(self):
         self.loginAsPortalOwner()
@@ -96,6 +101,70 @@ class TestqPloneGoogleSitemapsInstallation(PloneTestCase.FunctionalTestCase):
             'No "hasMobileContent" index in portal_catalog')
 
 
+class TestSitemapType(PloneTestCase.FunctionalTestCase):
+
+    def afterSetUp(self):
+        self.loginAsPortalOwner()
+
+        self.membership = self.portal.portal_membership
+        self.workflow = self.portal.portal_workflow
+        self.auth = 'admin:admin'
+        self.contentSM = _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
+        self.sitemapUrl = '/'+self.portal.absolute_url(1) + '/google-sitemaps'
+        self.membership.addMember('admin', 'admin', ('Manager',), [])
+
+        # Add testing document to portal
+        my_doc = self.portal.invokeFactory('Document', id='my_doc')
+        self.my_doc = self.portal['my_doc']
+        self.my_doc.edit(text_format='plain', text='hello world')
+
+    def testFields(self):
+        field_ids = map(lambda x:x.getName(), self.contentSM.Schema().fields())
+        # test old Sitemap settings fields
+        self.assert_('id' in field_ids)
+        self.assert_('portalTypes' in field_ids)
+        self.assert_('states' in field_ids)
+        self.assert_('blackout_list' in field_ids)
+        self.assert_('urls' in field_ids)
+        self.assert_('pingTransitions' in field_ids)
+        # test new sitemap type field
+        self.assert_('sitemapType' in field_ids)
+
+    def testSitemapTypes(self):
+        sitemap_types = self.contentSM.getField('sitemapType').Vocabulary().keys()
+        self.assert_('content' in sitemap_types)
+        self.assert_('mobile' in sitemap_types)
+        self.assert_('news' in sitemap_types)
+
+    def testAutoSetLayout(self):
+        response = self.publish('/%s/createObject?type_name=Sitemap' % \
+                                self.portal.absolute_url(1), basic=self.auth)
+        location = response.getHeader('location')
+        newurl = location[location.find('/'+self.portal.absolute_url(1)):]
+
+        msm_id = 'mobile_sitemap'
+        form = {'id': msm_id,
+                'sitemapType':'mobile',
+                'portalTypes':['Document',],
+                'states':['published'],
+                'form_submit':'Save',
+                'form.submitted':1,
+                }
+        post_data = StringIO(urlencode(form))
+        response = self.publish(newurl, request_method='POST', stdin=post_data, basic=self.auth)
+        msitemap = getattr(self.portal, msm_id)
+
+        self.assertEqual(msitemap.defaultView(), 'mobile-sitemap.xml')
+
+    def txestPingSetting(self):
+        pwf = self.portal.portal_workflow['plone_workflow']
+        self.assertEqual(self.contentSM.getPingTransitions(), ())
+
+        self.contentSM.setPingTransitions(('plone_workflow#publish',))
+        self.assertEqual(self.contentSM.getPingTransitions(), ('plone_workflow#publish',))
+        self.assert_(ping_googlesitemap in pwf.scripts.keys(),"Not add wf script")
+
+
 class TestqPloneGoogleSitemaps(PloneTestCase.FunctionalTestCase):
 
     def afterSetUp(self):
@@ -146,6 +215,7 @@ class TestqPloneGoogleSitemaps(PloneTestCase.FunctionalTestCase):
         self.portal.gsm_delete_verify_file()
         vf_created = hasattr(self.portal, 'verif_file')
         self.assert_(not vf_created, 'Verification file not removed')
+
 
 class TestSettings(PloneTestCase.FunctionalTestCase):
 
@@ -232,8 +302,10 @@ def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestqPloneGoogleSitemapsInstallation))
+    suite.addTest(makeSuite(TestSitemapType))
     suite.addTest(makeSuite(TestqPloneGoogleSitemaps))
     suite.addTest(makeSuite(TestSettings))
+
     return suite
 
 if __name__ == '__main__':

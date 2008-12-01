@@ -105,7 +105,6 @@ SitemapSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         name='pingTransitions',
         storage = atapi.AnnotationStorage(),
         required=False,
-        default='content',
         vocabulary='getWorkflowTransitions',
         schemata="pinging",
         widget=atapi.MultiSelectionWidget(

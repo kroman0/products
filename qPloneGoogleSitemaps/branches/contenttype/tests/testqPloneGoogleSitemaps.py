@@ -1,17 +1,98 @@
 #
 # Tests for qPloneGoogleSitemaps
 #
-import os, sys
-if __name__ == '__main__':
-    execfile(os.path.join(sys.path[0], 'framework.py'))
 
+from Products.Five import zcml
+from Products.Five import fiveconfigure
 from Products.PloneTestCase import PloneTestCase
 from XMLParser import parse, hasURL
+import Products.qPloneGoogleSitemaps
 
 PRODUCT = 'qPloneGoogleSitemaps'
 PRODUCTS = (PRODUCT,)
+
+# Import configure.zcml for qPloneGoogleSitemaps
+fiveconfigure.debug_mode = True
+zcml.load_config('configure.zcml', Products.qPloneGoogleSitemaps)
+fiveconfigure.debug_mode = False
+
 PloneTestCase.installProduct(PRODUCT)
-PloneTestCase.setupPloneSite(products = PRODUCTS)
+PloneTestCase.setupPloneSite(extension_profiles=("Products.%s:default" % PRODUCT,))
+
+class TestqPloneGoogleSitemapsInstallation(PloneTestCase.FunctionalTestCase):
+
+    def afterSetUp(self):
+        self.loginAsPortalOwner()
+
+    def testType(self):
+        pt = self.portal.portal_types
+        self.assert_('Sitemap' in pt.objectIds(), 
+            'No "Sitemap" type after installation')
+        #Test views
+        views = pt.getTypeInfo('Sitemap').view_methods
+        self.assert_('sitemap.xml' in views, 
+            'No "sitemap.xml" view for Sitemap type')
+        self.assert_('mobile-sitemap.xml' in views, 
+            'No "mobile-sitemap.xml" view for Sitemap type')
+        self.assert_('news-sitemap.xml' in views, 
+            'No "news-sitemap.xml" view for Sitemap type')
+
+    def testGSMProperties(self):
+        pp = self.portal.portal_properties
+
+        # Test types_not_searched
+        self.assert_("Sitemap" in pp['site_properties'].getProperty('types_not_searched'), 
+            'No "Sitemap" added to types not searched on installation')
+        # Test metaTypesNotToList
+        self.assert_("Sitemap" in pp['navtree_properties'].getProperty('metaTypesNotToList'), 
+            'No "Sitemap" added to types not to list on installation')
+
+        # Test 'googlesitemap_properties'
+        self.assert_('googlesitemap_properties' in pp.objectIds(), 
+            'No "googlesitemap_properties" after installation')
+        qsmprops = pp['googlesitemap_properties']
+        self.assert_(qsmprops.hasProperty('content_default'),
+            'No "content_default" property added on installation')
+        self.assert_(qsmprops.hasProperty('mobile_default'),
+            'No "mobile_default" property added on installation')
+        self.assert_(qsmprops.hasProperty('news_default'),
+            'No "news_default" property added on installation')
+        self.assert_(qsmprops.hasProperty('verification_filename'),
+            'No "verification_filename" property added on installation')
+
+    def testGSMProperties(self):
+        pp = self.portal.portal_properties
+
+        self.assert_('googlesitemap_properties' in pp.objectIds(), 
+            'No "googlesitemap_properties" after installation')
+        qsmprops = pp['googlesitemap_properties']
+        self.assert_(qsmprops.hasProperty('content_default'),
+            'No "content_default" property added on installation')
+        self.assert_(qsmprops.hasProperty('mobile_default'),
+            'No "mobile_default" property added on installation')
+        self.assert_(qsmprops.hasProperty('news_default'),
+            'No "news_default" property added on installation')
+        self.assert_(qsmprops.hasProperty('verification_filename'),
+            'No "verification_filename" property added on installation')
+
+    def testSkins(self):
+        ps = self.portal.portal_skins
+        self.assert_('qPloneGoogleSitemaps' in ps.objectIds(), 
+            'No "qPloneGoogleSitemaps" skin layer in portal_skins')
+        self.assert_('qPloneGoogleSitemaps' in ps.getSkinPath(ps.getDefaultSkin()),
+            'No "qPloneGoogleSitemaps" skin layer in default skin')
+
+    def testConfiglet(self):
+        cp = self.portal.portal_controlpanel
+        self.assert_([1 for ai in cp.listActionInfos() if ai['id']=='qPloneGoogleSitemaps'], 
+            'No "qPloneGoogleSitemaps" configlet added to plone control panel')
+
+    def testCatalog(self):
+        catalog = self.portal.portal_catalog
+        self.assert_('hasMobileContent' in catalog.indexes(),
+            'No "hasMobileContent" index in portal_catalog')
+
+
 
 class TestqPloneGoogleSitemaps(PloneTestCase.FunctionalTestCase):
 
@@ -29,9 +110,6 @@ class TestqPloneGoogleSitemaps(PloneTestCase.FunctionalTestCase):
         self.my_doc = self.portal['my_doc']
         self.my_doc.edit(text_format='plain', text='hello world')
 
-    def testInstallation(self):
-        installed = self.portal.portal_quickinstaller.isProductInstalled(PRODUCT)
-        self.assert_(installed, 'Product not installed')
 
     def testSitemap(self):
         sitemap = self.publish(self.sitemapUrl, self.auth).getBody()
@@ -57,7 +135,7 @@ class TestqPloneGoogleSitemaps(PloneTestCase.FunctionalTestCase):
 
     def testVerificationFile(self):
         self.portal.gsm_create_verify_file('verif_file')
-        
+
         vf_created = hasattr(self.portal, 'verif_file')
         self.assert_(vf_created, 'Verification file not created')
 
@@ -146,8 +224,9 @@ class TestSettings(PloneTestCase.FunctionalTestCase):
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
-    suite.addTest(makeSuite(TestqPloneGoogleSitemaps))
-    suite.addTest(makeSuite(TestSettings))
+    suite.addTest(makeSuite(TestqPloneGoogleSitemapsInstallation))
+    #suite.addTest(makeSuite(TestqPloneGoogleSitemaps))
+    #suite.addTest(makeSuite(TestSettings))
     return suite
 
 if __name__ == '__main__':

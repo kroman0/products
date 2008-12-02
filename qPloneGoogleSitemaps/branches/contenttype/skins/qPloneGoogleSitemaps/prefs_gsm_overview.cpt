@@ -58,15 +58,16 @@
 <!--              -->
             <dl>
             <dt>First step</dt>
-            <dd>For make your site is Google Sitemaps enabled. Add a sitemap on 
+            <dd>To enable Google Sitemaps on your site, add a sitemap to 
             <a href="prefs_gsm_settings"
                 tal:attributes="href string:$portal_url/prefs_gsm_settings">Google Sitemap settings</a>.
             You can add one of the following sitemap types: <strong 
                 tal:content="python:' or '.join(modules['Products.qPloneGoogleSitemaps.config'].SITEMAPS_VIEW_MAP.keys())" />.
-            And than chose on that sitemap as default one for appropriate sitemap type.
-            For mobile site, you can mark mobile objects with <strong>hasMobileContent</strong> python script, and 
-            reindex same-name index in portal catalog. Different sitemap types indexed own content and leaves independent
-            from other ones.
+            Select default sitemap for the corresponding sitemap type. For
+            mobile site, you can select mobile objects with <strong>hasMobileContent</strong> 
+            python script,  and reindex same-name index in portal catalog.
+            Different sitemap types index their own content and do not depend
+            on other sitemaps.
             </dd>
             <dt>Second step</dt>
             <dd tal:define="gsm_prop here/portal_properties/googlesitemap_properties | nothing;

@@ -23,6 +23,7 @@ SitemapSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         vocabulary=SITEMAPS_VIEW_MAP.keys(),
         widget=atapi.SelectionWidget(
             label=_(u"Sitemap type"),
+            visible = {'edit':'invisible', 'view':'invisible'},
             description=_(u"Select Type of the sitemap."),
         ),
     ),

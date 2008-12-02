@@ -16,56 +16,52 @@ portal_url = getToolByName(context,'portal_url')
 portalURL = portal_url()
 portal = portal_url.getPortalObject()
 req = context.REQUEST
+message = ""
 
-if req.get('form.button.Add', False):
-    return req.RESPONSE.redirect(
-                "%s/createObject?type_name=Sitemap" % portalURL)
+def addSMByType(parent, sm_type, sm_id):
+    new_id = portal.invokeFactory(id=sm_id, type_name="Sitemap", sitemapType=sm_type)
+    sm = getattr(portal, new_id)
+    if sm:
+        sm.markCreationFlag()
+        return new_id
+    return None
+
+if req.get('form.button.AddContent', False):
+    new_id = addSMByType(portal, 'content', 'sitemap.xml')
+    if new_id:
+        return req.RESPONSE.redirect("%s/%s/edit" % (portalURL, new_id))
+    else:
+        message = "Can't create content sitemap"
+elif req.get('form.button.AddMobile', False):
+    new_id = addSMByType(portal, 'mobile', 'mobile-sitemap.xml')
+    if new_id:
+        return req.RESPONSE.redirect("%s/%s/edit" % (portalURL, new_id))
+    else:
+        message = "Can't create mobile sitemap"
+elif req.get('form.button.AddNews', False):
+    new_id = addSMByType(portal, 'news', 'news-sitemap.xml')
+    if new_id:
+        return req.RESPONSE.redirect("%s/%s/edit" % (portalURL, new_id))
+    else:
+        message = "Can't create news sitemap"
 else:
-    smtypes = req.get('smtypes', [])
-    pp = getToolByName(context,'portal_properties')
-    props = pp.googlesitemap_properties
-
-    message = ""
+    smselected = req.get('smselected', [])
 
     if req.get('form.button.Delete', False):
-        deleted = []
-        for smtype in smtypes:
-            defsm = req.get("defaultSM_%s"% smtype, '')
-            if defsm:
-                parent, delid = portal, defsm
-                if '/' in defsm:
-                    parent_path, delid = defsm.rsplit('/',1)
-                    parent = portal.restrictedTraverse(parent_path)
-
-                parent.manage_delObjects(ids=[delid,])
-                pname = "%s_default" % smtype
-                props.manage_changeProperties(**{pname : ''})
-                deleted.append(defsm)
-        message = "Succesfully deleted: %s" % deleted
-
-    elif req.get('form.button.Default', False):
-        default = {}
-        for smtype in smtypes:
-            defPath = req.get("defaultSM_%s"% smtype, '')
-            if defPath:
-                pname = "%s_default" % smtype
-                props.manage_changeProperties(**{pname : defPath})
-                default.update({pname : defPath})
-        message = "Succesfully set as default: %s" % default
+        portal.manage_delObjects(ids=smselected[:])
+        message = "Succesfully deleted: %s" % smselected
 
     elif req.get('form.button.Ping', False):
         pinged = []
         message = "Google pinged. It will review your sitemap as soon as it will be able to. Processed: %s"
-        for smtype in smtypes:
-            defPath = req.get("defaultSM_%s"% smtype, '')
-            if defPath:
-                try:
-                    ping_google(portalURL, defPath)
-                except:
-                    message = "Cannot contact Google. Try again in a while. But pinged for: %s"
-                    break
-                else:
-                    pinged.append(defPath)
+        for sm_id in smselected:
+            try:
+                ping_google(portalURL, sm_id)
+            except:
+                message = "Cannot contact Google. Try again in a while. But pinged for: %s"
+                break
+            else:
+                pinged.append(sm_id)
         message = message % pinged
 
 return state.set(next_action='traverse_to:string:prefs_gsm_settings',

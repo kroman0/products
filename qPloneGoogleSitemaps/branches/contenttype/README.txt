@@ -5,7 +5,7 @@ Quintagroup Plone Google Sitemaps
 
 Requirements
 
-  * Plone 2.x
+  * Plone 2.5
   * Plone 3.x 
 
 Links

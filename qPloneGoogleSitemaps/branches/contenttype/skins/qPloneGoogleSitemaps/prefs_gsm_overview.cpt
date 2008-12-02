@@ -58,52 +58,53 @@
 <!--              -->
             <dl>
             <dt>First step</dt>
-            <dd>To enable Google Sitemaps on your site, add a sitemap to 
+            <dd>To enable Google Sitemaps on your site, add a sitemap at 
             <a href="prefs_gsm_settings"
-                tal:attributes="href string:$portal_url/prefs_gsm_settings">Google Sitemap settings</a>.
-            You can add one of the following sitemap types: <strong 
-                tal:content="python:' or '.join(modules['Products.qPloneGoogleSitemaps.config'].SITEMAPS_VIEW_MAP.keys())" />.
-            Select default sitemap for the corresponding sitemap type. For
-            mobile site, you can select mobile objects with <strong>hasMobileContent</strong> 
-            python script,  and reindex same-name index in portal catalog.
-            Different sitemap types index their own content and do not depend
-            on other sitemaps.
+                tal:attributes="href string:$portal_url/prefs_gsm_settings">Google Sitemap settings</a> tab.
+            You can add one of the following sitemap types: <strong>content, mobile or news</strong>.
+            Different sitemap types index their own content and do not depend on other sitemaps.
             </dd>
             <dt>Second step</dt>
             <dd tal:define="gsm_prop here/portal_properties/googlesitemap_properties | nothing;
                            content_sm gsm_prop/content_default | nothing;
                            mobile_sm gsm_prop/mobile_default | nothing;
                            news_sm gsm_prop/news_default | nothing;">
-            Your site is Google Sitemaps enabled already. Check 
+            Your site is already Google Sitemaps enabled. Check 
             <a href="google-sitemaps"
                tal:attributes="href string:$portal_url/$content_sm"
                tal:condition="content_sm">content sitemap XML</a>
-            <span tal:replace="string: or "
+            <span tal:replace="string:, "
                   tal:condition="python:content_sm and (mobile_sm or news_sm)"/>
             <a href="mobile-sitemaps"
                tal:attributes="href string:$portal_url/$mobile_sm"
                tal:condition="mobile_sm">mobile sitemap XML</a>
-            <span tal:replace="string: or "
+            <span tal:replace="string:, "
                   tal:condition="python:(content_sm or mobile_sm) and news_sm"/>
             <a href="news-sitemaps"
                tal:attributes="href string:$portal_url/$news_sm"
                tal:condition="news_sm">news sitemap XML</a>
 
-            to see generated sitemap document of your website. It should contain URLs of 
+            to see generated sitemap document(s) of your website. They should contain URLs of 
             all published objects. If you see something that should not be indexed by 
             Google, retract objects or exclude sections with robots.txt (that GoogleBot 
-            obey).
+            obeys).
             </dd>
             <dt>Third step</dt>
-            <dd>Make Google know of your sitemap:
+            <dd>Make Google know about your sitemap(s):
             <ol>
                 <li>go to <a href="https://www.google.com/webmasters/sitemaps">Google 
                 Sitemaps Central</a> (logging in / signing up as necessary)</li>
-                <li>add your sitemap URL: 
+                <li>add your sitemap URL(s): 
                 <code tal:content="string:$portal_url/google-sitemaps">http://example.com/google-sitemaps</code>
+                
+                <!!!!!!!>
+                <code tal:content="string:$portal_url/google-sitemaps">http://example.com/google-sitemaps</code>
+                <code tal:content="string:$portal_url/google-sitemaps">http://example.com/google-sitemaps</code>
+                </!!!!!!!>
+                
             </ol>
             It takes a while for your sitemap to be processed by Google. 
-            Usually within 24 hours it processes hte sitemap so do not expect your 
+            It usually processes the sitemap within 24 hours so do not expect your 
             submission to be processed instantly.
             </dd>
             <dl>
@@ -118,6 +119,11 @@
             product page</a></dt>
             <dd>Stay tuned. We are preparing new and fresh releases. Product page will 
             help you to keep informed about them.</dd>
+            <dt><a href="http://projects.quintagroup.com/products/wiki/qPloneGoogleSitemaps">Plone Google Sitemaps documentation area.</dt>
+            <dd>Visit product's documentation area to familiarize yourself with qPloneGoogleSitemaps product in
+            more details.
+            </dd>
+
             </dl>
         </div>
     </div>

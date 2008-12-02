@@ -59,27 +59,6 @@ class TestqPloneGoogleSitemapsInstallation(PloneTestCase.PloneTestCase):
         self.assert_('googlesitemap_properties' in pp.objectIds(), 
             'No "googlesitemap_properties" after installation')
         qsmprops = pp['googlesitemap_properties']
-        self.assert_(qsmprops.hasProperty('content_default'),
-            'No "content_default" property added on installation')
-        self.assert_(qsmprops.hasProperty('mobile_default'),
-            'No "mobile_default" property added on installation')
-        self.assert_(qsmprops.hasProperty('news_default'),
-            'No "news_default" property added on installation')
-        self.assert_(qsmprops.hasProperty('verification_filename'),
-            'No "verification_filename" property added on installation')
-
-    def testGSMProperties(self):
-        pp = self.portal.portal_properties
-
-        self.assert_('googlesitemap_properties' in pp.objectIds(), 
-            'No "googlesitemap_properties" after installation')
-        qsmprops = pp['googlesitemap_properties']
-        self.assert_(qsmprops.hasProperty('content_default'),
-            'No "content_default" property added on installation')
-        self.assert_(qsmprops.hasProperty('mobile_default'),
-            'No "mobile_default" property added on installation')
-        self.assert_(qsmprops.hasProperty('news_default'),
-            'No "news_default" property added on installation')
         self.assert_(qsmprops.hasProperty('verification_filename'),
             'No "verification_filename" property added on installation')
 

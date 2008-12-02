@@ -23,12 +23,12 @@ class IConfigletSettingsView(Interface):
     """
 
     sitemaps = Attribute("return mapping of sitemap's type to list of appropriate objects")
+    hasContentSM = Attribute("Return boolean about existance content sitemap")
+    hasMobileSM = Attribute("Return boolean about existance mobile sitemap")
+    hasNewsSM = Attribute("Return boolean about existance news sitemap")
+    sm_types = Attribute("List of sitemap typs")
 
-    def sitemapsKeys(self):
-        """Return sitemap type existent
-        """
-
-    def getSMDataByType(self, smtype):
+    def sitemapsDict(smtype):
         """ Return dictionary like object with data for table
         """
 
@@ -42,31 +42,47 @@ class ConfigletSettingsView(BrowserView):
         self.context = context
         self.request = request
 
-    @property
-    def portal_catalog(self):
-        return getToolByName(self.context, 'portal_catalog')
+        catalog = getToolByName(self.context, 'portal_catalog')
+        self.sitemaps = [i.getObject() for i in catalog(portal_type='Sitemap')]
+
 
     @property
-    def GSMPSheet(self):
-        return getToolByName(self.context, 'portal_properties').googlesitemap_properties
+    def sm_types(self):
+        return [i.getSitemapType() for i in self.sitemaps]
 
     @property
-    def portal(self):
-        return getToolByName(self.context, 'portal_url').getPortalObject()
+    def hasContentSM(self):
+        return 'content' in self.sm_types
 
     @property
-    def sitemaps(self):
-        sitemaps = {}
-        smbrains = self.portal_catalog(portal_type="Sitemap")
-        for smbrain in smbrains:
-            sm = smbrain.getObject()
-            sm_type = sm.getSitemapType()
-            sitemap = sitemaps.setdefault(sm_type, [])
-            sitemap.append(sm)
-        return sitemaps
+    def hasMobileSM(self):
+        return 'mobile' in self.sm_types
 
-    def sitemapsKeys(self):
-        return self.sitemaps.keys()
+    @property
+    def hasNewsSM(self):
+        return 'news' in self.sm_types
+
+    @property
+    def sitemapsDict(self):
+        content, mobile, news = [],[],[]
+        for sm in self.sitemaps:
+            data = self.getSMData(sm)
+            if data['sm_type'] == 'Content':
+                content.append(data)
+            elif data['sm_type'] == 'Mobile':
+                mobile.append(data)
+            elif data['sm_type'] == 'News':
+                news.append(data)
+        return content + mobile + news
+
+    def getSMData(self, ob):
+        size, entries = self.getSitemapData(ob)
+        return {'sm_type'    : ob.getSitemapType().capitalize(),
+                'sm_id'      : ob.id,
+                'sm_url'     : ob.absolute_url(),
+                'sm_size'    : size and splitNum(size) or '',
+                'sm_entries' : entries and splitNum(entries) or '',
+               }
 
     def getSitemapData(self, ob):
         size, entries = (0, 0)
@@ -82,22 +98,3 @@ class ConfigletSettingsView(BrowserView):
                 except:
                     pass
         return (size, entries)
-
-    def getSMDataByType(self, smtype):
-        data = self.sitemaps[smtype]
-        lpp = len(self.portal.getPhysicalPath())
-
-        default = None
-        def_path = getattr(self.GSMPSheet, "%s_default" % smtype, '')
-        if def_path:
-            default = [sm for sm in data if '/'.join(sm.getPhysicalPath()[lpp:])==def_path]
-            default = default and default[0] or None
-        def_size, def_entries = self.getSitemapData(default)
-        return {'smtype_title'      : smtype.capitalize(),
-                'sm_list'           : [(sm.id, '/'.join(sm.getPhysicalPath()[lpp:]), 
-                                        def_path=='/'.join(sm.getPhysicalPath()[lpp:])) for sm in data],
-                'sm_def_id'         : default and default.id or '',
-                'sm_def_editurl'    : default and '%s/edit' % default.absolute_url() or '',
-                'sm_def_size'       : def_size and splitNum(def_size) or '',
-                'sm_def_entries'    : def_entries and splitNum(def_entries) or '',
-               }

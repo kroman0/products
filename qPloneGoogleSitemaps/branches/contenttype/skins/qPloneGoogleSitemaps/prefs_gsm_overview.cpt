@@ -56,7 +56,9 @@
             Quintagroup.</p>
 
 <!--              -->
-            <dl>
+            <dl tal:define="view here/@@sitemap_settings;
+                            sitemaps view/sitemapsURLByType;
+                            all sitemaps/all | nothing">
             <dt>First step</dt>
             <dd>To enable Google Sitemaps on your site, add a sitemap at 
             <a href="prefs_gsm_settings"
@@ -65,49 +67,53 @@
             Different sitemap types index their own content and do not depend on other sitemaps.
             </dd>
             <dt>Second step</dt>
-            <dd tal:define="gsm_prop here/portal_properties/googlesitemap_properties | nothing;
-                           content_sm gsm_prop/content_default | nothing;
-                           mobile_sm gsm_prop/mobile_default | nothing;
-                           news_sm gsm_prop/news_default | nothing;">
+            <dd>
+            <tal:condition-true condition="all">
             Your site is already Google Sitemaps enabled. Check 
+            <tal:loop repeat="smdata all">
             <a href="google-sitemaps"
-               tal:attributes="href string:$portal_url/$content_sm"
-               tal:condition="content_sm">content sitemap XML</a>
-            <span tal:replace="string:, "
-                  tal:condition="python:content_sm and (mobile_sm or news_sm)"/>
-            <a href="mobile-sitemaps"
-               tal:attributes="href string:$portal_url/$mobile_sm"
-               tal:condition="mobile_sm">mobile sitemap XML</a>
-            <span tal:replace="string:, "
-                  tal:condition="python:(content_sm or mobile_sm) and news_sm"/>
-            <a href="news-sitemaps"
-               tal:attributes="href string:$portal_url/$news_sm"
-               tal:condition="news_sm">news sitemap XML</a>
+               tal:attributes="href smdata/url"
+               tal:content="smdata/id">sitemap id</a>
+            <span tal:omit-tag=""
+                  tal:condition="not: repeat/smdata/end">,</span>
+            </tal:loop>
+            to see generated sitemap document(s) of your website. 
+            </tal:condition-true>
+            <tal:condition-false condition="not:all">
+            After adding Google Sitemap(s), check whether they where generated correctly.
+            </tal:condition-false>
 
-            to see generated sitemap document(s) of your website. They should contain URLs of 
-            all published objects. If you see something that should not be indexed by 
-            Google, retract objects or exclude sections with robots.txt (that GoogleBot 
-            obeys).
+            They should contain URLs of all published objects. If you see
+            something that should not be indexed by Google, retract objects or
+            exclude sections with robots.txt (that GoogleBot obeys).
             </dd>
             <dt>Third step</dt>
             <dd>Make Google know about your sitemap(s):
             <ol>
                 <li>go to <a href="https://www.google.com/webmasters/sitemaps">Google 
                 Sitemaps Central</a> (logging in / signing up as necessary)</li>
+                <tal:condition-true condition="all">
+
                 <li>add your sitemap URL(s): 
-                <code tal:content="string:$portal_url/google-sitemaps">http://example.com/google-sitemaps</code>
-                
-                <!!!!!!!>
-                <code tal:content="string:$portal_url/google-sitemaps">http://example.com/google-sitemaps</code>
-                <code tal:content="string:$portal_url/google-sitemaps">http://example.com/google-sitemaps</code>
-                </!!!!!!!>
-                
+                  <ul>
+                    <tal:loop repeat="smdata all">
+                    <li>
+                      <code tal:content="smdata/url">http://example.com/sitemaps.xml</code>
+                    </li>
+                    </tal:loop>
+                  </ul>
+                </tal:condition-true>
+
+                <tal:condition-false condition="not:all">
+                <li>This step will display urls to your sitemap(s) after adding it(them) in previous step(s)</li>
+                </tal:condition-false>
+
             </ol>
             It takes a while for your sitemap to be processed by Google. 
             It usually processes the sitemap within 24 hours so do not expect your 
             submission to be processed instantly.
             </dd>
-            <dl>
+            </dl>
             <h2>Helpful resources</h2>
             <dl>
             <dt><a href="http://groups-beta.google.com/group/google-sitemaps">google-sitemaps discussion group</a><dt>

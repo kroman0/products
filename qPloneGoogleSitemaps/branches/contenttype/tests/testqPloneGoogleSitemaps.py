@@ -1,7 +1,7 @@
 #
 # Tests for qPloneGoogleSitemaps
 #
-
+import re
 from urllib import urlencode
 from StringIO import StringIO
 
@@ -145,6 +145,7 @@ class TestqPloneGoogleSitemaps(PloneTestCase.FunctionalTestCase):
         _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
         self.sitemapUrl = '/'+self.portal.absolute_url(1) + '/google-sitemaps'
         self.portal.portal_membership.addMember('admin', 'admin', ('Manager',), [])
+        self.gsm_props = self.portal.portal_properties['googlesitemap_properties']
 
         # Add testing document to portal
         my_doc = self.portal.invokeFactory('Document', id='my_doc')
@@ -175,15 +176,60 @@ class TestqPloneGoogleSitemaps(PloneTestCase.FunctionalTestCase):
 
         self.assert_(data[0] == self.my_doc.absolute_url(0), 'Incorect url')
 
-    def testVerificationFile(self):
+    def testVerificationFileCreation(self):
         self.portal.gsm_create_verify_file('verif_file')
 
         vf_created = hasattr(self.portal, 'verif_file')
         self.assert_(vf_created, 'Verification file not created')
 
-        self.portal.gsm_delete_verify_file()
-        vf_created = hasattr(self.portal, 'verif_file')
-        self.assert_(not vf_created, 'Verification file not removed')
+    def testVerificationForm(self):
+        verifyConfigUrl = '/'+self.portal.absolute_url(1) + '/prefs_gsm_verification'
+        verif_config = self.publish(verifyConfigUrl, self.auth).getBody()
+        rexp_input_acitve = re.compile('<input\s+name="verify_filename"\s+([^>]*)>', re.I|re.S)
+        rexp_button_acitve = re.compile('<input\s+name="form.button.CreateFile"\s+([^>]*)>', re.I|re.S)
+        rexp_delete_button = re.compile('<input\s+name="form.button.DeleteFile"\s+[^>]*>', re.I|re.S)
+
+        input_acitve = rexp_input_acitve(verif_config)
+        button_acitve = rexp_button_acitve(verif_config)
+        delete_button = rexp_delete_button(verif_config)
+
+        self.assert_(input_acitve and not 'disabled' in input_acitve.groups(1))
+        self.assert_(button_acitve and not 'disabled' in button_acitve.groups(1))
+        self.assert_(not delete_button)
+
+        self.portal.gsm_create_verify_file('verif_file')
+
+        input_acitve = rexp_input_acitve(verif_config)
+        button_acitve = rexp_button_acitve(verif_config)
+        delete_button = rexp_delete_button(verif_config)
+
+        verif_config = self.publish(verifyConfigUrl, self.auth).getBody()
+        self.assert_(input_acitve and not 'disabled' in input_acitve.groups(1))
+        self.assert_(not delete_button)
+
+    def testMultiplyVerificationFiles(self):
+        verifyConfigUrl = '/'+self.portal.absolute_url(1) + '/prefs_gsm_verification'
+
+        form = {'verify_filename':'verif_file_1',
+                'form.button.CreateFile': 'Create verification file',
+                'form.submitted':1}
+        post_data = StringIO(urlencode(form))
+        response = self.publish(verifyConfigUrl, request_method='POST',
+                                stdin=post_data, basic=self.auth)
+        self.assertEqual(response.getStatus(), 200)
+        self.assert_('verif_file_1' in self.gsm_props.getProperty('verification_filenames',[]),
+                     self.gsm_props.getProperty('verification_filenames',[]))
+
+        form = {'verify_filename':'verif_file_2',
+                'form.button.CreateFile': 'Create verification file',
+                'form.submitted':1}
+        post_data = StringIO(urlencode(form))
+        response = self.publish(verifyConfigUrl, request_method='POST',
+                                stdin=post_data, basic=self.auth)
+        self.assertEqual(response.getStatus(), 200)
+        self.assert_([1 for vf in ['verif_file','verif_file_2'] \
+                      if vf in self.gsm_props.getProperty('verification_filenames',[])],
+                     self.gsm_props.getProperty('verification_filenames',[]))
 
 
 class TestSettings(PloneTestCase.FunctionalTestCase):
@@ -265,6 +311,8 @@ class TestSettings(PloneTestCase.FunctionalTestCase):
         self.assert_(hasURL(sitemap, w1_url))
         self.assert_(hasURL(sitemap, w2_url))
         self.assert_(hasURL(sitemap, w3_url))
+
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

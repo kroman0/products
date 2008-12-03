@@ -26,10 +26,15 @@ class IConfigletSettingsView(Interface):
     hasContentSM = Attribute("Return boolean about existance content sitemap")
     hasMobileSM = Attribute("Return boolean about existance mobile sitemap")
     hasNewsSM = Attribute("Return boolean about existance news sitemap")
+    sitemaps = Attribute("List of sitemap typs")
     sm_types = Attribute("List of sitemap typs")
 
-    def sitemapsDict(smtype):
+    def sitemapsDict():
         """ Return dictionary like object with data for table
+        """
+    def sitemapsURLByType():
+        """ Return dictionary like object with sitemap_type as key
+            and sitemap object(s) as value
         """
 
 class ConfigletSettingsView(BrowserView):
@@ -62,7 +67,24 @@ class ConfigletSettingsView(BrowserView):
     def hasNewsSM(self):
         return 'news' in self.sm_types
 
-    @property
+    def sitemapsURLByType(self):
+        sitemaps = {}
+        for sm in self.sitemaps:
+            smlist = sitemaps.setdefault(sm.getSitemapType(),[])
+            smlist.append({'url':sm.absolute_url(),'id':sm.id})
+        sitemaps['all'] = sitemaps.setdefault('content',[]) + \
+                          sitemaps.setdefault('mobile',[]) + \
+                          sitemaps.setdefault('news',[])
+        return sitemaps
+
+    def sitemapsURLs(self):
+        sitemaps = {}
+        for sm in self.sitemaps:
+            smlist = sitemaps.setdefault(sm.getSitemapType(),[])
+            smlist.append(sm.absolute_url())
+        return sitemaps
+
+
     def sitemapsDict(self):
         content, mobile, news = [],[],[]
         for sm in self.sitemaps:

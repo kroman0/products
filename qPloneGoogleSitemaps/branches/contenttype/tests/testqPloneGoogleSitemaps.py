@@ -1,7 +1,7 @@
 #
 # Tests for qPloneGoogleSitemaps
 #
-import re
+import re, sys
 from urllib import urlencode
 from StringIO import StringIO
 
@@ -15,6 +15,7 @@ import Products.qPloneGoogleSitemaps
 from Products.qPloneGoogleSitemaps.config import ping_googlesitemap
 
 from XMLParser import parse, hasURL
+Products.qPloneGoogleSitemaps.config.testing = 1
 
 PRODUCT = 'qPloneGoogleSitemaps'
 PRODUCTS = (PRODUCT,)
@@ -189,9 +190,9 @@ class TestqPloneGoogleSitemaps(PloneTestCase.FunctionalTestCase):
         rexp_button_acitve = re.compile('<input\s+name="form.button.CreateFile"\s+([^>]*)>', re.I|re.S)
         rexp_delete_button = re.compile('<input\s+name="form.button.DeleteFile"\s+[^>]*>', re.I|re.S)
 
-        input_acitve = rexp_input_acitve(verif_config)
-        button_acitve = rexp_button_acitve(verif_config)
-        delete_button = rexp_delete_button(verif_config)
+        input_acitve = rexp_input_acitve.search(verif_config)
+        button_acitve = rexp_button_acitve.search(verif_config)
+        delete_button = rexp_delete_button.match(verif_config)
 
         self.assert_(input_acitve and not 'disabled' in input_acitve.groups(1))
         self.assert_(button_acitve and not 'disabled' in button_acitve.groups(1))
@@ -199,9 +200,9 @@ class TestqPloneGoogleSitemaps(PloneTestCase.FunctionalTestCase):
 
         self.portal.gsm_create_verify_file('verif_file')
 
-        input_acitve = rexp_input_acitve(verif_config)
-        button_acitve = rexp_button_acitve(verif_config)
-        delete_button = rexp_delete_button(verif_config)
+        input_acitve = rexp_input_acitve.search(verif_config)
+        button_acitve = rexp_button_acitve.search(verif_config)
+        delete_button = rexp_delete_button.match(verif_config)
 
         verif_config = self.publish(verifyConfigUrl, self.auth).getBody()
         self.assert_(input_acitve and not 'disabled' in input_acitve.groups(1))
@@ -313,6 +314,73 @@ class TestSettings(PloneTestCase.FunctionalTestCase):
         self.assert_(hasURL(sitemap, w3_url))
 
 
+class TestPinging(PloneTestCase.FunctionalTestCase):
+
+    def afterSetUp(self):
+        self.loginAsPortalOwner()
+
+        self.workflow = self.portal.portal_workflow
+        self.gsm_props = self.portal.portal_properties['googlesitemap_properties']
+        self.auth = 'admin:admin'
+        self.portal.portal_membership.addMember('admin', 'admin', ('Manager',), [])
+        # Add sitemaps
+        self.contentSM = _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
+        self.contentSM.setPingTransitions(('plone_workflow#publish',))
+        self.newsSM = _createObjectByType('Sitemap', self.portal, id='news-sitemaps')
+        self.newsSM.setPortalTypes(('News Item','Document'))
+        self.newsSM.setPingTransitions(('plone_workflow#publish',))
+        self.sitemapUrl = '/'+self.portal.absolute_url(1) + '/google-sitemaps'
+        # Add testing document to portal
+        my_doc = self.portal.invokeFactory('Document', id='my_doc')
+        self.my_doc = self.portal['my_doc']
+        my_news = self.portal.invokeFactory('News Item', id='my_news')
+        self.my_news = self.portal['my_news']
+
+    def testAutomatePinging(self):
+        # 1. Check for pinging both sitemaps
+        back_out, myout = sys.stdout, StringIO()
+        sys.stdout = myout
+        self.workflow.doActionFor(self.my_doc, 'publish')
+        myout.seek(0)
+        data = myout.read()
+        sys.stdout = back_out
+        self.assert_('Pinged %s sitemap to google' % self.contentSM.absolute_url() in data,
+                     "Not pinged %s: '%s'" % (self.contentSM.id, data))
+        self.assert_('Pinged %s sitemap to google' % self.newsSM.absolute_url() in data,
+                     "Not pinged %s: '%s'" % (self.newsSM.id, data))
+
+        # 2. Check for pinging only news-sitemap sitemaps
+        back_out, myout = sys.stdout, StringIO()
+        sys.stdout = myout
+        self.workflow.doActionFor(self.my_news, 'publish')
+        myout.seek(0)
+        data = myout.read()
+        sys.stdout = back_out
+
+        self.assert_('Pinged %s sitemap to google' % self.newsSM.absolute_url() in data,
+                     "Not pinged %s: '%s'" % (self.newsSM.id, data))
+        self.assert_(not 'Pinged %s sitemap to google' % self.contentSM.absolute_url() in data,
+                     "Pinged %s on news: '%s'" % (self.contentSM.id, data))
+
+    def testPingingWithSetupForm(self):
+        # Ping news and content sitemaps
+        formUrl = '/'+self.portal.absolute_url(1) + '/prefs_gsm_settings'
+        qs = 'smselected:list=%s&smselected:list=%s&form.button.Ping=1&form.submitted=1' % \
+             (self.contentSM.id, self.newsSM.id)
+
+        back_out, myout = sys.stdout, StringIO()
+        sys.stdout = myout
+        response = self.publish("%s?%s" % (formUrl, qs), basic=self.auth)
+        myout.seek(0)
+        data = myout.read()
+        sys.stdout = back_out
+
+        self.assert_('Pinged %s sitemap to google' % self.contentSM.absolute_url() in data,
+                     "Not pinged %s: '%s'" % (self.contentSM.id, data))
+        self.assert_('Pinged %s sitemap to google' % self.newsSM.absolute_url() in data,
+                     "Not pinged %s: '%s'" % (self.newsSM.id, data))
+
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite
@@ -321,6 +389,7 @@ def test_suite():
     suite.addTest(makeSuite(TestSitemapType))
     suite.addTest(makeSuite(TestqPloneGoogleSitemaps))
     suite.addTest(makeSuite(TestSettings))
+    suite.addTest(makeSuite(TestPinging))
 
     return suite
 

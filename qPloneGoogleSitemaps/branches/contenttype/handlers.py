@@ -13,8 +13,9 @@ def pingGoogle(event):
     if sitemaps:
         plone_home = getToolByName(object, 'portal_url').getPortalObject().absolute_url()
         wftrans_name = "%s#%s" % (event.workflow.id, event.transition.id)
+        obj_ptype = object.portal_type
         for sm in sitemaps:
-            if wftrans_name in sm.getPingTransitions():
+            if wftrans_name in sm.getPingTransitions() \
+               and obj_ptype in sm.getPortalTypes():
                 ping_google(plone_home, sm.id)
-                print "Pinged %s sitemap to google" % sm.id
     return 0

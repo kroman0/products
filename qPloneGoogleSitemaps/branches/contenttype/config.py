@@ -15,6 +15,7 @@ SITEMAPS_VIEW_MAP = {
 }
 
 ping_googlesitemap = 'pingGoogleSitemap'
+testing = 0
 
 AVAILABLE_WF_SCRIPTS = [ping_googlesitemap, '']
 

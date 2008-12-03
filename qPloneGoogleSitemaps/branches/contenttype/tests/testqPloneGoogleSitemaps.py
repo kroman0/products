@@ -59,8 +59,8 @@ class TestqPloneGoogleSitemapsInstallation(PloneTestCase.PloneTestCase):
         self.assert_('googlesitemap_properties' in pp.objectIds(), 
             'No "googlesitemap_properties" after installation')
         qsmprops = pp['googlesitemap_properties']
-        self.assert_(qsmprops.hasProperty('verification_filename'),
-            'No "verification_filename" property added on installation')
+        self.assert_(qsmprops.hasProperty('verification_filenames'),
+            'No "verification_filenames" property added on installation')
 
     def testSkins(self):
         ps = self.portal.portal_skins

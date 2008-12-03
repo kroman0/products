@@ -11,6 +11,6 @@
   </property>
  </object>
  <object name="googlesitemap_properties" meta_type="Plone Property Sheet">
-  <property name="verification_filename" type="string" />
+  <property name="verification_filenames" type="lines" />
  </object>
 </object>

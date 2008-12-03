@@ -36,6 +36,12 @@ class IConfigletSettingsView(Interface):
         """ Return dictionary like object with sitemap_type as key
             and sitemap object(s) as value
         """
+    def getVerificationFiles():
+        """ Return list of existent verification files on site.
+            Update googlesitemap_properties.verification_file
+            property for only existent files
+        """
+
 
 class ConfigletSettingsView(BrowserView):
     """
@@ -120,3 +126,15 @@ class ConfigletSettingsView(BrowserView):
                 except:
                     pass
         return (size, entries)
+
+    def getVerificationFiles(self):
+        vfs = []
+        pp = getToolByName(self.context, 'portal_properties')
+        props = getattr(pp,'googlesitemap_properties')
+        if props:
+            portal_ids = getToolByName(self.context, 'portal_url').getPortalObject().objectIds()
+            props_vfs = list(props.getProperty('verification_filenames',[]))
+            vfs = [vf for vf in props_vfs if vf in portal_ids]
+            if not props_vfs==vfs:
+                props._updateProperty('verification_filenames', vfs)
+        return vfs

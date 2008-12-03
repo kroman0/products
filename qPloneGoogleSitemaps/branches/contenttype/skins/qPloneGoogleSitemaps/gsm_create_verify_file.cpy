@@ -16,8 +16,10 @@ try:
     portal[verify_filename].manage_addProperty('CreatedBy','qPloneGoogleSitemaps','string')
 except BadRequestException:
     pass
-props = getToolByName(context,'portal_properties').googlesitemap_properties
-props.manage_changeProperties(verification_filename = verify_filename)
-
+else:
+    props = getToolByName(context,'portal_properties').googlesitemap_properties
+    vfiles = list(props.getProperty('verification_filenames',[]))
+    vfiles.append(verify_filename)
+    props.manage_changeProperties(verification_filenames = vfiles)
 
 return state.set(portal_status_message = 'Plone Google Sitemap updated.')

@@ -91,17 +91,6 @@ SitemapSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
                           u"that should be included in sitemap."),
         ),
     ),
-    atapi.StringField(
-        name='verificationFilename',
-        storage = atapi.AnnotationStorage(),
-        required=False,
-        #default='',
-        #schemata ='default',
-        widget=atapi.StringWidget(
-            label=_(u"Provide verification file name"),
-            description=_(u"Default verification file name for this sitemaps"),
-        ),
-    ),
     atapi.LinesField(
         name='pingTransitions',
         storage = atapi.AnnotationStorage(),

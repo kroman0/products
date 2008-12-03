@@ -1,3 +1,13 @@
+0.8 Multiple Sitemap type support
+
+  * Added support for content, mobile, news sitemap
+
+  * Implement Sitemap XML protocol version 0.9
+
+  * Many verification files can be added to site
+
+  * Update tests
+
 0.6 Plone-3.0 compatibility
 
   * Added plone-3 compatibility.

@@ -7,7 +7,7 @@
 <body>
     <div metal:fill-slot="prefs_configlet_main"
         tal:define="errors python:request.get('errors', {});
-                    props portal/portal_properties/googlesitemap_properties">
+                    view here/@@sitemap_settings;">
 
         <div class="documentEditable">
             <ul class="contentViews">
@@ -29,12 +29,6 @@
                     Settings</a>
                 </li>
 
-                <li class="">
-                <a href=""
-                    tal:attributes="href string: prefs_gsm_pinging"
-                    i18n:translate="label_logs">Pinging</a>
-                </li>
-
             </ul>
 
             <div class="contentActions">
@@ -49,9 +43,9 @@
                 Up to Plone Setup
                 </a>
 
-                <form tal:define="file_provided props/verification_filename;
-                                  step1 python:test(file_provided, 'discreet', '');
-                                  step2 python:test(not file_provided, 'discreet', '')">
+                <form tal:define="vfiles view/getVerificationFiles;
+                                  step1 python:test(vfiles, 'discreet', '');
+                                  step2 python:test(not vfiles, 'discreet', '')">
                     <ol>
                         <li tal:attributes="class step1">
                             Go to <a href=""
@@ -60,14 +54,10 @@
                         site verification page</a> and login if necessary.
                         </li>
                         <li tal:attributes="class step1">Provide verification file name:
-                            <p><input name="verify_filename" id="verify_filename" type="text"
-                                tal:attributes="value props/verification_filename;
-                                                disabled step1"
-                            ></p>
+                            <p><input name="verify_filename" id="verify_filename" type="text"></p>
                         </li>
                         <li tal:attributes="class step1">
-                                <input name="form.button.CreateFile" id="create_file" type="submit" value="Create verification file"
-                                tal:attributes="disabled step1"/>
+                                <input name="form.button.CreateFile" id="create_file" type="submit" value="Create verification file"/>
                                 <input type="hidden" name="form.submitted" value="1" />
                         </li>
                         <li class="discreet"
@@ -77,9 +67,12 @@
                         site verification page</a> and press "Check Status" button.
                         </li>
                         <li class="discreet"
-                            tal:attributes="class step2"><input name="form.button.DeleteFile" id="remove_file" type="submit" value="Remove verification file"
-                            tal:attributes="disabled step2;
-                                            value string:Remove ${file_provided} verifivation file"/>
+                            tal:attributes="class step2"
+                            tal:condition="vfiles">
+                            <strong>Existent verification files:</strong>
+                            <ul><li tal:repeat="vf vfiles"
+                                    tal:content="vf">verification file id
+                            </li></ul>
                         </li>
                     </ol>
                 </form>

@@ -26,8 +26,7 @@ class Helper(object):
         for child in node.childNodes:
             if child.nodeName != '#text':
                 continue
-            lines = [ line.lstrip() for line in child.nodeValue.splitlines() ]
-            text += '\n'.join(lines)
+            text += child.nodeValue.strip()
         return text
 
     def _convertToBoolean(self, val):

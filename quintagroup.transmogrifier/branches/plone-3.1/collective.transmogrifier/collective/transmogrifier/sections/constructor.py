@@ -6,6 +6,8 @@ from collective.transmogrifier.utils import defaultMatcher
 from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 
+ALLWAYS_EXISTING_ATTRIBUTES = ('index_html', )
+
 class ConstructorSection(object):
     classProvides(ISectionBlueprint)
     implements(ISection)
@@ -40,7 +42,14 @@ class ConstructorSection(object):
             if context is None:                       # container doesn't exist
                 yield item; continue
             
-            if getattr(aq_base(context), id, None) is not None: # item exists
+            # content object always have some default attributes, but sometimes
+            # these attributes can be also used as content ids
+            if id in ALLWAYS_EXISTING_ATTRIBUTES:
+                o = getattr(aq_base(context), id)
+                # check if it is content object (is instance of some portal type)
+                if getattr(aq_base(o), 'getPortalTypeName', None) is not None:
+                    yield item; continue
+            elif getattr(aq_base(context), id, None) is not None: # item exists
                 yield item; continue
             
             obj = fti._constructInstance(context, id)

@@ -42,7 +42,7 @@ class Assignment(base.Assignment):
 
 class Renderer(base.Renderer):
 
-    _template = ViewPageTemplateFile('ptportlet.pt')
+    _template = ViewPageTemplateFile('generichtmlportlet.pt')
 
     def render(self):
         return xhtml_compress(self._template())

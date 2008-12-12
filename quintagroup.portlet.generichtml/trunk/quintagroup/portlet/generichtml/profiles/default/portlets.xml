@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<portlets>
+
+ <!-- Portlet type registrations -->
+
+ <portlet
+   addview="quintagroup.portlet.generichtml.GenericHTMLPortlet"
+   title="Generic HTML portlet"
+   description="Static portlet without HTML filtering"
+   for="plone.app.portlets.interfaces.IColumn"
+   />
+
+</portlets>

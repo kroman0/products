@@ -8,7 +8,7 @@ from plone.portlets.interfaces import IPortletRenderer
 
 from plone.app.portlets.storage import PortletAssignmentMapping
 
-from quintagroup.portlet.generichtml import ptportlet
+from quintagroup.portlet.generichtml import generichtmlportlet
 
 from quintagroup.portlet.generichtml.tests.base import TestCase
 
@@ -23,7 +23,7 @@ class TestPortlet(TestCase):
 
     def test_interfaces(self):
         # TODO: Pass any keyword arguments to the Assignment constructor
-        portlet = ptportlet.Assignment()
+        portlet = generichtmlportlet.Assignment()
         self.failUnless(IPortletAssignment.providedBy(portlet))
         self.failUnless(IPortletDataProvider.providedBy(portlet.data))
 
@@ -40,16 +40,16 @@ class TestPortlet(TestCase):
         addview.createAndAdd(data={})
 
         self.assertEquals(len(mapping), 1)
-        self.failUnless(isinstance(mapping.values()[0], ptportlet.Assignment))
+        self.failUnless(isinstance(mapping.values()[0], generichtmlportlet.Assignment))
 
     # NOTE: This test can be removed if the portlet has no edit form
     def test_invoke_edit_view(self):
         mapping = PortletAssignmentMapping()
         request = self.folder.REQUEST
 
-        mapping['foo'] = ptportlet.Assignment()
+        mapping['foo'] = generichtmlportlet.Assignment()
         editview = getMultiAdapter((mapping['foo'], request), name='edit')
-        self.failUnless(isinstance(editview, ptportlet.EditForm))
+        self.failUnless(isinstance(editview, generichtmlportlet.EditForm))
 
     def test_obtain_renderer(self):
         context = self.folder
@@ -58,10 +58,10 @@ class TestPortlet(TestCase):
         manager = getUtility(IPortletManager, name='plone.rightcolumn', context=self.portal)
 
         # TODO: Pass any keyword arguments to the Assignment constructor
-        assignment = ptportlet.Assignment()
+        assignment = generichtmlportlet.Assignment()
 
         renderer = getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
-        self.failUnless(isinstance(renderer, ptportlet.Renderer))
+        self.failUnless(isinstance(renderer, generichtmlportlet.Renderer))
 
 class TestRenderer(TestCase):
 
@@ -75,12 +75,12 @@ class TestRenderer(TestCase):
         manager = manager or getUtility(IPortletManager, name='plone.rightcolumn', context=self.portal)
 
         # TODO: Pass any default keyword arguments to the Assignment constructor
-        assignment = assignment or ptportlet.Assignment()
+        assignment = assignment or generichtmlportlet.Assignment()
         return getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
 
     def test_render(self):
         # TODO: Pass any keyword arguments to the Assignment constructor
-        r = self.renderer(context=self.portal, assignment=ptportlet.Assignment())
+        r = self.renderer(context=self.portal, assignment=generichtmlportlet.Assignment())
         r = r.__of__(self.folder)
         r.update()
         output = r.render()

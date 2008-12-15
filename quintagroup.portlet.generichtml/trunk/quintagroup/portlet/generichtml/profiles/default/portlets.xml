@@ -10,8 +10,6 @@
    title="Generic HTML portlet"
    description="This portlet displays html content."
    i18n:attributes="title Generic HTML portlet;
-                    description This portlet displays html content.;">
-  <for interface="plone.app.portlets.interfaces.IColumn" />
- </portlet>
+                    description This portlet displays html content.;"/>
 
 </portlets>

@@ -10,8 +10,6 @@ from plone.memoize.instance import memoize
 from plone.portlets.interfaces import IPortletDataProvider
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-# why here is imported plone message factory
-#from Products.CMFPlone import PloneMessageFactory as _
 
 from quintagroup.portlet.generichtml import GenericHTMLPortletMessageFactory as _
 
@@ -20,12 +18,13 @@ DEFAULT_CONTENT = "Here can be your content"
 class IGenericHTMLPortlet(IPortletDataProvider):
 
     content = schema.Text( title=_(u'Generic HTML Portlet content'),
-                           description=_(u"""Enter your html code here. Please use '$categories', '$enc_categories' or '$encplus_categories'
-                                             variables to use categories from current context in your code.
-                                             For example: $categories will be substituted for 'some category1,some category2', 
-                                             $enc_categories will be substituted for 'some%20category1%2Csome%20category2', 
-                                             $encplus_categories will be substituted for 'some+category1%2Csome+category2',
-                                             where some category1, some category2 are categories of your current content."""),
+                           description=_(u"content_field_description", default=u"""\
+Enter your html code here. Please use '$categories', '$enc_categories' or '$encplus_categories' 
+variables to use categories from current context in your code.
+For example: $categories will be substituted for 'some category1,some category2', 
+$enc_categories will be substituted for 'some%20category1%2Csome%20category2', 
+$encplus_categories will be substituted for 'some+category1%2Csome+category2',
+where some category1, some category2 are categories of your current content."""),
                            required=True
                          )
 

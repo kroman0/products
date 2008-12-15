@@ -84,7 +84,7 @@ class TestRenderer(TestCase):
         r = r.__of__(self.folder)
         r.update()
         output = r.render()
-        # TODO: Test output
+        self.assertEqual(output, u'<div>Here can be your content</div>\n')
 
 def test_suite():
     from unittest import TestSuite, makeSuite

@@ -22,4 +22,5 @@ class CanonicalURL(object):
 
     def getCanonicalURL(self):
         return self.context.getProperty(self.property_name, 
-            d=self.context.absolute_url())
+            d=self.context.original_absolute_url())
+            #d=self.context.absolute_url())

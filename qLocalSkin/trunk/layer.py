@@ -20,4 +20,4 @@ def mark_layer(context, event):
             context.changeSkin(skin_name, event.request)
             annotator = IRequestPortalUrlAnnotator(event.request, None)
             if annotator is not None:
-                annotator.annotate('/' + '/'.join(context.getPhysicalPath()[2:]))
+                annotator.annotate(context.absolute_url())

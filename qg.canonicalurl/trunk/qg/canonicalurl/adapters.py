@@ -1,26 +1,61 @@
+from string import strip
+from time import time
+
 from zope.interface import implements
 from zope.component import adapts
+from plone.memoize import ram
 
-from interfaces import ICanonicalURLRoot, ICanonicalURL
-from config import CURL_PROPERTY_NAME
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces import IPloneSiteRoot
 
-class CanonicalURL(object):
+from interfaces import IDomainsMapExtractor
 
-    adapts(ICanonicalURLRoot)
-    implements(ICanonicalURL)
 
-    property_name = CURL_PROPERTY_NAME
+def cache_key(*args, **kwargs):
+     return time() // (60 * 60)
+
+
+class DomainsMapExtractor(object):
+    implements(IDomainsMapExtractor)
+    adapts(IPloneSiteRoot)
 
     def __init__(self, context):
         self.context = context
 
-    def setCanonicalURL(self):
-        if self.context.hasProperty(self.property_name):
-            self.context.manage_changeProperies(**{self.property_name:value})
-            return True
-        return False
+    def processData(self, value):
+        try:
+            pd_maps = map(lambda x: map(strip, x.split('::')), value)
+        except:
+            pd_maps = ()
+        else:
+            pd_maps.sort(lambda x,y: len(y[0])-len(x[0]))
+        return pd_maps
 
-    def getCanonicalURL(self):
-        return self.context.getProperty(self.property_name, 
-            d=self.context.original_absolute_url())
-            #d=self.context.absolute_url())
+
+    @ram.cache(cache_key)
+    def getDomainsMap(self):
+        """ Return sorted by sybpath length tupple
+            of (subpath, domain name) tuple.
+        """
+        portal = getToolByName(self.context, 'portal_url').getPortalObject()
+        pd_maps = portal.getProperty('path_domains_map', ())
+        return self.processData(pd_maps)
+
+    def setDomainsMap(self, value):
+        """ Set tupple of (subpath, domain name) tuples
+        """
+        if value:
+            prepared_value = self.processData(value)
+            portal = getToolByName(self.context, 'portal_url').getPortalObject()
+
+            if not portal.getPropertyType('path_domains_map') == 'lines':
+                if not portal.hasPropertyType('path_domains_map'):
+                    portal.manage_addProperty('path_domains_map', [], 'lines')
+                else:
+                    raise Exception("Wrong types of 'path_domains_map' " \
+                                    "portal property - should be list type")
+
+            update_value = ['::'.join(l) for l in prepared_value]
+            portal._updateProperty('path_domains_map', prepared_value)
+
+

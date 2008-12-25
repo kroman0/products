@@ -6,10 +6,6 @@ from adapters.interfaces import IRequestPortalUrlAnnotator
 ## ResourceRegistries.tools.BaseRegistry.BaseRegistryTool.getResourceContent method
 marker = []
 from Products.Five.browser.resource import FileResource
-import pdb
-from Acquisition import aq_inner, aq_parent, aq_base
-from qg.canonicalurl.interfaces import ICanonicalURL, ICanonicalURLRoot
-from OFS.Application import Application
 
 if getattr(FileResource, 'POST', marker) == marker:
     FileResource.POST = FileResource.GET

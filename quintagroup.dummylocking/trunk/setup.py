@@ -5,18 +5,19 @@ version = '0.1'
 
 setup(name='quintagroup.dummylocking',
       version=version,
-      description="This package turns off standard Plone locking",
+      description="This package turns off Plone locking.",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
+        "Framework :: Plone",
         "Programming Language :: Python",
         "Topic :: Software Development :: Libraries :: Python Modules",
         ],
       keywords='plone locking',
-      author='Bohdan Koval',
+      author='Bohdan Koval (Quintagroup)',
       author_email='koval@quintagroup.com',
-      url='http://svn.quintagroup.com/products/quintagroup.dummylocking/trunk',
+      url='http://svn.quintagroup.com/products/quintagroup.dummylocking',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['quintagroup'],

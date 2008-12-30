@@ -1,4 +1,4 @@
-qg.canonicalurl Package Readme
+quintagroup.canonicalurl Package Readme
 =========================
 
 Overview

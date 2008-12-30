@@ -15,7 +15,7 @@
         name="default"
         title="Canonical URL product registration"
         directory="profiles/default"
-        description="Registers a qg.canonicalurl product"
+        description="Registers a quintagroup.canonicalurl product"
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 

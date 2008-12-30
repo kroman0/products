@@ -3,7 +3,7 @@ import os
 
 version = '0.1'
 
-setup(name='qg.canonicalurl',
+setup(name='quintagroup.canonicalurl',
       version=version,
       description="Calculate URL with Canonical URL property",
       long_description=open("README.txt").read() + "\n" +
@@ -19,7 +19,7 @@ setup(name='qg.canonicalurl',
       url='',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
-      namespace_packages=['qg'],
+      namespace_packages=['quintagroup'],
       include_package_data=True,
       zip_safe=False,
       install_requires=[

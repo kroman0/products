@@ -9,20 +9,20 @@ def test_suite():
 
         # Unit tests for your API
         doctestunit.DocFileSuite(
-            'README.txt', package='qg.canonicalurl',
+            'README.txt', package='quintagroup.canonicalurl',
             setUp=testing.setUp, tearDown=testing.tearDown),
 
         #doctestunit.DocTestSuite(
-        #    module='qg.canonicalurl.mymodule',
+        #    module='quintagroup.canonicalurl.mymodule',
         #    setUp=testing.setUp, tearDown=testing.tearDown),
 
         # Integration tests that use ZopeTestCase
         #ztc.ZopeDocFileSuite(
-        #    'README.txt', package='qg.canonicalurl',
+        #    'README.txt', package='quintagroup.canonicalurl',
         #    setUp=testing.setUp, tearDown=testing.tearDown),
 
         #ztc.FunctionalDocFileSuite(
-        #    'browser.txt', package='qg.canonicalurl'),
+        #    'browser.txt', package='quintagroup.canonicalurl'),
 
         ])
 

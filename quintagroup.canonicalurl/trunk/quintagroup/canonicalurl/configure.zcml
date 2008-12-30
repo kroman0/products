@@ -11,13 +11,4 @@
         handler=".subscribers.add_domains_map"
         />
 
-    <genericsetup:registerProfile
-        name="default"
-        title="Canonical URL product registration"
-        directory="profiles/default"
-        description="Registers a quintagroup.canonicalurl product"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-
-
 </configure>

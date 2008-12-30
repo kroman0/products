@@ -10,7 +10,6 @@ from Products.Five.browser.resource import FileResource
 if getattr(FileResource, 'POST', marker) == marker:
     FileResource.POST = FileResource.GET
 
-
 def urltool_call(self, relative=0, *args, **kw):
     """ Get by default the absolute URL of the portal. If request is annonated then add suffix to portal_url
     """
@@ -19,8 +18,9 @@ def urltool_call(self, relative=0, *args, **kw):
     if self.REQUEST:
         annotator = IRequestPortalUrlAnnotator(self.REQUEST, None)
         if annotator is not None:
-            url_suffix = annotator.getPortalUrlSuffix()
-            return url_suffix
+            url_suffix = annotator.getPortalUrlSuffix(default=marker)
+            if not url_suffix == marker:
+                return url_suffix
     return self.getPortalObject().absolute_url(relative=relative)
 
 def urltool_getPortalPath(self):

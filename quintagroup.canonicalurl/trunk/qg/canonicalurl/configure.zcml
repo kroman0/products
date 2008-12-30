@@ -1,0 +1,23 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+
+    <adapter factory=".adapters.DomainsMapExtractor" />
+
+    <subscriber
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot
+             zope.app.publication.interfaces.IBeforeTraverseEvent"
+        handler=".subscribers.add_domains_map"
+        />
+
+    <genericsetup:registerProfile
+        name="default"
+        title="Canonical URL product registration"
+        directory="profiles/default"
+        description="Registers a qg.canonicalurl product"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+
+</configure>

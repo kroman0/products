@@ -13,7 +13,8 @@ def physicalPathToURL(self, path, relative=0):
     path_domain_map = getattr(self, 'path_domain_map', ())
     for subpath, domain in path_domain_map:
         if len(path) >= len(subpath) \
-           and path.startswith(subpath):
+           and (path == subpath \
+                or path.startswith(subpath+'/')):
             url = "%s://%s" % (proto, domain)
             path = path[len(subpath):]
             break

@@ -25,7 +25,7 @@ class RequestPortalUrlAnnotator(object):
             return True
         return False
 
-    def getPortalUrlSuffix(self):
+    def getPortalUrlSuffix(self, default=''):
         if self.annotations is not None:
-            return self.annotations.get(self.key, '')
-        return ''
+            return self.annotations.get(self.key, default)
+        return default

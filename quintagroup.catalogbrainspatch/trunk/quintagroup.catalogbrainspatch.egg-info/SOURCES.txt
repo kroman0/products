@@ -1,0 +1,14 @@
+README.txt
+setup.cfg
+setup.py
+quintagroup/__init__.py
+quintagroup.catalogbrainspatch.egg-info/PKG-INFO
+quintagroup.catalogbrainspatch.egg-info/SOURCES.txt
+quintagroup.catalogbrainspatch.egg-info/dependency_links.txt
+quintagroup.catalogbrainspatch.egg-info/entry_points.txt
+quintagroup.catalogbrainspatch.egg-info/namespace_packages.txt
+quintagroup.catalogbrainspatch.egg-info/not-zip-safe
+quintagroup.catalogbrainspatch.egg-info/requires.txt
+quintagroup.catalogbrainspatch.egg-info/top_level.txt
+quintagroup/catalogbrainspatch/__init__.py
+quintagroup/catalogbrainspatch/tests.py

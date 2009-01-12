@@ -1,3 +1,8 @@
+1.6.0
+
+    * added layer for plone 2.5.4-2 version
+    * fixed url action in qseo_properties_edit_form for plone 3.*
+
 1.5.1
 
     * added support of additional keywords

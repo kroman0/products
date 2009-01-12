@@ -1,0 +1,19 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+    <browser:page
+        for="Products.Archetypes.interfaces.IBaseObject"
+        attribute="validateKeywords"
+        class=".browser.keywords.ValidateSEOKeywordsView"
+        name="checkSEOKeywords"
+        permission="cmf.ModifyPortalContent"
+        />
+
+  <adapter
+    for="Products.Archetypes.public.BaseObject"
+    provides=".interfaces.IKeywords"
+    factory=".adapters.AdditionalKeywords"
+    />
+
+</configure>

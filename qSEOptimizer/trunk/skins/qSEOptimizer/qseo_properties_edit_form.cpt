@@ -46,7 +46,7 @@
       <form name="edit_form"
             action=""
             method="post"
-            tal:attributes="action string:${template/getId}">
+            tal:attributes="action string:${here/absolute_url}/${template/getId}">
 
         <fieldset>
 

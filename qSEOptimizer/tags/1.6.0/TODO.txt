@@ -1,5 +1,0 @@
-Future
-
-  * 3 tests failures (lynx require running of a real host)
-
-  * Generic Setup integration for skin layers

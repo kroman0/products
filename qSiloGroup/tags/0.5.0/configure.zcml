@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="qSiloGroup">
+
+  <genericsetup:registerProfile
+      name="qsilogroup"
+      title="qSiloGroup extension profile"
+      directory="profiles/default"
+      description="Extension profile for a qSiloGroup product."
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+</configure>

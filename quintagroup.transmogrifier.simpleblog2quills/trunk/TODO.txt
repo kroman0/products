@@ -6,3 +6,6 @@ TODO
  - add schema extender that adds ``tags`` field for WeblogEntry
 
  - fix some misterious problem when running two package's tests modules at once
+
+ - add test for importing blog as QuillsEnabled blog
+ 

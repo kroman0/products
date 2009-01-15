@@ -27,4 +27,19 @@
         file="blogfolder-folder.xsl"
         />
 
+    <!-- next stylesheets are used when migrating to QuillsEnabled -->
+    <transmogrifier:stylesheet
+        source="marshall"
+        from="Blog"
+        to="Folder"
+        file="blog-folder.xsl"
+        />
+
+    <transmogrifier:stylesheet
+        source="marshall"
+        from="BlogEntry"
+        to="Document"
+        file="blogentry-document.xsl"
+        />
+
 </configure>

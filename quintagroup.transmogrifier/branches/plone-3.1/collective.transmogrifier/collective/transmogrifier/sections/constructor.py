@@ -5,6 +5,8 @@ from collective.transmogrifier.utils import defaultMatcher
 
 from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.interfaces import IFolderish
+from Products.Archetypes.interfaces import IBaseFolder
 
 ALLWAYS_EXISTING_ATTRIBUTES = ('index_html', )
 
@@ -41,6 +43,12 @@ class ConstructorSection(object):
             context = self.context.unrestrictedTraverse(container, None)
             if context is None:                       # container doesn't exist
                 yield item; continue
+            
+            # check if context is container, if we didn't do this AttributeError
+            # will be raised when calling fti._constructInstance(context, id)
+            if not (IFolderish.providedBy(context) or IBaseFolder.providedBy(context)):
+                # we can't construct this content item, so remove it from pipeline
+                continue
             
             # content object always have some default attributes, but sometimes
             # these attributes can be also used as content ids

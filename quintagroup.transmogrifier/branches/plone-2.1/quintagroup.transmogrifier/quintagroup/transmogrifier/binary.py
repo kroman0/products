@@ -44,10 +44,12 @@ class FileExporterSection(object):
                     if obj.isBinary(field):
                         fname, ct, data = self.extractFile(obj, field)
                         binary_field_names.append(field)
-                        if fname == '' or data == '':
-                            # empty file fields have empty filename and empty data
-                            # skip them
+                        if data == '':
+                            # empty file fields have no data and we skip them
                             continue
+                        elif fname == '':
+                            fname = 'field-%s' % field
+
                         binary_fields[field] = dict(filename=fname, mimetype=ct)
                         files = item.setdefault(self.fileskey, {})
                         #key = "field-%s" % field

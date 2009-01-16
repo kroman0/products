@@ -1,1 +1,1 @@
-<div tal:replace="structure provider:plone.portalfooter.portlets" />
+<div tal:on-error="nothing" tal:replace="structure provider:plone.portalfooter.portlets" />

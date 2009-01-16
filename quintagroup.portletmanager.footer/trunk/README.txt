@@ -21,9 +21,6 @@ If you manually created zope instance:
       to ``etc/package-includes`` directory
     * start zope and install it with QuickInstaller
 
-Plone interface will work only after this package will be installed
-by QuickInstaller.
-
 Uninstallation
 ==============
 

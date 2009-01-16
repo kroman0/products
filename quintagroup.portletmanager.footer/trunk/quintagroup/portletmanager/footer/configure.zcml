@@ -5,6 +5,8 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="quintagroup.portletmanager.footer">
 
+    <include package="plone.app.portlets" />
+
     <five:registerPackage package="." initialize=".initialize" />
 
     <adapter

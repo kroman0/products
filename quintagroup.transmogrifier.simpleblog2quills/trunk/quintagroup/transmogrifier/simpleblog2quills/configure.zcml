@@ -16,6 +16,12 @@
 
     <configure zcml:condition="installed Products.SimpleBlog">
 
+        <utility
+            component=".adapters.ImageFolderSection"
+            name="quintagroup.transmogrifier.simpleblog2quills.imagefolder"
+            provides="collective.transmogrifier.interfaces.ISectionBlueprint"
+            />
+
         <!-- In Plone 2.1 overrides.zcml isn't loaded, but conflicting configuration
              actions wouldn't raise error on startup - the latest directive will
              override previous -->
@@ -27,6 +33,7 @@
             />
 
         <!-- mark blog and blog entry objects so we can register export adapters for them -->
+
         <five:implements
             class="Products.SimpleBlog.content.Blog"
             interface=".interfaces.IBlog"
@@ -51,18 +58,24 @@
         <adapter
             for=".interfaces.IBlog"
             provides="quintagroup.transmogrifier.interfaces.IExportDataCorrector"
-            factory=".adapters.BlogExporter"
+            factory=".adapters.BlogManifest"
             name="manifest"
             />
 
         <adapter
             for=".interfaces.IBlogEntry"
-            provides="quintagroup.transmogrifier.interfaces.IImportDataCorrector"
+            provides="quintagroup.transmogrifier.interfaces.IExportDataCorrector"
             factory=".adapters.BlogEntryExporter"
             name="marshall"
             />
 
         <!-- 'itemmanipulator' section adapter -->
+        <adapter
+            for=".interfaces.IBlogEntry"
+            provides=".interfaces.IExportItemManipulator"
+            factory=".adapters.BlogEntryManifest"
+            />
+
         <adapter
             for="quintagroup.transmogrifier.interfaces.IATFile"
             provides=".interfaces.IExportItemManipulator"

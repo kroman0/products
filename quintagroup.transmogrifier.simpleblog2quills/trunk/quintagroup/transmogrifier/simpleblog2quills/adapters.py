@@ -132,7 +132,7 @@ class BlogEntryExporter(ReferenceExporter):
                     # /plone/blog 2
                     # /plone/blog/bloggins/entry 4
                     # ../../images
-                    level = len(path) - len(blog_path)
+                    level = len(path) - len(blog_path) - 1
                     new_url = '/'.join(['..' for i in range(level)])
                     new_url = '/'.join([new_url, IMAGE_FOLDER, image_id])
                     text = text.replace(url, new_url, 1)

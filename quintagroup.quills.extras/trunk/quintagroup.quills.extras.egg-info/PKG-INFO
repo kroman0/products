@@ -1,0 +1,27 @@
+Metadata-Version: 1.0
+Name: quintagroup.quills.extras
+Version: 1.0dev
+Summary: Quintagroup products integration with quills
+Home-page: http://svn.quintagroup.com/products/quintagroup.quills.extras
+Author: Quintagroup
+Author-email: support@quintagroup.com
+License: GPL
+Description: Introduction
+        ============
+        
+        
+        
+        Changelog
+        =========
+        
+        1.0 - Unreleased
+        ----------------
+        
+        * Initial release
+        
+        
+Keywords: quills quintagroup
+Platform: UNKNOWN
+Classifier: Framework :: Plone
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules

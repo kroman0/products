@@ -1,0 +1,13 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="quintagroup.quills.extras">
+
+    <page
+        for="quills.core.interfaces.IWeblog"
+        class=".commentViews.ManageCommentsView"
+        template="manage_comments.pt"
+        permission="cmf.ManagePortal"
+        name="manage_comments" />
+
+</configure>

@@ -29,15 +29,18 @@ class CommentsViewlet(comments.CommentsViewlet):
         """
         return getSecurityManager().checkPermission('Moderate Discussion', aq_inner(self.context))
 
-    def getGravatar(self, creator):
+    def getGravatar(self, reply):
         purl = getToolByName(self.context, 'portal_url')
         default = purl() + '/defaultUser.gif' 
         email = ''
 
-        if not creator=='Anonymous User':
+        creator = reply.Creator()
+        if creator and not creator=='Anonymous User':
             mtool = getToolByName(self.context, "portal_membership")
             member = mtool.getMemberById(creator)
             email = member and member.getProperty('email','') or ''
+        else:
+            email = reply.getProperty('email',d='')
         if not email:
             return default
 

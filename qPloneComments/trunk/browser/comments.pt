@@ -48,7 +48,7 @@
                                  anonymous_creator python:creator=='Anonymous User';
                                  mi python:not anonymous_creator and view.member_info(creator);
                                  fullname python: mi and mi['fullname'] or creator;
-                                 gavatar_src python:view.getGravatar(creator)" >
+                                 gavatar_src python:view.getGravatar(reply)" >
                     <img alt="Avatar" class="avatar" height="40" width="40"
                          src="http://default.gavatar.gif"
                          tal:attributes="src gavatar_src">

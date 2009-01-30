@@ -127,4 +127,15 @@
         file="blogentry-document.xsl"
         />
 
+
+    <configure zcml:condition="installed Products.QuillsEnabled">
+
+        <utility
+            component=".activator.BlogActivatorSection"
+            name="quintagroup.transmogrifier.simpleblog2quills.activator"
+            provides="collective.transmogrifier.interfaces.ISectionBlueprint"
+            />
+
+    </configure>
+
 </configure>

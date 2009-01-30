@@ -5,7 +5,7 @@ Overview
 --------
 
 Configuration of collective.transmogrifier pipeline for migrating SimpleBlog
-content to Quills content.
+blog to Quills/QuillsEnabled content.
 
 Installation
 ------------
@@ -17,9 +17,16 @@ Supported Plone versions
 
 This package was designed to work and tested on next Plone versions:
 
- - Plone 3.1.5
+ - Plone 2.1
 
-    Quills_ plone product is required, now version 1.6 is supported.
+    SimpleBlog_ plone product is required.
+
+ - Plone 3
+
+    Quills_ or QuillsEnabled plone product is required. When migrating to 
+    QuillsEnabled please edit transmogrifier import pipeline configuration file
+    located in quintagroup/transmogrifier/simpleblog2quills/import.cfg (comments
+    in that file will guide you through necessary modifications).
 
 
 Running tests
@@ -36,6 +43,7 @@ Credits
 Design and development
    `Bohdan Koval`_ at Quintagroup_
 
-.. _Quills: http://plone.org/products/quills/releases/1.6/quills-1-6-beta1.tgz
+.. _Quills: http://plone.org/products/quills
+.. _SimpleBlog: http://plone.org/products/simpleblog
 .. _Bohdan Koval: mailto:koval@quintagroup.com
 .. _Quintagroup: http://www.quintagroup.com/

@@ -4,6 +4,8 @@ from types import ListType
 from types import TupleType
 
 from zope.interface import implements, classProvides
+from zope.app.annotation.interfaces import IAnnotations
+
 from Products.CMFPlone.Portal import PloneSite
 from Products.CMFCore import utils
 
@@ -13,10 +15,16 @@ from collective.transmogrifier.utils import defaultMatcher
 from quintagroup.transmogrifier.interfaces import IExportDataCorrector
 from quintagroup.transmogrifier.adapters.exporting import ReferenceExporter
 from quintagroup.transmogrifier.manifest import ManifestExporterSection
+from quintagroup.transmogrifier.logger import VALIDATIONKEY
 
 from quintagroup.transmogrifier.simpleblog2quills.interfaces import IExportItemManipulator, IBlog
 
+# URL of the site, where blog is located (this is needed to fix links in entries)
+SITE_URLS = []
 IMAGE_FOLDER = 'images'
+# this registries are needed to avoid loosing images with equal ids
+IMAGE_IDS = []
+IMAGE_PATHS = {}
 
 class BlogManifest(object):
     implements(IExportDataCorrector)
@@ -61,17 +69,28 @@ def recurseToInterface(item, ifaces):
         return None
     return recurseToInterface(parent, ifaces)
 
+def getUniqueId(image_id):
+    """ Generate id that is unique in IMAGE_IDS registry.
+    """
+    if '.' in image_id:
+        name, ext = image_id.rsplit('.', 1)
+        ext = '.' + ext
+    else:
+        name, ext = image_id, ''
+    if image_id in IMAGE_IDS:
+        c = 1
+        new_id = name + str(c) + ext
+        while new_id in IMAGE_IDS:
+            c += 1
+            new_id = name + str(c) + ext
+        image_id = new_id
+
+    return image_id
+
 class BlogEntryExporter(ReferenceExporter):
     implements(IExportDataCorrector)
 
-    # HREF = re.compile(r'href="([^"]+)"')
     SRC = re.compile(r'src="([^"]+)"')
-
-    # this shouldn't be there (store this for example as plone site property)
-    SITE_URLS = [
-        'http://4webresults.com/',
-        'http://www.4webresults.com/'
-    ]
 
     def __init__(self, context):
         self.context = context
@@ -98,7 +117,7 @@ class BlogEntryExporter(ReferenceExporter):
             if '://' in url and not url.startswith('http://'):
                 continue
             if url.startswith('http://'):
-                for site in self.SITE_URLS:
+                for site in SITE_URLS:
                     if url.startswith(site):
                         # check whether image is stored in blog
                         relative_url = url[len(site):]
@@ -110,6 +129,7 @@ class BlogEntryExporter(ReferenceExporter):
                             break
                         in_blog = recurseToInterface(image, IBlog) is not None and True or False
                         if in_blog:
+                            image_id = self.fixImageId(image, image_id, blog_path)
                             new_url = '/'.join((blog_url, IMAGE_FOLDER, image_id))
                             text = text.replace(url, new_url, 1)
                         break
@@ -128,10 +148,11 @@ class BlogEntryExporter(ReferenceExporter):
                         continue
                 in_blog = recurseToInterface(image, IBlog) is not None and True or False
                 if in_blog:
+                    image_id = self.fixImageId(image, image_id, blog_path)
                     path = self.context.getPhysicalPath()
                     # /plone/blog 2
                     # /plone/blog/bloggins/entry 4
-                    # ../../images
+                    # ../images
                     level = len(path) - len(blog_path) - 1
                     new_url = '/'.join(['..' for i in range(level)])
                     new_url = '/'.join([new_url, IMAGE_FOLDER, image_id])
@@ -140,6 +161,18 @@ class BlogEntryExporter(ReferenceExporter):
         elem.firstChild.nodeValue = text
         data['data'] = doc.toxml('utf-8')
         return data
+
+    def fixImageId(self, image, image_id, blog_path):
+        """ Check whether image is good or generate new if it's bad.
+        """
+        image_path = '/'.join(image.getPhysicalPath())
+        if image_id in IMAGE_IDS and image_path not in IMAGE_PATHS:
+            image_id = getUniqueId(image_id)
+        if image_id not in IMAGE_IDS:
+            IMAGE_IDS.append(image_id)
+            IMAGE_PATHS[image_path] = '/'.join(blog_path[2:] + (IMAGE_FOLDER, image_id))
+
+        return image_id
 
 class PathRewriter(object):
     implements(IExportItemManipulator)
@@ -157,12 +190,32 @@ class PathRewriter(object):
         if blog is None:
             return item
 
-        new_path = list(blog.getPhysicalPath())[2:]
-        new_path.append(IMAGE_FOLDER)
-        new_path.append(self.context.getId())
-        new_path = '/'.join(new_path)
+        blog_path = blog.getPhysicalPath()
+        full_path = '/'.join(self.context.getPhysicalPath())
+        image_id = path.rsplit('/', 1)[-1]
+        modified = False
+
+        if full_path in IMAGE_PATHS:
+            new_path = IMAGE_PATHS[full_path]
+        else:
+            unique_id = getUniqueId(image_id)
+            modified = image_id != unique_id
+            new_path = '/'.join(blog_path[2:] + (IMAGE_FOLDER, unique_id))
+
+            IMAGE_IDS.append(image_id)
+            IMAGE_PATHS[full_path] = new_path
+
+        # change item's path
         item[pathkey] = new_path
-        item['_moved'] = True
+        item['_oldpath'] = path
+
+        # now we need to fix object id in .marshall.xml
+        if modified:
+            if '_files' in item and 'marshall' in item['_files']:
+                doc = minidom.parseString(item['_files']['marshall']['data'])
+                elem = [i for i in doc.getElementsByTagName('field') if i.getAttribute('name') == 'id'][0]
+                elem.firstChild.nodeValue = '\n\t\t%s\n\t' % unique_id
+                item['_files']['marshall']['data'] = doc.toxml('utf-8')
 
         return item
 
@@ -176,24 +229,45 @@ class ImageFolderSection(object):
         self.previous = previous
         self.transmogrifier = transmogrifier
 
-        self.flagkey = defaultMatcher(options, 'flag-key', name, 'moved')
+        self.flagkey = defaultMatcher(options, 'old-path-key', name, 'oldpath')
         self.typekey = defaultMatcher(options, 'type-key', name, 'type')
         self.pathkey = defaultMatcher(options, 'path-key', name, 'path')
+
+
+        site_urls = options.get('site-urls', '')
+        site_urls = filter(None, [i.strip() for i in site_urls.splitlines()])
+        for i in site_urls:
+            SITE_URLS.append(i)
+
+        self.anno = IAnnotations(transmogrifier)
 
     def __iter__(self):
         folders = {}
 
+        # safely get logging storage
+        if VALIDATIONKEY in self.anno:
+            log_storage = self.anno[VALIDATIONKEY]
+        else:
+            log_storage = None
+
         for item in self.previous:
-            pathkey = self.pathkey(*item.keys())[0]
-            typekey = self.typekey(*item.keys())[0]
-            flagkey = self.flagkey(*item.keys())[0]
+            item_keys = item.keys()
+            pathkey = self.pathkey(*item_keys)[0]
+            typekey = self.typekey(*item_keys)[0]
+            oldpathkey = self.flagkey(*item_keys)[0]
 
             # collect data about images moved to folders
-            if pathkey and typekey and flagkey:
+            if pathkey and typekey and oldpathkey:
                 path = item[pathkey]
+                old_path = item[oldpathkey]
                 type_ = item[typekey]
                 folder_path, image_id = path.rsplit('/', 1)
                 folders.setdefault(folder_path, []).append((image_id, type_))
+
+                # update logging data (path) for this item
+                if log_storage and log_storage[-1] == old_path:
+                    log_storage.pop()
+                    log_storage.append(path)
 
             yield item
 
@@ -204,3 +278,8 @@ class ImageFolderSection(object):
         exporter = ManifestExporterSection(self.transmogrifier, 'manifest', {'blueprint': 'manifest'}, iter(items))
         for item in exporter:
             yield item
+
+        # clean registries
+        while IMAGE_IDS: IMAGE_IDS.pop()
+        while SITE_URLS: SITE_URLS.pop()
+        IMAGE_PATHS.clear()

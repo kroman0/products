@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<layers>
+    <layer name="qPloneComments"
+       interface="Products.qPloneComments.interfaces.IPloneCommentsLayer" />
+</layers>

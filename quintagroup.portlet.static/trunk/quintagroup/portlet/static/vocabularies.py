@@ -4,16 +4,10 @@ from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 
 from quintagroup.portlet.static import StaticStylishPortletMessageFactory as _
 
+# Change the following default HTML class name with your own. Add more HTML classes to be available for you in Portlet style drop down menu 
+
 PORTLET_CSS_STYLES = (
-    (u"portletStaticRed", _(u"Red")),
-    (u"portletStaticLightGreen", _(u"Light Green")),
-    (u"portletStaticOrange", _(u"Orange")),
-    (u"portletStaticPurple", _(u"Purple")),
-    (u"portletStaticBlue", _(u"Blue")),
-    (u"portletStaticPale", _(u"Pale")),
-    (u"portletStaticPaleBackground", _(u"Pale with Background")),
-    (u"portletStaticBright", _(u"Bright")),
-    (u"portletStaticBrightBackground", _(u"Bright with Background")),
+    (u"portletStaticClassOne", _(u"Class One")),
 )
 
 class PortletCSSVocabulary(object):

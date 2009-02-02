@@ -47,6 +47,8 @@ def install(self):
         plone_version = '3.0'
     elif plone_version.startswith('3.1'):
         plone_version = '3.1'
+    elif plone_version.startswith('3.2'):
+        plone_version = '3.1'
     else:
         raise Exception("Error - Unsupported version. Suported versions: Plone 2.0.5-3")
 

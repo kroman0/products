@@ -3,8 +3,8 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="quintagroup.quills.extras">
 
-    <page
-        for="quills.core.interfaces.IWeblog"
+    <browser:page
+        for="quills.core.interfaces.enabled.IWeblogEnhanced"
         class=".commentViews.ManageCommentsView"
         template="manage_comments.pt"
         permission="cmf.ManagePortal"

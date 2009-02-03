@@ -10,4 +10,26 @@
         permission="cmf.ManagePortal"
         name="manage_comments" />
 
+    <browser:viewletManager
+        name="quills.bookmarklets"
+        provides=".interfaces.IBookmarklets"
+        permission="zope2.View"
+        class="plone.app.viewletmanager.manager.BaseOrderedViewletManager"
+        />
+
+    <browser:viewlet
+        name="quills.bookmarklets.addthis"
+        manager=".interfaces.IBookmarklets"
+        template="bookmarklets.pt"
+        permission="zope.Public"
+        />
+
+    <browser:page
+	  for="quills.core.interfaces.IPossibleWeblogEntry"
+	  class="Products.QuillsEnabled.browser.weblogview.WeblogEntryView"
+	  template="weblogentry_view.pt"
+	  permission="zope2.View"
+	  name="weblogentry_view"
+	  allowed_interface="quills.core.browser.interfaces.IWeblogEntryView" />
+
 </configure>

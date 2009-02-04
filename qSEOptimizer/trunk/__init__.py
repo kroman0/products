@@ -24,6 +24,12 @@ try:
 except ImportError:
     _present = False
 
+def propertyItems(context):
+    """Return a list of (id,property) tuples.
+    """
+    return map(lambda i,c=context: (i['id'],getattr(c,i['id'],None)),
+                                context._properties)
+
 if _present:
     old_lmt = PloneTool.listMetaTags
 
@@ -67,7 +73,7 @@ if _present:
 
         # add custom meta tags (added from qseo tab by user) for given context
         property_prefix = 'qSEO_custom_'
-        for property, value in context.propertyItems():
+        for property, value in propertyItems(context):
             idx = property.find(property_prefix)
             if idx == 0 and len(property) > len(property_prefix):
                 metaTags[property[len(property_prefix):]] = value

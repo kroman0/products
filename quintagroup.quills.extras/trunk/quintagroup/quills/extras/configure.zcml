@@ -5,7 +5,7 @@
     xmlns:cmf="http://namespaces.zope.org/cmf"
     i18n_domain="quintagroup.quills.extras">
 
-  <!--    <include package=".browser" /> -->
+  <include package=".browser" />
 
   <cmf:registerDirectory name="quills_extras"/>
 

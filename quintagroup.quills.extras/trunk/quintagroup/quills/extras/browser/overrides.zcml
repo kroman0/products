@@ -18,4 +18,12 @@
         name="weblogentry_view"
         allowed_interface="quills.core.browser.interfaces.IWeblogEntryView" />
 
+    <browser:page
+        for="quills.core.interfaces.enabled.IWeblogEnhanced"
+        class="quills.app.browser.weblogview.WeblogView"
+        template="weblog_view.pt"
+        allowed_interface="quills.core.browser.interfaces.IWeblogView"
+        permission="zope2.View"
+        name="weblog_view" />
+
 </configure>

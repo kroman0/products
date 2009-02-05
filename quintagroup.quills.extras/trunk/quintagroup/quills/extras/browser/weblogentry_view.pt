@@ -41,6 +41,9 @@
           Main text
         </metal:field>
       </div>
+      <metal:sub>
+        <metal:macro use-macro="context/entry_macros/macros/relatedItems" />
+      </metal:sub>
       <div tal:replace="structure provider:quills.bookmarklets" />
       <div tal:replace="structure provider:plone.belowcontentbody" />
 

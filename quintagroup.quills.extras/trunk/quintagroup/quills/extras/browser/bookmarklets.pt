@@ -2,7 +2,7 @@
      i18n:domain="plone"
      tal:condition="not:nothing">
 	<script type="text/javascript">
-	var addthis_options = "facebook, delicious, twitter, more";
+	var addthis_options = 'digg, facebook, delicious, myspace, aolfav, propeller, google, live, stumbleupon, reddit, favorites, technorati, aim, more'
 	</script>
 	<a href="http://www.addthis.com/bookmark.php?v=20"
 	   onmouseover="return addthis_open(this, '', '[URL]', '[TITLE]');"

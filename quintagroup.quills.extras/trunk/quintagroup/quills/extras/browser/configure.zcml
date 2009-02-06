@@ -17,4 +17,8 @@
         permission="zope.Public"
         />
 
+    <class class="quills.app.browser.weblogview.WeblogEntryView">
+       <implements interface="plone.app.layout.globals.interfaces.IViewView" />
+    </class>
+
 </configure>

@@ -4,6 +4,8 @@ from quills.app.utilities import recurseToInterface
 from quills.core.interfaces import IPossibleWeblog
 from quills.core.interfaces.enabled import IPossibleWeblogEntry
 
+from Products.CMFCore.utils import getToolByName
+
 def set_layout(sc_info):
     portal = sc_info.getPortal()
     obj = sc_info.object

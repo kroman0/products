@@ -19,7 +19,6 @@
            There are no comments for Weblog entries.
          </p>
          <metal:listing>
-           <div class="visualClear" />
            <form name="commentsForm"
              method="post"
              tal:attributes="action request/ACTUAL_URL">

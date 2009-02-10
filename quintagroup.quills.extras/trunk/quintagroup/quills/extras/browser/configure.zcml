@@ -16,6 +16,15 @@
         template="bookmarklets.pt"
         permission="zope.Public"
         />
+        
+   <browser:page
+        for="quills.core.interfaces.IPossibleWeblog"
+        class="Products.QuillsEnabled.browser.weblogview.WeblogView"
+        template="weblogfolder_view.pt"
+        permission="zope2.View"
+        name="weblogfolder_view"
+        allowed_interface="quills.core.browser.interfaces.IWeblogView" />
+
 
     <class class="quills.app.browser.weblogview.WeblogEntryView">
        <implements interface="plone.app.layout.globals.interfaces.IViewView" />

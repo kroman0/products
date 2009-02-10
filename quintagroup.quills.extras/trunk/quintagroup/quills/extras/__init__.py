@@ -1,1 +1,2 @@
+import weblogfolder_patch, keywords_widget_patch
 

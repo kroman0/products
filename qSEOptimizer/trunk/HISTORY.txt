@@ -1,8 +1,11 @@
+1.6.1
+
+    * fixed breakage on getting of inexistent attribute
+    
 1.6.0
 
     * added layer for plone 2.5.4-2 version
     * fixed url action in qseo_properties_edit_form for plone 3.*
-    * fixed breakage on getting of inexistent attribute
 
 1.5.1
 

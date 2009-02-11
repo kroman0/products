@@ -134,8 +134,8 @@
         </div>
       </div>
 	  
-      <tal:comment condition="nothing"> AddThis bookmarklet manager </tal:comment>
-      <metal:macro use-macro="context/entry_macros/macros/addthis" />
+      <!--<tal:comment condition="nothing"> AddThis bookmarklet manager </tal:comment>-->
+      <!--<metal:macro use-macro="context/entry_macros/macros/addthis" />-->
 
     </metal:displayEntry>
 
@@ -214,13 +214,12 @@
     </metal:filedUnder>
 
     <metal:discussion define-macro="discussion-summary">
-      <div class="weblog-footer discreet"
+      <div class="belowentryItem"
            tal:define="displaying_one_entry python:view.displayingOneEntry(context, entry);
                        isDiscussionAllowedFor nocall:view/isDiscussionAllowedFor;">
         <tal:if condition="python:isDiscussionAllowedFor(entry)">
           <tal:single tal:condition="displaying_one_entry">
             <a href=""
-               style="text-decoration: none;"
                name="comments"
                tal:attributes="href python:'%s#comments' % view.getArchiveURLFor(entry)"
                i18n:translate="number_of_comments">
@@ -229,9 +228,11 @@
           </tal:single>
           <tal:single tal:condition="not: displaying_one_entry">
             <a href=""
-               style="text-decoration: none;"
                tal:attributes="href python:'%s#comments' % view.getArchiveURLFor(entry)"
                i18n:translate="number_of_comments">
+              <img src="../comments.gif"
+                   tal:attributes="src string:${portal_url}/comments.gif"
+                   width="18" height="15" border="0" alt="Comments" />
               Comments:
             </a>
           </tal:single>
@@ -275,7 +276,7 @@
     </metal:byline>
 	
 	<metal:addthis define-macro="addthis">
-		<div class="tryit"
+		<div class="belowentryItem"
 			 i18n:domain="plone"
 			 tal:condition="not:nothing">
 			<a href="http://www.addthis.com/bookmark.php?v=20"
@@ -328,6 +329,15 @@
             </tal:block>
           </tal:relatedItems>
     </div>
+
+	<metal:belowentry define-macro="belowentry">
+    <div class="blogSummaryThis">
+      <div class="blogSummaryThis-lining">
+          <metal:addthis use-macro="context/entry_macros/macros/addthis"/>
+          <metal:discussion use-macro="context/entry_macros/macros/discussion-summary"/>
+      </div>
+    </div>
+	</metal:belowentry>
 
   </body>
 </html>

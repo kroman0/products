@@ -20,6 +20,7 @@ class BlogActivatorSection(object):
 
     def __init__(self, transmogrifier, name, options, previous):
         self.transmogrifier = transmogrifier
+        self.context = transmogrifier.context
 
         self.pathkey = defaultMatcher(options, 'path-key', name, 'path')
         self.flagkey = options.get('flag-key', '_old_type').strip()
@@ -27,7 +28,7 @@ class BlogActivatorSection(object):
 
     def __iter__(self):
         for item in self.previous:
-            pathkey = self.pathkey(*item.keys())
+            pathkey = self.pathkey(*item.keys())[0]
 
             if not pathkey or self.flagkey not in item:
                 yield item; continue
@@ -42,7 +43,7 @@ class BlogActivatorSection(object):
 
             if not IWeblogEnhanced.providedBy(obj) and \
                 IPossibleWeblog.providedBy(obj):
-                alsoProvides(self.context, IWeblogEnhanced)
-                event.notify(WeblogActivationEvent(self.context))
+                alsoProvides(obj, IWeblogEnhanced)
+                event.notify(WeblogActivationEvent(obj))
 
             yield item

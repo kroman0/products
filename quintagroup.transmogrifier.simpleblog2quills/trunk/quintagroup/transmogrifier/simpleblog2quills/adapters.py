@@ -39,7 +39,7 @@ class BlogManifest(object):
             if child.getAttribute('type') not in  ('BlogEntry', 'BlogFolder'):
                 root.removeChild(child)
         folder = doc.createElement('record')
-        folder.setAttribute('type', 'Folder')
+        folder.setAttribute('type', 'Large Plone Folder')
         folder.appendChild(doc.createTextNode(IMAGE_FOLDER))
         root.appendChild(folder)
         data['data'] = doc.toxml('utf-8')

@@ -330,14 +330,37 @@
           </tal:relatedItems>
     </div>
 
-	<metal:belowentry define-macro="belowentry">
-    <div class="blogSummaryThis">
-      <div class="blogSummaryThis-lining">
-          <metal:addthis use-macro="context/entry_macros/macros/addthis"/>
-          <metal:discussion use-macro="context/entry_macros/macros/discussion-summary"/>
-      </div>
-    </div>
-	</metal:belowentry>
+    <metal:otheractions define-macro="other-actions">
+	<div class="belowentryItem"
+		 i18n:domain="plone">
+	    <a href="sendto_form"
+	       tal:attributes="href string:${entry/getURL}/sendto_form;">
+	       <img src="mail_icon.gif" alt="Send this"
+                    tal:attributes="src string:$portal_url/mail_icon.gif" />
+	       Send To
+	    </a>
+	</div>	
+	<div class="belowentryItem"
+		 i18n:domain="plone">
+	    <a href="print"
+	       tal:attributes="href string:${entry/getURL}/?print=1;">
+	       <img src="mail_icon.gif" alt="Print this"
+                    tal:attributes="src string:$portal_url/print_icon.gif" />
+	       Print page
+	    </a>
+	</div>	
+    </metal:otheractions>
+
+
+    <metal:belowentry define-macro="belowentry">
+	<div class="blogSummaryThis">
+	  <div class="blogSummaryThis-lining">
+	      <metal:addthis use-macro="context/entry_macros/macros/addthis"/>
+	      <metal:discussion use-macro="context/entry_macros/macros/discussion-summary"/>
+              <metal:otheractions use-macro="context/entry_macros/macros/other-actions" />
+	  </div>
+	</div>
+    </metal:belowentry>
 
   </body>
 </html>

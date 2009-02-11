@@ -128,8 +128,15 @@
     <transmogrifier:stylesheet
         source="marshall"
         from="Blog"
-        to="Folder"
-        file="blog-folder.xsl"
+        to="Large Plone Folder"
+        file="blog-largefolder.xsl"
+        />
+
+    <transmogrifier:stylesheet
+        source="marshall"
+        from="BlogFolder"
+        to="Large Plone Folder"
+        file="blogfolder-largefolder.xsl"
         />
 
     <transmogrifier:stylesheet

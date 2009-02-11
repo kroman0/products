@@ -34,7 +34,9 @@ This package was designed to work and tested on next Plone versions:
     Quills_ or QuillsEnabled_ plone product is required. When migrating blog to 
     QuillsEnabled please edit import configuration file 'import.cfg' located in
     'quintagroup/transmogrifier/simpleblog2quills' folder (comments in that file 
-    will guide you through necessary modifications).
+    will guide you through necessary modifications) and install this product in
+    QuickInstaller (this will enable 'Large Folder' content type and change 
+    workflow settings for content types).
 
 Running tests
 -------------

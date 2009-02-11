@@ -33,10 +33,31 @@ class BlogManifest(object):
         self.context = context
 
     def __call__(self, data):
-        doc = data['data'].splitlines()
-        record = '  <record type="Folder">%s</record>' % IMAGE_FOLDER
-        doc = doc[:-1] + [record] + doc[-1:]
-        data['data'] = '\n'.join(doc)
+        doc = minidom.parseString(data['data'])
+        root = doc.documentElement
+        for child in root.getElementsByTagName('record'):
+            if child.getAttribute('type') not in  ('BlogEntry', 'BlogFolder'):
+                root.removeChild(child)
+        folder = doc.createElement('record')
+        folder.setAttribute('type', 'Folder')
+        folder.appendChild(doc.createTextNode(IMAGE_FOLDER))
+        root.appendChild(folder)
+        data['data'] = doc.toxml('utf-8')
+        return data
+
+class BlogFolderManifest(object):
+    implements(IExportDataCorrector)
+
+    def __init__(self, context):
+        self.context = context
+
+    def __call__(self, data):
+        doc = minidom.parseString(data['data'])
+        root = doc.documentElement
+        for child in root.getElementsByTagName('record'):
+            if child.getAttribute('type') not in  ('BlogEntry', 'BlogFolder'):
+                root.removeChild(child)
+        data['data'] = doc.toxml('utf-8')
         return data
 
 class BlogEntryManifest(object):
@@ -150,12 +171,20 @@ class BlogEntryExporter(ReferenceExporter):
                 if in_blog:
                     image_id = self.fixImageId(image, image_id, blog_path)
                     path = self.context.getPhysicalPath()
-                    # /plone/blog 2
-                    # /plone/blog/bloggins/entry 4
-                    # ../images
                     level = len(path) - len(blog_path) - 1
                     new_url = '/'.join(['..' for i in range(level)])
                     new_url = '/'.join([new_url, IMAGE_FOLDER, image_id])
+                    text = text.replace(url, new_url, 1)
+                elif url.startswith('../'):
+                    # remove '../' from the start of sting
+                    new_url = url[3:]
+                    text = text.replace(url, new_url, 1)
+                elif url.startswith('/'):
+                    # these links didn't work so rewrite them with '..'
+                    # find how many level self.context is under portal root
+                    level = len(self.context.getPhysicalPath()) - 3
+                    new_url = '/'.join(['..' for i in range(level)])
+                    new_url  = new_url + url
                     text = text.replace(url, new_url, 1)
 
         elem.firstChild.nodeValue = text

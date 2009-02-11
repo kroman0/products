@@ -4,6 +4,10 @@ class IBlog(Interface):
     """ Marker interface for SimpleBlog blog object.
     """
 
+class IBlogFolder(Interface):
+    """ Marker interface for SimpleBlog blog folder object.
+    """
+
 class IBlogEntry(Interface):
     """ Marker interface for SimpleBlog blog entry object.
     """

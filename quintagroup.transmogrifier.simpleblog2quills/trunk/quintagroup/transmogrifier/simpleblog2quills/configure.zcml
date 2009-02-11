@@ -40,6 +40,11 @@
             />
 
         <five:implements
+            class="Products.SimpleBlog.content.BlogFolder"
+            interface=".interfaces.IBlogFolder"
+            />
+
+        <five:implements
             class="Products.SimpleBlog.content.BlogEntry"
             interface=".interfaces.IBlogEntry"
             />
@@ -59,6 +64,13 @@
             for=".interfaces.IBlog"
             provides="quintagroup.transmogrifier.interfaces.IExportDataCorrector"
             factory=".adapters.BlogManifest"
+            name="manifest"
+            />
+
+        <adapter
+            for=".interfaces.IBlogFolder"
+            provides="quintagroup.transmogrifier.interfaces.IExportDataCorrector"
+            factory=".adapters.BlogFolderManifest"
             name="manifest"
             />
 

@@ -30,4 +30,12 @@
        <implements interface="plone.app.layout.globals.interfaces.IViewView" />
     </class>
 
+    <browser:resource
+        name="print_blogentry.js"
+        layer="elaw.theme.webresults.browser.interfaces.IThemeSpecific"
+        file="print_page.js"
+        />
+
+    
+
 </configure>

@@ -3,20 +3,20 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="quintagroup.quills.extras">
 
-    <browser:viewletManager
-        name="quills.bookmarklets"
-        provides=".interfaces.IBookmarklets"
-        permission="zope2.View"
-        class="plone.app.viewletmanager.manager.BaseOrderedViewletManager"
+    <browser:viewlet
+        name="quills.actionsbox.actions"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+        template="actions.pt"
+        permission="zope.Public"
         />
 
     <browser:viewlet
-        name="quills.bookmarklets.addthis"
-        manager=".interfaces.IBookmarklets"
+        name="quills.actionsbox.bookmarklets"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
         template="bookmarklets.pt"
         permission="zope.Public"
         />
-        
+
    <browser:page
         for="quills.core.interfaces.IPossibleWeblog"
         class="Products.QuillsEnabled.browser.weblogview.WeblogView"
@@ -36,6 +36,10 @@
         file="print_page.js"
         />
 
-    
+    <browser:resource
+        name="addthis_common.js"
+        layer="elaw.theme.webresults.browser.interfaces.IThemeSpecific"
+        file="addthis_common.js"
+        />
 
 </configure>

@@ -1,6 +1,6 @@
 from zope.viewlet.interfaces import IViewletManager
 
-class IBookmarklets(IViewletManager):
-    """A viewlet manager for render bookmarklets
+class IActionsBox(IViewletManager):
+    """A viewlet manager for collect actions
     """
 

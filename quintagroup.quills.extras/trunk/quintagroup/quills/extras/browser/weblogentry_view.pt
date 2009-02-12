@@ -18,6 +18,13 @@
                      wvconfig view/getConfig;">
 
       <div tal:replace="structure provider:plone.abovecontenttitle" />
+      <div class="weblogViewDate">
+        <div class="weblogDateMonth"
+             tal:content="view/month" />
+        <div class="weblogDateDay"
+             tal:content="view/day" />
+      </div>
+
       <h1 class="documentFirstHeading">
         <metal:field use-macro="python:here.widget('title', mode='view')">
           Title

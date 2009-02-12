@@ -5,7 +5,6 @@ from plone.memoize.view import memoize
 from Products.QuillsEnabled.browser.weblogview import WeblogEntryView
 
 class CustomWeblogEntryView(WeblogEntryView):
-    #implements(IWeblogEntryView)
 
     @memoize
     def date(self):
@@ -13,7 +12,6 @@ class CustomWeblogEntryView(WeblogEntryView):
 
     @property
     def month(self):
-        #import pdb;pdb.set_trace()
         return DateTime(self.date()).strftime('%b').capitalize()
 
     @property

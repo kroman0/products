@@ -12,11 +12,12 @@
 
     <browser:page
         for="quills.core.interfaces.IPossibleWeblogEntry"
-        class="Products.QuillsEnabled.browser.weblogview.WeblogEntryView"
+        class=".weblogview.CustomWeblogEntryView"
         template="weblogentry_view.pt"
         permission="zope2.View"
         name="weblogentry_view"
-        allowed_interface="quills.core.browser.interfaces.IWeblogEntryView" />
+        allowed_interface="quills.core.browser.interfaces.IWeblogEntryView"
+        allowed_attributes="day month" />
 
     <browser:page
         for="quills.core.interfaces.enabled.IWeblogEnhanced"

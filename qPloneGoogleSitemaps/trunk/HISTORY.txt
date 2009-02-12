@@ -1,3 +1,7 @@
+0.8.1 Prevetn QuickInstaller confuse in <= plone-2.5
+
+  *Added Install.py external script
+
 0.8 Multiple Sitemap type support
 
   * Added support for content, mobile, news sitemap

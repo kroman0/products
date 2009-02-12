@@ -3,16 +3,23 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="quintagroup.quills.extras">
 
+     <browser:viewletManager
+         name="quills.actionsbox"
+         provides=".interfaces.IActionsBox"
+         permission="zope2.View"
+         class=".viewlets.ConditionalViewletManager"
+        />
+
     <browser:viewlet
         name="quills.actionsbox.actions"
-        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+        manager=".interfaces.IActionsBox"
         template="actions.pt"
         permission="zope.Public"
         />
 
     <browser:viewlet
         name="quills.actionsbox.bookmarklets"
-        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+        manager=".interfaces.IActionsBox"
         template="bookmarklets.pt"
         permission="zope.Public"
         />

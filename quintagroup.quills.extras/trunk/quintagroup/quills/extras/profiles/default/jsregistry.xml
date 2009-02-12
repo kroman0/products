@@ -4,4 +4,8 @@
     enabled="True" expression="python:request.get('print',None)=='1'"
     id="++resource++print_blogentry.js" inline="False"
     insert-bottom="True"/>
+ <javascript cacheable="True" compression="safe" cookable="True"
+    enabled="True" expression=""
+    id="++resource++addthis_common.js" inline="True"
+    insert-bottom="True"/>
 </object>

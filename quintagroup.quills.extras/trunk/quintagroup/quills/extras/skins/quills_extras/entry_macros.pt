@@ -221,9 +221,9 @@
           <tal:single tal:condition="displaying_one_entry">
             <a href=""
                name="comments"
-               tal:attributes="href python:'%s#comments' % view.getArchiveURLFor(entry)"
-               i18n:translate="number_of_comments">
-              Comments:
+               tal:attributes="href python:'%s#comments' % view.getArchiveURLFor(entry)">
+              <span i18n:translate="number_of_comments">Comments:</span>
+              <span tal:content="python:view.getCommentCountFor(entry)">0</span>
             </a>
           </tal:single>
           <tal:single tal:condition="not: displaying_one_entry">
@@ -233,13 +233,10 @@
               <img src="../comments.gif"
                    tal:attributes="src string:${portal_url}/comments.gif"
                    width="18" height="15" border="0" alt="Comments" />
-              Comments:
+              <span i18n:translate="number_of_comments">Comments:</span>
+              <span tal:content="python:view.getCommentCountFor(entry)">0</span>
             </a>
           </tal:single>
-          <span
-              tal:content="python:view.getCommentCountFor(entry)">
-            0
-          </span>
         </tal:if>
       </div>
     </metal:discussion>
@@ -274,24 +271,24 @@
 		
       </tal:showme>
     </metal:byline>
-	
-	<metal:addthis define-macro="addthis">
-		<div class="belowentryItem"
-			 i18n:domain="plone"
-			 tal:condition="not:nothing">
-			<a href="http://www.addthis.com/bookmark.php?v=20"
-			   onmouseover="return addthis_open(this, '', '[URL]', '[TITLE]');"
-			   onmouseout="addthis_close();" 
-			   onclick="return addthis_sendto();"
-			   tal:define="post_url python:view.getArchiveURLFor(entry)"
-			   tal:attributes="onmouseover string:return addthis_open(this, '', '$post_url', '${entry/getTitle}');;;">
-			   <img src="http://s7.addthis.com/static/btn/sm-plus.gif"
-					width="16" height="16" border="0" alt="Bookmark and Share" />
-			   Share/Bookmark
-			</a>
-			<script type="text/javascript" src="http://s7.addthis.com/js/200/addthis_widget.js"></script>
-		</div>	
-	</metal:addthis>
+
+    <metal:addthis define-macro="addthis">
+        <div class="belowentryItem"
+                i18n:domain="plone"
+                tal:condition="not:nothing">
+            <a href="http://www.addthis.com/bookmark.php?v=20"
+                onmouseover="return addthis_open(this, '', '[URL]', '[TITLE]');"
+                onmouseout="addthis_close();" 
+                onclick="return addthis_sendto();"
+                tal:define="post_url python:view.getArchiveURLFor(entry)"
+                tal:attributes="onmouseover string:return addthis_open(this, '', '$post_url', '${entry/getTitle}');;;">
+                <img src="http://s7.addthis.com/static/btn/sm-plus.gif"
+                    width="16" height="16" border="0" alt="Bookmark and Share" />
+                Share/Bookmark
+            </a>
+            <script type="text/javascript" src="http://s7.addthis.com/js/200/addthis_widget.js"></script>
+        </div>	
+    </metal:addthis>
 
     <div metal:define-macro="relatedItems"
       class="relatedItems"
@@ -331,35 +328,35 @@
     </div>
 
     <metal:otheractions define-macro="other-actions">
-	<div class="belowentryItem"
-		 i18n:domain="plone">
-	    <a href="sendto_form"
-	       tal:attributes="href string:${entry/getURL}/sendto_form;">
-	       <img src="mail_icon.gif" alt="Send this"
-                    tal:attributes="src string:$portal_url/mail_icon.gif" />
-	       Send To
-	    </a>
-	</div>	
-	<div class="belowentryItem"
-		 i18n:domain="plone">
-	    <a href="print"
-	       tal:attributes="href string:${entry/getURL}/?print=1;">
-	       <img src="mail_icon.gif" alt="Print this"
-                    tal:attributes="src string:$portal_url/print_icon.gif" />
-	       Print page
-	    </a>
-	</div>	
+        <div class="belowentryItem"
+                i18n:domain="plone">
+            <a href="sendto_form"
+                tal:attributes="href string:${entry/getURL}/sendto_form;">
+                <img src="mail_icon.gif" alt="Send this"
+                        tal:attributes="src string:$portal_url/mail_icon.gif" />
+                Send To
+            </a>
+        </div>	
+        <div class="belowentryItem"
+                i18n:domain="plone">
+            <a href="print"
+                tal:attributes="href string:${entry/getURL}/?print=1;">
+                <img src="mail_icon.gif" alt="Print this"
+                        tal:attributes="src string:$portal_url/print_icon.gif" />
+                Print page
+            </a>
+        </div>	
     </metal:otheractions>
 
 
     <metal:belowentry define-macro="belowentry">
-	<div class="blogSummaryThis">
-	  <div class="blogSummaryThis-lining">
-	      <metal:addthis use-macro="context/entry_macros/macros/addthis"/>
-	      <metal:discussion use-macro="context/entry_macros/macros/discussion-summary"/>
-              <metal:otheractions use-macro="context/entry_macros/macros/other-actions" />
-	  </div>
-	</div>
+    <div class="blogSummaryThis">
+        <div class="blogSummaryThis-lining">
+            <metal:otheractions use-macro="context/entry_macros/macros/other-actions" />
+            <metal:addthis use-macro="context/entry_macros/macros/addthis"/>
+            <metal:discussion use-macro="context/entry_macros/macros/discussion-summary"/>
+        </div>
+    </div>
     </metal:belowentry>
 
   </body>

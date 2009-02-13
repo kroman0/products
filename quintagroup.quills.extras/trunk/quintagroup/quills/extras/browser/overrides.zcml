@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="quintagroup.quills.extras">
 
     <browser:page
@@ -27,4 +28,14 @@
         permission="zope2.View"
         name="weblog_view" />
 
+
+    <plone:portlet
+	name="quills.app.portlets.WeblogAdmin"
+	interface=".weblogadmin.IWeblogAdminPortlet"
+	assignment=".weblogadmin.Assignment"
+	renderer=".weblogadmin.Renderer"
+	addview=".weblogadmin.AddForm"
+	editview=".weblogadmin.EditForm"
+	/>
+     
 </configure>

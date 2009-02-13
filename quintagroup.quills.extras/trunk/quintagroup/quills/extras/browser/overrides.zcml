@@ -33,7 +33,7 @@
 	name="quills.app.portlets.WeblogAdmin"
 	interface=".weblogadmin.IWeblogAdminPortlet"
 	assignment=".weblogadmin.Assignment"
-	renderer=".weblogadmin.Renderer"
+	renderer=".weblogadmin.CustomRenderer"
 	addview=".weblogadmin.AddForm"
 	editview=".weblogadmin.EditForm"
 	/>

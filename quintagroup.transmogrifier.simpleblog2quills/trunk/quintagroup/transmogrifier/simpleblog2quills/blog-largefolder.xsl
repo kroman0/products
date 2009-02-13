@@ -17,6 +17,12 @@
                     <xsl:when test="name()='cmf:type'">
                         <xsl:apply-templates select="." />
                     </xsl:when>
+                    <!-- do some special with 'cmf:workflow_history' element -->
+                    <xsl:when test="name()='cmf:workflow_history'">
+                        <xsl:copy select=".">
+                            <xsl:apply-templates select="cmf:workflow" />
+                        </xsl:copy>
+                    </xsl:when>
                     <!-- copy all other elements -->
                     <xsl:otherwise>
                         <xsl:copy-of select="."/>
@@ -46,6 +52,44 @@
     <xsl:copy select=".">
         <xsl:text>Large Plone Folder</xsl:text>
     </xsl:copy>
+</xsl:template>
+
+<xsl:template match="cmf:workflow">
+    <xsl:copy select=".">
+        <!-- rename 'id' attribute -->
+        <xsl:attribute name="id">simple_publication_workflow</xsl:attribute>
+        <xsl:for-each select="*|text()">
+            <xsl:choose>
+                <!-- do some special with 'cmf:workflow_history' element -->
+                <xsl:when test="name()='cmf:history'">
+                    <xsl:copy select=".">
+                        <xsl:apply-templates select="cmf:var" />
+                    </xsl:copy>
+                </xsl:when>
+                <!-- copy all other elements -->
+                <xsl:otherwise>
+                    <xsl:copy-of select="."/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:for-each>
+    </xsl:copy>
+</xsl:template>
+
+<xsl:template match="cmf:var">
+    <xsl:choose>
+        <xsl:when test="@value='visible'">
+            <xsl:copy select=".">
+                <xsl:attribute name="id">review_state</xsl:attribute>
+                <xsl:attribute name="type">str</xsl:attribute>
+                <xsl:attribute name="value">published</xsl:attribute>
+                <xsl:value-of select="." />
+            </xsl:copy>
+        </xsl:when>
+        <!-- copy all other elements -->
+        <xsl:otherwise>
+            <xsl:copy-of select="."/>
+        </xsl:otherwise>
+    </xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>

@@ -146,6 +146,12 @@
         file="blogentry-document.xsl"
         />
 
+    <adapter
+        for="quintagroup.transmogrifier.simpleblog2quills.interfaces.IBaseObject"
+        provides="quintagroup.transmogrifier.interfaces.IImportDataCorrector"
+        factory=".adapters.WorkflowImporter"
+        name="marshall"
+        />
 
     <configure zcml:condition="installed Products.QuillsEnabled">
 

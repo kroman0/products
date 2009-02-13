@@ -359,5 +359,27 @@
     </div>
     </metal:belowentry>
 
+    <metal:short-byline define-macro="short-byline">
+      <tal:showme tal:condition="wvconfig/show_about">
+        <div class="documentByLine"
+             tal:define="item_creator item_creator | nothing;
+			             authors python:item_creator and [item_creator,] or entry.getAuthors();">
+            <span i18n:translate="label_by_author">
+              by
+			</span>
+			<tal:block repeat="author authors">
+            <a href="#"
+			   tal:define="author_id python:str(author);
+                           ploneauthor python:mtool.getMemberInfo(author_id)"
+               tal:attributes="href string:${weblog_content/absolute_url}/authors/${author_id}"
+               tal:content="python:ploneauthor and ploneauthor['fullname'] or author_id">
+              Mister Dobalina, Mister Bob Dobalina
+            </a> 
+			</tal:block>
+        </div>
+		
+      </tal:showme>
+    </metal:short-byline>
+
   </body>
 </html>

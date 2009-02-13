@@ -1,3 +1,4 @@
+from Products.CMFCore.utils import getToolByName
 from quills.app.portlets.weblogadmin import *
 
 class CustomRenderer(Renderer):

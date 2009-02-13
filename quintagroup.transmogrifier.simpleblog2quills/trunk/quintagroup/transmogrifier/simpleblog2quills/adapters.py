@@ -12,7 +12,7 @@ from Products.CMFCore import utils
 from collective.transmogrifier.interfaces import ISection, ISectionBlueprint
 from collective.transmogrifier.utils import defaultMatcher
 
-from quintagroup.transmogrifier.interfaces import IExportDataCorrector
+from quintagroup.transmogrifier.interfaces import IExportDataCorrector, IImportDataCorrector
 from quintagroup.transmogrifier.adapters.exporting import ReferenceExporter
 from quintagroup.transmogrifier.manifest import ManifestExporterSection
 from quintagroup.transmogrifier.logger import VALIDATIONKEY
@@ -312,3 +312,48 @@ class ImageFolderSection(object):
         while IMAGE_IDS: IMAGE_IDS.pop()
         while SITE_URLS: SITE_URLS.pop()
         IMAGE_PATHS.clear()
+
+class WorkflowImporter(object):
+    """ This adapter tries to convert all possible workflow histories to 
+        simple_publication_workflow history.
+    """
+    implements(IImportDataCorrector)
+
+    def __init__(self, context):
+        self.context = context
+
+    def __call__(self, data):
+        doc = minidom.parseString(data['data'])
+        wh = [i for i in doc.getElementsByTagName('cmf:workflow')]
+        if not wh:
+            # we don't have such workflow history
+            return data
+
+        wh = wh[0]
+        workflow_id = wh.getAttribute('id')
+        if workflow_id == 'simple_publication_workflow':
+            return data
+        wh.setAttribute('id', 'simple_publication_workflow')
+        if workflow_id == 'simpleblog_workflow':
+            self.fixSimpleBlogWorkflow(wh)
+        else:
+            self.fixWorkflow(wh)
+
+        data['data'] = doc.toxml('utf-8')
+        return data
+
+    def fixSimpleBlogWorkflow(self, wh):
+        for history in wh.getElementsByTagName('cmf:history'):
+            for var in history.getElementsByTagName('cmf:var'):
+                id_ = var.getAttribute('id')
+                value = var.getAttribute('value')
+                if id_ == 'review_state' and value == 'draft':
+                    var.setAttribute('value', 'private')
+
+    def fixWorkflow(self, wh):
+        for history in wh.getElementsByTagName('cmf:history'):
+            for var in history.getElementsByTagName('cmf:var'):
+                id_ = var.getAttribute('id')
+                value = var.getAttribute('value')
+                if id_ == 'review_state' and value == 'visible':
+                    var.setAttribute('value', 'published')

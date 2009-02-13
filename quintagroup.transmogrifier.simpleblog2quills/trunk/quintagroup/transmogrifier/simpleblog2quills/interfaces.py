@@ -30,3 +30,8 @@ class IExportItemManipulator(IItemManipulator):
 class IImportItemManipulator(IItemManipulator):
     """ Importing adapter
     """
+
+try:
+    from Products.Archetypes.interfaces import IBaseObject
+except ImportError:
+    from plone.app.transmogrifier.interfaces import IBaseObject

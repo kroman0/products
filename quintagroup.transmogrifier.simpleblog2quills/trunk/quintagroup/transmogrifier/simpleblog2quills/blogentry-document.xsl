@@ -68,9 +68,39 @@
 <xsl:template match="cmf:workflow">
     <xsl:copy select=".">
         <!-- rename 'id' attribute -->
-        <xsl:attribute name="id">plone_workflow</xsl:attribute>
-        <xsl:copy-of select="cmf:history"/>
+        <xsl:attribute name="id">simple_publication_workflow</xsl:attribute>
+        <xsl:for-each select="*|text()">
+            <xsl:choose>
+                <!-- do some special with 'cmf:workflow_history' element -->
+                <xsl:when test="name()='cmf:history'">
+                    <xsl:copy select=".">
+                        <xsl:apply-templates select="cmf:var" />
+                    </xsl:copy>
+                </xsl:when>
+                <!-- copy all other elements -->
+                <xsl:otherwise>
+                    <xsl:copy-of select="."/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:for-each>
     </xsl:copy>
+</xsl:template>
+
+<xsl:template match="cmf:var">
+    <xsl:choose>
+        <xsl:when test="@value='draft'">
+            <xsl:copy select=".">
+                <xsl:attribute name="id">review_state</xsl:attribute>
+                <xsl:attribute name="type">str</xsl:attribute>
+                <xsl:attribute name="value">private</xsl:attribute>
+                <xsl:value-of select="." />
+            </xsl:copy>
+        </xsl:when>
+        <!-- copy all other elements -->
+        <xsl:otherwise>
+            <xsl:copy-of select="."/>
+        </xsl:otherwise>
+    </xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>

@@ -5,6 +5,9 @@ from collective.transmogrifier.interfaces import ISectionBlueprint
 from collective.transmogrifier.interfaces import ISection
 from collective.transmogrifier.utils import defaultMatcher
 
+from Products.CMFCore import utils
+from Products.CMFCore.WorkflowCore import WorkflowException
+
 try:
     from zope.interface import alsoProvides
     from quills.core.interfaces.enabled import IWeblogEnhanced, IPossibleWeblog
@@ -14,6 +17,8 @@ except ImportError:
     # plone 2.1, because zcml:condition attribute in zcml doesn't work
     pass
 
+from quintagroup.transmogrifier.simpleblog2quills.adapters import IMAGE_FOLDER
+
 class BlogActivatorSection(object):
     classProvides(ISectionBlueprint)
     implements(ISection)
@@ -21,6 +26,7 @@ class BlogActivatorSection(object):
     def __init__(self, transmogrifier, name, options, previous):
         self.transmogrifier = transmogrifier
         self.context = transmogrifier.context
+        self.wftool = utils.getToolByName(self.context, 'portal_workflow')
 
         self.pathkey = defaultMatcher(options, 'path-key', name, 'path')
         self.flagkey = options.get('flag-key', '_old_type').strip()
@@ -40,6 +46,14 @@ class BlogActivatorSection(object):
             obj = self.context.unrestrictedTraverse(path, None)
             if obj is None:         # path doesn't exist
                 yield item; continue
+
+            # pulish 'images' subfolder
+            images = getattr(obj, IMAGE_FOLDER, None)
+            if images is not None:
+                try:
+                    self.wftool.doActionFor(images, 'publish')
+                except WorkflowException:
+                    pass
 
             if not IWeblogEnhanced.providedBy(obj) and \
                 IPossibleWeblog.providedBy(obj):

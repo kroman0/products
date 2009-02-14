@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object name="portal_skins">
+  <object
+      name="quintagroup_sectionstyle"
+      meta_type="Filesystem Directory View"
+      directory="quintagroup.sectionstyle:skins/quintagroup_sectionstyle"/>
+  <skin-path name="*">
+    <layer name="quintagroup_sectionstyle" insert-after="custom"/>
+  </skin-path>
+</object>

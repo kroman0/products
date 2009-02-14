@@ -9,6 +9,7 @@ from zope import schema
 from zope.formlib import form
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
+from quintagroup.portlet.static.utils import getVocabulary
 from quintagroup.portlet.static import StaticStylishPortletMessageFactory as _
 
 
@@ -21,7 +22,8 @@ class IStaticStylishPortlet(static.IStaticPortlet):
     """
 
     styling = schema.Choice(title=_(u"Portlet style"),
-                            description=_(u"Choose a css style for the porlet."),
+                            description=_(u"Choose a css style for the porlet. "
+                                          "You can manage these entries from the plone control panel."),
                             required=False,
                             default='',
                             vocabulary='quintagroup.portlet.static.vocabularies.PortletCSSVocabulary',)

@@ -49,4 +49,12 @@
         file="addthis_common.js"
         />
 
+    <adapter
+        for="quills.core.interfaces.IPossibleWeblog"
+        provides="quills.core.interfaces.IWeblogLocator"
+        factory="quills.app.locator.RecursingUpLocator"
+        />
+
+
+
 </configure>

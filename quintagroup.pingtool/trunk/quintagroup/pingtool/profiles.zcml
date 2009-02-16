@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="quintagroup.pingtool">
+
+  <genericsetup:registerProfile
+      name="quintagroup.pingtool"
+      title="quintagroup.pingtool"
+      directory="profiles/default"
+      description='Extension profile for the types of quintagroup.pingtool.'
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      />
+
+</configure>

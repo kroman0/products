@@ -144,6 +144,8 @@ def decrypt(key, s):
 
 def parseKey(s):
     ps = re.match('^(.+?)_(.+?)_', s)
+    if ps is None:
+        return {'date': '', 'key': ''}
     return {'date': ps.group(1), 'key':ps.group(2)}
 
 def toHex(s):

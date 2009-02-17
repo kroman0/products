@@ -28,14 +28,4 @@
         permission="zope2.View"
         name="weblog_view" />
 
-
-    <plone:portlet
-	name="quills.app.portlets.WeblogAdmin"
-	interface=".weblogadmin.IWeblogAdminPortlet"
-	assignment=".weblogadmin.Assignment"
-	renderer=".weblogadmin.CustomRenderer"
-	addview=".weblogadmin.AddForm"
-	editview=".weblogadmin.EditForm"
-	/>
-     
 </configure>

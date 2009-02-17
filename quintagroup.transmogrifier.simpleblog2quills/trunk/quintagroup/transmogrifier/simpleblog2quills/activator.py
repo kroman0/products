@@ -46,7 +46,11 @@ class BlogActivatorSection(object):
 
             path = item[pathkey]
             if type_ is None and newtype == 'Large Plone Folder':
-                parent, id_ = path.rsplit('/', 1)
+                parts = path.rsplit('/', 1)
+                if len(parts) == 2:
+                    parent, id_ = parts
+                else:
+                    yield item; continue
                 if id_ != IMAGE_FOLDER:
                     yield item; continue
 

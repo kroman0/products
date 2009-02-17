@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="quintagroup.quills.extras">
+
+    <plone:portlet
+        name="quills.app.portlets.WeblogAdmin"
+        interface=".weblogadmin.IWeblogAdminPortlet"
+        assignment=".weblogadmin.Assignment"
+        renderer=".weblogadmin.CustomRenderer"
+        addview=".weblogadmin.AddForm"
+        editview=".weblogadmin.EditForm"
+        />
+
+</configure>

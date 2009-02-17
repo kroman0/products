@@ -56,17 +56,4 @@
         factory="quills.app.locator.RecursingUpLocator"
         />
 
-  <include package="plone.app.portlets" />
-
-  <plone:portlet
-      name="quintagroup.quills.extras.Categories"
-      interface=".categories.IWeblogCategoriesPortlet"
-      assignment=".categories.Assignment"
-      view_permission="zope2.View"
-      edit_permission="cmf.ManagePortal"
-      renderer=".categories.Renderer"
-      addview=".categories.AddForm"
-      editview=".categories.EditForm"
-      />
-
 </configure>

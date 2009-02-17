@@ -12,4 +12,16 @@
      description="List of Weblog's subfolder"
    />
 
+   <portlet
+     addview="quintagroup.quills.extras.MostCommented"
+     title="Most Commented"
+     description="Render Most Commented Blog Posts"
+   />
+
+   <portlet
+     addview="quintagroup.quills.extras.ResentPosts"
+     title="Resent Posts"
+     description="Render Resent Blog Posts"
+   />
+
 </portlets>

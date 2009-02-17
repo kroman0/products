@@ -3,4 +3,8 @@
     xmlns:zcml="http://namespaces.zope.org/zcml">
     <include zcml:condition="installed quills.app"
              package=".browser" file="overrides.zcml" />
+
+    <include zcml:condition="installed quills.app"
+             package=".portlets" file="overrides.zcml" />
+
 </configure>

@@ -32,3 +32,21 @@ def processBlog(self, path, blogentry_types=["Document",]):
         print b.getURL(), 'updated'
     #raise Exception("some error")
 
+
+def processBlogSubFolders(self):
+    # update blog sub-folders
+    res = []
+    brains = self.portal_catalog(path='/'.join(self.getPhysicalPath()),
+                                 portal_type=['Large Plone Folder','Folder'])
+    for bf in brains:
+        item_res = [bf.getPath(),0,0]
+        ob = bf.getObject()
+        layout = ob.getProperty('layout','')
+        if layout and not layout == 'weblog_view':
+            ob.manage_delProperties(['layout',])
+            item_res[1] = 1
+        if not IWeblogEnhanced.providedBy(ob):
+            alsoProvides(ob, IWeblogEnhanced)
+            item_res[2] = 1
+        res.append(item_res)
+    return res

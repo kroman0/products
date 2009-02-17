@@ -36,28 +36,41 @@ class BlogActivatorSection(object):
         for item in self.previous:
             pathkey = self.pathkey(*item.keys())[0]
 
-            if not pathkey or self.flagkey not in item:
+            if not pathkey:
                 yield item; continue
 
-            if item[self.flagkey] != 'Blog':
+            type_ = item.get(self.flagkey, None)
+            newtype = item.get('_type', None)
+            if type_ != 'Blog' and newtype != 'Large Plone Folder':
                 yield item; continue
 
             path = item[pathkey]
+            if type_ is None and newtype == 'Large Plone Folder':
+                parent, id_ = path.rsplit('/', 1)
+                if id_ != IMAGE_FOLDER:
+                    yield item; continue
+
             obj = self.context.unrestrictedTraverse(path, None)
             if obj is None:         # path doesn't exist
                 yield item; continue
 
-            # pulish 'images' subfolder
-            images = getattr(obj, IMAGE_FOLDER, None)
-            if images is not None:
-                try:
-                    self.wftool.doActionFor(images, 'publish')
-                except WorkflowException:
-                    pass
-
-            if not IWeblogEnhanced.providedBy(obj) and \
-                IPossibleWeblog.providedBy(obj):
-                alsoProvides(obj, IWeblogEnhanced)
-                event.notify(WeblogActivationEvent(obj))
+            if type_ == 'Blog' and newtype == 'Large Plone Folder':
+                # mark as blog
+                if not IWeblogEnhanced.providedBy(obj) and \
+                    IPossibleWeblog.providedBy(obj):
+                    alsoProvides(obj, IWeblogEnhanced)
+                    event.notify(WeblogActivationEvent(obj))
+            elif type_ is None and newtype == 'Large Plone Folder':
+                # pulish 'images' subfolder
+                parent = self.context.unrestrictedTraverse(parent, None)
+                if IWeblogEnhanced.providedBy(parent) :
+                    try:
+                        self.wftool.doActionFor(obj, 'publish')
+                    except WorkflowException:
+                        pass
 
             yield item
+
+        # reindex provided interfaces
+        catalog = utils.getToolByName(self.context, 'portal_catalog')
+        catalog.reindexIndex('object_provides', None)

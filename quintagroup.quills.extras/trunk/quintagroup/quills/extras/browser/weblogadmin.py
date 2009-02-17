@@ -27,7 +27,7 @@ class CustomRenderer(Renderer):
         catalog = getToolByName(self.context, 'portal_catalog')
         bfolders = catalog(
             path='/'.join(weblog_content.getPhysicalPath()),
-            portal_type='Folder'
+            portal_type=['Folder','Large Plone Folder'],
         )
         wc_path_len = len('/'.join(weblog_content.getPhysicalPath()))
         cats = [b.getPath()[wc_path_len+1:] for b in bfolders if not len(b.getPath())==wc_path_len ]

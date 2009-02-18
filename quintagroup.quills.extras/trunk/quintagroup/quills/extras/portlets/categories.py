@@ -42,7 +42,7 @@ class Renderer(BasePortletRenderer, base.Renderer):
 
     @property
     def available(self):
-        return 1 or self.getCategories() and True or False
+        return self.getCategories() and True or False
 
     @property
     def title(self):

@@ -13,10 +13,10 @@
 	 <select class="form-element" 
            onchange="javascript:location.href='blog/'+this.options[this.selectedIndex].value+'/createObject?type_name=Document'"
            name=":action"
-           tal:attributes="onchange string:javascript:location.href='${view/weblog_url}/'+this.options[this.selectedIndex].value+'${view/create_url}'">
+           tal:attributes="onchange string:javascript:location.href='${view/weblog_url}/'+this.options[this.selectedIndex].value+'${view/creation_url}'">
            <option value="">..where to add..</option>
 	   <option value="">To blog's root</option>
-           <tal:loop-options repeat="option view/options">
+           <tal:loop-options repeat="option view/categories">
 	   <option value="blogging"
                    tal:attributes="value option"
                    tal:content="string:To $option">To blogging/google</option>

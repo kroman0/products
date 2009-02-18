@@ -9,6 +9,7 @@
          provides=".interfaces.IActionsBox"
          permission="zope2.View"
          class=".viewlets.ConditionalViewletManager"
+         template="actionsbox.pt"
         />
 
     <browser:viewlet

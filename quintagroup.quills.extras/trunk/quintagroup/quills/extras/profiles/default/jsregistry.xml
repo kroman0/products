@@ -6,6 +6,6 @@
     insert-bottom="True"/>
  <javascript cacheable="True" compression="safe" cookable="True"
     enabled="True" expression=""
-    id="++resource++addthis_common.js" inline="True"
+    id="++resource++addthis_common.js" inline="False"
     insert-bottom="True"/>
 </object>

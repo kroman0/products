@@ -1,10 +1,12 @@
-from zope.interface import alsoProvides
+from zope.interface import alsoProvides, noLongerProvides
 
 from quills.app.utilities import recurseToInterface
 from quills.core.interfaces import IWeblogEnhanced
 from quills.core.interfaces.enabled import IPossibleWeblogEntry
 
 from Products.CMFCore.utils import getToolByName
+
+from quintagroup.quills.extras.browser.interfaces import IWeblogCategory
 
 def set_layout(sc_info):
     #portal = sc_info.getPortal()
@@ -38,15 +40,19 @@ def processBlogSubFolders(self):
     res = []
     brains = self.portal_catalog(path='/'.join(self.getPhysicalPath()),
                                  portal_type=['Large Plone Folder','Folder'])
+    context_path = '/'.join(self.getPhysicalPath())
+    brains = filter(lambda b:not b.getPath()==context_path, brains)
     for bf in brains:
         item_res = [bf.getPath(),0,0]
         ob = bf.getObject()
-        layout = ob.getProperty('layout','')
-        if layout and not layout == 'weblog_view':
+        if ob.hasProperty('layout'):
             ob.manage_delProperties(['layout',])
+        ob.manage_addProperty('layout','weblogfolder_view','string')
+        if IWeblogEnhanced.providedBy(ob):
+            noLongerProvides(ob,IWeblogEnhanced)
             item_res[1] = 1
-        if not IWeblogEnhanced.providedBy(ob):
-            alsoProvides(ob, IWeblogEnhanced)
+        if not IWeblogCategory.providedBy(ob):
+            alsoProvides(ob,IWeblogCategory)
             item_res[2] = 1
         res.append(item_res)
     return res

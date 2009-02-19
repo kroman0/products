@@ -17,10 +17,9 @@
                     wf_state brain/review_state;
                     wf_state_class python:'state-' + wf_state;"
         tal:attributes="class python:oddrow and  'portletItem even' or 'portletItem odd'">
-        <a href=""
+        <a href="" class="tile"
             tal:attributes="href brain/getURL;
-                            title brain/Description;
-                            class string:$wf_state_class tile">
+                            title brain/Description;">
             <tal:title content="string:${brain/Title} ($num_comm)">
                 Title (3)
             </tal:title>

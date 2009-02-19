@@ -109,7 +109,6 @@ class TestModeration(PloneTestCase.FunctionalTestCase):
         # Pattern for publish button presence checking
         pattern = re.compile('.*<input.+?value="Publish"',re.S|re.M)
         # pattern = re.compile('.*<input\\s*class="standalone"\\s*type="submit"\\s*value="Publish"\\s*/>', re.S|re.M)
-        import pdb; pdb.set_trace()
         for u in DM_USERS_IDS:
             self.login(u)
             auth = '%s:%s' % (u,USERS[u]['passw'])

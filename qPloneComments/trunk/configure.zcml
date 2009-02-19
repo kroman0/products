@@ -19,6 +19,14 @@
       description="Extension profile for the Plone Comments product."
       />
 
+  <gs:registerProfile
+      name="uninstall"
+      title="qPloneComments"
+      directory="profiles/uninstall"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      description="Extension profile for the Plone Comments product."
+      />
+
   <permission
       id="moderate.discussion"
       title="Moderate Discussion"

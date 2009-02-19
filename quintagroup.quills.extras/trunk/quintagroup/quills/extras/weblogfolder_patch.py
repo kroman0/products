@@ -1,5 +1,6 @@
 from zope.component.interface import interfaceToName
 from quills.core.interfaces import IPossibleWeblogEntry
+from quills.core.interfaces import IWeblogLocator
 from quills.app.interfaces import IWeblogEnhancedConfiguration
 from quills.app.weblogentrybrain import WeblogEntryCatalogBrain
 
@@ -9,7 +10,12 @@ def getEntries(self, maximum=None, offset=0, path=None):
     """
     catalog, portal = self._setCatalog()
     catalog._catalog.useBrains(WeblogEntryCatalogBrain)
-    weblog_config = IWeblogEnhancedConfiguration(self.context)
+    weblog = IWeblogLocator(self.context).find()
+    if getattr(weblog, 'context', None):
+        # `weblog' is presumably an adapter around the real content object.
+        weblog = weblog.context
+                                        
+    weblog_config = IWeblogEnhancedConfiguration(weblog)
     path = path or '/'.join(self.context.getPhysicalPath())
     results = catalog(
         object_provides=interfaceToName(portal, IPossibleWeblogEntry),

@@ -1,5 +1,5 @@
 from base import TestCase
-from config import nt_properties, s_properties
+from config import NT_PROPERTIES, S_PROPERTIES
 
 class TestPropertiesToolConf(TestCase):
 
@@ -9,7 +9,7 @@ class TestPropertiesToolConf(TestCase):
     def testConfigurationNavtreePropertiesTool(self):
         # Configuration navtree_properties
         props = self.ptool.navtree_properties
-        for prop_id, prop_type, prop_value in nt_properties:
+        for prop_id, prop_type, prop_value in NT_PROPERTIES:
            self.assertTrue(prop_id in props.propertyIds())
            self.assertEqual(props.getPropertyType(prop_id), prop_type)
            p_value = list(props.getProperty(prop_id))
@@ -20,7 +20,7 @@ class TestPropertiesToolConf(TestCase):
     def testConfigurationSitePropertiesTool(self):
         # Configuration site_properties
         props = self.ptool.site_properties
-        for prop_id, prop_type, prop_value in s_properties:
+        for prop_id, prop_type, prop_value in S_PROPERTIES:
            self.assertTrue(prop_id in props.propertyIds())
            self.assertEqual(props.getPropertyType(prop_id), prop_type)
            p_value = list(props.getProperty(prop_id))

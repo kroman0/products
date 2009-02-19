@@ -24,4 +24,7 @@ def uninstall(self):
     for ADAPTERNAME in ADAPTERNAMES:
         uninstall_componentRegistryAdapter(self, ADAPTERNAME)
         print >> out, "\nSuccessfully uninstalled %s adapter." % ADAPTERNAME
+    setup_tool = getToolByName(self, 'portal_setup')
+    setup_tool.runAllImportStepsFromProfile('profile-quintagroup.pingtool:uninstall')
+    print >> out, "Imported uninstall profile."
     return out.getvalue()

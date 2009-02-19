@@ -10,7 +10,7 @@
 
     <tal:loop repeat="cat view/getCategories">
     <dd class="portletItem odd"
-	tal:attributes="class python:repeat['cat'].even() and 'portletItem even' or 'portletItem odd'">
+	tal:attributes="class python:repeat['cat'].even() and 'portletItem odd' or 'portletItem even'">
        <a title="Category" href="http://"
           tal:content="cat/title|default"
           tal:attributes="title cat/title;

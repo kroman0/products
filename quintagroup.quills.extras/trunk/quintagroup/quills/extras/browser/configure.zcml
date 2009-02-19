@@ -27,7 +27,7 @@
         />
 
    <browser:page
-        for="quills.core.interfaces.IPossibleWeblog"
+        for=".interfaces.IWeblogCategory"
         class="Products.QuillsEnabled.browser.weblogview.WeblogView"
         template="weblogfolder_view.pt"
         permission="zope2.View"

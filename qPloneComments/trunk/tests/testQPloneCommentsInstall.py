@@ -62,7 +62,7 @@ class TestInstallation(PloneTestCase.PloneTestCase):
         self.assertNotEqual(self.qi.isProductInstalled(PRODUCT), True,'qPloneComments is already installed')
         skinstool=getToolByName(self.portal, 'portal_skins')
 
-        #self.assert_(not PRODUCT_SKIN_NAME in skinstool.objectIds(), '%s directory view found in portal_skins after uninstallation' % PRODUCT_SKIN_NAME)
+        self.assert_(not PRODUCT_SKIN_NAME in skinstool.objectIds(), '%s directory view found in portal_skins after uninstallation' % PRODUCT_SKIN_NAME)
         for skin in skinstool.getSkinSelections():
             path = skinstool.getSkinPath(skin)
             path = map(str.strip, path.split(','))

@@ -20,3 +20,9 @@ def setupVarious(context):
     wf_tool = getToolByName(portal, 'portal_workflow')
     wf_tool.setChainForPortalTypes(('Discussion Item',), [])
     logger.info('Removed workflow chain for Discussion Item type.')
+
+def removeConfiglet(context):
+    if context.readDataFile('qPloneComments-uninstall.txt') is None:
+        return
+    portal_conf=getToolByName(context.getSite(),'portal_controlpanel')
+    portal_conf.unregisterConfiglet('prefs_comments_setup_form')

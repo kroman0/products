@@ -1,3 +1,4 @@
+from Products.CMFCore.utils import getToolByName
 from quintagroup.pingtool.config import SITES_LIST, PROJECTNAME
 
 def setupVarious(context):
@@ -17,3 +18,8 @@ def setupVarious(context):
         if not site[0] in existent_sites:
             portal.portal_pingtool.invokeFactory(id = site[0], type_name = "PingInfo", title = site[1], url = site[2])
 
+def removeConfiglet(self):
+    if self.readDataFile('%s-uninstall.txt' % PROJECTNAME) is None:
+        return
+    portal_conf=getToolByName(self.getSite(),'portal_controlpanel')
+    portal_conf.unregisterConfiglet('portal_pingtool')

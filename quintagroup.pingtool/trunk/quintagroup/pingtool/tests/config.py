@@ -1,9 +1,12 @@
 # for testPropertiesToolConf
-nt_properties = (("metaTypesNotToList", "lines", ["PingTool", "PingInfo"]), )
+NT_PROPERTIES = (("metaTypesNotToList", "lines", ["PingTool", "PingInfo"]), )
 
-s_properties = (("use_folder_tabs", "lines", ["PingTool"]),
+S_PROPERTIES = (("use_folder_tabs", "lines", ["PingTool"]),
                 ("typesLinkToFolderContentsInFC", "lines", ["PingTool"]),
                 ("typesUseViewActionInListings", "lines", ["PingInfo"]),)
 
 # for test_installedAllTypes
-istalled_types = ['PingTool', 'PingInfo']
+INSTALLED_TYPES = ['PingTool', 'PingInfo']
+
+# for test_configlet_install_uninstall
+CONFIGLET = 'portal_pingtool'

@@ -4,11 +4,20 @@
     i18n_domain="quintagroup.pingtool">
 
   <genericsetup:registerProfile
-      name="quintagroup.pingtool"
+      name="default"
       title="quintagroup.pingtool"
       directory="profiles/default"
-      description='Extension profile for the types of quintagroup.pingtool.'
+      description="Install quintagroup.pingtool package."
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="quintagroup.pingtool"
+      directory="profiles/uninstall"
+      description="Uninstall quintagroup.pingtool package."
+      provides="Products.GenericSetup.interfaces.EXTENSION" 
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       />
 

@@ -58,6 +58,7 @@ class Renderer(BasePortletRenderer, base.Renderer):
             bcats = catalog(
                 path='/'.join(weblog.getPhysicalPath()),
                 portal_type=['Folder','Large Plone Folder'],
+                object_provides='quintagroup.quills.extras.browser.interfaces.IWeblogCategory'                
             )
             wbpath = '/'.join(weblog.getPhysicalPath())
             bcats = filter(lambda b:not b.getPath() == wbpath, bcats)

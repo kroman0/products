@@ -39,4 +39,13 @@
       editview="quills.app.portlets.recententries.EditForm"
       />
 
+  <plone:portlet
+      name="quills.app.portlets.WeblogArchive"
+      interface="quills.app.portlets.archive.IWeblogArchivePortlet"
+      assignment="quills.app.portlets.archive.Assignment"
+      renderer=".archive.Renderer"
+      addview="quills.app.portlets.archive.AddForm"
+      editview="quills.app.portlets.archive.EditForm"
+      />
+
 </configure>

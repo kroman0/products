@@ -1,3 +1,12 @@
+0.8.3 Fix profile name bug      
+
+0.8.2 Fix bug of qPGSMs breakage on object creation
+      in plone-3      
+
+0.8.1 Prevetn QuickInstaller confuse in <= plone-2.5
+
+  *Added Install.py external script
+
 0.8 Multiple Sitemap type support
 
   * Added support for content, mobile, news sitemap

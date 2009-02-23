@@ -1,5 +1,7 @@
 from Products.CMFCore.utils import getToolByName
 
+PROFILE = "profile-Products.qPloneGoogleSitemaps:default"
+
 def install(self, reinstall=False):
     """ Install skin with GenericSetup install profile
     """
@@ -9,9 +11,9 @@ def install(self, reinstall=False):
 
     if plone_version.startswith('3'):
         # if this is plone 3.x
-        (ps.aq_base).__of__(self).runAllImportStepsFromProfile("profile-Products.qPloneGoogleSitemap:default")
+        (ps.aq_base).__of__(self).runAllImportStepsFromProfile(PROFILE)
     else:
         active_context_id = ps.getImportContextID()
-        ps.setImportContext("Products.qPloneGoogleSitemap:default")
+        ps.setImportContext(PROFILE)
         ps.runAllImportSteps()
         ps.setImportContext(active_context_id)

@@ -13,8 +13,8 @@ settings area create HTML classes and specify CSS styles for those HTML
 classes in the corresponding CSS file. These classes will be available for 
 you in a Portlet style drop down menu on static stylish text portlet add/edit form. 
 
-Usage:
-------
+Usage
+-----
 
 * Select Static Stylish text portlet from Add portlet drop-down menu
 
@@ -26,12 +26,12 @@ Usage:
 
 * Save changes.
 
-Supported Plone version:
-------------------------
+Supported Plone version
+-----------------------
 
 * 3.x
 
-Author:
+Author
 ------
 
 * Vitaliy Podoba

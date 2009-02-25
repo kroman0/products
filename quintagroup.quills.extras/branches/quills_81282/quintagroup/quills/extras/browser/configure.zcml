@@ -34,6 +34,13 @@
         name="weblogfolder_view"
         allowed_interface="quills.core.browser.interfaces.IWeblogView" />
 
+   <browser:page
+        for=".interfaces.IWeblogCategory"
+        class=".weblogview.WeblogSubfolderView"
+        permission="zope2.View"
+        name="weblogsubfolder"
+        allowed_interface="quills.core.interfaces.IWeblog" 
+        />
 
     <class class="quills.app.browser.weblogview.WeblogEntryView">
        <implements interface="plone.app.layout.globals.interfaces.IViewView" />

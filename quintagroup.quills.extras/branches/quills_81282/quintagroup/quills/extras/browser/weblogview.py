@@ -4,6 +4,9 @@ from plone.memoize.view import memoize
 from Products.Archetypes.ExtensibleMetadata import FLOOR_DATE
 from Products.QuillsEnabled.browser.weblogview import WeblogEntryView
 
+from quills.core.interfaces import IWeblog
+from quills.app.browser.baseview import BaseView
+
 class CustomWeblogEntryView(WeblogEntryView):
 
     @memoize
@@ -22,3 +25,10 @@ class CustomWeblogEntryView(WeblogEntryView):
     @property
     def day(self):
         return DateTime(self.date()).day()
+
+class WeblogSubfolderView(BaseView):
+    """ Provide IWeblog interface for Products.Archetypes.interfaces.IBaseFolder.
+        Used in weblog subfolder view
+    """
+    def getEntries(self):
+        return IWeblog(self.context).getEntries()

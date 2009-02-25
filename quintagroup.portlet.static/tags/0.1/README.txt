@@ -15,6 +15,7 @@ you in a Portlet style drop down menu on static stylish text portlet add/edit fo
 
 Usage:
 ------
+
 * Select Static Stylish text portlet from Add portlet drop-down menu
 
 * Provide content to be displayed on the portlet [as you would do for

@@ -3,7 +3,7 @@ quintagroup.portlet.static
 
 quintagroup.portlet.static is a Plone product that allows you to add stylished static text portlets to your Plone site. Static Stylish Text portlets are usual Plone Static Text portlets with certain HTML classes assigned. 
 
-Static Stylish Text portlets can be used in those cases when you need to have several static text portlets be displayed in different ways. For this, you have to create certain HTML classes in vocabularies.py file (/quintagroup/portlet/static/vocabularies.py) and specify CSS styles for those HTML classes in the corresponding CSS file. These classes will be available for you in a Portlet style drop down menu on static stylish text portlet add/edit form. 
+Static Stylish Text portlets can be used in those cases when you need to have several static text portlets be displayed in different ways. For this, go to Site Setup -> Add-on Products Configuration -> Static Stylish portlet (www.yoursite/@@staticstylishportlet-controlpanel). In Static Stylish portlet settings area create HTML classes and specify CSS styles for those HTML classes in the corresponding CSS file. These classes will be available for you in a Portlet style drop down menu on static stylish text portlet add/edit form. 
 
 Usage:
 

@@ -1,12 +1,12 @@
 Changelog
 =========
 
-0.2 Unreleased
---------------
+
+v0.2 - Unreleased
+-----------------
 
 
-0.1 (2009-02-25)
-----------------
+v0.1 - February 25, 2009
+------------------------
 
-  * Initial release
-
+* Initial release

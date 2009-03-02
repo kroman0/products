@@ -8,7 +8,9 @@ if __name__ == '__main__':
 
 from Products.PloneTestCase import PloneTestCase
 from AccessControl.SecurityManagement import newSecurityManager
+from Products.CMFCore.utils import getToolByName
 from Products.qPloneCaptchas.utils import getWord, decrypt, parseKey
+from Products.qPloneCaptchas.config import *
 
 PloneTestCase.installProduct('PlacelessTranslationService')
 PloneTestCase.installProduct('qPloneCaptchas')
@@ -90,7 +92,76 @@ class TestInstallation(PloneTestCase.FunctionalTestCase):
 
     def afterSetUp(self):
         self.loginAsPortalOwner()
-        self.addProduct('qPloneCaptchas')
+        self.qi = getToolByName(self.portal, 'portal_quickinstaller', None)
+        self.cp = getToolByName(self.portal, 'portal_controlpanel', None)
+        self.st = getToolByName(self.portal, 'portal_skins', None)
+        self.qi.installProduct(PRODUCT_NAME)
+
+    def getLayers(self):
+        Layers = []
+        Layers += LAYERS
+        Layers.append(LAYER_STATIC_CAPTCHAS)
+        DiscussionLayer = LAYER_DISCUSSION
+
+        mtool = getToolByName(self, 'portal_migration')
+        plone_version = mtool.getFileSystemVersion()
+        if plone_version.startswith('2.1'):
+            plone_version = '2.1.2'
+        elif plone_version.startswith('2.0'):
+            plone_version = '2.0.5'
+        elif plone_version.startswith('2.5'):
+            plone_version = '2.5'
+        elif plone_version.startswith('3.0'):
+            plone_version = '3.0'
+        elif plone_version.startswith('3.1'):
+            plone_version = '3.1'
+        else:
+            raise Exception("Error - Unsupported version. Suported versions: Plone 2.0.5-3")
+
+        if self.qi.isProductInstalled('PloneFormMailer'):
+            formmailer_layer = LAYER_FORMMAILER+'/'+ plone_version
+            Layers.append(formmailer_layer)
+
+        discussion_layer = '/'.join([DiscussionLayer, plone_version])
+        Layers.append(discussion_layer)
+
+        join_form_layer = '/'.join([LAYER_JOIN_FORM, plone_version])
+        Layers.append(join_form_layer)
+
+        sendto_form_layer = '/'.join([LAYER_SENDTO_FORM, plone_version])
+        Layers.append(sendto_form_layer)
+
+	return Layers
+
+    def test_configlet_install(self):
+        self.assert_(CONFIGLET_ID in [a.getId() for a in self.cp.listActions()], 'Configlet not found')
+
+    def test_skins_install(self):
+        skinstool = self.st
+	Layers = self.getLayers()
+        for skin in skinstool.getSkinSelections():
+            path = skinstool.getSkinPath(skin)
+            path = map(str.strip, path.split(','))
+	    for layer in Layers:
+		self.assert_(layer.split('/')[0] in skinstool.objectIds(), '%s directory view not found in portal_skins after installation' % layer)
+                self.assert_(layer in path, '%s layer not found in %s' % (PRODUCT_NAME, skin))
+
+    def test_skins_uninstall(self):
+        self.qi.uninstallProducts([PRODUCT_NAME])
+        self.assertNotEqual(self.qi.isProductInstalled(PRODUCT_NAME), True,'%s is already installed' % PRODUCT_NAME)
+        skinstool = self.st
+        Layers = self.getLayers()
+        for skin in skinstool.getSkinSelections():
+            path = skinstool.getSkinPath(skin)
+            path = map(str.strip, path.split(','))
+	    for layer in Layers:
+		self.assert_(not layer.split('/')[0] in skinstool.objectIds(), '%s directory view found in portal_skins after uninstallation' % layer)
+                self.assert_(not layer in path, '%s layer found in %s after uninstallation' % (layer, skin))
+
+    def test_configlet_uninstall(self):
+        self.qi.uninstallProducts([PRODUCT_NAME])
+        self.assertNotEqual(self.qi.isProductInstalled(PRODUCT_NAME), True,'%s is already installed' % PRODUCT_NAME)
+        self.assert_(not CONFIGLET_ID in [a.getId() for a in self.cp.listActions()], 'Configlet found after uninstallation')
 
     def testCaptchaKey(self):
         ck = getattr(self.portal, 'captcha_key')

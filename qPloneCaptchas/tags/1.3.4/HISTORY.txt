@@ -1,0 +1,92 @@
+1.3.4 - March 2, 2008
+=====================
+
+  * Fixed bug in method parseKey
+    [Maik Röder]
+  
+
+1.3.3 - August 28, 2008
+=======================
+
+  * Added support for Plone 3.1.
+    [deo]
+
+
+1.3.2 - May 15, 2008
+====================
+
+   * Completed the Plone 3.0 support.
+
+
+1.3.1 - March 8, 2008
+=====================
+
+  * Fixed bug in configlet.
+
+  * Added initial Plone 3.0 support.
+
+
+1.3.0 - February 6, 2008
+========================
+
+  * Secure sendto_form and join_form with captcha.
+
+  * Fix secure bug in join_form captcha.
+
+  * Added Czech translation.
+
+
+1.2.3 - September 6, 2007
+=========================
+
+  * Added Spanish translation.
+
+
+1.2.2 - July 10, 2007
+=====================
+
+  * Fixed problem with redirect in PloneFormMailer.
+
+
+1.2.1 - June 21, 2007
+=====================
+
+  * Fixed translation problem in Plone 2.1.4.
+
+
+1.2.0 - April 24, 2007
+======================
+
+  * Fixed qPloneCaptchas PFM forms layout breakage.
+
+  * Fixed the polish translation file.
+
+  * Added captchas for join form.
+
+
+1.1.0 - February 27,2007
+========================
+
+  * Fixed the '0.jpg' issue.
+
+  * Added status messages translation.
+
+
+1.0 - November 28, 2006
+=======================
+
+  * qPloneComments related code moved to the comments product.
+
+  * Refactored skins for easier dynamic/static captchas switch.
+
+
+0.9 - October 9, 2006
+=====================
+
+  * Added implementation of dynamic generation of captcha images using PIL.
+
+  * Changed verification method of entered catchas word.
+
+  * Implemented locking for used captchas keys to prevent possibility the past keys reusage.
+
+  * Added support for Plone 2.5.

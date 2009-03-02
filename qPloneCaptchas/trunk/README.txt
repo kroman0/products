@@ -44,6 +44,7 @@ Authors:
 
     * Mykola Kharechko - crchemist@quintagroup.com
 
+    * Vitaliy Stepanov - liebster@quintagroup.com
 
 Contributors:
 

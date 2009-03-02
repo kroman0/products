@@ -8,6 +8,7 @@ def setSkin(site, event):
     ps = getToolByName(site,'portal_skins')
 
     if USE_FS_CONFIG:
+        do_switch = DO_SWITCH
         pref = SKIN_SWITCH_PREFIX
         switch_theme = SWITCH_THEME
     else:
@@ -17,7 +18,11 @@ def setSkin(site, event):
             return
         pref = ss.getProperty('theme_switch_prefix', SKIN_SWITCH_PREFIX)
         switch_theme = ss.getProperty('switch_theme', SWITCH_THEME)
-        
+        do_switch = ss.getProperty('do_switch', DO_SWITCH)
+
+    if not do_switch:
+        return
+
     avail_skins = ps.getSkinSelections()
     if not (pref and switch_theme and switch_theme in avail_skins):
        return

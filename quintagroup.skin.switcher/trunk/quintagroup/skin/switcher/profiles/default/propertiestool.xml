@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <object name="portal_properties" meta_type="Plone Properties Tool">
  <object name="skin_switcher" meta_type="Plone Property Sheet">
+   <property name="do_switch" type="boolean">False</property>
    <property name="theme_switch_prefix" type="string">m.</property>
    <property name="switch_theme" type="string"></property>
  </object>

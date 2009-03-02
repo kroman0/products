@@ -1,17 +1,17 @@
 from urlparse import urlsplit
 
-from Products.CMFCore.utils import getToolsByName
+from Products.CMFCore.utils import getToolByName
 
 from config import *
 
 def setSkin(site, event):
-    ps = getToolsByName(site,'portal_skins')
+    ps = getToolByName(site,'portal_skins')
 
     if USE_FS_CONFIG:
         pref = SKIN_SWITCH_PREFIX
         switch_theme = SWITCH_THEME
     else:
-        pp = getToolsByName(site,'portal_properties')
+        pp = getToolByName(site,'portal_properties')
         ss = getattr(pp,'skin_switcher',None)
         if not ss:
             return

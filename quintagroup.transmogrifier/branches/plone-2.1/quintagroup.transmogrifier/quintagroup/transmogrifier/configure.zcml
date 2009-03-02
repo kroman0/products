@@ -3,6 +3,7 @@
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
     xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="quintagroup.transmogrifier">
 
     <include package="collective.transmogrifier" file="meta.zcml" />
@@ -200,6 +201,19 @@
     <five:implements
         class="OFS.PropertyManager.PropertyManager"
         interface=".interfaces.IPropertyManager"
+        />
+    
+    <five:implements
+        class="Products.CMFPlone.Portal.PloneSite"
+        interface="zope.app.annotation.interfaces.IAttributeAnnotatable"
+        />
+
+    <browser:page
+        name="pipeline-config"
+        for="collective.transmogrifier.interfaces.IFolderish"
+        permission="cmf.ModifyPortalContent"
+        class=".configview.PipelineConfigView"
+        template="pipelineconfig.pt"
         />
 
 </configure>

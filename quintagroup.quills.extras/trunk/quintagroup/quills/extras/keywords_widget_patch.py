@@ -18,7 +18,7 @@ new_subject_widget = AutocompleteWidget(
     description=_(u'help_categories',
                   default = u'Also known as keywords, tags or labels, '
                            'these help you categorize your content.'),
-    actb_filter_bogus = 0
+    actb_filter_bogus = 0,
     actb_expand_onfocus = 0,
     maxlength='1024'
  	)

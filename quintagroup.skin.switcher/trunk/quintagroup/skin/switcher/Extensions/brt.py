@@ -1,5 +1,10 @@
-from Products.CMFCore.utils import getToolByName
+from Acquisition import aq_base
+
+from Products.SiteAccess.AccessRule import AccessRule
+from Products.Five.component import *
 from Products.Five.site.localsite import *
+
+from Products.CMFCore.utils import getToolByName
 
 def turnOnBRT(self):
     portal = getToolByName(self, 'portal_url').getPortalObject()

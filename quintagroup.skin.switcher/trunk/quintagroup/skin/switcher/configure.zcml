@@ -1,0 +1,21 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+  xmlns:five="http://namespaces.zope.org/five">
+
+  <genericsetup:registerProfile
+    name="default"
+    title="quintagroup skin switcher"
+    directory="profiles/default"
+    description='Extension profile for the quintagroup.skin.switcher'
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+
+  <subscriber
+    for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot
+    zope.app.publication.interfaces.IBeforeTraverseEvent"
+    handler=".skinswitcher.setSkin"
+    />
+
+</configure>

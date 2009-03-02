@@ -14,11 +14,12 @@ from Products.ATContentTypes.content.file import ATFile
 from Products.ATContentTypes.content.newsitem import ATNewsItem
 
 new_subject_widget = AutocompleteWidget(
-    label=_(u'label_categories', default=u'Categories'),
+    label=_(u'label_categories', default = u'Categories'),
     description=_(u'help_categories',
-                  default=u'Also known as keywords, tags or labels, '
+                  default = u'Also known as keywords, tags or labels, '
                            'these help you categorize your content.'),
-    actb_expand_onfocus=0,
+    actb_filter_bogus = 0
+    actb_expand_onfocus = 0,
     maxlength='1024'
  	)
 

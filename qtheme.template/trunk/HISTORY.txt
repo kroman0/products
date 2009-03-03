@@ -1,10 +1,16 @@
 Changelog
 =========
 
+Version 0.7
+-----------
+
+* Add uninstall profile to fix skins tool after theme is uninstalled
+  [piv]
+
 Version 0.1
 -----------
 
-  Initial import Theme template with nested namespace.
+* Initial import Theme template with nested namespace.
   Support ZopeSkel' "addcommad" local command for extend
   Theme template, support extending with portlet, view local
   templates.

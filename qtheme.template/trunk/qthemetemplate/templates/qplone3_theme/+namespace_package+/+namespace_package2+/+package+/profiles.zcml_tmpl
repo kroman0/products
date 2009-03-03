@@ -11,4 +11,12 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Uninstall $skinname"
+      directory="profiles/uninstall"
+      description='Uninstallation profile for the "${skinname}" Plone theme.'
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
 </configure>

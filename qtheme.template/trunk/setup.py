@@ -19,6 +19,7 @@ setup(name='qtheme.template',
       zip_safe=False,
       install_requires=[
           'ZopeSkel',
+          'PasteScript>=1.6.3',
           # -*- Extra requirements: -*-
       ],
       entry_points="""
@@ -41,4 +42,5 @@ setup(name='qtheme.template',
 
       # -*- Entry points: -*-
       """,
+      setup_requires=['setuptools',],
       )

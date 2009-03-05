@@ -1,0 +1,21 @@
+<tal:actions define="purl here/@@plone_portal_state/portal_url;
+                     here_url here/@@plone_context_state/object_url">
+<div class="belowentryItem"
+     i18n:domain="plone">
+    <a href="sendto_form"
+        tal:attributes="href string:${here_url}/sendto_form;">
+        <img src="mail_icon.gif" alt="Send this"
+            tal:attributes="src string:${purl}/mail_icon.gif" />
+        Send To
+    </a>
+</div>
+<div class="belowentryItem"
+        i18n:domain="plone">
+    <a href="print"
+       onclick="javascript:window.print()">
+        <img src="mail_icon.gif" alt="Print this"
+                tal:attributes="src string:${purl}/print_icon.gif" />
+        Print page
+    </a>
+</div>
+</tal:actions>

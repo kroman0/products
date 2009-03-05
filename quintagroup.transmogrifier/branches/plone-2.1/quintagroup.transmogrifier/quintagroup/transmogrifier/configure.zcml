@@ -202,7 +202,7 @@
         class="OFS.PropertyManager.PropertyManager"
         interface=".interfaces.IPropertyManager"
         />
-    
+
     <five:implements
         class="Products.CMFPlone.Portal.PloneSite"
         interface="zope.app.annotation.interfaces.IAttributeAnnotatable"

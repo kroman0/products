@@ -12,20 +12,10 @@ can be used out-the-box to migrate site content.
 Running test
 ************
 
-In current state before running all test you need to go to
-collective.transmogrifier package and edit configure.zcml file, replacing
+On Plone 2.1.5 run all tests by executing next command (it's assumed thad this 
+package is installed in buildout as development egg):
 
-::
-
-    <adapter factory=".transmogrifier.Transmogrifier" /> 
-
-line with
-
-::
-    <adapter 
-        factory=".transmogrifier.Transmogrifier" 
-        provides=".interfaces.ITransmogrifier" 
-        />
+    bin/instance test --libdir path/to/quintagroup.transmogrifier
 
 Credits
 *******

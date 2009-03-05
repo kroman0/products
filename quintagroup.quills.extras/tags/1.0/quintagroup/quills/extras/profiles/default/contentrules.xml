@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<contentrules>
+ <rule name="rule-1" title="Add_blog_content" description="" enabled="True"
+    event="zope.app.container.interfaces.IObjectAddedEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>Document</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="plone.actions.Workflow">
+    <property name="transition">update_layout</property>
+   </action>
+  </actions>
+ </rule>
+ <assignment name="rule-1" bubbles="True" enabled="True" location=""/>
+</contentrules>

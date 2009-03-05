@@ -1,6 +1,15 @@
 Changelog
 =========
 
+1.1.3 (2009-03-05)
+------------------
+
+  * Added adapters and utilities
+
+  * Added uninstall configlet
+
+  * Added modified tests
+
 
 1.1.0 - 09-02-2009
 ------------------

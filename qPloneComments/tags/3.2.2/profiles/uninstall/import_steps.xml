@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<import-steps>
+ <import-step id="qPloneComments-uninstall-configlet" version="20090219-01"
+              handler="Products.qPloneComments.setuphandlers.removeConfiglet"
+              title="Remove qPloneComments's configlet">Removes the qPloneComments configlet</import-step>
+</import-steps>

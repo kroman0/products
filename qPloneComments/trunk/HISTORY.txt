@@ -1,8 +1,14 @@
 Changelog
 =========
 
+3.2.2 - March 3, 2009
+---------------------
+
+- Added gravatar support
+
+
 3.2.1 - October 23, 2008 ( Unreleased )
-------------------
+---------------------------------------
 
 - Added uninstall configlet and skins
 

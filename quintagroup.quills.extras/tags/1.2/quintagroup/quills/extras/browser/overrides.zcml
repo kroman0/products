@@ -1,0 +1,31 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="quintagroup.quills.extras">
+
+    <browser:page
+        for="quills.core.interfaces.enabled.IWeblogEnhanced"
+        class=".commentViews.ManageCommentsView"
+        template="manage_comments.pt"
+        permission="cmf.ManagePortal"
+        name="manage_comments" />
+
+    <browser:page
+        for="quills.core.interfaces.IPossibleWeblogEntry"
+        class=".weblogview.CustomWeblogEntryView"
+        template="weblogentry_view.pt"
+        permission="zope2.View"
+        name="weblogentry_view"
+        allowed_interface="quills.core.browser.interfaces.IWeblogEntryView"
+        allowed_attributes="day month" />
+
+    <browser:page
+        for="quills.core.interfaces.enabled.IWeblogEnhanced"
+        class="quills.app.browser.weblogview.WeblogView"
+        template="weblog_view.pt"
+        allowed_interface="quills.core.browser.interfaces.IWeblogView"
+        permission="zope2.View"
+        name="weblog_view" />
+
+</configure>

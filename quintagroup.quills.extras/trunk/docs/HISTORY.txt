@@ -1,10 +1,10 @@
 Changelog
 =========
 
-1.2 (unreleased)
+1.2 (2009-03-06)
 ----------------
 
-- Nothing changed yet.
+- Merged quills_81282 branch changes
 
 
 1.1 (2009-03-05)

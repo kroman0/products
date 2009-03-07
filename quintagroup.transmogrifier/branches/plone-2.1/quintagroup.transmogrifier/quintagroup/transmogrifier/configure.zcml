@@ -207,11 +207,16 @@
         class="Products.CMFPlone.Portal.PloneSite"
         interface="zope.app.annotation.interfaces.IAttributeAnnotatable"
         />
+        
+    <!-- registering view for pipeline configuration -->
+    <five:traversable
+        class="Products.CMFPlone.Portal.PloneSite"
+        />
 
     <browser:page
         name="pipeline-config"
         for="collective.transmogrifier.interfaces.IFolderish"
-        permission="cmf.ModifyPortalContent"
+        permission="zope2.ViewManagementScreens"
         class=".configview.PipelineConfigView"
         template="pipelineconfig.pt"
         />

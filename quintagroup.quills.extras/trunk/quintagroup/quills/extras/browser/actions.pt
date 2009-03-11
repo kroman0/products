@@ -11,8 +11,7 @@
 </div>
 <div class="belowentryItem"
         i18n:domain="plone">
-    <a href="print"
-       onclick="javascript:window.print()">
+    <a href="javascript:this.print();">
         <img src="mail_icon.gif" alt="Print this"
                 tal:attributes="src string:${purl}/print_icon.gif" />
         Print page

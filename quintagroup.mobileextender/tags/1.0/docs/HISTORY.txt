@@ -1,0 +1,9 @@
+Changelog
+=========
+
+1.0 (2009-03-11)
+----------------
+
+* Initial release copied from 
+  http://svn.quintagroup.com/elaw/dui.mobileextender/branches/generalize@988
+

@@ -1,0 +1,50 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
+    i18n_domain="quintagroup.mobileextender">
+
+   <!-- File System Directory Views registration -->
+   <cmf:registerDirectory
+       name=""
+       directory="skins"
+       recursive="True"
+       />
+
+    <!-- five:registerPackage package="." initialize=".initialize" / -->
+
+    <!-- -*- extra stuff goes here -*- -->
+    <!-- extend [ATDocument] portal type with mobile_content field -->
+    <include package="archetypes.schemaextender" />
+    <include package=".browser" />
+    <adapter 
+        for="Products.ATContentTypes.interface.IATDocument"
+        provides="archetypes.schemaextender.interfaces.ISchemaExtender"
+        factory=".adapters.MobileExtender" 
+        />
+    <adapter 
+        for="Products.ATContentTypes.interface.IATEvent"
+        provides="archetypes.schemaextender.interfaces.ISchemaExtender"
+        factory=".adapters.MobileExtender" 
+        />
+    <adapter 
+        for="Products.Archetypes.interfaces.IBaseFolder"
+        provides="archetypes.schemaextender.interfaces.ISchemaExtender"
+        factory=".adapters.MobileExtender" 
+        />
+
+    <interface
+      interface=".interfaces.IMobile"
+      />
+
+    <!-- Register the installation GenericSetup extension profile -->
+    <genericsetup:registerProfile
+      name="default"
+      title="Mobile Extender"
+      directory="profiles/default"
+      description=""
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+</configure>

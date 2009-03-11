@@ -1,0 +1,36 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five"
+    i18n_domain="Products.qPloneGoogleSitemaps">
+
+    <!-- -*- extra stuff goes here -*- -->
+
+    <browser:page
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      name="mobile_control"
+      class=".mobilecontrol.MobileControlView"
+      permission="cmf.ManagePortal"
+        />
+
+    <browser:resource
+        name="mobile.png"
+        file="mobile.png"
+        />
+
+    <vocabulary
+        name="quintagroup.mobileextender.ptypes"
+        factory=".vocabularies.getPortalTypes"
+        />
+    <vocabulary
+        name="quintagroup.mobileextender.sortindices"
+        factory=".vocabularies.getSortIndices"
+        />
+    <vocabulary
+        name="quintagroup.mobileextender.wfstates"
+        factory=".vocabularies.getWFStates"
+        />
+
+    <adapter factory=".mobilecontrol.MobileControl" />
+
+</configure>

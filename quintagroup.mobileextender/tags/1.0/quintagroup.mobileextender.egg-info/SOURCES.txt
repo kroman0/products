@@ -1,0 +1,13 @@
+README.txt
+setup.cfg
+setup.py
+quintagroup/__init__.py
+quintagroup.mobileextender.egg-info/PKG-INFO
+quintagroup.mobileextender.egg-info/SOURCES.txt
+quintagroup.mobileextender.egg-info/dependency_links.txt
+quintagroup.mobileextender.egg-info/entry_points.txt
+quintagroup.mobileextender.egg-info/namespace_packages.txt
+quintagroup.mobileextender.egg-info/not-zip-safe
+quintagroup.mobileextender.egg-info/requires.txt
+quintagroup.mobileextender.egg-info/top_level.txt
+quintagroup/mobileextender/__init__.py

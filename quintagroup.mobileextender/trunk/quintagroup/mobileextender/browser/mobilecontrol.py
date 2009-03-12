@@ -86,13 +86,18 @@ class MobileControlView(formbase.FormBase):
                 res = filter(lambda b:not [1 for ep in exclpaths if b.getPath().startswith(ep)], res)
 
             # Mark objects with interface
+            marked = 0
             for b in res:
                 ob = b.getObject()
                 if not IMobile.providedBy(ob):
                     alsoProvides(ob, IMobile)
+                    marked += 1
 
-            #self.status = "Marked %d objects: \n %s" % (len(res), map(lambda b:b.getPath(), res))
-            self.status = "Marked %d objects" % len(res)
+            if marked:
+                catalog = getToolByName(self.context, 'portal_catalog')
+                catalog.manage_reindexIndex(ids=['object_provides'])
+
+            self.status = "Marked %d objects" % marked
         else:
             self.status = "No objects found for given criterion"
 
@@ -111,12 +116,18 @@ class MobileControlView(formbase.FormBase):
                 res = filter(lambda b:not [1 for ep in exclpaths if b.getPath().startswith(ep)], res)
 
             # DeMark objects with interface
+            demarked = 0
             for b in res:
                 ob = b.getObject()
                 if IMobile.providedBy(ob):
                     noLongerProvides(ob, IMobile)
+                    demarked += 1
 
-            self.status = "DeMarked %d objects" % len(res)
+            if demarked:
+                catalog = getToolByName(self.context, 'portal_catalog')
+                catalog.manage_reindexIndex(ids=['object_provides'])
+
+            self.status = "DeMarked %d objects" % demarked
         else:
             self.status = "No objects found for given criterion"
 
@@ -134,3 +145,7 @@ class MobileControlView(formbase.FormBase):
         if wfstates: query.update({'review_state':wfstates})
 
         return catalog(**query)
+
+    def currentlyMarked(self):
+        catalog = getToolByName(self.context, 'portal_catalog')
+        return len(catalog(object_provides='quintagroup.mobileextender.interfaces.IMobile'))

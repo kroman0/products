@@ -47,4 +47,16 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+    <subscriber
+        for="Products.ATContentTypes.interface.IATContentType
+             Products.Archetypes.interfaces.IObjectInitializedEvent"
+        handler=".handlers.markAsMobile"
+        />
+
+    <subscriber
+        for="Products.ATContentTypes.interface.IATContentType
+             Products.Archetypes.interfaces.IObjectEditedEvent"
+        handler=".handlers.markAsMobile"
+        />
+
 </configure>

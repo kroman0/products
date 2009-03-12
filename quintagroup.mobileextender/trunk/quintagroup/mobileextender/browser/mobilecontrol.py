@@ -96,10 +96,6 @@ class MobileControlView(formbase.FormBase):
         else:
             self.status = "No objects found for given criterion"
 
-        #raise Exception(self.status)
-
-        return ''
-
 
     def getFilteredContent(self, data):
         purl = getToolByName(self.context, 'portal_url')

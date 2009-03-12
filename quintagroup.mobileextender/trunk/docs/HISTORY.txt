@@ -1,10 +1,11 @@
 Changelog
 =========
 
-1.0.2 (unreleased)
+1.0.2 (2009-03-12)
 ------------------
 
-- Nothing changed yet.
+- Added handlers for automatically mark object
+  with IMobile interface on editing mobile_conten field
 
 
 1.0.1 (2009-03-12)

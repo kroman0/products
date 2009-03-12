@@ -1,10 +1,17 @@
 Changelog
 =========
 
-1.0.1 (unreleased)
+1.0.1 (2009-03-12)
 ------------------
 
-- Nothing changed yet.
+* Fix problem with rendering page after submit search
+
+* Add 'Demark' action for clear IMobile interface from 
+  already marked objects
+
+* Add information about currently marked objects.
+
+* Cleanup, remove debugging code. Optimize view
 
 
 1.0 (2009-03-11)

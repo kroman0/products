@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<action-icons>
+ <action-icon category="controlpanel"
+              action_id="mobileControl"
+              title="Control Mobile Content" priority="0"
+              icon_expr="++resource++mobile.png"/>
+</action-icons>

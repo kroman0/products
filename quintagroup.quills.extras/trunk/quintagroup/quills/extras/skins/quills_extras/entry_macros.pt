@@ -339,7 +339,7 @@
         </div>	
         <div class="belowentryItem"
                 i18n:domain="plone">
-            <a href="print"
+            <a href="print" rel="nofollow"
                 tal:attributes="href string:${entry/getURL}/?print=1;">
                 <img src="mail_icon.gif" alt="Print this"
                         tal:attributes="src string:$portal_url/print_icon.gif" />

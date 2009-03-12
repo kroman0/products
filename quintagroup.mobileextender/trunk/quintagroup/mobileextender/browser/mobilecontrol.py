@@ -1,5 +1,5 @@
 #from zope.component import queryMultiAdapter
-from zope.interface import implements, alsoProvides, Interface
+from zope.interface import implements, alsoProvides, noLongerProvides, Interface
 from zope.component import adapts, getMultiAdapter
 
 
@@ -71,8 +71,8 @@ class MobileControlView(formbase.FormBase):
         # We need to be able to test for non-fieldsets in templates.
         return False
 
-    @form.action(_(u"label_search", default=u"Search"), name=u'Search')
-    def handle_search(self, action, data):
+    @form.action(_(u"label_mark", default=u"Mark"), name=u'Mark')
+    def handle_mark(self, action, data):
         res = self.getFilteredContent(data)
         if res:
             exclids = data.get('excludeids', '')
@@ -93,6 +93,30 @@ class MobileControlView(formbase.FormBase):
 
             #self.status = "Marked %d objects: \n %s" % (len(res), map(lambda b:b.getPath(), res))
             self.status = "Marked %d objects" % len(res)
+        else:
+            self.status = "No objects found for given criterion"
+
+    @form.action(_(u"label_demark", default=u"DeMark"), name=u'DeMark')
+    def handle_demark(self, action, data):
+        res = self.getFilteredContent(data)
+        if res:
+            exclids = data.get('excludeids', '')
+            if exclids:
+                exclids = filter(None, [i.strip() for i in exclids.split('\n')])
+                res = filter(lambda b:not b.getId in exclids, res)
+
+            exclpaths = data.get('excludepaths', '')
+            if exclpaths:
+                exclpaths = filter(None, [i.strip() for i in exclpaths.split('\n')])
+                res = filter(lambda b:not [1 for ep in exclpaths if b.getPath().startswith(ep)], res)
+
+            # DeMark objects with interface
+            for b in res:
+                ob = b.getObject()
+                if IMobile.providedBy(ob):
+                    noLongerProvides(ob, IMobile)
+
+            self.status = "DeMarked %d objects" % len(res)
         else:
             self.status = "No objects found for given criterion"
 

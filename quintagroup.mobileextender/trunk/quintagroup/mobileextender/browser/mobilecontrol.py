@@ -60,12 +60,12 @@ class MobileControlView(formbase.FormBase):
     form_fields["path"].render_context = True
 
     def setUpWidgets(self, ignore_request=False):
-            self.adapters = {}
-            self.adapters[IMobileConfiglet] = MobileControl(self.context)
+        self.adapters = {}
+        self.adapters[IMobileConfiglet] = MobileControl(self.context)
 
-            self.widgets = form.setUpWidgets(
-                self.form_fields, self.prefix, self.context, self.request,
-                form=self, adapters=self.adapters, ignore_request=ignore_request)
+        self.widgets = form.setUpWidgets(self.form_fields, self.prefix,
+             self.context, self.request, form=self, adapters=self.adapters,
+             ignore_request=ignore_request)
 
     def is_fieldsets(self):
         # We need to be able to test for non-fieldsets in templates.
@@ -132,7 +132,5 @@ class MobileControlView(formbase.FormBase):
         query = {'path' : data.get('path', purl.getPortalPath()),}
         if ptypes: query.update({'portal_type':ptypes})
         if wfstates: query.update({'review_state':wfstates})
-
-        #print ">>>>>>> query: ", query
 
         return catalog(**query)

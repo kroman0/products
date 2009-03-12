@@ -48,12 +48,6 @@
                 Up to Site Setup
             </a>
 
-            <p i18n:translate=""
-               tal:condition="view/description"
-               tal:content="view/description">
-                Description
-            </p>
-
             <form action="."
                   metal:define-macro="master"
                   tal:define="is_fieldsets view/is_fieldsets | nothing"
@@ -72,10 +66,17 @@
                 <div metal:define-slot="extra_info" tal:replace="nothing">
                 </div>
 
+		<p class="documentDescription"
+		     tal:define="description view/description|nothing"
+		     tal:condition="description"
+		     tal:content="description">Form description</p>
+
+		<div class="error"
+		     tal:content="string:Currently marked as mobile content ${view/currentlyMarked} objects">
+		    Currently marked as mobile content 7 objects
+		</div>
+
                 <fieldset tal:condition="not: is_fieldsets">
-                    <legend tal:define="form_name view/form_name|nothing"
-                            tal:condition="form_name"
-                            tal:content="form_name">Form name</legend>
                     <tal:block tal:repeat="widget view/widgets">
 
                         <div class="field"

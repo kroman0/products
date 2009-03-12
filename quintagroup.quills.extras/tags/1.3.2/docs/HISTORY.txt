@@ -1,0 +1,33 @@
+Changelog
+=========
+
+1.3.2 (2009-03-12)
+------------------
+
+- Fix print problem: update 'print this' link
+
+
+1.3.1 (2009-03-09)
+------------------
+
+- Remove RDF links in quills_macros_header
+- Remove RDF links in quilllslinks portlet
+
+
+1.2 (2009-03-06)
+----------------
+
+- Merged quills_81282 branch changes
+
+
+1.1 (2009-03-05)
+-------------------
+
+- Fix versions
+
+
+1.0 (2009-03-05)
+----------------
+
+* Initial release
+

@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+<body><metal:main fill-slot="main"><tal:main-macro metal:define-macro="main"
+           tal:define="mobile_text here/mobile_content | string:;">
+
+      <div tal:condition="mobile_text"
+           tal:replace="structure mobile_text" />
+
+      <tal:block condition="not:mobile_text"
+                 on-error="string:">
+        <h1 tal:content="object_title" class="documentFirstHeading">
+          Title or id
+        </h1>
+        <p class="documentDescription"
+           tal:content="here/Description"
+           tal:condition="here/Description">
+            Description
+        </p>
+        <div tal:condition="here/image_tile|nothing">
+            <a href="#"
+               tal:define="href_thumb here/image_thumb|string:;
+                           href_mini here/image_mini|string:;
+                           thumb_pref python:test(href_thumb, 'thumb', '');
+                           mini_pref python:test(href_mini, 'mini', '');
+                           url_pref python:test(href_mini, mini_pref, thumb_pref);"
+               tal:condition="url_pref"
+               tal:attributes="href string:$here_url/image_${url_pref}"
+               tal:omit-tag="not:url_pref">
+               <img tal:replace="structure python: here.tag(scale='tile')" src="" alt="" />
+            </a>
+            <p class="discreet">
+              <metal:field use-macro="python:here.widget('imageCaption', mode='view')">
+              Image Caption
+              </metal:field>
+            </p>
+        </div>
+        <div class="stx"
+             tal:define="text python: here.CookedBody(stx_level=2)"
+             tal:condition="text"
+             tal:attributes="class python:test(here.Format() in ('text/structured',
+                                                   'text/x-rst', ), 'stx', 'plain')">
+            <div tal:replace="structure text" />
+        </div>
+      </tal:block>
+
+</tal:main-macro></metal:main>
+</body>
+</html>
+

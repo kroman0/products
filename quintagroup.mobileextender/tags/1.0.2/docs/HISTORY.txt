@@ -1,0 +1,29 @@
+Changelog
+=========
+
+1.0.2 (2009-03-12)
+------------------
+
+- Added handlers for automatically mark object
+  with IMobile interface on editing mobile_conten field
+
+
+1.0.1 (2009-03-12)
+------------------
+
+* Fix problem with rendering page after submit search
+
+* Add 'Demark' action for clear IMobile interface from 
+  already marked objects
+
+* Add information about currently marked objects.
+
+* Cleanup, remove debugging code. Optimize view
+
+
+1.0 (2009-03-11)
+----------------
+
+* Initial release copied from 
+  http://svn.quintagroup.com/elaw/dui.mobileextender/branches/generalize@988
+

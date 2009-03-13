@@ -21,5 +21,4 @@ class quillsCanonicalPathAdapter(object):
         weblog_content = entry.getWeblogContentObject()
         weblog_path = '/'+'/'.join(purl.getRelativeContentPath(weblog_content))
 
-        return '%s/%s' % (weblog_path,getArchivePathFor(entry, weblog_content))
-
+        return '%s/%s' % (weblog_path,'/'.join(getArchivePathFor(entry, weblog_content)))

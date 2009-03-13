@@ -1,10 +1,10 @@
 Changelog
 =========
 
-1.3.4 (unreleased)
+1.3.4 (2009-03-13)
 ------------------
 
-- Nothing changed yet.
+- Added canonical path adapter
 
 
 1.3.3 (2009-03-12)

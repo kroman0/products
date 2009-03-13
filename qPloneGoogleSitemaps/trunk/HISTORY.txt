@@ -1,3 +1,6 @@
+0.8.4 Add canonical_path support from
+      quintagroup.canonicalpath package
+
 0.8.3 Fix profile name bug      
 
 0.8.2 Fix bug of qPGSMs breakage on object creation

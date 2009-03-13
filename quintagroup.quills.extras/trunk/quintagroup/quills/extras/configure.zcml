@@ -11,6 +11,16 @@
 
   <cmf:registerDirectory name="quills_extras"/>
 
+  <adapter
+      for="quills.core.interfaces.IPossibleWeblogEntry"
+      factory=".adapters.quillsCanonicalPathAdapter"
+      />
+
+  <adapter
+      for="quills.core.interfaces.IWeblogEntry"
+      factory=".adapters.quillsCanonicalPathAdapter"
+      />
+
   <!-- profiles -->
   <genericsetup:registerProfile
       name="default"

@@ -20,7 +20,10 @@ def applyOperations(objects, operations):
     operations=[OPERATIONS_PARSE.match(op).groups() for op in operations]
     result = {}
     for ob in objects:
-        url = ob.getURL()
+        if ob.has_key('canonical_path'):
+            url = ob.canonical_path
+        else:
+            url = '/'+'/'.join(ob.getPath().split('/')[2:])
         for operator, what, with in operations:
             url = OPERATORS[operator](url, what, with.replace("\\", ""))
         #TODO: Remove or replace following condition

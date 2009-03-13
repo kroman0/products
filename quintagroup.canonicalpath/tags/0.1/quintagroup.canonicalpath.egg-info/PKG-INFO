@@ -1,0 +1,26 @@
+Metadata-Version: 1.0
+Name: quintagroup.canonicalpath
+Version: 0.1dev-r1821
+Summary: Bring canonical path calculation functionality
+Home-page: http://svn.quintagroup.com/products/quintagroup.canonicalpath
+Author: Quintagroup
+Author-email: support@quintagroup.com
+License: GPL
+Description: Introduction
+        ============
+        
+        
+        
+        Changelog
+        =========
+        
+        0.1 - Unreleased
+        ----------------
+        
+        * Initial release
+        
+        
+Keywords: canonical path plone quintagroup
+Platform: UNKNOWN
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules

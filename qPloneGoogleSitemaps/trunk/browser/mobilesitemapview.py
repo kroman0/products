@@ -1,6 +1,8 @@
 from DateTime import DateTime
 from commonview import *
 
+MOBILE_INTERFACES = ['quintagroup.mobileextender.interfaces.IMobile',]
+
 class MobileSitemapView(CommonSitemapView):
     """
     Mobile Sitemap browser view
@@ -18,4 +20,5 @@ class MobileSitemapView(CommonSitemapView):
         return self.portal_catalog(path = path,
                 portal_type = portal_types,
                 review_state = review_states, 
-                hasMobileContent = True)
+                object_provides = MOBILE_INTERFACES,
+                )

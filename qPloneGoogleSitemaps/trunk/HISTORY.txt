@@ -1,7 +1,10 @@
 0.8.5 (unreleased)
 ------------------
 
-- Nothing yet changed.
+- Refuse from using hasMobileContent index, but 
+  object_provides one and marking mobile content
+  with IMobile interface from
+  quintagroup.mobileextender.interfaces module.
 
 
 0.8.4 Add canonical_path support from

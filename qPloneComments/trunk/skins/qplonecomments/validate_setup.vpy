@@ -10,7 +10,7 @@
 ##
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import MessageFactory
-from Products.CMFPlone import PloneMessageFactory as __
+from Products.CMFPlone import PloneMessageFactory
 _ = MessageFactory('plonecomments')
 
 form = context.REQUEST.form
@@ -23,7 +23,7 @@ if email_key in form:
         state.setError(email_key, _(u'Please submit a valid e-mail address.'))
 
 if state.getErrors():
-    return state.set(status='failure', portal_status_message=__(u'Please correct the indicated errors.'))
+    return state.set(status='failure', portal_status_message=PloneMessageFactory(u'Please correct the indicated errors.'))
 else:
     return state
 

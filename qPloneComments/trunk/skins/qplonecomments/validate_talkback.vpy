@@ -9,7 +9,7 @@
 ##title=validates a discussion entry
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import MessageFactory
-from Products.CMFPlone import PloneMessageFactory as __
+from Products.CMFPlone import PloneMessageFactory
 _ = MessageFactory('plonecomments')
 
 dtool = context.portal_discussion
@@ -22,10 +22,10 @@ if not dtool.isDiscussionAllowedFor(content):
     raise Exception, "Discussion not allowed."
 
 if not subject:
-    state.setError('subject', __(u'Please submit a subject.'), 'subject_required')
+    state.setError('subject', PloneMessageFactory(u'Please submit a subject.'), 'subject_required')
 
 if not body_text:
-    state.setError('body_text', __(u'Please submit a body.'), 'body_required')
+    state.setError('body_text', PloneMessageFactory(u'Please submit a body.'), 'body_required')
 
 if require_email:
     if not (email and context.portal_registration.isValidEmail(email)):

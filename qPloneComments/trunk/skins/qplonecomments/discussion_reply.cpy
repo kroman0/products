@@ -12,8 +12,8 @@ from Products.PythonScripts.standard import url_quote_plus
 from Products.CMFCore.utils import getToolByName
 from Products.qPloneComments.utils import manage_mails
 from Products.CMFPlone import MessageFactory
+from Products.CMFPlone import PloneMessageFactory
 _ = MessageFactory('plonecomments')
-__ = MessageFactory('plone')
 
 mtool = getToolByName(context, 'portal_membership')
 dtool = getToolByName(context, 'portal_discussion')
@@ -100,7 +100,7 @@ transaction_note('Added comment to %s at %s' % (parent.title_or_id(),
                                                 reply.absolute_url()))
 
 context.plone_utils.addPortalMessage(portal_status_message)
-context.plone_utils.addPortalMessage(__(u'Comment added.'))
+context.plone_utils.addPortalMessage(PloneMessageFactory(u'Comment added.'))
 
 target = '%s#%s' % (view, anchor)
 return req.RESPONSE.redirect(target)

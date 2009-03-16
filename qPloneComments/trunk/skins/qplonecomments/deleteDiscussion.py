@@ -9,9 +9,7 @@
 ##
 
 from Products.qPloneComments.utils import manage_mails
-from Products.CMFPlone import MessageFactory
-_ = MessageFactory('plonecomments')
-
+from Products.CMFPlone import PloneMessageFactory as __
 
 if obj is None:
     obj=context
@@ -30,6 +28,6 @@ manage_mails(obj, context, 'deleting')
 redirect_target = context.plone_utils.getDiscussionThread(talkback)[0]
 view = redirect_target.getTypeInfo().immediate_view
 
-context.plone_utils.addPortalMessage(_(u'Reply deleted.'))
+context.plone_utils.addPortalMessage(__(u'Reply deleted.'))
 
 context.REQUEST['RESPONSE'].redirect( redirect_target.absolute_url() + '/%s' % view )

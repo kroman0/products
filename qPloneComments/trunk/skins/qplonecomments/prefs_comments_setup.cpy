@@ -10,6 +10,8 @@
 from Products.CMFCore.utils import getToolByName
 from Products.qPloneComments.utils import setAnonymCommenting
 from Products.qPloneComments.utils import setStatusMsg
+from Products.CMFPlone import MessageFactory
+_ = MessageFactory('plonecomments')
 
 form = context.REQUEST.form
 pp = getToolByName(context, 'portal_properties')
@@ -49,5 +51,5 @@ else:
     roles.append('Manager')
     context.manage_permission(moderate_discussion, roles,  acquire=0)
 
-setStatusMsg(state, context, u'qPloneComments configuration changes saved.')
+setStatusMsg(state, context, _(u'qPloneComments configuration changes saved.'))
 return state

@@ -21,7 +21,7 @@
 
   <gs:registerProfile
       name="uninstall"
-      title="qPloneComments"
+      title="qPloneComments uninstall"
       directory="profiles/uninstall"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       description="Extension profile for the Plone Comments product."

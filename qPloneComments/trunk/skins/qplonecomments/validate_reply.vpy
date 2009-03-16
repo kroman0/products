@@ -11,7 +11,7 @@ from Products.CMFPlone import MessageFactory
 _ = MessageFactory('plonecomments')
 
 if hasattr(context, 'review_state') and not context.review_state=="published":
-    from Products.qPloneComments.utils import setStatusMsg
+    #from Products.qPloneComments.utils import setStatusMsg
     msg = _(u'Reply not allowed because the response is to a comment waiting to be\
  approved. Please wait for the comment to be approved before replying.')
 

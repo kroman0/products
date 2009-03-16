@@ -9,7 +9,7 @@
 <div metal:fill-slot="prefs_configlet_main"
      tal:define="errors python:request.get('controller_state', None).getErrors();">
 
-    <div metal:define-macro="main" i18n:domain="plonecomments">
+    <div metal:define-macro="main">
     <div class="configlet">
     <div class="documentEditable"
          tal:condition="python:checkPermission('Moderate Discussion', here)">
@@ -288,6 +288,7 @@
                        type="submit"
                        name="form.button.form_submit"
                        value="Save"
+                       i18n:domain="plone"
                        i18n:attributes="value"
                        tal:attributes="tabindex tabindex/next;"/>
             </div>

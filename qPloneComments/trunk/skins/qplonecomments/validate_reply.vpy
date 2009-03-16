@@ -7,11 +7,13 @@
 ##bind subpath=traverse_subpath
 ##parameters=
 ##title=validates discussion_reply
+from Products.CMFPlone import MessageFactory
+_ = MessageFactory('plonecomments')
 
 if hasattr(context, 'review_state') and not context.review_state=="published":
     from Products.qPloneComments.utils import setStatusMsg
-    msg = "Reply not allowed because the response is to a comment waiting to be " \
-           "approved. Please wait for the comment to be approved before replying."
+    msg = _(u'Reply not allowed because the response is to a comment waiting to be\
+ approved. Please wait for the comment to be approved before replying.')
 
     state.set(status='failure', portal_status_message=msg)
     return state.set(status='failure')

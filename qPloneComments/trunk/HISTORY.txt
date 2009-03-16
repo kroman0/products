@@ -4,7 +4,8 @@ Changelog
 3.2.3 ( Unreleased )
 --------------------
 
-- Nothing changed yet.
+- Product general code for enabling localization modified.
+  [liebster]
 
 
 3.2.2 - March 3, 2009

@@ -10,6 +10,8 @@
 from Products.CMFCore.utils import getToolByName
 from Products.qPloneComments.utils import manage_mails
 from Products.qPloneComments.utils import setStatusMsg
+from Products.CMFPlone import MessageFactory
+_ = MessageFactory('plonecomments')
 
 portal_discussion = getToolByName(context, "portal_discussion")
 portal_catalog = getToolByName(context, "portal_catalog")
@@ -30,7 +32,7 @@ for comment_id in comment_ids:
     talkback.deleteReply(comment_id)
     manage_mails(comment, context, 'deleting')
 
-msg = comment_ids and u'Comment(s) deleted.' or u'Please select items to be processed.'
+msg = comment_ids and _(u'Comment(s) deleted.') or _(u'Please select items to be processed.')
 setStatusMsg(state, context, msg)
 
 return state

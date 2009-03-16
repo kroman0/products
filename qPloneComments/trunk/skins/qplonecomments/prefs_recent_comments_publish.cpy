@@ -10,6 +10,8 @@
 from Products.CMFCore.utils import getToolByName
 from Products.qPloneComments.utils import publishDiscussion, manage_mails
 from Products.qPloneComments.utils import setStatusMsg
+from Products.CMFPlone import MessageFactory
+_ = MessageFactory('plonecomments')
 
 request = context.REQUEST
 
@@ -21,7 +23,7 @@ for comment_id in comment_ids:
     publishDiscussion(comment)
     manage_mails(comment, container, action='publishing')
 
-msg = comment_ids and u'Comment(s) published.' or u'Please select items to be processed.'
+msg = comment_ids and _(u'Comment(s) published.') or _(u'Please select items to be processed.')
 setStatusMsg(state, context, msg)
 
 return state

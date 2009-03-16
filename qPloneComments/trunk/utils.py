@@ -174,9 +174,5 @@ def send_email(reply, context, state):
                         charset = site_props.getProperty('default_charset', 'utf-8'),
                         From = admin_email)
 
-def getTranslFunction(context):
-    return MessageFactory('plonecomments')
-
 def setStatusMsg(state, context, msg):
-    transl = getTranslFunction(context)
-    context.plone_utils.addPortalMessage(transl(msg))
+    context.plone_utils.addPortalMessage(msg)

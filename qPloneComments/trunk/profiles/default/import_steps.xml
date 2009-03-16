@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
-<import-steps>
-  <import-step
+<import-steps  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+   i18n:domain="plonecomments">
+   <import-step
       id="qPloneComments.various"
       version="20080626-01"
       handler="Products.qPloneComments.setuphandlers.setupVarious"
       title="qPloneComments">
     Run the extra steps to install the qPloneComments product.
-  </import-step>
+   </import-step>
 </import-steps>

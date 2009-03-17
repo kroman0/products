@@ -28,4 +28,21 @@
         permission="zope2.View"
         name="weblog_view" />
 
+
+      <browser:page
+          for="quills.core.interfaces.ITopicContainer"
+          class="quills.app.browser.weblogview.TopicView"
+          allowed_interface="quills.core.interfaces.ITopicContainer"
+          template="topic_listing.pt"
+          permission="zope2.View"
+          name="topic_listing" />
+
+      <browser:page
+          for="quills.core.interfaces.ITopic"
+          template="topic_view.pt"
+          class="quills.app.browser.weblogview.TopicView"
+          allowed_interface="quills.core.browser.interfaces.ITopicView"
+          permission="zope2.View"
+          name="topic_view" />
+
 </configure>

@@ -1,5 +1,5 @@
-quintagroup.dummylocking Package
-=========================
+quintagroup.dummylocking
+========================
 
 Overview
 --------
@@ -9,10 +9,12 @@ Overview
   Plone locking mechnism prevents concurrent through-the-web editing in Plone, but sometimes excessive locking can interfere with normal Plone workflow. 
 
 Requirements
+------------
 
-  * Plone 3.x 
+* Plone 3.x 
 
 Author
+------
 
-  * Bohdan Koval
+* Bohdan Koval
 

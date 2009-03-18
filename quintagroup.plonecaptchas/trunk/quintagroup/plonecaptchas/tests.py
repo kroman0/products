@@ -109,40 +109,7 @@ class TestInstallation(ptc.FunctionalTestCase):
         self.qi.installProduct(PRODUCT_NAME)
 
     def getLayers(self):
-        Layers = []
-        Layers += LAYERS
-        Layers.append(LAYER_STATIC_CAPTCHAS)
-        DiscussionLayer = LAYER_DISCUSSION
-
-        mtool = getToolByName(self, 'portal_migration')
-        plone_version = mtool.getFileSystemVersion()
-        if plone_version.startswith('2.1'):
-            plone_version = '2.1.2'
-        elif plone_version.startswith('2.0'):
-            plone_version = '2.0.5'
-        elif plone_version.startswith('2.5'):
-            plone_version = '2.5'
-        elif plone_version.startswith('3.0'):
-            plone_version = '3.0'
-        elif plone_version.startswith('3.1'):
-            plone_version = '3.1'
-        else:
-            raise Exception("Error - Unsupported version. Suported versions: Plone 2.0.5-3")
-
-        if self.qi.isProductInstalled('PloneFormMailer'):
-            formmailer_layer = LAYER_FORMMAILER+'/'+ plone_version
-            Layers.append(formmailer_layer)
-
-        discussion_layer = '/'.join([DiscussionLayer, plone_version])
-        Layers.append(discussion_layer)
-
-        join_form_layer = '/'.join([LAYER_JOIN_FORM, plone_version])
-        Layers.append(join_form_layer)
-
-        sendto_form_layer = '/'.join([LAYER_SENDTO_FORM, plone_version])
-        Layers.append(sendto_form_layer)
-
-        return Layers
+        return LAYERS + [LAYER_STATIC_CAPTCHAS]
 
     def test_configlet_install(self):
         self.assert_(CONFIGLET_ID in [a.getId() for a in self.cp.listActions()], 'Configlet not found')

@@ -1,15 +1,13 @@
 GLOBALS = globals()
 PRODUCT_NAME = 'quintagroup.plonecaptchas'
 CAPTCHAS_COUNT = 165
-LAYERS = ['captchas', 'plone_captchas']
-LAYER_SENDTO_FORM = "captchas_sendto_form"
-LAYER_JOIN_FORM = 'captchas_join_form'
-LAYER_DISCUSSION = 'captchas_discussion'
-LAYER_FORMMAILER = 'captchas_ploneformmailer'
+
+LAYERS = ['captchas', 'plone_captchas', 'captchas_discussion', 
+    'captchas_sendto_form', 'captchas_join_form']
 LAYER_DYNAMIC_CAPTCHAS = 'plone_captchas/dynamic'
 LAYER_STATIC_CAPTCHAS = 'plone_captchas/static'
-ALL_LAYERS = LAYERS + [LAYER_DISCUSSION, LAYER_FORMMAILER,
-             LAYER_STATIC_CAPTCHAS, LAYER_DYNAMIC_CAPTCHAS, LAYER_JOIN_FORM, LAYER_SENDTO_FORM]
+ALL_LAYERS = LAYERS + [LAYER_STATIC_CAPTCHAS, LAYER_DYNAMIC_CAPTCHAS]
+
 TOOL_ICON = 'tool.gif'
 TOOL_ID = 'portal_captchas'
 CONFIGLET_ID = "prefs_captchas_setup_form"

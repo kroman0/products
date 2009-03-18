@@ -31,42 +31,10 @@ def install(self):
     props_sheet = pp['qPloneCaptchas']
     updateProperties(props_sheet, out, PROPERTIES)
 
-    Layers = []
-    Layers += LAYERS
-    Layers.append(LAYER_STATIC_CAPTCHAS)
-
-    mtool = getToolByName(self, 'portal_migration')
-    plone_version = mtool.getFileSystemVersion()
-
-    if plone_version.startswith('2.1'):
-        plone_version = '2.1.2'
-    elif plone_version.startswith('2.0'):
-        plone_version = '2.0.5'
-    elif plone_version.startswith('2.5'):
-        plone_version = '2.5'
-    elif plone_version.startswith('3.0'):
-        plone_version = '3.0'
-    elif plone_version.startswith('3.1'):
-        plone_version = '3.1'
-    else:
-        raise Exception("Error - Unsupported version. Suported versions: Plone 2.0.5-3")
-
-    DiscussionLayer = LAYER_DISCUSSION
-    qi = getToolByName(self, 'portal_quickinstaller')
-    if qi.isProductInstalled('PloneFormMailer'):
-        formmailer_layer = LAYER_FORMMAILER+'/'+ plone_version
-        Layers.append(formmailer_layer)
-    discussion_layer = '/'.join([DiscussionLayer, plone_version])
-    Layers.append(discussion_layer)
-
-    join_form_layer = '/'.join([LAYER_JOIN_FORM, plone_version])
-    Layers.append(join_form_layer)
-
-    sendto_form_layer = '/'.join([LAYER_SENDTO_FORM, plone_version])
-    Layers.append(sendto_form_layer)
+    layers = LAYERS + [LAYER_STATIC_CAPTCHAS]
 
     out.write('Call setupSkin... \n')
-    setupSkin(self, out, Layers)
+    setupSkin(self, out, layers)
 
     # Add Configlet. Delete old version before adding, if exist one.
     controlpanel_tool = getToolByName(self, 'portal_controlpanel')

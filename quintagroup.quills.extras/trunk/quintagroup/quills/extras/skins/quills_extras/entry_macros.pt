@@ -161,7 +161,8 @@
 
         <tal:categories repeat="topic topics">
           <a href=""
-             tal:attributes="href string:${weblog_content/absolute_url}/topics/${topic/getId}">
+             tal:attributes="href string:${weblog_content/absolute_url}/topics"
+             tal:on-error="string:${weblog_content/absolute_url}/topics/${topic}">
             <img class="topic-image"
                  src=""
                  alt=""
@@ -245,7 +246,45 @@
       <tal:showme tal:condition="wvconfig/show_about">
         <div class="documentByLine"
              tal:define="item_creator item_creator | nothing;
-			             authors python:item_creator and [item_creator,] or entry.getAuthors();">
+			 authors python:item_creator and [].extend(item_creator) or entry.getAuthors();
+                         aid2title python:dict([(a.getId(),a.getTitle()) for a in authors]);
+                         atitle2id python:dict([(a.getTitle(),a.getId()) for a in authors]);
+                         creators entry/listCreators|entry/context/listCreators|authors">
+            <span i18n:translate="label_by_author">
+              by
+			</span>
+			<tal:block repeat="author creators">
+                        <tal:def define="atitle python:aid2title.get(author,None);
+                                         aid python:atitle2id.get(author,None);
+                                         author_unknown python:test(not(atitle or aid), author, '');">
+                        <tal:known condition="python:aid or atitle">
+            <a href="#" 
+               tal:define="author_id python:test(atitle, author, aid);
+                           author_title python:test(aid, author, atitle);"
+               tal:attributes="href string:${weblog_content/absolute_url}/authors/${author_id}"
+               tal:content="author_title">
+              Mister Dobalina, Mister Bob Dobalina
+            </a> 
+                        </tal:known>
+                        <tal:unknown condition="author_unknown"
+                                     content="author_unknown">Unexistent creator</tal:unknown>
+			</tal:def>
+			</tal:block>
+          &mdash;
+          <tal:mod i18n:translate="box_last_modified">
+            last modified
+          </tal:mod>
+          <span tal:define="item_modified item_modified | entry/getPublicationDate;"
+		        tal:replace="python:toLocalizedTime(item_modified,long_format=1)">
+            August 16, 2001 at 23:35:59
+          </span>
+        </div>
+
+
+
+        <div class="documentByLine"
+             tal:define="item_creator item_creator | nothing;
+			 authors python:item_creator and [].extend(item_creator) or entry.getAuthors();">
             <span i18n:translate="label_by_author">
               by
 			</span>
@@ -363,18 +402,30 @@
       <tal:showme tal:condition="wvconfig/show_about">
         <div class="documentByLine"
              tal:define="item_creator item_creator | nothing;
-			             authors python:item_creator and [item_creator,] or entry.getAuthors();">
+			 authors python:item_creator and [].extend(item_creator) or entry.getAuthors();
+                         aid2title python:dict([(a.getId(),a.getTitle()) for a in authors]);
+                         atitle2id python:dict([(a.getTitle(),a.getId()) for a in authors]);
+                         creators entry/listCreators|entry/context/listCreators|authors">
             <span i18n:translate="label_by_author">
               by
 			</span>
-			<tal:block repeat="author authors">
-            <a href="#"
-			   tal:define="author_id python:str(author);
-                           ploneauthor python:mtool.getMemberInfo(author_id)"
+			<tal:block repeat="author creators">
+                        <tal:def define="atitle python:aid2title.get(author,None);
+                                         aid python:atitle2id.get(author,None);
+                                         author_unknown python:test(not(atitle or aid), author, '');">
+                        <tal:known condition="python:aid or atitle">
+            <a href="#" 
+               tal:define="author_id python:test(atitle, author, aid);
+                           author_title python:test(aid, author, atitle);"
                tal:attributes="href string:${weblog_content/absolute_url}/authors/${author_id}"
-               tal:content="python:ploneauthor and ploneauthor['fullname'] or author_id">
+               tal:content="author_title">
               Mister Dobalina, Mister Bob Dobalina
             </a> 
+                        </tal:known>
+                        <tal:unknown condition="author_unknown"
+                                     content="author_unknown">Unexistent creator</tal:unknown>
+			</tal:def>
+                        <tal:comma tal:condition="not:repeat/author/end">, </tal:comma>
 			</tal:block>
         </div>
 		

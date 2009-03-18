@@ -11,10 +11,12 @@ Overview
 Requirements
 ------------
 
-* Plone 3.x 
+* Plone 3.x
+
+In Plone 3.3 you can disable through-the-web locking in Plone Control Panel and
+this package isn't needed.
 
 Author
 ------
 
 * Bohdan Koval
-

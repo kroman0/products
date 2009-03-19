@@ -1,6 +1,8 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      lang="en"
-      i18n:domain="plonecaptchas"
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="quintagroup.plonecaptchas"
       metal:use-macro="here/prefs_main_template/macros/master">
 
 <metal:block fill-slot="top_slot"
@@ -11,7 +13,7 @@
 <div metal:fill-slot="prefs_configlet_main"
      tal:define="errors python:request.get('controller_state', None).getErrors();">
 
-    <div metal:define-macro="main" i18n:domain="plonecaptchas">
+    <div metal:define-macro="main">
     <div class="configlet">
         <h1 i18n:translate="heading_comments_setup">Plone Captchas Setup</h1>
 
@@ -37,7 +39,7 @@
                            type="radio"
                            value="static"
                            tal:attributes="checked python:test(ct=='static', 'checked', '')"/>
-                    <label for="use_static_captchas">Use static captchas</label>
+                    <label i18n:translate="use_static_captchas" for="use_static_captchas">Use static captchas</label>
                     <br />
                     <input name="static_captchas"
                            id="use_dynamic_captchas"
@@ -46,12 +48,12 @@
                            value="dynamic"
                            tal:attributes="checked python:test(ct=='dynamic', 'checked', '');
                                            disabled python:test(context.checkPIL(), '', 'disabled');"/>
-                    <label for="use_dynamic_captchas">Use dynamic captchas</label>
+                    <label i18n:translate="use_dynamic_captchas" for="use_dynamic_captchas">Use dynamic captchas</label>
                 </div>
             </fieldset>
 
             <fieldset tal:define="props_sheet here/portal_properties/qPloneCaptchas">
-                <legend i18n:translate="legend_setup_options">Dynamic captchas image setup options</legend>
+                <legend i18n:translate="legend_dynamic_captchas_options">Dynamic captchas image setup options</legend>
 
                 <div class="field"
                      tal:define="property_id string:image_size;
@@ -189,6 +191,7 @@
                        type="submit"
                        name="form.button.form_submit"
                        value="Save"
+                       i18n:domain="plone"
                        i18n:attributes="value"
                        tal:attributes="tabindex tabindex/next;"/>
             </div>

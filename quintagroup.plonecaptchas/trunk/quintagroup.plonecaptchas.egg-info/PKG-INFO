@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: quintagroup.plonecaptchas
-Version: 2.0.0dev
+Version: 2.0.0dev-r1856
 Summary: quintagroup.plonecaptchas is simple captchas implementation for Plone, designed for validating human input in insecure forms.
 Home-page: http://svn.quintagroup.com/products/quintagroup.plonecaptchas
 Author: Quintagroup

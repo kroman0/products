@@ -1,6 +1,6 @@
 from Products.CMFCore.utils import getToolByName
 
-from quintagroup.plonecaptchas import ProductMessageFactory
+from quintagroup.plonecaptchas import ProductMessageFactory as _
 from quintagroup.plonecaptchas.utils import decrypt, parseKey, \
     encrypt1, getWord
 from DateTime import DateTime
@@ -23,8 +23,8 @@ enc = encrypt1(test_key)
 captcha_tool = getToolByName(context, 'portal_captchas')
 if (enc != solution) or (captcha_tool.has_key(decrypted_key)) \
     or (DateTime().timeTime() - float(date)>3600):
-    state.setError('key', ProductMessageFactory("Please re-enter validation code."), 'key_required')
-    return state.set(status="failure", portal_status_message = ProductMessageFactory("Please re-enter validation code."))
+    state.setError('key', _("Please re-enter validation code."), 'key_required')
+    return state.set(status="failure", portal_status_message=_("Please re-enter validation code."))
 else:
     captcha_tool.addExpiredKey(decrypted_key)
     return state.set(status="success")

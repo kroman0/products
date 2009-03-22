@@ -1,8 +1,18 @@
 Changelog
 =========
 
-0.1 - Unreleased
+0.2 - Unreleased
 ----------------
 
-* Initial release
+* Added Products.PloneFormGen as egg requirement and as installation
+  dependency.
+  [piv]
 
+* Formatted documentation as reStructuredText.
+  [piv]
+
+
+0.1 - October 31, 2008
+----------------------
+
+* Initial release.

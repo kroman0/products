@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.1'
+version = '0.2'
 
 setup(name='quintagroup.ploneformgen.readonlystringfield',
       version=version,
@@ -25,7 +25,7 @@ setup(name='quintagroup.ploneformgen.readonlystringfield',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
+          'Products.PloneFormGen',
       ],
       entry_points="""
       # -*- Entry points: -*-

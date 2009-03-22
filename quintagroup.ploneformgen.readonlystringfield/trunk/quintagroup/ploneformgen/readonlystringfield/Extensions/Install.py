@@ -11,6 +11,10 @@ EXTENSION_PROFILES = (
     'quintagroup.ploneformgen.readonlystringfield:default',
 )
 
+UNINSTALL_PROFILES = (
+    'quintagroup.ploneformgen.readonlystringfield:uninstall',
+)
+
 def install(self, reinstall=False):
     """Install a set of products (which themselves may either use Install.py
     or GenericSetup extension profiles for their configuration) and then
@@ -41,4 +45,11 @@ def install(self, reinstall=False):
         portal_setup.runAllImportStepsFromProfile('profile-%s' % extension_id, purge_old=False)
         product_name = extension_id.split(':')[0]
         portal_quickinstaller.notifyInstalled(product_name)
+        transaction.savepoint()
+
+def uninstall(self):
+    portal_setup = getToolByName(self, 'portal_setup')
+    for extension_id in UNINSTALL_PROFILES:
+        portal_setup.runAllImportStepsFromProfile('profile-%s' % extension_id, purge_old=False)
+        product_name = extension_id.split(':')[0]
         transaction.savepoint()

@@ -4,6 +4,13 @@ Changelog
 0.2 - Unreleased
 ----------------
 
+* Added uninstall procedure.
+  [piv]
+
+* Removed editable mode from read only field for anonymous user, made this
+  functionality as optional feature by means of edit mode tal expression field.
+  [piv]
+
 * Added Products.PloneFormGen as egg requirement and as installation
   dependency.
   [piv]

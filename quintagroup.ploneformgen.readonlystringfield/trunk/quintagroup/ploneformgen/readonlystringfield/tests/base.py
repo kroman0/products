@@ -15,11 +15,10 @@ def setup_package():
     import quintagroup.ploneformgen.readonlystringfield
     zcml.load_config('configure.zcml',
         quintagroup.ploneformgen.readonlystringfield)
-    #ztc.installPackage('some.other.package')
     ztc.installPackage('quintagroup.ploneformgen.readonlystringfield')
 
 setup_package()
-ptc.setupPloneSite() #products=['quintagroup.ploneformgen.readonlystringfield',])
+ptc.setupPloneSite(products=['quintagroup.ploneformgen.readonlystringfield',])
 
 class ReadOnlyStringFieldTestCase(ptc.PloneTestCase):
     """Common test base class"""

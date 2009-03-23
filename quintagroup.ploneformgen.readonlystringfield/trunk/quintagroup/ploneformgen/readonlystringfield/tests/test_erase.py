@@ -1,5 +1,8 @@
 import unittest
 import transaction
+from AccessControl.SecurityManagement import newSecurityManager, \
+    noSecurityManager
+from Testing import ZopeTestCase as ztc
 from Products.CMFCore.utils import getToolByName
 from  Products.PloneTestCase.layer import PloneSiteLayer
 
@@ -15,18 +18,26 @@ class TestErase(ReadOnlyStringFieldTestCase):
     class layer(PloneSiteLayer):
         @classmethod
         def setUp(cls):
-            pass
+            app = ztc.app()
+            portal = app.plone
+            
+            # elevate permissions
+            user = portal.getWrappedOwner()
+            newSecurityManager(None, user)
 
-        @classmethod
-        def tearDown(cls):
-            pass
+            tool = getToolByName(portal, 'portal_quickinstaller')
+            product_name = 'quintagroup.ploneformgen.readonlystringfield'
+            if tool.isProductInstalled(product_name):
+                tool.uninstallProducts([product_name,])
+            
+            # drop elevated perms
+            noSecurityManager()
+            
+            transaction.commit()
+            ztc.close(app)
     
     def afterSetUp(self):
         self.loginAsPortalOwner()
-        tool = getToolByName(self.portal, 'portal_quickinstaller')
-        product_name = 'quintagroup.ploneformgen.readonlystringfield'
-        if tool.isProductInstalled(product_name):
-            tool.uninstallProducts([product_name,])
     
     def test_factoryTool(self):
         tool = getToolByName(self.portal, 'portal_factory')

@@ -1,8 +1,9 @@
-from  Testing import ZopeTestCase as ztc
-from  Products.Five import zcml
-from  Products.Five import fiveconfigure
-from  Products.PloneTestCase import PloneTestCase as ptc
-from  Products.PloneTestCase.layer import onsetup
+from Testing import ZopeTestCase as ztc
+from Products.Five import zcml
+from Products.Five import fiveconfigure
+from Products.Five.testbrowser import Browser
+from Products.PloneTestCase import PloneTestCase as ptc
+from Products.PloneTestCase.layer import onsetup
 
 ztc.installProduct('PloneFormGen')
 
@@ -20,5 +21,10 @@ def setup_package():
 setup_package()
 ptc.setupPloneSite(products=['quintagroup.ploneformgen.readonlystringfield',])
 
+
 class ReadOnlyStringFieldTestCase(ptc.PloneTestCase):
     """Common test base class"""
+
+
+class ReadOnlyStringFieldFunctionalTestCase(ptc.FunctionalTestCase):
+    """Common functional test base class"""

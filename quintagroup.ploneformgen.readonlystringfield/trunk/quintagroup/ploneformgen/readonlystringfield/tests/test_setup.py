@@ -9,8 +9,6 @@ class TestSetup(ReadOnlyStringFieldTestCase):
     
     def afterSetUp(self):
         self.loginAsPortalOwner()
-        tool = getToolByName(self.portal, 'portal_quickinstaller')
-        tool.installProduct('quintagroup.ploneformgen.readonlystringfield')
     
     def test_installerTool(self):
         tool = getToolByName(self.portal, 'portal_quickinstaller')

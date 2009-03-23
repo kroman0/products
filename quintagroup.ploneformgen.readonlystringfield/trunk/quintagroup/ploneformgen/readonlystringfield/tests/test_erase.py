@@ -1,22 +1,35 @@
 import unittest
 import transaction
 from Products.CMFCore.utils import getToolByName
+from  Products.PloneTestCase.layer import PloneSiteLayer
 
 from quintagroup.ploneformgen.readonlystringfield.tests.base import \
     ReadOnlyStringFieldTestCase
 
 
 class TestErase(ReadOnlyStringFieldTestCase):
+    # we use here nested layer for not to make an impact on
+    # the rest test cases, this test case check uninstall procedure
+    # thus it has to uninstall package which will be required to
+    # be installed for other test cases
+    class layer(PloneSiteLayer):
+        @classmethod
+        def setUp(cls):
+            pass
+
+        @classmethod
+        def tearDown(cls):
+            pass
     
     def afterSetUp(self):
         self.loginAsPortalOwner()
         tool = getToolByName(self.portal, 'portal_quickinstaller')
-        tool.installProduct('quintagroup.ploneformgen.readonlystringfield')
-        tool.uninstallProducts(['quintagroup.ploneformgen.readonlystringfield'])
+        product_name = 'quintagroup.ploneformgen.readonlystringfield'
+        if tool.isProductInstalled(product_name):
+            tool.uninstallProducts([product_name,])
     
     def test_factoryTool(self):
         tool = getToolByName(self.portal, 'portal_factory')
-        print tool._factory_types.keys()
         self.failIf('FormReadonlyStringField' in tool._factory_types.keys(),
             'FormReadonlyStringField type is still in portal_factory tool.')
     

@@ -222,6 +222,12 @@
 
             </div>
 
+             <p class="formHelp" tal:condition="python:require_email and isAnon">
+                Want to add a picture to your comments here on 
+                <tal:site content="portal_title|default">the Site</tal:site>? <br />
+                Upload a picture at <a href="http://en.gravatar.com">Gravatar</a> to make it happen.
+             </p>
+
              <div tal:condition="nocall:here/captcha_widget|nothing"
                   tal:omit-tag="">
                 <div metal:use-macro="here/captcha_widget/macros/captcha" />

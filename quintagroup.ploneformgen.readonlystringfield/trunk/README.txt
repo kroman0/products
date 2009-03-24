@@ -16,6 +16,9 @@ Usage
 * That value will be displayed on every form submission as a default value,
   but will not be editable.
 
+* If under some circumstances you need to make readonly field editable, then
+  set appropriate condition in Edit Mode field.
+
 Supported Plone versions
 ------------------------
 

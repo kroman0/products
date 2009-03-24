@@ -1,8 +1,14 @@
 Changelog
 =========
 
-0.2 - Unreleased
-----------------
+0.2 - March 24, 2009
+--------------------
+
+* Updated documentation accordingly to changes in readonly field functionality.
+  [piv]
+
+* Added tests.
+  [piv]
 
 * Added uninstall procedure.
   [piv]

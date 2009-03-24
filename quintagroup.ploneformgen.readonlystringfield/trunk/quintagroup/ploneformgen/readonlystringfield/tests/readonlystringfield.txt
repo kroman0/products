@@ -30,7 +30,7 @@ Confirm that the user name field is on the rendered form and is read only::
     True
 
 Now check how EditMode TALES expression field is working. Firstly set it to
-true:
+true::
 
     >>> self.portal.testform.user_name.update(editMode='python:True')
     >>> browser.open(portal_url + '/testform')
@@ -39,7 +39,7 @@ true:
     >>> 'readonly="readonly"' in browser.contents
     False
 
-Eventually set EditMode to be evaluated to False:
+Eventually set EditMode to be evaluated to False::
 
     >>> self.portal.testform.user_name.update(editMode='python:False')
     >>> browser.open(portal_url + '/testform')

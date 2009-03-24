@@ -9,53 +9,41 @@ Get our test browser::
     >>> self.app.acl_users.userFolderAddUser('root', 'secret', ['Manager'], [])
     >>> browser.addHeader('Authorization', 'Basic root:secret')
 
-Add a new form folder and mark the subject input variable as a server side variable.
-(It needs a non-empty default value because it's set as required.) ::
-  
+Add a new form folder and remove all the initial fields::
+
     >>> self.setRoles(['Manager'])
     >>> self.portal.invokeFactory('FormFolder', 'testform')
     'testform'
-    >>> self.portal.testform.topic.setServerSide(True)
-    >>> self.portal.testform.topic.getServerSide()
-    True
-    >>> self.portal.testform.topic.setFgDefault('asdf')
+    >>> self.portal.testform.manage_delObjects(ids=['replyto','topic','comments'])
 
-And confirm that the server-side field is absent from the rendered form::
-    
+And add a user_name readonly string field::
+
+    >>> self.portal.testform.invokeFactory('FormReadonlyStringField', 'user_name')
+    'user_name'
+
+Confirm that the user name field is on the rendered form and is read only::
+
     >>> browser.open(portal_url + '/testform')
-    >>> 'id="archetypes-fieldname-topic"' in  browser.contents
-    False
-
-By default when we submit the form the server-side field won't be included on the
-thank you page::
-
-    >>> self.portal.testform.mailer.setRecipient_email('mdummy@address.com')
-    >>> browser.getControl('Your E-Mail Address').value = 'test@example.com'
-    >>> browser.getControl('Comments').value = 'Now with double the rockage...'
-    >>> browser.getControl('Submit').click()
-    <sent mail from ...to ['mdummy@address.com']>
-    >>> 'Subject' in browser.contents
-    False
-
-Test for 'Subject' in the mail body::
-
-    >>> msgtext = self.portal.MailHost.msgtext[self.portal.MailHost.msgtext.index('\n\n'):]
-    >>> 'Subject' in self.portal.MailHost.msgtext.split('\n\n')[-1].decode('base64')
-    False
-
-Specifically list the field as one that should be included in the thank
-you page, and then it should show up in mail and thanks page::
-
-    >>> self.portal.testform['thank-you'].setShowAll(False)
-    >>> self.portal.testform['thank-you'].setShowFields(('topic',))
-    >>> self.portal.testform.mailer.setShowAll(False)
-    >>> self.portal.testform.mailer.setShowFields(('topic',))
-    >>> browser.goBack()
-    >>> browser.getControl('Your E-Mail Address').value = 'test@example.com'
-    >>> browser.getControl('Comments').value = 'Now with double the rockage...'
-    >>> browser.getControl('Submit').click()
-    <sent mail from ...to ['mdummy@address.com']>
-    >>> 'Subject' in self.portal.MailHost.msgtext.split('\n\n')[-1].decode('base64')
+    >>> 'id="user_name"' in browser.contents
     True
-    >>> 'Subject' in browser.contents
+    >>> 'readonly="readonly"' in browser.contents
+    True
+
+Now check how EditMode TALES expression field is working. Firstly set it to
+true:
+
+    >>> self.portal.testform.user_name.update(editMode='python:True')
+    >>> browser.open(portal_url + '/testform')
+    >>> 'id="user_name"' in browser.contents
+    True
+    >>> 'readonly="readonly"' in browser.contents
+    False
+
+Eventually set EditMode to be evaluated to False:
+
+    >>> self.portal.testform.user_name.update(editMode='python:False')
+    >>> browser.open(portal_url + '/testform')
+    >>> 'id="user_name"' in browser.contents
+    True
+    >>> 'readonly="readonly"' in browser.contents
     True

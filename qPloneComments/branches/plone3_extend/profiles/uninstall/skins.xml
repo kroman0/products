@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<object name="portal_skins"  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+   i18n:domain="plonecomments">
+ <object name="qplonecomments" meta_type="Filesystem Directory View"
+   directory="Products.qPloneComments:skins/qplonecomments" remove="True" />
+ <skin-path name="*">
+   <layer name="qplonecomments" remove="True" />
+ </skin-path>
+</object>

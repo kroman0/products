@@ -1,16 +1,23 @@
-quintagroup.doublecolumndocument
-================================
+Introduction
+============
+
+This package provides document-like plone content type which has two content
+columns.
+
+
+Supported Plone versions
+------------------------
+
+* 3.x
+
 
 Authors
+-------
 
-  *  Myroslav Opyr
-  *  Andriy Mylenkyy
-  *  Vitaliy Podoba
-  *  Yuriy Hvozdovych
+*  Myroslav Opyr
 
-  "Product Homepage":http://quintagroup.com/services/plone-development/products/
-  "Download":http://sourceforge.net/projects/quintagroup
+*  Andriy Mylenkyy
 
-  (c) "Quintagroup":http://quintagroup.com/ , 2008. 
+*  Vitaliy Podoba
 
-  support@quintagroup.com * quintessence of modern business
+*  Yuriy Hvozdovych

@@ -23,8 +23,10 @@ enc = encrypt1(test_key)
 captcha_tool = getToolByName(context, 'portal_captchas')
 if (enc != solution) or (captcha_tool.has_key(decrypted_key)) \
     or (DateTime().timeTime() - float(date)>3600):
-    state.setError('key', _(u"Please re-enter validation code."), 'key_required')
-    return state.set(status="failure", portal_status_message=_(u"Please re-enter validation code."))
+    message = _(u"Please re-enter validation code.")
+    context.plone_utils.addPortalMessage(message, 'error')
+    state.setError('key', message, 'key_required')
+    return state.set(status="failure")
 else:
     captcha_tool.addExpiredKey(decrypted_key)
     return state.set(status="success")

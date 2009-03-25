@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.3.1\n"
-"POT-Creation-Date: 2009-03-19 16:04+0000\n"
+"Project-Id-Version: quintagroup.plonecaptchas 2.0\n"
+"POT-Creation-Date: 2009-03-25 14:47+0000\n"
 "PO-Revision-Date: 2008-07-04 13:02 +0900\n"
 "Last-Translator: Suzuki, Takanori <takanori@takanory.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,14 +15,17 @@ msgstr ""
 "Domain: quintagroup.plonecaptchas\n"
 
 #. Default: "Amplitude"
+#: ./prefs_captchas_setup_form.pt:156
 msgid "Amplitude"
 msgstr "振幅"
 
 #. Default: "Background"
+#: ./prefs_captchas_setup_form.pt:93
 msgid "Background"
 msgstr "背景色"
 
 #. Default: "Font color"
+#: ./prefs_captchas_setup_form.pt:114
 msgid "Font color"
 msgstr "フォントの色"
 
@@ -32,15 +35,17 @@ msgid "Font size"
 msgstr "フォントサイズ"
 
 #. Default: "Period"
+#: ./prefs_captchas_setup_form.pt:135
 msgid "Period"
 msgstr "周期"
 
 #. Default: "Please re-enter validation code."
-#: ./captcha_validator.vpy:24
+#: ./captcha_validator.vpy:26
 msgid "Please re-enter validation code."
 msgstr "正しい文字列を入力してください"
 
 #. Default: "Random values"
+#: ./prefs_captchas_setup_form.pt:178
 msgid "Random values"
 msgstr "ランダムな値を使用"
 
@@ -55,10 +60,11 @@ msgid "heading_comments_setup"
 msgstr "Plone の Captcha 設定"
 
 #. Default: "Dynamic captchas image setup options"
+#: ./prefs_captchas_setup_form.pt:56
 msgid "legend_dynamic_captchas_options"
 msgstr "Captcha 画像の自動生成オプション"
 
-#. Default: "qPloneCaptchas setup options"
+#. Default: "Plone Captchas setup options"
 #: ./prefs_captchas_setup_form.pt:35
 msgid "legend_setup_options"
 msgstr "qPloneCaptchas の設定オプション"

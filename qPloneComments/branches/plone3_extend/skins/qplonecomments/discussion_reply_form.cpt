@@ -61,6 +61,8 @@
 
     <a name="discussion"></a>
 
+    <metal:block metal:define-macro="add-comment-form">
+
     <form name="edit_form"
           class="enableAutoFocus"
           method="post"
@@ -252,6 +254,8 @@
         </fieldset>
 
     </form>
+
+    </metal:block>
 
 </div>
 

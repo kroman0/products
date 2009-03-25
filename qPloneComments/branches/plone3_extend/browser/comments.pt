@@ -94,20 +94,6 @@
             </div>
         </tal:getreplies>
 
-        <form name="reply"
-              action=""
-              method="post"
-              tal:condition="python:userHasReplyPermission and isDiscussionAllowed"
-              tal:attributes="action string:${context/absolute_url}/discussion_reply_form#discussion">
-
-              <input class="standalone"
-                     style="margin-bottom: 1.25em;"
-                     type="submit"
-                     value="Add Comment"
-                     i18n:attributes="value label_add_comment;"
-                     />
-        </form>
-
         <!-- Start of Adding comment form-->
 
 	<form name="edit_form"

@@ -27,9 +27,3 @@ PROPERTIES = (('image_size', DEFAULT_IMAGE_SIZE, 'int'),
               ('period', DEFAULT_PERIOD, 'float'),
               ('amplitude', DEFAULT_AMPLITUDE, 'float'),
               ('random_params', True, 'boolean'))
-
-try:
-    import PIL
-    havePIL = True
-except:
-    havePIL = False

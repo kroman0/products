@@ -44,10 +44,8 @@
                     <input name="static_captchas"
                            id="use_dynamic_captchas"
                            type="radio"
-                           disabled=""
                            value="dynamic"
-                           tal:attributes="checked python:test(ct=='dynamic', 'checked', '');
-                                           disabled python:test(context.checkPIL(), '', 'disabled');"/>
+                           tal:attributes="checked python:test(ct=='dynamic', 'checked', '');"/>
                     <label i18n:translate="use_dynamic_captchas" for="use_dynamic_captchas">Use dynamic captchas</label>
                 </div>
             </fieldset>

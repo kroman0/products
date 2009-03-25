@@ -128,10 +128,11 @@ def getIndex(word):
         res = getLen()+1
     return res
 
-def getCaptchasCount(havePIL):
-    def getLen():
+def getCaptchasCount(dynamic):
+    if dynamic:
         return len(basic_english.words.split())
-    return havePIL and getLen() or CAPTCHAS_COUNT
+    else:
+        return CAPTCHAS_COUNT
 
 def formKey(num):
     def normalize(s):

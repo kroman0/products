@@ -1,8 +1,8 @@
 # Niklas Ekstrand <ne@zoone.se>, 2006
 msgid ""
 msgstr ""
-"Project-Id-Version: qPloneCaptchas 1.0\n"
-"POT-Creation-Date: 2009-03-19 16:04+0000\n"
+"Project-Id-Version: quintagroup.plonecaptchas 2.0\n"
+"POT-Creation-Date: 2009-03-25 14:47+0000\n"
 "PO-Revision-Date: 2007-09-5 15:38 +0100\n"
 "Last-Translator: Mykola Kharechko <crchemist@quintagroup.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +17,17 @@ msgstr ""
 "X-Is-Fallback-For: es-ar es-bo es-cl es-co es-cr es-do es-ec es-es es-sv es-gt es-hn es-mx es-ni es-pa es-py es-pe es-pr es-us es-uy es-ve\n"
 
 #. Default: "Amplitude"
+#: ./prefs_captchas_setup_form.pt:156
 msgid "Amplitude"
 msgstr ""
 
 #. Default: "Background"
+#: ./prefs_captchas_setup_form.pt:93
 msgid "Background"
 msgstr ""
 
 #. Default: "Font color"
+#: ./prefs_captchas_setup_form.pt:114
 msgid "Font color"
 msgstr ""
 
@@ -34,14 +37,16 @@ msgid "Font size"
 msgstr ""
 
 #. Default: "Period"
+#: ./prefs_captchas_setup_form.pt:135
 msgid "Period"
 msgstr ""
 
-#: ./captcha_validator.vpy:24
+#: ./captcha_validator.vpy:26
 msgid "Please re-enter validation code."
 msgstr ""
 
 #. Default: "Random values"
+#: ./prefs_captchas_setup_form.pt:178
 msgid "Random values"
 msgstr ""
 
@@ -56,10 +61,11 @@ msgid "heading_comments_setup"
 msgstr ""
 
 #. Default: "Dynamic captchas image setup options"
+#: ./prefs_captchas_setup_form.pt:56
 msgid "legend_dynamic_captchas_options"
 msgstr ""
 
-#. Default: "qPloneCaptchas setup options"
+#. Default: "Plone Captchas setup options"
 #: ./prefs_captchas_setup_form.pt:35
 msgid "legend_setup_options"
 msgstr ""

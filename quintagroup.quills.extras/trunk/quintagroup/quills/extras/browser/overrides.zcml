@@ -45,4 +45,23 @@
           permission="zope2.View"
           name="topic_view" />
 
+      <browser:page
+	  for="*"
+	  name="discussion_reply_redirect"
+	  class=".discussionreply.DiscussionReply"
+	  permission="zope.Public"
+	  allowed_attributes="__call__"
+	  />
+
+      <include package="Products.qPloneComments" file="overrides.zcml" />
+      <browser:viewlet
+	  name="plone.comments"
+	  for="Products.CMFCore.interfaces.IContentish"
+	  manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+	  view="plone.app.layout.globals.interfaces.IViewView"
+	  class=".comments.CommentsViewlet"
+	  layer="Products.qPloneComments.interfaces.IPloneCommentsLayer"
+	  permission="zope2.View"
+	  />
+
 </configure>

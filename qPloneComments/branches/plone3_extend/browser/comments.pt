@@ -58,6 +58,18 @@
                            i18n:attributes="value label_reply;"
                            />
                 </form>
+		<form name="edit"
+		      action="discussion_edit_form"
+		      method="post"
+		      style="display: inline;"
+		      tal:attributes="action string:${reply/absolute_url}/discussion_edit_form"
+                      tal:condition="isModerationAllowed">
+		    <input class="standalone"
+			   type="submit"
+			   value="Edit"
+			   i18n:attributes="value label_edit;"
+			   />
+		</form>
                 <form name="delete"
                       action=""
                       method="post"

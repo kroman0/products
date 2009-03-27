@@ -9,6 +9,6 @@ validators=validate_talkback
 validators..Cancel=
 
 [actions]
-action.success=redirect_to:string:
+action.success=redirect_to:string:view
 action.success..Save=traverse_to:string:discussion_edit
 action.failure=traverse_to:string:discussion_edit_form

@@ -134,12 +134,11 @@
                        value="Save"
                        name="form.button.Save"
                        i18n:attributes="value label_save;"
-                       tal:attributes="tabindex tabindex/next;
-                                       name string:discussion_reply:method;" />
+                       tal:attributes="tabindex tabindex/next;" />
                 <input class="standalone"
                        tabindex=""
                        type="submit"
-                       value="Cansel"
+                       value="Cancel"
                        name="form.button.Cancel"
                        i18n:attributes="value label_cancel;"
                        tal:attributes="tabindex tabindex/next;" />

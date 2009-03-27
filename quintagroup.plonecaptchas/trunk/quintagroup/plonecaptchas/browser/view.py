@@ -22,7 +22,6 @@ class Captcha(BrowserView):
             # that may have been set during verification
             del resp.cookies[COOKIE_ID]
         resp.setCookie(COOKIE_ID, hk, path='/')
-
         portal_url = getToolByName(self.context, 'portal_url')()
         img_url = '%s/getCaptchaImage/%s' % (portal_url, hk)
         return '<img src="%s" />' % img_url

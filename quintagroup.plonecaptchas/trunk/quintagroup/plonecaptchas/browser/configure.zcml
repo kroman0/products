@@ -11,4 +11,12 @@
         class=".view.Captcha"
         />
 
+    <view
+        type="zope.publisher.interfaces.browser.IBrowserRequest"
+        for=".interfaces.ICaptcha"
+        provides="zope.app.form.interfaces.IInputWidget"
+        factory=".widget.CaptchaWidget"
+        permission="zope.Public"
+        />
+
 </configure>

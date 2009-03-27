@@ -1,4 +1,5 @@
 from zope.interface import Interface
+from zope.schema.interfaces import IASCIILine
 
 class ICaptchaView(Interface):
     """ Captcha generating and verifying view that is wrapper around
@@ -14,3 +15,6 @@ class ICaptchaView(Interface):
     def verify(input):
         """ Verify user input.
         """
+
+class ICaptcha(IASCIILine):
+    u"""A field for captcha validation"""

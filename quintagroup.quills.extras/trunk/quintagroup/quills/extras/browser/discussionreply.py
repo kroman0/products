@@ -62,6 +62,12 @@ class DiscussionReply(BrowserView):
                 else:
                     email = mtool.getAuthenticatedMember().getProperty('email')
 
+            isForAnonymous = pp['qPloneComments'].getProperty('enable_anonymous_commenting', False)
+            comment_creator = req.get('Creator', None)
+            if isForAnonymous and comment_creator:
+                # Get entered anonymous name
+                creator = comment_creator
+                        
         dtool = getToolByName(self.context, 'portal_discussion')
         tb = dtool.getDiscussionFor(self.context)
         if requireEmail:

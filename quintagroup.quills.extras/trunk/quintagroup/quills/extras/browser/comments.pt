@@ -19,11 +19,12 @@
                             isPublished python:reply.review_state=='published';"
                 tal:attributes="style string:margin-left:${indent}em;">
 
-                <h3>
+		<div class="header3-comment">
                     <a name="comments" tal:attributes="name reply/id">
                     <span tal:replace="reply/pretty_title_or_id">Comment title</span>
                     </a>
-                </h3>
+		</div>
+
                 <div class="documentByLine"
                      tal:define="creator reply/Creator;
                                  anonymous_creator python:creator=='Anonymous User';

@@ -79,6 +79,8 @@ class DiscussionReply(BrowserView):
         # Add website property to reply
         website = req.get('website', '').strip()
         if website:
+            if not website.startswith('http://'):
+                website = 'http://' + website
             reply.manage_addProperty(id='website', value=website, type='string')
 
         # TODO THIS NEEDS TO GO AWAY!

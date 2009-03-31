@@ -1,10 +1,11 @@
 Changelog
 =========
 
-1.3.8 (unreleased)
+1.3.8 (2009-03-31)
 ------------------
 
-- Nothing changed yet.
+- Remove extra spaces from link to 
+  commentor in comment
 
 
 1.3.7 (2009-03-30)

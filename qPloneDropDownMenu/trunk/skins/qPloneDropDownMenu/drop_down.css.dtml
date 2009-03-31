@@ -77,37 +77,16 @@ div#portal-globalnav .csshover li:hover ul, #portal-globalnav .csshover li:hover
        visibility: visible;
 }
 
-/*     ------   Make-up	--------            */
+/*     ------   Make-up --------            */
 
 #portal-globalnav li.invisibleHeightKeeper {
         visibility: hidden;
         float: none;
 }
 
-/*#portal-globalnav {
-        height: 1.25em;
-}*/
-
-#portal-globalnav .csshover ul li:hover a {
-        background-color: &dtml-globalBackgroundColor;;
-}
-
-#portal-globalnav .csshover ul li:hover ul a {
-        background-color: &dtml-backgroundColor;;
-}
-
-
 #portal-globalnav .csshover ul li ul li a:hover,
 #portal-globalnav .csshover ul li ul li:hover a {
         color: &dtml-globalFontColor;;
-        background-color: &dtml-globalBackgroundColor;;
-}
-
-
-#portal-globalnav .csshover ul li:hover ul li a:hover,
-#portal-globalnav .csshover ul li:hover ul li.selected a,
-#portal-globalnav .csshover ul li:hover ul li:hover a {
-        background-color: &dtml-globalBackgroundColor;;
 }
 
 #portal-globalnav ul li ul li a {
@@ -119,17 +98,11 @@ div#portal-globalnav .csshover li:hover ul, #portal-globalnav .csshover li:hover
         border: &dtml-borderWidth; &dtml-borderStyle; &dtml-globalBorderColor;;
         padding-bottom: 1px;
         overflow: hidden;
-        background-color: &dtml-globalBackgroundColor;;
 }
 
 #portal-globalnav .csshover ul li:hover ul li:hover ul  a {
-        background-color: &dtml-backgroundColor;;
         color: &dtml-globalFontColor;;
 }
-
-
-
-
 
 /* latest changes */
 
@@ -147,15 +120,9 @@ div#portal-globalnav .csshover li:hover ul, #portal-globalnav .csshover li:hover
 
 #portal-globalnav ul li.selected a,
 #portal-globalnav .csshover ul li a:hover {
-
+        background-color:&dtml-globalBackgroundColor;;
         color:&dtml-globalFontColor;;
 }
-
-
-#portal-globalnav .csshover ul li:hover a {
-        background-color:&dtml-globalBackgroundColor;;
-}
-
 
 #portal-globalnav .csshover ul li:hover ul {
         margin:0;
@@ -165,21 +132,18 @@ div#portal-globalnav .csshover li:hover ul, #portal-globalnav .csshover li:hover
 }
 
 #portal-globalnav .csshover ul li:hover ul li {
-        background-color: &dtml-backgroundColor; !important;
         padding:0;
         margin:0;
 }
 
 #portal-globalnav .csshover ul li:hover ul li a {
         color: &dtml-globalFontColor; !important;
-        background-color: &dtml-backgroundColor; !important;
         margin:0;
         line-height:normal;
         width:auto;
 }
 
 #portal-globalnav .csshover ul li ul li a:hover {
-        background-color: &dtml-globalBackgroundColor; !important;
         background-image:none;
 }
 

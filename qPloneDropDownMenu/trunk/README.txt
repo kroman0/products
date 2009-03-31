@@ -38,7 +38,7 @@ Usage
    <li id="portaltab-Members" class="plain"><a href="http://example.com/Members" accesskey="t">Members</a>
        <ul>
            <li><a href="http://example.com/Members/jdoe">John Doe</a><li>
-           <li><a href="http://example.com/Members/mmajor">Mary Major</a><li>
+           <li><a href="http://example.com/Members/mmajor">Mary Major</a></li>
        </ul>
    </li>
    <li id="portaltab-news" class="plain"><a href="http://example.com/news" accesskey="t">News</a></li>

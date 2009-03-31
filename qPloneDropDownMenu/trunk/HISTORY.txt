@@ -1,5 +1,7 @@
 0.2
 
+  * fixed documentation
+
   * some minor fixes to portal status messages and validation stuff
 
   * compatible with plone 3

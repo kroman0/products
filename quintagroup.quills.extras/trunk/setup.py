@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.3.8 dev'
+version = '1.3.8'
 
 setup(name='quintagroup.quills.extras',
       version=version,

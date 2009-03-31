@@ -11,8 +11,9 @@ def read(*rnames):
 setup(name='quintagroup.pingtool',
       version=read("quintagroup", "pingtool", "version.txt"),
       description="quintagroup.pingtool is a simple tool to enable pinging of external feed agregators for Plone 3.1.x",
-      long_description=read("README.txt") + "\n" +
-                       read("docs", "HISTORY.txt"),
+      long_description=read("README.txt") + "\n" + \
+                       read("docs", "INSTALL.txt")+ "\n" + \
+		       read("docs", "HISTORY.txt"),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",

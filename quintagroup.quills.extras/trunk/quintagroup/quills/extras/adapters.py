@@ -3,15 +3,12 @@ from zope.interface import implements
 from quills.core.interfaces import IWeblogEntry
 from quills.core.interfaces.enabled import IPossibleWeblogEntry
 from quills.app.utilities import getArchivePathFor, getArchivePathFor
-from quintagroup.canonicalpath.interfaces import ICanonicalPath
 
 from Products.CMFCore.utils import getToolByName
 
 class quillsCanonicalPathAdapter(object):
     """Adapts quills entry content to canonical path.
     """
-    implements(ICanonicalPath)
-
     def __init__(self, context):
         self.context = context
 

@@ -4,10 +4,18 @@ from Products.CMFCore.utils import getToolByName
 from Products.PythonScripts.standard import url_quote_plus
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.utils import transaction_note
+from Products.CMFPlone import MessageFactory
 
 from quills.core.interfaces import IWeblog
 from quills.core.interfaces import IWeblogEntry
 
+try:
+    from Products.qPloneComments.utils import manage_mails
+except ImportError:
+    def manage_mails(reply, context, step):
+        pass
+
+qpc_mf = MessageFactory('plonecomments')
 
 class DiscussionReply(BrowserView):
     """
@@ -24,6 +32,10 @@ class DiscussionReply(BrowserView):
         we try to adapt to IWeblogEntry.
         """
         req = self.request
+        # Get properties
+        pp = getToolByName(self.context,'portal_properties')
+        qPC = getattr(pp,'qPloneComments', None)
+
         if username or password:
             # The user username/password inputs on on the comment form were used,
             # which might happen when anonymous commenting is enabled. If they typed
@@ -50,9 +62,10 @@ class DiscussionReply(BrowserView):
         # the following
         mtool = getToolByName(self.context, 'portal_membership')
         creator = mtool.getAuthenticatedMember().getId()
-        # qPloneComments related code
-        pp = getToolByName(self.context,'portal_properties')
-        qPC = getattr(pp,'qPloneComments', None)
+
+        ##############################
+        # qPloneComments INJECTION
+        ##############################
         requireEmail = False
         if qPC:
             requireEmail = qPC.getProperty('require_email', False)
@@ -87,6 +100,24 @@ class DiscussionReply(BrowserView):
         if hasattr(dtool.aq_explicit, 'cookReply'):
             dtool.cookReply(reply, text_format='plain')
         parent = tb.aq_parent
+
+        ##############################
+        # qPloneComments INJECTION
+        ##############################
+        if qPC:
+            # Send notification e-mail
+            ifModerate = pp['qPloneComments'].getProperty('enable_moderation', False)
+            manage_mails(reply, self.context, 'aproving')
+            if not ifModerate:
+                manage_mails(reply, self.context, 'publishing')
+
+            # Inform user about awaiting moderation
+            portal_status_message=qpc_mf(u'Comment published.')
+            if ifModerate and reply:
+                portal_status_message=qpc_mf(u'Currently, all comments require ' \
+                    'approval before being published. Please check back later.')
+            self.context.plone_utils.addPortalMessage(portal_status_message)
+
         # return to the discussable object.
         obj = self.context.plone_utils.getDiscussionThread(tb)[0]
         try:

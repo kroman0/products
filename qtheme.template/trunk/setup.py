@@ -3,6 +3,8 @@ import sys, os
 
 version = '0.7'
 
+tests_require=['zope.testing']
+
 setup(name='qtheme.template',
       version=version,
       description="Quintagroup theme template for Plone 3 with nested namespace",
@@ -22,6 +24,9 @@ setup(name='qtheme.template',
           'PasteScript>=1.6.3',
           # -*- Extra requirements: -*-
       ],
+      tests_require=tests_require,
+      extras_require=dict(tests=tests_require),
+      test_suite = 'qthemetemplate.tests.test_qthemedoc.test_suite',
       entry_points="""
           [paste.paster_create_template]
           qplone3_theme = qthemetemplate:qPlone3Theme

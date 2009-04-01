@@ -114,8 +114,27 @@
                            for="isEnabledAnonymousCommenting">Allow comments from Anonymous users</label>
                 </div>
 
-		<div class="field"
-		     tal:define="isEnabledManagerModeration python:checkPermission('Moderate Discussion', here);">
+                <div class="field"
+                     tal:define="property_id string:enable_report_abuse;
+                                 isEnabledReportAbuse python:props_sheet.getProperty(property_id, False);"
+                     tal:condition="python:props_sheet.hasProperty(property_id)">
+
+                    <input type="checkbox" 
+                           class="noborder"
+                           name="isEnabledReportAbuse"
+                           id="isEnabledReportAbuse"
+                           tabindex =""
+                           tal:attributes="name property_id;
+                                           value isEnabledReportAbuse;
+                                           checked python:test(isEnabledReportAbuse, 'True', '');
+                                           tabindex tabindex/next;"/>
+
+                    <label i18n:translate="label_enable_report_abuse"
+                           for="isEnabledReportAbuse">Enable users to report abusive comments</label>
+                </div>
+
+                <div class="field"
+                    tal:define="isEnabledManagerModeration python:checkPermission('Moderate Discussion', here);">
 
                     <input type="checkbox" 
                            class="noborder"

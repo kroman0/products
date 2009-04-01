@@ -2,9 +2,11 @@ import urllib, md5 #hashlib
 
 from Acquisition import aq_inner
 from AccessControl import getSecurityManager
-from Products.CMFPlone.utils import getToolByName
 
+from Products.CMFPlone.utils import IndexIterator
+from Products.CMFPlone.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
 from plone.app.layout.viewlets import comments
 
 class CommentsViewlet(comments.CommentsViewlet):
@@ -51,3 +53,32 @@ class CommentsViewlet(comments.CommentsViewlet):
             'default':default, 'size':str(size)})
 
         return gravatar_url
+
+    def report_abuse_enabled(self):
+        """ """
+        portal_properties = getToolByName(self.context, 'portal_properties')
+        prop_sheet = portal_properties['qPloneComments']
+        value =  prop_sheet.getProperty('enable_report_abuse', False)
+        return value
+
+    def email_from_address(self):
+        """ """
+        portal_url = getToolByName(self.context, 'portal_url')
+        portal = portal_url.getPortalObject()
+        return portal.email_from_address
+
+    def member(self):
+        """ """
+        pm = getToolByName(self.context, 'portal_membership')
+        return pm.getAuthenticatedMember()
+
+    def tabindex(self):
+        """ Needed for BBB, tabindex has been deprecated.
+        """
+        return IndexIterator()
+
+    def portal_url(self):
+        """ """
+        return getToolByName(self.context, 'portal_url')
+
+

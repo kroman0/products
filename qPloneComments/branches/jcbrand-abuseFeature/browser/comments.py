@@ -56,11 +56,25 @@ class CommentsViewlet(comments.CommentsViewlet):
 
         return gravatar_url
 
-    def report_abuse_enabled(self):
+    def authenticated_report_abuse_enabled(self):
         """ """
         portal_properties = getToolByName(self.context, 'portal_properties')
         prop_sheet = portal_properties['qPloneComments']
-        value =  prop_sheet.getProperty('enable_report_abuse', False)
+        value =  prop_sheet.getProperty('enable_authenticated_report_abuse', False)
+        return value
+
+    def anonymous_report_abuse_enabled(self):
+        """ """
+        portal_properties = getToolByName(self.context, 'portal_properties')
+        prop_sheet = portal_properties['qPloneComments']
+        value =  prop_sheet.getProperty('enable_anonymous_report_abuse', False)
+        return value
+
+    def ajax_report_abuse_enabled(self):
+        """ """
+        portal_properties = getToolByName(self.context, 'portal_properties')
+        prop_sheet = portal_properties['qPloneComments']
+        value =  prop_sheet.getProperty('enable_ajax_report_abuse', False)
         return value
 
     def email_from_address(self):
@@ -90,7 +104,8 @@ class CommentsKSS(PloneKSSView):
     """   
 
     def submit_abuse_report(self):
-        """ """
+        """ Send an email with the abuse report message and hide abuse report form.
+        """
         errors = {}
         context = aq_inner(self.context)
         request = context.REQUEST
@@ -118,7 +133,7 @@ class CommentsKSS(PloneKSSView):
         comment_id = self.context.request.get('comment_id')
         ksscore = self.getCommandSet('core')
         if errors:
-            html = self.macroContent('context/report_abuse/macros/form',
+            html = self.macroContent('context/report_abuse_form/macros/form',
                                      errors=errors,
                                      show_form=True,
                                      tabindex=IndexIterator(),
@@ -131,14 +146,15 @@ class CommentsKSS(PloneKSSView):
 
         # report_abuse(context, context, message, comment)
         manage_mails(context, self.context, 'report_abuse')
-        html = self.macroContent('context/report_abuse/macros/form',
+        html = self.macroContent('context/report_abuse_form/macros/form',
                                  tabindex=IndexIterator(),
                                  member=member,
                                  **request.form)
         node = ksscore.getHtmlIdSelector('span-reply-form-holder-%s' % comment_id)
-        ksscore.replaceInnerHTML(node, html)
-        ksscore.insertHTMLAsLastChild(
-            node,
-            '<br/> <strong style="color:red">This comment has been reported for abuse.</strong>')
+        html = '<br/><span style="color:red">You have reported this comment for abuse.</span>'
+        self.commands.addCommand('remove_abuse_report_form', 
+                                 node, 
+                                 comment_id=comment_id, 
+                                 html=html)
         return self.render()
 

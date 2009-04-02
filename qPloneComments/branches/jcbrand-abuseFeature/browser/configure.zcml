@@ -1,12 +1,19 @@
 <configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:browser="http://namespaces.zope.org/browser">
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:azax="http://namespaces.zope.org/azax">
 
     <browser:page
         for="*"
         attribute="submit_abuse_report"
         class=".comments.CommentsKSS"
-        name="submit_abuse_report"
+        name="kss_submit_abuse_report"
         permission="zope2.View"
         /> 
+
+    <azax:registerAction
+        name="remove_abuse_report_form"
+        command_factory="selector"
+        jsfile="../skins/qplonecomments/qcomments.js"
+        />
 
 </configure>

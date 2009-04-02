@@ -1,8 +1,8 @@
 <metal:macro define-macro="form"
         tal:define="visible request/show_form|nothing;
                     portal_url portal_url|view/portal_url;
-                    tabindex view/tabindex;
-                    member view/member;">
+                    tabindex request/tabindex|view/tabindex;
+                    member request/member|view/member;">
 
     <span id="span-reply-form" 
           tal:attributes="style python:not visible and 'display: none' or ''"

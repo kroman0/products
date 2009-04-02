@@ -2,7 +2,7 @@ function render_abuse_report_form(comment_id) {
     jq('form.report_abuse').bind("submit", function(event){
         event.preventDefault();
     });
-    render_button = 'input#input-render-abuse-cancel-' + comment_id;
+    var render_button = 'input#input-render-abuse-cancel-' + comment_id;
     jq(render_button).attr('disabled', 'disabled');
     var holder = 'span#span-reply-form-holder-' + comment_id;
     var form = holder + ' > span#span-reply-form';
@@ -12,10 +12,21 @@ function render_abuse_report_form(comment_id) {
     jq(cancel_button).attr('comment_id', comment_id);
 }
 
-function remove_abuse_report_form(comment_id) {
+function remove_abuse_report_form(comment_id, html) {
     var holder = 'span#span-reply-form-holder-' + comment_id;
     var form = holder + ' > span#span-reply-form';
     jq(form).fadeOut(700);
-    render_button = 'input#input-render-abuse-cancel-' + comment_id;
+    var render_button = 'input#input-render-abuse-cancel-' + comment_id;
     jq(render_button).attr('disabled', '');
+    if (html != undefined) {
+        var holder = 'span#span-abuse-count-holder-' + comment_id;
+        jq(holder).append(html);
+    }
 }
+
+kukit.actionsGlobalRegistry.register("remove_abuse_report_form", function(oper) {
+    var comment_id = oper.parms.comment_id;
+    var html = oper.parms.html
+    remove_abuse_report_form(comment_id, html);
+});
+kukit.commandsGlobalRegistry.registerFromAction('remove_abuse_report_form', kukit.cr.makeSelectorCommand);

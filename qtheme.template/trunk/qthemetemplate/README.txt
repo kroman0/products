@@ -47,14 +47,9 @@ You got standard python package content with
 Check that::
 
     >>> package_dir = 'plone.example'
-    >>> ls(package_dir)
-    MANIFEST.in
-    ...
-    plone.example-configure.zcml
-    ...
-    quintagroup
-    ...
-    setup.py
+    >>> objects = ('setup.py', 'quintagroup', 'plone.example-configure.zcml')
+    >>> [True for o in objects if o in os.listdir(package_dir)]
+    [True, True, True]
 
 
 *qplone3_theme* template - creates theme with nested namespace.
@@ -67,28 +62,19 @@ in our case - quintagroup.theme.ploneexample
 
 
 So check namespaces::
-    >>> 'quintagroup' in os.listdir(package_dir)
+    >>> theme_namespace = os.path.join(package_dir,'quintagroup','theme','ploneexample')
+    >>> os.path.isdir(theme_namespace)
     True
-
-    >>> cd(package_dir)
-    >>> 'theme' in os.listdir('quintagroup')
-    True
-
-    >>> path = os.path.join('quintagroup','theme')
-    >>> 'ploneexample' in os.listdir(path)
-    True
-    
-
 
 Theme holds 3 subdirectory (browser, profiles, skins)::
-    >>> cd('quintagroup/theme')
+    >>> cd(theme_namespace)
     >>> dirs = ('skins', 'browser', 'profiles')
-    >>> [True for d in dirs if d in os.listdir('ploneexample')]
+    >>> [True for d in dirs if d in os.listdir('.')]
     [True, True, True]
 
 And initialization files (__init__.py, configure.zcml) ::
     >>> files = ('__init__.py', 'configure.zcml')
-    >>> [True for d in files if d in os.listdir('ploneexample')]
+    >>> [True for d in files if d in os.listdir('.')]
     [True, True]
     
 
@@ -100,8 +86,6 @@ Browser directory contains:
   - interfaces.py module with IThemeSpecific marker interface.
   - configure.zcml, with registered theme marker interface.
 
-
-    >>> cd('ploneexample')
     >>> ls('browser')
     __init__.py
     configure.zcml
@@ -407,9 +391,8 @@ New resource directory registered in configure.zcml
 And in profiles/default directory added cssregistry.xml profile with
 registered main.css stylesheet
 
-    >>> ls('profiles/default')
-    cssregistry.xml
-    ...
+    >>> 'cssregistry.xml' in os.listdir('profiles/default')
+    True
     >>> cat('profiles/default/cssregistry.xml')
     <?xml version="1.0"?>
     <object name="portal_css">
@@ -466,11 +449,8 @@ New resource directory registered in configure.zcml, if not yet registered.
 In profiles/default directory added (if not yet exist) cssregistry.xml profile,
 and register new foo.js javascript resource.
 
-    >>> ls('profiles/default')
-    cssregistry.xml
-    ...
-    jsregistry.xml
-    ...
+    >>> 'jsregistry.xml' in os.listdir('profiles/default')
+    True
     >>> cat('profiles/default/jsregistry.xml')
     <?xml version="1.0"?>
     <object name="portal_javascripts">
@@ -493,13 +473,14 @@ There is 2 types of viewlet subtemplate:
  - viewlet_hidden
 
 Of the two subtemplates, the former is for adding new viewlet and
-set order for it in ViewletManager, other one only hide viewlet in
+set viewlets order for the ViewletManager, other one only hide viewlet in
 pointed ViewletManager
 
 
 Ordered NEW viewlet
 ------------------------------
-For that case you can use *viewlet_order* subtemplate
+
+Use *viewlet_order* subtemplate
 
     >>> paster('addcontent --no-interactive viewlet_order')
     paster addcontent --no-interactive viewlet_order
@@ -511,6 +492,8 @@ For that case you can use *viewlet_order* subtemplate
     ...
 
 This template adds (if not exist ;)) _viewlets.py_ module in browser directory.
+With added Example ViewletBase class, which bound to templates/example_viewlet.pt
+template
 
     >>> 'viewlets.py' in os.listdir('browser')
     True
@@ -520,11 +503,10 @@ This template adds (if not exist ;)) _viewlets.py_ module in browser directory.
     from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
     from plone.app.layout.viewlets import common
     ...
-    class Example(common.PersonalBarViewlet):
+    class Example(common.ViewletBase):
         render = ViewPageTemplateFile('templates/example_viewlet.pt')
     <BLANKLINE>
 
-In viewlets.py module added viewlet class with example_viewlet.pt template.
 
 Check template file in templates directory.
 
@@ -547,14 +529,11 @@ New viewlet registered in configure.zcml
     ...
     
 
-In profiles/default directory added viewlets.xml profile with registration
+In profiles/default directory added viewlets.xml profile 
 with registration new viewlet, ordered for specified viewlet manager.
 
-    >>> ls('profiles/default')
-    cssregistry.xml
-    ...
-    viewlets.xml
-
+    >>> 'viewlets.xml' in os.listdir('profiles/default')
+    True
     >>> cat('profiles/default/viewlets.xml')
     <?xml version="1.0"?>
     <object>
@@ -584,13 +563,11 @@ For that case you can use *viewlet_hidden* subtemplate
 As we see from upper log - there is adding/updating only profiles staff.
     
 
-Look into profiles/default directory
+Look into profiles/default directory there is viewlet.xml profile
+with hidden our viewlet for specified viewlet manager
 
-    >>> ls('profiles/default')
-    cssregistry.xml
-    ...
-    viewlets.xml
-
+    >>> 'viewlets.xml' in os.listdir('profiles/default')
+    True
     >>> cat('profiles/default/viewlets.xml')
     <?xml version="1.0"?>
     <object>
@@ -603,13 +580,20 @@ Look into profiles/default directory
     ...
     </object>
 
-We see, that in viewlets.xml, hide example viewlet for plone.portalheader viewlet manager.
 
+Adding ZEXPs importing
+==============================
 
-Adding importing ZEXPs
-------------------------------
-This subtemplate allow you to add to your theme ZEXP objects, which will be exporting
-into portal root on theme installation
+Imaging situation, when you develop theme, which use some 
+extra portal objects (documents with text for some potlets)
+Than customer of your theme can edit this objects according
+to his need.
+
+For this situation exist *import_zexps* subtemplate
+
+*import_zexps* subtemplate extend your theme with
+mechanism for importing list of zexp formated files
+into portal root on theme instllation.
 
     >>> paster('addcontent --no-interactive import_zexps')
     paster addcontent --no-interactive import_zexps
@@ -622,24 +606,22 @@ into portal root on theme installation
     ...
 
 As we see from upper log - there is:
-   - adding 'import' directory into theme directory;
+   - adding 'import' directory into root of the theme;
    - update profiles staff.
    - insert some staff into setuphandlers.py module
     
-1. Look into 'import' directory:
+1. There is added empty 'import' directory, where you
+   will put zexp objects for install into portal root.
+
     >>> ls('import')
     CONTENT.txt
 
-It's empty - here you can put any zexp objects for install into portal root.
 
+2. In profiles/default directory added (if not exist) import_steps.xml.
+   Which contain additional *quintagroup.theme.ploneexample.import_zexps* step.
 
-2. Look into profiles/default directory
-
-    >>> ls('profiles/default')
-    cssregistry.xml
-    import_steps.xml
-    ...
-
+    >>> 'import_steps.xml' in os.listdir('profiles/default')
+    True
 
     >>> cat('profiles/default/import_steps.xml')
     <?xml version="1.0"?>
@@ -655,8 +637,6 @@ It's empty - here you can put any zexp objects for install into portal root.
     <BLANKLINE>
     </import-steps>
 
-We see, that in import_steps.xml, added 'Import zexp' step.
-
 3. Check setuphandlers.py module - there is must be importZEXPs function defined
 
     >>> cat('setuphandlers.py')
@@ -665,6 +645,5 @@ We see, that in import_steps.xml, added 'Import zexp' step.
     def importZEXPs(context):
     ...
 
-So everything fine with setuphandlers too ;)
-
+Than you simply prepare zexp objects and copy its to *import* directory.
 

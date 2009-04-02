@@ -37,7 +37,8 @@ def manage_mails(reply, context, action):
                               'enable_reply_user_notification',
                               'enable_published_notification'),
                 'onDelete' :  ('enable_rejected_user_notification',),
-                'onApprove': ('enable_approve_notification',)}
+                'onApprove': ('enable_approve_notification',),
+                'onReportAbuse': ('enable_report_abuse',)}
 
     if action == 'publishing':
         sendMails(props, actions, 'onPublish')
@@ -47,6 +48,9 @@ def manage_mails(reply, context, action):
 
     elif action == 'aproving':
         sendMails(props, actions, 'onApprove')
+
+    elif action == 'report_abuse':
+        sendMails(props, actions, 'onReportAbuse')
 
 def getMsg(context, template, args):
     return getattr(context, template)(**args)
@@ -159,6 +163,30 @@ def send_email(reply, context, state):
                   'obj':reply_parent,
                   'organization_name':organization_name}
             subject = '[%s] New comment awaits moderation' % organization_name
+        else:
+            args = {}
+
+    elif state == 'enable_report_abuse':
+        template = 'report_comment_abuse_email_template'
+        user_email = getProp(context, "email_discussion_manager", None)
+        if user_email:
+            message = context.request.get('message')
+            comment_id = context.request.get('comment_id')
+            pd = context.portal_discussion
+            dl = pd.getDiscussionFor(context)
+            comment = dl._container.get(comment_id)
+            args = {'mto': user_email,
+                    'mfrom': admin_email,
+                    'obj': reply_parent,
+                    'message':message,
+                    'organization_name': organization_name,
+                    'name': creator_name,
+                    'comment_id':comment_id,
+                    'comment_desc':comment.description,
+                    'comment_text':comment.text 
+                    }
+            subject = '[%s] A comment on "%s" has been reported for abuse.' \
+                            % (organization_name, getParent(context).Title())
         else:
             args = {}
 

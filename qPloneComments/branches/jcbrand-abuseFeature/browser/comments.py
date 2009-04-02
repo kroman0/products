@@ -5,14 +5,16 @@ from AccessControl import getSecurityManager
 
 from Products.CMFPlone.utils import IndexIterator
 from Products.CMFPlone.utils import getToolByName
+from Products.CMFFormController.ControllerState import ControllerState
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.qPloneComments.utils import manage_mails
 
 from plone.app.layout.viewlets import comments
+from plone.app.kss.plonekssview import PloneKSSView
 
 class CommentsViewlet(comments.CommentsViewlet):
     """A custom version of the comments viewlet
     """
-
     render = ViewPageTemplateFile('comments.pt')
 
     def is_moderation_enabled(self):
@@ -81,4 +83,62 @@ class CommentsViewlet(comments.CommentsViewlet):
         """ """
         return getToolByName(self.context, 'portal_url')
 
+
+
+class CommentsKSS(PloneKSSView):
+    """ Operations on the report abuse form using KSS.
+    """   
+
+    def submit_abuse_report(self):
+        """ """
+        errors = {}
+        context = aq_inner(self.context)
+        request = context.REQUEST
+        portal = getToolByName(self.context, 'portal_url').getPortalObject()
+        if hasattr(context, 'captcha_validator'):
+            dummy_controller_state = ControllerState(
+                                            id='comments.pt',
+                                            context=context,
+                                            button='submit',
+                                            status='success',
+                                            errors={},
+                                            next_action=None,)
+            # get the form controller
+            controller = portal.portal_form_controller
+            # send the validate script to the form controller with the dummy state object
+            controller_state = controller.validate(dummy_controller_state, request, ['captcha_validator',])
+            errors.update(controller_state.errors)
+
+        message = request.get('message')
+        if not message:
+            errors.update({'message': 'Please provide a message'})
+
+        mtool = getToolByName(self.context, "portal_membership")
+        member = mtool.getAuthenticatedMember()
+        comment_id = self.context.request.get('comment_id')
+        ksscore = self.getCommandSet('core')
+        if errors:
+            html = self.macroContent('context/report_abuse/macros/form',
+                                     errors=errors,
+                                     show_form=True,
+                                     tabindex=IndexIterator(),
+                                     member=member,
+                                     **request.form)
+            ksscore.replaceInnerHTML(
+                            ksscore.getHtmlIdSelector('span-reply-form-holder-%s' % comment_id), 
+                            html)
+            return self.render()
+
+        # report_abuse(context, context, message, comment)
+        manage_mails(context, self.context, 'report_abuse')
+        html = self.macroContent('context/report_abuse/macros/form',
+                                 tabindex=IndexIterator(),
+                                 member=member,
+                                 **request.form)
+        node = ksscore.getHtmlIdSelector('span-reply-form-holder-%s' % comment_id)
+        ksscore.replaceInnerHTML(node, html)
+        ksscore.insertHTMLAsLastChild(
+            node,
+            '<br/> <strong style="color:red">This comment has been reported for abuse.</strong>')
+        return self.render()
 

@@ -13,6 +13,9 @@ function render_abuse_report_form(comment_id) {
 }
 
 function remove_abuse_report_form(comment_id, html) {
+    jq('form.report_abuse').bind("submit", function(event){
+        event.preventDefault();
+    });
     var holder = 'span#span-reply-form-holder-' + comment_id;
     var form = holder + ' > span#span-reply-form';
     jq(form).fadeOut(700);

@@ -38,7 +38,7 @@ def manage_mails(reply, context, action):
                               'enable_published_notification'),
                 'onDelete' :  ('enable_rejected_user_notification',),
                 'onApprove': ('enable_approve_notification',),
-                'onReportAbuse': ('enable_report_abuse',)}
+                'onReportAbuse': ('enable_anonymous_report_abuse', 'enable_authenticated_report_abuse')}
 
     if action == 'publishing':
         sendMails(props, actions, 'onPublish')
@@ -166,12 +166,12 @@ def send_email(reply, context, state):
         else:
             args = {}
 
-    elif state == 'enable_report_abuse':
+    elif state in ('enable_authenticated_report_abuse', 'enable_anonymous_report_abuse'):
         template = 'report_abuse_template'
         user_email = getProp(context, "email_discussion_manager", None)
         if user_email:
-            message = context.request.get('message')
-            comment_id = context.request.get('comment_id')
+            message = context.REQUEST.get('message')
+            comment_id = context.REQUEST.get('comment_id')
             pd = context.portal_discussion
             dl = pd.getDiscussionFor(context)
             comment = dl._container.get(comment_id)

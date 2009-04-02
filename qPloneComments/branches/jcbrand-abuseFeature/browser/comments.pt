@@ -92,13 +92,24 @@
                            />
                 </form>
                 <tal:if tal:condition="python:isReportAbuseEnabled and isPublished">
-                    <input class="destructive"
-                           type="submit"
-                           value="Report Abuse"
-                           tal:attributes="onclick string:javascript:render_abuse_report_form(${comment_id});
-                                           id string:input-render-abuse-cancel-${comment_id}"
-                           i18n:attributes="value label_report_abuse;"
-                           />
+                    <form class="report_abuse"
+                          name="report_abuse"
+                          action=""
+                          method="post"
+                          style="display: inline;">
+                        <input type="hidden" name="comment_id" tal:attributes="value comment_id" />
+                        <input class="standalone"
+                            type="submit"
+                            value="Report Abuse"
+                            tal:attributes="onclick string:javascript:render_abuse_report_form(${comment_id});
+                                            id string:input-render-abuse-cancel-${comment_id}"
+                            i18n:attributes="value label_report_abuse;"
+                            />
+                        <span tal:attributes="id string:span-reply-form-holder-${comment_id}"
+                            tal:condition="isReportAbuseEnabled">
+                            <metal:macro use-macro="here/report_abuse/macros/form"/>
+                        </span>
+                    </form>
                 </tal:if>
                 <form name="publish_discussion"
                       action=""
@@ -118,13 +129,6 @@
                      i18n:translate="text_no_add_reply"
                      i18n:domain="plonecomments"
                      tal:condition="not:isPublished">Comment must be approved before replies to comment accepted.</div>
-
-                <span tal:attributes="id string:span-reply-form-holder-${comment_id}"
-                      tal:condition="isReportAbuseEnabled">
-                    <metal:macro use-macro="here/report_abuse/macros/form"/>
-                </span>
-
-
             </div>
         </tal:getreplies>
     </div>

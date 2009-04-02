@@ -4,7 +4,10 @@
                    isAnon view/is_anonymous;
                    ifModerate view/is_moderation_enabled;
                    isModerationAllowed view/can_moderate;
-                   isReportAbuseEnabled view/report_abuse_enabled"
+                   isAuthenticatedReportAbuseEnabled view/authenticated_report_abuse_enabled;
+                   isAjaxReportAbuseEnabled view/ajax_report_abuse_enabled;
+                   isAnonymousReportAbuseEnabled view/anonymous_report_abuse_enabled;
+                   isReportAbuseEnabled python:isAnonymousReportAbuseEnabled or not isAnon and isAuthenticatedReportAbuseEnabled"
                    i18n:domain="plone">
     <div class="discussion"
          tal:condition="python:replies or (userHasReplyPermission and isDiscussionAllowed) or (isAnon and not userHasReplyPermission and isDiscussionAllowed)">
@@ -101,12 +104,13 @@
                         <input class="standalone"
                             type="submit"
                             value="Report Abuse"
-                            tal:attributes="onclick string:javascript:render_abuse_report_form(${comment_id});
+                            tal:define="onclick string:javascript:render_abuse_report_form(${comment_id})"
+                            tal:attributes="onclick python:isAjaxReportAbuseEnabled and onclick or '';
                                             id string:input-render-abuse-cancel-${comment_id}"
                             i18n:attributes="value label_report_abuse;"
                             />
                         <span tal:attributes="id string:span-reply-form-holder-${comment_id}"
-                            tal:condition="isReportAbuseEnabled">
+                              tal:condition="isReportAbuseEnabled">
                             <metal:macro use-macro="here/report_abuse/macros/form"/>
                         </span>
                         <span tal:attributes="id string:span-abuse-count-holder-${comment_id}"></span>

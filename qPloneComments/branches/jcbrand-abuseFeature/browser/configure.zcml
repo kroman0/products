@@ -1,0 +1,12 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser">
+
+    <browser:page
+        for="*"
+        attribute="submit_abuse_report"
+        class=".comments.CommentsKSS"
+        name="submit_abuse_report"
+        permission="zope2.View"
+        /> 
+
+</configure>

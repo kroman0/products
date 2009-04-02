@@ -94,7 +94,7 @@
                 <tal:if tal:condition="python:isReportAbuseEnabled and isPublished">
                     <form class="report_abuse"
                           name="report_abuse"
-                          action=""
+                          action="@@submit_abuse_report"
                           method="post"
                           style="display: inline;">
                         <input type="hidden" name="comment_id" tal:attributes="value comment_id" />
@@ -109,6 +109,7 @@
                             tal:condition="isReportAbuseEnabled">
                             <metal:macro use-macro="here/report_abuse/macros/form"/>
                         </span>
+                        <span tal:attributes="id string:span-abuse-count-holder-${comment_id}"></span>
                     </form>
                 </tal:if>
                 <form name="publish_discussion"

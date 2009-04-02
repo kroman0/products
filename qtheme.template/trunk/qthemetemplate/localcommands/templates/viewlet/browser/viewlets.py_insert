@@ -4,6 +4,6 @@
 
 \#\# -*- extra stuff goes here -*-
 
-class ${viewlet_class_name}(common.PersonalBarViewlet):
+class ${viewlet_class_name}(common.ViewletBase):
     render = ViewPageTemplateFile('templates/${viewlet_template_name}')
 

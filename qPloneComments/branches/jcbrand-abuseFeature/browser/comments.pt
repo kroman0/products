@@ -97,9 +97,9 @@
                 <tal:if tal:condition="python:isReportAbuseEnabled and isPublished">
                     <form class="report_abuse"
                           name="report_abuse"
-                          action="@@submit_abuse_report"
                           method="post"
-                          style="display: inline;">
+                          style="display: inline;"
+                          tal:attributes="action string:${reply/absolute_url}/report_abuse_form#discussion">
                         <input type="hidden" name="comment_id" tal:attributes="value comment_id" />
                         <input class="standalone"
                             type="submit"
@@ -109,12 +109,12 @@
                                             id string:input-render-abuse-cancel-${comment_id}"
                             i18n:attributes="value label_report_abuse;"
                             />
-                        <span tal:attributes="id string:span-reply-form-holder-${comment_id}"
-                              tal:condition="isReportAbuseEnabled">
-                            <metal:macro use-macro="here/report_abuse/macros/form"/>
-                        </span>
-                        <span tal:attributes="id string:span-abuse-count-holder-${comment_id}"></span>
                     </form>
+                    <span tal:attributes="id string:span-reply-form-holder-${comment_id}"
+                            tal:condition="isReportAbuseEnabled">
+                        <metal:macro use-macro="here/report_abuse_form/macros/form"/>
+                    </span>
+                    <span tal:attributes="id string:span-abuse-count-holder-${comment_id}"></span>
                 </tal:if>
                 <form name="publish_discussion"
                       action=""

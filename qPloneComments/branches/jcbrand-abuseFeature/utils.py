@@ -167,7 +167,7 @@ def send_email(reply, context, state):
             args = {}
 
     elif state == 'enable_report_abuse':
-        template = 'report_comment_abuse_email_template'
+        template = 'report_abuse_template'
         user_email = getProp(context, "email_discussion_manager", None)
         if user_email:
             message = context.request.get('message')
@@ -204,3 +204,4 @@ def send_email(reply, context, state):
 
 def setStatusMsg(state, context, msg):
     context.plone_utils.addPortalMessage(msg)
+

@@ -18,7 +18,7 @@ function remove_abuse_report_form(comment_id, html) {
     });
     var holder = 'span#span-reply-form-holder-' + comment_id;
     var form = holder + ' > span#span-reply-form';
-    jq(form).fadeOut(700);
+    jq(form).fadeOut(300);
     var render_button = 'input#input-render-abuse-cancel-' + comment_id;
     jq(render_button).attr('disabled', '');
     if (html != undefined) {

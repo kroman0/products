@@ -38,7 +38,8 @@ def manage_mails(reply, context, action):
                               'enable_published_notification'),
                 'onDelete' :  ('enable_rejected_user_notification',),
                 'onApprove': ('enable_approve_notification',),
-                'onReportAbuse': ('enable_anonymous_report_abuse', 'enable_authenticated_report_abuse')}
+                'onAnonymousReportAbuse': ('enable_anonymous_report_abuse',),
+                'onAuthenticatedReportAbuse': ('enable_authenticated_report_abuse')}
 
     if action == 'publishing':
         sendMails(props, actions, 'onPublish')
@@ -50,7 +51,11 @@ def manage_mails(reply, context, action):
         sendMails(props, actions, 'onApprove')
 
     elif action == 'report_abuse':
-        sendMails(props, actions, 'onReportAbuse')
+        pm = getToolByName(context, 'portal_membership')
+        if pm.isAnonymousUser():
+            sendMails(props, actions, 'onAnonymousReportAbuse')
+        else:
+            sendMails(props, actions, 'onAuthenticatedReportAbuse')
 
 def getMsg(context, template, args):
     return getattr(context, template)(**args)

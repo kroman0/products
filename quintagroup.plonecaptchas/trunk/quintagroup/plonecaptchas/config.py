@@ -1,5 +1,6 @@
 GLOBALS = globals()
 PRODUCT_NAME = 'quintagroup.plonecaptchas'
+CAPTCHA_KEY = 'captcha_key'
 CAPTCHAS_COUNT = 165
 
 LAYERS = ['captchas', 'plone_captchas', 'captchas_discussion', 
@@ -20,10 +21,3 @@ DEFAULT_PERIOD = 0.1
 DEFAULT_AMPLITUDE = 5
 DEFAULT_OFFSET = (0.5, 0.5)
 DEFAULT_DISTORTION = [DEFAULT_PERIOD, DEFAULT_AMPLITUDE, DEFAULT_OFFSET]
-
-PROPERTIES = (('image_size', DEFAULT_IMAGE_SIZE, 'int'),
-              ('background', DEFAULT_BG, 'string'),
-              ('font_color', DEFAULT_FONT_COLOR, 'string'),
-              ('period', DEFAULT_PERIOD, 'float'),
-              ('amplitude', DEFAULT_AMPLITUDE, 'float'),
-              ('random_params', True, 'boolean'))

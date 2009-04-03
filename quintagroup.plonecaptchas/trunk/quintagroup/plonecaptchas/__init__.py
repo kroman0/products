@@ -1,9 +1,6 @@
-import logging
-
 from zope.i18nmessageid import MessageFactory
 
 from AccessControl import allow_module, ModuleSecurityInfo
-from Products.CMFCore.DirectoryView import registerDirectory
 from Products.CMFCore.utils import ToolInit
 
 from quintagroup.plonecaptchas import config
@@ -14,8 +11,6 @@ ModuleSecurityInfo('quintagroup.plonecaptchas').declarePublic("ProductMessageFac
 
 allow_module('quintagroup.plonecaptchas.utils')
 allow_module('quintagroup.plonecaptchas.config')
-
-registerDirectory('skins', config.GLOBALS)
 
 def initialize(context):
     ToolInit(meta_type="CaptchaTool",

@@ -59,7 +59,6 @@ else:
     email = mtool.getAuthenticatedMember().getProperty('email')
 
 tb = dtool.getDiscussionFor(context)
-parent = tb.aq_parent
 
 # Send notification e-mail
 manage_mails(context, context, 'report_abuse')

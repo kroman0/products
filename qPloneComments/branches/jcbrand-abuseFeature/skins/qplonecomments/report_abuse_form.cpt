@@ -94,7 +94,7 @@
                     method="post"
                     class="enableAutoFocus"
                     tal:attributes="action string:${here/absolute_url}/${template/id}"
-                    tal:define="errors request/errors|python:{}" >
+                    tal:define="errors errors|request/errors|python:{}" >
 
                 <input type="hidden" name="comment_id" tal:attributes="value comment_id" />
 
@@ -105,42 +105,45 @@
                 <input type="hidden" name="Creator" tal:condition="not:isAnon" tal:attributes="value member/getUserName" />
 
                 <div class="field"
-                    tal:define="error errors/sender_fullname|nothing"
+                    tal:define="error errors/creator|nothing"
                     tal:attributes="class python:error and 'field error' or 'field'">
-                <label for="sender_fullname" i18n:translate="label_sender_fullname">
+                <label for="creator" i18n:translate="label_creator">
                     Name
                 </label>
-                <div class="formHelp" i18n:translate="help_sender_fullname">
+                <span class="fieldRequired" title="Required"
+                        i18n:attributes="title title_required;"
+                        i18n:translate="label_required">(Required)</span>
+                <div class="formHelp" i18n:translate="help_creator">
                     Please enter your full name
                 </div>
                 <div tal:content="error">Validation error output</div>            
                 <input type="text" 
-                        id="sender_fullname" 
-                        name="sender_fullname" 
+                        id="creator" 
+                        name="creator" 
                         size="40" 
                         value="" 
-                        tal:attributes="value request/sender_fullname|nothing"
+                        tal:attributes="value request/creator|nothing"
                         />
                 </div>
                 <div class="field"
-                    tal:define="error errors/sender_from_address|nothing"
+                    tal:define="error errors/email|nothing"
                     tal:attributes="class python:error and 'field error' or 'field'">
-                <label for="sender_from_address" i18n:translate="label_sender_from_address">
+                <label for="email" i18n:translate="label_email">
                     E-Mail
                 </label>
                 <span class="fieldRequired" title="Required"
                         i18n:attributes="title title_required;"
                         i18n:translate="label_required">(Required)</span>
-                <div class="formHelp" i18n:translate="help_sender_from_address">
+                <div class="formHelp" i18n:translate="help_email">
                     Please enter your e-mail address
                 </div>
                 <div tal:content="error">Validation error output</div>            
                 <input type="text" 
-                        id="sender_from_address" 
-                        name="sender_from_address" 
+                        id="email" 
+                        name="email" 
                         size="40" 
                         value="" 
-                        tal:attributes="value request/sender_from_address|nothing"
+                        tal:attributes="value request/email|nothing"
                         />
                 </div>
                 </tal:feedbackForm>
@@ -148,7 +151,7 @@
                                     define="fullname python:request.get('fullname', member.getProperty('fullname', ''));
                                             email python:request.get('email', member.getProperty('email',''));">
                     <input type="hidden" name="sender_fullname" value="fullname" tal:attributes="value fullname" />
-                    <input type="hidden" name="sender_from_address" value="email" tal:attributes="value email" />
+                    <input type="hidden" name="email" value="email" tal:attributes="value email" />
                 </tal:feedbackForm>
                 <div class="field"
                     tal:define="error errors/message|nothing"

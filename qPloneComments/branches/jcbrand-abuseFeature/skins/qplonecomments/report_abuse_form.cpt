@@ -170,9 +170,13 @@
                 <div tal:content="error">Validation error output</div>            
                     <textarea name="message" id="message" rows="5" cols="25" tal:content="request/message|nothing"> </textarea>
                 </div>
-                <div tal:condition="nocall:here/captcha_widget|nothing" tal:omit-tag="">
-                    <div metal:use-macro="here/captcha_widget/macros/captcha" />
-                </div>
+                <metal:macro define-macro="captcha">
+                    <div tal:define="comment_id comment_id|request/comment_id" 
+                         tal:attributes="id string:div-captcha-${comment_id}" 
+                         tal:condition="nocall:here/captcha_widget|nothing">
+                        <div metal:use-macro="here/captcha_widget/macros/captcha" />
+                    </div>
+                </metal:macro>
 
                 <div class="formControls">
                     <input type="hidden" name="form.submitted" value="1" />

@@ -42,8 +42,8 @@ if isForAnonymous:
     isAnonym = pm.isAnonymousUser()
     if isAnonym:
         req = context.REQUEST
-        if not (req.form.has_key('Creator') and not req.form['Creator'] == ""):
-            state.setError('Creator', _(u'Please enter your name.'), 'name_required')
+        if not (req.form.has_key('creator') and not req.form['creator'] == ""):
+            state.setError('creator', _(u'Please enter your name.'), 'name_required')
 
         try:
             captcha_view = context.restrictedTraverse('@@captcha')

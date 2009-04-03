@@ -68,10 +68,9 @@ manage_mails(context, context, 'report_abuse')
 redirect_target = context.plone_utils.getDiscussionThread(tb)[0]
 view = redirect_target.getTypeInfo().getActionInfo('object/view',
                                                    redirect_target)['url']
-anchor = context.getId()
 
 portal_status_message=_(u'Your abuse report has been sent.')
 context.plone_utils.addPortalMessage(portal_status_message)
-
-target = '%s#%s' % (view, anchor)
+target = '%s' % view
 return req.RESPONSE.redirect(target)
+

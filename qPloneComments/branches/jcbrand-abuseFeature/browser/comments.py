@@ -139,7 +139,7 @@ class CommentsKSS(PloneKSSView):
                                      tabindex=IndexIterator(),
                                      member=member,
                                      **request.form)
-            node = ksscore.getHtmlIdSelector('span-reply-form-holder-%s' % comment_id), 
+            node = ksscore.getHtmlIdSelector('span-reply-form-holder-%s' % comment_id)
             ksscore.replaceInnerHTML(node,  html)
             return self.render()
 

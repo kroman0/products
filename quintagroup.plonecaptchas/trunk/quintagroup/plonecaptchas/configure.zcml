@@ -17,13 +17,22 @@
     <cmf:registerDirectory name="captchas_discussion" />
     <cmf:registerDirectory name="captchas_join_form" />
     <cmf:registerDirectory name="captchas_sendto_form" />
-    <cmf:registerDirectory name="plone_captchas" />
+    <cmf:registerDirectory name="plone_captchas" recursive="true" />
 
     <gs:registerProfile
         name="default"
-        title="quintagroup.plonecaptchas"
+        title="Plone Captchas"
         directory="profiles/default"
         description="This product adds captcha support to Plone."
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <gs:registerProfile
+        name="uninstall"
+        title="Uninstall Plone Captchas"
+        directory="profiles/uninstall"
+        description="Uninstall Plone Captchas product."
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />

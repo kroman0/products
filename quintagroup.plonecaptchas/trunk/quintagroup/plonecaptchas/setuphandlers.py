@@ -1,6 +1,9 @@
 from random import randint
 
-from quintagroup.plonecaptchas.config import CAPTCHA_KEY
+from Products.CMFCore.utils import getToolByName
+
+from quintagroup.plonecaptchas.config import CAPTCHA_KEY, CONFIGLET_ID, \
+    ALL_LAYERS, PROPERTY_SHEET
 
 def generateKey(length):
     key = ''
@@ -20,3 +23,29 @@ def setupVarious(context):
         site._updateProperty(CAPTCHA_KEY, value)
     else:
         site._setProperty(CAPTCHA_KEY, value, 'string')
+
+def uninstall(context):
+    # Only run step if a flag file is present (e.g. not an extension profile)
+    if context.readDataFile('quintagroup.plonecaptchas_uninstall.txt') is None:
+        return
+
+    site = context.getSite()
+
+    # remove our layers from skin path
+    skinstool = getToolByName(site, 'portal_skins')
+    for skinName in skinstool.getSkinSelections():
+        path = skinstool.getSkinPath(skinName)
+        path = [i.strip() for i in  path.split(',')]
+        pth  = [x for x in path if not ((x in ALL_LAYERS) or
+                filter(lambda y: x.startswith(y), ALL_LAYERS))]
+        skinstool.addSkinSelection(skinName, ','.join(pth))
+
+    # remove configlet
+    cpt = getToolByName(site, 'portal_controlpanel')
+    if CONFIGLET_ID in [o.id for o in cpt.listActions()]:
+        cpt.unregisterConfiglet(CONFIGLET_ID)
+
+    # remove property sheet
+    pp = getToolByName(site, 'portal_properties')
+    if PROPERTY_SHEET in pp.objectIds():
+        pp.manage_delObjects(ids=[PROPERTY_SHEET])

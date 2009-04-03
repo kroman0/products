@@ -30,6 +30,7 @@
            insert-after="custom" />
     <layer name="plone_captchas/static"
            insert-after="custom" />
+    <layer name="plone_captchas/dynamic" remove="True" />
   </skin-path>
 
 </object>

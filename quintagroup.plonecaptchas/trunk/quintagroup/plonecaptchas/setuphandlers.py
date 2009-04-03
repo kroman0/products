@@ -31,15 +31,6 @@ def uninstall(context):
 
     site = context.getSite()
 
-    # remove our layers from skin path
-    skinstool = getToolByName(site, 'portal_skins')
-    for skinName in skinstool.getSkinSelections():
-        path = skinstool.getSkinPath(skinName)
-        path = [i.strip() for i in  path.split(',')]
-        pth  = [x for x in path if not ((x in ALL_LAYERS) or
-                filter(lambda y: x.startswith(y), ALL_LAYERS))]
-        skinstool.addSkinSelection(skinName, ','.join(pth))
-
     # remove configlet
     cpt = getToolByName(site, 'portal_controlpanel')
     if CONFIGLET_ID in [o.id for o in cpt.listActions()]:

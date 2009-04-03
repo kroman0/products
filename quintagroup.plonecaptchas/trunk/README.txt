@@ -23,6 +23,8 @@ Plugs to
 --------
 
 * default Plone discussion mechanism
+* join form
+* send to form
 
 Install
 -------

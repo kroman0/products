@@ -139,13 +139,13 @@ class CommentsKSS(PloneKSSView):
                                      tabindex=IndexIterator(),
                                      member=member,
                                      **request.form)
-            ksscore.replaceInnerHTML(
-                            ksscore.getHtmlIdSelector('span-reply-form-holder-%s' % comment_id), 
-                            html)
+            node = ksscore.getHtmlIdSelector('span-reply-form-holder-%s' % comment_id), 
+            ksscore.replaceInnerHTML(node,  html)
             return self.render()
 
         # report_abuse(context, context, message, comment)
         manage_mails(context, self.context, 'report_abuse')
+
         html = self.macroContent('context/report_abuse_form/macros/form',
                                  tabindex=IndexIterator(),
                                  member=member,
@@ -156,5 +156,10 @@ class CommentsKSS(PloneKSSView):
                                  node, 
                                  comment_id=comment_id, 
                                  html=html)
+
+        node = ksscore.getHtmlIdSelector('div-captcha-%s' % comment_id)
+        html = self.macroContent('context/report_abuse_form/macros/captcha',
+                                 **request.form)
+        ksscore.replaceInnerHTML(node,  html)
         return self.render()
 

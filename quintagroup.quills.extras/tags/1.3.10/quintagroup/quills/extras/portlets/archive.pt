@@ -1,0 +1,28 @@
+<dl class="portlet portletWeblogArchive"
+    i18n:domain="plone"
+    tal:define="years view/getSubArchives;"
+    tal:condition="years">
+
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <span class="tile"
+              tal:content="view/title">_title_</span>
+        <span class="portletTopRight"></span>
+    </dt>
+
+    <dd class="portletItem lastItem">
+        <ul tal:repeat="year years">
+            <li>
+                <h5 tal:content="year/title">year title</h5>
+                <ul tal:define="months year/months">
+                    <li tal:repeat="month months">
+                        <a href=""
+                            tal:attributes="href month/murl">
+                            <span i18n:translate="" i18n:domain="plone" tal:content="python: view.getMonthName(month['mid'])" />&nbsp;(<b tal:content="month/mlen"/>)
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </dd>
+</dl>

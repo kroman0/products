@@ -1,0 +1,17 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml">
+    <include zcml:condition="installed quills.app"
+             package=".browser" file="overrides.zcml" />
+
+    <include zcml:condition="installed quills.app"
+             package=".portlets" file="overrides.zcml" />
+
+  <!-- fix sorting by modified date for quills feeds -->
+ 
+  <adapter
+      for="Products.ATContentTypes.interface.IATDocument"
+      provides="Products.basesyndication.interfaces.IFeedEntry"
+      factory=".adapters.DocumentFeedEntry" />
+
+</configure>

@@ -427,6 +427,10 @@
 			</tal:def>
                         <tal:comma tal:condition="not:repeat/author/end">, </tal:comma>
 			</tal:block>
+          <tal:publication define="item_modified item_modified | entry/getPublicationDate;"
+              condition="item_modified"> on
+              <span tal:replace="python:item_modified.strftime('%m/%d/%Y')">08/16/2001</span>
+          </tal:publication>
         </div>
 		
       </tal:showme>

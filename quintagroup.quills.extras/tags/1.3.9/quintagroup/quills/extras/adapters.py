@@ -14,8 +14,9 @@ class quillsCanonicalPathAdapter(object):
 
     def canonical_path(self):
         purl = getToolByName(self.context,'portal_url')
+        if not self.context.workflow_history['plone_workflow'][-1]['review_state'] == 'published':
+            return '/' + purl.getRelativeContentURL(self.context)
         entry = IWeblogEntry(self.context).__of__(self.context.aq_inner.aq_parent)
         weblog_content = entry.getWeblogContentObject()
-        weblog_path = '/'+'/'.join(purl.getRelativeContentPath(weblog_content))
-
+        weblog_path = '/' + purl.getRelativeContentURL(weblog_content)
         return '%s/%s' % (weblog_path,'/'.join(getArchivePathFor(entry, weblog_content)))

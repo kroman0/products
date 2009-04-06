@@ -6,6 +6,8 @@ from quills.app.utilities import getArchivePathFor, getArchivePathFor
 
 from Products.CMFCore.utils import getToolByName
 
+from Products.fatsyndication.adapters.feedentry import DocumentFeedEntry as BaseFeedEntry
+
 class quillsCanonicalPathAdapter(object):
     """Adapts quills entry content to canonical path.
     """
@@ -21,3 +23,16 @@ class quillsCanonicalPathAdapter(object):
         weblog_content = entry.getWeblogContentObject()
         weblog_path = '/' + purl.getRelativeContentURL(weblog_content)
         return '%s/%s' % (weblog_path,'/'.join(getArchivePathFor(entry, weblog_content)))
+
+
+class DocumentFeedEntry(BaseFeedEntry):
+    """ Fix effective date.
+        BaseFeedEntry overwrite return modification date for 
+        getEffectiveDate method. This lead to change entries
+        order in result feed.
+    """
+
+    def getEffectiveDate(self):
+        """See IFeedEntry.
+        """
+        return self.context.effective()

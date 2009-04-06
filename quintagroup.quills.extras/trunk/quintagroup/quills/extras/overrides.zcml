@@ -7,4 +7,11 @@
     <include zcml:condition="installed quills.app"
              package=".portlets" file="overrides.zcml" />
 
+  <!-- fix sorting by modified date for quills feeds -->
+ 
+  <adapter
+      for="Products.ATContentTypes.interface.IATDocument"
+      provides="Products.basesyndication.interfaces.IFeedEntry"
+      factory=".adapters.DocumentFeedEntry" />
+
 </configure>

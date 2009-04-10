@@ -515,6 +515,7 @@ New viewlet is registered in configure.zcml
             name="quintagroup.theme.ploneexample.example"
             manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
             class=".viewlets.Example"
+            layer=".interfaces.IThemeSpecific"
             permission="zope2.View"
             />
     ...

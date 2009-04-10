@@ -10,6 +10,7 @@ from zopeskel.localcommands import ZopeSkelLocalTemplate
 from qthemetemplate.localcommands import QThemeSubTemplate
 
 RESP = re.compile("\s+")
+REBAN = re.compile("[\\\/\,\.\+\-\*\%\~\@\#\$\^\&\|\;\:\?\(\)\=\[\]\{\}\_]+")
 
 
 class SkinLayerSubTemplate(QThemeSubTemplate):
@@ -123,7 +124,8 @@ class ViewletOrderSubTemplate(QThemeSubTemplate):
       var('insert_control_viewlet', 'Viewlet after or before which your viewlet will be inserted, ' \
           '"*" accepted, which mean all', default='*'),
 
-      var('layer_interface', "Layer interface for registry this viewlet on", default=""),
+      var('layer_interface', "Layer interface for registry this viewlet on", 
+          default=".interfaces.IThemeSpecific"),
       var('layer_name', "Layer name for registry this viewlet on", default=""),
       #var('skinname', "Skin name, for bind viewlet to, '*' - mean for all", default=""),
       #var('skinbase', "Base skin, for get viewlets from", default=""),
@@ -136,7 +138,7 @@ class ViewletOrderSubTemplate(QThemeSubTemplate):
 
         vn_lower_nospc = RESP.sub('',vars['viewlet_name']).lower()
         vn_lower_under = RESP.sub('_',vars['viewlet_name']).lower()
-        VnCamel = ''.join([i.capitalize() for i in vars['viewlet_name'].split()])
+        VnCamel = ''.join([i.capitalize() for i in REBAN.sub(' ',vars['viewlet_name']).split()])
         vars['viewlet_class_name'] = VnCamel
         vars['viewlet_interface_name'] = "I"+VnCamel
         vars['viewlet_template_name'] = vn_lower_nospc+'_viewlet.pt'

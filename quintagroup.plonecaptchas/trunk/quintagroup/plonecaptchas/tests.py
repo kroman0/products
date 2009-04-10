@@ -158,9 +158,11 @@ class TestInstallation(ptc.FunctionalTestCase):
         self.assert_(not TOOL_ID in self.portal.objectIds())
 
     def testCaptchaKey(self):
-        ck = getattr(self.portal, 'captcha_key')
+        ck = getattr(self.portal, CAPTCHA_KEY)
         self.assert_(ck)
         self.assertEqual(len(ck), 8)
+        self.qi.uninstallProducts([PRODUCT_NAME])
+        self.assert_(not self.portal.hasProperty(CAPTCHA_KEY))
 
 def test_suite():
     suite = unittest.TestSuite()

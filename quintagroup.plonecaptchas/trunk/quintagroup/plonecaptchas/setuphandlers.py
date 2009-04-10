@@ -40,3 +40,7 @@ def uninstall(context):
     pp = getToolByName(site, 'portal_properties')
     if PROPERTY_SHEET in pp.objectIds():
         pp.manage_delObjects(ids=[PROPERTY_SHEET])
+
+    # remove captcha key property
+    if site.hasProperty(CAPTCHA_KEY):
+        site._delProperty(CAPTCHA_KEY)

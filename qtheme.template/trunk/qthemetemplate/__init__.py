@@ -27,7 +27,6 @@ def assert_dict(dist, attr, value):
     """Verify that value is a dict or None"""
     try:
         assert type(value) == types.DictType
-        print 'success assert'
     except (TypeError,ValueError,AttributeError,AssertionError):
         raise DistutilsSetupError(
             "%r must be a dict (got %r)" % (attr,value)

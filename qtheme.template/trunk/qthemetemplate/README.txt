@@ -6,7 +6,7 @@ Contents
 1. Overview
 2. Creating theme package
 3. Extending theme
-4. Release theme package
+4. Release notes
 
 Overview
 ========
@@ -639,3 +639,20 @@ As we see from the upper log:
 
 Then simply prepare zexp objects and copy them to *import* directory.
 
+
+RELEASE NOTES !
+===============
+
+Before releasing theme - I suggest to clean up setup.py script:
+
+ - remove *theme_vars* argument (its value is useful only for
+   theme development)
+
+ - remove *entry_points* argument (same reason).
+   It's useless in plone for now.
+
+ - And remove *paster_plugins* argument too (it has sence
+   in conjunction with entry_points during theme developing)
+
+Steps mentioned above prevent possible problems with
+theme distribution/deployment.

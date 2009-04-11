@@ -1,10 +1,12 @@
 Changelog
 =========
 
-0.9 (unreleased)
+0.9 (2009-04-11)
 ----------------
 
-- Nothing changed yet.
+- Changed package name/namespace to
+  quintagroup.themetemplate.
+  [mylan]
 
 
 0.8 (2009-04-10)

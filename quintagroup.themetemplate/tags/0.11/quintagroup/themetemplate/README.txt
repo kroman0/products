@@ -36,14 +36,6 @@ Creation of a package is performed with *paster create* PasteScript command.
 Theme extending with other resources can be done with *paster addcontent*
 local ZopeSkel command (extended in this product).
 
-
-With this theme template you can, fist of all, create initial theme package skeleton,
-i.e. create plone3 theme python package with nested namespace (this is different from 
-deafult plone3_theme template in Zopeskel) 
-
-After that you can extend theme package by the following elements: 
-
-
 Creating theme package
 ======================
 

@@ -7,6 +7,9 @@ by additional elements, such as: skin layers, portlets, viewlets, css and js res
 and objects in zexp files. This package is an analogue of Archetype template in terms 
 of its functionality.
 
+quintagroup.themetemplate package is used for development of all Quintagroup themes 
+for Plone 3 (http://skins.quintagroup.com).
+
 Contents
 --------
 1. Overview

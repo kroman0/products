@@ -1,7 +1,11 @@
 qplone3 theme template
 ======================
 
-quintagroup.themetemplate is an enhanced "Plone 3 Theme" template from Zopeskel, that includes addcontent local command, which allows you to extend base Plone theme by additional elements, such as: skin layers, portlets, viewlets, css and js resources, and objects in zexp files. This package is an analogue of Archetype template in terms of its functionality.
+quintagroup.themetemplate is an enhanced "Plone 3 Theme" template from Zopeskel, 
+that includes addcontent local command, which allows you to extend base Plone theme
+by additional elements, such as: skin layers, portlets, viewlets, css and js resources, 
+and objects in zexp files. This package is an analogue of Archetype template in terms 
+of its functionality.
 
 Contents
 --------

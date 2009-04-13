@@ -76,17 +76,20 @@ By default - theme is placed in
 in our case - quintagroup.theme.ploneexample
 
 So check namespaces::
+
     >>> theme_namespace = os.path.join(package_dir,'quintagroup','theme','ploneexample')
     >>> os.path.isdir(theme_namespace)
     True
 
 Theme holds 3 subdirectories (browser, profiles, skins)::
+
     >>> cd(theme_namespace)
     >>> dirs = ('skins', 'browser', 'profiles')
     >>> [True for d in dirs if d in os.listdir('.')]
     [True, True, True]
 
 And initialization files (__init__.py, configure.zcml) ::
+
     >>> files = ('__init__.py', 'configure.zcml')
     >>> [True for d in files if d in os.listdir('.')]
     [True, True]

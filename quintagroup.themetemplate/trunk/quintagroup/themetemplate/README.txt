@@ -19,6 +19,7 @@ This package can be extended (filled in) with:
   - portlet(s)
   - viewlet(s)
   - css, js resource(s)
+  - objects in zexp files
 
 Creation of a package is performed with *paster create* PasteScript command.
 Theme extending with other resources can be done with *paster addcontent*
@@ -197,7 +198,7 @@ Extending theme
 
 One of the best features, which ZopeSkel package brings, is *localcommand*.
 
-In this part I will show how you can extend a theme (generated with qplone3_theme
+This part shows how you can extend a theme (generated with qplone3_theme
 ZopeSkel template) with additional useful stuff:
 
   - skin layers
@@ -206,6 +207,7 @@ ZopeSkel template) with additional useful stuff:
   - portlets
   - css
   - javascripts
+  - objects in zexp files
 
 So, in qplone3_theme generated package you can use *addcontent* ZopeSkel
 local command.

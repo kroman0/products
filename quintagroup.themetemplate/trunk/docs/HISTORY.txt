@@ -1,10 +1,11 @@
 Changelog
 =========
 
-0.10 (unreleased)
+0.10 (2009-04-13)
 -----------------
 
-- Nothing changed yet.
+- Updated README
+  [olha]
 
 
 0.9 (2009-04-11)

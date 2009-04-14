@@ -7,6 +7,7 @@ from quills.core.interfaces.enabled import IPossibleWeblogEntry
 from Products.CMFCore.utils import getToolByName
 
 from quintagroup.quills.extras.browser.interfaces import IWeblogCategory
+from zope.component import getSiteManager
 
 def set_layout(sc_info):
     #portal = sc_info.getPortal()
@@ -56,3 +57,35 @@ def processBlogSubFolders(self):
             item_res[2] = 1
         res.append(item_res)
     return res
+
+
+from zope.interface import Interface
+from Products.CMFPlone.SyndicationTool import SyndicationTool
+from Products.CMFCore.interfaces import ISyndicationTool
+from vice.outbound.feedsettings import FeedSettings
+from zope.component import queryUtility
+from vice.outbound.interfaces import IFeedSettings
+
+
+from plone.browserlayer.interfaces import ILocalBrowserLayerType
+
+def restoreSyndication(self):
+    site = self.portal_url.getPortalObject()
+    sm = getSiteManager(self)
+    sm.unregisterUtility(provided=ISyndicationTool)
+    site._delObject("portal_syndication")
+    site._setObject("portal_syndication", SyndicationTool())
+    sm.registerUtility(site["portal_syndication"].aq_base, provided=ISyndicationTool)#, name='portal_syndication')
+    site["portal_syndication"].editProperties(isAllowed=True)
+    
+    # unregister utilities
+    feedSettings = queryUtility(IFeedSettings)
+    sm.unregisterUtility(component=feedSettings, provided=IFeedSettings)
+
+    ploneOutbound = queryUtility(ILocalBrowserLayerType, name="vice.plone.outbound")
+    sm.unregisterUtility(component=ploneOutbound, 
+                         provided=ILocalBrowserLayerType,
+                         name="vice.plone.outbound")
+
+    return "done"
+

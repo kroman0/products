@@ -40,6 +40,10 @@
           tal:attributes="name python:keyval[0];
                           content python:keyval[1];" />
 
+    <tal:ecma_script define="ecmascript here/qSEO_ECMA_Script|nothing" condition="ecmascript">
+        <tal:script replace="structure ecmascript" />
+    </tal:ecma_script>
+
     <metal:js metal:use-macro="here/renderAllTheScripts/macros/jsrenderer">
     </metal:js>
 

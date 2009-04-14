@@ -247,6 +247,38 @@
                    />
           </div>
 
+          <div class="field">
+            <label i18n:translate="label_ecma_script" for="ecma_script">
+              ECMA Script
+            </label>
+
+            <div class="formHelp" i18n:translate="help_seo_ecma_script">
+              ECMA script embedded into HTML header.
+            </div>
+
+            <input type="checkbox"
+                   id="ecma_override"
+                   name="ecma_override"
+                   tabindex=""
+                   tal:attributes="checked python:test(here.hasProperty('qSEO_ecma_script'), 'on', None);
+                                   tabindex tabindex/next;"
+                   />
+
+            <label i18n:translate="label_override" for="ecma_override">
+              Override
+            </label>
+
+            <textarea 
+                      id="seo_ecma_script"
+                      name="ecma_script"
+                      rows="5"
+                      cols="15"
+                      tabindex=""
+                      tal:attributes="tabindex tabindex/next;"
+                      tal:content="request/ecma_script | here/qSEO_ECMA_Script"
+                      ></textarea>
+          </div>
+
           <div class="formControls"
                tal:define="process_creation request/process_creation|nothing;"
                i18n:domain="plone">

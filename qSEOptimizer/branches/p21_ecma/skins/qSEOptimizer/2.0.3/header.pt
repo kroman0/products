@@ -39,6 +39,10 @@
           tal:attributes="name python:keyval[0];
                           content python:keyval[1];" />
 
+    <tal:ecma_script define="ecmascript here/qSEO_ECMA_Script|nothing" condition="ecmascript">
+        <tal:script replace="structure ecmascript" />
+    </tal:ecma_script>
+
     <link rel="Stylesheet" type="text/css" href="" tal:attributes="href string:$portal_url/ploneNS4.css" />
 
     <style type="text/css" media="all" tal:condition="exists: portal/ploneColumns.css"

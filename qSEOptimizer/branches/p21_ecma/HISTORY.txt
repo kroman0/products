@@ -1,3 +1,8 @@
+0.5.4 (2009-04-14)
+
+    * Implemented possibility to add specific
+      ecma-script to header of a seo supported content
+
 0.5.3 Plone 2.5.3 support release
 
 0.5.2 bug fix release

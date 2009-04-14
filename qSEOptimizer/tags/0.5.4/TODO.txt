@@ -1,0 +1,7 @@
+future
+
+  * MigrationTool integration to update skin layer of the product.
+
+  * Monkeypatch PloneTool.listMetaTags() instead of overriding the
+    functionality in listMetaTags Python Script, this will minimize
+    header template dependency.

@@ -1,6 +1,7 @@
-import cgi
+import urllib
 
 from zope.interface import implements
+from zope.component import getMultiAdapter
 
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
@@ -13,22 +14,87 @@ from quintagroup.portlet.cumulus import CumulusPortletMessageFactory as _
 
 
 class ICumulusPortlet(IPortletDataProvider):
-    """A portlet
-
-    It inherits from IPortletDataProvider because for this portlet, the
-    data that is being rendered and the portlet assignment itself are the
-    same.
+    """ A cumulus tag cloud portlet.
     """
+    # options for generating <embed ... /> tag
+    width = schema.Int(
+        title=_(u'Width of the Flash tag cloud'),
+        description=_(u'Width in pixels (500 or more is recommended).'),
+        required=True,
+        default=550)
 
-    # TODO: Add any zope.schema fields here to capture portlet configuration
-    # information. Alternatively, if there are no settings, leave this as an
-    # empty interface - see also notes around the add form and edit form
-    # below.
+    height = schema.Int(
+        title=_(u'Height of the Flash tag cloud'),
+        description=_(u'Height in pixels (ideally around 3/4 of the width).'),
+        required=True,
+        default=375)
 
-    # some_field = schema.TextLine(title=_(u"Some field"),
-    #                              description=_(u"A field to use"),
-    #                              required=True)
+    tcolor = schema.TextLine(
+        title=_(u'Color of the tags'),
+        description=_(u'This and next 3 fields should be 6 character hex color values without the # prefix (000000 for black, ffffff for white).'),
+        required=True,
+        default=u'ffffff')
 
+    tcolor2 = schema.TextLine(
+        title=_(u'Optional second color for gradient'),
+        description=_(u'When this color is available, each tag\'s color will be from a gradient between the two. This allows you to create a multi-colored tag cloud.'),
+        required=False,
+        default=u'ffffff')
+
+    hicolor = schema.TextLine(
+        title=_(u'Optional highlight color'),
+        description=_(u'Color of the tag when mouse is over it.'),
+        required=False,
+        default=u'ffffff')
+
+    bgcolor = schema.TextLine(
+        title=_(u'Background color'),
+        description=_(u'The hex value for the background color you\'d like to use. This options has no effect when \'Use transparent mode\' is selected.'),
+        required=True,
+        default=u'333333')
+
+    trans = schema.Bool(
+        title=_(u'Use transparent mode'),
+        description=_(u'Switches on Flash\'s wmode-transparent setting.'),
+        required=True,
+        default=False)
+
+    speed = schema.Int(
+        title=_(u'Rotation speed'),
+        description=_(u'Speed of the sphere. Options between 25 and 500 work best.'),
+        required=True,
+        default=100)
+
+    distr = schema.Bool(
+        title=_(u'Distribute tags evenly on sphere'),
+        description=_(u'When enabled, the movie will attempt to distribute the tags evenly over the surface of the sphere.'),
+        required=True,
+        default=True)
+
+    compmode = schema.Bool(
+        title=_(u'Use compatibility mode?'),
+        description=_(u'Enabling this option switches the plugin to a different way of embedding Flash into the page. Use this if your page has markup errors or if you\'re having trouble getting tag cloud to display correctly.'),
+        required=True,
+        default=False)
+
+    # options for generating tag cloud data
+    smallest = schema.Int(
+        title=_(u'Smallest tag size'),
+        description=_(u'The text size of the tag with the smallest count value (units given by unit parameter).'),
+        required=True,
+        default=8)
+
+    largest = schema.Int(
+        title=_(u'Largest tag size'),
+        description=_(u'The text size of the tag with the highest count value (units given by the unit parameter).'),
+        required=True,
+        default=22)
+
+    unit = schema.TextLine(
+        title=_(u'Unit of measure'),
+        description=_(u'Unit of measure as pertains to the smallest and largest values. This can be any CSS length value, e.g. pt, px, em, %.'),
+        required=True,
+        default=u'pt')
 
 class Assignment(base.Assignment):
     """Portlet assignment.
@@ -39,54 +105,107 @@ class Assignment(base.Assignment):
 
     implements(ICumulusPortlet)
 
-    # TODO: Set default values for the configurable parameters here
+    width    = 550;
+    height   = 375;
+    tcolor   = u'ffffff'
+    tcolor2  = u'ffffff'
+    hicolor  = u'ffffff'
+    bgcolor  = u'333333'
+    speed    = 100
+    trans    = False
+    distr    = True
+    compmode = False
 
-    # some_field = u""
+    smallest = 8
+    largest  = 22
+    unit     = u'pt'
 
-    # TODO: Add keyword parameters for configurable parameters here
-    # def __init__(self, some_field=u""):
-    #    self.some_field = some_field
-
-    def __init__(self):
-        pass
+    def __init__(self, **kw):
+        for k, v in kw.items():
+            setattr(self, k, v)
 
     @property
     def title(self):
         """This property is used to give the title of the portlet in the
         "manage portlets" screen.
         """
-        return "Cumulus portlet"
+        return _("Cumulus portlet")
 
 
 class Renderer(base.Renderer):
     """Portlet renderer.
-
-    This is registered in configure.zcml. The referenced page template is
-    rendered, and the implicit variable 'view' will refer to an instance
-    of this class. Other methods can be added and referenced in the template.
     """
 
     render = ViewPageTemplateFile('cumulusportlet.pt')
 
-    def getTags(self):
-        tags = '<tags>'
-        for i in range(10):
-            tags += "<a href='#' style='10'>test%d</a>" % i
-        tags += '</tags>'
-        return cgi.escape(tags)
+    def __init__(self, context, request, view, manager, data):
+        base.Renderer.__init__(self, context, request, view, manager, data)
+        portal_state = getMultiAdapter((context, request), name=u'plone_portal_state')
+        self.portal_url = portal_state.portal_url()
 
     def getScript(self):
-        tags = self.getTags()
+        params = {
+            'url': self.portal_url + '/++resource++tagcloud.swf',
+            'tagcloud': self.getTagCloud(),
+            'width': self.data.width,
+            'height': self.data.height,
+            'tcolor': self.data.tcolor,
+            'tcolor2': self.data.tcolor2 or self.data.tcolor,
+            'hicolor': self.data.hicolor or self.data.tcolor,
+            'bgcolor': self.data.bgcolor,
+            'speed': self.data.speed,
+            'trans': self.data.trans and 'so.addParam("wmode", "transparent");' or '',
+            'distr': self.data.distr and 'true' or 'false',
+        }
         return """<script type="text/javascript">
-            var so = new SWFObject("++resource++tagcloud.swf", "tagcloud", "200", "200", "7", "#ffffff");
-            so.addParam("wmode", "transparent");
-            so.addVariable("tcolor", "0x333333");
+            var so = new SWFObject("%(url)s", "tagcloudflash", "%(width)s", "%(height)s", "9", "#%(bgcolor)s");
+            %(trans)s
+            so.addParam("allowScriptAccess", "always");
+            so.addVariable("tcolor", "0x%(tcolor)s");
+            so.addVariable("tcolor2", "0x%(tcolor2)s");
+            so.addVariable("hicolor", "0x%(hicolor)s");
+            so.addVariable("tspeed", "%(speed)s");
+            so.addVariable("distr", "%(distr)s");
             so.addVariable("mode", "tags");
-            so.addVariable("distr", "true");
-            so.addVariable("tspeed", "100");
-            so.addVariable("tagcloud", "%s");
+            so.addVariable("tagcloud", "%(tagcloud)s");
             so.write("comulus");
-        </script>""" % tags
+        </script>""" % params
+
+    def getTagCloud(self):
+        tags = '<tags>'
+        for tag in self.getTags():
+            tags += '<a href="%s" title="%s entries" style="font-size: %.1f%s;">%s</a>' % \
+                (tag['url'], tag['number_of_entries'], tag['size'], self.data.unit, tag['name'])
+        tags += '</tags>'
+        return urllib.quote(tags)
+
+    def getTags(self, settings=None):
+        plone_tools = getMultiAdapter((self.context, self.request), name=u'plone_tools')
+        cat = plone_tools.catalog()
+        index = cat._catalog.getIndex('Subject')
+        tags = []
+        number_of_entries = []
+        for name in index._index.keys():
+            tags.append(name)
+            try:
+                number_of_entries.append(len(index._index[name]))
+            except TypeError:
+                number_of_entries.append(1)
+        min_number = min(number_of_entries)
+        max_number = max(number_of_entries)
+        distance = float(max_number - min_number) or 1
+        step = (self.data.largest - self.data.smallest) / distance
+
+        result = []
+        for name, number in zip(tags, number_of_entries):
+            size = self.data.smallest + step * (number - min_number)
+            result.append({
+                'name': name,
+                'size': size,
+                'number_of_entries': number,
+                'url': '#'
+            })
+        return result
 
 class AddForm(base.AddForm):
     """Portlet add form.
@@ -99,22 +218,6 @@ class AddForm(base.AddForm):
 
     def create(self, data):
         return Assignment(**data)
-
-
-# NOTE: If this portlet does not have any configurable parameters, you
-# can use the next AddForm implementation instead of the previous.
-
-# class AddForm(base.NullAddForm):
-#     """Portlet add form.
-#     """
-#     def create(self):
-#         return Assignment()
-
-
-# NOTE: If this portlet does not have any configurable parameters, you
-# can remove the EditForm class definition and delete the editview
-# attribute from the <plone:portlet /> registration in configure.zcml
-
 
 class EditForm(base.EditForm):
     """Portlet edit form.

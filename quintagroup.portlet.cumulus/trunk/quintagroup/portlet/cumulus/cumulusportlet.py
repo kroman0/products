@@ -2,6 +2,7 @@ import urllib
 
 from zope.interface import implements
 from zope.component import getMultiAdapter
+from zope.component import getAdapter
 
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
@@ -11,7 +12,7 @@ from zope.formlib import form
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from quintagroup.portlet.cumulus import CumulusPortletMessageFactory as _
-
+from quintagroup.portlet.cumulus.interfaces import ITagsRetriever
 
 class ICumulusPortlet(IPortletDataProvider):
     """ A cumulus tag cloud portlet.
@@ -179,31 +180,26 @@ class Renderer(base.Renderer):
         tags += '</tags>'
         return urllib.quote(tags)
 
-    def getTags(self, settings=None):
-        plone_tools = getMultiAdapter((self.context, self.request), name=u'plone_tools')
-        cat = plone_tools.catalog()
-        index = cat._catalog.getIndex('Subject')
-        tags = []
-        number_of_entries = []
-        for name in index._index.keys():
-            tags.append(name)
-            try:
-                number_of_entries.append(len(index._index[name]))
-            except TypeError:
-                number_of_entries.append(1)
+    def getTags(self):
+        tags = ITagsRetriever(self.context).getTags()
+        if tags == []:
+            return []
+
+        number_of_entries = [i[1] for i in tags]
+
         min_number = min(number_of_entries)
         max_number = max(number_of_entries)
         distance = float(max_number - min_number) or 1
         step = (self.data.largest - self.data.smallest) / distance
 
         result = []
-        for name, number in zip(tags, number_of_entries):
+        for name, number, url in tags:
             size = self.data.smallest + step * (number - min_number)
             result.append({
                 'name': name,
                 'size': size,
                 'number_of_entries': number,
-                'url': '#'
+                'url': url
             })
         return result
 

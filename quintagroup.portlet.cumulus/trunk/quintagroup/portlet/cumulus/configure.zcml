@@ -4,6 +4,7 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="quintagroup.portlet.cumulus">
 
     <five:registerPackage package="." initialize=".initialize" />
@@ -40,5 +41,40 @@
         name="swfobject.js"
         file="swfobject.js"
         />
+
+    <!-- Register tags retriever adapters -->
+    <adapter
+        for="Products.Archetypes.interfaces.IBaseObject"
+        provides=".interfaces.ITagsRetriever"
+        factory=".catalog.GlobalTags"
+        />
+
+    <adapter
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        provides=".interfaces.ITagsRetriever"
+        factory=".catalog.GlobalTags"
+        />
+
+    <configure zcml:condition="installed quills.core">
+        <!-- tags retrievers for Quills blog -->
+        <adapter
+            for="quills.core.interfaces.IBaseContent"
+            provides=".interfaces.ITagsRetriever"
+            factory=".blog.QuillsBlogTags"
+            />
+
+        <adapter
+            for="quills.core.interfaces.IWeblogEnhanced"
+            provides=".interfaces.ITagsRetriever"
+            factory=".blog.QuillsBlogTags"
+            />
+
+        <adapter
+            for="quills.core.interfaces.IPossibleWeblogEntry"
+            provides=".interfaces.ITagsRetriever"
+            factory=".blog.QuillsBlogTags"
+            />
+
+    </configure>
 
 </configure>

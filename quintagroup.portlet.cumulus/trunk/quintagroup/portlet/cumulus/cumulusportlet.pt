@@ -1,27 +1,26 @@
 <dl class="portlet portletCumulusPortlet"
     i18n:domain="quintagroup.portlet.cumulus">
 
-    <dt class="portletHeader" style="border-top: none;">
-<!--        <span class="portletTopLeft"></span>
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
         Header
-        <span class="portletTopRight"></span>-->
+        <span class="portletTopRight"></span>
     </dt>
 
     <dd class="portletItem odd">
         <script type="text/javascript" src="swfobject.js"
-            tal:attributes="src string:${context/absolute_url}/++resource++swfobject.js">
+            tal:attributes="src string:${view/portal_url}/++resource++swfobject.js">
         </script>
         <div id="comulus">
         </div>
-
         <script type="text/javascript" tal:replace="structure view/getScript">
         </script>
     </dd>
 
-<!--    <dd class="portletFooter">
+    <dd class="portletFooter">
         <span class="portletBottomLeft"></span>
         Footer
         <span class="portletBottomRight"></span>
-    </dd>-->
+    </dd>
 
 </dl>

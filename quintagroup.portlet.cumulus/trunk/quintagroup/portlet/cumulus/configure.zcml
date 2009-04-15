@@ -20,11 +20,6 @@
 
     <!-- Register the portlet -->
 
-    <!-- If the portlet has no configurable parameters, you can remove
-        the EditForm declaration in cumulusportlet.py and delete
-        the 'editview' attribute from this statement.
-    -->
-
     <plone:portlet
         name="quintagroup.portlet.cumulus.CumulusPortlet"
         interface=".cumulusportlet.ICumulusPortlet"

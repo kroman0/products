@@ -149,20 +149,12 @@ class Renderer(base.Renderer):
     def title(self):
         return _("Tag Cloud")
 
+    @property
+    def compmode(self):
+        return self.data.compmode
+
     def getScript(self):
-        params = {
-            'url': self.portal_url + '/++resource++tagcloud.swf',
-            'tagcloud': urllib.quote('<tags>%s</tags>' % self.getTagAnchors()),
-            'width': self.data.width,
-            'height': self.data.height,
-            'tcolor': self.data.tcolor,
-            'tcolor2': self.data.tcolor2 or self.data.tcolor,
-            'hicolor': self.data.hicolor or self.data.tcolor,
-            'bgcolor': self.data.bgcolor,
-            'speed': self.data.speed,
-            'trans': self.data.trans and 'so.addParam("wmode", "transparent");' or '',
-            'distr': self.data.distr and 'true' or 'false',
-        }
+        params = self.getParams()
         return """<script type="text/javascript">
             var so = new SWFObject("%(url)s", "tagcloudflash", "%(width)s", "%(height)s", "9", "#%(bgcolor)s");
             %(trans)s
@@ -170,12 +162,33 @@ class Renderer(base.Renderer):
             so.addVariable("tcolor", "0x%(tcolor)s");
             so.addVariable("tcolor2", "0x%(tcolor2)s");
             so.addVariable("hicolor", "0x%(hicolor)s");
-            so.addVariable("tspeed", "%(speed)s");
+            so.addVariable("tspeed", "%(tspeed)s");
             so.addVariable("distr", "%(distr)s");
-            so.addVariable("mode", "tags");
+            so.addVariable("mode", "%(mode)s");
             so.addVariable("tagcloud", "%(tagcloud)s");
             so.write("comulus");
         </script>""" % params
+
+    def getParams(self):
+        params = {
+            'url': self.portal_url + '/++resource++tagcloud.swf',
+            'width': self.data.width,
+            'height': self.data.height,
+            'bgcolor': self.data.bgcolor,
+            'trans': self.data.trans and 'so.addParam("wmode", "transparent");' or '',
+            'tcolor': self.data.tcolor,
+            'tcolor2': self.data.tcolor2 or self.data.tcolor,
+            'hicolor': self.data.hicolor or self.data.tcolor,
+            'tspeed': self.data.speed,
+            'distr': self.data.distr and 'true' or 'false',
+            'mode': 'tags',
+            'tagcloud': urllib.quote('<tags>%s</tags>' % self.getTagAnchors()),
+        }
+        flashvars = []
+        for var in ('tcolor', 'tcolor2', 'hicolor', 'tspeed', 'distr', 'mode', 'tagcloud'):
+            flashvars.append('%s=%s' % (var, params[var]))
+        params['flashvars'] = '&'.join(flashvars)
+        return params
 
     @memoize
     def getTagAnchors(self):

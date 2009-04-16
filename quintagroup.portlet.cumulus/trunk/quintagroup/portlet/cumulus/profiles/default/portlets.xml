@@ -5,7 +5,7 @@
 
  <portlet
    addview="quintagroup.portlet.cumulus.CumulusPortlet"
-   title="Cumulus portlet"
+   title="Tag Cloud (cumulus)"
    description="This package allows you to display your site's tags using a Flash movie that rotates them in 3D. This is a ported to Plone WordPress WP-Cumulus plugin."
    />
 

@@ -144,6 +144,8 @@ class Renderer(base.Renderer):
         base.Renderer.__init__(self, context, request, view, manager, data)
         portal_state = getMultiAdapter((context, request), name=u'plone_portal_state')
         self.portal_url = portal_state.portal_url()
+        portal_properties = getMultiAdapter((context, request), name=u'plone_tools').properties()
+        self.default_charset = portal_properties.site_properties.getProperty('default_charset', 'utf-8')
 
     @property
     def title(self):
@@ -170,6 +172,9 @@ class Renderer(base.Renderer):
         </script>""" % params
 
     def getParams(self):
+        tagcloud = '<tags>%s</tags>' % self.getTagAnchors()
+        tagcloud = tagcloud.encode(self.default_charset)
+        tagcloud = urllib.quote(tagcloud)
         params = {
             'url': self.portal_url + '/++resource++tagcloud.swf',
             'width': self.data.width,
@@ -182,7 +187,7 @@ class Renderer(base.Renderer):
             'tspeed': self.data.speed,
             'distr': self.data.distr and 'true' or 'false',
             'mode': 'tags',
-            'tagcloud': urllib.quote('<tags>%s</tags>' % self.getTagAnchors()),
+            'tagcloud': tagcloud,
         }
         flashvars = []
         for var in ('tcolor', 'tcolor2', 'hicolor', 'tspeed', 'distr', 'mode', 'tagcloud'):

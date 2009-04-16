@@ -3,15 +3,21 @@
 
     <dt class="portletHeader">
         <span class="portletTopLeft"></span>
-        Header
+        <span tal:replace="view/title"></span>
         <span class="portletTopRight"></span>
     </dt>
 
-    <dd class="portletItem odd">
+    <dd class="portletItem odd" style="padding: 0;">
         <script type="text/javascript" src="swfobject.js"
             tal:attributes="src string:${view/portal_url}/++resource++swfobject.js">
         </script>
         <div id="comulus">
+            <p style="display:none;" tal:content="structure view/getTagAnchors">
+            </p>
+            <p style="padding: 1em; margin-bottom: 0;">
+                WP Cumulus Flash tag cloud by <a href="http://www.roytanck.com">Roy Tanck</a> 
+                requires Flash Player 9 or better.
+            </p>
         </div>
         <script type="text/javascript" tal:replace="structure view/getScript">
         </script>
@@ -19,7 +25,6 @@
 
     <dd class="portletFooter">
         <span class="portletBottomLeft"></span>
-        Footer
         <span class="portletBottomRight"></span>
     </dd>
 

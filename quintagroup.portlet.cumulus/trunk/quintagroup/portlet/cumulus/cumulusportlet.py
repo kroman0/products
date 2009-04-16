@@ -6,6 +6,7 @@ from zope.component import getAdapter
 
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
+from plone.memoize.instance import memoize
 
 from zope import schema
 from zope.formlib import form
@@ -34,25 +35,25 @@ class ICumulusPortlet(IPortletDataProvider):
         title=_(u'Color of the tags'),
         description=_(u'This and next 3 fields should be 6 character hex color values without the # prefix (000000 for black, ffffff for white).'),
         required=True,
-        default=u'ffffff')
+        default=u'5391d0')
 
     tcolor2 = schema.TextLine(
         title=_(u'Optional second color for gradient'),
         description=_(u'When this color is available, each tag\'s color will be from a gradient between the two. This allows you to create a multi-colored tag cloud.'),
         required=False,
-        default=u'ffffff')
+        default=u'333333')
 
     hicolor = schema.TextLine(
         title=_(u'Optional highlight color'),
         description=_(u'Color of the tag when mouse is over it.'),
         required=False,
-        default=u'ffffff')
+        default=u'578308')
 
     bgcolor = schema.TextLine(
         title=_(u'Background color'),
         description=_(u'The hex value for the background color you\'d like to use. This options has no effect when \'Use transparent mode\' is selected.'),
         required=True,
-        default=u'333333')
+        default=u'ffffff')
 
     trans = schema.Bool(
         title=_(u'Use transparent mode'),
@@ -108,10 +109,10 @@ class Assignment(base.Assignment):
 
     width    = 550;
     height   = 375;
-    tcolor   = u'ffffff'
-    tcolor2  = u'ffffff'
-    hicolor  = u'ffffff'
-    bgcolor  = u'333333'
+    tcolor   = u'5391d0'
+    tcolor2  = u'333333'
+    hicolor  = u'578308'
+    bgcolor  = u'ffffff'
     speed    = 100
     trans    = False
     distr    = True
@@ -130,7 +131,7 @@ class Assignment(base.Assignment):
         """This property is used to give the title of the portlet in the
         "manage portlets" screen.
         """
-        return _("Cumulus portlet")
+        return _("Tag Cloud (cumulus)")
 
 
 class Renderer(base.Renderer):
@@ -144,10 +145,14 @@ class Renderer(base.Renderer):
         portal_state = getMultiAdapter((context, request), name=u'plone_portal_state')
         self.portal_url = portal_state.portal_url()
 
+    @property
+    def title(self):
+        return _("Tag Cloud")
+
     def getScript(self):
         params = {
             'url': self.portal_url + '/++resource++tagcloud.swf',
-            'tagcloud': self.getTagCloud(),
+            'tagcloud': urllib.quote('<tags>%s</tags>' % self.getTagAnchors()),
             'width': self.data.width,
             'height': self.data.height,
             'tcolor': self.data.tcolor,
@@ -172,13 +177,13 @@ class Renderer(base.Renderer):
             so.write("comulus");
         </script>""" % params
 
-    def getTagCloud(self):
-        tags = '<tags>'
+    @memoize
+    def getTagAnchors(self):
+        tags = ''
         for tag in self.getTags():
-            tags += '<a href="%s" title="%s entries" style="font-size: %.1f%s;">%s</a>' % \
+            tags += '<a href="%s" title="%s entries" rel="tag" style="font-size: %.1f%s;">%s</a>\n' % \
                 (tag['url'], tag['number_of_entries'], tag['size'], self.data.unit, tag['name'])
-        tags += '</tags>'
-        return urllib.quote(tags)
+        return tags
 
     def getTags(self):
         tags = ITagsRetriever(self.context).getTags()

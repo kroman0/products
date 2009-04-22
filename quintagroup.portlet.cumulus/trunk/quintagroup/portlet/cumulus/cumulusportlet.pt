@@ -16,7 +16,7 @@
                 <p style="display:none;" tal:content="structure view/getTagAnchors">
                 </p>
                 <p style="padding: 1em; margin-bottom: 0;">
-                    WP Cumulus Flash tag cloud by <a href="http://www.roytanck.com">Roy Tanck</a> 
+                    WP Cumulus Flash tag cloud by <a href="http://www.roytanck.com">Roy Tanck</a>
                     requires Flash Player 9 or better.
                 </p>
             </div>
@@ -40,7 +40,7 @@
                     tal:attributes="value params/flashvars;"/>
                 <p style="padding: 1em;" tal:content="structure view/getTagAnchors"></p>
                 <p style="padding: 1em; margin-bottom: 0;">
-                    WP-Cumulus by <a href="http://www.roytanck.com/">Roy Tanck</a> 
+                    WP-Cumulus by <a href="http://www.roytanck.com/">Roy Tanck</a>
                     requires Flash Player 9 or better.
                 </p>
             </object>

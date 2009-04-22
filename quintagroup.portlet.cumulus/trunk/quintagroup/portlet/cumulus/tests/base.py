@@ -6,6 +6,12 @@ from Testing import ZopeTestCase as ztc
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import onsetup
 
+try:
+    import Products.QuillsEnabled
+    HAS_QUILLS_ENABLED = True
+except ImportError:
+    HAS_QUILLS_ENABLED = False
+
 @onsetup
 def setup_product():
     """Set up additional products and ZCML required to test this product.
@@ -26,12 +32,17 @@ def setup_product():
     # the ZCML.
 
     ztc.installPackage('quintagroup.portlet.cumulus')
+    if HAS_QUILLS_ENABLED:
+        ztc.installProduct('QuillsEnabled')
 
 # The order here is important: We first call the deferred function and then
 # let PloneTestCase install it during Plone site setup
 
 setup_product()
-ptc.setupPloneSite(products=['quintagroup.portlet.cumulus'])
+prods = ['quintagroup.portlet.cumulus']
+if HAS_QUILLS_ENABLED:
+    prods.append('QuillsEnabled')
+ptc.setupPloneSite(products=prods)
 
 class TestCase(ptc.PloneTestCase):
     """Base class used for test cases

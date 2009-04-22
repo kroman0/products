@@ -10,6 +10,8 @@ class GlobalTags(object):
         self.context = context
         portal_properties = getToolByName(self.context, 'portal_properties')
         self.default_charset = portal_properties.site_properties.getProperty('default_charset', 'utf-8')
+        portal = getToolByName(context, 'portal_url').getPortalObject()
+        self.portal_url = portal.absolute_url()
 
     def getTags(self, number=None):
         """ Entries of 'Categories' archetype field on content are assumed to be tags.
@@ -22,6 +24,8 @@ class GlobalTags(object):
                 number_of_entries = len(index._index[name])
             except TypeError:
                 number_of_entries = 1
-            tags.append((name.decode(self.default_charset), number_of_entries, '#'))
+            name = name.decode(self.default_charset)
+            url = '%s/search?Subject:list=%s' % (self.portal_url, name)
+            tags.append((name, number_of_entries, url))
 
         return tags

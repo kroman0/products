@@ -23,13 +23,13 @@ class ICumulusPortlet(IPortletDataProvider):
         title=_(u'Width of the Flash tag cloud'),
         description=_(u'Width in pixels (500 or more is recommended).'),
         required=True,
-        default=550)
+        default=152)
 
     height = schema.Int(
         title=_(u'Height of the Flash tag cloud'),
         description=_(u'Height in pixels (ideally around 3/4 of the width).'),
         required=True,
-        default=375)
+        default=152)
 
     tcolor = schema.TextLine(
         title=_(u'Color of the tags'),
@@ -107,8 +107,8 @@ class Assignment(base.Assignment):
 
     implements(ICumulusPortlet)
 
-    width    = 550;
-    height   = 375;
+    width    = 152;
+    height   = 152;
     tcolor   = u'5391d0'
     tcolor2  = u'333333'
     hicolor  = u'578308'
@@ -158,18 +158,18 @@ class Renderer(base.Renderer):
     def getScript(self):
         params = self.getParams()
         return """<script type="text/javascript">
-            var so = new SWFObject("%(url)s", "tagcloudflash", "%(width)s", "%(height)s", "9", "#%(bgcolor)s");
-            %(trans)s
-            so.addParam("allowScriptAccess", "always");
-            so.addVariable("tcolor", "0x%(tcolor)s");
-            so.addVariable("tcolor2", "0x%(tcolor2)s");
-            so.addVariable("hicolor", "0x%(hicolor)s");
-            so.addVariable("tspeed", "%(tspeed)s");
-            so.addVariable("distr", "%(distr)s");
-            so.addVariable("mode", "%(mode)s");
-            so.addVariable("tagcloud", "%(tagcloud)s");
-            so.write("comulus");
-        </script>""" % params
+                var so = new SWFObject("%(url)s", "tagcloudflash", "%(width)s", "%(height)s", "9", "#%(bgcolor)s");
+                %(trans)s
+                so.addParam("allowScriptAccess", "always");
+                so.addVariable("tcolor", "0x%(tcolor)s");
+                so.addVariable("tcolor2", "0x%(tcolor2)s");
+                so.addVariable("hicolor", "0x%(hicolor)s");
+                so.addVariable("tspeed", "%(tspeed)s");
+                so.addVariable("distr", "%(distr)s");
+                so.addVariable("mode", "%(mode)s");
+                so.addVariable("tagcloud", "%(tagcloud)s");
+                so.write("comulus");
+            </script>""" % params
 
     def getParams(self):
         tagcloud = '<tags>%s</tags>' % self.getTagAnchors()

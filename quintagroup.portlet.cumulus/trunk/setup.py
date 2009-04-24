@@ -5,7 +5,7 @@ version = '1.0'
 
 setup(name='quintagroup.portlet.cumulus',
       version=version,
-      description="This package allows you to display your site's tags using a Flash movie that rotates them in 3D. This is the WordPress WP-Cumulus plugin ported to Plone.",
+      description="A tag cloud portlet that rotates tags in 3D using a Flash movie",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers

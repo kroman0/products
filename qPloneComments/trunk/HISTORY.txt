@@ -4,7 +4,8 @@ Changelog
 3.2.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed links in the email messages.
+  [liebster]
 
 
 3.2.3 (2009-03-24)

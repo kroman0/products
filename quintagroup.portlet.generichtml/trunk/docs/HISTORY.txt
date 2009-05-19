@@ -1,8 +1,7 @@
-Changelog for quintagroup.portlet.generichtml
+Changelog
+=========
 
-    (name of developer listed in brackets)
+0.1 (2009-05-19)
+----------------
 
-quintagroup.portlet.generichtml - 0.1 Unreleased
-
-    - Initial package structure.
-      [zopeskel]
+* Initial release.

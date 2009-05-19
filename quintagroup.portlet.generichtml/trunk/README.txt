@@ -1,5 +1,5 @@
-quintagroup.portlet.generichtml Package Readme
-=========================
+quintagroup.portlet.generichtml
+===============================
 
 Overview
 --------

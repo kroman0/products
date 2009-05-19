@@ -1,5 +1,5 @@
 quintagroup.portlet.generichtml Installation
-=======================
+============================================
 
  * When you're reading this you have probably already run
    ``easy_install quintagroup.portlet.generichtml``. Find out how to install setuptools

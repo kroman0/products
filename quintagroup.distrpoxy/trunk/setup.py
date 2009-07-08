@@ -3,7 +3,7 @@ import os
 
 version = '1.0'
 
-setup(name='quintagroup.distrpoxy',
+setup(name='quintagroup.distproxy',
       version=version,
       description="quintgroup.distproxy is a smart mirror for dist.plone.org",
       long_description=open("README.txt").read() + "\n" +
@@ -26,7 +26,9 @@ setup(name='quintagroup.distrpoxy',
           'setuptools',
           # -*- Extra requirements: -*-
       ],
-      entry_points="""
-      # -*- Entry points: -*-
-      """,
+      entry_points={
+          'paste.app_factory': [
+              'main = quintagroup.distproxy.wsgi:app_factory',
+              ],
+          },
       )

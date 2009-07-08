@@ -16,7 +16,7 @@ setup(name='quintagroup.distproxy',
       keywords='',
       author='Volodymyr Cherepanyak, Quintagroup',
       author_email='<support at quintagroup.com>',
-      url='',
+      url='http://svn.quintagroup.com/products/quintagroup.distrpoxy',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['quintagroup'],
@@ -24,6 +24,8 @@ setup(name='quintagroup.distproxy',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'PasteScript',
+          'PasteDeploy',
           # -*- Extra requirements: -*-
       ],
       entry_points={

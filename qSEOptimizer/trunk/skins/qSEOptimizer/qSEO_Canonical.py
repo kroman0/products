@@ -16,7 +16,7 @@ else:
     portal = context.portal_url.getPortalObject()
     if portal.hasProperty('canonical_url'):
         rpath = context.portal_url.getRelativeUrl(context)
-        if rpath.endswith('index_html'):
+        if rpath.endswith('index_html') or rpath.endswith('front-page'):
             rpath = rpath[:-11]
         return portal.getProperty('canonical_url') + rpath
     else:

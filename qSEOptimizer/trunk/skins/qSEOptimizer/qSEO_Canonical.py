@@ -10,7 +10,7 @@
 
 prop_name = 'qSEO_canonical'
 
-if context.hasProperty(prop_name):
+if context.hasProperty(prop_name) and context.getProperty(prop_name):
     return context.getProperty(prop_name)
 else:
     portal = context.portal_url.getPortalObject()

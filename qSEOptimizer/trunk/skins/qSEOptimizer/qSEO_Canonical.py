@@ -15,6 +15,9 @@ if context.hasProperty(prop_name):
 else:
     portal = context.portal_url.getPortalObject()
     if portal.hasProperty('canonical_url'):
-        return portal.getProperty('canonical_url') + context.portal_url.getRelativeUrl(context)
+        rpath = context.portal_url.getRelativeUrl(context)
+        if rpath.endswith('index_html'):
+            rpath = rpath[:-11]
+        return portal.getProperty('canonical_url') + rpath
     else:
         return context.absolute_url()

@@ -27,3 +27,9 @@ msgstr "Введіть слово нижче"
 #: Incorrect validation code
 msgid "Please re-enter validation code."
 msgstr "Будь ласка введіть ще раз код перевірки"
+
+#. Default: "Dynamic captchas image setup options"
+#: 
+msgid "legend_dynamic_captchas_options"
+msgstr "Налаштування динамічних captcha"
+

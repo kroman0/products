@@ -27,3 +27,8 @@ msgstr ""
 #: Incorrect validation code
 msgid "Please re-enter validation code."
 msgstr ""
+
+#. Default: "Dynamic captchas image setup options"
+#: 
+msgid "legend_dynamic_captchas_options"
+msgstr ""

@@ -31,6 +31,7 @@ setup(name='quintagroup.distproxy',
       entry_points={
           'paste.app_factory': [
               'main = quintagroup.distproxy.wsgi:app_factory',
+              'static = quintagroup.distproxy.wsgi:make_static',
               ],
           },
       )

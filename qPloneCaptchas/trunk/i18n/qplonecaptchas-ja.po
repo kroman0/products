@@ -67,3 +67,7 @@ msgstr "振幅"
 msgid "Random values"
 msgstr "ランダムな値を使用"
 
+#. Default: "Dynamic captchas image setup options"
+#: 
+msgid "legend_dynamic_captchas_options"
+msgstr "Captcha 画像の自動生成オプション"

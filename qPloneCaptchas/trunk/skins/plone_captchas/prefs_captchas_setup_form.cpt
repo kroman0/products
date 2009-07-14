@@ -1,5 +1,7 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      lang="en"
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="plonecaptchas"
       metal:use-macro="here/prefs_main_template/macros/master">
 
@@ -11,7 +13,7 @@
 <div metal:fill-slot="prefs_configlet_main"
      tal:define="errors python:request.get('controller_state', None).getErrors();">
 
-    <div metal:define-macro="main" i18n:domain="plonecaptchas">
+    <div metal:define-macro="main">
     <div class="configlet">
         <h1 i18n:translate="heading_comments_setup">Plone Captchas Setup</h1>
 
@@ -37,21 +39,19 @@
                            type="radio"
                            value="static"
                            tal:attributes="checked python:test(ct=='static', 'checked', '')"/>
-                    <label for="use_static_captchas">Use static captchas</label>
+                    <label i18n:translate="use_static_captchas" for="use_static_captchas">Use static captchas</label>
                     <br />
                     <input name="static_captchas"
                            id="use_dynamic_captchas"
                            type="radio"
-                           disabled=""
                            value="dynamic"
-                           tal:attributes="checked python:test(ct=='dynamic', 'checked', '');
-                                           disabled python:test(context.checkPIL(), '', 'disabled');"/>
-                    <label for="use_dynamic_captchas">Use dynamic captchas</label>
+                           tal:attributes="checked python:test(ct=='dynamic', 'checked', '');"/>
+                    <label i18n:translate="use_dynamic_captchas" for="use_dynamic_captchas">Use dynamic captchas</label>
                 </div>
             </fieldset>
 
             <fieldset tal:define="props_sheet here/portal_properties/qPloneCaptchas">
-                <legend i18n:translate="legend_setup_options">Dynamic captchas image setup options</legend>
+                <legend i18n:translate="legend_dynamic_captchas_options">Dynamic captchas image setup options</legend>
 
                 <div class="field"
                      tal:define="property_id string:image_size;
@@ -67,7 +67,7 @@
                                            value prop_value;
                                            tabindex tabindex/next;"/>
 
-                    <label i18n:translate="string:${property_id}"
+                    <label i18n:translate=""
                            for=""
                            tal:attributes="for string:${property_id}">
                            Font size
@@ -88,7 +88,7 @@
                                            value prop_value;
                                            tabindex tabindex/next;"/>
 
-                    <label i18n:translate="string:${property_id}"
+                    <label i18n:translate=""
                            for=""
                            tal:attributes="for string:${property_id}">
                            Background
@@ -109,7 +109,7 @@
                                            value prop_value;
                                            tabindex tabindex/next;"/>
 
-                    <label i18n:translate="string:${property_id}"
+                    <label i18n:translate=""
                            for=""
                            tal:attributes="for string:${property_id}">
                            Font color
@@ -130,7 +130,7 @@
                                            value prop_value;
                                            tabindex tabindex/next;"/>
 
-                    <label i18n:translate="string:${property_id}"
+                    <label i18n:translate=""
                            for=""
                            tal:attributes="for string:${property_id}">
                            Period
@@ -151,7 +151,7 @@
                                            value prop_value;
                                            tabindex tabindex/next;"/>
 
-                    <label i18n:translate="string:${property_id}"
+                    <label i18n:translate=""
                            for=""
                            tal:attributes="for string:${property_id}">
                            Amplitude
@@ -173,7 +173,7 @@
                                            tabindex tabindex/next;
                                            checked prop_value"/>
 
-                    <label i18n:translate="string:${property_id}"
+                    <label i18n:translate=""
                            for=""
                            tal:attributes="for string:${property_id}">
                            Random values
@@ -189,6 +189,7 @@
                        type="submit"
                        name="form.button.form_submit"
                        value="Save"
+                       i18n:domain="plone"
                        i18n:attributes="value"
                        tal:attributes="tabindex tabindex/next;"/>
             </div>

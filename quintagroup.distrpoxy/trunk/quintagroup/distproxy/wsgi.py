@@ -25,7 +25,8 @@ class PackageProxyApp(object):
 
     def __call__(self, environ, start_response):
         path = environ.get('PATH_INFO', '').strip()
-        if path.split('/')[1] == "favicon.ico":
+        path_parts = path.split('/')
+        if len(path_parts) > 1 and path_parts[1] == "favicon.ico":
             return HTTPNotFound()(environ, start_response)
         filename = self.checkCache(path)
         if filename is None:
@@ -72,7 +73,7 @@ class StaticURLParser(urlparser.StaticURLParser):
             return self.not_found(environ, start_response)
         if not os.path.exists(full):
             if full.endswith('index.html') and not os.path.isfile(full):
-                start_response('200 OK', [])
+                start_response('200 OK', [('Content-Type', 'text/html')])
                 return [self.get_index_html()]
             return self.not_found(environ, start_response)
         if os.path.isdir(full):
@@ -101,7 +102,7 @@ class StaticURLParser(urlparser.StaticURLParser):
     def get_index_html(self):
         path = self.directory
         # create sorted lists of directories and files
-        names = os.listdir(path)
+        names = [i for i in os.listdir(path) if not i.startswith('.')]
         dirs = [i for i in names if os.path.isdir(os.path.join(path, i))]
         dirs.sort()
         files = [i for i in names if os.path.isfile(os.path.join(path, i))]

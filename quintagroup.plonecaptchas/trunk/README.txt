@@ -1,23 +1,22 @@
-Plone Capchas
-=============
+Plone Captchas
+==============
 
 Introduction
 ------------
 
-quintagroup.plonecaptchas is simple captchas implementation for Plone, designed
-for validating human input in insecure forms. This is a standalone 
+quintagroup.plonecaptchas is a simple captchas implementation for Plone, designed
+for validation of human input in insecure forms. This is a standalone 
 implementation with static captcha images, which does not depend on captchas.net 
 services.
 
 Since version 1.0, the dynamic captchas option is implemented. You can
-switch captchas into dynamic mode in correspondent configlet. In this
+switch captchas into dynamic mode in the correspondent configlet. In this
 case, captcha images will be generated on the fly.
 
 Dependency
 ----------
 
 PIL with Jpeg and FreeType support
-
 
 Plugs to
 --------
@@ -26,20 +25,23 @@ Plugs to
 * join form
 * send to form
 
-Install
--------
+Installation
+------------
 
-Install quintagroup.plonecaptchas with QuickInstaller.
+See docs/INSTALL.txt for instructions.
 
 Authors
 -------
 
-The product is developed by Quintagroup_ team:
+The product is developed by Quintagroup team:
 
-* `Volodymyr Cherepanyak`_
-* `Mykola Kharechko`_
-* `Vitaliy Stepanov`_
-* `Bohdan Koval`_
+* Volodymyr Cherepanyak
+
+* Mykola Kharechko
+
+* Vitaliy Stepanov
+
+* Bohdan Koval
 
 Contributors
 ------------
@@ -50,10 +52,3 @@ Future features
 ---------------
 
 * Configuration of captchas images generation (shade, background, colors etc.)
-
-.. _Quintagroup: http://quintagroup.com/
-.. _Volodymyr Cherepanyak: mailto:chervol@quintagroup.com
-.. _Mykola Kharechko: mailto:crchemist@quintagroup.com
-.. _Vitaliy Stepanov: mailto:liebster@quintagroup.com
-.. _Bohdan Koval: mailto:koval@quintagroup.com
-.. _Dorneles Tremea: mailto:dorneles@tremea.com

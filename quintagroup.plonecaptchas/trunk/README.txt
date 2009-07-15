@@ -51,7 +51,7 @@ The product is developed by Quintagroup team:
 Contributors
 ------------
 
-* `Dorneles Tremea`_
+* Dorneles Tremea
 
 Future features
 ---------------

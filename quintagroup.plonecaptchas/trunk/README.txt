@@ -57,3 +57,4 @@ Future features
 ---------------
 
 * Configuration of captchas images generation (shade, background, colors etc.)
+

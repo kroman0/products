@@ -25,6 +25,11 @@ Plugs to
 * join form
 * send to form
 
+Requirements
+------------
+
+* Plone 3.0+ 
+
 Installation
 ------------
 

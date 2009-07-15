@@ -9,9 +9,11 @@ for validation of human input in insecure forms. This is a standalone
 implementation with static captcha images, which does not depend on captchas.net 
 services.
 
-Since version 1.0, the dynamic captchas option is implemented. You can
+quintagroup.plonecaptchas has dynamic captchas option implemented. You can
 switch captchas into dynamic mode in the correspondent configlet. In this
 case, captcha images will be generated on the fly.
+
+quintagroup.plonecaptchas is an eggified version of qPloneCaptchas product.
 
 Dependency
 ----------
@@ -22,13 +24,25 @@ Plugs to
 --------
 
 * default Plone discussion mechanism
+
 * join form
+
 * send to form
+
+* forms created with PloneFromGen
+
+To make captchas work on forms created with PloneFormGen, please use qPloneCaptchaField product:
+
+ * Home page - http://quintagroup.com/services/plone-development/products/plone-captcha-field
+
+ * Instruction on use - http://projects.quintagroup.com/products/wiki/qPloneCaptchaField
 
 Requirements
 ------------
 
 * Plone 3.0+ 
+
+For earlier Plone versions use qPloneCaptchas product.
 
 Installation
 ------------
@@ -58,4 +72,9 @@ Future features
 
 * Configuration of captchas images generation (shade, background, colors etc.)
 
-zzz
+Links
+-----
+
+* Home page - http://quintagroup.com/services/plone-development/products/plone-captchas
+
+* Screencast - http://quintagroup.com/cms/screencasts/qplonecaptchas/

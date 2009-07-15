@@ -4,26 +4,16 @@ quintagroup.plonecaptchas Installation
 To install quintagroup.plonecaptchas into the global Python environment (or a workingenv),
 using a traditional Zope 2 instance, you can do this:
 
-* When you're reading this you have probably already run 
-  ``easy_install quintagroup.plonecaptchas``. Find out how to install setuptools
-  (and EasyInstall) here:
-  http://peak.telecommunity.com/DevCenter/EasyInstall
+* Copy ``quintagroup`` folder to the /path/to/instance/lib/python directory.
 
-* If you are using Zope 2.9 (not 2.10), get `pythonproducts`_ and install it 
-  via::
+* Create a file called ``quintagroup.plonecaptchas-overrides.zcml`` in 
+the /path/to/instance/etc/package-includes directory. The file should only contain this::
 
-    python setup.py install --home /path/to/instance
+  <include package="quintagroup.plonecaptchas" file="overrides.zcml" />
 
-into your Zope instance.
+* Restart the Zope server, for example with the following command in the terminal::
 
-* Create a file called ``quintagroup.plonecaptchas-configure.zcml`` in the
-  ``/path/to/instance/etc/package-includes`` directory.  The file
-  should only contain this::
-
-    <include package="quintagroup.plonecaptchas" />
-
-.. _pythonproducts: http://plone.org/products/pythonproducts
-
+   $ ./bin/zopectl restart
 
 Alternatively, if you are using zc.buildout and the plone.recipe.zope2instance
 recipe to manage your project, you can do this:
@@ -48,5 +38,4 @@ recipe to manage your project, you can do this:
 
     $ ./bin/buildout
         
-You can skip the ZCML slug if you are going to explicitly include the package
-from another package's configure.zcml file.
+Install quintagroup.plonecaptchas with Quickinstaller in Plone.

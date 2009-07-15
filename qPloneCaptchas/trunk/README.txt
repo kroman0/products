@@ -39,9 +39,9 @@ Plugs to:
 Installation:
 -------------
 
-* Put qPloneCaptchas product folder into the Product fodler of your instance
+* Put qPloneCaptchas folder into the Product folder of your instance
 
-* Restart Zope
+* Restart Zope server process
 
 * Install qPloneCaptchas in Plone with Quickinstaller
 

@@ -1,9 +1,6 @@
 Plone Captchas
 ==============
 
-Introduction
-------------
-
 quintagroup.plonecaptchas is a simple captchas implementation for Plone, designed
 for validation of human input in insecure forms. This is a standalone 
 implementation with static captcha images, which does not depend on captchas.net 
@@ -13,36 +10,40 @@ quintagroup.plonecaptchas has dynamic captchas option implemented. You can
 switch captchas into dynamic mode in the correspondent configlet. In this
 case, captcha images will be generated on the fly.
 
-quintagroup.plonecaptchas is an eggified version of qPloneCaptchas product.
+Requirements
+------------
+
+* Plone 3.0 and above 
+
+For earlier Plone versions - use 1.3.4 version of qPloneCaptchas product for use on forms
+created with PloneFormMailer product.
 
 Dependency
 ----------
 
 PIL with Jpeg and FreeType support
 
-Plugs to
---------
+Plone Captchas plugs to
+-----------------------
 
 * default Plone discussion mechanism
 
 * join form
 
-* send to form
+* send_to form
 
-* forms created with PloneFromGen
+* forms created with PloneFormGen
+
+Plone Captchas on PloneFormGen forms 
+------------------------------------
 
 To make captchas work on forms created with PloneFormGen, please use qPloneCaptchaField product:
 
- * Home page - http://quintagroup.com/services/plone-development/products/plone-captcha-field
+* Plone Captcha Field home page - http://quintagroup.com/services/plone-development/products/plone-captcha-field
 
- * Instruction on use - http://projects.quintagroup.com/products/wiki/qPloneCaptchaField
-
-Requirements
-------------
-
-* Plone 3.0+ 
-
-For earlier Plone versions use qPloneCaptchas product.
+* Instruction on use - http://projects.quintagroup.com/products/wiki/qPloneCaptchaField
+  
+* Plone Captcha Field Screencast - http://quintagroup.com/cms/screencasts/qplonecaptchafield
 
 Installation
 ------------
@@ -52,7 +53,7 @@ See docs/INSTALL.txt for instructions.
 Authors
 -------
 
-The product is developed by Quintagroup team:
+The product was developed by Quintagroup team:
 
 * Volodymyr Cherepanyak
 
@@ -75,6 +76,6 @@ Future features
 Links
 -----
 
-* Home page - http://quintagroup.com/services/plone-development/products/plone-captchas
+* Plone Captchas home page - http://quintagroup.com/services/plone-development/products/plone-captchas
 
-* Screencast - http://quintagroup.com/cms/screencasts/qplonecaptchas/
+* Plone Captchas Screencasts - http://quintagroup.com/cms/screencasts/qplonecaptchas

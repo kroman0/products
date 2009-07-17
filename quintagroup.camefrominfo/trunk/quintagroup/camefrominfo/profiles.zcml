@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="quintagroup.camefrominfo">
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Quintagroup CameFromInfo"
+      directory="profiles/default"
+      description='Quintagroup came from info package.'
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+</configure>

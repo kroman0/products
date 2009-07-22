@@ -23,14 +23,8 @@ class Plone3Buildout(BaseTemplate):
         var('zope_password',
             'Zope root admin password'),
         var('http_port',
-            'HTTP port',
+            'HTTP port (development port == http_pot + 10 )',
             default=8080),
-        var('debug_mode',
-            'Should debug mode be "on" or "off"?',
-            default='off'),
-        var('verbose_security',
-            'Should verbose security be "on" or "off"?',
-            default='off'),
         ]
 
     def pre(self, command, output_dir, vars):
@@ -40,6 +34,7 @@ class Plone3Buildout(BaseTemplate):
         if vars['veryoldplone']:
             vars['zope2_version'] = "2.9.10"
         vars['newplone'] = not vars['veryoldplone'] and not vars['oldplone']
+        vars['http_port_devel'] = vars['http_port'] + 10
         super(Plone3Buildout, self).pre(command, output_dir, vars)
     
     def post(self, command, output_dir, vars):

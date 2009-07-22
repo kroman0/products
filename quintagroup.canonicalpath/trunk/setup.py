@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.2 dev'
+version = '0.2'
 
 setup(name='quintagroup.canonicalpath',
       version=version,
@@ -24,9 +24,10 @@ setup(name='quintagroup.canonicalpath',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
+          'archetypes.schemaextender',
       ],
       entry_points="""
       # -*- Entry points: -*-
       """,
       )
+ 

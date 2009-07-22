@@ -2,7 +2,7 @@ from zopeskel.base import BaseTemplate
 from zopeskel.base import var
 
 class QGPlone3Buildout(BaseTemplate):
-    _template_dir = 'templates/gqplone3_buildout'
+    _template_dir = 'templates/qgplone3_buildout'
     summary = "A buildout for Plone 3 projects"
     required_templates = []
     use_cheetah = True
@@ -35,7 +35,7 @@ class QGPlone3Buildout(BaseTemplate):
             vars['zope2_version'] = "2.9.10"
         vars['newplone'] = not vars['veryoldplone'] and not vars['oldplone']
         vars['http_port_devel'] = vars['http_port'] + 10
-        super(Plone3Buildout, self).pre(command, output_dir, vars)
+        super(QGPlone3Buildout, self).pre(command, output_dir, vars)
     
     def post(self, command, output_dir, vars):
         print "-----------------------------------------------------------"

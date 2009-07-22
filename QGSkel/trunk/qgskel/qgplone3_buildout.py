@@ -1,8 +1,8 @@
 from zopeskel.base import BaseTemplate
 from zopeskel.base import var
 
-class Plone3Buildout(BaseTemplate):
-    _template_dir = 'templates/plone3_buildout'
+class QGPlone3Buildout(BaseTemplate):
+    _template_dir = 'templates/gqplone3_buildout'
     summary = "A buildout for Plone 3 projects"
     required_templates = []
     use_cheetah = True

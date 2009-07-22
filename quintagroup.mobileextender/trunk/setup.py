@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0.3 dev'
+version = '1.0.3'
 
 setup(name='quintagroup.mobileextender',
       version=version,
@@ -24,7 +24,7 @@ setup(name='quintagroup.mobileextender',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
+          'archetypes.schemaextender',
       ],
       entry_points="""
       # -*- Entry points: -*-

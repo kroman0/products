@@ -1,2 +1,2 @@
 #
-from zopeskel.qgplone3_buildout import QGPlone3Buildout
+from qgskel.qgplone3_buildout import QGPlone3Buildout

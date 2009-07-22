@@ -1,0 +1,39 @@
+[buildout]
+extends = base.cfg
+
+parts +=
+    omelette
+
+eggs +=
+    plone.reload
+
+extensions += mr.developer
+sources = sources
+sources-dir = src
+# Define auto-checkout development packages 
+#auto-checkout =
+#   project.theme
+
+[sources]
+# Define sources for development package here
+project.theme = svn http://svn.server.com/project/packages/project.theme/trunk
+
+[instance]
+\# For more information on this step and configuration options see:
+\# http://pypi.python.org/pypi/plone.recipe.zope2instance
+user = ${zope_user}:${zope_password}
+http-address = ${http_port_devel}
+debug-mode = on
+verbose-security = on
+
+zcml +=
+    plone.reload
+products +=
+    ${productdistros:location}
+
+
+[omelette]
+recipe = collective.recipe.omelette
+eggs = ${instance:eggs}
+packages = ${zope2:location}/lib/python ./
+

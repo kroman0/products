@@ -1,0 +1,33 @@
+[buildout]
+extends = devel.cfg
+
+parts +=
+    tests
+
+sources = sources
+# Insert your project test stories here 
+#auto-checkout +=
+#   project.test.stories
+
+[sources]
+# define the test stories location
+#project.test.stories = svn http://svn.com/project/packages/project.test.stories/trunk
+
+[zope2]
+skip-fake-eggs +=
+    zope.testing
+
+[env]
+# Define common variables in this section
+debug = True
+# url = http://devel.server.com
+
+[tests]
+recipe = zc.recipe.testrunner
+# Define test packages
+#eggs =
+#    project.test.stories
+environment = env
+extra-paths =
+    ${zope2:location}/lib/python
+defaults = ['-v', '--exit-with-status', '--auto-color', '--auto-progress']

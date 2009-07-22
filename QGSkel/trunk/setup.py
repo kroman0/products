@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.0'
+version = '0.1'
 
 setup(name='QGSkel',
       version=version,
@@ -27,7 +27,8 @@ setup(name='QGSkel',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          # -*- Extra requirements: -*-
+        "PasteScript",
+        "Cheetah>1.0",
       ],
       entry_points="""
       [paste.paster_create_template]

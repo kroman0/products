@@ -1,3 +1,8 @@
+0.2.1
+
+  * fix string encoding issues during product installation and menu regeneration
+    for details: http://talk.quintagroup.com/forums/plone-drop-down-menu/237707814
+
 0.2
 
   * fixed documentation

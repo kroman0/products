@@ -45,7 +45,7 @@ find-links =
 \# elementtree is required by Plone
 #end if
 eggs =
-#    PILwoTk
+    PIL
 #if not $newplone
     elementtree
 #end if

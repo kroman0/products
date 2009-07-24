@@ -76,11 +76,10 @@
                             tabindex tabindex|request/tabindex|view/tabindex;
                             member member|request/member|view/member;">
 
-            <span id="span-reply-form" 
-                tal:attributes="style python:not visible and 'display: none' or ''"
-                tal:define="email_from_address portal/email_from_address|view/email_from_address;
-                            comment_id comment_id|request/comment_id">
-
+        <span tal:define="email_from_address portal/email_from_address|view/email_from_address;
+                            comment_id comment_id|request/comment_id"
+            tal:attributes="style python:not visible and 'display: none' or '';
+                            id string:span-reply-form-${comment_id}">
 
             <tal:if_not condition="not:email_from_address">
                 <p class="documentDescription"

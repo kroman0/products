@@ -1,5 +1,10 @@
+import logging
+import smtplib
 from Products.CMFPlone import MessageFactory
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone import PloneMessageFactory as _
+
+log = logging.getLogger('Products.qPloneComments.utils.py')
 
 # Get apropriate property from (propery_sheeet) configlet
 def getProp(self, prop_name, marker=None):
@@ -200,12 +205,18 @@ def send_email(reply, context, state):
         p_utils = context.plone_utils
         site_props = context.portal_properties.site_properties
         host = p_utils.getMailHost()
-        host.secureSend(msg, user_email, admin_email,
-                        subject = subject,
-                        subtype = 'plain',
-                        debug = False,
-                        charset = site_props.getProperty('default_charset', 'utf-8'),
-                        From = admin_email)
+        try:
+            host.secureSend(msg, user_email, admin_email,
+                            subject = subject,
+                            subtype = 'plain',
+                            debug = False,
+                            charset = site_props.getProperty('default_charset', 'utf-8'),
+                            From = admin_email)
+        except smtplib.SMTPRecipientsRefused:
+            log.error(_('SMTPRecipientsRefused: Could not send the email'
+            'notification. Have you configured an email server for Plone?'))
+            
+
 
 def setStatusMsg(state, context, msg):
     context.plone_utils.addPortalMessage(msg)

@@ -5,16 +5,17 @@ version = '0.1'
 
 setup(name='quintagroup.dropdownmenu',
       version=version,
-      description="This package allows Plone websites display multilevel portal dropdown menu based on portal actions settings and site structure.",
+      description="Multilevel portal dropdown menu for Plone sites.",
       long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+                       open(os.path.join("docs", "HISTORY.txt")).read() +
+                       open(os.path.join("quintagroup", "dropdownmenu", "menu.txt")).read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",
         "Programming Language :: Python",
         "Topic :: Software Development :: Libraries :: Python Modules",
         ],
-      keywords='web plone dropdown menu',
+      keywords='web plone menu',
       author='Vitaliy Podoba',
       author_email='piv@quintagroup.com',
       url='http://svn.quintagroup.com/products/quintagroup.dropdownmenu',

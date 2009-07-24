@@ -1,4 +1,25 @@
-Using menu
-==========
+Menu generation
+===============
 
-More to go...
+Dropdown menu is generated from two sources: portal_actions tool and content
+structure.
+
+Settings
+--------
+
+This package allows you to adjust a lot of different menu related things via
+/@@dropdownmenu-controlpanel control panel. More on this in
+`controlpanel.txt` doc test.
+
+
+Portal Actions
+==============
+
+
+
+
+Content Structure
+=================
+
+
+

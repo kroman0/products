@@ -43,6 +43,10 @@ def test_suite():
             'menu.txt', package='quintagroup.dropdownmenu',
             test_class=TestCase),
 
+        ztc.ZopeDocFileSuite(
+            'controlpanel.txt', package='quintagroup.dropdownmenu',
+            test_class=TestCase),
+
         #ztc.FunctionalDocFileSuite(
         #    'browser.txt', package='quintagroup.dropdownmenu',
         #    test_class=TestCase),

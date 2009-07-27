@@ -2,8 +2,6 @@
 extends = base.cfg
 
 [instance]
-http-address = {http_port}
+http-address = ${http_port}
 debug-mode = off
 verbose-security = off
-
-

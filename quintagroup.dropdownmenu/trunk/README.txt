@@ -4,10 +4,10 @@ Introduction
 This package allows Plone websites display multilevel portal dropdown menu based
 on portal actions settings and site structure.
 
-You may ask why we may need one more dropdown menu product for Plone having
-already qPloneDropDownMenu, webcouturier.dropdownmenu and much more products
+You may ask why we may need one more dropdown menu product for Plone, having
+already qPloneDropDownMenu, webcouturier.dropdownmenu and other products
 providing similar functionality. While qPloneDropDownMenu product just displays
-manually edited html code with nested unordered list webcouturier.dropdownmenu
+manually edited html code with nested unordered list, webcouturier.dropdownmenu
 went further and is trying to display submenus for each standard portal tab be
 it action from portal_actions tool or be it auto generated tab based on content
 structure.
@@ -18,30 +18,30 @@ introduced. It allows to build multilevel portal dropdown menu based on nested
 portal_actions categories inside portal_tab category as well as on portal
 content structure.
 
-It also allows you to define if to put content tabs before or after action tabs,
+It also allows you to define whether to put content tabs before or after action tabs,
 and a bit more... For details see below.
 
 
-Requires
---------
+Requirement
+-----------
 
   Plone 3.0+
 
 
-Install
--------
+Installation
+------------
 
   * first follow instructions inside docs/INSTALL.txt document
 
-  * then install product with Quick Installer
+  * then install product with Quick Installer in Plone
 
 
 Migration from qPloneDropDownMenu
 ---------------------------------
 
-In case qPloneDropDownMenu product was previously installed in a site
-installation procedure will automatically detect legacy settings and migrate
-it to a newly created tool along with removing old portal_dropdownmenu one.
+In case qPloneDropDownMenu product was previously installed, it will automatically 
+detect legacy settings and migrate it to a newly created tool along with removing old
+portal_dropdownmenu one during a site installation procedure.
 
 Also installation procedure will uninstall qPloneDropDownMenu product itself
 (in case it's still installed) and clean up everything after it.

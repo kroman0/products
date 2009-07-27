@@ -1,20 +1,10 @@
-quintagroup.dropdownmenu Installation
+quintagroup.dropdownmenu installation
 -------------------------------------
 
-To install quintagroup.dropdownmenu into the global Python environment (or a workingenv),
-using a traditional Zope 2 instance, you can do this:
+To install quintagroup.dropdownmenu into the global Python environment 
+(or a workingenv), using a traditional Zope 2 instance, you can do this:
 
-* When you're reading this you have probably already run 
-  ``easy_install quintagroup.dropdownmenu``. Find out how to install setuptools
-  (and EasyInstall) here:
-  http://peak.telecommunity.com/DevCenter/EasyInstall
-
-* If you are using Zope 2.9 (not 2.10), get `pythonproducts`_ and install it 
-  via::
-
-    python setup.py install --home /path/to/instance
-
-into your Zope instance.
+* Copy ``quintagroup`` folder to the /path/to/instance/lib/python directory.
 
 * Create a file called ``quintagroup.dropdownmenu-configure.zcml`` in the
   ``/path/to/instance/etc/package-includes`` directory.  The file
@@ -22,13 +12,10 @@ into your Zope instance.
 
     <include package="quintagroup.dropdownmenu" />
 
-.. _pythonproducts: http://plone.org/products/pythonproducts
-
-
 Alternatively, if you are using zc.buildout and the plone.recipe.zope2instance
 recipe to manage your project, you can do this:
 
-* Add ``quintagroup.dropdownmenu`` to the list of eggs to install, e.g.:
+* Add ``quintagroup.dropdownmenu`` to the list of eggs to install, e.g.::
 
     [buildout]
     ...
@@ -36,7 +23,7 @@ recipe to manage your project, you can do this:
         ...
         quintagroup.dropdownmenu
        
-* Tell the plone.recipe.zope2instance recipe to install a ZCML slug:
+* Tell the plone.recipe.zope2instance recipe to install a ZCML slug::
 
     [instance]
     recipe = plone.recipe.zope2instance
@@ -44,9 +31,14 @@ recipe to manage your project, you can do this:
     zcml =
         quintagroup.dropdownmenu
       
-* Re-run buildout, e.g. with:
+After that:     
+
+* Re-runbuildout, e.g. with::
 
     $ ./bin/buildout
         
-You can skip the ZCML slug if you are going to explicitly include the package
-from another package's configure.zcml file.
+* Restart Zope server process, for example, with the following command in the terminal::
+
+   $ ./bin/zopectl restart
+   
+Then install quintagroup.dropdownmenu with Quickinstaller in Plone.  

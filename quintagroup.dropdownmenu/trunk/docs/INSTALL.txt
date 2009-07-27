@@ -4,7 +4,7 @@ quintagroup.dropdownmenu installation
 To install quintagroup.dropdownmenu into the global Python environment 
 (or a workingenv), using a traditional Zope 2 instance, you can do this:
 
-* Copy ``quintagroup`` folder to the /path/to/instance/lib/python directory.
+* Copy ``quintagroup`` folder to the ``/path/to/instance/lib/python`` directory.
 
 * Create a file called ``quintagroup.dropdownmenu-configure.zcml`` in the
   ``/path/to/instance/etc/package-includes`` directory.  The file
@@ -33,7 +33,7 @@ recipe to manage your project, you can do this:
       
 After that:     
 
-* Re-runbuildout, e.g. with::
+* Re-run buildout, e.g. with::
 
     $ ./bin/buildout
         

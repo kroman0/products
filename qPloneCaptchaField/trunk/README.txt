@@ -1,34 +1,38 @@
 Plone Capcha Field
+==================
 
-    qPloneCaptchaField is a Plone product that allows to add captcha field to the form, created with PloneFormGen product.
+qPloneCaptchaField is a Plone product that allows to add captcha field to the form, created with PloneFormGen product.
 
-Supported Plone versions:
+Supported Plone versions
+------------------------
 
-    * 3.x
+* 3.x
 
 Dependencies
+------------
 
-    * PloneFormGen
-    * qPloneCaptchas
+* PloneFormGen
+* qPloneCaptchas
 
-Installation:
+Installation
+------------
 
-    Please make sure that the following products are intalled in the following order:
+Please make sure that the following products are intalled in the following order:
 
-    * PloneFormGen
+* PloneFormGen
+* qPloneCaptchas
+* qPloneCaptchaField
 
-    * qPloneCaptchas
+Links
+-----
+    
+* Documentation - http://projects.quintagroup.com/products/wiki/qPloneCaptchaField
+* Screencast - http://quintagroup.com/cms/screencasts/qplonecaptchafield
 
-    * qPloneCaptchaField
+Authors
+-------
 
-Documentation:
+The product is developed by Quintagroup.com team:
 
-    http://projects.quintagroup.com/products/wiki/qPloneCaptchaField
-
-Authors:
-
-    The product is developed by Quintagroup.com team:
-
-    * Volodymyr Cherepanyak - chervol@quintagroup.com
-
-    * Taras Melnychuk - fenix@quintagroup.com
+* Volodymyr Cherepanyak
+* Taras Melnychuk

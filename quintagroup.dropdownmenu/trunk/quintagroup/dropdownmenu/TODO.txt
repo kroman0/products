@@ -1,0 +1,12 @@
+Todo List
+
+ [ ] global sections viewlet
+ [ ] IE<7 functionality
+ [ ] csshover configlet
+ [ ] documentation
+ [ ] tests tests tests
+
+
+Completed List
+
+ [x] settings configlet

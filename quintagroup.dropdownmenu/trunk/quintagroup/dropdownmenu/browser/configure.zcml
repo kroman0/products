@@ -3,11 +3,33 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="quintagroup.dropdownmenu">
 
+
+  <include package="plone.browserlayer" />
+
+  <browser:viewlet
+      name="plone.global_sections"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      class=".viewlets.GlobalSectionsViewlet"
+      layer="..interfaces.IDropDownMenuLayer"
+      permission="zope2.View"
+      />
+
   <browser:page
       name="dropdownmenu-settings"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       class=".controlpanel.DropDownMenuSettingsControlPanel"
       permission="cmf.ManagePortal"
       />
+
+  <!-- Returns javascript which makes IE<7 understand hover for all html elements -->
+  <browser:view
+      name="csshover.htc"
+      for="*"
+      class=".css.CSSHoverView"
+      permission="zope2.View"
+      />
+
+  <!-- Register resources -->
+
 
 </configure>

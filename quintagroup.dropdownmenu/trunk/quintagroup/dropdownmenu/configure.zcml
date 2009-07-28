@@ -3,6 +3,17 @@
     xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="quintagroup.dropdownmenu">
 
-  <five:registerPackage package="." initialize=".initialize" />
+  <!-- Include configuration for dependencies listed in setup.py -->
+  <includeDependencies package="." />
+
+  <!-- Register the installation GenericSetup extension profile -->
+  <genericsetup:registerProfile
+      name="default"
+      title="Plone DropDown Menu"
+      description="DropDown Menu Product for Plone"
+      directory="profiles/default"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      />
 
 </configure>

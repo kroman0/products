@@ -8,7 +8,7 @@ Settings
 --------
 
 This package allows you to adjust a lot of different menu related things via
-/@@dropdownmenu-controlpanel control panel. More on this in
+/@@dropdownmenu-settings control panel. More on this in
 `controlpanel.txt` doc test.
 
 

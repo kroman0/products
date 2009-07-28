@@ -1,7 +1,14 @@
 from zope import schema
 from zope.interface import Interface
 
+from plone.theme.interfaces import IDefaultPloneLayer
+
 from quintagroup.dropdownmenu import _
+
+
+class IDropDownMenuLayer(IDefaultPloneLayer):
+    """Request marker installed via browserlayer.xml.
+    """
 
 
 class IDropDownMenuSettings(Interface):

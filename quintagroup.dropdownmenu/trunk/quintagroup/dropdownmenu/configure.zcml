@@ -1,13 +1,13 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="quintagroup.dropdownmenu">
 
   <!-- Include configuration for dependencies listed in setup.py -->
   <includeDependencies package="." />
 
   <!-- Include internal packages -->
-  <include package="browser" />
+  <include package=".browser" />
 
   <!-- Register the installation GenericSetup extension profile -->
   <genericsetup:registerProfile

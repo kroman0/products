@@ -29,6 +29,10 @@ setup(name='quintagroup.dropdownmenu',
           'setuptools',
           'Plone',
           'plone.app.registry',
+          'plone.app.z3cform==0.4.6',
+          'plone.z3cform==0.5.5',
+          'z3c.form==1.9.0',
+          'collective.testcaselayer',
       ],
       entry_points="""
       [z3c.autoinclude.plugin]

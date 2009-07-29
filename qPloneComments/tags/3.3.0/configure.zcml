@@ -1,0 +1,36 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
+    xmlns:gs="http://namespaces.zope.org/genericsetup"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="plonecomments">
+
+    <include package="plone.browserlayer" />
+    <include package=".browser" />
+    <i18n:registerTranslations directory="locales" />
+
+    <cmf:registerDirectory name="skins" directory="skins" recursive="True" />
+
+    <gs:registerProfile
+        name="default"
+        title="qPloneComments"
+        directory="profiles/default"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        description="Extension profile for the Plone Comments product."
+        />
+
+    <gs:registerProfile
+        name="uninstall"
+        title="qPloneComments uninstall"
+        directory="profiles/uninstall"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        description="Extension profile for the Plone Comments product."
+        />
+
+    <permission
+        id="moderate.discussion"
+        title="Moderate Discussion"
+        />
+
+</configure>

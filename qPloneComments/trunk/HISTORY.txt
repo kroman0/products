@@ -1,8 +1,11 @@
 Changelog
 =========
 
-3.2.4 (unreleased)
+3.3.0 (2009-07-29)
 ------------------
+
+- Added feature report abuse.
+  [jcbrand]
 
 - Fixed links in the email messages.
   [liebster]

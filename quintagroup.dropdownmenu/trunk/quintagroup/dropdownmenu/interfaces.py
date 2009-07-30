@@ -56,7 +56,8 @@ class IDropDownMenuSettings(Interface):
         description=_(u"How many folders should be included before the "
                       u"nested menu stops. 0 means no limit. 1 only includes "
                       u"the root folder."),
-        default=0)
+        default=0,
+        required=False)
 
     actions_category = schema.TextLine(
         title=_(u"Portal actions category"),
@@ -74,7 +75,8 @@ class IDropDownMenuSettings(Interface):
                       u" is equal to '_sub' then category object with id equal "
                       u"to 'pre_index_html_sub' will be looked up on the same "
                       u"level to get nested menu for 'index_html' action."),
-        default=u"")
+        default=u"",
+        required=False)
 
     nested_category_sufix = schema.TextLine(
         title=_(u"Nested category sufix"),

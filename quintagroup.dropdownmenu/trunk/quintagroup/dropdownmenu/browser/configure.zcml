@@ -30,6 +30,9 @@
       />
 
   <!-- Register resources -->
-
+  <browser:resource
+      name="drop_down.css"
+      file="resources/drop_down.css"
+      />
 
 </configure>

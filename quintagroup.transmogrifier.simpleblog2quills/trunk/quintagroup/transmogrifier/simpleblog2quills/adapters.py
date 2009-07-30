@@ -129,14 +129,15 @@ class BlogEntryExporter(ReferenceExporter):
         text = elem.firstChild.nodeValue
         urls = self.SRC.findall(text)
         blog = recurseToInterface(self.context, IBlog)
-        blog_url = blog.absolute_url()
         blog_path = blog.getPhysicalPath()
+        context_path = self.context.getPhysicalPath()
         for url in urls:
             url = str(url)
             image_id = url.rsplit('/', 1)[-1]
-            # bad link
+            # skip links with illegal url schema
             if '://' in url and not url.startswith('http://'):
                 continue
+            # convert all all links to relative
             if url.startswith('http://'):
                 for site in SITE_URLS:
                     if url.startswith(site):
@@ -151,7 +152,15 @@ class BlogEntryExporter(ReferenceExporter):
                         in_blog = recurseToInterface(image, IBlog) is not None and True or False
                         if in_blog:
                             image_id = self.fixImageId(image, image_id, blog_path)
-                            new_url = '/'.join((blog_url, IMAGE_FOLDER, image_id))
+                            level = len(context_path) - len(blog_path) - 1
+                            new_url = '/'.join(['..' for i in range(level)])
+                            new_url = '/'.join((new_url, IMAGE_FOLDER, image_id))
+                            text = text.replace(url, new_url, 1)
+                        else:
+                            # find how many levels self.context is under portal root
+                            level = len(context_path) - 3
+                            new_url = '/'.join(['..' for i in range(level)])
+                            new_url  = new_url + '/' + relative_url
                             text = text.replace(url, new_url, 1)
                         break
             else:
@@ -170,19 +179,18 @@ class BlogEntryExporter(ReferenceExporter):
                 in_blog = recurseToInterface(image, IBlog) is not None and True or False
                 if in_blog:
                     image_id = self.fixImageId(image, image_id, blog_path)
-                    path = self.context.getPhysicalPath()
-                    level = len(path) - len(blog_path) - 1
+                    level = len(context_path) - len(blog_path) - 1
                     new_url = '/'.join(['..' for i in range(level)])
                     new_url = '/'.join([new_url, IMAGE_FOLDER, image_id])
                     text = text.replace(url, new_url, 1)
                 elif url.startswith('../'):
-                    # remove '../' from the start of sting
+                    # remove '../' from the start of string
                     new_url = url[3:]
                     text = text.replace(url, new_url, 1)
                 elif url.startswith('/'):
                     # these links didn't work so rewrite them with '..'
-                    # find how many level self.context is under portal root
-                    level = len(self.context.getPhysicalPath()) - 3
+                    # find how many levels self.context is under portal root
+                    level = len(context_path) - 3
                     new_url = '/'.join(['..' for i in range(level)])
                     new_url  = new_url + url
                     text = text.replace(url, new_url, 1)

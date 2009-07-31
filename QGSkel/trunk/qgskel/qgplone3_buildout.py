@@ -21,9 +21,10 @@ class QGPlone3Buildout(BaseTemplate):
             'Zope root admin user',
             default='admin'),
         var('zope_password',
-            'Zope root admin password'),
+            'Zope root admin password',
+            default='admin'),
         var('http_port',
-            'HTTP port (development port == http_pot + 10 )',
+            'HTTP port (development port == http_port + 10 )',
             default=8080),
         ]
 
@@ -36,7 +37,7 @@ class QGPlone3Buildout(BaseTemplate):
         vars['newplone'] = not vars['veryoldplone'] and not vars['oldplone']
         vars['http_port_devel'] = vars['http_port'] + 10
         super(QGPlone3Buildout, self).pre(command, output_dir, vars)
-    
+
     def post(self, command, output_dir, vars):
         print "-----------------------------------------------------------"
         print "Generation finished"
@@ -45,6 +46,3 @@ class QGPlone3Buildout(BaseTemplate):
         print
         print "See README.txt for details"
         print "-----------------------------------------------------------"
-
-
-

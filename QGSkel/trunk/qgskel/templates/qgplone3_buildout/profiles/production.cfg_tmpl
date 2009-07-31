@@ -1,9 +1,8 @@
 [buildout]
 extends = base.cfg
+newest = false
 
 [instance]
 http-address = ${http_port}
 debug-mode = off
 verbose-security = off
-
-

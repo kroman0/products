@@ -1,11 +1,21 @@
 [buildout]
-extends = base.cfg
+extends = 
+    base.cfg
+    debugtools.cfg
 
 parts +=
     omelette
+    enablesettrace
+#    zopeprofiler
+#    zptdebugger
+#    deadlockdebugger
+    ipzope
 
 eggs +=
     plone.reload
+    Products.Clouseau
+    Products.DocFinderTab
+#     Products.PTProfiler
 
 extensions += mr.developer
 sources = sources

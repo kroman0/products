@@ -23,19 +23,18 @@ extensions =
 dump-picked-versions-file = profiles/versions.cfg
 overwrite-picked-versions-file = false
 
-
 \# Add additional egg download sources here. dist.plone.org contains archives
 \# of Plone packages.
 find-links =
 #if $newplone
+    http://dist.quintagroup.com/proxy/dist/release/${plone_version}/
     http://dist.plone.org/release/${plone_version}
 #else
+    http://dist.quintagroup.com/proxy/dist/
     http://dist.plone.org
 #end if
     http://dist.quintagroup.com/repository/
     http://dist.quintagroup.com/proxy/pypi/
-    http://dist.quintagroup.com/proxy/dist/
-    http://dist.quintagroup.com/proxy/products/    
     http://download.zope.org/ppix/
     http://download.zope.org/distribution/
     http://effbot.org/downloads
@@ -45,7 +44,6 @@ find-links =
 \# elementtree is required by Plone
 #end if
 eggs =
-    PIL
 #if not $newplone
     elementtree
 #end if
@@ -53,7 +51,6 @@ eggs =
 \# Reference any eggs you are developing here, one per line
 \# e.g.: develop = src/my.package
 develop =
-
 
 #if $oldplone
 [plone]
@@ -131,6 +128,7 @@ verbose-security = off
 \# e.g. eggs = Plone my.package
 eggs =
 #if $newplone
+    PIL
     Plone
     \${buildout:eggs}
 #end if
@@ -141,13 +139,13 @@ eggs =
 #if $veryoldplone
     \${buildout:eggs}
 #end if
-    
 
 \# If you want to register ZCML slugs for any packages, list them here.
 \# e.g. zcml = my.package my.other.package
 zcml =
 
 products =
+    \${buildout:directory}/products
     \${productdistros:location}
 #if $oldplone
 #if not $plone_products_install

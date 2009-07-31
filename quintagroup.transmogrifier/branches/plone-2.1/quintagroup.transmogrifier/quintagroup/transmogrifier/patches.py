@@ -4,20 +4,19 @@ from tarfile import TarInfo, DIRTYPE
 from StringIO import StringIO
 
 try:
-    # if we have GenericSetup product we don't need to register steps in python
-    import Products.GenericSetup
+    from Products.GenericSetup import profile_registry, EXTENSION
 except ImportError:
     from Products.CMFSetup import profile_registry, EXTENSION
 
-    if 'quintagroup.transmogrifier:default' not in profile_registry.listProfiles():
-        profile_path = os.path.join(os.path.split(__file__)[0], 'profiles/default')
-        profile_registry.registerProfile("default",
-                                         "Transmogrifier",
-                                         "Export/import the site's structure and content.",
-                                         profile_path,
-                                         #"quintagroup.transmogrifier",
-                                         profile_type=EXTENSION
-                                         )
+if 'quintagroup.transmogrifier:default' not in profile_registry.listProfiles():
+    profile_path = os.path.join(os.path.split(__file__)[0], 'profiles/default')
+    profile_registry.registerProfile("default",
+                                     "Transmogrifier",
+                                     "Export/import the site's structure and content.",
+                                     profile_path,
+                                     #"quintagroup.transmogrifier",
+                                     profile_type=EXTENSION
+                                    )
 
 # TarballExportContext don't write dirs in tarball and we need to fix this
 def writeDataFile( self, filename, text, content_type, subdir=None ):

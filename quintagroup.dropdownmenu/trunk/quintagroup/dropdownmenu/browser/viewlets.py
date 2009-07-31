@@ -33,8 +33,6 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         self.conf = conf = self._settings()
         self.tool = getToolByName(context, 'portal_actions')
 
-        #import pdb;pdb.set_trace()
-
         # fetch actions-based tabs?
         if conf.show_actions_tabs:
             tabs.extend(self._actions_tabs())
@@ -77,17 +75,20 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
             #       actions tabs are rendered separately
             currentItem = False
             currentParent = False
-            # TODO: adjust img tag
             icon = info['icon'] and '<img src="%s" />' % info['icon'] or ''
 
             # look up children for a given action
             children = []
-            if level <= self.conf.actions_tabs_level:
+            bottomLevel = self.conf.actions_tabs_level
+            if bottomLevel < 1 or level < bottomLevel:
                 # try to find out appropriate subcategory
-                subcat_id = info['id'] + self.conf.nested_category_sufix
+                subcat_id = info['id']
+                if self.conf.nested_category_sufix is not None:
+                    subcat_id += self.conf.nested_category_sufix
                 if self.conf.nested_category_prefix is not None:
                     subcat_id = self.conf.nested_category_prefix + subcat_id
-                if subcat_id in category.objectIds():
+                if subcat_id != info['id'] and \
+                   subcat_id in category.objectIds():
                     subcat = category._getOb(subcat_id)
                     if IActionCategory.providedBy(subcat):
                         children = self._subactions(subcat, object, level+1)
@@ -128,7 +129,7 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
 
     def _content_tabs(self):
         """Return tree of tabs based on content structure"""
-        # TODO: check currentItem functionality
+        # TODO: make non-folderish work as proxy
         context = aq_inner(self.context)
 
         queryBuilder = DropDownMenuQueryBuilder(context)

@@ -87,4 +87,5 @@ class IDropDownMenuSettings(Interface):
         title=_(u"Nested category sufix"),
         description=_(u"Sufix part of the category id to be looked up during "
                       u"linking with action."),
-        default=u"_sub")
+        default=u"_sub",
+        required=False)

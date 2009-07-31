@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 
-from zope.component import getMultiAdapter, queryUtility
+from zope.component import getMultiAdapter, getUtility
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
@@ -10,9 +10,13 @@ from Products.CMFCore.ActionInformation import ActionInfo
 
 from plone.memoize.instance import memoize
 from plone.app.layout.viewlets import common
+from plone.app.layout.navigation.navtree import buildFolderTree
+from plone.app.layout.navigation.interfaces import INavtreeStrategy
+from plone.app.layout.navigation.interfaces import INavigationQueryBuilder
 from plone.registry.interfaces import IRegistry
 
 from quintagroup.dropdownmenu.interfaces import IDropDownMenuSettings
+from quintagroup.dropdownmenu.browser.menu import DropDownMenuQueryBuilder
 
 
 class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
@@ -28,6 +32,8 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         context = aq_inner(self.context)
         self.conf = conf = self._settings()
         self.tool = getToolByName(context, 'portal_actions')
+
+        #import pdb;pdb.set_trace()
 
         # fetch actions-based tabs?
         if conf.show_actions_tabs:
@@ -78,8 +84,9 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
             children = []
             if level <= self.conf.actions_tabs_level:
                 # try to find out appropriate subcategory
-                subcat_id = self.conf.nested_category_prefix + info['id'] + \
-                         self.conf.nested_category_sufix
+                subcat_id = info['id'] + self.conf.nested_category_sufix
+                if self.conf.nested_category_prefix is not None:
+                    subcat_id = self.conf.nested_category_prefix + subcat_id
                 if subcat_id in category.objectIds():
                     subcat = category._getOb(subcat_id)
                     if IActionCategory.providedBy(subcat):
@@ -121,12 +128,26 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
 
     def _content_tabs(self):
         """Return tree of tabs based on content structure"""
-        return []
+        # TODO: check currentItem functionality
+        context = aq_inner(self.context)
+
+        queryBuilder = DropDownMenuQueryBuilder(context)
+        strategy = getMultiAdapter((context, None), INavtreeStrategy)
+        # XXX This works around a bug in plone.app.portlets which was
+        # fixed in http://dev.plone.org/svn/plone/changeset/18836
+        # When a release with that fix is made this workaround can be
+        # removed and the plone.app.portlets requirement in setup.py
+        # be updated.
+        if strategy.rootPath is not None and strategy.rootPath.endswith("/"):
+            strategy.rootPath = strategy.rootPath[:-1]
+
+        return buildFolderTree(context, obj=context, query=queryBuilder(),
+                               strategy=strategy).get('children', [])
 
     @memoize
     def _settings(self):
         """Fetch dropdown menu settings registry"""
-        registry = queryUtility(IRegistry)
+        registry = getUtility(IRegistry)
         return registry.forInterface(IDropDownMenuSettings)
 
     def createMenu(self):

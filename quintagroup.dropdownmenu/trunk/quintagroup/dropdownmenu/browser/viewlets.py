@@ -71,7 +71,7 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         for info in self._actionInfos(category, object):
             # prepare data for action
             # TODO: implement current element functionality, maybe should be
-            #       done on a template level because of separate content and 
+            #       done on a template level because of separate content and
             #       actions tabs are rendered separately
             currentItem = False
             currentParent = False
@@ -129,7 +129,6 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
 
     def _content_tabs(self):
         """Return tree of tabs based on content structure"""
-        # TODO: make non-folderish work as proxy
         context = aq_inner(self.context)
 
         queryBuilder = DropDownMenuQueryBuilder(context)

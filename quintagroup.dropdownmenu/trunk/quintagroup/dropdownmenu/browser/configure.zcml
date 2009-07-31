@@ -21,6 +21,19 @@
       permission="cmf.ManagePortal"
       />
 
+  <class class=".menu.DropDownMenuQueryBuilder">
+    <allow interface="plone.app.layout.navigation.interfaces.INavigationQueryBuilder" />
+  </class>
+
+  <class class=".menu.DropDownMenuStrategy">
+        <allow interface="plone.app.layout.navigation.interfaces.INavtreeStrategy" />
+  </class>
+
+  <adapter
+      for="* *"
+      factory=".menu.DropDownMenuStrategy"
+      provides="plone.app.layout.navigation.interfaces.INavtreeStrategy" />
+
   <!-- Returns javascript which makes IE<7 understand hover for all html elements -->
   <browser:view
       name="csshover.htc"

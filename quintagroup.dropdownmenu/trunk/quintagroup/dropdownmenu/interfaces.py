@@ -16,7 +16,13 @@ class IDropDownMenuSettings(Interface):
     """Global dropdown menu settings. This describes records stored in the
     configuration registry and obtainable via plone.registry.
     """
-    
+
+    show_icons = schema.Bool(
+        title=_(u"Show tabs icons"),
+        description=_(u"Use this setting to enable or disable icons for menu "
+                      u"items."),
+        default=False)
+
     show_content_tabs = schema.Bool(
         title=_(u"Show content tabs"),
         description=_(u"Use this setting to enable or disable content structure "
@@ -56,8 +62,7 @@ class IDropDownMenuSettings(Interface):
         description=_(u"How many folders should be included before the "
                       u"nested menu stops. 0 means no limit. 1 only includes "
                       u"the root folder."),
-        default=0,
-        required=False)
+        default=0)
 
     actions_category = schema.TextLine(
         title=_(u"Portal actions category"),

@@ -27,6 +27,13 @@ class RegistryTest(PloneTestCase):
         self.failUnless('dropdownmenu' in [a.getAction(self)['id']
                             for a in self.controlpanel.listActions()])
 
+    def test_show_icons(self):
+        # Check show_icons record
+        show_icons = self.registry.records[IPREFIX+'show_icons']
+
+        self.failUnless('show_icons' in IDropDownMenuSettings)
+        self.assertEquals(self.registry[IPREFIX+'show_icons'], False)
+
     def test_show_content_tabs(self):
         # Check show_content_tabs record
         show_content_tabs = self.registry.records[IPREFIX+'show_content_tabs']

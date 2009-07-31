@@ -5,6 +5,7 @@ Todo List
  [ ] csshover configlet
  [ ] documentation
  [ ] tests tests tests
+ [ ] migration from qPloneDropDownMenu
 
 
 Completed List

@@ -18,10 +18,16 @@ class DropDownMenuQueryBuilder(SitemapQueryBuilder):
 
     def __init__(self, context):
         super(DropDownMenuQueryBuilder, self).__init__(context)
+
+        # customize depth according to dropdown menu settings
         if self._settings.content_tabs_level > 0:
             self.query['path']['depth'] = self._settings.content_tabs_level
         elif self.query['path'].has_key('depth'):
             del self.query['path']['depth']
+
+        # constrain non-folderish objects if required
+        if not self._settings.show_nonfolderish_tabs:
+            self.query['is_folderish'] = True
 
     @property
     def _settings(self):

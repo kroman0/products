@@ -18,8 +18,6 @@ class DropDownMenuQueryBuilder(SitemapQueryBuilder):
 
     def __init__(self, context):
         super(DropDownMenuQueryBuilder, self).__init__(context)
-        # TODO: make sure sitemap query builder is what we need
-        # override depth by dropdown menu settings
         if self._settings.content_tabs_level > 0:
             self.query['path']['depth'] = self._settings.content_tabs_level
         elif self.query['path'].has_key('depth'):
@@ -38,7 +36,6 @@ class DropDownMenuStrategy(DefaultNavtreeStrategy):
 
     def __init__(self, context, view=None):
         super(DropDownMenuStrategy, self).__init__(context, view)
-        # TODO: make sure default navtree strategy is what we need
         self.bottomLevel = self._settings.content_tabs_level
 
     @property

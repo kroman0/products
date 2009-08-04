@@ -23,7 +23,6 @@ class IDropDownMenuSettings(Interface):
                       u"items."),
         default=False)
 
-     # TODO: make this and the next settings work as proxy for Navigation configlet
     show_content_tabs = schema.Bool(
         title=_(u"Show content tabs"),
         description=_(u"Use this setting to enable or disable content structure "

@@ -48,4 +48,13 @@
       editview="quills.app.portlets.archive.EditForm"
       />
 
+  <plone:portlet
+      name="quills.app.portlets.QuillsLinks"
+      interface="quills.app.portlets.quillslinks.IQuillsLinksPortlet"
+      assignment="quills.app.portlets.quillslinks.Assignment"
+      renderer=".patch_renderers.QuillsLinksRenderer"
+      addview="quills.app.portlets.quillslinks.AddForm"
+      editview="quills.app.portlets.quillslinks.EditForm"
+      />
+
 </configure>

@@ -26,6 +26,8 @@
         permission="zope.Public"
         />
 
+   <include package="plone.browserlayer" />
+
    <browser:page
         for=".interfaces.IWeblogCategory"
         class="Products.QuillsEnabled.browser.weblogview.WeblogView"
@@ -48,13 +50,13 @@
 
     <browser:resource
         name="print_blogentry.js"
-        layer="elaw.theme.webresults.browser.interfaces.IThemeSpecific"
+        layer=".interfaces.IQuillsExtrasLayer"
         file="print_page.js"
         />
 
     <browser:resource
         name="addthis_common.js"
-        layer="elaw.theme.webresults.browser.interfaces.IThemeSpecific"
+        layer=".interfaces.IQuillsExtrasLayer"
         file="addthis_common.js"
         />
 

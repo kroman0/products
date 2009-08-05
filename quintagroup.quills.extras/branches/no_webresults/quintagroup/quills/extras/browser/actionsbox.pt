@@ -1,0 +1,6 @@
+<div class="blogSummaryThis">
+  <div class="blogSummaryThis-lining">
+    <tal:loop tal:repeat="viewlet options/viewlets"
+      tal:replace="structure viewlet/render" />
+  </div>
+</div>

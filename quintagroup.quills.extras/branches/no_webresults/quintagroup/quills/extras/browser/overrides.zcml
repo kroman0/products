@@ -20,15 +20,6 @@
         allowed_interface="quills.core.browser.interfaces.IWeblogEntryView"
         allowed_attributes="day month" />
 
-    <browser:page
-        for="quills.core.interfaces.enabled.IWeblogEnhanced"
-        class="quills.app.browser.weblogview.WeblogView"
-        template="weblog_view.pt"
-        allowed_interface="quills.core.browser.interfaces.IWeblogView"
-        permission="zope2.View"
-        name="weblog_view" />
-
-
       <browser:page
           for="quills.core.interfaces.ITopicContainer"
           class="quills.app.browser.weblogview.TopicView"

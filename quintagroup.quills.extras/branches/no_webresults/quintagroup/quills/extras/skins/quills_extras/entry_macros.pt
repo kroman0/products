@@ -215,7 +215,7 @@
     </metal:filedUnder>
 
     <metal:discussion define-macro="discussion-summary">
-      <div class="belowentryItem"
+      <div class="weblog-footer discreet"
            tal:define="displaying_one_entry python:view.displayingOneEntry(context, entry);
                        isDiscussionAllowedFor nocall:view/isDiscussionAllowedFor;">
         <tal:if condition="python:isDiscussionAllowedFor(entry)">

@@ -31,12 +31,7 @@
           tal:repeat="day python:view.getWeblogEntriesDates(results)">
 
         <tal:byDates tal:condition="group_by_dates">
-          <div class="weblogViewDate">
-            <div tal:content="python:DateTime(day).strftime('%b').capitalize()"
-                     class="weblogDateMonth" />
-            <div tal:content="python:DateTime(day).day()" 
-                     class="weblogDateDay" />
-          </div>
+          <h2 tal:content="python:context.toLocalizedTime(day, context=context)" />
 
           <tal:entries repeat="entry python:results[day]">
             <metal:macro use-macro="context/entry_macros/macros/display-entry"/>
@@ -47,12 +42,6 @@
         <tal:notByDates tal:condition="not: group_by_dates">
           <tal:entries repeat="entry python:results[day]">
             <tal:block tal:define="secondLevel python:True">
-	      <div class="weblogViewDate">
-		<div tal:content="python:DateTime(day).strftime('%b').capitalize()"
-			 class="weblogDateMonth" />
-		<div tal:content="python:DateTime(day).day()" 
-			 class="weblogDateDay" />
-	      </div>
               <metal:macro use-macro="context/entry_macros/macros/display-entry"/>
               <metal:macro use-macro="context/entry_macros/macros/belowentry"/>
             </tal:block>

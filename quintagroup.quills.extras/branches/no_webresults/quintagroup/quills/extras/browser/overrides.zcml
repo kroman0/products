@@ -55,4 +55,11 @@
 	  permission="zope2.View"
 	  />
 
+    <!-- metal macros -->
+    <view for="*"
+        name="quills_header_macros"
+        class=".macros.HeaderMacros"
+        permission="zope2.View"
+    />
+
 </configure>

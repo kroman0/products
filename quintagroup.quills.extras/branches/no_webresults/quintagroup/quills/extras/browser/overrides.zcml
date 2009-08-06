@@ -80,4 +80,18 @@
         permission="zope2.View"
     />
 
+    <browser:page
+        for="*"
+        name="quills_entry_macros"
+        class=".macros.WeblogEntryMacros"
+        permission="zope2.View"
+    />
+
+    <browser:page
+        for="*"
+        name="quills_weblog_macros"
+        class=".macros.WeblogMacros"
+        permission="zope2.View"
+    />
+
 </configure>

@@ -88,17 +88,17 @@
         </tal:headerInListing>
 
         <tal:comment condition="nothing"> Topic images  </tal:comment>
-        <metal:macro use-macro="context/entry_macros/macros/topic-images"/>
+        <metal:macro use-macro="context/quills_entry_macros/topic-images"/>
 
         <tal:comment condition="nothing"> Byline </tal:comment>
         <tal:byline define="item_creator python:', '.join([each.getTitle() for each in entry.getAuthors()]);
                             item_modified entry/getPublicationDate;">
-          <metal:macro use-macro="context/entry_macros/macros/short-byline" />
+          <metal:macro use-macro="context/quills_entry_macros/short-byline" />
         </tal:byline>
         
 
         <tal:comment condition="nothing"> Filed under </tal:comment>
-        <metal:macro use-macro="context/entry_macros/macros/filed-under"/>
+        <metal:macro use-macro="context/quills_entry_macros/filed-under"/>
 
         <tal:comment condition="nothing"> Description
         We add a special class (weblog-entry-only-excerpt) instead of
@@ -129,13 +129,13 @@
         <tal:comment condition="nothing"> Main content </tal:comment>
         <div class=""
              tal:condition="python: entry.getText() and show_content"
-             tal:attributes="class python:test(entry.getMimeType() in ('text/structured', 'text/x-rst', ), 'stx', 'plain')"
+             tal:attributes="class python:entry.getMimeType() in ('text/structured', 'text/x-rst', ) and 'stx' or 'plain'"
              tal:content="structure entry/getText">
         </div>
       </div>
 	  
       <!--<tal:comment condition="nothing"> AddThis bookmarklet manager </tal:comment>-->
-      <!--<metal:macro use-macro="context/entry_macros/macros/addthis" />-->
+      <!--<metal:macro use-macro="context/quills_entry_macros/addthis" />-->
 
     </metal:displayEntry>
 
@@ -256,11 +256,11 @@
 			<tal:block repeat="author creators">
                         <tal:def define="atitle python:aid2title.get(author,None);
                                          aid python:atitle2id.get(author,None);
-                                         author_unknown python:test(not(atitle or aid), author, '');">
+                                         author_unknown python:not(atitle or aid) and author or '';">
                         <tal:known condition="python:aid or atitle">
             <a href="#" 
-               tal:define="author_id python:test(atitle, author, aid);
-                           author_title python:test(aid, author, atitle);"
+               tal:define="author_id python:atitle and author or aid;
+                           author_title python:aid and author or atitle;"
                tal:attributes="href string:${weblog_content/absolute_url}/authors/${author_id}"
                tal:content="author_title">
               Mister Dobalina, Mister Bob Dobalina
@@ -348,7 +348,7 @@
                                 item_wf_state       item/review_state|python: getInfoFor(item, 'review_state', '');
                                 item_wf_state_class python: 'state-' + normalizeString(item_wf_state);
                                 item_url            item/absolute_url;
-                                item_url            python:test((item_type in use_view_action), item_url+'/view', item_url)">
+                                item_url            python:item_type in use_view_action and item_url+'/view' or item_url">
                             <span tal:attributes="class item_type_class">
                                 <a href="" class=""
                                    tal:attributes="href  item_url;
@@ -391,9 +391,9 @@
     <metal:belowentry define-macro="belowentry">
     <div class="blogSummaryThis">
         <div class="blogSummaryThis-lining">
-            <metal:otheractions use-macro="context/entry_macros/macros/other-actions" />
-            <metal:addthis use-macro="context/entry_macros/macros/addthis"/>
-            <metal:discussion use-macro="context/entry_macros/macros/discussion-summary"/>
+            <metal:otheractions use-macro="context/quills_entry_macros/other-actions" />
+            <metal:addthis use-macro="context/quills_entry_macros/addthis"/>
+            <metal:discussion use-macro="context/quills_entry_macros/discussion-summary"/>
         </div>
     </div>
     </metal:belowentry>
@@ -412,11 +412,11 @@
 			<tal:block repeat="author creators">
                         <tal:def define="atitle python:aid2title.get(author,None);
                                          aid python:atitle2id.get(author,None);
-                                         author_unknown python:test(not(atitle or aid), author, '');">
+                                         author_unknown python:not(atitle or aid) and author or '';">
                         <tal:known condition="python:aid or atitle">
             <a href="#" 
-               tal:define="author_id python:test(atitle, author, aid);
-                           author_title python:test(aid, author, atitle);"
+               tal:define="author_id python:atitle and author or aid;
+                           author_title python:aid and author or atitle;"
                tal:attributes="href string:${weblog_content/absolute_url}/authors/${author_id}"
                tal:content="author_title">
               Mister Dobalina, Mister Bob Dobalina

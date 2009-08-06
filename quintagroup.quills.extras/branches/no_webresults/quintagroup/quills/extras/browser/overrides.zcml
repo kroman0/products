@@ -2,6 +2,7 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="quintagroup.quills.extras">
 
     <browser:page
@@ -37,26 +38,43 @@
           name="topic_view" />
 
       <browser:page
-	  for="*"
-	  name="discussion_reply_redirect"
-	  class=".discussionreply.DiscussionReply"
-	  permission="zope.Public"
-	  allowed_attributes="__call__"
-	  />
+          for="*"
+          name="discussion_reply_redirect"
+          class=".discussionreply.DiscussionReply"
+          permission="zope.Public"
+          allowed_attributes="__call__"
+          />
 
-      <include package="Products.qPloneComments" file="overrides.zcml" />
+      <include zcml:condition="installed Products.qPloneComments"
+          package="Products.qPloneComments" file="overrides.zcml" />
       <browser:viewlet
-	  name="plone.comments"
-	  for="Products.CMFCore.interfaces.IContentish"
-	  manager="plone.app.layout.viewlets.interfaces.IBelowContent"
-	  view="plone.app.layout.globals.interfaces.IViewView"
-	  class=".comments.CommentsViewlet"
-	  layer="Products.qPloneComments.interfaces.IPloneCommentsLayer"
-	  permission="zope2.View"
-	  />
+          zcml:condition="installed Products.qPloneComments"
+          name="plone.comments"
+          for="Products.CMFCore.interfaces.IContentish"
+          manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+          view="plone.app.layout.globals.interfaces.IViewView"
+          class=".comments.CommentsViewlet"
+          layer="Products.qPloneComments.interfaces.IPloneCommentsLayer"
+          permission="zope2.View"
+          />
+
+      <include zcml:condition="installed quintagroup.plonecomments"
+          package="quintagroup.plonecomments" file="overrides.zcml" />
+
+      <browser:viewlet
+          zcml:condition="installed quintagroup.plonecomments"
+          name="plone.comments"
+          for="Products.CMFCore.interfaces.IContentish"
+          manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+          view="plone.app.layout.globals.interfaces.IViewView"
+          class=".comments.CommentsViewlet"
+          layer="quintagroup.plonecomments.interfaces.IPloneCommentsLayer"
+          permission="zope2.View"
+          />
 
     <!-- metal macros -->
-    <view for="*"
+    <browser:page
+        for="*"
         name="quills_header_macros"
         class=".macros.HeaderMacros"
         permission="zope2.View"

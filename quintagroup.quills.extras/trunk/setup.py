@@ -26,7 +26,7 @@ setup(name='quintagroup.quills.extras',
       install_requires=[
           'setuptools',
           'quills.core==1.7.0c1',
-          'quills.app==1.7.3c3',
+          'quills.app==1.7.0c3',
           'Products.QuillsEnabled==1.7.0c3',
           # -*- Extra requirements: -*-
       ],

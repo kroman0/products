@@ -41,10 +41,4 @@
       editview=".categories.EditForm"
       />
 
-  <plone:portletRenderer
-      portlet="quills.app.portlets.quillslinks.IQuillsLinksPortlet"
-      template="quillslinks.pt"
-      layer="elaw.theme.webresults.browser.interfaces.IThemeSpecific"
-      />
-
 </configure>

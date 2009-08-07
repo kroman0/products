@@ -622,8 +622,8 @@ Because of quintagroup.quills.extras uses quintagorup.plonecomments - UI for
 commenting slightly different from standard one. That is whay I change some
 testing code.
 
-#XXX quintagroup.quills.extras fix (because of using quintagorup.plonecomments)
-And took into consideration #119
+#XXX quintagroup.quills.extras fix (because of using quintagorup.plonecomments),
+#XXX and also take #119 issue into consideration.
 
     >>> try:
     ...     browser.getControl("Publish").click()

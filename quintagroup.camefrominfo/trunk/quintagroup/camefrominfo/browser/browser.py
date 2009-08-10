@@ -8,5 +8,5 @@ class CameFromInfoView(BrowserView):
     def __call__(self):
         """get info"""
         service = getUtility(ICameFromInfoUtility)
-        res = service.getInfo(self.context)
+        res = service.getInfo(self.context.REQUEST)
         return res

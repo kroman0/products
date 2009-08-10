@@ -9,9 +9,8 @@ class CameFromInfoUtility(object):
     def __init__(self):
         pass
     
-    def getInfo(self, context):
+    def getInfo(self, request):
         """ get info """
-        request = context.REQUEST
         ip = request.get('HTTP_X_FORWARDED_FOR', None) or request.getClientAddr()
         ip = ip.split(',')[0]
         browser = request.get('HTTP_USER_AGENT',"")

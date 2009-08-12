@@ -872,7 +872,7 @@ And finally do the query.
     True
 
     >>> browser.contents
-    '...<h2>...Issue #202...</h2>...'
+    '...<h2...>...Issue #202...</h2>...'
        
 
 Issue #203 — archive portlet broken: ValueError: invalid literal for int()

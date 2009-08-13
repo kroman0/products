@@ -9,7 +9,7 @@ try:
     profile_path = os.path.join(os.path.split(__file__)[0], 'profiles/default')
     profile_registry.registerProfile(
         name="default",
-        title="quintagroup.transmogrifier.simpleblog2quills",
+        title="quintagroup.transmogrifier.simpleblog2quills (enables Large Plone Folder)",
         description="Extension profile for applying settings needed to migrate blog.",
         path=profile_path,
         product="quintagroup.transmogrifier.simpleblog2quills", # this is required

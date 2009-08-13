@@ -22,6 +22,7 @@ from quintagroup.transmogrifier.simpleblog2quills.interfaces import IExportItemM
 # URL of the site, where blog is located (this is needed to fix links in entries)
 SITE_URLS = []
 IMAGE_FOLDER = 'images'
+IMAGE_FOLDER_TYPE = 'Large Plone Folder'
 # this registries are needed to avoid loosing images with equal ids
 IMAGE_IDS = []
 IMAGE_PATHS = {}
@@ -33,15 +34,24 @@ class BlogManifest(object):
         self.context = context
 
     def __call__(self, data):
+        # flag that indicated whether 'images' folder must added to manifest
+        need_to_add = True
+
         doc = minidom.parseString(data['data'])
         root = doc.documentElement
         for child in root.getElementsByTagName('record'):
             if child.getAttribute('type') not in  ('BlogEntry', 'BlogFolder'):
                 root.removeChild(child)
-        folder = doc.createElement('record')
-        folder.setAttribute('type', 'Large Plone Folder')
-        folder.appendChild(doc.createTextNode(IMAGE_FOLDER))
-        root.appendChild(folder)
+            elif str(child.firstChild.nodeValue.strip()) == IMAGE_FOLDER:
+                # blog already contains object with IMAGE_FOLDER id
+                need_to_add = False
+
+        if need_to_add:
+            folder = doc.createElement('record')
+            folder.setAttribute('type', IMAGE_FOLDER_TYPE)
+            folder.appendChild(doc.createTextNode(IMAGE_FOLDER))
+            root.appendChild(folder)
+
         data['data'] = doc.toxml('utf-8')
         return data
 

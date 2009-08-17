@@ -1,0 +1,53 @@
+Test source section
+===================
+
+>>> source = """
+... [transmogrifier]
+... pipeline =
+...     source
+...     printer
+... 
+... [source]
+... blueprint = quintagroup.transmogrifier.simpleblog2quills.tests.source
+... source = marshall
+... items =
+...     not-existing;       Document;   not-existing-path
+...     not-existing;       File;       /not/existing/absolute/path
+...     plone-blog;         Blog;       blog.xml
+... 
+... [printer]
+... blueprint = collective.transmogrifier.sections.tests.pprinter
+... """
+>>> registerConfig(u'quintagroup.transmogrifier.simpleblog2quills.tests.source', source)
+>>> transmogrifier(u'quintagroup.transmogrifier.simpleblog2quills.tests.source') # doctest: +ELLIPSIS, +REPORT_NDIFF
+{'_files': {'marshall': {'data': ...}},
+ '_path': 'plone-blog',
+ '_type': 'Blog'}
+
+Now we are testing ``allow-empty-items`` option:
+
+>>> source = """
+... [transmogrifier]
+... pipeline =
+...     source
+...     printer
+... 
+... [source]
+... blueprint = quintagroup.transmogrifier.simpleblog2quills.tests.source
+... allow-empty-items = yes
+... source = marshall
+... items =
+...     not-existing;       Document;   not-existing-path
+...     not-existing;       File;       /not/existing/absolute/path
+...     plone-blog;         Blog;       blog.xml
+... 
+... [printer]
+... blueprint = collective.transmogrifier.sections.tests.pprinter
+... """
+>>> registerConfig(u'quintagroup.transmogrifier.simpleblog2quills.tests.source-with-empties', source)
+>>> transmogrifier(u'quintagroup.transmogrifier.simpleblog2quills.tests.source-with-empties') # doctest: +ELLIPSIS, +REPORT_NDIFF
+{'_type': 'Document', '_path': 'not-existing'}
+{'_type': 'File', '_path': 'not-existing'}
+{'_files': {'marshall': {'data': ...}},
+ '_path': 'plone-blog',
+ '_type': 'Blog'}

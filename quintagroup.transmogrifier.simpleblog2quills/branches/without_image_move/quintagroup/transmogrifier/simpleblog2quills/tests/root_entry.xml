@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?><metadata xmlns="http://plone.org/ns/archetypes/" xmlns:cmf="http://cmf.zope.org/namespaces/default/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xmp="adobe:ns:meta">
+    <dc:title>
+        Root entry
+    </dc:title>
+    <dc:description>
+        This entry was created in root of blog.
+    </dc:description>
+    <xmp:ModifyDate>
+        2007-11-14T10:32:11Z
+    </xmp:ModifyDate>
+    <field name="id">
+        root-entry
+    </field>
+    <field name="body">
+        &lt;p&gt;We are testing importing of blog entry.&lt;/p&gt;
+    </field>
+    <field name="categories">
+        Plone
+    </field>
+    <field name="categories">
+        Zope
+    </field>
+    <cmf:type>
+        BlogEntry
+    </cmf:type>
+    <cmf:workflow_history>
+        <cmf:workflow id="simpleblog_workflow">
+            <cmf:history>
+                <cmf:var id="action" type="None" value="None"/>
+                <cmf:var id="actor" type="str" value="admin"/>
+                <cmf:var id="comments" type="str" value=""/>
+                <cmf:var id="review_state" type="str" value="draft"/>
+                <cmf:var id="time" type="date" value="2007-11-06 05:25:51"/>
+            </cmf:history>
+            <cmf:history>
+                <cmf:var id="action" type="str" value="publish"/>
+                <cmf:var id="actor" type="str" value="admin"/>
+                <cmf:var id="comments" type="str" value=""/>
+                <cmf:var id="review_state" type="str" value="published"/>
+                <cmf:var id="time" type="date" value="2007-11-14 04:32:11"/>
+            </cmf:history>
+        </cmf:workflow>
+    </cmf:workflow_history>
+    <cmf:security>
+        <cmf:local_role role="Owner" user_id="admin"/>
+    </cmf:security>
+</metadata>

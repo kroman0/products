@@ -52,28 +52,6 @@
 
     </configure>
 
-    <!-- next is for importing -->
-    <transmogrifier:stylesheet
-        source="marshall"
-        from="Blog"
-        to="Weblog"
-        file="blog-weblog.xsl"
-        />
-
-    <transmogrifier:stylesheet
-        source="marshall"
-        from="BlogEntry"
-        to="WeblogEntry"
-        file="blogentry-weblogentry.xsl"
-        />
-
-    <transmogrifier:stylesheet
-        source="marshall"
-        from="BlogFolder"
-        to="Folder"
-        file="blogfolder-folder.xsl"
-        />
-
     <!-- next stylesheets are used when migrating to QuillsEnabled -->
     <transmogrifier:stylesheet
         source="marshall"
@@ -96,6 +74,7 @@
         file="blogentry-document.xsl"
         />
 
+    <!-- this adapter converts all workflow histories to simple_publication_workflow -->
     <adapter
         for="quintagroup.transmogrifier.simpleblog2quills.interfaces.IBaseObject"
         provides="quintagroup.transmogrifier.interfaces.IImportDataCorrector"

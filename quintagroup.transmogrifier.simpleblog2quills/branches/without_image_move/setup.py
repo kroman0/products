@@ -5,7 +5,7 @@ version = '0.1'
 
 setup(name='quintagroup.transmogrifier.simpleblog2quills',
       version=version,
-      description="Configuration of collective.transmogrifier pipeline for migrating SimpleBlog content to Quills content",
+      description="Configuration of collective.transmogrifier pipeline for blog migration from SimpleBlog to QuillsEnabled",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers

@@ -1,8 +1,6 @@
 TODO
 ====
 
- - add GS profile with configuration of blog content types workflows
-
  - add schema extender that adds ``tags`` field for WeblogEntry
 
  - fix some misterious problem when running two package's tests modules at once

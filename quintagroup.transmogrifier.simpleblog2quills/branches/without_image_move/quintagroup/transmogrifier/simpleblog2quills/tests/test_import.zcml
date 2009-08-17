@@ -1,0 +1,17 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier">
+
+    <utility
+        component=".base.Source"
+        name="quintagroup.transmogrifier.simpleblog2quills.tests.source"
+        />
+
+    <transmogrifier:registerConfig
+        name="test_import"
+        title="Import pipeline configuration"
+        description="Customized for SimpleBlog/Quills content types content import pipeline."
+        configuration="test_import.cfg"
+        />
+
+</configure>

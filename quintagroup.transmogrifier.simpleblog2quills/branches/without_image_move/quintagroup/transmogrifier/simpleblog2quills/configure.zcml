@@ -8,6 +8,8 @@
     <include package="quintagroup.transmogrifier" />
     <include package="quintagroup.transmogrifier" file="meta.zcml" />
 
+    <!-- this section is similar to datacorrector but has more power 
+         to change pipeline item -->
     <utility
         component=".itemmanipulator.ItemManipulatorSection"
         name="quintagroup.transmogrifier.itemmanipulator"
@@ -15,12 +17,6 @@
         />
 
     <configure zcml:condition="installed Products.SimpleBlog">
-
-        <utility
-            component=".adapters.ImageFolderSection"
-            name="quintagroup.transmogrifier.simpleblog2quills.imagefolder"
-            provides="collective.transmogrifier.interfaces.ISectionBlueprint"
-            />
 
         <!-- In Plone 2.1 overrides.zcml isn't loaded, but conflicting configuration
              actions wouldn't raise error on startup - the latest directive will
@@ -35,45 +31,11 @@
         <!-- mark blog and blog entry objects so we can register export adapters for them -->
 
         <five:implements
-            class="Products.SimpleBlog.content.Blog"
-            interface=".interfaces.IBlog"
-            />
-
-        <five:implements
-            class="Products.SimpleBlog.content.BlogFolder"
-            interface=".interfaces.IBlogFolder"
-            />
-
-        <five:implements
             class="Products.SimpleBlog.content.BlogEntry"
             interface=".interfaces.IBlogEntry"
             />
 
-        <five:implements
-            class="Products.ATContentTypes.content.file.ATFile"
-            interface="quintagroup.transmogrifier.interfaces.IATFile"
-            />
-
-        <five:implements
-            class="Products.ATContentTypes.content.image.ATImage"
-            interface="quintagroup.transmogrifier.interfaces.IATImage"
-            />
-
-        <!-- 'datacorrector' section adapters -->
-        <adapter
-            for=".interfaces.IBlog"
-            provides="quintagroup.transmogrifier.interfaces.IExportDataCorrector"
-            factory=".adapters.BlogManifest"
-            name="manifest"
-            />
-
-        <adapter
-            for=".interfaces.IBlogFolder"
-            provides="quintagroup.transmogrifier.interfaces.IExportDataCorrector"
-            factory=".adapters.BlogFolderManifest"
-            name="manifest"
-            />
-
+        <!-- 'datacorrector' section adapter -->
         <adapter
             for=".interfaces.IBlogEntry"
             provides="quintagroup.transmogrifier.interfaces.IExportDataCorrector"
@@ -86,18 +48,6 @@
             for=".interfaces.IBlogEntry"
             provides=".interfaces.IExportItemManipulator"
             factory=".adapters.BlogEntryManifest"
-            />
-
-        <adapter
-            for="quintagroup.transmogrifier.interfaces.IATFile"
-            provides=".interfaces.IExportItemManipulator"
-            factory=".adapters.PathRewriter"
-            />
-
-        <adapter
-            for="quintagroup.transmogrifier.interfaces.IATImage"
-            provides=".interfaces.IExportItemManipulator"
-            factory=".adapters.PathRewriter"
             />
 
     </configure>

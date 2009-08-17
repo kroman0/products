@@ -6,7 +6,6 @@ from collective.transmogrifier.interfaces import ISection
 from collective.transmogrifier.utils import defaultMatcher
 
 from Products.CMFCore import utils
-from Products.CMFCore.WorkflowCore import WorkflowException
 
 try:
     from zope.interface import alsoProvides
@@ -16,8 +15,6 @@ except ImportError:
     # this try: ... except: ... clause is needed for this package to work on 
     # plone 2.1, because zcml:condition attribute in zcml doesn't work
     pass
-
-from quintagroup.transmogrifier.simpleblog2quills.adapters import IMAGE_FOLDER
 
 class BlogActivatorSection(object):
     classProvides(ISectionBlueprint)
@@ -45,14 +42,6 @@ class BlogActivatorSection(object):
                 yield item; continue
 
             path = item[pathkey]
-            if type_ is None and newtype == 'Large Plone Folder':
-                parts = path.rsplit('/', 1)
-                if len(parts) == 2:
-                    parent, id_ = parts
-                else:
-                    yield item; continue
-                if id_ != IMAGE_FOLDER:
-                    yield item; continue
 
             obj = self.context.unrestrictedTraverse(path, None)
             if obj is None:         # path doesn't exist
@@ -64,14 +53,6 @@ class BlogActivatorSection(object):
                     IPossibleWeblog.providedBy(obj):
                     alsoProvides(obj, IWeblogEnhanced)
                     event.notify(WeblogActivationEvent(obj))
-            elif type_ is None and newtype == 'Large Plone Folder':
-                # pulish 'images' subfolder
-                parent = self.context.unrestrictedTraverse(parent, None)
-                if IWeblogEnhanced.providedBy(parent) :
-                    try:
-                        self.wftool.doActionFor(obj, 'publish')
-                    except WorkflowException:
-                        pass
 
             yield item
 

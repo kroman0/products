@@ -18,6 +18,12 @@
 
     <configure zcml:condition="installed Products.SimpleBlog">
 
+        <utility
+            component=".cleaner.BlogEntryCleaner"
+            name="quintagroup.transmogrifier.simpleblog2quills.blogentrycleaner"
+            provides="collective.transmogrifier.interfaces.ISectionBlueprint"
+            />
+
         <!-- In Plone 2.1 overrides.zcml isn't loaded, but conflicting configuration
              actions wouldn't raise error on startup - the latest directive will
              override previous -->

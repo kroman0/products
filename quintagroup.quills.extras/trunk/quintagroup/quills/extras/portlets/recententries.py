@@ -59,7 +59,7 @@ class Renderer(BasePortletRenderer, base.Renderer, BaseView):
     def getWeblog(self):
         pstate = getMultiAdapter((self.context, self.request), name=u'plone_portal_state')
         portal = pstate.portal()
-        weblog = portal.restrictedTraverse(self.data.blog)
+        weblog = portal.restrictedTraverse(str(self.data.blog))
         return IWeblog(weblog)
 
     @property

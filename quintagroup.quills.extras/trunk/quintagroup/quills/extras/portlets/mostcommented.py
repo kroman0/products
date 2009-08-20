@@ -28,7 +28,7 @@ class IMostCommented(IPortletDataProvider):
 
     blog = schema.TextLine(
         title=_(u"Path to Blog"),
-        description=_(u"Physical path to blog, from the plone object 'blog'"),
+        description=_(u"Physical path to blog, from the plone object, 'blog' for ex."),
         required=True)
 
     period = schema.Int(
@@ -38,9 +38,9 @@ class IMostCommented(IPortletDataProvider):
         required=True)
 
     limit = schema.Int(
-        title=_(u"Actual Period"),
+        title=_(u"Maximum entries"),
         default = 5,
-        description=_(u"Actual period in days"),
+        description=_(u"What's the maximum number of entries to list?"),
         required=True)
 
 

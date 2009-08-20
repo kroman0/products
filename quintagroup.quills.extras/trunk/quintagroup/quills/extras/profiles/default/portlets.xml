@@ -20,7 +20,7 @@
 
    <portlet
      addview="quintagroup.quills.extras.ResentPosts"
-     title="Resent Posts"
+     title="Recent Posts"
      description="Render Resent Blog Posts"
    />
 

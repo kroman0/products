@@ -74,7 +74,7 @@ class AddForm(base.AddForm):
     description = PORTLET_DESC
 
     def create(self, data):
-        return Assignment(blog='blog', max_entries=5)
+        return Assignment(**data)
 
 
 class EditForm(base.EditForm):

@@ -53,9 +53,10 @@ class ConstructorSection(object):
             # content object always have some default attributes, but sometimes
             # these attributes can be also used as content ids
             if id in ALLWAYS_EXISTING_ATTRIBUTES:
-                o = getattr(aq_base(context), id)
-                # check if it is content object (is instance of some portal type)
-                if getattr(aq_base(o), 'getPortalTypeName', None) is not None:
+                # 'getattr' function always return ComputedAttribute object for 'index_html'
+                # whether 'index_html' object is in context or no, but 'get' method
+                # returns correct value
+                if aq_base(context).get(id, None) is not None:
                     yield item; continue
             elif getattr(aq_base(context), id, None) is not None: # item exists
                 yield item; continue

@@ -20,4 +20,9 @@
 
     </tal:block>
 
+    <dd class="portletFooter">
+        <span class="portletBottomLeft"></span>
+        <span class="portletBottomRight"></span>
+    </dd>
+
 </dl>

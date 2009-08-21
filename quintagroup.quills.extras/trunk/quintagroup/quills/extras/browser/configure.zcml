@@ -41,7 +41,7 @@
         class=".weblogview.WeblogSubfolderView"
         permission="zope2.View"
         name="weblogsubfolder"
-        allowed_interface="quills.core.interfaces.IWeblog" 
+        allowed_attributes="getEntries"
         />
 
     <class class="quills.app.browser.weblogview.WeblogEntryView">

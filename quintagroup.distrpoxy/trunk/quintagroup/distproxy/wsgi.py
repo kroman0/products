@@ -36,7 +36,7 @@ class PackageProxyApp(object):
     def checkCache(self, path):   
         pth = self.pack_dir + path
         pth1 = pth
-        if not (path[-3:] in ['tgz','.gz','egg','zip','exe']): 
+        if not (path[-3:] in ['tgz','.gz','egg','zip','exe','cfg']): 
             pth1 = pth + 'index.html'
         else:
             pth = '/'.join(pth.split('/')[:-1])

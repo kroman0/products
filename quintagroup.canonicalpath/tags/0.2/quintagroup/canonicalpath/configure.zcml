@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+
+  <!-- Include dependent packages -->
+  <include package="archetypes.schemaextender" />
+
+  <adapter
+	factory=".adapters.canonicalPathAdapter"
+	/>
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Canonical Path product"
+      directory="profiles/default"
+      description="Load catalog support for Canonoical Path."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+</configure>

@@ -1,0 +1,12 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  i18n_domain="quintagroup.camefrominfo">
+  
+  <include package=".browser" />
+  <include file="profiles.zcml" />
+  
+  <utility
+    provides=".interfaces.ICameFromInfoUtility"
+    factory=".camefromutility.CameFromInfoUtility" />
+
+</configure>

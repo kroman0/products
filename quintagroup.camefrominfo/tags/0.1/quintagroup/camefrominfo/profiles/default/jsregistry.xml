@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<object name="portal_javascripts">
+ <javascript
+    id="++resource++cameFromCookie.js" enabled="True" expression=""
+    cookable="True" inline="True" insert-before="jquery.js" />
+</object>

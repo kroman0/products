@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="quintagroup.camefrominfo">
+
+  <browser:resource
+    name="cameFromCookie.js" image="cameFromCookie.js" />
+
+  <browser:page
+      for="*"
+      name="camefrominfo_view"
+      class=".browser.CameFromInfoView"
+      permission="zope.Public" 
+      />
+
+</configure>

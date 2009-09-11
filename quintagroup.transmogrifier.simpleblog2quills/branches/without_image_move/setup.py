@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.1'
+version = '0.2.1'
 
 setup(name='quintagroup.transmogrifier.simpleblog2quills',
       version=version,
@@ -16,7 +16,7 @@ setup(name='quintagroup.transmogrifier.simpleblog2quills',
       keywords='',
       author='Quintagroup',
       author_email='info@quintagroup.com',
-      url='',
+      url='http://quintagroup.com',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['quintagroup', 'quintagroup.transmogrifier'],

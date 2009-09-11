@@ -125,7 +125,7 @@ class DiscussionReply(BrowserView):
             # Check for the existence of a parent weblog to see if `obj' should
             # be treated as having an archive url.
             if IWeblog.providedBy(entry.getWeblog()):
-                weview = getMultiAdapter((obj, self.request),
+                weview = getMultiAdapter((entry, self.request),
                                          name=u'weblogentry_view')
                 base = weview.getArchiveURLFor(entry)
         except TypeError:

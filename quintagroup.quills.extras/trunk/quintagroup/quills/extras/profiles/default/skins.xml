@@ -3,7 +3,7 @@
 
  <object name="quintagroup_quills_extras"
     meta_type="Filesystem Directory View"
-    directory="elaw.theme.webresults:skins/quintagroup_quills_extras"/>
+    directory="quintagroup.quills.extras:skins/quintagroup_quills_extras"/>
 
  <skin-path name="*">
   <layer name="quintagroup_quills_extras" insert-after="custom"/>

@@ -34,4 +34,11 @@
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       />
 
+  <!-- register skins directory view -->
+  <cmf:registerDirectory
+       name=""
+       directory="skins"
+       recursive="True"
+       />
+
 </configure>

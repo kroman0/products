@@ -7,9 +7,9 @@ from Products.CMFPlone.browser.navtree import DefaultNavtreeStrategy
 
 from plone.app.layout.navigation.interfaces import INavtreeStrategy
 from plone.app.layout.navigation.interfaces import INavigationQueryBuilder
-from plone.registry.interfaces import IRegistry
 
 from quintagroup.dropdownmenu.interfaces import IDropDownMenuSettings
+from quintagroup.dropdownmenu.util import getDropDownMenuSettings
 
 
 class DropDownMenuQueryBuilder(SitemapQueryBuilder):
@@ -18,6 +18,7 @@ class DropDownMenuQueryBuilder(SitemapQueryBuilder):
 
     def __init__(self, context):
         super(DropDownMenuQueryBuilder, self).__init__(context)
+        self.context = context
 
         # customize depth according to dropdown menu settings
         if self._settings.content_tabs_level > 0:
@@ -32,8 +33,7 @@ class DropDownMenuQueryBuilder(SitemapQueryBuilder):
     @property
     def _settings(self):
         """Fetch dropdown menu settings registry"""
-        registry = getUtility(IRegistry)
-        return registry.forInterface(IDropDownMenuSettings)
+        return getDropDownMenuSettings(self.context)
 
 
 class DropDownMenuStrategy(DefaultNavtreeStrategy):
@@ -47,5 +47,4 @@ class DropDownMenuStrategy(DefaultNavtreeStrategy):
     @property
     def _settings(self):
         """Fetch dropdown menu settings registry"""
-        registry = getUtility(IRegistry)
-        return registry.forInterface(IDropDownMenuSettings)
+        return getDropDownMenuSettings(self.context)

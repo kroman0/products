@@ -13,10 +13,10 @@ from plone.app.layout.viewlets import common
 from plone.app.layout.navigation.navtree import buildFolderTree
 from plone.app.layout.navigation.interfaces import INavtreeStrategy
 from plone.app.layout.navigation.interfaces import INavigationQueryBuilder
-from plone.registry.interfaces import IRegistry
 
 from quintagroup.dropdownmenu.interfaces import IDropDownMenuSettings
 from quintagroup.dropdownmenu.browser.menu import DropDownMenuQueryBuilder
+from quintagroup.dropdownmenu.util import getDropDownMenuSettings
 
 
 class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
@@ -147,8 +147,7 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
     @memoize
     def _settings(self):
         """Fetch dropdown menu settings registry"""
-        registry = getUtility(IRegistry)
-        return registry.forInterface(IDropDownMenuSettings)
+        return getDropDownMenuSettings(self.context)
 
     def createMenu(self):
         return self.recurse(children=self.portal_tabs, level=1)

@@ -6,17 +6,16 @@ using a traditional Zope 2 instance, you can do this:
 
 * Copy ``quintagroup`` folder to the ``/path/to/instance/lib/python`` directory.
 
-* Create a file called ``quintagroup.portletmanager.footer-configure.zcml`` in the
-   ``/path/to/instance/etc/package-includes`` directory.  The file
+* Create a file called ``quintagroup.portletmanager.footer-configure.zcml`` in the ``/path/to/instance/etc/package-includes`` directory.  The file
    should only contain this::
 
-       <include package="quintagroup.portletmanager.footer" />
+   <include package="quintagroup.portletmanager.footer" />
 
 * Restart the Zope server, for example, with the following command in the terminal::
 
    $ ./bin/zopectl restart
    
-*  Install this products with QuickInstaller in Plone
+* Install this products with QuickInstaller in Plone
    
 Alternatively, if you are using zc.buildout and the plone.recipe.zope2instance
 recipe to manage your project, you can do this:   
@@ -45,5 +44,5 @@ recipe to manage your project, you can do this:
 
     $ ./bin/instance restart    
 
-*  Install this products with QuickInstaller in Plone
+* Install this products with QuickInstaller in Plone
  

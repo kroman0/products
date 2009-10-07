@@ -44,6 +44,13 @@
         allowed_attributes="getEntries"
         />
 
+   <browser:page
+        for="*"
+        class="quintagroup.quills.extras.browser.weblogcatsearch.WebLogCatSearch"
+        permission="zope2.View"
+        name="SimpleBlogCatSearch"
+        />
+
     <class class="quills.app.browser.weblogview.WeblogEntryView">
        <implements interface="plone.app.layout.globals.interfaces.IViewView" />
     </class>

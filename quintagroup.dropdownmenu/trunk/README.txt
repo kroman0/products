@@ -15,12 +15,19 @@ structure.
 But neither of those products use newly introduced portal_actions tool's
 feature: nested categories. That's why quintagroup.dropdownmenu package was
 introduced. It allows to build multilevel portal dropdown menu based on nested
-portal_actions categories inside portal_tab category as well as on portal
+portal_actions categories inside portal_tab category as well as based on portal
 content structure.
 
 It also allows you to define whether to put content tabs before or after action
 tabs, and a bit more... For details see below.
 
+
+Notes
+-----
+
+  * you may have actions/content-based tabs as deep as you wish, but then you'll
+    need to tweek default dropdown menu css rules a bit, default css rules show
+    only the first 4 levels of tabs
 
 Requirement
 -----------

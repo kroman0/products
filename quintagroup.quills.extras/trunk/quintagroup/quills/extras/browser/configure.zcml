@@ -50,6 +50,21 @@
         permission="zope2.View"
         name="SimpleBlogCatSearch"
         />
+   
+   <browser:page
+       for="*"
+       class="quintagroup.quills.extras.browser.activation.ActivateBlogCategory"
+       permission="cmf.ModifyPortalContent"
+       name="blog_category_activator"
+       />
+
+   <browser:page
+       for="*"
+       class="quintagroup.quills.extras.browser.activation.CategoryActivation"
+       permission="cmf.ModifyPortalContent"
+       name="category_activation"
+       allowed_attributes="can_activate can_deactivate"
+       />
 
     <class class="quills.app.browser.weblogview.WeblogEntryView">
        <implements interface="plone.app.layout.globals.interfaces.IViewView" />

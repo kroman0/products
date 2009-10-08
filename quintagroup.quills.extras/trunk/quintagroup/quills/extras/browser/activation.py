@@ -30,9 +30,13 @@ class ActivateBlogCategory(BrowserView):
         if IWeblogCategory.providedBy(self.context):
             # deactivate blog category
             noLongerProvides(self.context, IWeblogCategory)
+            #return to default folder view
+            self.context.setLayout('folder_listing')
             msg = 'blog categroy deactivated'
         elif IPossibleWeblog.providedBy(self.context):
             alsoProvides(self.context, IWeblogCategory)
+            #set appropriate view for weblog category
+            self.context.setLayout('weblogfolder_view')
             msg = 'blog category activated'
         else:
             msg = 'not bloggable'

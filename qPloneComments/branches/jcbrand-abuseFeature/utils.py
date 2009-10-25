@@ -72,12 +72,13 @@ def allowEmail(context, reply, state, creator):
     return condition
 
 def send_email(reply, context, state):
+    mtool = getToolByName(context, 'portal_membership')
     def getEmail(obj, context):
         email = obj.getProperty('email', None)
         if email is None:
             creators = hasattr(obj, 'listCreators') and obj.listCreators() or [obj.Creator(),]
             userid = creators and creators[0] or ""
-            creator = getToolByName(context, 'portal_membership').getMemberById(userid)
+            creator = mtool.getMemberById(userid)
             if creator and allowEmail(context, reply, state, creator):
                 return creator.getProperty('email', '')
         else:
@@ -96,7 +97,7 @@ def send_email(reply, context, state):
 
     def getParentOwnerEmail(reply, context):
         creator_id = getParent(reply).getOwnerTuple()[1]
-        creator = getToolByName(context, 'portal_membership').getMemberById(creator_id)
+        creator = mtool.getMemberById(creator_id)
         if creator and allowEmail(context, reply, state, creator):
             return creator.getProperty('email', '')
         return ''
@@ -108,6 +109,9 @@ def send_email(reply, context, state):
 
     organization_name = getProp(context, 'email_subject_prefix', '')
     creator_name = reply.getOwnerTuple()[1]
+    creator = mtool.getMemberById(creator_name)
+    if creator is not None:
+        creator_name = creator.getProperty('fullname', creator_name)
     admin_email = context.portal_url.getPortalObject().getProperty('email_from_address')
 
     subject = ''

@@ -3,6 +3,7 @@ import urllib, md5 #hashlib
 from Acquisition import aq_inner
 from AccessControl import getSecurityManager
 
+from Products.CMFPlone.MembershipTool import default_portrait
 from Products.CMFPlone.utils import IndexIterator
 from Products.CMFPlone.utils import getToolByName
 from Products.CMFFormController.ControllerState import ControllerState
@@ -43,6 +44,9 @@ class CommentsViewlet(comments.CommentsViewlet):
             mtool = getToolByName(self.context, "portal_membership")
             member = mtool.getMemberById(creator)
             email = member and member.getProperty('email','') or ''
+            portrait = mtool.getPersonalPortrait(creator)
+            if portrait.getId() != default_portrait:
+                return portrait.absolute_url()
         else:
             email = reply.getProperty('email',d='')
         if not email:

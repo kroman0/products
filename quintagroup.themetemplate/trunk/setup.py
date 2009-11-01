@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.12 dev'
+version = '0.14'
 
 tests_require=['zope.testing']
 
@@ -46,12 +46,6 @@ setup(name='quintagroup.themetemplate',
           viewlet_order = quintagroup.themetemplate.localcommands.subtemplates:ViewletOrderSubTemplate
           viewlet_hidden = quintagroup.themetemplate.localcommands.subtemplates:ViewletHiddenSubTemplate
           import_zexps = quintagroup.themetemplate.localcommands.subtemplates:ImportSubTemplate
-
-          [distutils.setup_keywords]
-          theme_vars = quintagroup.themetemplate:assert_dict
-
-          [egg_info.writers]
-          theme_vars.txt = quintagroup.themetemplate:write_map
 
       # -*- Entry points: -*-
       """,

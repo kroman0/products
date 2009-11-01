@@ -3,10 +3,12 @@ Local templates for the qplone3_theme
 """
 import os
 from ConfigParser import SafeConfigParser
-from paste.script import pluginlib
 
 from zopeskel.base import var
 from zopeskel.localcommands import ZopeSkelLocalTemplate
+
+from quintagroup.themetemplate import getEggInfo
+from quintagroup.themetemplate import getThemeVarsFP
 
 class QThemeSubTemplate(ZopeSkelLocalTemplate):
     use_cheetah = True
@@ -57,10 +59,10 @@ class QThemeSubTemplate(ZopeSkelLocalTemplate):
     def get_template_vars(self, output_dir, vars):
 
         res = {}
-        egg_info = pluginlib.find_egg_info_dir(output_dir)
-        theme_vars_fp = os.path.join(egg_info, 'theme_vars.txt')
+        egg_info = getEggInfo(output_dir)
+        theme_vars_fp = getThemeVarsFP(egg_info)
 
-        if egg_info and os.path.exists(theme_vars_fp):
+        if os.path.exists(theme_vars_fp):
             config = SafeConfigParser()
             config.read(theme_vars_fp)
             
@@ -76,10 +78,10 @@ class QThemeSubTemplate(ZopeSkelLocalTemplate):
 
     def add_template_vars(self, output_dir, vars):
 
-        egg_info = pluginlib.find_egg_info_dir(output_dir)
-        theme_vars_fp = os.path.join(egg_info, 'theme_vars.txt')
+        egg_info = getEggInfo(output_dir)
+        theme_vars_fp = getThemeVarsFP(egg_info)
 
-        if egg_info and os.path.exists(theme_vars_fp):
+        if os.path.exists(theme_vars_fp):
             config = SafeConfigParser()
             config.read(theme_vars_fp)
 

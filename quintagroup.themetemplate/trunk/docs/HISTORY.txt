@@ -1,10 +1,12 @@
 Changelog
 =========
 
-0.12 (unreleased)
+0.14 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Refactoring theme vars storage-now storing in separate
+  theme_vars.cfg file, without distutils writers [mylan]
+- Cleanup code [mylan]
 
 
 0.11 (2009-04-13)

@@ -1,33 +1,19 @@
 #
-import os,types
-from StringIO import StringIO
-from ConfigParser import SafeConfigParser
+import os
+from paste.script import pluginlib
 
 from quintagroup.themetemplate.qplone3_theme import qPlone3Theme
 
-def write_map(cmd, basename, filename, force=False):
-    argname = os.path.splitext(basename)[0]
-    value = getattr(cmd.distribution, argname, None)
+def getEggInfo(output_dir):
+    """ Return path to egg info directory, raise error if not found.
+    """
+    egg_info = pluginlib.find_egg_info_dir(output_dir)
+    assert egg_info is not None, "egg_info directory must present for the package"
 
-    if value:
-        config = SafeConfigParser()
-        config.add_section('qplone3_theme')
-        for name, val in value.items():
-            val = val and str(val) or ''
-            config.set('qplone3_theme', name, val)
-
-        strvalue = StringIO()
-        config.write(strvalue)
-        value = strvalue.getvalue()
-
-    cmd.write_or_delete_file(argname, filename, value, force)
+    return egg_info
 
 
-def assert_dict(dist, attr, value):
-    """Verify that value is a dict or None"""
-    try:
-        assert type(value) == types.DictType
-    except (TypeError,ValueError,AttributeError,AssertionError):
-        raise DistutilsSetupError(
-            "%r must be a dict (got %r)" % (attr,value)
-        )
+def getThemeVarsFP(egg_info):
+    """ Return file system path to theme vars configurations
+    """
+    return os.path.join(egg_info, '..', 'theme_vars.cfg')

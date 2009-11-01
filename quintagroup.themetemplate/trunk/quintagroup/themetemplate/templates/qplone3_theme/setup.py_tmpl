@@ -44,23 +44,7 @@ setup(name=${repr($project)},
       test_suite = '$namespace_package.$namespace_package2.${package}.tests',
       entry_points="""
       # -*- entry_points -*- #
-
-      [distutils.setup_keywords]
-      paster_plugins = setuptools.dist:assert_string_list
-      theme_vars = distwriters:assert_dict
-
-      [egg_info.writers]
-      paster_plugins.txt = setuptools.command.egg_info:write_arg
-      theme_vars.txt = distwriters:write_map
-
       """,
       paster_plugins = ["ZopeSkel",],
       setup_requires = ["setuptools",],
-      theme_vars = {'skinname': '$skinname',
-          'skinbase'          : '$skinbase',
-          'namespace_package' : '$namespace_package',
-          'namespace_package2': '$namespace_package2',
-          'package'           : '$package',
-          'used_subtemplates' : '',
-      },
       )

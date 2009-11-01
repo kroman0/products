@@ -7,6 +7,9 @@ from paste.script import pluginlib
 
 from zopeskel.base import var
 from zopeskel.localcommands import ZopeSkelLocalTemplate
+
+from quintagroup.themetemplate import getEggInfo
+from quintagroup.themetemplate import getThemeVarsFP
 from quintagroup.themetemplate.localcommands import QThemeSubTemplate
 
 RESP = re.compile("\s+")
@@ -155,10 +158,10 @@ class ViewletOrderSubTemplate(QThemeSubTemplate):
 
     def add_order_tag(self, output_dir, vars, pmarker):
         need_update = True
-        egg_info = pluginlib.find_egg_info_dir(output_dir)
-        theme_vars_fp = os.path.join(egg_info, 'theme_vars.txt')
+        egg_info = getEggInfo(output_dir)
+        theme_vars_fp = getThemeVarsFP(egg_info)
 
-        if egg_info and os.path.exists(theme_vars_fp):
+        if os.path.exists(theme_vars_fp):
             config = SafeConfigParser()
             config.read(theme_vars_fp)
 
@@ -214,10 +217,10 @@ class ViewletHiddenSubTemplate(QThemeSubTemplate):
 
     def add_hidden_tag(self, output_dir, vars, pmarker):
         add_hidden = True
-        egg_info = pluginlib.find_egg_info_dir(output_dir)
-        theme_vars_fp = os.path.join(egg_info, 'theme_vars.txt')
+        egg_info = getEggInfo(output_dir)
+        theme_vars_fp = getThemeVarsFP(egg_info)
 
-        if egg_info and os.path.exists(theme_vars_fp):
+        if os.path.exists(theme_vars_fp):
             config = SafeConfigParser()
             config.read(theme_vars_fp)
 

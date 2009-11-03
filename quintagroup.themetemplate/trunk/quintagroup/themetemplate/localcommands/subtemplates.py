@@ -1,7 +1,7 @@
 """
 Local templates for the qplone3_theme
 """
-import os, sys, re, datetime
+import os, sys, re, datetime, copy
 from ConfigParser import SafeConfigParser
 from paste.script import pluginlib
 
@@ -44,7 +44,6 @@ class CSSSubTemplate(QThemeSubTemplate):
     _template_dir = 'templates/cssresource'
     summary = "A Plone 3 CSS resource template"
     
-
     vars = [
       var('css_resource_name', 'Name of CSS resource',
            default="main.css"),
@@ -71,6 +70,24 @@ class CSSSubTemplate(QThemeSubTemplate):
             vars['css_resource_content'] = file(vars['css_file_path'],'rb').read()
 
 
+class CSSSkinLayerSubTemplate(CSSSubTemplate):
+    """
+    A Plone CSS resource, placed as DTML-file in a skin layer
+    """
+    _template_dir = 'templates/cssskinresource'
+    summary = "A DTML file in skin layer with CSS registration"
+    
+    vars = [
+      var('layer_name', 'Layer name for css resource add to'),
+    ] + copy.deepcopy(CSSSubTemplate.vars)
+
+    def pre(self, command, output_dir, vars):
+        """ Remove trailing spaces from layer name
+        """
+        super(CSSSkinLayerSubTemplate, self).pre(command, output_dir, vars)
+        vars['layer_name'] = vars['layer_name'].strip()
+
+
 class JSSubTemplate(QThemeSubTemplate):
     """
     A Plone JS resource skeleton
@@ -78,7 +95,6 @@ class JSSubTemplate(QThemeSubTemplate):
     _template_dir = 'templates/jsresource'
     summary = "A Plone 3 JS resource template"
     
-
     vars = [
       var('js_resource_name', 'Name of JS resource', default="foo.js"),
       var('js_file_path', 'Path to JS file. If no path - empty file will be created',

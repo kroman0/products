@@ -42,6 +42,7 @@ setup(name='quintagroup.themetemplate',
           [zopeskel.zopeskel_sub_template]
           skin_layer    = quintagroup.themetemplate.localcommands.subtemplates:SkinLayerSubTemplate
           css_resource = quintagroup.themetemplate.localcommands.subtemplates:CSSSubTemplate
+          css_dtml_skin = quintagroup.themetemplate.localcommands.subtemplates:CSSSkinLayerSubTemplate
           js_resource = quintagroup.themetemplate.localcommands.subtemplates:JSSubTemplate
           viewlet_order = quintagroup.themetemplate.localcommands.subtemplates:ViewletOrderSubTemplate
           viewlet_hidden = quintagroup.themetemplate.localcommands.subtemplates:ViewletHiddenSubTemplate

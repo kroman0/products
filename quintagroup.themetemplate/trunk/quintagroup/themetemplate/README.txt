@@ -233,6 +233,7 @@ work outside this package..
     >>> paster('addcontent -a')
     paster addcontent -a
       ...
+        css_dtml_skin:   A DTML file in skin layer with CSS registration
         css_resource:    A Plone 3 CSS resource template
       ...
         import_zexps:    A template for importing zexp-objects into portal on installation
@@ -413,6 +414,63 @@ registered main.css stylesheet
         enabled="1" expression=""/>
     ...
 
+
+
+Adding CSS resource as dtml-file into skins layer
+=================================================
+
+This template actually absolutely same to the previouse one, but layer_name
+variable added to point in which skin layer css dtml-file should be added to.
+And, of course, css resource added into pointing *skins/<layer_name>/<css_reseource_name>.dtml* file.
+
+This subtemplate has several benefits before registering css as resource layer:
+  - in dtml file you can use power of dtml language
+  - this resource can be overriden by customer if he needs that
+
+IMPORTANT:
+For add css resource in registered skin layer - you should use this subtemplate
+in conjunction with *skin_layer* one.
+
+
+Use *css_dtml_skin* subtemplate.
+
+    >>> paster("addcontent --no-interactive css_dtml_skin")
+    paster addcontent --no-interactive css_dtml_skin
+    Recursing into profiles
+    ...
+    Recursing into skins
+    ...
+
+This template adds main.css.dtml file into skins/skin_layer folder
+
+    >>> 'main.css.dtml' in os.listdir('skins/skin_layer')
+    True
+
+The main.css.dtml file already prepared to use as dtml-document
+    >>> cat('skins/skin_layer/main.css.dtml')
+    /*
+    ...
+    /* <dtml-with base_properties> (do not remove this :) */
+    ...
+    /* </dtml-with> */
+    <BLANKLINE>
+  
+
+And cssregistry.xml profile was added into profiles/default directory with
+registered main.css stylesheet
+
+    >>> 'cssregistry.xml' in os.listdir('profiles/default')
+    True
+    >>> cat('profiles/default/cssregistry.xml')
+    <?xml version="1.0"?>
+    <object name="portal_css">
+    <BLANKLINE>
+     <stylesheet title=""
+        id="++resource++quintagroup.theme.ploneexample.stylesheets/main.css"
+        media="screen" rel="stylesheet" rendering="inline"
+        cacheable="True" compression="safe" cookable="True"
+        enabled="1" expression=""/>
+    ...
 
 
 Adding JAVASCRIPT resource

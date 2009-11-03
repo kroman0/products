@@ -78,7 +78,8 @@ class CSSSkinLayerSubTemplate(CSSSubTemplate):
     summary = "A DTML file in skin layer with CSS registration"
     
     vars = [
-      var('layer_name', 'Layer name for css resource add to'),
+      var('layer_name', 'Layer name for css resource add to',
+          default="skin_layer"),
     ] + copy.deepcopy(CSSSubTemplate.vars)
 
     def pre(self, command, output_dir, vars):

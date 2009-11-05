@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: quintagroup.themetemplate
-Version: 0.9dev
+Version: 0.2.2
 Summary: Quintagroup theme template for Plone 3 with nested namespace
 Home-page: http://svn.quintagroup.com/products/quintagroup.themetemplate
 Author: Andriy Mylenkyy
@@ -8,6 +8,15 @@ Author-email: support@quintagroup.com
 License: GPL
 Description: qplone3 theme template
         ======================
+        
+        quintagroup.themetemplate is an enhanced "Plone 3 Theme" template from Zopeskel,
+        that includes addcontent local command, which allows you to extend base Plone theme
+        by additional elements, such as: skin layers, portlets, viewlets, css and js resources,
+        and objects in zexp files. This package is an analogue of Archetype template in terms
+        of its functionality.
+        
+        quintagroup.themetemplate package is used for development of all Quintagroup themes
+        for Plone 3 (http://skins.quintagroup.com).
         
         Contents
         --------
@@ -19,14 +28,17 @@ Description: qplone3 theme template
         Overview
         ========
         
-        This theme template allows you to create plone3 theme python package
-        with nested namespace. Initial package is theme package skeleton.
-        This package can be extended (filled in) with:
+        This theme template allows you to create initial theme package skeleton,
+        i.e. create plone3 theme python package with nested namespace (this is different from
+        deafult plone3_theme template in Zopeskel)
+        
+        After that you can extend theme package by the following elements:
         
         - skin-layer(s)
         - portlet(s)
         - viewlet(s)
         - css, js resource(s)
+        - objects in zexp files
         
         Creation of a package is performed with *paster create* PasteScript command.
         Theme extending with other resources can be done with *paster addcontent*
@@ -64,17 +76,20 @@ Description: qplone3 theme template
         in our case - quintagroup.theme.ploneexample
         
         So check namespaces::
+        
         >>> theme_namespace = os.path.join(package_dir,'quintagroup','theme','ploneexample')
         >>> os.path.isdir(theme_namespace)
         True
         
         Theme holds 3 subdirectories (browser, profiles, skins)::
+        
         >>> cd(theme_namespace)
         >>> dirs = ('skins', 'browser', 'profiles')
         >>> [True for d in dirs if d in os.listdir('.')]
         [True, True, True]
         
         And initialization files (__init__.py, configure.zcml) ::
+        
         >>> files = ('__init__.py', 'configure.zcml')
         >>> [True for d in files if d in os.listdir('.')]
         [True, True]
@@ -205,7 +220,7 @@ Description: qplone3 theme template
         
         One of the best features, which ZopeSkel package brings, is *localcommand*.
         
-        In this part I will show how you can extend a theme (generated with qplone3_theme
+        This part shows how you can extend a theme (generated with qplone3_theme
         ZopeSkel template) with additional useful stuff:
         
         - skin layers
@@ -214,6 +229,7 @@ Description: qplone3 theme template
         - portlets
         - css
         - javascripts
+        - objects in zexp files
         
         So, in qplone3_theme generated package you can use *addcontent* ZopeSkel
         local command.
@@ -225,6 +241,7 @@ Description: qplone3 theme template
         >>> paster('addcontent -a')
         paster addcontent -a
         ...
+        css_dtml_skin:   A DTML file in skin layer with CSS registration
         css_resource:    A Plone 3 CSS resource template
         ...
         import_zexps:    A template for importing zexp-objects into portal on installation
@@ -405,6 +422,63 @@ Description: qplone3 theme template
         enabled="1" expression=""/>
         ...
         
+        
+        
+        Adding CSS resource as dtml-file into skins layer
+        =================================================
+        
+        This template actually absolutely same to the previouse one, but layer_name
+        variable added to point in which skin layer css dtml-file should be added to.
+        And, of course, css resource added into pointing *skins/<layer_name>/<css_reseource_name>.dtml* file.
+        
+        This subtemplate has several benefits before registering css as resource layer:
+        - in dtml file you can use power of dtml language
+        - this resource can be overriden by customer if he needs that
+        
+        IMPORTANT:
+        For add css resource in registered skin layer - you should use this subtemplate
+        in conjunction with *skin_layer* one.
+        
+        
+        Use *css_dtml_skin* subtemplate.
+        
+        >>> paster("addcontent --no-interactive css_dtml_skin")
+        paster addcontent --no-interactive css_dtml_skin
+        Recursing into profiles
+        ...
+        Recursing into skins
+        ...
+        
+        This template adds main.css.dtml file into skins/skin_layer folder
+        
+        >>> 'main.css.dtml' in os.listdir('skins/skin_layer')
+        True
+        
+        The main.css.dtml file already prepared to use as dtml-document
+        >>> cat('skins/skin_layer/main.css.dtml')
+        /*
+        ...
+        /* <dtml-with base_properties> (do not remove this :) */
+        ...
+        /* </dtml-with> */
+        <BLANKLINE>
+        
+        
+        And cssregistry.xml profile was added into profiles/default directory with
+        registered main.css stylesheet
+        
+        >>> 'cssregistry.xml' in os.listdir('profiles/default')
+        True
+        >>> cat('profiles/default/cssregistry.xml')
+        <?xml version="1.0"?>
+        <object name="portal_css">
+        <BLANKLINE>
+        <stylesheet title=""
+        id="++resource++quintagroup.theme.ploneexample.stylesheets/main.css"
+        media="screen" rel="stylesheet" rendering="inline"
+        cacheable="True" compression="safe" cookable="True"
+        enabled="1" expression=""/>
+        ...
         
         
         Adding JAVASCRIPT resource
@@ -602,12 +676,15 @@ Description: qplone3 theme template
         ...
         Recursing into profiles
         ...
+        Inserting from profiles.zcml_insert ...
+        ...
         Inserting from setuphandlers.py_insert into ...
         ...
         
         As we see from the upper log:
         - 'import' directory was added into root of the theme
         - profiles stuff was updated
+        - profiles.zcml file is updated
         - some stuff into setuphandlers.py module was inserted
         
         1. There was empty 'import' directory added, where you
@@ -617,27 +694,43 @@ Description: qplone3 theme template
         CONTENT.txt
         
         
-        2. import_steps.xml was added in profiles/default directory (if does not exist yet),
+        2. import_steps.xml was added in profiles/import_zexps directory,
         which contains additional *quintagroup.theme.ploneexample.import_zexps* step.
         
-        >>> 'import_steps.xml' in os.listdir('profiles/default')
+        >>> 'import_zexps' in os.listdir('profiles')
+        True
+        >>> 'import_steps.xml' in os.listdir('profiles/import_zexps')
         True
         
-        >>> cat('profiles/default/import_steps.xml')
+        >>> cat('profiles/import_zexps/import_steps.xml')
         <?xml version="1.0"?>
-        <import-steps>
         ...
         <import-step id="quintagroup.theme.ploneexample.import_zexps"
         version="..."
         handler="quintagroup.theme.ploneexample.setuphandlers.importZEXPs"
         title="My Theme Name: Import zexps objects">
-        <dependency step="skins" />
         Import zexp objects into portal on My Theme Name theme installation
         </import-step>
         <BLANKLINE>
-        </import-steps>
+        ...
         
-        3. Check setuphandlers.py module - there must be importZEXPs function defined
+        3. profiles.zcml configuration updated with new genericsetup profile for zexps
+        importing.
+        
+        >>> cat('profiles.zcml')
+        <configure
+        ...
+        <genericsetup:registerProfile
+        name="import_zexps"
+        title="My Theme Name: Import ZEXPs"
+        directory="profiles/import_zexps"
+        description='Extension profile for importing objects of the "My Theme Name" Plone theme.'
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+        <BLANKLINE>
+        ...
+        
+        4. Check setuphandlers.py module - there must be importZEXPs function defined
         
         >>> cat('setuphandlers.py')
         def setupVarious(context):
@@ -668,10 +761,51 @@ Description: qplone3 theme template
         Changelog
         =========
         
-        0.9 (unreleased)
+        0.2.2 (unreleased)
+        ------------------
+        
+        - Updated import_zexps subtemplate - move this step into
+        separate genericsetup profile
+        [mylan]
+        - Updated tests for changed import_zexps subtemplate
+        [mylan]
+        
+        0.2 (unreleased)
         ----------------
         
-        - Nothing changed yet.
+        - Added new css_dtml_skin subtemplate
+        [mylan]
+        - Added tests for css_dtml_skin subtemplate
+        [mylan]
+        
+        0.14 (unreleased)
+        -----------------
+        
+        - Refactoring theme vars storage-now storing in separate
+        theme_vars.cfg file, without distutils writers [mylan]
+        - Cleanup code [mylan]
+        
+        
+        0.11 (2009-04-13)
+        -----------------
+        
+        - Removed setup.cfg
+        [mylan]
+        
+        
+        0.10 (2009-04-13)
+        -----------------
+        
+        - Updated README
+        [olha]
+        
+        
+        0.9 (2009-04-11)
+        ----------------
+        
+        - Changed package name/namespace to
+        quintagroup.themetemplate.
+        [mylan]
         
         
         0.8 (2009-04-10)

@@ -1,5 +1,4 @@
 MANIFEST.in
-setup.cfg
 setup.py
 docs/HISTORY.txt
 docs/README.txt
@@ -23,11 +22,14 @@ quintagroup/themetemplate/localcommands/templates/cssresource/browser/configure.
 quintagroup/themetemplate/localcommands/templates/cssresource/browser/stylesheets/+css_resource_name+_tmpl
 quintagroup/themetemplate/localcommands/templates/cssresource/browser/stylesheets/README.txt_tmpl
 quintagroup/themetemplate/localcommands/templates/cssresource/profiles/default/cssregistry.xml_insert
+quintagroup/themetemplate/localcommands/templates/cssskinresource/profiles/default/cssregistry.xml_insert
+quintagroup/themetemplate/localcommands/templates/cssskinresource/skins/+layer_name+/+css_resource_name+.dtml_tmpl
 quintagroup/themetemplate/localcommands/templates/importing/fixes.py_tmpl
+quintagroup/themetemplate/localcommands/templates/importing/profiles.zcml_insert
 quintagroup/themetemplate/localcommands/templates/importing/setuphandlers.py_insert
 quintagroup/themetemplate/localcommands/templates/importing/utils.py_tmpl
 quintagroup/themetemplate/localcommands/templates/importing/import/CONTENT.txt
-quintagroup/themetemplate/localcommands/templates/importing/profiles/default/import_steps.xml_insert
+quintagroup/themetemplate/localcommands/templates/importing/profiles/import_zexps/import_steps.xml_insert
 quintagroup/themetemplate/localcommands/templates/jsresource/browser/configure.zcml_insert
 quintagroup/themetemplate/localcommands/templates/jsresource/browser/scripts/+js_resource_name+_tmpl
 quintagroup/themetemplate/localcommands/templates/jsresource/browser/scripts/README.txt_tmpl
@@ -46,8 +48,8 @@ quintagroup/themetemplate/localcommands/templates/viewlet_hidden/profiles/defaul
 quintagroup/themetemplate/localcommands/templates/viewlet_hidden_compo/viewlet_hidden_profiles/profiles/default/viewlets.xml_insert
 quintagroup/themetemplate/templates/qplone3_theme/+project+-configure.zcml_tmpl
 quintagroup/themetemplate/templates/qplone3_theme/MANIFEST.in_tmpl
-quintagroup/themetemplate/templates/qplone3_theme/distwriters.py
 quintagroup/themetemplate/templates/qplone3_theme/setup.py_tmpl
+quintagroup/themetemplate/templates/qplone3_theme/theme_vars.cfg_tmpl
 quintagroup/themetemplate/templates/qplone3_theme/+namespace_package+/+namespace_package2+/+package+/__init__.py_tmpl
 quintagroup/themetemplate/templates/qplone3_theme/+namespace_package+/+namespace_package2+/+package+/configure.zcml_tmpl
 quintagroup/themetemplate/templates/qplone3_theme/+namespace_package+/+namespace_package2+/+package+/profiles.zcml_tmpl
@@ -61,7 +63,6 @@ quintagroup/themetemplate/templates/qplone3_theme/+namespace_package+/+namespace
 quintagroup/themetemplate/templates/qplone3_theme/+namespace_package+/+namespace_package2+/+package+/browser/interfaces.py_tmpl
 quintagroup/themetemplate/templates/qplone3_theme/+namespace_package+/+namespace_package2+/+package+/browser/templates/README.txt
 quintagroup/themetemplate/templates/qplone3_theme/+namespace_package+/+namespace_package2+/+package+/portlets/__init__.py
-quintagroup/themetemplate/templates/qplone3_theme/+namespace_package+/+namespace_package2+/+package+/portlets/__init__.pyc
 quintagroup/themetemplate/templates/qplone3_theme/+namespace_package+/+namespace_package2+/+package+/portlets/configure.zcml_tmpl
 quintagroup/themetemplate/templates/qplone3_theme/+namespace_package+/+namespace_package2+/+package+/profiles/default/+namespace_package+.+namespace_package2+.+package+_various.txt_tmpl
 quintagroup/themetemplate/templates/qplone3_theme/+namespace_package+/+namespace_package2+/+package+/profiles/default/import_steps.xml_tmpl

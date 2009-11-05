@@ -668,12 +668,15 @@ into portal root on theme instllation.
     ...
     Recursing into profiles
     ...
+    Inserting from profiles.zcml_insert ...
+    ...
     Inserting from setuphandlers.py_insert into ...
     ...
 
 As we see from the upper log:
    - 'import' directory was added into root of the theme
    - profiles stuff was updated
+   - profiles.zcml file is updated
    - some stuff into setuphandlers.py module was inserted
     
 1. There was empty 'import' directory added, where you
@@ -683,27 +686,43 @@ As we see from the upper log:
     CONTENT.txt
 
 
-2. import_steps.xml was added in profiles/default directory (if does not exist yet),
+2. import_steps.xml was added in profiles/import_zexps directory,
    which contains additional *quintagroup.theme.ploneexample.import_zexps* step.
 
-    >>> 'import_steps.xml' in os.listdir('profiles/default')
+    >>> 'import_zexps' in os.listdir('profiles')
+    True
+    >>> 'import_steps.xml' in os.listdir('profiles/import_zexps')
     True
 
-    >>> cat('profiles/default/import_steps.xml')
+    >>> cat('profiles/import_zexps/import_steps.xml')
     <?xml version="1.0"?>
-    <import-steps>
     ...
       <import-step id="quintagroup.theme.ploneexample.import_zexps"
                    version="..."
                    handler="quintagroup.theme.ploneexample.setuphandlers.importZEXPs"
                    title="My Theme Name: Import zexps objects">
-        <dependency step="skins" />
         Import zexp objects into portal on My Theme Name theme installation
       </import-step>
     <BLANKLINE>
-    </import-steps>
+    ...
 
-3. Check setuphandlers.py module - there must be importZEXPs function defined
+3. profiles.zcml configuration updated with new genericsetup profile for zexps
+   importing.
+
+    >>> cat('profiles.zcml')
+    <configure
+    ...
+      <genericsetup:registerProfile
+        name="import_zexps"
+        title="My Theme Name: Import ZEXPs"
+        directory="profiles/import_zexps"
+        description='Extension profile for importing objects of the "My Theme Name" Plone theme.'
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+    <BLANKLINE>
+    ...
+    
+4. Check setuphandlers.py module - there must be importZEXPs function defined
 
     >>> cat('setuphandlers.py')
     def setupVarious(context):

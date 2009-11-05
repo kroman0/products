@@ -5,16 +5,11 @@
           [zopeskel.zopeskel_sub_template]
           skin_layer    = quintagroup.themetemplate.localcommands.subtemplates:SkinLayerSubTemplate
           css_resource = quintagroup.themetemplate.localcommands.subtemplates:CSSSubTemplate
+          css_dtml_skin = quintagroup.themetemplate.localcommands.subtemplates:CSSSkinLayerSubTemplate
           js_resource = quintagroup.themetemplate.localcommands.subtemplates:JSSubTemplate
           viewlet_order = quintagroup.themetemplate.localcommands.subtemplates:ViewletOrderSubTemplate
           viewlet_hidden = quintagroup.themetemplate.localcommands.subtemplates:ViewletHiddenSubTemplate
           import_zexps = quintagroup.themetemplate.localcommands.subtemplates:ImportSubTemplate
-
-          [distutils.setup_keywords]
-          theme_vars = quintagroup.themetemplate:assert_dict
-
-          [egg_info.writers]
-          theme_vars.txt = quintagroup.themetemplate:write_map
 
       # -*- Entry points: -*-
       

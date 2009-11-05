@@ -1,6 +1,23 @@
 Changelog
 =========
 
+0.2.2 (unreleased)
+------------------
+
+- Updated import_zexps subtemplate - move this step into
+  separate genericsetup profile
+  [mylan]
+- Updated tests for changed import_zexps subtemplate
+  [mylan]
+
+0.2 (unreleased)
+----------------
+
+- Added new css_dtml_skin subtemplate
+  [mylan]
+- Added tests for css_dtml_skin subtemplate
+  [mylan]
+
 0.14 (unreleased)
 -----------------
 

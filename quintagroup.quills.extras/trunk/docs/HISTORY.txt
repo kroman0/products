@@ -1,6 +1,23 @@
 Changelog
 =========
 
+1.4.5 (2009-11-09)
+------------------
+
+- Fix ComponentLookupError on adding comment
+  [mylan]
+- Updating skins registration, added comments.gif
+  [mylan]
+- Fixed broken links in blog categories static portlet
+  [fenix]
+- Add action to activate Blog category
+  [fenix]
+- Changed sort criterion for recent comments portlet
+  [fenix]
+- Added patch for prevent archive url of blog-posts
+  [mylan]
+
+
 1.3.13 (unreleased)
 -------------------
 

@@ -29,4 +29,4 @@ def setSkin(site, event):
 
     scheme, netloc, path, query, fragm = urlsplit(event.request.URL)
     if netloc.startswith(pref):
-        site.changeSkin(switch_theme)
+        site.changeSkin(switch_theme, event.request)

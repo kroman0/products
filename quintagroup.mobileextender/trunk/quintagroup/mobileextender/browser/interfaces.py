@@ -4,6 +4,17 @@ from zope.schema import vocabulary
 from Products.CMFCore.utils import getToolByName
 from quintagroup.mobileextender import mobileextenderMessageFactory as _
 
+try:
+    from plone.app import vocabularies
+except:
+    PT_VOCABULARY = "quintagroup.mobileextender.ptypes"
+    WF_VOCABULARY = "quintagroup.mobileextender.wfstates"
+else:
+    PT_VOCABULARY = "plone.app.vocabularies.PortalTypes"
+    WF_VOCABULARY = "plone.app.vocabularies.WorkflowStates"
+    
+
+
 class IMobileConfiglet(interface.Interface):
     """A portlet which can render a classic Plone portlet macro
     """
@@ -21,8 +32,7 @@ class IMobileConfiglet(interface.Interface):
         description=_(u"You may search for and choose portal type(s) "
             "of object(s) to find. Leave blank to ignore this criterion."),
         default=[],
-        #source = "quintagroup.mobileextender.ptypes",
-        value_type = schema.Choice( title=u"ptypes", source="quintagroup.mobileextender.ptypes" ),
+        value_type = schema.Choice( title=u"ptypes", source=PT_VOCABULARY ),
         required=False,
     )
     wfstates = schema.List(
@@ -30,7 +40,7 @@ class IMobileConfiglet(interface.Interface):
         description=_(u"You may search for and choose workflow review state(s) "
             "of object(s) to find. Leave blank to ignore this criterion."),
         default=[],
-        value_type = schema.Choice( title=u"review_states", source="quintagroup.mobileextender.wfstates" ),
+        value_type = schema.Choice( title=u"review_states", source=WF_VOCABULARY ),
         required=False,
     )
     excludeids = schema.Text(

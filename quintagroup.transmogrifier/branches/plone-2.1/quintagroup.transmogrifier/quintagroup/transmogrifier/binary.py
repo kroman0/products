@@ -74,7 +74,13 @@ class FileExporterSection(object):
         """ Return tuple of (filename, content_type, data)
         """
         field = obj.getField(field)
-        base_unit = field.getBaseUnit(obj, full=True)
+        # temporarily:
+        # dirty call, I know, just lazy to get method arguments
+        # TextField overrided getBaseUnit method but didn't follow API
+        try:
+            base_unit = field.getBaseUnit(obj, full=True)
+        except TypeError, e:
+            base_unit = field.getBaseUnit(obj)
         fname = base_unit.getFilename() 
         ct = base_unit.getContentType()
         value = base_unit.getRaw()

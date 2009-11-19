@@ -74,7 +74,7 @@ class FileExporterSection(object):
         """ Return tuple of (filename, content_type, data)
         """
         field = obj.getField(field)
-        base_unit = field.getBaseUnit(obj)
+        base_unit = field.getBaseUnit(obj, full=True)
         fname = base_unit.getFilename() 
         ct = base_unit.getContentType()
         value = base_unit.getRaw()

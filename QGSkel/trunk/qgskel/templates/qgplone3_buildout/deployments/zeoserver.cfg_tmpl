@@ -11,11 +11,11 @@ parts +=
 ## ZEO server configuration
 ##
 recipe = plone.recipe.zope2zeoserver
-zope2-location = ${zope2:location}
+zope2-location = \${zope2:location}
 zeo-address = 127.0.0.1:8100
-zeo-var = ${buildout:directory}/var
+zeo-var = \${buildout:directory}/var
 storage-number = main
 zeo-conf-additional =
   <filestorage temp>
-    path ${client1:zeo-var}/filestorage/Temp.fs
+    path \${client1:zeo-var}/filestorage/Temp.fs
   </filestorage>

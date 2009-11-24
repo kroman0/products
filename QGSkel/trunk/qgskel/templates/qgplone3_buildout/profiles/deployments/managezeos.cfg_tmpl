@@ -11,14 +11,14 @@ effective-user = zope
 eggs +=
     Products.CacheSetup == 1.2
 
-# Main storage
-zeo-client-client = manage
+# Main storag
+zodb-cache-size = 5000
 
 zeo-address = storage:8100
 zeo-client = on
 zeo-storage=main
 zeo-client-name=main
-zeo-client-cache-size = 500MB
+zeo-client-cache-size = 300MB
 zeo-var = \${buildout:directory}/var
 
 #####

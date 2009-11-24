@@ -14,6 +14,10 @@ from collective.transmogrifier.utils import defaultMatcher
 from plone.app.transmogrifier.interfaces import IBaseObject, ObjectInitializedEvent,  \
     ObjectEditedEvent
 
+# override Marshall atxml namespaces
+from quintagroup.transmogrifier import namespaces
+
+
 class MarshallerSection(object):
     classProvides(ISectionBlueprint)
     implements(ISection)

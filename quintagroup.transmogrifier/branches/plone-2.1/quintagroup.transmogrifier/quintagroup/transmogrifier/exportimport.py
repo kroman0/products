@@ -1,3 +1,4 @@
+import os
 import tempfile
 
 from zope.interface import implements
@@ -85,15 +86,6 @@ def exportSiteStructure(context):
         pass # discard once processed
 
 def importSiteStructure(context):
-    # this function is also called when adding Plone site, so call standard handler
-    if not context.readDataFile('.objects.xml', subdir='structure'):
-        try:
-            from Products.GenericSetup.interfaces import IFilesystemImporter
-            IFilesystemImporter(context.getSite()).import_(context, 'structure', True)
-        except ImportError:
-            pass
-        return
-
     transmogrifier = ITransmogrifier(context.getSite())
 
     # we don't use transmogrifer's __call__ method, because we need to do
@@ -108,6 +100,18 @@ def importSiteStructure(context):
         CONFIGFILE = None
     transmogrifier._data = {}
 
+    # this function is also called when adding Plone site, so call standard handler
+    path = ''
+    if 'reader' in transmogrifier._raw:
+        path = transmogrifier._raw['reader'].get('path', '')
+    if not context.readDataFile('.objects.xml', subdir=os.path.join(path, 'structure')):
+        try:
+            from Products.GenericSetup.interfaces import IFilesystemImporter
+            IFilesystemImporter(context.getSite()).import_(context, 'structure', True)
+        except ImportError:
+            pass
+        return
+
     options = transmogrifier._raw['transmogrifier']
     sections = options['pipeline'].splitlines()
     pipeline = constructPipeline(transmogrifier, sections)
@@ -117,9 +121,6 @@ def importSiteStructure(context):
     # if 'quintagroup.transmogrifier.writer' section's export context is
     # tarball replace it with given function argument
     while hasattr(last_section, 'previous'):
-        if isinstance(last_section, ReaderSection) and \
-            isinstance(last_section.import_context, gscontext.TarballImportContext):
-            last_section.import_context = context
         last_section = last_section.previous
         # end cycle if we get empty starter section
         if type(last_section) == type(iter(())):

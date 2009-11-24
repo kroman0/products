@@ -3,7 +3,7 @@ extends =
     ../base.cfg
 newest = false
 
-parts +=
+parts =
     zeoserver
 
 
@@ -12,10 +12,17 @@ parts +=
 ##
 recipe = plone.recipe.zope2zeoserver
 zope2-location = \${zope2:location}
-zeo-address = 127.0.0.1:8100
+zeo-address = 8100
 zeo-var = \${buildout:directory}/var
 storage-number = main
 zeo-conf-additional =
   <filestorage temp>
-    path \${client1:zeo-var}/filestorage/Temp.fs
+    path \${zeoserver:zeo-var}/filestorage/Temp.fs
   </filestorage>
+
+#####
+#For blobstorage support uncomment following block
+#
+#blob-storage = ${zeoserver:zeo-var}/blobstorage
+#eggs = 
+#    ZODB3 >=3.8.0b2,<3.8.999

@@ -35,7 +35,7 @@ class QGPlone3Buildout(BaseTemplate):
         if vars['veryoldplone']:
             vars['zope2_version'] = "2.9.10"
         vars['newplone'] = not vars['veryoldplone'] and not vars['oldplone']
-        vars['http_port_devel'] = vars['http_port'] + 10
+        vars['http_port_devel'] = int(vars['http_port']) + 10
         super(QGPlone3Buildout, self).pre(command, output_dir, vars)
 
     def post(self, command, output_dir, vars):

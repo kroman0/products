@@ -1,8 +1,80 @@
 [buildout]
-extends = ../base.cfg
+extends = 
+    ../base.cfg
+    ../debugtools.cfg
+
 newest = false
 
+parts +=
+    omelette
+    enablesettrace
+    zopepy
+
+eggs +=
+    plone.reload
+    Products.DocFinderTab
+
+
 [instance]
-http-address = ${http_port}
-debug-mode = off
-verbose-security = off
+\# For more information on this step and configuration options see:
+\# http://pypi.python.org/pypi/plone.recipe.zope2instance
+#set $debug_zeoc_port = $http_port_be1+20
+http-address = ${$debug_zeoc_port}
+debug-mode = on
+verbose-security = on
+
+zcml +=
+    plone.reload
+
+products +=
+    \${enablesettrace:location}
+
+# main storage
+zeo-address = localhost:8100
+zeo-client = on
+zeo-client-name=debug
+zeo-storage=main
+zeo-var = \${buildout:directory}/var
+
+#####
+#For blobstorage support uncomment following block
+#
+#blob-storage = var/blobstorage
+#shared-blob = off
+
+# Temporary storage
+zodb-temporary-storage =
+  <zodb_db temporary>
+    # Temporary storage database (for sessions)
+    <zeoclient>
+        server localhost:8100
+        storage temp
+        name temporary
+        var \${instance:zeo-var}
+    </zeoclient>
+    mount-point /temp_folder
+    container-class Products.TemporaryFolder.TemporaryContainer
+  </zodb_db>
+
+
+
+[omelette]
+recipe = collective.recipe.omelette
+eggs = \${instance:eggs}
+packages = \${zope2:location}/lib/python ./
+products = \${instance:products}
+
+[zopepy]
+\# For more information on this step and configuration options see:
+\# http://pypi.python.org/pypi/zc.recipe.egg
+recipe = zc.recipe.egg
+eggs = \${instance:eggs}
+interpreter = zopepy
+#if $zope2_install
+extra-paths = ${zope2_install}/lib/python
+#else
+extra-paths = \${zope2:location}/lib/python
+#end if
+    \${productdistros:location}
+    
+scripts = zopepy

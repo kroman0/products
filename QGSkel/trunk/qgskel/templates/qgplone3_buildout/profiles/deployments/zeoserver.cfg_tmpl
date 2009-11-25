@@ -23,6 +23,6 @@ zeo-conf-additional =
 #####
 #For blobstorage support uncomment following block
 #
-#blob-storage = ${zeoserver:zeo-var}/blobstorage
+#blob-storage = \${zeoserver:zeo-var}/blobstorage
 #eggs = 
 #    ZODB3 >=3.8.0b2,<3.8.999

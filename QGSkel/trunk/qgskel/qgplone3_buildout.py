@@ -26,6 +26,9 @@ class QGPlone3Buildout(BaseTemplate):
         var('http_port',
             'HTTP port (development port == http_port + 10 )',
             default=8080),
+        var('http_port_be1',
+            "HTTP port for first Backend server. Other backend' ports increments " \
+            "by 1 from this one.", default=20001),
         ]
 
     def pre(self, command, output_dir, vars):
@@ -36,6 +39,8 @@ class QGPlone3Buildout(BaseTemplate):
             vars['zope2_version'] = "2.9.10"
         vars['newplone'] = not vars['veryoldplone'] and not vars['oldplone']
         vars['http_port_devel'] = int(vars['http_port']) + 10
+        for i in range(2,9):
+            vars['http_port_be%d' % i] = vars['http_port_be1'] + i
         super(QGPlone3Buildout, self).pre(command, output_dir, vars)
 
     def post(self, command, output_dir, vars):

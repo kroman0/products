@@ -1,8 +1,123 @@
 [buildout]
 extends = ../base.cfg
+parts +=
+   backends
+   backend1
+   backend2
+#    backend3
+#    backend4
+#    backend5
+#    backend6
+#    backend7
+#    backend8
+    
 newest = false
 
-[instance]
-http-address = ${http_port}
+[config]
+http-address.1 = ${http_port_be1}
+http-address.2 = ${http_port_be2}
+http-address.3 = ${http_port_be3}
+http-address.4 = ${http_port_be4}
+http-address.5 = ${http_port_be5}
+http-address.6 = ${http_port_be6}
+http-address.7 = ${http_port_be7}
+http-address.8 = ${http_port_be8}
+
+
+[backends]
+recipe = zc.recipe.macro
+result-recipe = plone.recipe.zope2instance
+macro = backend_template
+targets =
+    backend1:backend1-parameters
+    backend2:backend2-parameters
+    backend3:backend3-parameters
+    backend4:backend4-parameters
+    backend5:backend5-parameters
+    backend6:backend6-parameters
+    backend7:backend7-parameters
+    backend8:backend8-parameters
+
+
+[backend_template]
+zope2-location = \${zope2:location}
+user = \${instance:user}
+http-address = \$\${:http-address}
 debug-mode = off
 verbose-security = off
+
+eggs =
+    \${instance:eggs}
+    Products.CacheSetup == 1.2
+
+products = \${instance:products}
+
+zcml = \${instance:zcml}
+
+# Main storage
+zodb-cache-size = 5000
+
+zeo-client-client = \$\${:zeo-client-client}
+zeo-address = storage:8100
+zeo-client = on
+zeo-storage=main
+zeo-client-name=main
+zeo-client-cache-size = 300MB
+zeo-var = \${buildout:directory}/var
+
+#####
+#For blobstorage support uncomment following block
+#
+#blob-storage = var/blobstorage
+#shared-blob = off
+
+# Temporary storage
+zodb-temporary-storage =
+  <zodb_db temporary>
+    # Temporary storage database (for sessions)
+    <zeoclient>
+        server storage:8100
+        storage temp
+        name temporary
+        var \${\$\${:__name__}:zeo-var}
+        # ZEO client cache, in bytes
+        #cache-size 50MB
+        # Uncomment to have a persistent disk cache
+        #client zeoc1
+    </zeoclient>
+    mount-point /temp_folder
+    container-class Products.TemporaryFolder.TemporaryContainer
+  </zodb_db>
+
+
+[backend1-parameters]
+http-address = \${config:http-address.1}
+zeo-client-client = zeoc1
+
+[backend2-parameters]
+http-address = \${config:http-address.2}
+zeo-client-client = zeoc2
+
+[backend3-parameters]
+http-address = \${config:http-address.3}
+zeo-client-client = zeoc3
+
+[backend4-parameters]
+http-address = \${config:http-address.4}
+zeo-client-client = zeoc4
+
+[backend5-parameters]
+http-address = \${config:http-address.5}
+zeo-client-client = zeoc5
+
+[backend6-parameters]
+http-address = \${config:http-address.6}
+zeo-client-client = zeoc6
+
+[backend7-parameters]
+http-address = \${config:http-address.7}
+zeo-client-client = zeoc7
+
+[backend8-parameters]
+http-address = \${config:http-address.8}
+zeo-client-client = zeoc8

@@ -1,46 +1,15 @@
 [buildout]
-extends = ../base.cfg
-newest = false
+extends = deployments_base.cfg
+parts +=
+    manage
 
-[instance]
-http-address = ${http_port}
-debug-mode = off
-verbose-security = off
-effective-user = zope
+[manage]
+recipe = zc.recipe.macro
+result-recipe = plone.recipe.zope2instance
+macro = zeoc_template
 
-eggs +=
-    Products.CacheSetup == 1.2
-
-# Main storag
-zodb-cache-size = 5000
-
-zeo-address = storage:8100
-zeo-client = on
-zeo-storage=main
-zeo-client-name=main
-zeo-client-cache-size = 300MB
-zeo-var = \${buildout:directory}/var
-
-#####
-#For blobstorage support uncomment following block
-#
-#blob-storage = var/blobstorage
-#shared-blob = off
-
-# Temporary storage
-zodb-temporary-storage =
-  <zodb_db temporary>
-    # Temporary storage database (for sessions)
-    <zeoclient>
-        server storage:8100
-        storage temp
-        name temporary
-        var \${instance:zeo-var}
-        # ZEO client cache, in bytes
-        #cache-size 50MB
-        # Uncomment to have a persistent disk cache
-        #client zeoc1
-    </zeoclient>
-    mount-point /temp_folder
-    container-class Products.TemporaryFolder.TemporaryContainer
-  </zodb_db>
+## Define manage configurations, used in
+## deployments_base.cfg->[zeoc_template]
+#set $manage_port = $http_port_be1 + 30
+http-address = $manage_port
+zeo-client-client = zeoc_manage

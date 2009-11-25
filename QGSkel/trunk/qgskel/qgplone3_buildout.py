@@ -10,7 +10,7 @@ class QGPlone3Buildout(BaseTemplate):
     vars = [
         var('plone_version',
             "Which Plone version to install",
-            default="3.2.2"),
+            default="3.3.2"),
         var('zope2_install',
             'Path to Zope 2 installation; leave blank to fetch one',
             default=''),
@@ -25,7 +25,7 @@ class QGPlone3Buildout(BaseTemplate):
             default='admin'),
         var('http_port',
             'HTTP port (development port == http_port + 10 )',
-            default=8080),
+            default=12300),
         var('http_port_be1',
             "HTTP port for first Backend server. Other backend' ports increments " \
             "by 1 from this one.", default=20001),

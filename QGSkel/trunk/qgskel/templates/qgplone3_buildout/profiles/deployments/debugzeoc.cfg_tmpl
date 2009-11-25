@@ -1,6 +1,6 @@
 [buildout]
 extends = 
-    ../base.cfg
+    deployments_base.cfg
     ../debugtools.cfg
 
 newest = false
@@ -18,7 +18,7 @@ eggs +=
 [instance]
 \# For more information on this step and configuration options see:
 \# http://pypi.python.org/pypi/plone.recipe.zope2instance
-#set $debug_zeoc_port = $http_port_be1+20
+#set $debug_zeoc_port = $http_port_be1 + 20
 http-address = ${$debug_zeoc_port}
 debug-mode = on
 verbose-security = on
@@ -30,7 +30,7 @@ products +=
     \${enablesettrace:location}
 
 # main storage
-zeo-address = localhost:8100
+zeo-address = \${config:zeo-address}
 zeo-client = on
 zeo-client-name=debug
 zeo-storage=main
@@ -47,7 +47,7 @@ zodb-temporary-storage =
   <zodb_db temporary>
     # Temporary storage database (for sessions)
     <zeoclient>
-        server localhost:8100
+        server \${config:zeo-address}
         storage temp
         name temporary
         var \${instance:zeo-var}

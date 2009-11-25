@@ -1,2 +1,9 @@
 [buildout]
-extends = profiles/devel.cfg
+extends = 
+\#    profiles/devel.cfg
+\#    profiles/tests.cfg
+\#    profiles/preview.cfg
+\#    profiles/deployments/zeoserver.cfg
+\#    profiles/deployments/managezeos.cfg
+\#    profiles/deployments/backendzeos.cfg
+

@@ -8,7 +8,6 @@ parts =
 #end if
     productdistros
     instance
-    zopepy
 
 #if $newplone
 \# Change the number here to change the version of Plone being used
@@ -161,16 +160,3 @@ products =
     ${plone_products_install}
 #end if
 #end if
-
-[zopepy]
-\# For more information on this step and configuration options see:
-\# http://pypi.python.org/pypi/zc.recipe.egg
-recipe = zc.recipe.egg
-eggs = \${instance:eggs}
-interpreter = zopepy
-#if $zope2_install
-extra-paths = ${zope2_install}/lib/python
-#else
-extra-paths = \${zope2:location}/lib/python
-#end if
-scripts = zopepy

@@ -4,7 +4,7 @@ extends =
 \#    profiles/tests.cfg
 \#    profiles/preview.cfg
 \#    profiles/deployments/zeoserver.cfg
-    profiles/deployments/managezeoc.cfg
+\#    profiles/deployments/managezeoc.cfg
 \#    profiles/deployments/backendzeoc.cfg
 \#    profiles/deployments/debugzeoc.cfg
-\#    profiles/deployments/crawlerszeoc.cfg
+    profiles/deployments/crawlerszeoc.cfg

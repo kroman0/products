@@ -7,4 +7,4 @@ extends =
 \#    profiles/deployments/managezeoc.cfg
 \#    profiles/deployments/backendzeoc.cfg
 \#    profiles/deployments/debugzeoc.cfg
-    profiles/deployments/crawlerszeoc.cfg
+\#    profiles/deployments/crawlerszeoc.cfg

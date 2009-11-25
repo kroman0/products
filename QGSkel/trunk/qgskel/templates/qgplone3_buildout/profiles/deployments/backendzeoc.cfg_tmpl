@@ -1,43 +1,30 @@
 [buildout]
 extends = ../base.cfg
 parts +=
-   backends
-   backend1
-   backend2
-#    backend3
-#    backend4
-#    backend5
-#    backend6
-#    backend7
-#    backend8
+    backends
+    backend1
+    backend2
+#for $i in range(3,9)
+\#    backend$i
+#end for
     
 newest = false
 
 [config]
 http-address.1 = ${http_port_be1}
-http-address.2 = ${http_port_be2}
-http-address.3 = ${http_port_be3}
-http-address.4 = ${http_port_be4}
-http-address.5 = ${http_port_be5}
-http-address.6 = ${http_port_be6}
-http-address.7 = ${http_port_be7}
-http-address.8 = ${http_port_be8}
-
+#for $i in range(2,9)
+#set $be_port = $http_port_be1+$i-1
+http-address.$i = $be_port
+#end for
 
 [backends]
 recipe = zc.recipe.macro
 result-recipe = plone.recipe.zope2instance
 macro = backend_template
 targets =
-    backend1:backend1-parameters
-    backend2:backend2-parameters
-    backend3:backend3-parameters
-    backend4:backend4-parameters
-    backend5:backend5-parameters
-    backend6:backend6-parameters
-    backend7:backend7-parameters
-    backend8:backend8-parameters
-
+#for $i in range(1,9)
+    backend$i:backend$i-parameters
+#end for
 
 [backend_template]
 zope2-location = \${zope2:location}
@@ -83,41 +70,16 @@ zodb-temporary-storage =
         # ZEO client cache, in bytes
         #cache-size 50MB
         # Uncomment to have a persistent disk cache
-        #client zeoc1
+        #client \$\${:zeo-client-client}
     </zeoclient>
     mount-point /temp_folder
     container-class Products.TemporaryFolder.TemporaryContainer
   </zodb_db>
 
 
-[backend1-parameters]
-http-address = \${config:http-address.1}
-zeo-client-client = zeoc1
+#for $i in range(1,9)
+[backend$i-parameters]
+http-address = \${config:http-address.$i}
+zeo-client-client = zeoc$i
 
-[backend2-parameters]
-http-address = \${config:http-address.2}
-zeo-client-client = zeoc2
-
-[backend3-parameters]
-http-address = \${config:http-address.3}
-zeo-client-client = zeoc3
-
-[backend4-parameters]
-http-address = \${config:http-address.4}
-zeo-client-client = zeoc4
-
-[backend5-parameters]
-http-address = \${config:http-address.5}
-zeo-client-client = zeoc5
-
-[backend6-parameters]
-http-address = \${config:http-address.6}
-zeo-client-client = zeoc6
-
-[backend7-parameters]
-http-address = \${config:http-address.7}
-zeo-client-client = zeoc7
-
-[backend8-parameters]
-http-address = \${config:http-address.8}
-zeo-client-client = zeoc8
+#end for

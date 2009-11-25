@@ -4,6 +4,6 @@ extends =
 \#    profiles/tests.cfg
 \#    profiles/preview.cfg
 \#    profiles/deployments/zeoserver.cfg
-\#    profiles/deployments/managezeos.cfg
-\#    profiles/deployments/backendzeos.cfg
+\#    profiles/deployments/managezeoc.cfg
+\#    profiles/deployments/backendzeoc.cfg
 

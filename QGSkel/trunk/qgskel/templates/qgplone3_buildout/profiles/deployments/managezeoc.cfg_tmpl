@@ -10,6 +10,6 @@ macro = zeoc_template
 
 ## Define manage configurations, used in
 ## deployments_base.cfg->[zeoc_template]
-#set $manage_port = $http_port_be1 + 30
+#set $manage_port = int($http_port_be1) + 30
 http-address = $manage_port
 zeo-client-client = zeoc_manage

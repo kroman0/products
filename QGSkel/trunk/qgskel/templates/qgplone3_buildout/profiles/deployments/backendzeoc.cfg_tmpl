@@ -12,7 +12,7 @@ parts +=
 [config]
 http-address.1 = ${http_port_be1}
 #for $i in range(2,9)
-#set $be_port = $http_port_be1+$i-1
+#set $be_port = int($http_port_be1)+$i-1
 http-address.$i = $be_port
 #end for
 

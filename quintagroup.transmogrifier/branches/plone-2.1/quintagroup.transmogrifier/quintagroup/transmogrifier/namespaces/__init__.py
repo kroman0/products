@@ -5,6 +5,7 @@ from Products.Marshall.handlers.atxml import ATXMLMarshaller, XmlNamespace
 
 from atns import Archetypes
 from dcns import DublinCore
+from cmfns import CMF
 
 
 def replaceNamespace(ns):
@@ -23,3 +24,4 @@ def replaceNamespace(ns):
 
 replaceNamespace(DublinCore)
 replaceNamespace(Archetypes)
+replaceNamespace(CMF)

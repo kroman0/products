@@ -10,6 +10,6 @@ macro = zeoc_template
 
 ## Define manage configurations, used in
 ## deployments_base.cfg->[zeoc_template]
-#set $crawlers_port = $http_port_be1 + 10
+#set $crawlers_port = int($http_port_be1) + 10
 http-address = $crawlers_port
 zeo-client-client = zeoc_crawlers

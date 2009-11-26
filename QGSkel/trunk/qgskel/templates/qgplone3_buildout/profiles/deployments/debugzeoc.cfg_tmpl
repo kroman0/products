@@ -18,7 +18,7 @@ eggs +=
 [instance]
 \# For more information on this step and configuration options see:
 \# http://pypi.python.org/pypi/plone.recipe.zope2instance
-#set $debug_zeoc_port = $http_port_be1 + 20
+#set $debug_zeoc_port = int($http_port_be1) + 20
 http-address = ${$debug_zeoc_port}
 debug-mode = on
 verbose-security = on

@@ -12,7 +12,7 @@
 
     <metal:listEntries 
         metal:define-macro="list-entries"
-        tal:define="wvconfig wvconfig | view/getConfig;
+        tal:define="wvconfig view/getConfig;
                     results entries | weblog/getEntries;
                     Batch python:modules['Products.CMFPlone'].Batch;
                     b_size wvconfig/entries_per_page;
@@ -31,7 +31,8 @@
           tal:repeat="day python:view.getWeblogEntriesDates(results)">
 
         <tal:byDates tal:condition="group_by_dates">
-          <h2 tal:content="python:context.toLocalizedTime(day, context=context)" />
+        
+          <h2 tal:content="nothing | python:context.toLocalizedTime(day, context=context)" />
 
           <tal:entries repeat="entry python:results[day]">
             <metal:macro use-macro="context/quills_entry_macros/display-entry"/>

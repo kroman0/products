@@ -1,0 +1,60 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="quintagroup.quills.extras">
+
+    <plone:portlet
+        name="quills.app.portlets.WeblogAdmin"
+        interface=".weblogadmin.IWeblogAdminPortlet"
+        assignment=".weblogadmin.Assignment"
+        renderer=".weblogadmin.CustomRenderer"
+        addview=".weblogadmin.AddForm"
+        editview=".weblogadmin.EditForm"
+        />
+
+  <plone:portlet
+      name="quills.app.portlets.Authors"
+      interface="quills.app.portlets.authors.IWeblogAuthorsPortlet"
+      assignment="quills.app.portlets.authors.Assignment"
+      renderer=".patch_renderers.AuthorRenderer"
+      addview="quills.app.portlets.authors.AddForm"
+      editview="quills.app.portlets.authors.EditForm"
+      />
+
+  <plone:portlet
+      name="quills.app.portlets.RecentComments"
+      interface="quills.app.portlets.recentcomments.IRecentWeblogCommentsPortlet"
+      assignment="quills.app.portlets.recentcomments.Assignment"
+      renderer=".patch_renderers.RecentCommentsRenderer"
+      addview="quills.app.portlets.recentcomments.AddForm"
+      editview="quills.app.portlets.recentcomments.EditForm"
+      />
+
+  <plone:portlet
+      name="quills.app.portlets.RecentEntries"
+      interface="quills.app.portlets.recententries.IRecentWeblogEntriesPortlet"
+      assignment="quills.app.portlets.recententries.Assignment"
+      renderer=".patch_renderers.RecentEntriesRenderer"
+      addview="quills.app.portlets.recententries.AddForm"
+      editview="quills.app.portlets.recententries.EditForm"
+      />
+
+  <plone:portlet
+      name="quills.app.portlets.WeblogArchive"
+      interface="quills.app.portlets.archive.IWeblogArchivePortlet"
+      assignment="quills.app.portlets.archive.Assignment"
+      renderer=".archive.Renderer"
+      addview="quills.app.portlets.archive.AddForm"
+      editview="quills.app.portlets.archive.EditForm"
+      />
+
+  <plone:portlet
+      name="quills.app.portlets.QuillsLinks"
+      interface="quills.app.portlets.quillslinks.IQuillsLinksPortlet"
+      assignment="quills.app.portlets.quillslinks.Assignment"
+      renderer=".patch_renderers.QuillsLinksRenderer"
+      addview="quills.app.portlets.quillslinks.AddForm"
+      editview="quills.app.portlets.quillslinks.EditForm"
+      />
+
+</configure>

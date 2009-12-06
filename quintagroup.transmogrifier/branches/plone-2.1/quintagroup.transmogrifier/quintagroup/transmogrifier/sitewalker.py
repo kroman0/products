@@ -44,9 +44,6 @@ class SiteWalkerSection(object):
         for item in self.previous:
             yield item
 
-        if not self.condition(None, context=self.context):
-            raise StopIteration
-
         for obj, contained in self.walk(self.context):
             item = {
                 self.pathkey: '/'.join(obj.getPhysicalPath()[2:]),

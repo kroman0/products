@@ -1,3 +1,4 @@
+from copy import deepcopy
 from xml.dom import minidom
 
 from zope.interface import classProvides, implements
@@ -194,7 +195,7 @@ class PropertiesExporterSection(object):
                     if elem.nodeName != 'property':
                         continue
                     if elem.getAttribute('name') not in excluded_props:
-                        node.appendChild(elem)
+                        node.appendChild(deepcopy(elem))
                 if node.hasChildNodes():
                     doc.appendChild(node)
                     try:

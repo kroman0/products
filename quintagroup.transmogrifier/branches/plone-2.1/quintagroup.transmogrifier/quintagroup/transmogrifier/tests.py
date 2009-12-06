@@ -823,7 +823,7 @@ def binarySetUp(test):
             if self._current_field == 'file':
                 return 'binary data'
             else:
-                return ''
+                return 'image'
 
         def getMutator(self, obj):
             return self

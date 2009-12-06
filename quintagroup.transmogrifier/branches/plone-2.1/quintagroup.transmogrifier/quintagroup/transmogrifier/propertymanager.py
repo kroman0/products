@@ -2,8 +2,6 @@ from xml.dom import minidom
 
 from zope.interface import classProvides, implements
 
-from ZPublisher.HTTPRequest import default_encoding
-
 from collective.transmogrifier.interfaces import ISection, ISectionBlueprint
 from collective.transmogrifier.utils import defaultMatcher
 
@@ -19,7 +17,7 @@ class Helper(object):
     """PropertyManager im- and export helpers.
     """
 
-    _encoding = default_encoding
+    _encoding = 'utf-8'
 
     def _getNodeText(self, node):
         text = ''
@@ -51,9 +49,9 @@ class Helper(object):
             if isinstance(prop, (tuple, list)):
                 for value in prop:
                     if isinstance(value, str):
-                        value.decode(self._encoding)
+                        value = value.decode(self._encoding)
                     child = self._doc.createElement('element')
-                    child.setAttribute('value', value)
+                    child.appendChild(self._doc.createTextNode(value))
                     node.appendChild(child)
             else:
                 if prop_map.get('type') == 'boolean':
@@ -123,8 +121,11 @@ class Helper(object):
             elements = []
             for sub in child.childNodes:
                 if sub.nodeName == 'element':
-                    value = sub.getAttribute('value')
-                    elements.append(value.encode(self._encoding))
+                    if len(sub.childNodes) > 0:
+                        value = sub.childNodes[0].nodeValue
+                        if isinstance(value, unicode):
+                            value = value.encode(self._encoding)
+                        elements.append(value)
 
             if elements or prop_map.get('type') == 'multiple selection':
                 prop_value = tuple(elements) or ()
@@ -196,7 +197,10 @@ class PropertiesExporterSection(object):
                         node.appendChild(elem)
                 if node.hasChildNodes():
                     doc.appendChild(node)
-                    data = doc.toprettyxml(indent='  ', encoding='utf-8')
+                    try:
+                        data = doc.toprettyxml(indent='  ', encoding='utf-8')
+                    except Exception, e:
+                        import pdb;pdb.set_trace()
                     doc.unlink()
 
                 if data:

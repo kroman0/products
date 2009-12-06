@@ -51,10 +51,6 @@ class FileExporterSection(object):
                         binary_field_names.append(field)
                         if not self.condition(item, context=obj, fname=field):
                             continue
-#                        ftype = schema[field].getType()
-#                        if ftype in self.exclude_fieldtypes:
-#                            print '################################ Skipped %s:%s:%s field extraction' % (path, field, ftype)
-#                            continue
                         fname, ct, data = self.extractFile(obj, field)
                         if data == '':
                             # empty file fields have no data and we skip them

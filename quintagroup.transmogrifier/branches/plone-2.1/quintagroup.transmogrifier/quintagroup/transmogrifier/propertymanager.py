@@ -198,10 +198,7 @@ class PropertiesExporterSection(object):
                         node.appendChild(deepcopy(elem))
                 if node.hasChildNodes():
                     doc.appendChild(node)
-                    try:
-                        data = doc.toprettyxml(indent='  ', encoding='utf-8')
-                    except Exception, e:
-                        import pdb;pdb.set_trace()
+                    data = doc.toprettyxml(indent='  ', encoding='utf-8')
                     doc.unlink()
 
                 if data:

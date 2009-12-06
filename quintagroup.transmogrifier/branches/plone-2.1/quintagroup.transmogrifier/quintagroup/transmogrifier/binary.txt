@@ -57,11 +57,15 @@ section.
             'file-fields': {'data': ...,
                             'name': '.file-fields.xml'}},
  '_path': 'spam/eggs/foo'}
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <manifest>
   <field name="file">
-    <filename>archive.tar.gz</filename>
-    <mimetype>application/x-tar</mimetype>
+    <filename>
+      archive.tar.gz
+    </filename>
+    <mimetype>
+      application/x-tar
+    </mimetype>
   </field>
 </manifest>
 <BLANKLINE>

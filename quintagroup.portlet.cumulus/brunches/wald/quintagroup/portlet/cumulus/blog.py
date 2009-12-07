@@ -19,7 +19,12 @@ class QuillsBlogTags(GlobalTags):
         topics = weblog.getTopics()
         tags = []
         for topic in topics:
-            tags.append((topic.getTitle().decode(self.default_charset), len(topic), topic.absolute_url()))
+            title = topic.getTitle()
+            # Before this issue http://plone.org/products/quills/issues/209 in
+            # Quills was fixed, topic title was not a unicode string
+            if not isinstance(title, unicode):
+                title = title.decode(self.default_charset)
+            tags.append((title, len(topic), topic.absolute_url()))
 
         return tags
 

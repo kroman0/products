@@ -17,8 +17,9 @@ class ReferenceExporter(object):
     """
     implements(IExportDataCorrector)
 
-    def __init__(self, context):
+    def __init__(self, context, transmogrifier):
         self.context = context
+        self.transmogrifier = transmogrifier
 
     def __call__(self, data):
         data['data'] = self.exportReferences(data['data'])
@@ -61,8 +62,9 @@ class CriterionExporter(ReferenceExporter):
 
     implements(IExportDataCorrector)
 
-    def __init__(self, context):
+    def __init__(self, context, transmogrifier):
         self.context = context
+        self.transmogrifier = transmogrifier
         self.marshaller = getComponent('atxml')
 
     def __call__(self, data):

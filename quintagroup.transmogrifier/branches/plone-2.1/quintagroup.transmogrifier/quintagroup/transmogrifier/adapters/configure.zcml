@@ -4,21 +4,24 @@
 
     <!-- 'marshall' adapters -->
     <adapter
-        for="plone.app.transmogrifier.interfaces.IBaseObject"
+        for="plone.app.transmogrifier.interfaces.IBaseObject
+             collective.transmogrifier.interfaces.ITransmogrifier"
         provides="..interfaces.IExportDataCorrector"
         factory=".exporting.ReferenceExporter"
         name="marshall"
         />
 
     <adapter
-        for="plone.app.transmogrifier.interfaces.IBaseObject"
+        for="plone.app.transmogrifier.interfaces.IBaseObject
+             collective.transmogrifier.interfaces.ITransmogrifier"
         provides="..interfaces.IImportDataCorrector"
         factory=".importing.ReferenceImporter"
         name="marshall"
         />
 
     <adapter
-        for="..interfaces.IATTopicCriterion"
+        for="..interfaces.IATTopicCriterion
+             collective.transmogrifier.interfaces.ITransmogrifier"
         provides="..interfaces.IExportDataCorrector"
         factory=".exporting.CriterionExporter"
         name="marshall"

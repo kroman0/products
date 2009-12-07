@@ -15,8 +15,9 @@ class ReferenceImporter(object):
     """
     implements(IImportDataCorrector)
 
-    def __init__(self, context):
+    def __init__(self, context, transmogrifier):
         self.context = context
+        self.transmogrifier = transmogrifier
 
     def __call__(self, data):
         # uid = self.context.UID()

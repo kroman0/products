@@ -492,30 +492,33 @@ def dataCorrectorSetUp(test):
     test.globs['plone'] = portal
     test.globs['transmogrifier'].context = test.globs['plone']
 
+    from collective.transmogrifier.interfaces import ITransmogrifier
     from quintagroup.transmogrifier.interfaces import IExportDataCorrector, \
         IImportDataCorrector
 
     class MockExportAdapter(object):
         #implements(IExportDataCorrector)
         #adapts(MockPortal)
-        def __init__(self, context):
+        def __init__(self, context, transmogrifier):
             self.context = context
+            self.transmogrifier = transmogrifier
 
         def __call__(self, data):
             return "modified export data"
 
-    provideAdapter(MockExportAdapter, (IPortal,), IExportDataCorrector, name="marshall")
+    provideAdapter(MockExportAdapter, (IPortal, ITransmogrifier), IExportDataCorrector, name="marshall")
 
     class MockImportAdapter(object):
         #implements(IImportDataCorrector)
         #adapts(MockPortal)
-        def __init__(self, context):
+        def __init__(self, context, transmogrifier):
             self.context = context
+            self.transmogrifier = transmogrifier
 
         def __call__(self, data):
             return "modified import data"
 
-    provideAdapter(MockImportAdapter, (IPortal,), IImportDataCorrector, name="manifest")
+    provideAdapter(MockImportAdapter, (IPortal, ITransmogrifier), IImportDataCorrector, name="manifest")
 
     class DataCorrectorSource(SampleSource):
         classProvides(ISectionBlueprint)

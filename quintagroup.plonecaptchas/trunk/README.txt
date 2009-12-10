@@ -50,6 +50,9 @@ Installation
 
 See docs/INSTALL.txt for instructions.
 
+Note: If Plone Captchas is expected to be used with Plone Comments http://quintagroup.com/services/plone-development/products/plone-comments,
+for proper behavior you have to install Plone Captchas first, and then Plone Comments.
+
 Authors
 -------
 

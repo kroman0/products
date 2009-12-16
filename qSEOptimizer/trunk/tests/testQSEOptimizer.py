@@ -346,7 +346,38 @@ class TestExposeDCMetaTags(PloneTestCase.FunctionalTestCase):
         self.assert_(m, 'DC meta tags not avaliable when createManager=True')
 
 
-TESTS = [TestInstallation, TestResponse, TestExposeDCMetaTags]
+class TestBugs(PloneTestCase.FunctionalTestCase):
+
+    def afterSetUp(self):
+        self.qi = self.portal.portal_quickinstaller
+        self.qi.installProduct(PRODUCT)
+        #self.portal.changeSkin('Plone Default')
+
+        self.basic_auth = 'portal_manager:secret'
+        uf = self.app.acl_users
+        uf.userFolderAddUser('portal_manager', 'secret', ['Manager'], [])
+        user = uf.getUserById('portal_manager')
+        if not hasattr(user, 'aq_base'):
+            user = user.__of__(uf)
+        newSecurityManager(None, user)
+
+    def test_modification_date(self):
+        """ Modification date changing on SEO properties edit """
+        my_doc = self.portal.invokeFactory('Document', id='my_doc')
+        my_doc = self.portal['my_doc']
+
+        md_before = my_doc.modification_date
+        my_doc.qseo_properties_edit(title="New Title")
+        md_after = my_doc.modification_date
+
+        self.assertNotEqual(md_before, md_after)
+
+
+TESTS = [TestInstallation,
+         TestResponse,
+         TestExposeDCMetaTags,
+         TestBugs,
+         ]
 
 def test_suite():
     from unittest import TestSuite, makeSuite

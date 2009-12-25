@@ -24,6 +24,7 @@ setup(name='quintagroup.pagetemplateshrink',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'Zope>=2.10,<=2.11'
           # -*- Extra requirements: -*-
       ],
       entry_points="""

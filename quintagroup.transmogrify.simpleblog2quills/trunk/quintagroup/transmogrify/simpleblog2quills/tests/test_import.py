@@ -13,16 +13,17 @@ from Products.PloneTestCase.layer import onsetup
 from collective.transmogrifier.interfaces import ITransmogrifier
 
 ztc.installProduct('Quills')
+ztc.installProduct('fatsyndication')
 
 @onsetup
 def setup_product():
     fiveconfigure.debug_mode = True
     import Products.Five
     zcml.load_config('configure.zcml', Products.Five)
-    import quintagroup.transmogrifier.simpleblog2quills
-    zcml.load_config('configure.zcml', quintagroup.transmogrifier.simpleblog2quills)
-    import quintagroup.transmogrifier.simpleblog2quills.tests
-    zcml.load_config('test_import.zcml', quintagroup.transmogrifier.simpleblog2quills.tests)
+    import quintagroup.transmogrify.simpleblog2quills
+    zcml.load_config('configure.zcml', quintagroup.transmogrify.simpleblog2quills)
+    import quintagroup.transmogrify.simpleblog2quills.tests
+    zcml.load_config('test_import.zcml', quintagroup.transmogrify.simpleblog2quills.tests)
     # this is needed because 'importStep' unknown directive error is raised somewhere
     import Products.GenericSetup
     zcml.load_config('meta.zcml', Products.GenericSetup)

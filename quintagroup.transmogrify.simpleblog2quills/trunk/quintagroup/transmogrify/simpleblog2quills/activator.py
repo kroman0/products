@@ -17,7 +17,7 @@ except ImportError:
     # plone 2.1, because zcml:condition attribute in zcml doesn't work
     pass
 
-from quintagroup.transmogrifier.simpleblog2quills.adapters import IMAGE_FOLDER
+from quintagroup.transmogrify.simpleblog2quills.adapters import IMAGE_FOLDER
 
 class BlogActivatorSection(object):
     classProvides(ISectionBlueprint)

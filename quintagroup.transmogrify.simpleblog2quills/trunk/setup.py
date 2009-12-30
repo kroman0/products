@@ -3,7 +3,7 @@ import os
 
 version = '0.1'
 
-setup(name='quintagroup.transmogrifier.simpleblog2quills',
+setup(name='quintagroup.transmogrify.simpleblog2quills',
       version=version,
       description="Configuration of collective.transmogrifier pipeline for migrating SimpleBlog content to Quills content",
       long_description=open("README.txt").read() + "\n" +
@@ -19,7 +19,7 @@ setup(name='quintagroup.transmogrifier.simpleblog2quills',
       url='',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
-      namespace_packages=['quintagroup', 'quintagroup.transmogrifier'],
+      namespace_packages=['quintagroup', 'quintagroup.transmogrify'],
       include_package_data=True,
       zip_safe=False,
       install_requires=[

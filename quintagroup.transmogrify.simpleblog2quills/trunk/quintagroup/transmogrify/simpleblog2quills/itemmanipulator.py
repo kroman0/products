@@ -4,7 +4,7 @@ from zope.component import queryAdapter
 from collective.transmogrifier.interfaces import ISection, ISectionBlueprint
 from collective.transmogrifier.utils import defaultMatcher
 
-from quintagroup.transmogrifier.simpleblog2quills.interfaces import \
+from quintagroup.transmogrify.simpleblog2quills.interfaces import \
     IItemManipulator, IExportItemManipulator, IImportItemManipulator
 
 class ItemManipulatorSection(object):

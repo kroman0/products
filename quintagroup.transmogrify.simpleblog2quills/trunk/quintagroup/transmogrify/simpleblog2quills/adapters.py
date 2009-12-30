@@ -17,7 +17,7 @@ from quintagroup.transmogrifier.adapters.exporting import ReferenceExporter
 from quintagroup.transmogrifier.manifest import ManifestExporterSection
 from quintagroup.transmogrifier.logger import VALIDATIONKEY
 
-from quintagroup.transmogrifier.simpleblog2quills.interfaces import IExportItemManipulator, IBlog
+from quintagroup.transmogrify.simpleblog2quills.interfaces import IExportItemManipulator, IBlog
 
 # URL of the site, where blog is located (this is needed to fix links in entries)
 SITE_URLS = []

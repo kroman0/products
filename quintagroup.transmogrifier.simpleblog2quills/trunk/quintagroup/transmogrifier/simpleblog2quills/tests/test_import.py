@@ -13,6 +13,7 @@ from Products.PloneTestCase.layer import onsetup
 from collective.transmogrifier.interfaces import ITransmogrifier
 
 ztc.installProduct('Quills')
+ztc.installProduct('fatsyndication')
 
 @onsetup
 def setup_product():

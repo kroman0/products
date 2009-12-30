@@ -7,11 +7,11 @@ from Products.Five import zcml
 from collective.transmogrifier.tests import tearDown
 from quintagroup.transmogrifier.tests import sectionsSetUp
 
-import quintagroup.transmogrify.simpleblog2quills.tests
+import quintagroup.transmogrifier.simpleblog2quills.tests
 
 def sourceSetUp(test):
     sectionsSetUp(test)
-    zcml.load_config('test_import.zcml', quintagroup.transmogrify.simpleblog2quills.tests)
+    zcml.load_config('test_import.zcml', quintagroup.transmogrifier.simpleblog2quills.tests)
 
 def test_suite():
     suite = unittest.TestSuite()

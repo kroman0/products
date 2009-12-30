@@ -8,7 +8,7 @@ Test source section
 ...     printer
 ... 
 ... [source]
-... blueprint = quintagroup.transmogrify.simpleblog2quills.tests.source
+... blueprint = quintagroup.transmogrifier.simpleblog2quills.tests.source
 ... source = marshall
 ... items =
 ...     not-existing;       Document;   not-existing-path
@@ -18,8 +18,8 @@ Test source section
 ... [printer]
 ... blueprint = collective.transmogrifier.sections.tests.pprinter
 ... """
->>> registerConfig(u'quintagroup.transmogrify.simpleblog2quills.tests.source', source)
->>> transmogrifier(u'quintagroup.transmogrify.simpleblog2quills.tests.source') # doctest: +ELLIPSIS, +REPORT_NDIFF
+>>> registerConfig(u'quintagroup.transmogrifier.simpleblog2quills.tests.source', source)
+>>> transmogrifier(u'quintagroup.transmogrifier.simpleblog2quills.tests.source') # doctest: +ELLIPSIS, +REPORT_NDIFF
 {'_files': {'marshall': {'data': ...}},
  '_path': 'plone-blog',
  '_type': 'Blog'}
@@ -33,7 +33,7 @@ Now we are testing ``allow-empty-items`` option:
 ...     printer
 ... 
 ... [source]
-... blueprint = quintagroup.transmogrify.simpleblog2quills.tests.source
+... blueprint = quintagroup.transmogrifier.simpleblog2quills.tests.source
 ... allow-empty-items = yes
 ... source = marshall
 ... items =
@@ -44,8 +44,8 @@ Now we are testing ``allow-empty-items`` option:
 ... [printer]
 ... blueprint = collective.transmogrifier.sections.tests.pprinter
 ... """
->>> registerConfig(u'quintagroup.transmogrify.simpleblog2quills.tests.source-with-empties', source)
->>> transmogrifier(u'quintagroup.transmogrify.simpleblog2quills.tests.source-with-empties') # doctest: +ELLIPSIS, +REPORT_NDIFF
+>>> registerConfig(u'quintagroup.transmogrifier.simpleblog2quills.tests.source-with-empties', source)
+>>> transmogrifier(u'quintagroup.transmogrifier.simpleblog2quills.tests.source-with-empties') # doctest: +ELLIPSIS, +REPORT_NDIFF
 {'_type': 'Document', '_path': 'not-existing'}
 {'_type': 'File', '_path': 'not-existing'}
 {'_files': {'marshall': {'data': ...}},

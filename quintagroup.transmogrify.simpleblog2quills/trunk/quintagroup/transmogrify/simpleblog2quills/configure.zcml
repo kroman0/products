@@ -3,7 +3,7 @@
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
-    i18n_domain="quintagroup.transmogrifier.simpleblog2quills">
+    i18n_domain="quintagroup.transmogrify.simpleblog2quills">
 
     <include package="quintagroup.transmogrifier" />
     <include package="quintagroup.transmogrifier" file="meta.zcml" />
@@ -18,7 +18,7 @@
 
         <utility
             component=".adapters.ImageFolderSection"
-            name="quintagroup.transmogrifier.simpleblog2quills.imagefolder"
+            name="quintagroup.transmogrify.simpleblog2quills.imagefolder"
             provides="collective.transmogrifier.interfaces.ISectionBlueprint"
             />
 
@@ -147,7 +147,7 @@
         />
 
     <adapter
-        for="quintagroup.transmogrifier.simpleblog2quills.interfaces.IBaseObject"
+        for="quintagroup.transmogrify.simpleblog2quills.interfaces.IBaseObject"
         provides="quintagroup.transmogrifier.interfaces.IImportDataCorrector"
         factory=".adapters.WorkflowImporter"
         name="marshall"
@@ -157,7 +157,7 @@
 
         <utility
             component=".activator.BlogActivatorSection"
-            name="quintagroup.transmogrifier.simpleblog2quills.activator"
+            name="quintagroup.transmogrify.simpleblog2quills.activator"
             provides="collective.transmogrifier.interfaces.ISectionBlueprint"
             />
 

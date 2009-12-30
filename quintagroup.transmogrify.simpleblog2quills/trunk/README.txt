@@ -1,4 +1,4 @@
-quintagroup.transmogrifier.simpleblog2quills
+quintagroup.transmogrify.simpleblog2quills
 ============================================
 
 Overview
@@ -25,7 +25,7 @@ This package was designed to work and tested on next Plone versions:
     images/files are needed and these are done automatically. There is only 
     problem with absolute links, because site URL isn't known. To make it possible
     to fix absolute links please edit export configuration file 'export.cfg',
-    which is located in 'quintagroup/transmogrifier/simpleblog2quills' folder.
+    which is located in 'quintagroup.transmogrify.simpleblog2quills' folder.
     Find in that file line that starts with "site-urls = " and change values
     that come after it to your site URL.
 
@@ -33,7 +33,7 @@ This package was designed to work and tested on next Plone versions:
 
     Quills_ or QuillsEnabled_ plone product is required. When migrating blog to 
     QuillsEnabled please edit import configuration file 'import.cfg' located in
-    'quintagroup/transmogrifier/simpleblog2quills' folder (comments in that file 
+    'quintagroup.transmogrify.simpleblog2quills' folder (comments in that file 
     will guide you through necessary modifications) and install this product in
     QuickInstaller (this will enable 'Large Folder' content type and change 
     workflow settings for content types).
@@ -45,7 +45,7 @@ Running tests
 
     Run next command:
 
-    bin/instance test -s quintagroup.transmogrifier.simpleblog2quills \
+    bin/instance test -s quintagroup.transmogrify.simpleblog2quills \
         -m test_import
 
 Credits

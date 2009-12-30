@@ -1,0 +1,166 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
+    i18n_domain="quintagroup.transmogrifier.simpleblog2quills">
+
+    <include package="quintagroup.transmogrifier" />
+    <include package="quintagroup.transmogrifier" file="meta.zcml" />
+
+    <utility
+        component=".itemmanipulator.ItemManipulatorSection"
+        name="quintagroup.transmogrifier.itemmanipulator"
+        provides="collective.transmogrifier.interfaces.ISectionBlueprint"
+        />
+
+    <configure zcml:condition="installed Products.SimpleBlog">
+
+        <utility
+            component=".adapters.ImageFolderSection"
+            name="quintagroup.transmogrifier.simpleblog2quills.imagefolder"
+            provides="collective.transmogrifier.interfaces.ISectionBlueprint"
+            />
+
+        <!-- In Plone 2.1 overrides.zcml isn't loaded, but conflicting configuration
+             actions wouldn't raise error on startup - the latest directive will
+             override previous -->
+        <transmogrifier:registerConfig
+            name="export"
+            title="Export pipeline configuration"
+            description="Customized for SimpleBlog/Quills content types content export pipeline."
+            configuration="export.cfg"
+            />
+
+        <!-- mark blog and blog entry objects so we can register export adapters for them -->
+
+        <five:implements
+            class="Products.SimpleBlog.content.Blog"
+            interface=".interfaces.IBlog"
+            />
+
+        <five:implements
+            class="Products.SimpleBlog.content.BlogFolder"
+            interface=".interfaces.IBlogFolder"
+            />
+
+        <five:implements
+            class="Products.SimpleBlog.content.BlogEntry"
+            interface=".interfaces.IBlogEntry"
+            />
+
+        <five:implements
+            class="Products.ATContentTypes.content.file.ATFile"
+            interface="quintagroup.transmogrifier.interfaces.IATFile"
+            />
+
+        <five:implements
+            class="Products.ATContentTypes.content.image.ATImage"
+            interface="quintagroup.transmogrifier.interfaces.IATImage"
+            />
+
+        <!-- 'datacorrector' section adapters -->
+        <adapter
+            for=".interfaces.IBlog"
+            provides="quintagroup.transmogrifier.interfaces.IExportDataCorrector"
+            factory=".adapters.BlogManifest"
+            name="manifest"
+            />
+
+        <adapter
+            for=".interfaces.IBlogFolder"
+            provides="quintagroup.transmogrifier.interfaces.IExportDataCorrector"
+            factory=".adapters.BlogFolderManifest"
+            name="manifest"
+            />
+
+        <adapter
+            for=".interfaces.IBlogEntry"
+            provides="quintagroup.transmogrifier.interfaces.IExportDataCorrector"
+            factory=".adapters.BlogEntryExporter"
+            name="marshall"
+            />
+
+        <!-- 'itemmanipulator' section adapter -->
+        <adapter
+            for=".interfaces.IBlogEntry"
+            provides=".interfaces.IExportItemManipulator"
+            factory=".adapters.BlogEntryManifest"
+            />
+
+        <adapter
+            for="quintagroup.transmogrifier.interfaces.IATFile"
+            provides=".interfaces.IExportItemManipulator"
+            factory=".adapters.PathRewriter"
+            />
+
+        <adapter
+            for="quintagroup.transmogrifier.interfaces.IATImage"
+            provides=".interfaces.IExportItemManipulator"
+            factory=".adapters.PathRewriter"
+            />
+
+    </configure>
+
+    <!-- next is for importing -->
+    <transmogrifier:stylesheet
+        source="marshall"
+        from="Blog"
+        to="Weblog"
+        file="blog-weblog.xsl"
+        />
+
+    <transmogrifier:stylesheet
+        source="marshall"
+        from="BlogEntry"
+        to="WeblogEntry"
+        file="blogentry-weblogentry.xsl"
+        />
+
+    <transmogrifier:stylesheet
+        source="marshall"
+        from="BlogFolder"
+        to="Folder"
+        file="blogfolder-folder.xsl"
+        />
+
+    <!-- next stylesheets are used when migrating to QuillsEnabled -->
+    <transmogrifier:stylesheet
+        source="marshall"
+        from="Blog"
+        to="Large Plone Folder"
+        file="blog-largefolder.xsl"
+        />
+
+    <transmogrifier:stylesheet
+        source="marshall"
+        from="BlogFolder"
+        to="Large Plone Folder"
+        file="blogfolder-largefolder.xsl"
+        />
+
+    <transmogrifier:stylesheet
+        source="marshall"
+        from="BlogEntry"
+        to="Document"
+        file="blogentry-document.xsl"
+        />
+
+    <adapter
+        for="quintagroup.transmogrifier.simpleblog2quills.interfaces.IBaseObject"
+        provides="quintagroup.transmogrifier.interfaces.IImportDataCorrector"
+        factory=".adapters.WorkflowImporter"
+        name="marshall"
+        />
+
+    <configure zcml:condition="installed Products.QuillsEnabled">
+
+        <utility
+            component=".activator.BlogActivatorSection"
+            name="quintagroup.transmogrifier.simpleblog2quills.activator"
+            provides="collective.transmogrifier.interfaces.ISectionBlueprint"
+            />
+
+    </configure>
+
+</configure>

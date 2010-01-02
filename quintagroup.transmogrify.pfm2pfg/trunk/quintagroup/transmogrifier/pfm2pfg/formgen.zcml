@@ -1,0 +1,75 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope">
+
+    <!-- export data correctors -->
+    <!-- FormFolder adapter -->
+    <adapter
+        for="Products.PloneFormGen.interfaces.IPloneFormGenForm
+            collective.transmogrifier.interfaces.ITransmogrifier"
+        factory=".importing.FormFolderImporter"
+        name="marshall"
+        />
+
+    <!-- default adapter -->
+    <adapter
+        for="Products.PloneFormGen.interfaces.IPloneFormGenField"
+        factory=".importing.BaseFieldDemarshaller"
+        />
+
+    <!-- custom adapters -->
+    <adapter
+        for="Products.PloneFormGen.content.fields.FGStringField"
+        factory=".importing.StringFieldDemarshaller"
+        />
+
+    <adapter
+        for="Products.PloneFormGen.content.fields.FGTextField"
+        factory=".importing.TextFieldDemarshaller"
+        />
+
+    <adapter
+        for="Products.PloneFormGen.content.fields.FGRichLabelField"
+        factory=".importing.LabelFieldDemarshaller"
+        />
+
+    <adapter
+        for="Products.PloneFormGen.content.fields.FGPasswordField"
+        factory=".importing.StringFieldDemarshaller"
+        />
+
+    <adapter
+        for="Products.PloneFormGen.content.fields.FGIntegerField"
+        factory=".importing.IntegerFieldDemarshaller"
+        />
+
+    <adapter
+        for="Products.PloneFormGen.content.fields.FGFixedPointField"
+        factory=".importing.StringFieldDemarshaller"
+        />
+
+    <adapter
+        for="Products.PloneFormGen.content.fields.FGDateField"
+        factory=".importing.DateTimeFieldDemarshaller"
+        />
+
+    <adapter
+        for="Products.PloneFormGen.content.fields.FGLinesField"
+        factory=".importing.LinesFieldDemarshaller"
+        />
+
+    <adapter
+        for="Products.PloneFormGen.content.fields.FGBooleanField"
+        factory=".importing.BooleanFieldDemarshaller"
+        />
+
+    <adapter
+        for="Products.PloneFormGen.content.fields.FGSelectionField"
+        factory=".importing.SelectionFieldDemarshaller"
+        />
+
+    <adapter
+        for="Products.PloneFormGen.content.fields.FGMultiSelectField"
+        factory=".importing.MultiSelectFieldDemarshaller"
+        />
+
+</configure>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata xmlns="http://plone.org/ns/archetypes/" xmlns:cmf="http://cmf.zope.org/namespaces/default/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xmp="adobe:ns:meta">
+<form>
+  <title>PFM Formulator</title>
+  <row_length>4</row_length>
+  <name>form</name>
+  <action></action>
+  <method>POST</method>
+  <enctype></enctype>
+  <encoding>UTF-8</encoding>
+  <stored_encoding>ISO-8859-1</stored_encoding>
+  <unicode_mode>false</unicode_mode>
+  <i18n_domain></i18n_domain>
+  <groups>
+    <group>
+      <title>Default</title>
+      <fields>
+
+      <field><id>checkbox</id> <type>CheckBoxField</type>
+        <values>
+          <alternate_name></alternate_name>
+          <css_class></css_class>
+          <default type="int">1</default>
+          <description>simple checkbox field</description>
+          <enabled type="int">1</enabled>
+          <external_validator></external_validator>
+          <extra></extra>
+          <hidden type="int">0</hidden>
+          <title>checkbox</title>
+        </values>
+        <tales>
+        </tales>
+        <messages>
+          <message name="external_validator_failed">The input failed the external validator.</message>
+        </messages>
+      </field>
+      <field><id>datetime</id> <type>DateTimeField</type>
+        <values>
+          <allow_empty_time type="int">0</allow_empty_time>
+          <alternate_name></alternate_name>
+          <ampm_time_style type="int">1</ampm_time_style>
+          <css_class></css_class>
+          <date_only type="int">0</date_only>
+          <date_separator>/</date_separator>
+          <default type="datetime">2005/12/01 13:25:00 GMT+2</default>
+          <default_now type="int">0</default_now>
+          <description>datetime field</description>
+          <enabled type="int">1</enabled>
+          <end_datetime type="datetime">2010/12/10 12:10:00 GMT+2</end_datetime>
+          <external_validator></external_validator>
+          <hidden type="int">0</hidden>
+          <hide_day type="int">0</hide_day>
+          <input_order>ymd</input_order>
+          <input_style>list</input_style>
+          <required type="int">0</required>
+          <start_datetime type="datetime">2005/10/10 12:10:00 GMT+3</start_datetime>
+          <time_separator>:</time_separator>
+          <title>datetime</title>
+        </values>
+        <tales>
+        </tales>
+        <messages>
+          <message name="external_validator_failed">The input failed the external validator.</message>
+          <message name="required_not_found">Input is required but no input given.</message>
+          <message name="not_datetime">You did not enter a valid date and time.</message>
+          <message name="datetime_out_of_range">The date and time you entered were out of range.</message>
+        </messages>
+      </field>
+      </fields>
+    </group>
+    <group>
+      <title>Other</title>
+      <fields>
+
+      <field><id>email</id> <type>EmailField</type>
+        <values>
+          <alternate_name></alternate_name>
+          <css_class></css_class>
+          <default></default>
+          <description>email field</description>
+          <display_maxwidth></display_maxwidth>
+          <display_width type="int">20</display_width>
+          <enabled type="int">1</enabled>
+          <external_validator></external_validator>
+          <extra></extra>
+          <hidden type="int">0</hidden>
+          <max_length></max_length>
+          <required type="int">0</required>
+          <title>email</title>
+          <truncate type="int">0</truncate>
+          <unicode type="int">0</unicode>
+          <whitespace_preserve type="int">0</whitespace_preserve>
+        </values>
+        <tales>
+        </tales>
+        <messages>
+          <message name="external_validator_failed">The input failed the external validator.</message>
+          <message name="required_not_found">Input is required but no input given.</message>
+          <message name="too_long">Too much input was given.</message>
+          <message name="not_email">You did not enter an email address.</message>
+        </messages>
+      </field>
+      <field><id>float</id> <type>FloatField</type>
+        <values>
+          <alternate_name></alternate_name>
+          <css_class></css_class>
+          <default>3.14</default>
+          <description>float field</description>
+          <display_maxwidth></display_maxwidth>
+          <display_width type="int">20</display_width>
+          <enabled type="int">1</enabled>
+          <external_validator></external_validator>
+          <extra></extra>
+          <hidden type="int">0</hidden>
+          <required type="int">0</required>
+          <title>float</title>
+          <whitespace_preserve type="int">0</whitespace_preserve>
+        </values>
+        <tales>
+        </tales>
+        <messages>
+          <message name="external_validator_failed">The input failed the external validator.</message>
+          <message name="required_not_found">Input is required but no input given.</message>
+          <message name="not_float">You did not enter a floating point number.</message>
+        </messages>
+      </field>
+      <field><id>string</id> <type>StringField</type>
+        <values>
+          <alternate_name></alternate_name>
+          <css_class></css_class>
+          <default>value</default>
+          <description>description</description>
+          <display_maxwidth></display_maxwidth>
+          <display_width type="int">20</display_width>
+          <enabled type="int">1</enabled>
+          <external_validator></external_validator>
+          <extra></extra>
+          <hidden type="int">0</hidden>
+          <max_length></max_length>
+          <required type="int">0</required>
+          <title>String field</title>
+          <truncate type="int">0</truncate>
+          <unicode type="int">1</unicode>
+          <whitespace_preserve type="int">0</whitespace_preserve>
+        </values>
+        <tales>
+          <default>string:Default</default>
+        </tales>
+        <messages>
+          <message name="external_validator_failed">The input failed the external validator.</message>
+          <message name="required_not_found">Input is required but no input given.</message>
+          <message name="too_long">Too much input was given.</message>
+        </messages>
+      </field>
+      </fields>
+    </group>
+  </groups>
+</form>
+</metadata>

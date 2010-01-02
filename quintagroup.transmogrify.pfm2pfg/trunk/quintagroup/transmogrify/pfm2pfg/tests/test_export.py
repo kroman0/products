@@ -15,7 +15,7 @@ except ImportError:
 # next condition is required, because a test preparation
 # raises errors on Plone 3+
 if HAS_PFM:
-    from quintagroup.transmogrifier.pfm2pfg.exporting import PloneFormMailerExporter
+    from quintagroup.transmogrify.pfm2pfg.exporting import PloneFormMailerExporter
 
     ZopeTestCase.installProduct('Formulator')
     ZopeTestCase.installProduct('MimetypesRegistry')

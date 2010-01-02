@@ -1,4 +1,4 @@
-quintagroup.transmogrifier.pfm2pfg Package Readme
+quintagroup.transmogrify.pfm2pfg Package Readme
 =================================================
 
 Overview
@@ -34,13 +34,13 @@ Running tests
     Remove or rename ``test_import.py`` in package's tests directory because
     this test module depends on Plone 3.1. And run next:
 
-    bin/instance test --libdir path/to/quintagroup.transmogrifier.pfm2pfg
+    bin/instance test --libdir path/to/quintagroup.transmogrify.pfm2pfg
 
  - Plone 3.1.5
 
     Run next command:
 
-    bin/instance test -s quintagroup.transmogrifier.pfm2pfg -m test_import
+    bin/instance test -s quintagroup.transmogrify.pfm2pfg -m test_import
 
 Credits
 -------

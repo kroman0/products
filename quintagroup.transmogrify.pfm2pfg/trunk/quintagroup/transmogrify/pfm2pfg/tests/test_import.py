@@ -58,10 +58,10 @@ ztc.installProduct('PloneFormGen')
 @onsetup
 def setup_product():
     fiveconfigure.debug_mode = True
-    import quintagroup.transmogrifier.pfm2pfg
-    zcml.load_config('configure.zcml', quintagroup.transmogrifier.pfm2pfg)
-    import quintagroup.transmogrifier.pfm2pfg.tests
-    zcml.load_config('test_import.zcml', quintagroup.transmogrifier.pfm2pfg.tests)
+    import quintagroup.transmogrify.pfm2pfg
+    zcml.load_config('configure.zcml', quintagroup.transmogrify.pfm2pfg)
+    import quintagroup.transmogrify.pfm2pfg.tests
+    zcml.load_config('test_import.zcml', quintagroup.transmogrify.pfm2pfg.tests)
     fiveconfigure.debug_mode = False
 
 setup_product()

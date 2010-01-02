@@ -1,11 +1,11 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
-    i18n_domain="quintagroup.transmogrifier.pfm2pfg">
+    i18n_domain="quintagroup.transmogrify.pfm2pfg">
 
     <utility
         component=".test_import.Source"
-        name="quintagroup.transmogrifier.pfm2pfg.tests.source"
+        name="quintagroup.transmogrify.pfm2pfg.tests.source"
         />
 
     <transmogrifier:registerConfig

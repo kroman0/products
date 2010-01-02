@@ -1,8 +1,8 @@
-Changelog for quintagroup.transmogrifier.pfm2pfg
+Changelog for quintagroup.transmogrify.pfm2pfg
 
     (name of developer listed in brackets)
 
-quintagroup.transmogrifier.pfm2pfg - 0.1 Unreleased
+quintagroup.transmogrify.pfm2pfg - 0.1 Unreleased
 
     - Initial package structure.
       [zopeskel]

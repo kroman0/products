@@ -3,7 +3,7 @@ import os
 
 version = '0.1'
 
-setup(name='quintagroup.transmogrifier.pfm2pfg',
+setup(name='quintagroup.transmogrify.pfm2pfg',
       version=version,
       description="Configuration of collective.transmogrifier pipeline for migrating PloneFormMailer content to PloneFormGen content",
       long_description=open("README.txt").read() + "\n" +
@@ -20,7 +20,7 @@ setup(name='quintagroup.transmogrifier.pfm2pfg',
       url='',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
-      namespace_packages=['quintagroup', 'quintagroup.transmogrifier'],
+      namespace_packages=['quintagroup'],
       include_package_data=True,
       zip_safe=False,
       install_requires=[

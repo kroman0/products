@@ -6,28 +6,37 @@ from Testing import ZopeTestCase
 from Products.CMFPlone.tests.PloneTestCase import PloneTestCase
 from Products.Marshall.registry import getComponent
 
-from quintagroup.transmogrifier.pfm2pfg.exporting import PloneFormMailerExporter
+try:
+    import Products.PloneFormMailer
+    HAS_PFM = True
+except ImportError:
+    HAS_PFM = False
 
-ZopeTestCase.installProduct('Formulator')
-ZopeTestCase.installProduct('MimetypesRegistry')
-ZopeTestCase.installProduct('PortalTransforms')
-ZopeTestCase.installProduct('Archetypes')
-ZopeTestCase.installProduct('PloneFormMailer')
-ZopeTestCase.installProduct('TALESField')
+# next condition is required, because a test preparation
+# raises errors on Plone 3+
+if HAS_PFM:
+    from quintagroup.transmogrifier.pfm2pfg.exporting import PloneFormMailerExporter
 
-def setupPloneFormMailerTestCase(app, quiet=0):
-    get_transaction().begin()
-    _start = time.time()
-    if not quiet:
-        ZopeTestCase._print('Adding PloneFormMailer ... ')
-    app.portal.portal_quickinstaller.installProduct('PloneFormMailer')
-    get_transaction().commit()
-    if not quiet:
-        ZopeTestCase._print('done (%.3fs)\n' % (time.time()-_start,))
+    ZopeTestCase.installProduct('Formulator')
+    ZopeTestCase.installProduct('MimetypesRegistry')
+    ZopeTestCase.installProduct('PortalTransforms')
+    ZopeTestCase.installProduct('Archetypes')
+    ZopeTestCase.installProduct('PloneFormMailer')
+    ZopeTestCase.installProduct('TALESField')
 
-app = ZopeTestCase.app()
-setupPloneFormMailerTestCase(app, quiet=True)
-ZopeTestCase.close(app)
+    def setupPloneFormMailerTestCase(app, quiet=0):
+        get_transaction().begin()
+        _start = time.time()
+        if not quiet:
+            ZopeTestCase._print('Adding PloneFormMailer ... ')
+        app.portal.portal_quickinstaller.installProduct('PloneFormMailer')
+        get_transaction().commit()
+        if not quiet:
+            ZopeTestCase._print('done (%.3fs)\n' % (time.time()-_start,))
+
+    app = ZopeTestCase.app()
+    setupPloneFormMailerTestCase(app, quiet=True)
+    ZopeTestCase.close(app)
 
 class TestExport(PloneTestCase):
     """Test case for proping up a test portal."""

@@ -3,7 +3,7 @@
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
-    i18n_domain="quintagroup.pfm2pfg">
+    i18n_domain="quintagroup.transmogrifier.pfm2pfg">
 
     <include package="quintagroup.transmogrifier" file="meta.zcml" />
     <include package="quintagroup.transmogrifier" />

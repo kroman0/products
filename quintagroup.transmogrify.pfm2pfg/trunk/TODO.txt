@@ -1,0 +1,8 @@
+TODO
+====
+
+- Importing enhancements:
+
+  - add handling of TALES expressions on updating PloneFormGen fields
+
+  - PloneFormMailer's PatternField is imported as StringField (it wouldn't work correctly)

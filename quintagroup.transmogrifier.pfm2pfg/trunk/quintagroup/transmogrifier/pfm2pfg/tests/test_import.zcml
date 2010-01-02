@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier">
+    xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
+    i18n_domain="quintagroup.transmogrifier.pfm2pfg">
 
     <utility
         component=".test_import.Source"

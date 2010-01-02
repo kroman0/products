@@ -4,7 +4,8 @@
     <!-- export data correctors -->
     <!-- FormFolder adapter -->
     <adapter
-        for="Products.PloneFormGen.interfaces.IPloneFormGenForm"
+        for="Products.PloneFormGen.interfaces.IPloneFormGenForm
+            collective.transmogrifier.interfaces.ITransmogrifier"
         factory=".importing.FormFolderImporter"
         name="marshall"
         />

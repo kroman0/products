@@ -58,7 +58,7 @@ class FormFolderImporter(ReferenceImporter):
     """
     implements(IImportDataCorrector)
 
-    def __init__(self, context):
+    def __init__(self, context, transmogrifier):
         self.context = context
         self.demarshaller = getComponent("atxml")
         self.auto_added_fgfields = ['replyto', 'topic', 'comments']
@@ -67,7 +67,6 @@ class FormFolderImporter(ReferenceImporter):
     def __call__(self, data):
         data = super(FormFolderImporter, self).__call__(data)
         xml = data['data']
-
         data['data'] = self.transformWithMinidom(xml)
 
         # update FormMailerAdapter and FormThanksPage objects
@@ -224,8 +223,6 @@ class FormFolderImporter(ReferenceImporter):
             IXMLDemarshaller(field).demarshall(field_node, **options)
         except ConflictError:
             raise
-        except Exception, e:
-            return
 
     def createFieldset(self, title):
         """ Create FieldsetFolder with id=title

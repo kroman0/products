@@ -3,7 +3,7 @@ import os
 
 version = '0.1'
 
-setup(name='quintagroup.zopeskel.blayout',
+setup(name='quintagroup.zopeskel.blayer',
       version=version,
       description="Browser Layout subtemplate for Archetype template",
       long_description=open("README.txt").read() + "\n" +
@@ -15,7 +15,7 @@ setup(name='quintagroup.zopeskel.blayout',
       keywords='ZopeSkel archetype subtemplate',
       author='Quintagroup',
       author_email='mylan at quintagroup.com',
-      url='http://svn.quintagroup.com/paroducts/quintagroup.zopeskel.blayout',
+      url='http://svn.quintagroup.com/products/quintagroup.zopeskel.blayer',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['quintagroup', 'quintagroup.zopeskel'],

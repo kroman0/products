@@ -6,7 +6,7 @@ version = '0.1'
 setup(name='quintagroup.zopeskel.blayer',
       version=version,
       description="Browser Layout subtemplate for Archetype template",
-      long_description=open("README.txt").read() + "\n" +
+      long_description=open(os.path.join("docs", "README.txt")).read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
@@ -22,10 +22,14 @@ setup(name='quintagroup.zopeskel.blayer',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          'setuptools',
+          'ZopeSkel',
+          'PasteScript>=1.6.3',
           # -*- Extra requirements: -*-
       ],
+      setup_requires=['setuptools',],
       entry_points="""
+      [zopeskel.zopeskel_sub_template]
+      browserlayer = quintagroup.zopeskel.blayer:BrowserLayer
       # -*- Entry points: -*-
       """,
       )

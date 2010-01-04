@@ -1,0 +1,6 @@
+from zope.interface import Interface
+
+class $(layer_interface)(Interface):
+    """Marker interface that defines browser layer for the package."""
+
+

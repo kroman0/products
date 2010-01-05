@@ -1,4 +1,5 @@
-#
+from zope.tal.htmltalparser import HTMLTALParser
+from zope.tal.talgenerator import TALGenerator
 from zope.pagetemplate import pagetemplate
 
 import re
@@ -34,5 +35,5 @@ def cook(self):
     self._v_warnings = parser.getWarnings()
     self._v_cooked = 1
 
-pagetemplate.PageTemplate._old_cook = pagetemplate.PageTemplate._old_cook
+pagetemplate.PageTemplate._old_cook = pagetemplate.PageTemplate._cook
 pagetemplate.PageTemplate._cook = cook

@@ -3,6 +3,8 @@ import os
 
 version = '0.1'
 
+tests_require=['zope.testing']
+
 setup(name='quintagroup.zopeskel.blayer',
       version=version,
       description="Browser Layout subtemplate for Archetype template",
@@ -26,6 +28,9 @@ setup(name='quintagroup.zopeskel.blayer',
           'PasteScript>=1.6.3',
           # -*- Extra requirements: -*-
       ],
+      tests_require=tests_require,
+      extras_require=dict(tests=tests_require),
+      test_suite = 'quintagroup.zopeskel.blayer.tests.test_suite',
       setup_requires=['setuptools',],
       entry_points="""
       [zopeskel.zopeskel_sub_template]

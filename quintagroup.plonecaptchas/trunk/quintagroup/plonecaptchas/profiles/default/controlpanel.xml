@@ -4,7 +4,7 @@
         xmlns:i18n="http://xml.zope.org/namespaces/i18n"
         i18n:domain="quintagroup.plonecaptchas">
   <configlet title="Plone captchas setup"
-             action_id="prefs_captchas_setup_form"
+             action_id="qpc_tool"
              appId="quintagroup.plonecaptchas"
              category="Products"
              condition_expr=""

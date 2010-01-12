@@ -1,5 +1,6 @@
 from zope.tal.htmltalparser import HTMLTALParser
 from zope.tal.talgenerator import TALGenerator
+from zope.tal.talparser import TALParser
 from zope.pagetemplate import pagetemplate
 
 import re

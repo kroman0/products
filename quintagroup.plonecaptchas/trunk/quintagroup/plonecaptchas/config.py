@@ -9,7 +9,8 @@ LAYER_DYNAMIC_CAPTCHAS = 'plone_captchas/dynamic'
 LAYER_STATIC_CAPTCHAS = 'plone_captchas/static'
 ALL_LAYERS = LAYERS + [LAYER_STATIC_CAPTCHAS, LAYER_DYNAMIC_CAPTCHAS]
 
-TOOL_ICON = 'tool.gif'
+#TOOL_ICON = 'tool.gif'
+TOOL_ICON = 'skins/plone_captchas/tool.gif'
 TOOL_ID = 'portal_captchas'
 CONFIGLET_ID = "prefs_captchas_setup_form"
 PROPERTY_SHEET = 'qPloneCaptchas'

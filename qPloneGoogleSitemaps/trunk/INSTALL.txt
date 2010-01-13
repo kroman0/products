@@ -1,0 +1,26 @@
+Plone Google Sitemaps Installation
+==================================
+
+qPloneGoogleSitemaps can be installed as an old-type Plone product.
+
+  1. Download product archive from  http://plone.org/products/qplonegooglesitemaps/
+  
+  2. Unpack it to get "qPloneGoogleSitemaps" folder. 
+
+  3. If you are using buildout-based instance - put "qPloneGoogleSitemaps" folder into the 
+     "products" folder of your instance, re-run buildout and restart Zope server.
+
+     If you are using traditional instance - put "qPloneGoogleSitemaps" folder into the "Products" 
+     folder of your instance and restart Zope server.
+
+  4. Go to your Plone Site "Site Setup" area 
+  
+  5. Choose "Add/Remove Products" item in the Plone Configuration list
+  
+  6. Select "Plone Google Sitemaps" product among products available for installation
+  
+  7. Press the Install button below the table
+  
+  8. Make sure the product appeared in the right column of installed products and "Google Sitemaps" 
+     appeared under Add-on Products Configuration.
+

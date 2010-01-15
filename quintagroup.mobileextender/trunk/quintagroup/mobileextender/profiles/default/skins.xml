@@ -5,11 +5,12 @@
     meta_type="Filesystem Directory View"
     directory="quintagroup.mobileextender:skins/mobile_extender"/>
 
-
+<!--
  <skin-path name="*">
    <layer name="mobile_extender"
           insert-after="custom"/>
 
  </skin-path>
+-->
 
 </object>

@@ -28,18 +28,20 @@
            tal:attributes="href obj/getURL;
                            title python: show_description and obj.Description or ''">
             <img tal:replace="structure item_icon/html_tag" />
-            <span tal:condition="show_title"
-                  tal:replace="obj/pretty_title_or_id">
+            <span class="tileTitle"
+                  tal:condition="show_title"
+                  tal:content="obj/pretty_title_or_id">
              Title
             </span>
-            <span tal:condition="show_description"
-                  tal:content="obj/Description">
-                Date
+            <span class="tileDescription"
+                  tal:condition="show_description">
+              <tal:descr content="obj/Description" />
+              <span class="tileReadMore"
+                    tal:condition="view/data/show_item_more"
+                    tal:attributes="href obj/getURL" i18n:translate="more_url">
+                    &hellip;more
+              </span>            
             </span>
-            <a  tal:condition="view/data/show_item_more"
-                tal:attributes="href obj/getURL" i18n:translate="more_url">
-                More&hellip;
-            </a>
             <span class="portletItemDetails"
                   tal:condition="view/data/show_dates"
                   tal:content="python:toLocalizedTime(obj.Date)">

@@ -1,0 +1,4 @@
+Introduction
+============
+
+Extended collection portlet

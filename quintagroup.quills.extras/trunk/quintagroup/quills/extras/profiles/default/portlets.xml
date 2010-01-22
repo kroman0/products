@@ -36,4 +36,10 @@
      description="Render portrait of recent blogger"
    />
 
+   <portlet
+     addview="quintagroup.quills.extras.recentcomments"
+     title="Recent comments"
+     description="Render recent blog comments"
+   />
+
 </portlets>

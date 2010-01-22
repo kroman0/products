@@ -63,4 +63,15 @@
       editview=".recent_author.EditForm"
       />
 
+  <plone:portlet
+      name="quintagroup.quills.extras.recentcomments"
+      interface=".recentcomments.IRecentCommentsPortlet"
+      assignment=".recentcomments.Assignment"
+      view_permission="zope2.View"
+      edit_permission="cmf.ManagePortal"
+      renderer=".recentcomments.Renderer"
+      addview=".recentcomments.AddForm"
+      editview=".recentcomments.EditForm"
+      />
+
 </configure>

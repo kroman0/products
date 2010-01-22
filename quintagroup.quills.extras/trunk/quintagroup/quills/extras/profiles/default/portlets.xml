@@ -24,4 +24,10 @@
      description="Render Resent Blog Posts"
    />
 
+   <portlet
+     addview="quintagroup.quills.extras.Bloggers"
+     title="Bloggers"
+     description="Render bloggers"
+   />
+
 </portlets>

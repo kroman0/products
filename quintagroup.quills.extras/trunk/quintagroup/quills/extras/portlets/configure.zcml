@@ -41,4 +41,15 @@
       editview=".categories.EditForm"
       />
 
+  <plone:portlet
+      name="quintagroup.quills.extras.Bloggers"
+      interface=".bloggers.IBloggersPortlet"
+      assignment=".bloggers.Assignment"
+      view_permission="zope2.View"
+      edit_permission="cmf.ManagePortal"
+      renderer=".bloggers.Renderer"
+      addview=".bloggers.AddForm"
+      editview=".bloggers.EditForm"
+      />
+
 </configure>

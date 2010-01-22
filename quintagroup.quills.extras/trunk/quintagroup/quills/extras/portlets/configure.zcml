@@ -52,4 +52,15 @@
       editview=".bloggers.EditForm"
       />
 
+  <plone:portlet
+      name="quintagroup.quills.extras.recent_author"
+      interface=".recent_author.IRecentAuthorPortlet"
+      assignment=".recent_author.Assignment"
+      view_permission="zope2.View"
+      edit_permission="cmf.ManagePortal"
+      renderer=".recent_author.Renderer"
+      addview=".recent_author.AddForm"
+      editview=".recent_author.EditForm"
+      />
+
 </configure>

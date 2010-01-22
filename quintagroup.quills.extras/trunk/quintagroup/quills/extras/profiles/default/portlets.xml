@@ -30,4 +30,10 @@
      description="Render bloggers"
    />
 
+   <portlet
+     addview="quintagroup.quills.extras.recent_author"
+     title="Recent author"
+     description="Render portrait of recent blogger"
+   />
+
 </portlets>

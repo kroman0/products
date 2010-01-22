@@ -117,6 +117,10 @@ class Renderer(base.Renderer):
         res = [(n,mcomm_dict[p]) for p,n in sorted_dict if p in mcomm_dict.keys()]
         return res
 
+    @property
+    def available(self):
+        return super(Renderer, self).available and self.mostCommented
+
 # NOTE: If this portlet does not have any configurable parameters, you can
 # inherit from NullAddForm and remove the form_fields variable.
 

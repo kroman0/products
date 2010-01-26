@@ -1,0 +1,7 @@
+Changelog
+=========
+
+1.0dev (unreleased)
+-------------------
+
+- Python package descendant of qPloneGoogleSitemaps v.0.8.6

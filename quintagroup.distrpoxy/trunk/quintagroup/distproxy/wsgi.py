@@ -1,6 +1,7 @@
 import os
 import socket
 import sys
+from time import time
 from paste.script.appinstall import Installer as BaseInstaller
 from paste.fileapp import FileApp
 from paste import urlparser
@@ -41,6 +42,8 @@ class PackageProxyApp(object):
         else:
             pth = '/'.join(pth.split('/')[:-1])
         if not os.path.exists(pth1):
+            webmirror(pth,1,self.index_url+path,0,1)
+        elif int(time()) - os.path.getmtime(pth1) > 3600:
             webmirror(pth,1,self.index_url+path,0,1)
         if pth1:
             return pth1

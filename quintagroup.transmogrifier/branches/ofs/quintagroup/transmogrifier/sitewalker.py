@@ -27,14 +27,21 @@ class SiteWalkerSection(object):
                                    transmogrifier, name, options)
 
     def getContained(self, obj):
-        contained = [(k, v) for k, v in obj.contentItems()
+        contained = [(k, v) for k, v in obj.objectItems()
                         if self.condition(None, context=v)]
         return tuple(contained)
 
+    def getType(obj):
+        if hasattr(obj, 'getPortalTypeName'):
+            return obj.getPortalTypeName()
+        return 'meta_type:%s' % obj.meta_type
+
     def walk(self, obj):
+        if obj.absolute_url().endswith('clark-county'):
+            import pdb;pdb.set_trace()
         if IFolderish.providedBy(obj) or IBaseFolder.providedBy(obj):
             contained = self.getContained(obj)
-            yield obj, tuple([(k, v.getPortalTypeName()) for k, v in contained])
+            yield obj, tuple([(k, self.getType(v) for k, v in contained])
             for k, v in contained:
                 for x in self.walk(v):
                     yield x
@@ -48,7 +55,7 @@ class SiteWalkerSection(object):
         for obj, contained in self.walk(self.context):
             item = {
                 self.pathkey: '/'.join(obj.getPhysicalPath()[2:]),
-                self.typekey: obj.getPortalTypeName(),
+                self.typekey: self.getType(obj),
             }
             if contained:
                 item[self.entrieskey] = contained

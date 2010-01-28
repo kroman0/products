@@ -135,6 +135,11 @@
         name="quintagroup.transmogrifier.portletsimporter"
         />
 
+    <utility
+        component=".ofsmanager.OFSExporterSection"
+        name="quintagroup.transmogrifier.ofsexporter"
+        />
+
     <adapter factory=".portlets.PortletAssignmentExportImportHandler" />
 
     <transmogrifier:registerConfig

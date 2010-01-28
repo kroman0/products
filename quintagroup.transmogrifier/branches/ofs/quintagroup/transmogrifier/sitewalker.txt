@@ -21,7 +21,7 @@ is going into pipeline only if the condition, which is also a TALES is true.
 ...
 ... [sitewalker]
 ... blueprint = quintagroup.transmogrifier.sitewalker
-... condition = python:context.getPortalTypeName() not in ('File', 'Image')
+... condition = python:hasattr(context,'getPortalTypeName') or context.meta_type in ('File', 'Image')
 ...
 ... [printer]
 ... blueprint = collective.transmogrifier.sections.tests.pprinter
@@ -52,3 +52,6 @@ The ``condition`` expression has an access to the following:
  ``options``         the splitter options
  ``modules``         sys.modules
 =================== ==========================================================
+
+
+condition = python:context.getPortalTypeName() not in ('File', 'Image')

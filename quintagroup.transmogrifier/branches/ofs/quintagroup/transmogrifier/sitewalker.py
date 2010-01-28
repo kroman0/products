@@ -4,6 +4,7 @@ from zope.annotation.interfaces import IAnnotations
 from collective.transmogrifier.interfaces import ISection, ISectionBlueprint
 from collective.transmogrifier.utils import Condition
 
+from Acquisition import aq_inner, aq_base
 from Products.CMFCore.interfaces import IFolderish
 from Products.Archetypes.interfaces import IBaseFolder
 
@@ -31,17 +32,16 @@ class SiteWalkerSection(object):
                         if self.condition(None, context=v)]
         return tuple(contained)
 
-    def getType(obj):
-        if hasattr(obj, 'getPortalTypeName'):
-            return obj.getPortalTypeName()
-        return 'meta_type:%s' % obj.meta_type
+    def getType(self, obj):
+        o = aq_base(aq_inner(obj))
+        if hasattr(o, 'getPortalTypeName'):
+            return o.getPortalTypeName()
+        return 'meta_type:%s' % o.meta_type
 
     def walk(self, obj):
-        if obj.absolute_url().endswith('clark-county'):
-            import pdb;pdb.set_trace()
         if IFolderish.providedBy(obj) or IBaseFolder.providedBy(obj):
             contained = self.getContained(obj)
-            yield obj, tuple([(k, self.getType(v) for k, v in contained])
+            yield obj, tuple([(k, self.getType(v)) for k, v in contained])
             for k, v in contained:
                 for x in self.walk(v):
                     yield x

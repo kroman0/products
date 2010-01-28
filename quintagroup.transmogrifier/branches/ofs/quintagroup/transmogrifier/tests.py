@@ -83,6 +83,11 @@ def siteWalkerSetUp(test):
         def getPortalTypeName(self):
             return self.__class__.__name__
 
+        @property
+        def meta_type(self):
+            return self.__class__.__name__
+        
+
     class Document(MockContent):
         pass
 
@@ -91,12 +96,16 @@ def siteWalkerSetUp(test):
 
         contentItems = dict.items
         contentValues = dict.values
+        objectItems = dict.items
+        objectValues = dict.values
 
     class MockPortal(MockContent, dict):
         implements(IFolderish)
 
         contentItems = dict.items
         contentValues = dict.values
+        objectItems = dict.items
+        objectValues = dict.values
 
     portal = MockPortal()
 

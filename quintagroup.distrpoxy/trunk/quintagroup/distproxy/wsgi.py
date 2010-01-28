@@ -7,11 +7,12 @@ from paste.fileapp import FileApp
 from paste import urlparser
 from paste import request
 from paste.httpexceptions import HTTPNotFound
-from spider import webmirror
+import urllib2
+
 
 class PackageProxyApp(object):
 
-    def __init__(self, index_url=None, pack_dir=None):
+    def __init__(self, index_url=None, pack_dir=None, username=None,password=None,realm=None):
         if not index_url: 
             print "No repository index provided"
             sys.exit()
@@ -21,32 +22,55 @@ class PackageProxyApp(object):
         if not os.path.isdir(pack_dir):
             print 'You must create the %r directory' % pack_dir
             sys.exit()
+        if username and password:
+            # authenticate
+            password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
+            top_level_url = index_url
+            password_mgr.add_password(realm, top_level_url, username, password)
+            handler = urllib2.HTTPBasicAuthHandler(password_mgr)
+            opener = urllib2.build_opener(handler)
+            urllib2.install_opener(opener)
         self.index_url = index_url
         self.pack_dir = pack_dir
 
     def __call__(self, environ, start_response):
+        """ serve the static files """
         path = environ.get('PATH_INFO', '').strip()
         path_parts = path.split('/')
         if len(path_parts) > 1 and path_parts[1] == "favicon.ico":
             return HTTPNotFound()(environ, start_response)
-        filename = self.checkCache(path)
+        filename = self.checkCache(path[1:])
         if filename is None:
             return HTTPNotFound()(environ, start_response)
         return FileApp(filename)(environ, start_response)
 
-    def checkCache(self, path):   
+    def checkCache(self, path):
+        """check if we already have the file and download it if not"""   
         pth = self.pack_dir + path
-        pth1 = pth
-        if not (path[-3:] in ['tgz','.gz','egg','zip','exe','cfg']): 
-            pth1 = pth + 'index.html'
+        index =0 
+        if not (path[-3:] in ['ico','txt','tgz','.gz','egg','zip','exe','cfg']): 
+            if not os.path.exists(pth):
+              os.makedirs(pth) #create dir if it is not there
+            # add index.html for supposedly folders
+            pth = pth + 'index.html'
+            index = 1
         else:
-            pth = '/'.join(pth.split('/')[:-1])
-        if not os.path.exists(pth1):
-            webmirror(pth,1,self.index_url+path,0,1)
-        elif int(time()) - os.path.getmtime(pth1) > 3600:
-            webmirror(pth,1,self.index_url+path,0,1)
-        if pth1:
-            return pth1
+            pth1 = '/'.join(pth.split('/')[:-1])
+            if not os.path.exists(pth):
+              os.makedirs(pth1)#create parent dir if it is not there
+        url = self.index_url+path
+        #if we dont have download it
+        if not os.path.exists(pth):
+            f = urllib2.urlopen(url)
+            lf = open(pth,'wb')
+            lf.write(f.read())
+            lf.close()
+        #if we have the index.html file if it is older the 1 hour update
+        elif index and int(time()) - os.path.getmtime(pth) > 3600:
+            f = urllib2.urlopen(url)
+            lf = open(pth,'wb')
+            lf.write(f.read())
+            lf.close()           
         return pth
 
 def app_factory(global_config, **local_conf):
@@ -54,7 +78,10 @@ def app_factory(global_config, **local_conf):
     # take over.
     pack_dir = local_conf.get('pack_directory', None)
     index_url = local_conf.get('index', None)
-    return PackageProxyApp(index_url, pack_dir)
+    username = local_conf.get('username', None)
+    password = local_conf.get('password', None)
+    realm = local_conf.get('realm', None)
+    return PackageProxyApp(index_url, pack_dir, username, password, realm)
 
 class StaticURLParser(urlparser.StaticURLParser):
 

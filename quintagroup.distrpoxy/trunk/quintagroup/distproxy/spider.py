@@ -3,15 +3,6 @@
 ## Copyright (c) 1999 - 2003 L. C. Rees.  All rights reserved.
 ## See COPYRIGHT file for license terms.
 
-__name__ = 'spider'
-__version__ = '0.5'
-__author__ = 'L.C. Rees (xanimal@users.sf.net)'
-__all__ = ['ftpurls', 'ftppaths', 'weburls', 'ftpmirror', 'ftpspider',
-    'webpaths', 'webreport', 'webmirror', 'webspider', 'urlreport',
-    'badurlreport', 'badhtmreport', 'redireport', 'outreport', 'othereport']
-
-'''Multithreaded crawling, reporting, and mirroring for Web and FTP.'''
-
 from __future__ import generators
 
 

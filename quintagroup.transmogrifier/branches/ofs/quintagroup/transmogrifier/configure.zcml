@@ -136,9 +136,27 @@
         />
 
     <utility
+        component=".constructor.ConstructorSection"
+        name="quintagroup.transmogrifier.extendedconstructor"
+        />
+
+    <utility
         component=".ofsmanager.OFSExporterSection"
         name="quintagroup.transmogrifier.ofsexporter"
         />
+
+    <utility
+        component=".utilities.FileFTIUtility"
+        provides=".interfaces.IFTIConstructor4MetaType"
+        name="File"
+        />
+
+    <utility
+        component=".utilities.ImageFTIUtility"
+        provides=".interfaces.IFTIConstructor4MetaType"
+        name="Image"
+        />
+
 
     <adapter factory=".portlets.PortletAssignmentExportImportHandler" />
 

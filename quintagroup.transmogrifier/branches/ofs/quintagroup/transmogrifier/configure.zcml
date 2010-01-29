@@ -146,6 +146,11 @@
         />
 
     <utility
+        component=".ofsmanager.OFSImporterSection"
+        name="quintagroup.transmogrifier.ofsimporter"
+        />
+
+    <utility
         component=".utilities.FileFTIUtility"
         provides=".interfaces.IFTIConstructor4MetaType"
         name="File"

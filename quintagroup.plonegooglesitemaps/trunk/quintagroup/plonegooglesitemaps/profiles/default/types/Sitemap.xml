@@ -6,7 +6,7 @@
   <property name="description">Search engine's Sitemap</property>
   <property name="content_meta_type">Sitemap</property>
   <property name="content_icon">document_icon.gif</property>
-  <property name="product">qPloneGoogleSitemaps</property>
+  <property name="product">quintagroup.plonegooglesitemaps</property>
   <property name="factory">addSitemap</property>
   <property name="immediate_view">atct_edit</property>
   <property name="global_allow">True</property>

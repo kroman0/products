@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <object name="portal_skins">
- <object name="qPloneGoogleSitemaps" meta_type="Filesystem Directory View"
-    directory="qPloneGoogleSitemaps/skins/qPloneGoogleSitemaps"/>
+ <object name="plonegooglesitemaps" meta_type="Filesystem Directory View"
+    directory="quintagroup.plonegooglesitemaps:skins/plonegooglesitemaps"/>
   <skin-path name="*">
-  <layer name="qPloneGoogleSitemaps" insert-after="custom"/>
+  <layer name="plonegooglesitemaps" insert-after="custom"/>
  </skin-path>
 </object>

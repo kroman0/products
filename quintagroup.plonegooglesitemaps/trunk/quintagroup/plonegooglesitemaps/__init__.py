@@ -1,10 +1,6 @@
-import Globals
+cimport Globals
 
-from Products.CMFCore.DirectoryView import registerDirectory
 from AccessControl import allow_module
-
-registerDirectory('skins', globals())
-qPGS_globals = globals()
 
 allow_module('quintagroup.plonegooglesitemaps.utils.py')
 allow_module('quintagroup.plonegooglesitemaps.config.py')

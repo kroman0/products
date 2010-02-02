@@ -378,7 +378,7 @@ class TestPinging(FunctionalTestCase):
                      "Not pinged %s: '%s'" % (self.contentSM.id, data))
         self.assert_('Pinged %s sitemap to Google' % self.newsSM.absolute_url() in data,
                      "Not pinged %s: '%s'" % (self.newsSM.id, data))
-        return
+
         # 2. Check for pinging only news-sitemap sitemaps
         back_out, myout = sys.stdout, StringIO()
         sys.stdout = myout

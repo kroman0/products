@@ -18,7 +18,7 @@ def ping_google(url, sitemap_id):
 
     sitemap_url = urlquote(resurl)
 
-    g = urlopen('http://www.google.com/webmasters/sitemaps/ping?sitemap='+sitemap_url)
+    g = urlopen('http://www.google.com/webmasters/tools/ping?sitemap='+sitemap_url)
     result = g.read()
     g.close()
 

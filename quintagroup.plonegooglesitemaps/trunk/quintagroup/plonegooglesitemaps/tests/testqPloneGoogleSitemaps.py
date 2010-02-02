@@ -179,14 +179,14 @@ class TestGoogleSitemaps(FunctionalTestCase):
         self.my_doc.edit(text_format='plain', text='hello world')
 
 
-
     def testSitemap(self):
         sitemap = self.publish(self.sitemapUrl, self.auth).getBody()
         parsed_sitemap = parse(sitemap)
         start = parsed_sitemap['start']
         data = parsed_sitemap['data']
-        self.assertEqual(len(start.keys()), 1)
         self.assert_('urlset' in start.keys())
+        self.assertFalse(self.my_doc.absolute_url(0) in data,
+                         'Wrong content present in the sitemap')
 
         self.workflow.doActionFor(self.my_doc, 'publish')
 
@@ -200,7 +200,7 @@ class TestGoogleSitemaps(FunctionalTestCase):
         self.assert_('loc' in start.keys())
         self.assert_('lastmod' in start.keys())
 
-        self.assert_(data[0] == self.my_doc.absolute_url(0), 'Incorect url')
+        self.assertTrue(self.my_doc.absolute_url(0) in data, 'Incorect url')
 
     def testVerificationFileCreation(self):
         self.portal.gsm_create_verify_file('verif_file')

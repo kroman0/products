@@ -345,15 +345,17 @@ class TestPinging(FunctionalTestCase):
         super(TestPinging, self).afterSetUp()
 
         self.workflow = self.portal.portal_workflow
+        self.workflow.setChainForPortalTypes(pt_names=('News Item','Document'),
+                                             chain="simple_publication_workflow")
         self.gsm_props = self.portal.portal_properties['googlesitemap_properties']
         self.auth = 'admin:admin'
         self.portal.portal_membership.addMember('admin', 'admin', ('Manager',), [])
         # Add sitemaps
         self.contentSM = _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
-        self.contentSM.setPingTransitions(('plone_workflow#publish',))
+        self.contentSM.setPingTransitions(('simple_publication_workflow#publish',))
         self.newsSM = _createObjectByType('Sitemap', self.portal, id='news-sitemaps')
         self.newsSM.setPortalTypes(('News Item','Document'))
-        self.newsSM.setPingTransitions(('plone_workflow#publish',))
+        self.newsSM.setPingTransitions(('simple_publication_workflow#publish',))
         self.sitemapUrl = '/'+self.portal.absolute_url(1) + '/google-sitemaps'
         # Add testing document to portal
         my_doc = self.portal.invokeFactory('Document', id='my_doc')
@@ -365,26 +367,31 @@ class TestPinging(FunctionalTestCase):
         # 1. Check for pinging both sitemaps
         back_out, myout = sys.stdout, StringIO()
         sys.stdout = myout
-        self.workflow.doActionFor(self.my_doc, 'publish')
-        myout.seek(0)
-        data = myout.read()
-        sys.stdout = back_out
-        self.assert_('Pinged %s sitemap to google' % self.contentSM.absolute_url() in data,
-                     "Not pinged %s: '%s'" % (self.contentSM.id, data))
-        self.assert_('Pinged %s sitemap to google' % self.newsSM.absolute_url() in data,
-                     "Not pinged %s: '%s'" % (self.newsSM.id, data))
+        try:
+            self.workflow.doActionFor(self.my_doc, 'publish')
+            myout.seek(0)
+            data = myout.read()
+        finally:
+            sys.stdout = back_out
 
+        self.assert_('Pinged %s sitemap to Google' % self.contentSM.absolute_url() in data,
+                     "Not pinged %s: '%s'" % (self.contentSM.id, data))
+        self.assert_('Pinged %s sitemap to Google' % self.newsSM.absolute_url() in data,
+                     "Not pinged %s: '%s'" % (self.newsSM.id, data))
+        return
         # 2. Check for pinging only news-sitemap sitemaps
         back_out, myout = sys.stdout, StringIO()
         sys.stdout = myout
-        self.workflow.doActionFor(self.my_news, 'publish')
-        myout.seek(0)
-        data = myout.read()
-        sys.stdout = back_out
+        try:
+            self.workflow.doActionFor(self.my_news, 'publish')
+            myout.seek(0)
+            data = myout.read()
+        finally:
+            sys.stdout = back_out
 
-        self.assert_('Pinged %s sitemap to google' % self.newsSM.absolute_url() in data,
+        self.assert_('Pinged %s sitemap to Google' % self.newsSM.absolute_url() in data,
                      "Not pinged %s: '%s'" % (self.newsSM.id, data))
-        self.assert_(not 'Pinged %s sitemap to google' % self.contentSM.absolute_url() in data,
+        self.assert_(not 'Pinged %s sitemap to Google' % self.contentSM.absolute_url() in data,
                      "Pinged %s on news: '%s'" % (self.contentSM.id, data))
 
     def testPingingWithSetupForm(self):
@@ -395,14 +402,16 @@ class TestPinging(FunctionalTestCase):
 
         back_out, myout = sys.stdout, StringIO()
         sys.stdout = myout
-        response = self.publish("%s?%s" % (formUrl, qs), basic=self.auth)
-        myout.seek(0)
-        data = myout.read()
-        sys.stdout = back_out
+        try:
+            response = self.publish("%s?%s" % (formUrl, qs), basic=self.auth)
+            myout.seek(0)
+            data = myout.read()
+        finally:
+            sys.stdout = back_out
 
-        self.assert_('Pinged %s sitemap to google' % self.contentSM.absolute_url() in data,
+        self.assert_('Pinged %s sitemap to Google' % self.contentSM.absolute_url() in data,
                      "Not pinged %s: '%s'" % (self.contentSM.id, data))
-        self.assert_('Pinged %s sitemap to google' % self.newsSM.absolute_url() in data,
+        self.assert_('Pinged %s sitemap to Google' % self.newsSM.absolute_url() in data,
                      "Not pinged %s: '%s'" % (self.newsSM.id, data))
 
 

@@ -8,16 +8,18 @@ from quintagroup.plonegooglesitemaps.config import testing
 
 def ping_google(url, sitemap_id):
     """Ping sitemap to Google"""
-    if DevelopmentMode:
-        #prevent pinging in debug mode
-        print "Pinging Google ...", url, sitemap_id
-        return 0
 
     resurl = url + "/" + sitemap_id
+
+    if DevelopmentMode or testing:
+        #prevent pinging in debug or testing mode
+        print "Pinged %s sitemap to Google" % resurl
+        return 0
+
     sitemap_url = urlquote(resurl)
+
     g = urlopen('http://www.google.com/webmasters/sitemaps/ping?sitemap='+sitemap_url)
     result = g.read()
     g.close()
-    if testing:
-        print "Pinged %s sitemap to google" % resurl
+
     return 0

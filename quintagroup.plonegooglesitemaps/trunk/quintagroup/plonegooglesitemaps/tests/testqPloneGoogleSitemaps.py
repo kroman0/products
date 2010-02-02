@@ -1,37 +1,67 @@
 #
-# Tests for qPloneGoogleSitemaps
+# Tests for quintagroup.plonegooglesitemaps
 #
+
 import re, sys
 from urllib import urlencode
 from StringIO import StringIO
+import unittest
+
+from zope.testing import doctestunit
+from zope.component import testing
+from Testing import ZopeTestCase as ztc
 
 from Products.Five import zcml
 from Products.Five import fiveconfigure
-from Products.PloneTestCase import PloneTestCase
 
+from Products.PloneTestCase import PloneTestCase as ptc
+from Products.PloneTestCase.layer import PloneSite
 from Products.CMFPlone.utils import _createObjectByType
+
+from XMLParser import parse, hasURL
 
 import quintagroup.plonegooglesitemaps
 from quintagroup.plonegooglesitemaps.config import ping_googlesitemap
 
-from XMLParser import parse, hasURL
 quintagroup.plonegooglesitemaps.config.testing = 1
 
-PRODUCT = 'qPloneGoogleSitemaps'
-PRODUCTS = (PRODUCT,)
-
-# Import configure.zcml for qPloneGoogleSitemaps
-fiveconfigure.debug_mode = True
-zcml.load_config('configure.zcml', quintagroup.plonegooglesitemaps)
-fiveconfigure.debug_mode = False
-
-PloneTestCase.installProduct(PRODUCT)
-PloneTestCase.setupPloneSite(extension_profiles=("Products.%s:default" % PRODUCT,))
-
-class TestqPloneGoogleSitemapsInstallation(PloneTestCase.PloneTestCase):
+class MixinTestCase:
+    """ Define layer and common afterSetup method with package installation.
+        Package installation on plone site setup impossible because of
+        five's registerPackage directive not recognized on module initializing.
+    """
+    layer = PloneSite
 
     def afterSetUp(self):
         self.loginAsPortalOwner()
+
+
+class TestCase(MixinTestCase, ptc.PloneTestCase):
+    """ For unit tests """
+
+class FunctionalTestCase(MixinTestCase, ptc.FunctionalTestCase):
+    """ For functional tests """
+
+# Initialize all needed zcml directives
+fiveconfigure.debug_mode = True
+from Products import Five, CMFCore, GenericSetup
+zcml.load_config('meta.zcml', Five)
+zcml.load_config('meta.zcml', CMFCore)
+zcml.load_config('meta.zcml', GenericSetup)
+zcml.load_config('permissions.zcml', Five)
+
+# Force quintagroup.plonegooglesitemaps zcml initialization
+zcml.load_config('configure.zcml', quintagroup.plonegooglesitemaps)
+fiveconfigure.debug_mode = False
+
+# Install quintagroup.plonegooglesitemaps package and Plone site
+# with the default profile for the package
+PRODUCT = 'quintagroup.plonegooglesitemaps'
+ptc.installPackage(PRODUCT)
+ptc.setupPloneSite( extension_profiles=("%s:default" % PRODUCT,))
+
+
+class TestGoogleSitemapsInstallation(TestCase):
 
     def testType(self):
         pt = self.portal.portal_types
@@ -65,15 +95,15 @@ class TestqPloneGoogleSitemapsInstallation(PloneTestCase.PloneTestCase):
 
     def testSkins(self):
         ps = self.portal.portal_skins
-        self.assert_('qPloneGoogleSitemaps' in ps.objectIds(), 
-            'No "qPloneGoogleSitemaps" skin layer in portal_skins')
-        self.assert_('qPloneGoogleSitemaps' in ps.getSkinPath(ps.getDefaultSkin()),
-            'No "qPloneGoogleSitemaps" skin layer in default skin')
+        self.assert_('plonegooglesitemaps' in ps.objectIds(), 
+            'No "plonegooglesitemaps" skin layer in portal_skins')
+        self.assert_('plonegooglesitemaps' in ps.getSkinPath(ps.getDefaultSkin()),
+            'No "plonegooglesitemaps" skin layer in default skin')
 
     def testConfiglet(self):
         cp = self.portal.portal_controlpanel
-        self.assert_([1 for ai in cp.listActionInfos() if ai['id']=='qPloneGoogleSitemaps'], 
-            'No "qPloneGoogleSitemaps" configlet added to plone control panel')
+        self.assert_([1 for ai in cp.listActionInfos() if ai['id']=='GoogleSitemaps'], 
+            'No "GoogleSitemaps" configlet added to plone control panel')
 
     def testCatalog(self):
         catalog = self.portal.portal_catalog
@@ -81,10 +111,10 @@ class TestqPloneGoogleSitemapsInstallation(PloneTestCase.PloneTestCase):
             'No "hasMobileContent" index in portal_catalog')
 
 
-class TestSitemapType(PloneTestCase.FunctionalTestCase):
+class TestSitemapType(FunctionalTestCase):
 
     def afterSetUp(self):
-        self.loginAsPortalOwner()
+        super(TestSitemapType, self).afterSetUp()
         self.auth = 'admin:admin'
         self.contentSM = _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
         self.portal.portal_membership.addMember('admin', 'admin', ('Manager',), [])
@@ -136,10 +166,10 @@ class TestSitemapType(PloneTestCase.FunctionalTestCase):
         self.assert_(ping_googlesitemap in pwf.scripts.keys(),"Not add wf script")
 
 
-class TestqPloneGoogleSitemaps(PloneTestCase.FunctionalTestCase):
+class TestGoogleSitemaps(FunctionalTestCase):
 
     def afterSetUp(self):
-        self.loginAsPortalOwner()
+        super(TestGoogleSitemaps, self).afterSetUp()
 
         self.workflow = self.portal.portal_workflow
         self.auth = 'admin:admin'
@@ -233,10 +263,10 @@ class TestqPloneGoogleSitemaps(PloneTestCase.FunctionalTestCase):
                      self.gsm_props.getProperty('verification_filenames',[]))
 
 
-class TestSettings(PloneTestCase.FunctionalTestCase):
+class TestSettings(FunctionalTestCase):
 
     def afterSetUp(self):
-        self.loginAsPortalOwner()
+        super(TestSettings, self).afterSetUp()
 
         self.workflow = self.portal.portal_workflow
         self.gsm_props = self.portal.portal_properties['googlesitemap_properties']
@@ -314,10 +344,10 @@ class TestSettings(PloneTestCase.FunctionalTestCase):
         self.assert_(hasURL(sitemap, w3_url))
 
 
-class TestPinging(PloneTestCase.FunctionalTestCase):
+class TestPinging(FunctionalTestCase):
 
     def afterSetUp(self):
-        self.loginAsPortalOwner()
+        super(TestPinging, self).afterSetUp()
 
         self.workflow = self.portal.portal_workflow
         self.gsm_props = self.portal.portal_properties['googlesitemap_properties']
@@ -385,13 +415,13 @@ class TestPinging(PloneTestCase.FunctionalTestCase):
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
-    suite.addTest(makeSuite(TestqPloneGoogleSitemapsInstallation))
+    suite.addTest(makeSuite(TestGoogleSitemapsInstallation))
     suite.addTest(makeSuite(TestSitemapType))
-    suite.addTest(makeSuite(TestqPloneGoogleSitemaps))
+    suite.addTest(makeSuite(TestGoogleSitemaps))
     suite.addTest(makeSuite(TestSettings))
     suite.addTest(makeSuite(TestPinging))
-
     return suite
 
 if __name__ == '__main__':
-    framework()
+    unittest.main(defaultTest='test_suite')
+#    framework()

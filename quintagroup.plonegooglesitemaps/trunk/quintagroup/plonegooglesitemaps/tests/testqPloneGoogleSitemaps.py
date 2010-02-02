@@ -105,11 +105,6 @@ class TestGoogleSitemapsInstallation(TestCase):
         self.assert_([1 for ai in cp.listActionInfos() if ai['id']=='GoogleSitemaps'], 
             'No "GoogleSitemaps" configlet added to plone control panel')
 
-    def testCatalog(self):
-        catalog = self.portal.portal_catalog
-        self.assert_('hasMobileContent' in catalog.indexes(),
-            'No "hasMobileContent" index in portal_catalog')
-
 
 class TestSitemapType(FunctionalTestCase):
 

@@ -114,7 +114,6 @@ class OFSImporterSection(object):
 
         self.condition = Condition(options.get('condition', 'python:True'),
                                    transmogrifier, name, options)
-        self.ttt = 0
 
     def __iter__(self):
         for item in self.previous:
@@ -132,9 +131,6 @@ class OFSImporterSection(object):
                 yield item; continue
 
             if obj.meta_type in ["File", "Image"]:
-                if not self.ttt:
-                    self.ttt = 1
-                    import pdb;pdb.set_trace()
                 try:
                     manifest = item[fileskey]['file-properties']['data']
                     prop_info = self.parseManifest(manifest)

@@ -1,0 +1,13 @@
+Changelog
+=========
+
+1.0 (2010-02-03)
+----------------
+
+* Move qPloneGoogleSitemaps v.0.8.6 product into
+  quintagroup.plonegooglesitemaps package
+  [mylan]
+* Udpate link for google sitemaps pinging
+  [mylan]
+* Update tests
+  [mylan]

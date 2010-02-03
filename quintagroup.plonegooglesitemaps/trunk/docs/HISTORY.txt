@@ -4,4 +4,10 @@ Changelog
 1.0dev (unreleased)
 -------------------
 
-- Python package descendant of qPloneGoogleSitemaps v.0.8.6
+* Move qPloneGoogleSitemaps v.0.8.6 product into
+  quintagroup.plonegooglesitemaps package
+  [mylan]
+* Udpate link for google sitemaps pinging
+  [mylan]
+* Update tests
+  [mylan]

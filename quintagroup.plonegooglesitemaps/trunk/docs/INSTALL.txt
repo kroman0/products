@@ -50,3 +50,21 @@ recipe to manage your project, you can do this:
         
 You can skip the ZCML slug if you are going to explicitly include the package
 from another package's configure.zcml file.
+
+
+Plone Google Sitemaps Installation in Plone instance
+====================================================
+
+Plone Google Sitemaps can be installed as an old-type Plone product.
+
+  1. Go to your Plone Site "Site Setup" area 
+  
+  2. Choose "Add/Remove Products" item in the Plone Configuration list
+  
+  3. Select "Plone Google Sitemaps" product among products available for installation
+  
+  4. Press the Install button below the table
+  
+  5. Make sure the product appeared in the right column of installed products and "Google Sitemaps" 
+     appeared under Add-on Products Configuration.
+

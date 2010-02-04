@@ -46,7 +46,7 @@ and how to let Google know about them.
 Installation
 ------------
 
-See INSTALL.txt for instructions
+See docs/INSTALL.txt for instructions
   
 Requirements
 ------------

@@ -1,13 +1,7 @@
 Changelog
 =========
 
-1.1 (unreleased)
-----------------
-
-- Nothing changed yet.
-
-
-1.0 (2010-02-03)
+1.0 (2010-02-04)
 ----------------
 
 * Move qPloneGoogleSitemaps v.0.8.6 product into

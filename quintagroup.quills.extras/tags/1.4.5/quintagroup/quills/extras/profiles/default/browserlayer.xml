@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<layers>
-  <layer name="quintagroup.quills.extras"
-         interface="quintagroup.quills.extras.browser.interfaces.IQuillsExtrasLayer" />
-</layers>

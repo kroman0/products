@@ -1,0 +1,28 @@
+<dl class="portlet portletWeblogCategories"
+    i18n:domain="quills.app">
+
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <span class="tile"
+              tal:content="view/title">_title_</span>
+        <span class="portletTopRight"></span>
+    </dt>
+
+    <tal:loop repeat="cat view/getCategories">
+    <dd class="portletItem odd"
+	tal:attributes="class python:repeat['cat'].even() and 'portletItem odd' or 'portletItem even'">
+       <a title="Category" href="http://"
+          tal:content="cat/title|default"
+          tal:attributes="title cat/title;
+                          href cat/url">
+          Blog Category
+        </a>
+    </dd>
+    </tal:loop>
+
+    <dd class="portletFooter">
+        <span class="portletBottomLeft"></span>
+        <span class="portletBottomRight"></span>
+    </dd>
+
+</dl>

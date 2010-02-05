@@ -1,0 +1,38 @@
+<dl class="portlet portletWeblogAuthors"
+    i18n:domain="plone">
+
+    <dt class="portletHeader hiddenStructure">
+        <span class="portletTopLeft"></span>
+        <a class="tile"
+           tal:content="view/title"
+           tal:attributes="href view/getAuthorsURL">_title_</a>
+        <span class="portletTopRight"></span>
+    </dt>
+
+    <dd class="portletItem"
+        metal:define-macro="author"
+        tal:define="author view/getRecentAuthor;
+                    portrait python: view.getPortraitFor(author);
+                    authorinfo python: view.getInfoFor(author);
+                    author_listing_url python:view.getAuthorURL(authorinfo['username']);">
+
+      <a href=""
+         tal:attributes="href author_listing_url">
+          <img src=""
+               alt=""
+               title=""
+               class="portraitPhoto"
+               tal:attributes="src portrait/absolute_url;
+                               alt authorinfo/fullname;
+                               title authorinfo/fullname;" />
+      </a>
+      <div class="visualClear"><!----></div>
+
+    </dd>
+
+    <dd class="portletFooter">
+        <span class="portletBottomLeft"></span>
+        <span class="portletBottomRight"></span>
+    </dd>
+
+</dl>

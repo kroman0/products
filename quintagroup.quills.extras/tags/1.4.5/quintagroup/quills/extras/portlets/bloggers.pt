@@ -1,0 +1,35 @@
+<dl class="portlet portletWeblogAuthors"
+    i18n:domain="plone">
+
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <a class="tile"
+           tal:content="view/title"
+           tal:attributes="href view/getBloggersURL">_title_</a>
+        <span class="portletTopRight"></span>
+    </dt>
+
+    <tal:block repeat="blogger view/getBloggersInfo">
+
+      <dd class="portletItem odd" metal:define-macro="blogger"
+          tal:define=" blogger_listing_url python:view.getBloggerURL(blogger['username']);"
+          tal:attributes="class python:repeat['blogger'].odd and 'portletItem even' or 'portletItem odd'">
+
+        <span>
+          <a href=""
+             tal:attributes="href blogger_listing_url">
+            <tal:name content="blogger/fullname"/>
+            (<span tal:replace="blogger/posts_amount"/>)
+          </a>
+        </span>
+        <div class="visualClear"><!----></div>
+      </dd>
+
+    </tal:block>
+
+    <dd class="portletFooter">
+        <span class="portletBottomLeft"></span>
+        <span class="portletBottomRight"></span>
+    </dd>
+
+</dl>

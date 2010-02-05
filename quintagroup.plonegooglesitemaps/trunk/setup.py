@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 import os
 
-version = '1.1dev'
+version = '1.0'
 
 setup(name='quintagroup.plonegooglesitemaps',
       version=version,

@@ -3,9 +3,6 @@ Introduction
 
 This is a package version of qPloneGoogleSitemap Plone product since qPloneGoogleSitemap v.0.8.6
 
-Quintagroup Plone Google Sitemaps quintagroup.plonegooglesitemaps (qPloneGoogleSitemaps)
-========================================================================================
-
 Plone Google Sitemaps product allows Plone websites to get better visibility for Google search engine
 by providing it with complete listing of URLs to website content.
   
@@ -16,25 +13,25 @@ search by placing all the information on one page.
 
 With Plone Google Sitemaps product you can enable following Sitemap types on your Plone website:
 
-  * Content Sitemap - is a regular list of pages on your website. Creating and submitting such a Sitemap 
-    lets Google know about all the pages on your Plone web site, including URLs that may not be discoverable
-    by Google's normal crawling process.
-  * Mobile Sitemap - is a specific type of Sitemap, that indexes all site URLs that serve content for 
-    mobile devices.
-  * News Sitemap - is different from regular Sitemaps, since it is specific to Google News only. 
+ * Content Sitemap - is a regular list of pages on your website. Creating and submitting such a Sitemap 
+   lets Google know about all the pages on your Plone web site, including URLs that may not be discoverable
+   by Google's normal crawling process.
+ * Mobile Sitemap - is a specific type of Sitemap, that indexes all site URLs that serve content for 
+   mobile devices.
+ * News Sitemap - is different from regular Sitemaps, since it is specific to Google News only. 
 
- Different Sitemap types index their own content and do not depend on other Sitemaps.
+Different Sitemap types index their own content and do not depend on other Sitemaps.
 
 Usage
 -----
 
 To enable Google Sitemaps on your site:
 
-  * Add Sitemap(s) at Google Sitemap "Settings" tab (Add-on Products Configuarion -> Google Sitemaps). 
+ * Add Sitemap(s) at Google Sitemap "Settings" tab (Add-on Products Configuarion -> Google Sitemaps). 
     You can add any of the Sitemap types: content, mobile or news. 
-  * Let Google know about your Sitemap(s) by adding your Sitemap to Google Sitemaps.
+ * Let Google know about your Sitemap(s) by adding your Sitemap to Google Sitemaps.
 
-  See more detailed instructions on Plone Google Sitemaps usage at http://projects.quintagroup.com/products/wiki/qPloneGoogleSitemaps
+See more detailed instructions on Plone Google Sitemaps usage at http://projects.quintagroup.com/products/wiki/qPloneGoogleSitemaps
 
 Screencast
 ----------
@@ -51,23 +48,23 @@ See docs/INSTALL.txt for instructions
 Requirements
 ------------
 
-  * Plone 3.x 
+ * Plone 3.x 
 
 Links
 -----
 
-  * See "Google Sitemaps": https://www.google.com/webmasters/sitemaps website for more information.
-  * "Product Homepage": http://quintagroup.com/services/plone-development/products/google-sitemaps
-  * "Documentation Area": http://projects.quintagroup.com/products/wiki/qPloneGoogleSitemaps
-  * "Repository": http://svn.quintagroup.com/products/quintagroup.plonegooglesitemaps
-  * "Releases": http://plone.org/products/qplonegooglesitemaps/releases
-  * Watch "Plone Google Sitemeps" Screencast at http://quintagroup.com/cms/screencasts/qplonegooglesitemaps
+ * See "Google Sitemaps": https://www.google.com/webmasters/sitemaps website for more information.
+ * Product Homepage: http://quintagroup.com/services/plone-development/products/google-sitemaps
+ * Documentation Area: http://projects.quintagroup.com/products/wiki/qPloneGoogleSitemaps
+ * Repository: http://svn.quintagroup.com/products/quintagroup.plonegooglesitemaps
+ * Releases: http://plone.org/products/qplonegooglesitemaps/releases
+ * Watch "Plone Google Sitemeps" Screencast at http://quintagroup.com/cms/screencasts/qplonegooglesitemaps
 
 Authors
 -------
 
-  * Myroslav Opyr
-  * Andriy Mylenkyi
-  * Nazar Ilchuk 
-  * Mykola Kharechko
+ * Myroslav Opyr
+ * Andriy Mylenkyi
+ * Nazar Ilchuk 
+ * Mykola Kharechko
   

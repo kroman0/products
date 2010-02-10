@@ -4,49 +4,25 @@ from zope.testing import doctestunit
 from zope.component import testing
 from Testing import ZopeTestCase as ztc
 
-from Products.Five import zcml
-from Products.Five import fiveconfigure
-from Products.PloneTestCase import PloneTestCase as ptc
-from Products.PloneTestCase.layer import PloneSite
-ptc.setupPloneSite()
-
-import quintagroup.canonicalpath
-
-class TestCase(ptc.PloneTestCase):
-    class layer(PloneSite):
-        @classmethod
-        def setUp(cls):
-            fiveconfigure.debug_mode = True
-            zcml.load_config('configure.zcml',
-                             quintagroup.canonicalpath)
-            fiveconfigure.debug_mode = False
-
-        @classmethod
-        def tearDown(cls):
-            pass
-
-
 def test_suite():
     return unittest.TestSuite([
 
-        # Unit tests
-        #doctestunit.DocFileSuite(
-        #    'README.txt', package='quintagroup.canonicalpath',
-        #    setUp=testing.setUp, tearDown=testing.tearDown),
+        # Unit tests for your API
+        doctestunit.DocFileSuite(
+            'README.txt', package='quintagroup.canonicalpath',
+            setUp=testing.setUp, tearDown=testing.tearDown),
 
         #doctestunit.DocTestSuite(
         #    module='quintagroup.canonicalpath.mymodule',
         #    setUp=testing.setUp, tearDown=testing.tearDown),
 
-
-        # Integration tests that use PloneTestCase
+        # Integration tests that use ZopeTestCase
         #ztc.ZopeDocFileSuite(
         #    'README.txt', package='quintagroup.canonicalpath',
-        #    test_class=TestCase),
+        #    setUp=testing.setUp, tearDown=testing.tearDown),
 
         #ztc.FunctionalDocFileSuite(
-        #    'browser.txt', package='quintagroup.canonicalpath',
-        #    test_class=TestCase),
+        #    'browser.txt', package='quintagroup.canonicalpath'),
 
         ])
 

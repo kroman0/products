@@ -80,7 +80,7 @@ class TestInstallation(TestCase):
         cpbrain = self.catalog(path='/'+my_doc.absolute_url(1))[0].canonical_path
         self.assertTrue(cpmydoc == cpbrain,
             "Canonical Path from adapter: '%s' not equals with brains data: '%s'" % (
-             cpbrain, cpmydoc))
+             cpmydoc, cpbrain))
 
         self.logout()
 

@@ -3,6 +3,7 @@ import os
 
 version = '0.2'
 
+tests_require=['zope.testing']
 setup(name='quintagroup.canonicalpath',
       version=version,
       description="Bring canonical path calculation functionality",
@@ -25,6 +26,9 @@ setup(name='quintagroup.canonicalpath',
       install_requires=[
           'setuptools',
       ],
+      tests_require=tests_require,
+      extras_require=dict(tests=tests_require),
+      test_suite = 'quintagroup.canonicalpath.tests.test_suite',
       entry_points="""
       # -*- Entry points: -*-
       """,

@@ -6,9 +6,9 @@
   <!-- Include dependent packages -->
   <include package="archetypes.schemaextender" />
 
-  <adapter
-	factory=".adapters.canonicalPathAdapter"
-	/>
+  <adapter factory=".adapters.canonicalPathAdapter" />
+
+  <adapter name="canonical_path" factory=".catalog.canonical_path" />
 
   <genericsetup:registerProfile
       name="default"

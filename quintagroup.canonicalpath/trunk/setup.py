@@ -24,7 +24,6 @@ setup(name='quintagroup.canonicalpath',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'archetypes.schemaextender',
       ],
       entry_points="""
       # -*- Entry points: -*-

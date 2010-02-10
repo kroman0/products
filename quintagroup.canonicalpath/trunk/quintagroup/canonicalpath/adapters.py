@@ -1,16 +1,16 @@
 from zope.interface import implements
 from zope.component import adapts
 
+from OFS.interfaces import ITraversable
 from Products.CMFCore.utils import getToolByName
-from Products.Archetypes.interfaces import IBaseContent
 
-from interfaces import ICanonicalPath
+from quintagroup.canonicalpath.interfaces import ICanonicalPath
 
 
 class canonicalPathAdapter(object):
     """Adapts base content to canonical path.
     """
-    adapts(IBaseContent)
+    adapts(ITraversable)
     implements(ICanonicalPath)
 
     def __init__(self, context):

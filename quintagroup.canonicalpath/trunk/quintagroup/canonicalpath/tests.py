@@ -56,9 +56,25 @@ class TestAdapter(TestCase):
         self.assertTrue(adcp == mydoc_cp, "Canonical path adapter return '%s' "\
             "for document, must be: '%s'" % (adcp, mydoc_cp) )
 
+class TestInstallation(TestCase):
+
+    def afterSetUp(self):
+        self.qi = self.portal.portal_quickinstaller
+        self.qi.installProduct("quintagroup.canonicalpath")
+
+        self.purl = getToolByName(self.portal, 'portal_url')
+        self.catalog = getToolByName(self.portal, 'portal_catalog')
+
+    def testCatalogMetadata(self):
+        self.assertTrue('canonical_path' in self.catalog._catalog.names,
+            "'canonical_path' metadata not added to catalog.")
+
+
+
 def test_suite():
     return unittest.TestSuite([
         unittest.makeSuite(TestAdapter),
+        unittest.makeSuite(TestInstallation),
         ])
 
 if __name__ == '__main__':

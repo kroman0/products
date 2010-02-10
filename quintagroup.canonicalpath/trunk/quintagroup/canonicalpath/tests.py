@@ -11,6 +11,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import PloneSite
 
+from Products.Archetypes.tests.utils import makeContent
+
 from quintagroup.canonicalpath.interfaces import ICanonicalPath
 
 class TestCase(ptc.PloneTestCase):
@@ -43,9 +45,8 @@ class TestAdapter(TestCase):
 
     def testAdapter4AT(self):
         self.loginAsPortalOwner()
-        self.portal.invokeFactory('Document', id='my_doc')
+        my_doc = makeContent(self.portal, portal_type='Document', id='my_doc')
         self.logout()
-        my_doc = self.portal['my_doc']
 
         cpadapter = queryAdapter(my_doc, ICanonicalPath)
         self.assertFalse(cpadapter is None,
@@ -69,6 +70,19 @@ class TestInstallation(TestCase):
         self.assertTrue('canonical_path' in self.catalog._catalog.names,
             "'canonical_path' metadata not added to catalog.")
 
+    def testIndexer(self):
+        self.loginAsPortalOwner()
+        my_doc = makeContent(self.portal, portal_type='Document', id='my_doc')
+        my_doc.update(title='My document')
+
+        cpadapter = queryAdapter(my_doc, ICanonicalPath)
+        cpmydoc = cpadapter.canonical_path()
+        cpbrain = self.catalog(path='/'+my_doc.absolute_url(1))[0].canonical_path
+        self.assertTrue(cpmydoc == cpbrain,
+            "Canonical Path from adapter: '%s' not equals with brains data: '%s'" % (
+             cpbrain, cpmydoc))
+
+        self.logout()
 
 
 def test_suite():

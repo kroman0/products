@@ -84,6 +84,18 @@ class TestInstallation(TestCase):
 
         self.logout()
 
+    def testCatalogUpdateOnInstallation(self):
+        self.loginAsPortalOwner()
+        fp = self.portal['front-page']
+        cpadapter = queryAdapter(fp, ICanonicalPath)
+        cpfp = cpadapter.canonical_path()
+        cpbrain = self.catalog(path='/'+fp.absolute_url(1))[0].canonical_path
+        self.assertTrue(cpfp == cpbrain,
+            "Catalog not updated on installation: canonical path from adapter: " \
+            "'%s' not equal to brain data: '%s'" % (cpfp, cpbrain))
+
+        self.logout()
+
 
 def test_suite():
     return unittest.TestSuite([

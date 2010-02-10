@@ -2,7 +2,8 @@ import unittest
 
 from zope.testing import doctestunit
 from zope.component import testing
-from zope.component import queryAdapter
+from zope.component import queryAdapter, queryMultiAdapter
+from plone.indexer.interfaces import IIndexableObject
 from Testing import ZopeTestCase as ztc
 
 from Products.Five import zcml
@@ -29,7 +30,11 @@ ptc.setupPloneSite()
 class TestAdapter(TestCase):
 
     def afterSetUp(self):
+        self.loginAsPortalOwner()
+        self.my_doc = makeContent(self.portal, portal_type='Document', id='my_doc')
         self.purl = getToolByName(self.portal, 'portal_url')
+        self.catalog = getToolByName(self.portal, 'portal_catalog')
+        self.logout()
 
     def testAdapter4Portal(self):
         cpadapter = queryAdapter(self.portal, ICanonicalPath)
@@ -44,63 +49,69 @@ class TestAdapter(TestCase):
 
 
     def testAdapter4AT(self):
-        self.loginAsPortalOwner()
-        my_doc = makeContent(self.portal, portal_type='Document', id='my_doc')
-        self.logout()
-
-        cpadapter = queryAdapter(my_doc, ICanonicalPath)
+        cpadapter = queryAdapter(self.my_doc, ICanonicalPath)
         self.assertFalse(cpadapter is None,
             "Can't get canonical path adapter for the Document object")
 
-        mydoc_cp = '/'+'/'.join(self.purl.getRelativeContentPath(my_doc))
+        mydoc_cp = '/'+'/'.join(self.purl.getRelativeContentPath(self.my_doc))
         adcp = cpadapter.canonical_path()
         self.assertTrue(adcp == mydoc_cp, "Canonical path adapter return '%s' "\
             "for document, must be: '%s'" % (adcp, mydoc_cp) )
 
-class TestInstallation(TestCase):
 
-    def afterSetUp(self):
-        self.qi = self.portal.portal_quickinstaller
-        self.qi.installProduct("quintagroup.canonicalpath")
+    def testIndexerRegistration(self):
+        wrapper = queryMultiAdapter((self.portal, self.catalog), IIndexableObject)
+        self.assertFalse(wrapper is None, "No indexer registered for portal object")
 
-        self.purl = getToolByName(self.portal, 'portal_url')
-        self.catalog = getToolByName(self.portal, 'portal_catalog')
+        wrapper = queryMultiAdapter((self.my_doc, self.catalog), IIndexableObject)
+        self.assertFalse(wrapper is None, "No indexer registered for document object")
+        
+        
+        
+# class TestInstallation(TestCase):
 
-    def testCatalogMetadata(self):
-        self.assertTrue('canonical_path' in self.catalog._catalog.names,
-            "'canonical_path' metadata not added to catalog.")
+#     def afterSetUp(self):
+#         self.qi = self.portal.portal_quickinstaller
+#         self.qi.installProduct("quintagroup.canonicalpath")
 
-    def testIndexer(self):
-        self.loginAsPortalOwner()
-        my_doc = makeContent(self.portal, portal_type='Document', id='my_doc')
-        my_doc.update(title='My document')
+#         self.purl = getToolByName(self.portal, 'portal_url')
+#         self.catalog = getToolByName(self.portal, 'portal_catalog')
 
-        cpadapter = queryAdapter(my_doc, ICanonicalPath)
-        cpmydoc = cpadapter.canonical_path()
-        cpbrain = self.catalog(path='/'+my_doc.absolute_url(1))[0].canonical_path
-        self.assertTrue(cpmydoc == cpbrain,
-            "Canonical Path from adapter: '%s' not equals with brains data: '%s'" % (
-             cpmydoc, cpbrain))
+#     def testCatalogMetadata(self):
+#         self.assertTrue('canonical_path' in self.catalog._catalog.names,
+#             "'canonical_path' metadata not added to catalog.")
 
-        self.logout()
+#     def testIndexer(self):
+#         self.loginAsPortalOwner()
+#         my_doc = makeContent(self.portal, portal_type='Document', id='my_doc')
+#         my_doc.update(title='My document')
 
-    def testCatalogUpdateOnInstallation(self):
-        self.loginAsPortalOwner()
-        fp = self.portal['front-page']
-        cpadapter = queryAdapter(fp, ICanonicalPath)
-        cpfp = cpadapter.canonical_path()
-        cpbrain = self.catalog(path='/'+fp.absolute_url(1))[0].canonical_path
-        self.assertTrue(cpfp == cpbrain,
-            "Catalog not updated on installation: canonical path from adapter: " \
-            "'%s' not equal to brain data: '%s'" % (cpfp, cpbrain))
+#         cpadapter = queryAdapter(my_doc, ICanonicalPath)
+#         cpmydoc = cpadapter.canonical_path()
+#         cpbrain = self.catalog(path='/'+my_doc.absolute_url(1))[0].canonical_path
+#         self.assertTrue(cpmydoc == cpbrain,
+#             "Canonical Path from adapter: '%s' not equals with brains data: '%s'" % (
+#              cpmydoc, cpbrain))
 
-        self.logout()
+#         self.logout()
+
+#     def testCatalogUpdateOnInstallation(self):
+#         self.loginAsPortalOwner()
+#         fp = self.portal['front-page']
+#         cpadapter = queryAdapter(fp, ICanonicalPath)
+#         cpfp = cpadapter.canonical_path()
+#         cpbrain = self.catalog(path='/'+fp.absolute_url(1))[0].canonical_path
+#         self.assertTrue(cpfp == cpbrain,
+#             "Catalog not updated on installation: canonical path from adapter: " \
+#             "'%s' not equal to brain data: '%s'" % (cpfp, cpbrain))
+
+#         self.logout()
 
 
 def test_suite():
     return unittest.TestSuite([
         unittest.makeSuite(TestAdapter),
-        unittest.makeSuite(TestInstallation),
+        #unittest.makeSuite(TestInstallation),
         ])
 
 if __name__ == '__main__':

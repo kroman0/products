@@ -1,13 +1,11 @@
-<configure
+e<configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
 
-  <!-- Include dependent packages -->
-  <include package="archetypes.schemaextender" />
-
+  <!-- Add general canonical_path adapter -->
   <adapter factory=".adapters.canonicalPathAdapter" />
 
+  <!-- Register canonical_path adapter for catalog -->
   <adapter name="canonical_path" factory=".catalog.canonical_path" />
 
   <genericsetup:registerProfile

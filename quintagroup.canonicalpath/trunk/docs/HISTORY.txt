@@ -1,10 +1,14 @@
 Changelog
 =========
 
-0.2 (unreleased)
+0.4 (2010-02-11)
 ----------------
 
-- Nothing changed yet.
+* Reregistered base adatapter for OFS.interface.ITraversable [mylan]
+* Rewrite indexer registration with help of plone.indexer [mylan]
+* Removed metadata registration in portal catalog [mylan]
+* Added tests [mylan]
+* Added README [mylan]
 
 
 0.1 (2009-03-13)

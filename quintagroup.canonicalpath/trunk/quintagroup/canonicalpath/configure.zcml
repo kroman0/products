@@ -8,12 +8,4 @@
   <!-- Register canonical_path adapter for catalog -->
   <adapter name="canonical_path" factory=".catalog.canonical_path" />
 
-  <genericsetup:registerProfile
-      name="default"
-      title="Canonical Path product"
-      directory="profiles/default"
-      description="Load catalog support for Canonoical Path."
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      />
-
 </configure>

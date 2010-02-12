@@ -1,13 +1,17 @@
 import re
+from zope.component import queryAdapter
 
 from DateTime import DateTime
-
+from Missing import MV as Missing_Value
 from Products.CMFCore.utils import getToolByName
+
+from quintagroup.canonicalpath.interfaces import ICanonicalPath
 import quintagroup.plonegooglesitemaps.config as config
 
 ADD_ZOPE = re.compile('^/')
 ADD_PLONE = re.compile('^[^http://|https://|\\\]')
 OPERATIONS_PARSE = re.compile(r"(.?[^\\])/(.*[^\\]|)/(.*[^\\]|)/")
+_marker = []
 
 def searchAndReplace(string, what, with):
     """Emulate sed command s/"""
@@ -20,10 +24,12 @@ def applyOperations(objects, operations):
     operations=[OPERATIONS_PARSE.match(op).groups() for op in operations]
     result = {}
     for ob in objects:
+        url = _marker
         if ob.has_key('canonical_path'):
             url = ob.canonical_path
-        else:
-            url = '/'+'/'.join(ob.getPath().split('/')[2:])
+        if url in [Missing_Value, _marker]:
+            cpath = queryAdapter(ob.getObject(), ICanonicalPath)
+            url = cpath.canonical_path()
         for operator, what, with in operations:
             url = OPERATORS[operator](url, what, with.replace("\\", ""))
         #TODO: Remove or replace following condition

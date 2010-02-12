@@ -51,3 +51,15 @@ should only contain this::
    $ ./bin/zopectl restart
 
 * Install ``Plone Google Sitemaps`` with Quickinstaller in Plone (Site Setup -> Add/Remove Products) 
+
+
+IMPORTANT
+---------
+
+* After installation portal_catalog rebuild needed.
+  By default catalog NOT rebuilded. You may rebuild catalog in 2 ways:
+   ** by hand: go to /<plone instance id>/portal_catalog/manage_catalogAdvanced
+       and push *Update* button.
+   ** allow catalog rebuilding on quintagroup.plonegooglesitemap installation.
+      For that - set *UPDATE_CATALOG* property to *True* in
+      quintagroup.plonegooglesitemaps.config python module.

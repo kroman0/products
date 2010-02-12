@@ -5,12 +5,15 @@ from Products.CMFCore.Expression import Expression
 
 from Products.ZCatalog.ProgressHandler import ZLogHandler
 
+from config import UPDATE_CATALOG
+
 logger = logging.getLogger('quintagroup.seoptimizer')
 
 def updateCatalog(context):
     """ Update Catalog to collect data for canonical_path metadata.
     """
-    if context.readDataFile('plonegooglesitemap_install.txt') is None:
+    if not (context.readDataFile('plonegooglesitemap_install.txt') is not None \
+            and UPDATE_CATALOG):
         return
 
     site = context.getSite()

@@ -24,6 +24,8 @@ import quintagroup.plonegooglesitemaps
 from quintagroup.plonegooglesitemaps.config import ping_googlesitemap
 
 quintagroup.plonegooglesitemaps.config.testing = 1
+quintagroup.plonegooglesitemaps.config.UPDATE_CATALOG = True
+
 
 class MixinTestCase:
     """ Define layer and common afterSetup method with package installation.

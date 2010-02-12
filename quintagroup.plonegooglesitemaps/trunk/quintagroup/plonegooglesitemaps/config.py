@@ -28,4 +28,8 @@ else:
 
 # Turn-ON/OFF portal_catalog
 # updating on product installation
+
+# NOT REBUILD catalog
 UPDATE_CATALOG = False
+# DO REBUILDING catalog
+# UPDATE_CATALOG = True

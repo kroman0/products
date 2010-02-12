@@ -25,3 +25,7 @@ except ImportError:
     IS_PLONE_3 = False
 else:
     IS_PLONE_3 = True
+
+# Turn-ON/OFF portal_catalog
+# updating on product installation
+UPDATE_CATALOG = False

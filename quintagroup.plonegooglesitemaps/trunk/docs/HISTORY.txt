@@ -1,6 +1,19 @@
 Changelog
 =========
 
+1.1 (2010-02-12)
+----------------
+
+* Added quintagroup.canonicalpath as required package
+  [mylan]
+* Add canonical_path metadata to portal_catalog
+  [mylan]
+* Updated getting canonical_path data for sitemap record
+  [mylan]
+* Added catalog updating on product installation
+  [mylan]
+
+
 1.0 (2010-02-05)
 ----------------
 

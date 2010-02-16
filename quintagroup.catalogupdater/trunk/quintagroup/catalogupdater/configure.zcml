@@ -3,5 +3,7 @@
     xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="quintagroup.catalogupdater">
 
+    <utility factory=".utility.CatalogUpdaterUtility"
+             name="catalog_updater" />
 
-</configure>
+</configure> 

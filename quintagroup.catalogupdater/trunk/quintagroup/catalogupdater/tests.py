@@ -46,23 +46,26 @@ class TestUtility(TestCase):
         provideAdapter(test_column, name='test_column')
         self.catalog.addColumn('test_column')
 
-    def testMetadataUpdate(self):
+    def testSingleColumnUpdate(self):
         """ Test is metadata column updated with utility
         """
-        docs = self.catalog.unrestrictedSearchResults(portal_type='Document')
-        self.assertTrue([1 for b in docs if b.test_column == b.id] == [],
-            "Some document has updated 'test_column' metadata in catalog: '%s'" % docs)
+        mydoc = self.catalog.unrestrictedSearchResults(id='my_doc')[0]
+        self.assertFalse(mydoc.test_column == 'my_doc',
+            "'test_column' metadata updated in catalog " \
+            "before utility call: '%s'" % mydoc.test_column)
 
         cu = queryUtility(ICatalogUpdater, name="catalog_updater")
         cu.updateMetadata4All(self.catalog, 'test_column')
 
-        docs = self.catalog.unrestrictedSearchResults(portal_type='Document')
-        self.assertTrue([1 for b in docs if b.test_column != b.id] == [],
-            "Some document has wrong 'test_column' metadata in catalog: '%s'" % docs)
+        mydoc = self.catalog.unrestrictedSearchResults(id='my_doc')[0]
+        self.assertTrue(mydoc.test_column == 'my_doc',
+            "'test_column' metadata has wrong metadata in catalog: " \
+            "'%s'" % mydoc.test_column)
 
-    def testOnlyOneColumnUpdate(self):
-        """ Update a title property for the my_doc object (without reindexing)
-            then, after utility usage - check is that metadata is leave unchanged.
+    def testOnlyPointedColumnUpdate(self):
+        """ Update a title property for the my_doc object
+            (without reindexing) then, after utility usage
+            - check is that metadata is leave unchanged.
         """
         self.loginAsPortalOwner()
         self.my_doc.update(title="My document")
@@ -79,9 +82,6 @@ class TestUtility(TestCase):
         self.assertTrue(mydoc.Title == 'My document',
             "Other metadata updated: Title='%s'" % mydoc.Title)
 
-        self.assertTrue(mydoc.test_column == 'my_doc',
-            "Wrong data in updated metadata: test_column='%s', " \
-            "must be 'my_doc'" % mydoc.test_column)
 
 
 def test_suite():

@@ -86,21 +86,15 @@ class TestUtility(TestCase):
     def testAllRecordsUpdate(self):
         """ Test is all records in catalog updated with utility
         """
-        _cat = self.catalog._catalog
-        cat = self.catalog
-        recs = self.catalog.getCounter()
-        
-        import pdb;pdb.set_trace()
-        # mydoc = self.catalog.unrestrictedSearchResults(portal_type='Document')
-        # self.assertTrue([1 for b in docs if b.test_column == b.id] == [],
-        #     "Some document has updated 'test_column' metadata in catalog: '%s'" % docs)
+        cu = queryUtility(ICatalogUpdater, name="catalog_updater")
+        cu.updateMetadata4All(self.catalog, 'test_column')
 
-        # cu = queryUtility(ICatalogUpdater, name="catalog_updater")
-        # cu.updateMetadata4All(self.catalog, 'test_column')
+        num_recs = len(self.catalog._catalog.data)
+        allcat = self.catalog.unrestrictedSearchResults(path='/')
+        num_updated = sum([1 for b in allcat if b.test_column==b.id])
 
-        # docs = self.catalog.unrestrictedSearchResults(portal_type='Document')
-        # self.assertTrue([1 for b in docs if b.test_column != b.id] == [],
-        #     "Some document has wrong 'test_column' metadata in catalog: '%s'" % docs)
+        self.assertTrue(num_updated == num_recs, "Only %d records updated, " \
+            "must be - %d" % (num_updated, num_recs))
 
 
 def test_suite():

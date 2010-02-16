@@ -1,5 +1,10 @@
 from zope.interface import Interface
 
+class IUpdatableCatalog(Interface):
+    """ Marker interface for separate GenericSetup
+        exportimport handler
+    """
+
 class ICatalogUpdater(Interface):
 
     def updateMetadata4All(catalog, columns):

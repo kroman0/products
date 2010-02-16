@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<import-steps>
+ <import-step id="catalogupdater" version="20100216-01"
+              handler="quintagroup.catalogupdater.exportimport.catalogupdater.updateCatalogColumns"
+              title="Catalog Columns Updater">
+  <dependency step="catalog"/>
+    Update catalog columns with quintagroup.catalogupdater tool.
+ </import-step>
+</import-steps>

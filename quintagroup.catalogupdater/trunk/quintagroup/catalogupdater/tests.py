@@ -83,6 +83,25 @@ class TestUtility(TestCase):
             "Other metadata updated: Title='%s'" % mydoc.Title)
 
 
+    def testAllRecordsUpdate(self):
+        """ Test is all records in catalog updated with utility
+        """
+        _cat = self.catalog._catalog
+        cat = self.catalog
+        recs = self.catalog.getCounter()
+        
+        import pdb;pdb.set_trace()
+        # mydoc = self.catalog.unrestrictedSearchResults(portal_type='Document')
+        # self.assertTrue([1 for b in docs if b.test_column == b.id] == [],
+        #     "Some document has updated 'test_column' metadata in catalog: '%s'" % docs)
+
+        # cu = queryUtility(ICatalogUpdater, name="catalog_updater")
+        # cu.updateMetadata4All(self.catalog, 'test_column')
+
+        # docs = self.catalog.unrestrictedSearchResults(portal_type='Document')
+        # self.assertTrue([1 for b in docs if b.test_column != b.id] == [],
+        #     "Some document has wrong 'test_column' metadata in catalog: '%s'" % docs)
+
 
 def test_suite():
     return unittest.TestSuite([

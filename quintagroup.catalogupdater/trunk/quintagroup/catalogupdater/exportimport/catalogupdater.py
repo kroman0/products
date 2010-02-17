@@ -3,60 +3,40 @@
 from zope.component import adapts
 from zope.component import queryUtility
 
-from Products.CMFCore.utils import getToolByName
-from Products.GenericSetup.utils import importObjects
-from Products.GenericSetup.utils import XMLAdapterBase
+from Products.ZCatalog.interfaces import IZCatalog
 from Products.GenericSetup.interfaces import ISetupEnviron
+from Products.GenericSetup.ZCatalog.exportimport import ZCatalogXMLAdapter
 
-from quintagroup.catalogupdater.interfaces import IUpdatableCatalog
+from quintagroup.catalogupdater.interfaces import ICatalogUpdater
 
 
-class CatalogUpdaterXMLAdapter(XMLAdapterBase):
-    """XML Catalog columns updater for CatalogTool.
+class CatalogUpdaterXMLAdapter(ZCatalogXMLAdapter):
+    """XML im- and exporter for ZCatalog with
+       support of columns updates
     """
 
-    adapts(IUpdatableCatalog, ISetupEnviron)
+    adapts(IZCatalog, ISetupEnviron)
 
-    _LOGGER_ID = 'catalogupdater'
-
-    name = 'catalogupdater'
-
-    def _exportNode(self):
-        """Export the object as a DOM node.
-        """
-        return ''
-
-    def _importNode(self, node):
-        """Import the object from the DOM node.
-        """
-        self._updateColumns(node)
-        self._logger.info('Catalog columns updated.')
-
-
-    def _updateColumns(self, node):
-        columns = []
+    def _initColumns(self, node):
+        super(CatalogUpdaterXMLAdapter, self)._initColumns(node)
+        import pdb;pdb.set_trace()
+        updatecols = []
         for child in node.childNodes:
             if child.nodeName != 'column':
                 continue
-            col = str(child.getAttribute('value')).strip()
-            columns.append(col)
+            col = str(child.getAttribute('value'))
+            if child.hasAttribute('update'):
+                # Add the column to update list if it is there
+                if col in self.context.schema()[:]:
+                    updatecols.append(col)
+                continue
 
         # Update columns in catalog
-        if len(columns) > 0:
-
+        if len(updatecols) > 0:
             catalog = self.context
 
             self._logger.info('Updating %s columns for %s Catalog.' % (
-                columns, '/'.join(catalog.getPhysicalPaht())) )
+                updatecols, '/'.join(catalog.getPhysicalPaht())) )
 
             cu = queryUtility(ICatalogUpdater, name='catalog_updater')
-            cu.updateMetadata4All(catalog, columns)
-
-
-def updateCatalogColumns(context):
-    """Update catalog columns with catalog_updater tool.
-    """
-    site = context.getSite()
-    tool = getToolByName(site, 'portal_catalog')
-
-    importObjects(tool, '', context)
+            cu.updateMetadata4All(catalog, updatecols)

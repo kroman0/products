@@ -1,4 +1,5 @@
 import unittest
+import transaction
 
 from zope.interface import Interface
 from zope.component import queryUtility
@@ -95,6 +96,35 @@ class TestUtility(TestCase):
 
         self.assertTrue(num_updated == num_recs, "Only %d records updated, " \
             "must be - %d" % (num_updated, num_recs))
+
+
+    def testTransaction(self):
+        """ Test is commited subtransactions
+        """
+        # savepoint patch
+        global sp_commits
+        sp_commits = 1 # Starts from 1 to count last commit
+        orig_trsp = transaction.savepoint
+        def dummy_savepoint(*args, **kwargs):
+            global sp_commits
+            sp_commits += 1
+            orig_trsp(*args, **kwargs)
+        transaction.savepoint = dummy_savepoint
+
+        # set threshold for catalog
+        num_recs = len(self.catalog.unrestrictedSearchResults(path='/'))
+        num_subcommits = 3
+        self.catalog.threshold = num_recs/num_subcommits
+
+        cu = queryUtility(ICatalogUpdater, name="catalog_updater")
+        cu.updateMetadata4All(self.catalog, 'test_column')
+
+        self.assertTrue(sp_commits == num_subcommits,
+            "Wrong number of transaction subcommits: actual:%d, must be: %d" % (
+            sp_commits, num_subcommits))
+
+        transaction.savepoint = orig_trsp
+        
 
 
 def test_suite():

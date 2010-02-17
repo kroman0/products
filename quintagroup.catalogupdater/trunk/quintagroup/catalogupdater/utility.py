@@ -1,4 +1,5 @@
 import logging, types
+import transaction
 from zope.interface import implements
 from zope.component import queryMultiAdapter
 from plone.indexer.interfaces import IIndexableObject
@@ -71,6 +72,10 @@ class CatalogUpdaterUtility(object):
         data = _catalog.data
         schema = _catalog.schema
         paths = _catalog.paths
+        # For subtransaction support
+        threshold = getattr(catalog, 'threshold', 10000)
+        _v_total = 0
+        _v_transaction = None
 
         # For each catalog record update metadata
         for rid, md in data.items():
@@ -95,4 +100,18 @@ class CatalogUpdaterUtility(object):
 
             # Update catalog record
             data[rid] = tuple(mdlist)
+
+            # Steeled from ZCatalog
+            if threshold is not None:
+                # figure out whether or not to commit a subtransaction.
+                t = id(transaction.get())
+                if t != _v_transaction:
+                    _v_total = 0
+                _v_transaction = t
+                _v_total = _v_total + 1
+                if _v_total > threshold:
+                    transaction.savepoint(optimistic=True)
+                    catalog._p_jar.cacheGC()
+                    _v_total = 0
+                    LOG.info('commiting subtransaction')
 

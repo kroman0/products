@@ -24,6 +24,7 @@ setup(name='quintagroup.catalogupdater',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'Products.GenericSetup',
           # -*- Extra requirements: -*-
       ],
       entry_points="""

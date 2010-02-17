@@ -1,7 +1,15 @@
 Changelog
 =========
 
-0.1dev (unreleased)
--------------------
+0.1 (2010-02-17)
+----------------
+Initial release:
 
-- Initial release
+* Registered 'catalog_updater' utility for list
+  of columns updating [mylan]
+
+* Extended ZCatalogXMLAdapter for *update* property
+  support in *column* tag [mylan]
+
+* Tests added [mylan]
+

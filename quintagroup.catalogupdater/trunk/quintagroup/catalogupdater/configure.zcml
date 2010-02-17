@@ -1,29 +1,8 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:five="http://namespaces.zope.org/five"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="quintagroup.catalogupdater">
-
-    <include package=".exportimport" />
 
     <utility factory=".utility.CatalogUpdaterUtility"
              name="catalog_updater" />
-
-    <!-- Mark ZCatalog class with own interface for correct
-         working of GenericSetup import handler -->
-
-    <class class="Products.ZCatalog.ZCatalog.ZCatalog">
-      <implements interface=".interfaces.IUpdatableCatalog" />
-    </class>
-
-    <!-- register GenericSetup profile -->
-    <genericsetup:registerProfile
-      name="default"
-      title="quintagroup.catalogupdater"
-      directory="profiles/default"
-      description="Register Catalog Updater import step handler [quintagroup.catalogupdater]"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      />
-    
 
 </configure> 

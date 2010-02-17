@@ -19,7 +19,7 @@ class CatalogUpdaterXMLAdapter(ZCatalogXMLAdapter):
 
     def _initColumns(self, node):
         super(CatalogUpdaterXMLAdapter, self)._initColumns(node)
-        import pdb;pdb.set_trace()
+
         updatecols = []
         for child in node.childNodes:
             if child.nodeName != 'column':
@@ -36,7 +36,7 @@ class CatalogUpdaterXMLAdapter(ZCatalogXMLAdapter):
             catalog = self.context
 
             self._logger.info('Updating %s columns for %s Catalog.' % (
-                updatecols, '/'.join(catalog.getPhysicalPaht())) )
+                updatecols, '/'.join(catalog.getPhysicalPath())) )
 
             cu = queryUtility(ICatalogUpdater, name='catalog_updater')
             cu.updateMetadata4All(catalog, updatecols)

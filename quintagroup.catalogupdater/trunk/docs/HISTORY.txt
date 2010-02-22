@@ -1,10 +1,10 @@
 Changelog
 =========
 
-0.2 (unreleased)
-----------------
+0.2 (unrealeased)
+-----------------
 
-- Nothing changed yet.
+* Documentation fixed for initial public release [olha]
 
 
 0.1 (2010-02-17)

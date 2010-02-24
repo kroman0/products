@@ -56,7 +56,7 @@ class PackageProxyApp(object):
             index = 1
         else:
             pth1 = '/'.join(pth.split('/')[:-1])
-            if not os.path.exists(pth):
+            if not os.path.exists(pth1):
               os.makedirs(pth1)#create parent dir if it is not there
         url = self.index_url+path
         #if we dont have download it

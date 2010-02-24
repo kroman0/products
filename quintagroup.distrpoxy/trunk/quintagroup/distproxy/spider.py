@@ -902,6 +902,8 @@ class Spider:
         def download(url, np, op):
             '''Downloads files that need to be mirrored.'''
             # If ftp...
+            if self._path.exists(np):
+                return None
             if url[:3] == 'ftp':
                 # Open local file
                 local = open(np, 'wb')

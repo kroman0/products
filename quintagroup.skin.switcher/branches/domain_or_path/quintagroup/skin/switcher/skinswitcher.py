@@ -27,6 +27,8 @@ def setSkin(site, event):
     if not (pref and switch_theme and switch_theme in avail_skins):
        return
 
-    scheme, netloc, path, query, fragm = urlsplit(event.request.URL)
+    scheme, netloc, path, query, fragm = urlsplit(event.request.ACTUAL_URL)
     if netloc.startswith(pref):
+        site.changeSkin(switch_theme, event.request)
+    elif path.startswith(pref):
         site.changeSkin(switch_theme, event.request)

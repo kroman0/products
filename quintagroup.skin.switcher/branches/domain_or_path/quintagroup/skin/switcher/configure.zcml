@@ -14,8 +14,9 @@
 
   <subscriber
     for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot
-    zope.app.publication.interfaces.IBeforeTraverseEvent"
+         zope.app.publication.interfaces.IBeforeTraverseEvent"
     handler=".skinswitcher.setSkin"
     />
+
 
 </configure>

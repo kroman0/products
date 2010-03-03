@@ -28,9 +28,7 @@ To install quintagroup.catalogupdater to your buildout-based project:
     
 * Restart the Zope server, e.g with the following command in the terminal::
 
-   $ ./bin/instance restart
-   
-* Install ``quintagroup.catalogupdater`` with Quickinstaller in Plone (Site Setup -> Add/Remove Products) 
+   $ ./bin/instance restart 
         
 Traditional Zope 2 instance
 ---------------------------
@@ -50,8 +48,5 @@ using a traditional Zope 2 instance, you can do this:
 
    $ ./bin/zopectl restart
 
-* Install ``quintagroup.catalogupdater`` with Quickinstaller in Plone (Site Setup -> Add/Remove Products) 
-
-    
-    
-
+quintagroup.catalogupdater does not require additional installation in Plone - actually it
+is not possible to see that it was installed via Plone interface. 

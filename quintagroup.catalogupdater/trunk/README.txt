@@ -5,7 +5,9 @@ quintagroup.catalogupdater package is intended for extending ZCatalog API
 with possiblity to update selected columns only. This package registers
 'catalog_updater' utility for that.
 
-To simplify usage of the utility, quintagroup.catalogupdater extends GenericSetup's ZCatalog XMLAdapter handler, which allows to *update* attribute usage in *column* tag of *catalog.xml* file.
+To simplify usage of the utility, quintagroup.catalogupdater extends GenericSetup's
+ZCatalog XMLAdapter handler, which allows to *update* attribute usage in *column* 
+tag of *catalog.xml* file.
 
 So, when you add a new column to the catalog, you add catalog.xml file
 in some profile with following part::

@@ -1,14 +1,14 @@
 Changelog
 =========
 
-0.2 (unrealeased)
+0.2 - Mar 3, 2010
 -----------------
 
-* Documentation fixed for initial public release [olha]
+* Documentation files updated initial public release [olha]
 
 
-0.1 (2010-02-17)
-----------------
+0.1 - Feb 17, 2010
+------------------
 Initial release:
 
 * Registered 'catalog_updater' utility for list

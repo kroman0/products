@@ -31,7 +31,7 @@ It also supports subtransactions, based on threshold property of ZCatalog.
 Installation
 ------------
 
-See docs/INSTALL.txt for instructions
+See docs/INSTALL.txt file within product package for instructions.
 
 Requirements
 ------------
@@ -43,4 +43,5 @@ Author
 
 * Andriy Mylenkyi
 
-Copyright (c) "Quintagroup": http://quintagroup.com, 2004-2010
+
+Copyright (c) "Quintagroup": http://quintagroup.com, 2004 - 2010

@@ -20,8 +20,8 @@ class CaptchaWidget(ASCIIWidget):
         if self.displayMaxWidth:
             kwargs['maxlength'] = self.displayMaxWidth # TODO This is untested.
 
-        return u"""<div class="captchaImage">%s</div>%s""" % \
-            (captcha.image_tag(), renderElement(self.tag, **kwargs))
+        return u"""%s%s""" % \
+            (renderElement(self.tag, **kwargs), captcha.image_tag())
 
     def _toFieldValue(self, input):
         # Verify the user input against the captcha

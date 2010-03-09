@@ -14,7 +14,6 @@
      tal:define="errors python:request.get('controller_state', None).getErrors();
                  Iterator python:modules['Products.CMFPlone'].IndexIterator;
                  tabindex python:Iterator(mainSlot=False)">
-      <h1 i18n:translate="heading_edit_seo_properties">Edit SEO Properties</h1>
 
     <div metal:define-macro="main">
     <div class="configlet">

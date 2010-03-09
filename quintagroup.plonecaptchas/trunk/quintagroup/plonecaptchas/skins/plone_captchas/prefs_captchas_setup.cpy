@@ -9,7 +9,7 @@
 ##title=Set necessary skin
 ##
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as _
+from Products.CMFPlone import PloneMessageFactory as pmf
 
 import string
 
@@ -51,5 +51,5 @@ for id,type in property_map:
 
 captcha_props.manage_changeProperties(**kw)
 
-context.plone_utils.addPortalMessage(_(u'Changes saved.'))
+context.plone_utils.addPortalMessage(pmf(u'Changes saved.'))
 return state

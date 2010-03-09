@@ -1,8 +1,8 @@
 import logging, types
 import transaction
 from zope.interface import implements
+from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
-from plone.indexer.interfaces import IIndexableObject
 
 from Missing import MV
 from Acquisition import aq_inner
@@ -10,8 +10,25 @@ from Acquisition import aq_parent
 
 from Products.CMFCore.utils import getToolByName
 from Products.ZCatalog.Catalog import safe_callable
-from Products.CMFPlone.CatalogTool import register_bbb_indexers
-from Products.CMFPlone.CatalogTool import _old_IIndexableObjectWrapper
+
+
+try:
+    from plone.indexer.interfaces import IIndexableObject
+except ImportError:
+    class IIndexableObject:pass
+    from plone.app.content.interfaces import IIndexableObjectWrapper \
+        as _old_IIndexableObjectWrapper
+    from plone.app.content.interfaces import IIndexableObjectWrapper
+
+    register_bbb_indexers = lambda:None
+
+    IS_NEW = False
+else:    
+    from Products.CMFPlone.CatalogTool import register_bbb_indexers
+    from Products.CMFPlone.CatalogTool import _old_IIndexableObjectWrapper
+
+    IS_NEW = True
+
 
 from quintagroup.catalogupdater.interfaces import ICatalogUpdater
 
@@ -43,21 +60,40 @@ class CatalogUpdaterUtility(object):
 
         return _cat, cols
 
-    def getWrapedObject(self, obj, portal, catalog):
-       # Returned wrapped 'obj' object with IIndexable wrapper
-       w = obj
-       if not IIndexableObject.providedBy(obj):
-            # BBB: Compatibility wrapper lookup. Should be removed in Plone 4.
-            register_bbb_indexers()
-            wrapper = queryMultiAdapter((obj, portal), _old_IIndexableObjectWrapper)
-            if wrapper is not None:
-                w = wrapper
-            else:
-                # This is the CMF 2.2 compatible approach, which should be used going forward
-                wrapper = queryMultiAdapter((obj, catalog), IIndexableObject)
-                if wrapper is not None:
-                    w = wrapper
-       return w
+
+    def getWrappedObjectNew(self, obj, portal, catalog):
+        # Returned wrapped 'obj' object with IIndexable wrapper
+        w = obj
+        if not IIndexableObject.providedBy(obj):
+             # BBB: Compatibility wrapper lookup. Should be removed in Plone 4.
+             register_bbb_indexers()
+             wrapper = queryMultiAdapter((obj, portal), _old_IIndexableObjectWrapper)
+             if wrapper is not None:
+                 w = wrapper
+             else:
+                 # This is the CMF 2.2 compatible approach, which should be used going forward
+                 wrapper = queryMultiAdapter((obj, catalog), IIndexableObject)
+                 if wrapper is not None:
+                     w = wrapper
+        return w
+
+
+    def getWrappedObjectOld(self, obj, portal, catalog):
+        # Returned wrapped 'obj' object with IIndexable wrapper
+        wf = getattr(self, 'portal_workflow', None)
+        # A comment for all the frustrated developers which aren't able to pin
+        # point the code which adds the review_state to the catalog. :)
+        # The review_state var and some other workflow vars are added to the
+        # indexable object wrapper throught the code in the following lines
+        if wf is not None:
+            vars = wf.getCatalogVariablesFor(obj)
+        else:
+            vars = {}
+        
+        w = getMultiAdapter((obj, portal), _old_IIndexableObjectWrapper)
+        w.update(vars)
+
+        return w
 
 
     def updateMetadata4All(self, catalog, columns):
@@ -72,6 +108,7 @@ class CatalogUpdaterUtility(object):
         data = _catalog.data
         schema = _catalog.schema
         paths = _catalog.paths
+        getWrappedObject = IS_NEW and self.getWrappedObjectNew or self.getWrappedObjectOld
         # For subtransaction support
         threshold = getattr(catalog, 'threshold', 10000)
         _v_total = 0
@@ -83,7 +120,7 @@ class CatalogUpdaterUtility(object):
             obj_uid = paths[rid]
             try:
                 obj = root.unrestrictedTraverse(obj_uid)
-                obj = self.getWrapedObject(obj, portal, catalog)
+                obj = getWrappedObject(obj, portal, catalog)
             except:
                 LOG.error('updateMetadata4All could not resolve '
                           'an object from the uid %r.' % obj_uid)

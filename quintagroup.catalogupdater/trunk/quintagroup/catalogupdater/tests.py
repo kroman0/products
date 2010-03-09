@@ -5,8 +5,6 @@ from zope.interface import Interface
 from zope.component import queryUtility
 from zope.component import provideAdapter
 
-from plone.indexer.decorator import indexer
-from plone.indexer.interfaces import IIndexableObject
 from Testing import ZopeTestCase as ztc
 
 from Products.Five import zcml
@@ -17,6 +15,15 @@ from Products.PloneTestCase.layer import PloneSite
 from Products.Archetypes.tests.utils import makeContent
 
 from quintagroup.catalogupdater.utility import ICatalogUpdater
+
+try:
+    from plone.indexer.decorator import indexer
+except ImportError:
+    IS_NEW = False
+    from Products.CMFPlone.CatalogTool import registerIndexableAttribute
+else:
+    IS_NEW = True
+
 
 class TestCase(ptc.PloneTestCase):
     class layer(PloneSite):
@@ -29,7 +36,6 @@ class TestCase(ptc.PloneTestCase):
 
 ptc.setupPloneSite()
 
-
 class TestUtility(TestCase):
 
     def afterSetUp(self):
@@ -37,15 +43,26 @@ class TestUtility(TestCase):
         self.my_doc = makeContent(self.portal, portal_type='Document', id='my_doc')
         self.catalog = getToolByName(self.portal, 'portal_catalog')
         self.logout()
-        self.addIndexer()
 
-    def addIndexer(self):
+        if IS_NEW:
+            self.addIndexerNew()
+        else:
+            self.addIndexerOld()
+        self.catalog.addColumn('test_column')
+
+
+    def addIndexerNew(self):
         @indexer(Interface)
         def test_column(obj):
             return obj.id
-
         provideAdapter(test_column, name='test_column')
-        self.catalog.addColumn('test_column')
+
+
+    def addIndexerOld(self):
+        def test_column(obj, portal, **kwargs):
+            return obj.id
+        registerIndexableAttribute("test_column", test_column)
+
 
     def testSingleColumnUpdate(self):
         """ Test is metadata column updated with utility

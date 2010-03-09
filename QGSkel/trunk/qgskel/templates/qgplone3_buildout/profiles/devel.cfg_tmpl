@@ -7,7 +7,7 @@ find-links =
 	    http://devel.office.quintagroup.com:8888/dist/release/${plone_version}/
 	    http://devel.office.quintagroup.com:8888/dist/
 	    http://devel.office.quintagroup.com:8888/pypi/
-	    ${buildout:flinks}
+	    \${buildout:flinks}
 
 parts +=
     omelette

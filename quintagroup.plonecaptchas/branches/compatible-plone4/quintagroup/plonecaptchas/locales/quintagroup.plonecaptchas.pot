@@ -1,0 +1,98 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2010-03-09 18:23+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: quintagroup.plonecaptchas\n"
+
+#. Default: "Amplitude"
+#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:156
+msgid "Amplitude"
+msgstr ""
+
+#. Default: "Background"
+#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:93
+msgid "Background"
+msgstr ""
+
+#. Default: "Font color"
+#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:114
+msgid "Font color"
+msgstr ""
+
+#. Default: "Font size"
+#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:72
+msgid "Font size"
+msgstr ""
+
+#. Default: "Period"
+#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:135
+msgid "Period"
+msgstr ""
+
+#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/browser/widget.py:30
+msgid "Please re-enter validation code."
+msgstr ""
+
+#. Default: "Plone captchas setup"
+#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/profiles/default/controlpanel.xml
+msgid "Plone captchas setup"
+msgstr ""
+
+#. Default: "Random values"
+#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:178
+msgid "Random values"
+msgstr ""
+
+#. Default: "Enter the word below"
+#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/captcha_widget.pt:14
+msgid "enter_word"
+msgstr ""
+
+#. Default: "Plone Captchas Setup"
+#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:20
+msgid "heading_comments_setup"
+msgstr ""
+
+#. Default: "Enter the word below for registration."
+#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/captcha_widget.pt:18
+msgid "label_help_captchas"
+msgstr ""
+
+#. Default: "Dynamic captchas image setup options"
+#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:56
+msgid "legend_dynamic_captchas_options"
+msgstr ""
+
+#. Default: "Plone Captchas setup options"
+#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:37
+msgid "legend_setup_options"
+msgstr ""
+
+#. Default: "qPloneCaptchas"
+#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/profiles/default/actionicons.xml
+msgid "qPloneCaptchas"
+msgstr ""
+
+#. Default: "Use dynamic captchas"
+#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:51
+msgid "use_dynamic_captchas"
+msgstr ""
+
+#. Default: "Use static captchas"
+#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:44
+msgid "use_static_captchas"
+msgstr ""
+

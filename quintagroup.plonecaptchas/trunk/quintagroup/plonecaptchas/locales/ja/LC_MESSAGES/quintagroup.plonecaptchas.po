@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: quintagroup.plonecaptchas 2.0\n"
-"POT-Creation-Date: 2010-03-09 18:23+0000\n"
+"POT-Creation-Date: 2009-03-25 14:47+0000\n"
 "PO-Revision-Date: 2008-07-04 13:02 +0900\n"
 "Last-Translator: Suzuki, Takanori <takanori@takanory.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,82 +15,67 @@ msgstr ""
 "Domain: quintagroup.plonecaptchas\n"
 
 #. Default: "Amplitude"
-#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:156
+#: ./prefs_captchas_setup_form.pt:156
 msgid "Amplitude"
 msgstr "振幅"
 
 #. Default: "Background"
-#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:93
+#: ./prefs_captchas_setup_form.pt:93
 msgid "Background"
 msgstr "背景色"
 
 #. Default: "Font color"
-#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:114
+#: ./prefs_captchas_setup_form.pt:114
 msgid "Font color"
 msgstr "フォントの色"
 
 #. Default: "Font size"
-#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:72
+#: ./prefs_captchas_setup_form.pt:72
 msgid "Font size"
 msgstr "フォントサイズ"
 
 #. Default: "Period"
-#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:135
+#: ./prefs_captchas_setup_form.pt:135
 msgid "Period"
 msgstr "周期"
 
 #. Default: "Please re-enter validation code."
-#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/browser/widget.py:30
+#: ./captcha_validator.vpy:26
 msgid "Please re-enter validation code."
 msgstr "正しい文字列を入力してください"
 
-#. Default: "Plone captchas setup"
-#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/profiles/default/controlpanel.xml
-msgid "Plone captchas setup"
-msgstr ""
-
 #. Default: "Random values"
-#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:178
+#: ./prefs_captchas_setup_form.pt:178
 msgid "Random values"
 msgstr "ランダムな値を使用"
 
 #. Default: "Enter the word below"
-#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/captcha_widget.pt:14
+#: ./captcha_widget.pt:11
 msgid "enter_word"
 msgstr "画像に表示されている文字列を入力してください"
 
 #. Default: "Plone Captchas Setup"
-#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:20
+#: ./prefs_captchas_setup_form.pt:18
 msgid "heading_comments_setup"
 msgstr "Plone の Captcha 設定"
 
-#. Default: "Enter the word below for registration."
-#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/captcha_widget.pt:18
-msgid "label_help_captchas"
-msgstr ""
-
 #. Default: "Dynamic captchas image setup options"
-#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:56
+#: ./prefs_captchas_setup_form.pt:56
 msgid "legend_dynamic_captchas_options"
 msgstr "Captcha 画像の自動生成オプション"
 
 #. Default: "Plone Captchas setup options"
-#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:37
+#: ./prefs_captchas_setup_form.pt:35
 msgid "legend_setup_options"
 msgstr "qPloneCaptchas の設定オプション"
 
-#. Default: "qPloneCaptchas"
-#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/profiles/default/actionicons.xml
-msgid "qPloneCaptchas"
-msgstr ""
-
 #. Default: "Use dynamic captchas"
-#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:51
+#: ./prefs_captchas_setup_form.pt:51
 msgid "use_dynamic_captchas"
 msgstr "Cpatcha 画像を自動的に生成"
 
 #. Default: "Use static captchas"
-#: ./quintagroup.plonecaptchas/quintagroup/plonecaptchas/skins/plone_captchas/prefs_captchas_setup_form.cpt:44
+#: ./prefs_captchas_setup_form.pt:42
 msgid "use_static_captchas"
 msgstr "固定の Captcha 画像を使用"
 

@@ -1,6 +1,5 @@
 from zope.interface import Interface
 from zope.schema.interfaces import IASCIILine
-from plone.theme.interfaces import IDefaultPloneLayer
 
 class ICaptchaView(Interface):
     """ Captcha generating and verifying view that is wrapper around
@@ -19,9 +18,3 @@ class ICaptchaView(Interface):
 
 class ICaptcha(IASCIILine):
     u"""A field for captcha validation"""
-
-
-class IPloneChaptchaLayer(IDefaultPloneLayer):
-    """Marker interface that defines a Zope 3 skin layer bound to a Skin
-       Selection in portal_skins.
-    """

@@ -1,6 +1,7 @@
 import os
 import re
 import math
+import md5
 from string import atoi
 from random import randint
 
@@ -10,18 +11,12 @@ from quintagroup.plonecaptchas.data import basic_english
 from quintagroup.plonecaptchas.config import *
 
 try:
-    import hashlib
-    def encrypt1(s):
-        return hashlib.new('md5', s).hexdigest().upper()
-except ImportError:
-    import md5
-    def encrypt1(s):
-        return md5.new(s).hexdigest().upper()
-
-try:
     import Crypto.Cipher.DES as Crypto
 except:
     import Crypto
+
+def encrypt1(s):
+    return md5.new(s).hexdigest().upper()
 
 def getTransform(x, y, a, p, o):
     return (math.sin( (y+o[0])*p )*a + x, math.sin( (x+o[1])*p )*a + y)

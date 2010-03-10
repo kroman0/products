@@ -13,7 +13,7 @@ REQUEST=context.REQUEST
 from Products.CMFPlone.utils import transaction_note
 from Products.CMFPlone.PloneTool import AllowSendto
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as _
+from Products.CMFPlone import PloneMessageFactory as pmf
 from ZODB.POSException import ConflictError
 
 plone_utils = getToolByName(context, 'plone_utils')
@@ -22,7 +22,7 @@ site_properties = getToolByName(context, 'portal_properties').site_properties
 pretty_title_or_id = plone_utils.pretty_title_or_id
 
 if not mtool.checkPermission(AllowSendto, context):
-    context.plone_utils.addPortalMessage(_(u'You are not allowed to send this link.'), 'error')
+    context.plone_utils.addPortalMessage(pmf(u'You are not allowed to send this link.'), 'error')
     return state.set(status='failure')
 
 at = getToolByName(context, 'portal_actions')
@@ -33,7 +33,7 @@ for action in actions:
     if action['id'] == 'sendto' and action['category'] == 'document_actions':
         show = True
 if not show:
-    context.plone_utils.addPortalMessage(_(u'You are not allowed to send this link.'), 'error')
+    context.plone_utils.addPortalMessage(pmf(u'You are not allowed to send this link.'), 'error')
     return state.set(status='failure')
 
 # Find the view action.
@@ -56,7 +56,7 @@ except ConflictError:
     raise
 except: # TODO To many things could possibly go wrong. So we catch all.
     exception = context.plone_utils.exceptionString()
-    message = _(u'Unable to send mail: ${exception}',
+    message = pmf(u'Unable to send mail: ${exception}',
                 mapping={u'exception' : exception})
     context.plone_utils.addPortalMessage(message, 'error')
     return state.set(status='failure')
@@ -64,5 +64,5 @@ except: # TODO To many things could possibly go wrong. So we catch all.
 tmsg='Sent page %s to %s' % (url, REQUEST.send_to_address)
 transaction_note(tmsg)
 
-context.plone_utils.addPortalMessage(_(u'Mail sent.'))
+context.plone_utils.addPortalMessage(pmf(u'Mail sent.'))
 return state

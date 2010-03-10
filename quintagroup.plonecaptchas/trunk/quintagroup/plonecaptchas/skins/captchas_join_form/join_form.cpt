@@ -16,8 +16,7 @@
 <body>
 
 <div metal:fill-slot="main"
-     tal:define="template_id template/getId;
-                 errors options/state/getErrors;
+     tal:define="errors options/state/getErrors;
                  mailhost context/MailHost/smtp_host|nothing;
                  mailfrom context/email_from_address|nothing;
                  site_properties context/portal_properties/site_properties;

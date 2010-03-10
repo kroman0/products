@@ -15,7 +15,10 @@
   <body>
 
     <div metal:fill-slot="main"
-         tal:define="errors options/state/getErrors;">
+         tal:define="template_id template/getId;
+                     errors options/state/getErrors;
+                     member context/@@plone_portal_state/member;
+                     here_url context/@@plone_context_state/object_url;">
 
       <h1 class="documentFirstHeading"
           i18n:translate="heading_send_page_to">Send this page to someone</h1>

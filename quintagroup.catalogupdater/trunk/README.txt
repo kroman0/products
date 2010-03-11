@@ -1,6 +1,3 @@
-quintagroup.catalogupdater
-==========================
-
 quintagroup.catalogupdater package is intended for extending ZCatalog API
 with possiblity to update selected columns only. This package registers
 'catalog_updater' utility for that.

@@ -14,5 +14,5 @@ Initial release:
 
 * Tests added [mylan]
 
-* Documentation files updated for initial public release [olha]
+* Documentation files prepared for initial public release [olha]
 

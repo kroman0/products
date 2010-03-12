@@ -22,6 +22,7 @@ eggs +=
     plone.reload
     Products.Clouseau
     Products.DocFinderTab
+#    Products.PrintingMailhost
 #     Products.PTProfiler
 
 extensions += mr.developer

@@ -3,7 +3,7 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
 
   <!-- Add general canonical_path adapter -->
-  <adapter factory=".adapters.canonicalPathAdapter" />
+  <adapter factory=".adapters.DefaultCanonicalPathAdapter" />
 
   <!-- Register canonical_path adapter for catalog -->
   <adapter name="canonical_path" factory=".catalog.canonical_path" />

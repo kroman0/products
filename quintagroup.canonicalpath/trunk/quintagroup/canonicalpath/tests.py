@@ -144,7 +144,8 @@ class TestDefaultCanonicalPathAdapter(TestCase):
             except InvalidValue:
                 continue
             else:
-                raise self.failureException, "InvalidValue not raised when '%s' wrong value try to set" % wrong
+                raise self.failureException, "InvalidValue not raised when " \
+                      "'%s' wrong value try to set" % wrong
         
     def testValidationGood(self):
         cpadapter = queryAdapter(self.my_doc, ICanonicalPath)
@@ -152,8 +153,29 @@ class TestDefaultCanonicalPathAdapter(TestCase):
             cpadapter.canonical_path = good
 
 
-class TestDefaultCanonicalLinkAdapter(TestCase):
+    def testDeleteProperty(self):
+        hasprop = self.portal.hasProperty
+        cpadapter = queryAdapter(self.portal, ICanonicalPath)
+        cpadapter.canonical_path = '/new_portal_canonical'
+        assert hasprop(PROPERTY_PATH)
 
+        del cpadapter.canonical_path
+        self.assertFalse(hasprop(PROPERTY_PATH),
+            "Not deleted Canonical path customization property for the portal")
+
+
+    def testDelCustomization(self):
+        cpadapter = queryAdapter(self.portal, ICanonicalPath)
+        cpadapter.canonical_path = '/new_portal_canonical'
+        assert cpadapter.canonical_path == '/new_portal_canonical'
+
+        del cpadapter.canonical_path
+        self.assertTrue(cpadapter.canonical_path == self.portal_cp,
+            "After deleted Canonical path customization property not set to "
+            "default value for the portal")
+
+
+class TestDefaultCanonicalLinkAdapter(TestCase):
 
     def afterSetUp(self):
         self.loginAsPortalOwner()
@@ -232,6 +254,28 @@ class TestDefaultCanonicalLinkAdapter(TestCase):
         cladapter = queryAdapter(self.my_doc, ICanonicalLink)
         for good in ['http://', './good','../good','/good', 'good']:
             cladapter.canonical_link = good
+
+
+    def testDeleteProperty(self):
+        hasprop = self.portal.hasProperty
+        cladapter = queryAdapter(self.portal, ICanonicalLink)
+        cladapter.canonical_link = '/new_portal_canonical'
+        assert hasprop(PROPERTY_LINK)
+
+        del cladapter.canonical_link
+        self.assertFalse(hasprop(PROPERTY_LINK),
+            "Not deleted Canonical link customization property for the portal")
+
+
+    def test_DelCustomization(self):
+        cladapter = queryAdapter(self.portal, ICanonicalLink)
+        cladapter.canonical_link = '/new_portal_canonical'
+        assert cladapter.canonical_link == '/new_portal_canonical'
+
+        del cladapter.canonical_link
+        self.assertTrue(cladapter.canonical_link == self.purl(),
+            "After deleted Canonical link customization property not set to "
+            "default value for the portal")
 
 
 def test_suite():

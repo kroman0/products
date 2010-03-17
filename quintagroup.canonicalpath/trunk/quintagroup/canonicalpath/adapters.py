@@ -52,7 +52,13 @@ class DefaultCanonicalPathAdapter(object):
         else:
             self.context._setProperty(PROPERTY_PATH, value, type="string")
 
-    canonical_path = property(getCanonicalPath, setCanonicalPath)
+    def delCanonicalPath(self):
+        """ Delete PROPERTY_PATH customization
+        """
+        if self.context.hasProperty(PROPERTY_PATH):
+            self.context.manage_delProperties(ids=[PROPERTY_PATH,])
+
+    canonical_path = property(getCanonicalPath, setCanonicalPath, delCanonicalPath)
 
 
 class DefaultCanonicalLinkAdapter(object):
@@ -90,5 +96,11 @@ class DefaultCanonicalLinkAdapter(object):
         else:
             self.context._setProperty(PROPERTY_LINK, value, type="string")
 
-    canonical_link = property(getCanonicalLink, setCanonicalLink)
+    def delCanonicalLink(self):
+        """ Delete PROPERTY_LINK customization
+        """
+        if self.context.hasProperty(PROPERTY_LINK):
+            self.context.manage_delProperties(ids=[PROPERTY_LINK,])
+
+    canonical_link = property(getCanonicalLink, setCanonicalLink, delCanonicalLink)
 

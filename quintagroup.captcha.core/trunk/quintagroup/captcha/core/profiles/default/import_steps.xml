@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <import-steps>
-  <import-step id="quintagroup.plonecaptchas-various"
+  <import-step id="quintagroup.captcha.core-various"
                version="20090403-01"
-               handler="quintagroup.plonecaptchas.setuphandlers.setupVarious"
-               title="quintagroup.plonecaptchas: various import steps">
+               handler="quintagroup.captcha.core.setuphandlers.setupVarious"
+               title="quintagroup.captcha.core: various import steps">
     Various import steps that are not handled by GS import/export
     handlers.
   </import-step>

@@ -3,14 +3,14 @@ from zope.i18nmessageid import MessageFactory
 from AccessControl import allow_module, ModuleSecurityInfo
 from Products.CMFCore.utils import ToolInit
 
-from quintagroup.plonecaptchas import config
-from quintagroup.plonecaptchas import CaptchaTool
+from quintagroup.captcha.core import config
+from quintagroup.captcha.core import CaptchaTool
 
-ProductMessageFactory = MessageFactory('quintagroup.plonecaptchas')
-ModuleSecurityInfo('quintagroup.plonecaptchas').declarePublic("ProductMessageFactory")
+ProductMessageFactory = MessageFactory('quintagroup.captcha.core')
+ModuleSecurityInfo('quintagroup.captcha.core').declarePublic("ProductMessageFactory")
 
-allow_module('quintagroup.plonecaptchas.utils')
-allow_module('quintagroup.plonecaptchas.config')
+allow_module('quintagroup.captcha.core.utils')
+allow_module('quintagroup.captcha.core.config')
 
 def initialize(context):
     ToolInit(meta_type="CaptchaTool",

@@ -3,10 +3,10 @@
 
   <object name="captchas"
           meta_type="Filesystem Directory View"
-          directory="quintagroup.plonecaptchas:skins/captchas" />
+          directory="quintagroup.captcha.core:skins/captchas" />
   <object name="captcha_core"
           meta_type="Filesystem Directory View"
-          directory="quintagroup.plonecaptchas:skins/captcha_core" />
+          directory="quintagroup.captcha.core:skins/captcha_core" />
 
   <skin-path name="*">
     <layer name="captchas"

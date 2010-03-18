@@ -12,7 +12,7 @@ def generateKey(length):
     return key
 
 def setupVarious(context):
-    if context.readDataFile('quintagroup.plonecaptchas_various.txt') is None:
+    if context.readDataFile('quintagroup.captcha.core_various.txt') is None:
         return
 
     site = context.getSite()

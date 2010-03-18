@@ -2,10 +2,10 @@
 <object name="portal_controlpanel"
         meta_type="Plone Control Panel Tool"
         xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-        i18n:domain="quintagroup.plonecaptchas">
+        i18n:domain="quintagroup.captcha.core">
   <configlet title="Plone captchas setup"
              action_id="qpc_tool"
-             appId="quintagroup.plonecaptchas"
+             appId="quintagroup.captcha.core"
              category="Products"
              condition_expr=""
              url_expr="string:${portal_url}/prefs_captchas_setup_form"

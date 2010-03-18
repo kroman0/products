@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <object name="portal_properties" meta_type="Plone Properties Tool">
  <object name="qPloneCaptchas" meta_type="Plone Property Sheet">
-  <property name="title">qPloneCaptchas Properties</property>
+  <property name="title">Quintagroup Captcha Properties</property>
   <property name="image_size" type="int">27</property>
   <property name="background" type="string">gray</property>
   <property name="font_color" type="string">black</property>

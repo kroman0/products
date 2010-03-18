@@ -3,12 +3,9 @@
 
   <skin-path name="*">
     <layer name="captchas" remove="True" />
-    <layer name="plone_captchas" remove="True" />
-    <layer name="captchas_discussion" remove="True" />
-    <layer name="captchas_sendto_form" remove="True" />
-    <layer name="captchas_join_form" remove="True" />
-    <layer name="plone_captchas/static" remove="True" />
-    <layer name="plone_captchas/dynamic" remove="True" />
+    <layer name="captcha_core" remove="True" />
+    <layer name="captcha_core/static" remove="True" />
+    <layer name="captcha_core/dynamic" remove="True" />
   </skin-path>
 
 </object>

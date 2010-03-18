@@ -2,7 +2,7 @@ from random import randint
 
 from Products.CMFCore.utils import getToolByName
 
-from quintagroup.plonecaptchas.config import CAPTCHA_KEY, CONFIGLET_ID, \
+from quintagroup.captcha.core.config import CAPTCHA_KEY, CONFIGLET_ID, \
     ALL_LAYERS, PROPERTY_SHEET
 
 def generateKey(length):
@@ -26,7 +26,7 @@ def setupVarious(context):
 
 def uninstall(context):
     # Only run step if a flag file is present (e.g. not an extension profile)
-    if context.readDataFile('quintagroup.plonecaptchas_uninstall.txt') is None:
+    if context.readDataFile('quintagroup.captcha.core_uninstall.txt') is None:
         return
 
     site = context.getSite()

@@ -14,10 +14,7 @@
 
     <!-- File System Directory Views registration -->
     <cmf:registerDirectory name="captchas" />
-    <cmf:registerDirectory name="captchas_discussion" />
-    <cmf:registerDirectory name="captchas_join_form" />
-    <cmf:registerDirectory name="captchas_sendto_form" />
-    <cmf:registerDirectory name="plone_captchas" recursive="true" />
+    <cmf:registerDirectory name="captcha_core" recursive="true" />
 
     <gs:registerProfile
         name="default"

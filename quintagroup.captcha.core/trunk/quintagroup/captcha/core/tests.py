@@ -9,12 +9,14 @@ from Products.Five import fiveconfigure
 from Testing import ZopeTestCase as ztc
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import onsetup
+from Products.PloneTestCase.PloneTestCase import portal_owner
+from Products.PloneTestCase.PloneTestCase import default_password
 
-from AccessControl.SecurityManagement import newSecurityManager
+# from AccessControl.SecurityManagement import newSecurityManager
 from Products.CMFCore.utils import getToolByName
 
-from quintagroup.captcha.core.utils import getWord, decrypt, parseKey
 from quintagroup.captcha.core.config import *
+from quintagroup.captcha.core.utils import getWord, decrypt, parseKey
 
 @onsetup
 def setup_product():
@@ -36,13 +38,7 @@ class TestCaptchaWidget(ptc.FunctionalTestCase):
         self.portal['index_html'].allowDiscussion(True)
         self.absolute_url = self.portal['index_html'].absolute_url_path()
 
-        self.basic_auth = 'portal_manager:secret'
-        uf = self.app.acl_users
-        uf.userFolderAddUser('portal_manager', 'secret', ['Manager'], [])
-        user = uf.getUserById('portal_manager')
-        if not hasattr(user, 'aq_base'):
-            user = user.__of__(uf)
-        newSecurityManager(None, user)
+        self.basic_auth = ':'.join((portal_owner,default_password))
         self.captcha_key = self.portal.captcha_key
 
     def testImage(self):

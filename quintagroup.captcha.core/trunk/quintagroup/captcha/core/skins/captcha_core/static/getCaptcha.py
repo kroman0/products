@@ -6,7 +6,7 @@
 ##bind subpath=traverse_subpath
 ##parameters=
 ##title=
-from quintagroup.plonecaptchas.utils import getCaptchasCount, formKey, encrypt
+from quintagroup.captcha.core.utils import getCaptchasCount, formKey, encrypt
 
 from random import randint
 key = formKey(randint(1, getCaptchasCount(False)))

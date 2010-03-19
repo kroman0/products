@@ -1,10 +1,25 @@
-# Ukrainian translation for quintagroup.plonecaptchas
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# Ukrainian translation for quintagroup.captcha.core
 # Copyright (c) 2009 Quintagroup
-# This file is distributed under the same license as the quintagroup.plonecaptchas product.
+# This file is distributed under the same license as the quintagroup.captcha.core product.
 # Mykola Kharechko <crchemist@quintagroup.com>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: quintagroup.plonecaptchas 2.0\n"
+"Project-Id-Version: quintagroup.captcha.core 2.0\n"
 "POT-Creation-Date: 2009-03-25 14:47+0000\n"
 "PO-Revision-Date: 2007-01-31 18:42 +0000\n"
 "Last-Translator: Bohdan Koval <koval@quintagroup.com>\n"
@@ -16,7 +31,7 @@ msgstr ""
 "Language-Code: uk\n"
 "Language-Name: Українська\n"
 "Preferred-Encodings: utf-8 koi8-u windows-1251\n"
-"Domain: quintagroup.plonecaptchas\n"
+"Domain: quintagroup.captcha.core\n"
 "Report-Msgid-Bugs-To: Quintagroup Support <support@quintagroup.com>\n"
 
 #. Default: "Amplitude"

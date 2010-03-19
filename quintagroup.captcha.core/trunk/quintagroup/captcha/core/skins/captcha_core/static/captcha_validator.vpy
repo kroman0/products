@@ -1,7 +1,7 @@
 from Products.CMFCore.utils import getToolByName
 
-from quintagroup.plonecaptchas import ProductMessageFactory as _
-from quintagroup.plonecaptchas.utils import decrypt, parseKey, \
+from quintagroup.captcha.core import ProductMessageFactory as _
+from quintagroup.captcha.core.utils import decrypt, parseKey, \
     encrypt1, getWord
 from DateTime import DateTime
 

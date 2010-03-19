@@ -5,7 +5,7 @@ from zope.app.form.browser.textwidgets import renderElement
 
 from Acquisition import aq_inner
 
-from quintagroup.plonecaptchas import ProductMessageFactory as _
+from quintagroup.captcha.core import ProductMessageFactory as _
 
 class CaptchaWidget(ASCIIWidget):
     def __call__(self):

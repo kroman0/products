@@ -1,5 +1,5 @@
 GLOBALS = globals()
-PRODUCT_NAME = 'quintagroup.plonecaptchas'
+PRODUCT_NAME = 'quintagroup.captcha.core'
 CAPTCHA_KEY = 'captcha_key'
 CAPTCHAS_COUNT = 165
 

@@ -10,7 +10,7 @@ ProductMessageFactory = MessageFactory('quintagroup.captcha.core')
 ModuleSecurityInfo('quintagroup.captcha.core').declarePublic("ProductMessageFactory")
 
 allow_module('quintagroup.captcha.core.utils')
-allow_module('quintagroup.captcha.core.config')
+#allow_module('quintagroup.captcha.core.config')
 
 def initialize(context):
     ToolInit(meta_type="CaptchaTool",

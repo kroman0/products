@@ -6,7 +6,7 @@
 ##bind subpath=traverse_subpath
 ##parameters=
 ##title=
-from quintagroup.plonecaptchas.utils import gen_captcha, decrypt, \
+from quintagroup.captcha.core.utils import gen_captcha, decrypt, \
     getWord, parseKey
 from Products.CMFCore.utils import getToolByName
 import random

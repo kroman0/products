@@ -6,8 +6,8 @@ from Acquisition import aq_parent
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 
-from quintagroup.plonecaptchas.browser.interfaces import ICaptchaView
-from quintagroup.plonecaptchas.utils import decrypt, parseKey, encrypt1, getWord
+from quintagroup.captcha.core.browser.interfaces import ICaptchaView
+from quintagroup.captcha.core.utils import decrypt, parseKey, encrypt1, getWord
 
 COOKIE_ID = 'captchahashkey'
 

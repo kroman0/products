@@ -7,16 +7,19 @@
 ##parameters=actions=None
 ##title=
 ##
-from Products.CMFCore.utils import getToolByName
 import string
+from Products.CMFCore.utils import getToolByName
+from quintagroup.captcha.core.config import LAYER_DYNAMIC_CAPTCHAS
+from quintagroup.captcha.core.config import LAYER_STATIC_CAPTCHAS
+
 skinsTool = getToolByName(context, 'portal_skins')
 default_skin = skinsTool.getDefaultSkin()
 path = skinsTool.getSkinPath(default_skin)
 path = map( string.strip, string.split( path,',' ) )
 
-if 'plone_captchas/static' in path:
+if LAYER_STATIC_CAPTCHAS in path:
     return 'static'
-elif 'plone_captchas/dynamic' in path:
+elif LAYER_DYNAMIC_CAPTCHAS in path:
     return 'dynamic'
 else:
     return None

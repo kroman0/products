@@ -10,6 +10,8 @@
 ##
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
+from quintagroup.captcha.core.config import LAYER_DYNAMIC_CAPTCHAS
+from quintagroup.captcha.core.config import LAYER_STATIC_CAPTCHAS
 
 import string
 
@@ -31,9 +33,9 @@ request_ids = form.keys()
 ct = form.get('static_captchas')
 skinstool = getToolByName(context, 'portal_skins')
 if ct == 'static':
-    exchangeLayers('plone_captchas/dynamic', 'plone_captchas/static')
+    exchangeLayers(LAYER_DYNAMIC_CAPTCHAS, LAYER_STATIC_CAPTCHAS)
 else:
-    exchangeLayers('plone_captchas/static', 'plone_captchas/dynamic')
+    exchangeLayers(LAYER_STATIC_CAPTCHAS, LAYER_DYNAMIC_CAPTCHAS)
 
 captcha_props = getToolByName(context, 'portal_properties')['qPloneCaptchas']
 

@@ -7,8 +7,8 @@ from random import randint
 
 from DateTime import DateTime
 
-from quintagroup.plonecaptchas.data import basic_english
-from quintagroup.plonecaptchas.config import *
+from quintagroup.captcha.core.data import basic_english
+from quintagroup.captcha.core.config import *
 
 try:
     import Crypto.Cipher.DES as Crypto

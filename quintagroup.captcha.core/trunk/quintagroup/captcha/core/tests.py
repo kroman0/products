@@ -13,16 +13,16 @@ from Products.PloneTestCase.layer import onsetup
 from AccessControl.SecurityManagement import newSecurityManager
 from Products.CMFCore.utils import getToolByName
 
-from quintagroup.plonecaptchas.utils import getWord, decrypt, parseKey
-from quintagroup.plonecaptchas.config import *
+from quintagroup.captcha.core.utils import getWord, decrypt, parseKey
+from quintagroup.captcha.core.config import *
 
 @onsetup
 def setup_product():
     fiveconfigure.debug_mode = True
-    import quintagroup.plonecaptchas
-    zcml.load_config('configure.zcml', quintagroup.plonecaptchas)
+    import quintagroup.captcha.core
+    zcml.load_config('configure.zcml', quintagroup.captcha.core)
     fiveconfigure.debug_mode = False
-    ztc.installPackage('quintagroup.plonecaptchas')
+    ztc.installPackage('quintagroup.captcha.core')
 
 setup_product()
 ptc.setupPloneSite()

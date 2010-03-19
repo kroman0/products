@@ -1,6 +1,6 @@
-from Products.Transience.Transience import TransientObjectContainer
 from Globals import InitializeClass
 from AccessControl import ClassSecurityInfo
+from Products.Transience.Transience import TransientObjectContainer
 
 class CaptchaTool(TransientObjectContainer):
     """portal_captcha tool class

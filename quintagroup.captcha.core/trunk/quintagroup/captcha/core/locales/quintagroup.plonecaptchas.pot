@@ -1,8 +1,8 @@
-# Translation template for quintagroup.plonecaptchas
+# Translation template for quintagroup.captcha.core
 # Bohdan Koval <koval@quintagroup.com>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: quintagroup.plonecaptchas 2.0\n"
+"Project-Id-Version: quintagroup.captcha.core 2.0\n"
 "POT-Creation-Date: 2009-03-25 14:47+0000\n"
 "PO-Revision-Date: 2009-03-25 14:47+0000\n"
 "Last-Translator: Bohdan Koval <koval@quintagroup.com>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: quintagroup.plonecaptchas\n"
+"Domain: quintagroup.captcha.core\n"
 
 #. Default: "Amplitude"
 #: ./prefs_captchas_setup_form.pt:156

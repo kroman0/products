@@ -25,6 +25,7 @@ setup(name='quintagroup.z3cform.captcha',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'quintagroup.captcha.core',
           # uncomment next packages only if they will be downloaded from some package index
           # 'quintagroup.plonecaptchas', 
       ],

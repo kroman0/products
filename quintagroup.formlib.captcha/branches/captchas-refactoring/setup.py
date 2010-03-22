@@ -26,6 +26,7 @@ setup(name='quintagroup.formlib.captcha',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
+          'quintagroup.captcha.core',
       ],
       entry_points="""
       # -*- Entry points: -*-

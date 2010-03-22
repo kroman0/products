@@ -7,7 +7,7 @@
              name="description">Extension for PloneFormGen. Field that prevents automatic page submit.</property>
     <property name="content_icon">captcha_field.gif</property>
     <property name="content_meta_type">CaptchaField</property>
-    <property name="product">qPloneCaptchaField</property>
+    <property name="product">quintagroup.pfg.captcha</property>
     <property name="factory">addCaptchaField</property>
     <property name="immediate_view">base_view</property>
     <property name="global_allow">False</property>

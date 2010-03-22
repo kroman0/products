@@ -43,15 +43,13 @@ class TestCaptchaWidget(ptc.FunctionalTestCase):
 
     def testSubmitRightCaptcha(self):
         hashkey = self.portal.getCaptcha()
-        key = getWord(int(parseKey(decrypt(self.captcha_key, hashkey))['key']))
+        # index of word number starts from 1, but index of dictionary starts from 0
+        key = getWord(int(parseKey(decrypt(self.captcha_key, hashkey))['key'])-1 )
         parameters = 'form.submitted=1&key=%s' % key
         path = '%s/test_form?%s' % (self.absolute_url, parameters)
         extra = {'hashkey': hashkey,
                  'form.button.Save': 'Save'}
         response = self.publish(path, self.basic_auth, extra=extra, request_method='GET').getBody()
-
-        open('/tmp/right.captcha.html','w').write(response)
-
         self.assert_(not NOT_VALID.search(response))
 
     def testSubmitWrongCaptcha(self):
@@ -65,7 +63,7 @@ class TestCaptchaWidget(ptc.FunctionalTestCase):
 
     def testSubmitRightCaptchaTwice(self):
         hashkey = self.portal.getCaptcha()
-        key = getWord(int(parseKey(decrypt(self.captcha_key, hashkey))['key']))
+        key = getWord(int(parseKey(decrypt(self.captcha_key, hashkey))['key'])-1)
         parameters = 'form.submitted=1&key=%s'%key
         path = '%s/test_form?%s'%(self.absolute_url, parameters)
         extra = {'hashkey': hashkey,

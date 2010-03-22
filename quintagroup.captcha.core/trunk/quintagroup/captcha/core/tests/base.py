@@ -12,10 +12,23 @@ from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.PloneTestCase import portal_owner
 from Products.PloneTestCase.PloneTestCase import default_password
 
-from Products.CMFCore.utils import getToolByName
-
 from quintagroup.captcha.core.config import *
 from quintagroup.captcha.core.utils import getWord, decrypt, parseKey
+
+# PATCH dictionary for captcha testing
+from Products.CMFCore.utils import getToolByName
+class TestData(object):
+    words = """heart
+glass
+blue
+false
+burn
+"""
+
+from quintagroup.captcha.core import utils
+utils.basic_english = TestData()
+utils.CAPTCHAS_COUNT = len(utils.basic_english.words.split())
+# END OF PATCH
 
 @onsetup
 def setup_product():

@@ -1,3 +1,0 @@
-<metal:view_macro define-macro="edit">
-    <div metal:use-macro="here/captcha_widget/macros/captcha"></div>
-</metal:view_macro>

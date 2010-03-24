@@ -7,6 +7,9 @@ from Products.CMFCore.DirectoryView import DirectoryView
 
 NOT_VALID = re.compile("Please re\-enter validation code")
 
+# patch to use test images and dictionary
+testPatch()
+
 class TestCaptchaWidget(ptc.FunctionalTestCase):
 
     def addTestLayer(self):

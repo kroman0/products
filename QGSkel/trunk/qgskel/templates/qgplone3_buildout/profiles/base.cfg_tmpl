@@ -24,7 +24,7 @@ overwrite-picked-versions-file = false
 
 \# Add additional egg download sources here. dist.plone.org contains archives
 \# of Plone packages.
-find-links =
+flinks =
 #if $newplone
     http://dist.quintagroup.com/proxy/dist/release/${plone_version}/
     http://dist.plone.org/release/${plone_version}
@@ -37,7 +37,7 @@ find-links =
     http://download.zope.org/ppix/
     http://download.zope.org/distribution/
     http://effbot.org/downloads
-
+find-links = \${buildout:flinks}
 \# Add additional eggs here
 #if not $newplone
 \# elementtree is required by Plone

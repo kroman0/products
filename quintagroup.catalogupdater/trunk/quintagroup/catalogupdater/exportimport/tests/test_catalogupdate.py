@@ -14,13 +14,16 @@ from Products.GenericSetup.testing import DummySetupEnviron
 
 from quintagroup.catalogupdater.interfaces import ICatalogUpdater
 
+from Products.CMFPlone.utils import getFSVersionTuple
+PLONEFOUR = getFSVersionTuple()[0] == 4 and True or False
+
 _CATALOG_BODY = test_exportimport._CATALOG_BODY
 _ZCTEXT_XML = test_exportimport._ZCTEXT_XML
 
 _CATALOG_UPDATE_BODY = """\
 <?xml version="1.0"?>
 <object name="foo_catalog">
- <object name="foo_vocabulary" remove="True"/>
+ %s
  <index name="foo_text" remove="True"/>
  <index name="foo_text" meta_type="ZCTextIndex">
   <indexed_attr value="foo_text"/>
@@ -33,7 +36,9 @@ _CATALOG_UPDATE_BODY = """\
  <column value="eggs" update="True"/>
  <column value="spam" update="True"/>
 </object>
-"""
+""" % (PLONEFOUR and '<object name="old_plexicon" remove="True"/>' or \
+                     '<object name="foo_vocabulary" remove="True"/>')
+             
 
 
 class DummyCatalogUpdaterUtility:

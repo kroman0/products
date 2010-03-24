@@ -1,51 +1,39 @@
-from zopeskel.base import BaseTemplate
-from zopeskel.base import var
+import copy
+from zopeskel import abstract_buildout
+from zopeskel.plone3_buildout import Plone3Buildout
+from zopeskel.vars import BoundedIntVar
 
-class QGPlone3Buildout(BaseTemplate):
+VAR_HTTP = BoundedIntVar(
+    'http_port',
+    title='Backend1 HTTP Port',
+    description="Port that first Backend server will be serving. "\
+                "Other backend' ports increments by 1 from this one.",
+    default='20001',
+    modes=(EXPERT,EASY),
+    page='Main',
+    help="""
+This options lets you select the port # that Zope will use for serving
+HTTP on backnd ZEO clients.
+""",
+    min=10000,
+    max=65535,
+    )
+
+class QGPlone3Buildout(Plone3Buildout):
     _template_dir = 'templates/qgplone3_buildout'
-    summary = "A buildout for Plone 3 projects"
+    summary = "QG Buildout for Plone 3 projects"
     required_templates = []
     use_cheetah = True
 
-    vars = [
-        var('plone_version',
-            "Which Plone version to install",
-            default="3.2.2"),
-        var('zope2_install',
-            'Path to Zope 2 installation; leave blank to fetch one',
-            default=''),
-        var('plone_products_install',
-            'Path to directory containing Plone products; leave blank to fetch one',
-            default=''),
-        var('zope_user',
-            'Zope root admin user',
-            default='admin'),
-        var('zope_password',
-            'Zope root admin password',
-            default='admin'),
-        var('http_port',
-            'HTTP port (development port == http_port + 10 )',
-            default=8080),
-        var('http_port_be1',
-            "HTTP port for first Backend server. Other backend' ports increments " \
-            "by 1 from this one.", default=20001),
+    vars = []
+    vars = copy.deepcopy(abstract_buildout.AbstractBuildout.vars)
+    vars.extend(
+           [ abstract_buildout.VAR_PLONEVER,
+             abstract_buildout.VAR_Z2_INSTALL,
+             abstract_buildout.VAR_PLONE_PRODUCTS,
+             abstract_buildout.VAR_ZOPE_USER,
+             abstract_buildout.VAR_ZOPE_PASSWD,
+             abstract_buildout.VAR_HTTP,
+             VAR_HTTP_BE1
         ]
-
-    def pre(self, command, output_dir, vars):
-        vars['oldplone'] = vars['plone_version'].startswith("3.0") or \
-                            vars['plone_version'].startswith("3.1")
-        vars['veryoldplone'] = vars['plone_version'].startswith("2.")
-        if vars['veryoldplone']:
-            vars['zope2_version'] = "2.9.10"
-        vars['newplone'] = not vars['veryoldplone'] and not vars['oldplone']
-        vars['http_port_devel'] = int(vars['http_port']) + 10
-        super(QGPlone3Buildout, self).pre(command, output_dir, vars)
-
-    def post(self, command, output_dir, vars):
-        print "-----------------------------------------------------------"
-        print "Generation finished"
-        print "You probably want to run python bootstrap.py and then edit"
-        print "buildout.cfg before running bin/buildout -v"
-        print
-        print "See README.txt for details"
-        print "-----------------------------------------------------------"
+    )

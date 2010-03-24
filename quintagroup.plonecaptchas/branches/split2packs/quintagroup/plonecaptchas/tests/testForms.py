@@ -1,4 +1,5 @@
 from base import *
+from DateTime import DateTime
 
 # USE PATCH FROM quintagroup.captcha.core
 # patch to use test images and dictionary
@@ -16,6 +17,7 @@ class TestFormMixing(FunctionalTestCase):
         self.captcha_key = self.portal.captcha_key
 
         self.hashkey = self.portal.getCaptcha()
+        self.req_method = self.getRequestMethod()
         self.save_url = self.getSaveURL()
         self.form_extra = self.getFormExtra()
         self.form_extra['hashkey'] = self.hashkey
@@ -31,8 +33,7 @@ class TestFormMixing(FunctionalTestCase):
         
     def testImage(self):
         response = self.publish(self.save_url, self.basic_auth,
-            request_method='GET').getBody()
-        open('/tmp/pc.image.html','w').write(response)
+            request_method=self.req_method).getBody()
         patt = re.compile(IMAGE_PATT  % self.portal.absolute_url())
         match_obj = patt.search(response)
         img_url = match_obj.group(1)
@@ -47,13 +48,13 @@ class TestFormMixing(FunctionalTestCase):
         self.form_extra['key'] = key
         
         response = self.publish(self.save_url, self.basic_auth,
-            extra=self.form_extra, request_method='GET').getBody()
+            extra=self.form_extra, request_method=self.req_method).getBody()
         self.assertFalse(NOT_VALID.search(response))
 
     def testSubmitWrongCaptcha(self):
         self.form_extra['key'] = 'wrong word'
         response = self.publish(self.save_url, self.basic_auth,
-            extra=self.form_extra, request_method='GET').getBody()
+            extra=self.form_extra, request_method=self.req_method).getBody()
         self.assertTrue(NOT_VALID.search(response))
 
     def testSubmitRightCaptchaTwice(self):
@@ -61,10 +62,12 @@ class TestFormMixing(FunctionalTestCase):
         self.form_extra['key'] = key
 
         self.publish(self.save_url, self.basic_auth,
-            extra=self.form_extra, request_method='GET')
+            extra=self.form_extra, request_method=self.req_method)
 
         response = self.publish(self.save_url, self.basic_auth,
-            extra=self.form_extra, request_method='GET').getBody()
+            extra=self.form_extra, request_method=self.req_method).getBody()
+        
+        open('/tmp/pc.rct.html','w').write(response)
         self.assertTrue(NOT_VALID.search(response))
 
 
@@ -75,6 +78,9 @@ class TestDiscussionForm(TestFormMixing):
         self.portal.invokeFactory('Document', 'index_html')
         self.portal['index_html'].allowDiscussion(True)
         
+    def getRequestMethod(self):
+        return "GET"
+
     def getSaveURL(self):
         return self.portal['index_html'].absolute_url(1) + \
             '/discussion_reply_form?form.submitted=1' + \
@@ -88,7 +94,35 @@ class TestDiscussionForm(TestFormMixing):
                 'discussion_reply:method': 'Save'}
 
 
+class TestJoinForm(TestFormMixing):
+
+    def _getauth(self):
+        # Fix authenticator for the form
+        authenticator = self.portal.restrictedTraverse("@@authenticator")
+        html = authenticator.authenticator()
+        handle = re.search('value="(.*)"', html).groups()[0]
+        return handle
+
+    def getRequestMethod(self):
+        return "POST"
+
+    def getSaveURL(self):
+        return self.portal.absolute_url(1) + \
+            '/join_form?form.button.Register=Register' + \
+            '&form.submitted=1'
+
+    def getFormExtra(self):
+        return {"last_visit:date" : str(DateTime()),
+                "prev_visit:date" : str(DateTime()),
+                "came_from_prefs" : "",
+                "fullname" : "Tester",
+                "username" : "tester",
+                "email" : "tester@test.com",
+                '_authenticator' : self._getauth()}
+
+
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestDiscussionForm))
+    suite.addTest(unittest.makeSuite(TestJoinForm))
     return suite

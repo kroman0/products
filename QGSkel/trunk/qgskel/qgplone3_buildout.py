@@ -38,3 +38,13 @@ class QGPlone3Buildout(Plone3Buildout):
              VAR_HTTP_BE1
         ]
     )
+
+    def pre(self, command, output_dir, vars):
+        vars['oldplone'] = vars['plone_version'].startswith("3.0") or \
+                           vars['plone_version'].startswith("3.1")
+        vars['veryoldplone'] = vars['plone_version'].startswith("2.")
+        if vars['veryoldplone']:
+            vars['zope2_version'] = "2.9.12"
+        vars['newplone'] = not vars['veryoldplone'] and not vars['oldplone']
+        vars['http_port_devel'] = int(vars['http_port']) + 10
+        super(QGPlone3Buildout, self).pre(command, output_dir, vars)

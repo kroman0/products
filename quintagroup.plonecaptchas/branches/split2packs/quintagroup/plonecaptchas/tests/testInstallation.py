@@ -1,6 +1,6 @@
 from base import *
 
-class TestInstallation(TestCase):
+class TestInstallation(TestCaseNotInstalled):
 
     def afterSetUp(self):
         self.loginAsPortalOwner()

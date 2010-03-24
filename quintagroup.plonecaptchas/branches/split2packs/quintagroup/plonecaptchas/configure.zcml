@@ -6,6 +6,9 @@
     xmlns:gs="http://namespaces.zope.org/genericsetup"
     i18n_domain="quintagroup.plonecaptchas">
 
+    <!-- include dependent packages -->
+    <include package="quintagroup.captcha.core" />
+
     <i18n:registerTranslations directory="locales" />
 
     <five:registerPackage package="." initialize=".initialize" />

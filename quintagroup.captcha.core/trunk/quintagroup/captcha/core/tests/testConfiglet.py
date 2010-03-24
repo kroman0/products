@@ -1,8 +1,6 @@
 import re, string
 from base import *
 
-
-
 class TestConfiglet(ptc.FunctionalTestCase):
 
     def afterSetUp(self):

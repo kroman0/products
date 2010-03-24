@@ -1,7 +1,6 @@
+import os, sys, re
 import unittest
-import os
-import sys
-import re
+import transaction
 
 from Products.Five import zcml
 from Products.Five import fiveconfigure
@@ -14,14 +13,13 @@ from Products.PloneTestCase.layer import onsetup, PloneSite
 
 from Products.CMFCore.utils import getToolByName
 
-#from quintagroup.plonecaptchas.utils import getWord, decrypt, parseKey
+#from quintagroup.captcha.core.utils import getWord, decrypt, parseKey
 from quintagroup.plonecaptchas.config import *
 
-
+# TESTING CONSTANTS
 CAPTCHA_KEY = 'captcha_key'
 CAPTCHAS_COUNT = 165
-LAYERS = ['plone_captchas', 'captchas_discussion', 
-    'captchas_sendto_form', 'captchas_join_form']
+LAYERS = ['captchas_discussion', 'captchas_sendto_form', 'captchas_join_form']
 
 TOOL_ICON = 'skins/plone_captchas/tool.gif'
 TOOL_ID = 'portal_captchas'

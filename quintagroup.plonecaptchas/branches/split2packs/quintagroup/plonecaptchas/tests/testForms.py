@@ -14,25 +14,25 @@ class TestFormMixing(FunctionalTestCase):
 
         self.basic_auth = ':'.join((portal_owner,default_password))
         self.captcha_key = self.portal.captcha_key
-        self.save_url = self.getSaveURL()
 
+        self.hashkey = self.portal.getCaptcha()
+        self.save_url = self.getSaveURL()
+        self.form_extra = self.getFormExtra()
+        self.form_extra['hashkey'] = self.hashkey
+        self.form_extra['key'] = ''
 
     def getSaveURL(self):
         raise NotImplementedError(
             "getSaveURL not implemented")
 
-    def getExtras_submitRightCaptcha(self, hashkey, key):
+    def getFormExtra(self):
         raise NotImplementedError(
-            "getExtras_submitRightCaptcha not implemented")
-
-    def getExtras_submitWrongCaptcha(self, hashkey):
-        raise NotImplementedError(
-            "getExtras_submitWrongCaptcha not implemented")
-
-
+            "getFormExtra not implemented")
+        
     def testImage(self):
         response = self.publish(self.save_url, self.basic_auth,
             request_method='GET').getBody()
+        open('/tmp/pc.image.html','w').write(response)
         patt = re.compile(IMAGE_PATT  % self.portal.absolute_url())
         match_obj = patt.search(response)
         img_url = match_obj.group(1)
@@ -43,32 +43,28 @@ class TestFormMixing(FunctionalTestCase):
             "Wrong captcha image content type")
 
     def testSubmitRightCaptcha(self):
-        hashkey = self.portal.getCaptcha()
-        key = getWord(int(parseKey(decrypt(self.captcha_key, hashkey))['key'])-1)
-        extra = self.getExtras_submitRightCaptcha(hashkey, key)
+        key = getWord(int(parseKey(decrypt(self.captcha_key, self.hashkey))['key'])-1)
+        self.form_extra['key'] = key
         
         response = self.publish(self.save_url, self.basic_auth,
-            extra=extra, request_method='GET').getBody()
+            extra=self.form_extra, request_method='GET').getBody()
         self.assertFalse(NOT_VALID.search(response))
 
     def testSubmitWrongCaptcha(self):
-        hashkey = self.portal.getCaptcha()
-        extra = self.getExtras_submitWrongCaptcha(hashkey)
-
+        self.form_extra['key'] = 'wrong word'
         response = self.publish(self.save_url, self.basic_auth,
-            extra=extra, request_method='GET').getBody()
+            extra=self.form_extra, request_method='GET').getBody()
         self.assertTrue(NOT_VALID.search(response))
 
     def testSubmitRightCaptchaTwice(self):
-        hashkey = self.portal.getCaptcha()
-        key = getWord(int(parseKey(decrypt(self.captcha_key, hashkey))['key'])-1)
-        extra = self.getExtras_submitRightCaptcha(hashkey, key)
+        key = getWord(int(parseKey(decrypt(self.captcha_key, self.hashkey))['key'])-1)
+        self.form_extra['key'] = key
 
         self.publish(self.save_url, self.basic_auth,
-            extra=extra, request_method='GET')
+            extra=self.form_extra, request_method='GET')
 
         response = self.publish(self.save_url, self.basic_auth,
-            extra=extra, request_method='GET').getBody()
+            extra=self.form_extra, request_method='GET').getBody()
         self.assertTrue(NOT_VALID.search(response))
 
 
@@ -76,30 +72,17 @@ class TestDiscussionForm(TestFormMixing):
 
     def afterSetUp(self):
         TestFormMixing.afterSetUp(self)
-        # prepare discussion object
         self.portal.invokeFactory('Document', 'index_html')
         self.portal['index_html'].allowDiscussion(True)
-
-
+        
     def getSaveURL(self):
         return self.portal['index_html'].absolute_url(1) + \
             '/discussion_reply_form?form.submitted=1' + \
             '&form.button.form_submit=Save'
 
-    def getExtras_submitRightCaptcha(self, hashkey, key):
+    def getFormExtra(self):
         return {'form.submitted' : '1',
                 'Creator': portal_owner,
-                'key' : key,
-                'hashkey': hashkey,
-                'subject': 'testing',
-                'body_text': 'Text in Comment',
-                'discussion_reply:method': 'Save'}
-
-    def getExtras_submitWrongCaptcha(self, hashkey):
-        return {'form.submitted' : '1',
-                'Creator': portal_owner,
-                'key' : 'wrong word',
-                'hashkey': hashkey,
                 'subject': 'testing',
                 'body_text': 'Text in Comment',
                 'discussion_reply:method': 'Save'}

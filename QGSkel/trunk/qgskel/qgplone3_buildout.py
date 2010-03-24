@@ -5,7 +5,7 @@ from zopeskel.plone3_buildout import Plone3Buildout
 from zopeskel.vars import BoundedIntVar
 
 VAR_HTTP_BE1 = BoundedIntVar(
-    'http_port',
+    'http_port_be1',
     title='Backend1 HTTP Port',
     description="Port that first Backend server will be serving. "\
                 "Other backend' ports increments by 1 from this one.",

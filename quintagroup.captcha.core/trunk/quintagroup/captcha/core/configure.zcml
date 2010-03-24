@@ -18,7 +18,7 @@
 
     <gs:registerProfile
         name="default"
-        title="Plone Captchas"
+        title="Quintagroup Captcha Core"
         directory="profiles/default"
         description="This product adds captcha support to Plone."
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
@@ -27,9 +27,9 @@
 
     <gs:registerProfile
         name="uninstall"
-        title="Uninstall Plone Captchas"
+        title="Uninstall Quintagroup Captcha Core"
         directory="profiles/uninstall"
-        description="Uninstall Plone Captchas product."
+        description="Uninstall Quintagroup Captcha Core product."
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />

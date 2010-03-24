@@ -13,7 +13,7 @@ from Products.PloneTestCase.PloneTestCase import portal_owner
 from Products.PloneTestCase.PloneTestCase import default_password
 
 from quintagroup.captcha.core.config import *
-from quintagroup.captcha.core.utils import getWord, decrypt, parseKey
+from quintagroup.captcha.core.utils import getWord, decrypt, parseKey, encrypt1
 
 # PATCH dictionary for captcha testing
 from Products.CMFCore.utils import getToolByName

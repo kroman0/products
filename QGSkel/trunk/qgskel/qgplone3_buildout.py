@@ -1,5 +1,6 @@
 import copy
 from zopeskel import abstract_buildout
+from zopeskel.base import var, EASY, EXPERT
 from zopeskel.plone3_buildout import Plone3Buildout
 from zopeskel.vars import BoundedIntVar
 

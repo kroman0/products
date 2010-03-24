@@ -11,22 +11,13 @@ from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
 from Products.ZCatalog.Catalog import safe_callable
 
-
 try:
     from plone.indexer.interfaces import IIndexableObject
 except ImportError:
-    class IIndexableObject:pass
     from plone.app.content.interfaces import IIndexableObjectWrapper \
         as _old_IIndexableObjectWrapper
-    from plone.app.content.interfaces import IIndexableObjectWrapper
-
-    register_bbb_indexers = lambda:None
-
     IS_NEW = False
 else:    
-    from Products.CMFPlone.CatalogTool import register_bbb_indexers
-    from Products.CMFPlone.CatalogTool import _old_IIndexableObjectWrapper
-
     IS_NEW = True
 
 
@@ -63,20 +54,11 @@ class CatalogUpdaterUtility(object):
 
     def getWrappedObjectNew(self, obj, portal, catalog):
         # Returned wrapped 'obj' object with IIndexable wrapper
-        w = obj
+        wrapper = None
         if not IIndexableObject.providedBy(obj):
-             # BBB: Compatibility wrapper lookup. Should be removed in Plone 4.
-             register_bbb_indexers()
-             wrapper = queryMultiAdapter((obj, portal), _old_IIndexableObjectWrapper)
-             if wrapper is not None:
-                 w = wrapper
-             else:
-                 # This is the CMF 2.2 compatible approach, which should be used going forward
-                 wrapper = queryMultiAdapter((obj, catalog), IIndexableObject)
-                 if wrapper is not None:
-                     w = wrapper
-        return w
-
+             # This is the CMF 2.2 compatible approach, which should be used going forward
+             wrapper = queryMultiAdapter((obj, catalog), IIndexableObject)
+        return wrapper and wrapper or obj
 
     def getWrappedObjectOld(self, obj, portal, catalog):
         # Returned wrapped 'obj' object with IIndexable wrapper

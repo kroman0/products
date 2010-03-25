@@ -124,8 +124,25 @@ class TestJoinForm(TestFormMixing):
                 'form.submitted':'1'}
 
 
+class TestSendtoForm(TestFormMixing):
+
+    def afterSetUp(self):
+        TestFormMixing.afterSetUp(self)
+        self.portal.invokeFactory('Document', 'index_html')
+        self.portal['index_html'].allowDiscussion(True)
+        self.form_url = '/index_html/sendto_form'
+        
+    def getFormData(self):
+        return {'form.submitted' : '1',
+                "send_to_address" : "recipient@test.com",
+                "send_from_address" : "sender@test.com",
+                'comment': 'Text in Comment',
+                'form.button.Send' : 'Save'}
+
+
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestDiscussionForm))
     suite.addTest(unittest.makeSuite(TestJoinForm))
+    suite.addTest(unittest.makeSuite(TestSendtoForm))
     return suite

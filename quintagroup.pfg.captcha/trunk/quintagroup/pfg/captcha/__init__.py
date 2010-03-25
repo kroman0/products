@@ -1,15 +1,10 @@
 from Products.CMFCore import utils
-from Products.CMFCore.interfaces import ISiteRoot
-from Products.CMFCore.DirectoryView import registerDirectory
 from Products.Archetypes.atapi import process_types, listTypes
-from Products.GenericSetup import EXTENSION, profile_registry
 
 from permissions import ADD_PERMISSION
-from config import *
+from config import PROJECTNAME
 import validators
 import content
-
-registerDirectory(SKINS_DIR, GLOBALS)
 
 def initialize(context):
 
@@ -22,13 +17,3 @@ def initialize(context):
         extra_constructors = constructors,
         fti                = ftis,
         ).initialize(context)
-
-    profile_desc = "Installs CaptchaField content type."
-    profile_registry.registerProfile('default',
-                                      PROJECTNAME,
-                                      profile_desc,
-                                     'profiles/default',
-                                      PROJECTNAME,
-                                      EXTENSION,
-                                      for_=ISiteRoot,
-                                    )

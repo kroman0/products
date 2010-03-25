@@ -3,6 +3,8 @@ from urllib import urlencode
 from StringIO import StringIO
 from DateTime import DateTime
 
+from plone.app.controlpanel.security import ISecuritySchema
+
 # USE PATCH FROM quintagroup.captcha.core
 # patch to use test images and dictionary
 testPatch()
@@ -106,29 +108,24 @@ class TestDiscussionForm(TestFormMixing):
 
 class TestJoinForm(TestFormMixing):
 
-    def _getauth(self):
-        # Fix authenticator for the form
-        authenticator = self.portal.restrictedTraverse("@@authenticator")
-        html = authenticator.authenticator()
-        handle = re.search('value="(.*)"', html).groups()[0]
-        return handle
+    def afterSetUp(self):
+        TestFormMixing.afterSetUp(self)
+        ISecuritySchema(self.portal).enable_self_reg = True
+        # ISecuritySchema(self.portal).enabel_self_reg = True
+        self.hasAuthenticator = True
+        self.form_url = '/join_form'
+        self.basic_auth = ":"
+        self.logout()
 
-    def getRequestMethod(self):
-        return "POST"
-
-    def getSaveURL(self):
-        return self.portal.absolute_url(1) + \
-            '/join_form?form.button.Register=Register' + \
-            '&form.submitted=1'
-
-    def getFormExtra(self):
+    def getFormData(self):
         return {"last_visit:date" : str(DateTime()),
-                "prev_visit:date" : str(DateTime()),
+                "prev_visit:date" : str(DateTime()-1),
                 "came_from_prefs" : "",
                 "fullname" : "Tester",
                 "username" : "tester",
                 "email" : "tester@test.com",
-                '_authenticator' : self._getauth()}
+                'form.button.Register':'Register',
+                'form.submitted':'1'}
 
 
 def test_suite():

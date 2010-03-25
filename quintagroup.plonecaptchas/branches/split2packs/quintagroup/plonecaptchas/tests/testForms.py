@@ -9,7 +9,7 @@ from plone.app.controlpanel.security import ISecuritySchema
 # patch to use test images and dictionary
 testPatch()
 
-class TestFormMixing(FunctionalTestCase):
+class TestFormMixin(FunctionalTestCase):
 
     def afterSetUp(self):
         self.loginAsPortalOwner()
@@ -86,10 +86,10 @@ class TestFormMixing(FunctionalTestCase):
         self.assertTrue(NOT_VALID.search(response))
 
 
-class TestDiscussionForm(TestFormMixing):
+class TestDiscussionForm(TestFormMixin):
 
     def afterSetUp(self):
-        TestFormMixing.afterSetUp(self)
+        TestFormMixin.afterSetUp(self)
         self.portal.invokeFactory('Document', 'index_html')
         self.portal['index_html'].allowDiscussion(True)
         self.form_url = '/index_html/discussion_reply_form'
@@ -103,10 +103,10 @@ class TestDiscussionForm(TestFormMixing):
                 'form.button.form_submit' : 'Save'}
 
 
-class TestJoinForm(TestFormMixing):
+class TestJoinForm(TestFormMixin):
 
     def afterSetUp(self):
-        TestFormMixing.afterSetUp(self)
+        TestFormMixin.afterSetUp(self)
         ISecuritySchema(self.portal).enable_self_reg = True
         self.hasAuthenticator = True
         self.form_url = '/join_form'
@@ -124,10 +124,10 @@ class TestJoinForm(TestFormMixing):
                 'form.submitted':'1'}
 
 
-class TestSendtoForm(TestFormMixing):
+class TestSendtoForm(TestFormMixin):
 
     def afterSetUp(self):
-        TestFormMixing.afterSetUp(self)
+        TestFormMixin.afterSetUp(self)
         self.portal.invokeFactory('Document', 'index_html')
         self.portal['index_html'].allowDiscussion(True)
         self.form_url = '/index_html/sendto_form'

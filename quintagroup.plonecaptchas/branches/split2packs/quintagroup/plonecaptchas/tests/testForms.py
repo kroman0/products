@@ -93,21 +93,15 @@ class TestDiscussionForm(TestFormMixing):
         TestFormMixing.afterSetUp(self)
         self.portal.invokeFactory('Document', 'index_html')
         self.portal['index_html'].allowDiscussion(True)
+        self.form_url = '/index_html/discussion_reply_form'
         
-    def getRequestMethod(self):
-        return "GET"
-
-    def getSaveURL(self):
-        return self.portal['index_html'].absolute_url(1) + \
-            '/discussion_reply_form?form.submitted=1' + \
-            '&form.button.form_submit=Save'
-
-    def getFormExtra(self):
+    def getFormData(self):
         return {'form.submitted' : '1',
-                'Creator': portal_owner,
                 'subject': 'testing',
+                'Creator': portal_owner,
                 'body_text': 'Text in Comment',
-                'discussion_reply:method': 'Save'}
+                'discussion_reply:method': 'Save',
+                'form.button.form_submit' : 'Save'}
 
 
 class TestJoinForm(TestFormMixing):

@@ -75,7 +75,6 @@ class TestFormMixing(FunctionalTestCase):
     def testSubmitWrongCaptcha(self):
         self.form_data['key'] = 'wrong word'
         response = self.publishForm().getBody()
-        open('/tmp/pc.wrongcaptcha.html','w').write(response)
         self.assertTrue(NOT_VALID.search(response))
 
     def testSubmitRightCaptchaTwice(self):
@@ -84,8 +83,6 @@ class TestFormMixing(FunctionalTestCase):
 
         self.publishForm()
         response = self.publishForm().getBody()
-        
-        open('/tmp/pc.rct.html','w').write(response)
         self.assertTrue(NOT_VALID.search(response))
 
 
@@ -111,7 +108,6 @@ class TestJoinForm(TestFormMixing):
     def afterSetUp(self):
         TestFormMixing.afterSetUp(self)
         ISecuritySchema(self.portal).enable_self_reg = True
-        # ISecuritySchema(self.portal).enabel_self_reg = True
         self.hasAuthenticator = True
         self.form_url = '/join_form'
         self.basic_auth = ":"

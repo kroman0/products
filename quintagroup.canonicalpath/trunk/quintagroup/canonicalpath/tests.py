@@ -2,9 +2,19 @@ import unittest
 
 from zope.testing import doctestunit
 from zope.component import testing
-from zope.component import queryAdapter, queryMultiAdapter
+from zope.component import queryAdapter, queryMultiAdapter, getMultiAdapter
 from zope.schema.interfaces import InvalidValue
-from plone.indexer.interfaces import IIndexableObject
+
+#for compatibility with older plone versions 
+try:
+    from plone.indexer.interfaces import IIndexableObject
+    IS_NEW = True
+except:
+    from plone.app.content.interfaces import IIndexableObjectWrapper \
+        as _old_IIndexableObjectWrapper
+    IS_NEW = False
+
+
 from Testing import ZopeTestCase as ztc
 
 from Products.Five import zcml
@@ -39,31 +49,47 @@ class TestIndexerRegistration(TestCase):
         self.my_doc = makeContent(self.portal, portal_type='Document', id='my_doc')
         self.logout()
 
+    def get_indexable_wrapper(self, obj):
+        if IS_NEW:
+            wrapper = None
+            if not IIndexableObject.providedBy(obj):
+                wrapper = queryMultiAdapter((obj, self.catalog), IIndexableObject)
+        else:
+            wf = getattr(self.portal, 'portal_workflow', None)
+            if wf is not None:
+                vars = wf.getCatalogVariablesFor(obj)
+            else:
+                vars = {}
+            wrapper = getMultiAdapter((obj, self.portal), _old_IIndexableObjectWrapper)
+            wrapper.update(vars)
+            
+        return wrapper and wrapper or obj
+
     def testForPortal(self):
-        wrapper = queryMultiAdapter((self.portal, self.catalog), IIndexableObject)
+        wrapper = self.get_indexable_wrapper(self.portal)
         self.assertFalse(wrapper is None, "No indexer registered for portal object")
 
     def testForAT(self):
-        wrapper = queryMultiAdapter((self.my_doc, self.catalog), IIndexableObject)
+        wrapper = self.get_indexable_wrapper(self.my_doc)
         self.assertFalse(wrapper is None, "No indexer registered for document object")
 
     def testCanonicalPathForPortal(self):
-        wrapper = queryMultiAdapter((self.portal, self.catalog), IIndexableObject)
+        wrapper =  self.get_indexable_wrapper(self.portal)
         self.assertTrue(hasattr(wrapper, 'canonical_path'),
             "'canonical_path' attribute not accessible with indexer wrapper for portal object")
 
     def testCanonicalPathForAT(self):
-        wrapper = queryMultiAdapter((self.my_doc, self.catalog), IIndexableObject)
+        wrapper = self.get_indexable_wrapper(self.my_doc)
         self.assertTrue(hasattr(wrapper, 'canonical_path'),
             "'canonical_path' attribute not accessible with indexer wrapper for Document object")
 
     def testCanonicalLinkForPortal(self):
-        wrapper = queryMultiAdapter((self.portal, self.catalog), IIndexableObject)
+        wrapper = self.get_indexable_wrapper(self.portal)
         self.assertTrue(hasattr(wrapper, 'canonical_link'),
             "'canonical_link' attribute not accessible with indexer wrapper for portal object")
 
     def testCanonicalLinkForAT(self):
-        wrapper = queryMultiAdapter((self.my_doc, self.catalog), IIndexableObject)
+        wrapper = self.get_indexable_wrapper(self.my_doc)
         self.assertTrue(hasattr(wrapper, 'canonical_link'),
             "'canonical_link' attribute not accessible with indexer wrapper for Document object")
 

@@ -28,7 +28,8 @@ Plone Captchas plugs to
 
 * default Plone discussion mechanism
 
-* join form
+* join form (depends from the plone version, you need manually run appropriate GenericSetup profile
+             to use join form with captcha)
 
 * send_to form
 
@@ -65,6 +66,8 @@ The product was developed by Quintagroup team:
 * Vitaliy Stepanov
 
 * Bohdan Koval
+
+* Andriy Mylenkyi
 
 Contributors
 ------------

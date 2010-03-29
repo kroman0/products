@@ -6,27 +6,29 @@ from Products.CMFCore.DirectoryView import addDirectoryViews
 from Products.CMFCore.DirectoryView import DirectoryView
 
 NOT_VALID = re.compile("Please re\-enter validation code")
+IMAGE_PATT = '\s+src="%s(/getCaptchaImage/[0-9a-fA-F]+)"'
 
 # patch to use test images and dictionary
 testPatch()
 
-class TestCaptchaWidget(ptc.FunctionalTestCase):
+def addTestLayer(self):
+    # Install test_captcha skin layer
+    registerDirectory('tests', GLOBALS)
+    skins = self.portal.portal_skins
+    addDirectoryViews(skins, 'tests', GLOBALS)
+    skinName = skins.getDefaultSkin()
+    paths = map(string.strip, skins.getSkinPath(skinName).split(','))
+    paths.insert(paths.index('custom')+1, 'test_captcha')
+    skins.addSkinSelection(skinName, ','.join(paths))
+    self._refreshSkinData()
 
-    def addTestLayer(self):
-        # Install test_captcha skin layer
-        registerDirectory('tests', GLOBALS)
-        skins = self.portal.portal_skins
-        addDirectoryViews(skins, 'tests', GLOBALS)
-        skinName = skins.getDefaultSkin()
-        paths = map(string.strip, skins.getSkinPath(skinName).split(','))
-        paths.insert(paths.index('custom')+1, 'test_captcha')
-        skins.addSkinSelection(skinName, ','.join(paths))
-        self._refreshSkinData()
+
+class TestCaptchaWidget(ptc.FunctionalTestCase):
 
     def afterSetUp(self):
         self.loginAsPortalOwner()
         self.addProduct(PRODUCT_NAME)
-        self.addTestLayer()
+        addTestLayer(self)
         self.portal.invokeFactory('Document', 'index_html')
         self.portal['index_html'].allowDiscussion(True)
         self.absolute_url = self.portal['index_html'].absolute_url_path()
@@ -37,7 +39,7 @@ class TestCaptchaWidget(ptc.FunctionalTestCase):
     def testImage(self):
         path = '%s/test_form' % self.absolute_url
         response = self.publish(path, self.basic_auth, request_method='GET').getBody()
-        patt = re.compile('\s+src="%s(/getCaptchaImage/[0-9a-fA-F]+)"' % self.portal.absolute_url())
+        patt = re.compile(IMAGE_PATT % self.portal.absolute_url())
         match_obj = patt.search(response)
 
         img_url = match_obj.group(1)

@@ -5,6 +5,13 @@ from DateTime import DateTime
 
 from plone.app.controlpanel.security import ISecuritySchema
 
+# BBB for plone v<3.1, where plone.protect not used yet 
+PROTECT_SUPPORT = True
+try:
+    from plone import protect
+except ImportError:
+    PROTECT_SUPPORT = False
+
 # USE PATCH FROM quintagroup.captcha.core
 # patch to use test images and dictionary
 testPatch()
@@ -36,7 +43,7 @@ class TestFormMixin(FunctionalTestCase):
         stdin_data = None
         form_url = self.portal.absolute_url(1) + self.form_url
         # Prepare form data
-        if self.hasAuthenticator:
+        if PROTECT_SUPPORT and self.hasAuthenticator:
             self.form_data['_authenticator'] = self._getauth()
         form_data = urlencode(self.form_data)
         if self.form_method.upper() == 'GET':

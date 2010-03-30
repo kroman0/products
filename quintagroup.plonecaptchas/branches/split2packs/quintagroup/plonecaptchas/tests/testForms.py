@@ -1,4 +1,6 @@
 from base import *
+from DateTime import DateTime
+from base64 import b64decode
 from urllib import urlencode
 from StringIO import StringIO
 from DateTime import DateTime
@@ -62,7 +64,21 @@ class TestFormMixin(FunctionalTestCase):
         handle = re.search('value="(.*)"', html).groups()[0]
         return handle
 
+    def getStatusMessage(self, resp):
+        default = ''
+        if resp.getStatus()/100 == 2:
+            return resp.getBody()
+        elif resp.getStatus()/100 == 3:
+            now = DateTime()
+            sm = resp.getCookie('statusmessages')
+            if DateTime(sm.get('expires', now)) < now:
+                return default
+            return b64decode(sm.get('value',default))
+        return default
+        
     def testImage(self):
+        self.form_data = {}
+        self.form_method = 'GET'
         response = self.publishForm().getBody()
         patt = re.compile(IMAGE_PATT  % self.portal.absolute_url())
         match_obj = patt.search(response)
@@ -75,22 +91,21 @@ class TestFormMixin(FunctionalTestCase):
     def testSubmitRightCaptcha(self):
         key = getWord(int(parseKey(decrypt(self.captcha_key, self.hashkey))['key'])-1)
         self.form_data['key'] = key
-        
-        response = self.publishForm().getBody()
-        self.assertFalse(NOT_VALID.search(response))
+        response = self.publishForm()
+        self.assertFalse(NOT_VALID.search(self.getStatusMessage(response)))
 
     def testSubmitWrongCaptcha(self):
         self.form_data['key'] = 'wrong word'
-        response = self.publishForm().getBody()
-        self.assertTrue(NOT_VALID.search(response))
+        response = self.publishForm()
+        self.assertTrue(NOT_VALID.search(self.getStatusMessage(response)))
 
     def testSubmitRightCaptchaTwice(self):
         key = getWord(int(parseKey(decrypt(self.captcha_key, self.hashkey))['key'])-1)
         self.form_data['key'] = key
 
         self.publishForm()
-        response = self.publishForm().getBody()
-        self.assertTrue(NOT_VALID.search(response))
+        response = self.publishForm()
+        self.assertTrue(NOT_VALID.search(self.getStatusMessage(response)))
 
 
 class TestDiscussionForm(TestFormMixin):

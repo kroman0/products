@@ -25,6 +25,7 @@ setup(name='quintagroup.plonecaptchas',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'quintagroup.captcha.core',
           # -*- Extra requirements: -*-
       ],
       entry_points="""
@@ -35,6 +36,9 @@ setup(name='quintagroup.plonecaptchas',
 
       [egg_info.writers]
       paster_plugins.txt = setuptools.command.egg_info:write_arg
+
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       paster_plugins = ["ZopeSkel"],
       )

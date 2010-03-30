@@ -16,7 +16,6 @@
     <!-- File System Directory Views registration -->
     <cmf:registerDirectory name="captchas_discussion" />
     <cmf:registerDirectory name="captchas_sendto_form" />
-    <cmf:registerDirectory name="captchas_join_form" />
     <cmf:registerDirectory name="captchas_join_form_30" />
     <cmf:registerDirectory name="captchas_join_form_31_32" />
     <cmf:registerDirectory name="captchas_join_form_33" />

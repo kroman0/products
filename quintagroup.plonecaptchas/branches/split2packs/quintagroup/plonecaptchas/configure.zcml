@@ -16,10 +16,10 @@
     <!-- File System Directory Views registration -->
     <cmf:registerDirectory name="captchas_discussion" />
     <cmf:registerDirectory name="captchas_sendto_form" />
-    <cmf:registerDirectory name="captchas_join_form" />
     <cmf:registerDirectory name="captchas_join_form_30" />
     <cmf:registerDirectory name="captchas_join_form_31_32" />
     <cmf:registerDirectory name="captchas_join_form_33" />
+    <cmf:registerDirectory name="captchas_join_form_40" />
 
     <gs:registerProfile
         name="default"
@@ -52,6 +52,15 @@
         name="join_form_plone_33"
         title="Plone Captchas Join Form for plone-3.3"
         directory="profiles/join_form_plone_33"
+        description="This product adds captcha support to Plone."
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <gs:registerProfile
+        name="join_form_plone_40"
+        title="Plone Captchas Join Form for plone-4.0"
+        directory="profiles/join_form_plone_40"
         description="This product adds captcha support to Plone."
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         provides="Products.GenericSetup.interfaces.EXTENSION"

@@ -116,7 +116,7 @@ class TestJoinForm(TestFormMixin):
         TestFormMixin.afterSetUp(self)
         ISecuritySchema(self.portal).enable_self_reg = True
         self.hasAuthenticator = True
-        self.form_url = '/join_form'
+        self.form_url = '/' + JF_NAME
         self.basic_auth = ":"
         self.logout()
 

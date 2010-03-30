@@ -35,6 +35,10 @@ PROPERTY_SHEET = 'qPloneCaptchas'
 
 # join_form profile prefix
 JF_PROFILE_PREFIX = 'profile-quintagroup.plonecaptchas:join_form_plone_'
+JF_NAME = "join_form"
+if getattr(ptc_setup, 'PLONE40', 0):
+    JF_NAME = "login_form"
+
 
 ptc.setupPloneSite()
 
@@ -70,7 +74,9 @@ class Installed(NotInstalled):
 
         # Install Join Form layer, depends on Plone version
         js_layer = None
-        if getattr(ptc_setup, 'PLONE33', 0):
+        if getattr(ptc_setup, 'PLONE40', 0):
+            js_layer = JF_PROFILE_PREFIX+'33'
+        elif getattr(ptc_setup, 'PLONE33', 0):
             js_layer = JF_PROFILE_PREFIX+'33'
         elif getattr(ptc_setup, 'PLONE32', 0):
             js_layer = JF_PROFILE_PREFIX+'31_32'

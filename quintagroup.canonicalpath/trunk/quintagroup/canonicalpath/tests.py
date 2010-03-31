@@ -65,28 +65,14 @@ class TestIndexerRegistration(TestCase):
             
         return wrapper and wrapper or obj
 
-    def testForPortal(self):
-        wrapper = self.get_indexable_wrapper(self.portal)
-        self.assertFalse(wrapper is None, "No indexer registered for portal object")
-
     def testForAT(self):
         wrapper = self.get_indexable_wrapper(self.my_doc)
         self.assertFalse(wrapper is None, "No indexer registered for document object")
-
-    def testCanonicalPathForPortal(self):
-        wrapper =  self.get_indexable_wrapper(self.portal)
-        self.assertTrue(hasattr(wrapper, 'canonical_path'),
-            "'canonical_path' attribute not accessible with indexer wrapper for portal object")
 
     def testCanonicalPathForAT(self):
         wrapper = self.get_indexable_wrapper(self.my_doc)
         self.assertTrue(hasattr(wrapper, 'canonical_path'),
             "'canonical_path' attribute not accessible with indexer wrapper for Document object")
-
-    def testCanonicalLinkForPortal(self):
-        wrapper = self.get_indexable_wrapper(self.portal)
-        self.assertTrue(hasattr(wrapper, 'canonical_link'),
-            "'canonical_link' attribute not accessible with indexer wrapper for portal object")
 
     def testCanonicalLinkForAT(self):
         wrapper = self.get_indexable_wrapper(self.my_doc)

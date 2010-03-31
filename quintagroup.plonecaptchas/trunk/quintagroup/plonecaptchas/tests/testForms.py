@@ -63,6 +63,8 @@ class TestFormMixin(FunctionalTestCase):
         return handle
 
     def testImage(self):
+        self.form_data = {}
+        self.form_method = "GET"
         response = self.publishForm().getBody()
         patt = re.compile(IMAGE_PATT  % self.portal.absolute_url())
         match_obj = patt.search(response)
@@ -146,10 +148,28 @@ class TestSendtoForm(TestFormMixin):
                 'comment': 'Text in Comment',
                 'form.button.Send' : 'Save'}
 
+class TestContactInfo(TestFormMixin):
+
+    def afterSetUp(self):
+        TestFormMixin.afterSetUp(self)
+        # preparation to form correct working
+        self.portal._updateProperty('email_from_address','manager@test.com')
+        self.logout()
+        self.form_url = '/contact-info'
+        
+    def getFormData(self):
+        return {'form.submitted' : '1',
+                "sender_fullname" : "tester",
+                "sender_from_address" : "sender@test.com",
+                'subject': 'Subject',
+                'message': 'Message',
+                'form.button.Send' : 'Save'}
+
 
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestDiscussionForm))
     suite.addTest(unittest.makeSuite(TestJoinForm))
     suite.addTest(unittest.makeSuite(TestSendtoForm))
+    suite.addTest(unittest.makeSuite(TestContactInfo))
     return suite

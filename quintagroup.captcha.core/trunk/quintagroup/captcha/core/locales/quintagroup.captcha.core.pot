@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-04-01 10:15+0000\n"
+"POT-Creation-Date: 2010-04-01 12:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,10 +25,6 @@ msgstr ""
 msgid "Background"
 msgstr ""
 
-#: ./skins/captcha_core/prefs_captchas_setup.cpy:56
-msgid "Changes saved."
-msgstr ""
-
 #: ./skins/captcha_core/prefs_captchas_setup_form.cpt:112
 msgid "Font color"
 msgstr ""
@@ -41,7 +37,6 @@ msgstr ""
 msgid "Period"
 msgstr ""
 
-#: ./browser/widget.py:30
 #: ./skins/captcha_core/dynamic/captcha_validator.vpy:24
 #: ./skins/captcha_core/static/captcha_validator.vpy:26
 msgid "Please re-enter validation code."

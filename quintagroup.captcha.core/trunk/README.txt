@@ -23,8 +23,8 @@ Authors
 
 The product is developed and maintained by http://quintagroup.com team.
 
-* Volodymyr Cherepanyak
 * Andriy Mylenkyy
+* Volodymyr Cherepanyak
 
 Copyright (c) "Quintagroup": http://quintagroup.com, 2004-2010
 

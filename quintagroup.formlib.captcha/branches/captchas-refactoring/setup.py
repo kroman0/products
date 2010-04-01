@@ -5,7 +5,7 @@ version = '1.0'
 
 setup(name='quintagroup.formlib.captcha',
       version=version,
-      description="Captcha field for formlib based on qPloneCaptchas Zope2 Product",
+      description="Captcha field for formlib based on quintagroup.captcha.core package",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
@@ -26,6 +26,7 @@ setup(name='quintagroup.formlib.captcha',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
+          'zope.formlib',
           'quintagroup.captcha.core',
       ],
       entry_points="""

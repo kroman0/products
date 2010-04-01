@@ -27,7 +27,7 @@ setup(name='quintagroup.formlib.captcha',
           'setuptools',
           # -*- Extra requirements: -*-
           'quintagroup.captcha.core',
-          # 'zope.app.form',
+          'zope.app.form',
           # 'zope.component',
           # 'zope.interface',
           # 'zope.schema',

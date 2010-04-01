@@ -1,5 +1,5 @@
- Installation
-=============
+Installation
+============
 
 Buildout
 --------
@@ -51,3 +51,4 @@ should only contain this::
    $ ./bin/zopectl restart
 
 * Install ``Quintagroup Captcha Core`` with Quickinstaller in Plone (Site Setup -> Add/Remove Products) 
+

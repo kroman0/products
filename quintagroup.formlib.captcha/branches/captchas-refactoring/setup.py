@@ -26,8 +26,13 @@ setup(name='quintagroup.formlib.captcha',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
-          'zope.formlib',
           'quintagroup.captcha.core',
+          # 'zope.app.form',
+          # 'zope.component',
+          # 'zope.interface',
+          # 'zope.schema',
+          # 'zope.i18n',
+          # 'Products.CMFCore',
       ],
       entry_points="""
       # -*- Entry points: -*-

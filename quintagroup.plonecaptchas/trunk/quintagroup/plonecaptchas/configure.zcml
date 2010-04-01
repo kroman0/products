@@ -9,8 +9,6 @@
     <!-- include dependent packages -->
     <include package="quintagroup.captcha.core" />
 
-    <i18n:registerTranslations directory="locales" />
-
     <five:registerPackage package="." initialize=".initialize" />
 
     <!-- File System Directory Views registration -->

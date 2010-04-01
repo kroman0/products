@@ -6,9 +6,14 @@ for validation of human input in insecure forms. This is a standalone
 implementation with static captcha images, which does not depend on captchas.net 
 services.
 
-quintagroup.plonecaptchas has dynamic captchas option implemented. You can
-switch captchas into dynamic mode in the correspondent configlet. In this
-case, captcha images will be generated on the fly.
+quintagroup.plonecaptchas adds captcha support to Plone, it works together with 
+quintagroup.captcha.core package. With these products installed captchas will be 
+added to Plone's 'Send this', 'Contact Us' (/contact-info) forms, and Plone's default
+discussion mechanism: 'Add Comment' and 'Reply forms'.
+
+quintagroup.plonecaptchas does not automatically plug to Plone's default registration
+(/join_form). You can make captcha plug to Plone's Join form via Zope Management Interface.
+Instructions here: http://projects.quintagroup.com/products/wiki/quintagroup.captcha#JoinForm 
 
 Requirements
 ------------
@@ -18,32 +23,20 @@ Requirements
 For earlier Plone versions - use 1.3.4 version of qPloneCaptchas product for use on forms
 created with PloneFormMailer product.
 
-Dependency
-----------
+Dependencies
+------------
 
-PIL with Jpeg and FreeType support
-
-Plone Captchas plugs to
------------------------
-
-* default Plone discussion mechanism
-
-* join form
-
-* send_to form
-
-* forms created with PloneFormGen
+* quintagroup.captcha.core
+* PIL with Jpeg and FreeType support
 
 Plone Captchas on PloneFormGen forms 
 ------------------------------------
 
-To make captchas work on forms created with PloneFormGen, please use qPloneCaptchaField product:
+To make captchas work on forms created with PloneFormGen, please use 'quintagroup.pfg.captcha' product:
 
 * Plone Captcha Field home page - http://quintagroup.com/services/plone-development/products/plone-captcha-field
 
-* Instruction on use - http://projects.quintagroup.com/products/wiki/qPloneCaptchaField
-  
-* Plone Captcha Field Screencast - http://quintagroup.com/cms/screencasts/qplonecaptchafield
+* Instruction on use - http://projects.quintagroup.com/products/wiki/quintagroup.captcha#quintagroup.pfg.captcha
 
 Installation
 ------------
@@ -58,6 +51,8 @@ Authors
 
 The product was developed by Quintagroup team:
 
+* Andriy Mylenkyi 
+
 * Volodymyr Cherepanyak
 
 * Mykola Kharechko
@@ -70,11 +65,6 @@ Contributors
 ------------
 
 * Dorneles Tremea
-
-Future features
----------------
-
-* Configuration of captchas images generation (shade, background, colors etc.)
 
 Links
 -----

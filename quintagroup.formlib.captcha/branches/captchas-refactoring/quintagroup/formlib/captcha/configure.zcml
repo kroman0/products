@@ -3,6 +3,8 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="quintagroup.formlib.captcha">
 
+    <include package="quintagroup.captcha.core" />
+
     <include package=".form"
              zcml:condition="installed zope.app.form"/>
 

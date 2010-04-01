@@ -36,7 +36,7 @@ To install quintagroup.captcha.core to your buildout-based project:
 Traditional Zope 2 instance
 ---------------------------
 
-To install quintagroup.plonegooglesitemaps into the global Python environment (or a workingenv),
+To install quintagroup.captcha.core into the global Python environment (or a workingenv),
 using a traditional Zope 2 instance, you can do this:
 
 * Copy ``quintagroup`` folder to your instance's ``/lib/python`` directory.

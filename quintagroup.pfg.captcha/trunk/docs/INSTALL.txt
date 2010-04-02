@@ -1,8 +1,16 @@
 Installation
 ============
 
-Buildout
---------
+quintagroup.pfg.captcha has 2 dependencies: PloneFormGen and quintagroup.captcha.core. 
+Don't forget to install them as well. Please make sure that the products are intalled
+in the following order:
+
+* PloneFormGen
+* quintagroup.captcha.core
+* quintagroup.pfg.captcha
+
+quintagroup.pfg.captcha on Buildout
+-----------------------------------
 
 To install quintagroup.pfg.captcha to your buildout-based project:
 
@@ -33,8 +41,8 @@ To install quintagroup.pfg.captcha to your buildout-based project:
 * Install ``quintagroup.pfg.captcha`` with Quickinstaller in Plone (Site Setup -> Add/Remove Products) 
         
 	
-Traditional Zope 2 instance
----------------------------
+quintagroup.pfg.captcha on Traditional Zope 2 instance
+------------------------------------------------------
 
 To install quintagroup.pfg.captcha into the global Python environment (or a workingenv),
 using a traditional Zope 2 instance, you can do this:

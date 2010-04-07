@@ -18,9 +18,14 @@ from Testing import ZopeTestCase as ztc
 from Products.PloneTestCase.layer import onsetup
 from Products.PloneTestCase import PloneTestCase as ptc
 
+from quintagroup.captcha.core.utils import *
+from quintagroup.captcha.core.tests.base import testPatch
+from quintagroup.captcha.core.tests.testWidget import addTestLayer
+
 from quintagroup.z3cform.captcha import Captcha
 from quintagroup.z3cform.captcha import CaptchaWidget
-from quintagroup.z3cform.captcha.widget import CaptchaWidgetFactory
+from quintagroup.z3cform.captcha import CaptchaWidgetFactory
+from quintagroup.z3cform.captcha.validator import CaptchaValidator
 
 @onsetup
 def setup_product():
@@ -42,7 +47,6 @@ ptc.setupPloneSite(extension_profiles=['quintagroup.captcha.core:default',])
 class TestRegistrations(ptc.PloneTestCase):
 
     def afterSetUp(self):
-        super(TestRegistrations, self).afterSetUp()
         self.request = self.app.REQUEST
         alsoProvides(self.request, IFormLayer)
 
@@ -76,7 +80,6 @@ class TestRegistrations(ptc.PloneTestCase):
 class TestCaptchaWidget(ptc.PloneTestCase):
 
     def afterSetUp(self):
-        super(TestCaptchaWidget, self).afterSetUp()
         self.request = self.app.REQUEST
         alsoProvides(self.request, IFormLayer)
 
@@ -108,8 +111,58 @@ class TestCaptchaWidget(ptc.PloneTestCase):
         self.assertEqual(re.search(FIELDTAG, self.html) is not None, True)
         
 
+class TestCaptchaValidator(ptc.PloneTestCase):
+
+    def afterSetUp(self):
+        self.request = self.app.REQUEST
+        alsoProvides(self.request, IFormLayer)
+        # prepare context
+        self.loginAsPortalOwner()
+        testPatch()
+        addTestLayer(self)
+        self.captcha_key = self.portal.captcha_key
+        # prepare captcha data
+        self.hashkey = self.portal.getCaptcha()
+        self.request.form['hashkey'] = self.hashkey
+        # prepare validator
+        cform = form.BaseForm(self.portal, self.request)
+        cform.prefix = ""
+        cwidget = CaptchaWidget(self.request)
+        cwidget.form = cform
+        self.validator = CaptchaValidator(self.portal, self.request, None, None, cwidget)
+
+    def testSubmitRightCaptcha(self):
+        decrypted = decrypt(self.captcha_key, self.hashkey)
+        key = getWord(int(parseKey(decrypted)['key'])-1 )
+        try:
+            res = self.validator.validate(key)
+        except ConversionError, e:
+            self.fail("Rised unexpected %s error on right captcha submit" % e)
+
+    def testSubmitWrongCaptcha(self):
+        try:
+            res = self.validator.validate("wrong key")
+        except ValueError, e:
+            self.assertEqual(str(e), u'Please re-enter validation code.')
+        else:
+            self.fail("No ValueError rised on wrong captcha key submit")
+
+    def testSubmitRightCaptchaTwice(self):
+        decrypted = decrypt(self.captcha_key, self.hashkey)
+        key = getWord(int(parseKey(decrypted)['key'])-1 )
+        self.validator.validate(key)
+        try:
+            res = self.validator.validate(key)
+        except ValueError, e:
+            self.assertEqual(str(e), u'Please re-enter validation code.')
+        else:
+            self.fail("No ValueError rised on right captcha key " \
+                      "submitting twice")
+
+
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestRegistrations))
     suite.addTest(unittest.makeSuite(TestCaptchaWidget))
+    suite.addTest(unittest.makeSuite(TestCaptchaValidator))
     return suite

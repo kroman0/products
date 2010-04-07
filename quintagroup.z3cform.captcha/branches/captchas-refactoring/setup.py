@@ -36,6 +36,8 @@ setup(name='quintagroup.z3cform.captcha',
       ],
       entry_points="""
       # -*- Entry points: -*-
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       )
 

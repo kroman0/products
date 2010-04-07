@@ -4,6 +4,13 @@
 
   <include package="quintagroup.captcha.core" />
 
+  <!--Widget-->
+  <adapter
+    for=".field.Captcha
+         z3c.form.interfaces.IFormLayer"
+    factory=".widget.CaptchaWidgetFactory"
+    />
+
   <!--Validators-->
   <adapter
     factory=".validator.CaptchaValidator"

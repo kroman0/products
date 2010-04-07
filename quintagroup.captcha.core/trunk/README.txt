@@ -28,11 +28,9 @@ Links
 Notes
 -----
 
-* If you want captcha for Plone default forms - use quintagroup.plonecaptchas product 
-http://projects.quintagroup.com/products/wiki/quintagroup.plonecaptchas
+* If you want captcha for Plone default forms - use quintagroup.plonecaptchas product http://projects.quintagroup.com/products/wiki/quintagroup.plonecaptchas
 
-* If you want captcha support for PloneFormGen forms - use quintagroup.pfg.captcha product
-http://projects.quintagroup.com/products/wiki/quintagroup.pfg.captcha  
+* If you want captcha support for PloneFormGen forms - use quintagroup.pfg.captcha product http://projects.quintagroup.com/products/wiki/quintagroup.pfg.captcha
 
 Authors
 -------

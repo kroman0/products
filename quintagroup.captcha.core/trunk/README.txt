@@ -1,11 +1,15 @@
 Introduction
 ============
 
-Quintagroup Captcha Core (quintagroup.captcha.core) allows to configure captchas
-on your Plone site. 
+Quintagroup Captcha Core (quintagroup.captcha.core) is a core package of simple
+captcha implementation. It allows to configure captchas on your Plone site. 
 
-This product does not add captcha to your Plone forms, it only allows its configuring. 
-To protect Plone forms with captcha - use quintagroup.plonecaptchas package.  
+This product works together with other Quintagroup captcha products.
+To protect standard Plone forms with captcha - use quintagroup.plonecaptchas package.
+http://plone.org/products/plone-captchas/  
+
+quintagroup.captcha.core Usage
+------------------------------
 
 After product installation you'll see 'Plone captchas setup' option under 
 'Add-on Product Configuration' in Site Setup. There you can select what kind 

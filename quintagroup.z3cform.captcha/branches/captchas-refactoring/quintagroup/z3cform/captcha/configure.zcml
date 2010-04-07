@@ -2,6 +2,7 @@
     xmlns="http://namespaces.zope.org/zope"
     i18n_domain="quintagroup.z3cform.captcha">
 
+  <include package="z3c.form" />
   <include package="quintagroup.captcha.core" />
 
   <!--Widget-->

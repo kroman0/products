@@ -1,11 +1,12 @@
 Changelog
 =========
 
-2.0.1 (unreleased)
-------------------
+3.0 - Apr 7, 2010
+-----------------
 
-- Nothing changed yet.
-
+* product was refactored: captcha support for the standard Plone forms remained
+  in quintagroup.plonecaptchas; the captchas core rendering and validation 
+  functionality were factored into quintagroup.captcha.core package
 
 2.0.0 - July 15, 2009
 ---------------------
@@ -21,4 +22,4 @@ Changelog
 1.3.4 - March 2, 2009
 ---------------------
 
- * Fixed bug in method parseKey [Maik Röder]
+* Fixed bug in method parseKey [Maik Röder]

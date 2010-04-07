@@ -1,3 +1,4 @@
+import re
 import unittest
 
 from zope.interface import alsoProvides
@@ -5,6 +6,7 @@ from zope.schema.interfaces import IField
 from zope.component import queryMultiAdapter
 from zope.publisher.browser import TestRequest
 
+from z3c.form import form
 from z3c.form.interfaces import IFormLayer
 from z3c.form.interfaces import IValidator
 from z3c.form.interfaces import IFieldWidget
@@ -71,7 +73,43 @@ class TestRegistrations(ptc.PloneTestCase):
         self.assertNotEqual(eview, None)
 
 
+class TestCaptchaWidget(ptc.PloneTestCase):
+
+    def afterSetUp(self):
+        super(TestCaptchaWidget, self).afterSetUp()
+        self.request = self.app.REQUEST
+        alsoProvides(self.request, IFormLayer)
+
+        cform = form.BaseForm(self.portal, self.request)
+        cform.prefix = ""
+        cwidget = CaptchaWidget(self.request)
+        cwidget.form = cform
+        self.html = cwidget.render()
+
+    def testHidden(self):
+        HIDDENTAG = '<input\s+[^>]*(?:' \
+            '(?:type="hidden"\s*)|' \
+            '(?:name="hashkey"\s*)|' \
+            '(?:value="(?P<value>[0-9a-fA-F]+)"\s*)' \
+            '){3}/>'
+        open('/tmp/z3c.form.html','w').write(self.html)
+        hidden = re.search(HIDDENTAG, self.html)
+        self.assertTrue(hidden and hidden.group('value'))
+
+    def testImg(self):
+        IMAGETAG = '<img\s+[^>]*src=\"' \
+            '(?P<src>[^\"]*/getCaptchaImage/[0-9a-fA-F]+)' \
+            '\"[^>]*>'
+        img = re.search(IMAGETAG, self.html)
+        self.assertTrue(img and img.group('src'))
+
+    def testTextField(self):
+        FIELDTAG = '<input\s+[^>]*type=\"text\"\s*[^>]*>'
+        self.assertEqual(re.search(FIELDTAG, self.html) is not None, True)
+        
+
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestRegistrations))
+    suite.addTest(unittest.makeSuite(TestCaptchaWidget))
     return suite

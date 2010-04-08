@@ -25,9 +25,20 @@ setup(name='quintagroup.pfg.captcha',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'quintagroup.captcha.core',
+          'Products.PloneFormGen',
           # -*- Extra requirements: -*-
+          # 'zope.event',
+          # 'zope.lifecycleevent',
+          # 'Products.CMFCore',
+          # 'Products.CMFPlone',
+          # 'Products.Archetypes',
+          # 'Products.ATContentTypes',
+          # 'Products.validation',
       ],
       entry_points="""
       # -*- Entry points: -*-
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       )

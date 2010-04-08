@@ -5,6 +5,9 @@
     xmlns:cmf="http://namespaces.zope.org/cmf"
     i18n_domain="quintagroup.pfg.captcha">
 
+    <include package="quintagroup.captcha.core" />
+    <include package="Products.PloneFormGen" />
+    
     <five:registerPackage package="." initialize=".initialize" />
     <cmf:registerDirectory name="qplonecaptchafield"  directory="skins" recursive="True" />
 

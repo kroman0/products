@@ -9,7 +9,7 @@ from Products.PloneFormGen.content.fieldsBase import BareFieldSchema, BaseFormFi
 from Products.PloneFormGen.content.fields import FGStringField
 
 from quintagroup.pfg.captcha.config import PROJECTNAME
-from quintagroup.pfg.captcha.widgets.CaptchaWidget import CaptchaWidget
+from quintagroup.pfg.captcha.widget import CaptchaWidget
 
 CAPTCHA_ID = 'key'
 

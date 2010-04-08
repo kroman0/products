@@ -3,6 +3,7 @@
     i18n_domain="quintagroup.formlib.captcha">
 
   <include package="quintagroup.captcha.core" />
+  <include package="zope.formlib" />
 
   <view
       type="zope.publisher.interfaces.browser.IBrowserRequest"

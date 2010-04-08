@@ -24,7 +24,7 @@ in the following order:
 * quintagroup.captcha.core (Quintagroup Captcha Core)
 * quintagroup.pfg.captcha (Quintagroup PloneFormGen CaptchaField)
 
-For Plone >= 3.1, only  quintagroup.pfg.captcha (Quintagroup PloneFormGen CaptchaFiel)
+For Plone >= 3.1, only  *quintagroup.pfg.captcha (Quintagroup PloneFormGen CaptchaFiel)*
 product must be installed. Dependencies will be installed automatically.
 
 Links

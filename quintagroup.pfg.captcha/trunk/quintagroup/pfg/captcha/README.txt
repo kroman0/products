@@ -11,17 +11,21 @@ Supported Plone versions
 Dependencies
 ------------
 
-* PloneFormGen
-* qPloneCaptchas
+* quintagroup.captcha.core
+* Products.PloneFormGen
 
 Installation
 ------------
 
-Please make sure that the following products are intalled in the following order:
+For Plone < 3.1 version, please make sure that the following products are intalled
+in the following order:
 
 * PloneFormGen
-* qPloneCaptchas
-* qPloneCaptchaField
+* quintagroup.captcha.core (Quintagroup Captcha Core)
+* quintagroup.pfg.captcha (Quintagroup PloneFormGen CaptchaField)
+
+For Plone >= 3.1, only  quintagroup.pfg.captcha (Quintagroup PloneFormGen CaptchaFiel)
+product must be installed. Dependencies will be installed automatically.
 
 Links
 -----
@@ -36,3 +40,4 @@ The product is developed by Quintagroup.com team:
 
 * Volodymyr Cherepanyak
 * Taras Melnychuk
+* Andriy Mylenkyy

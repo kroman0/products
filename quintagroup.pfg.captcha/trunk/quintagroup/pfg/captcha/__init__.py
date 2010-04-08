@@ -1,8 +1,8 @@
 from Products.CMFCore import utils
 from Products.Archetypes.atapi import process_types, listTypes
 
-from permissions import ADD_PERMISSION
 from config import PROJECTNAME
+from config import ADD_PERMISSION
 import validators
 import content
 

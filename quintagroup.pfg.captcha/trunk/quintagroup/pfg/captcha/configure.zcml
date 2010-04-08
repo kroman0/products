@@ -13,7 +13,7 @@
 
     <genericsetup:registerProfile
        name="default"
-       title="quintagroup.pfg.captcha"
+       title="Quintagroup PloneFormGen CaptchaField"
        directory="profiles/default"
        description="Installs CaptchaField content type."
        for ="Products.CMFCore.interfaces.ISiteRoot"

@@ -30,7 +30,7 @@ from quintagroup.z3cform.captcha.validator import CaptchaValidator
 @onsetup
 def setup_product():
     fiveconfigure.debug_mode = True
-    # Register z3c namespace first
+    # Register z3c namespace first (work before plone-3.3)
     import z3c.form
     zcml.load_config('meta.zcml', z3c.form)
     # Now register quintagroup.z3cform.captcha package

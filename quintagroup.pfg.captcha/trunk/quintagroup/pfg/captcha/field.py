@@ -5,8 +5,10 @@ from Products.CMFCore.permissions import View
 from Products.Archetypes.atapi import *
 from Products.ATContentTypes.content.base import registerATCT
 
-from Products.PloneFormGen.content.fieldsBase import BareFieldSchema, BaseFormField, BaseFieldSchemaStringDefault
 from Products.PloneFormGen.content.fields import FGStringField
+from Products.PloneFormGen.content.fieldsBase import BareFieldSchema
+from Products.PloneFormGen.content.fieldsBase import BaseFormField
+from Products.PloneFormGen.content.fieldsBase import BaseFieldSchemaStringDefault
 
 from quintagroup.pfg.captcha.config import PROJECTNAME
 from quintagroup.pfg.captcha.widget import CaptchaWidget

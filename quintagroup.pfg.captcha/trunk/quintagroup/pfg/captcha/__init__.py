@@ -3,10 +3,11 @@ from Products.Archetypes.atapi import process_types, listTypes
 
 from config import PROJECTNAME
 from config import ADD_PERMISSION
-import validators
-import content
 
 def initialize(context):
+
+    import field
+    import validator
 
     content_types, constructors, ftis = process_types(listTypes(PROJECTNAME), PROJECTNAME)
 

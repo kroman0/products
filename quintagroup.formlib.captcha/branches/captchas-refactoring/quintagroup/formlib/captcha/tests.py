@@ -33,7 +33,7 @@ setup_product()
 ptc.setupPloneSite(extension_profiles=['quintagroup.captcha.core:default',])
 
 
-class TestRegistrations(unittest.TestCase):
+class TestRegistrations(ptc.PloneTestCase):
 
     def testCaptchaFieldInterface(self):
         self.assertEqual(IField.implementedBy(Captcha), True)

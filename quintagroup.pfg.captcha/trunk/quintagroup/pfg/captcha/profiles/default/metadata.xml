@@ -2,7 +2,7 @@
 <metadata>
   <version>0.2.2</version>
   <dependencies>
-    <dependency>profile-quintagroup.captcha.core:default</dependency>
     <dependency>profile-Products.PloneFormGen:default</dependency>
+    <dependency>profile-quintagroup.captcha.core:default</dependency>
   </dependencies>
 </metadata>

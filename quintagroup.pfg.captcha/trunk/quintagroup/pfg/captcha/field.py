@@ -14,17 +14,19 @@ from quintagroup.pfg.captcha.config import PROJECTNAME
 from quintagroup.pfg.captcha.widget import CaptchaWidget
 
 CAPTCHA_ID = 'key'
+HIDDEN_FIELDS = [
+    'title', 
+    'description',
+    'required', 
+    'hidden', 
+    'fgTDefault', 
+    'fgTEnabled', 
+    'fgDefault',
+    'fgTValidator']
 
 def finalizeCaptchaFieldSchema( schema ):
     schema['title'].default= 'key'
-    for field in ('title', 
-                  'description',
-                  'required', 
-                  'hidden', 
-                  'fgTDefault', 
-                  'fgTEnabled', 
-                  'fgDefault',
-                  'fgTValidator'):
+    for field in HIDDEN_FIELDS:
         schema[field].widget.visible = {'view':'invisible','edit':'invisible'}
 
 CaptchaFieldSchema = BaseFieldSchemaStringDefault.copy()

@@ -7,9 +7,16 @@ from Products.Five import fiveconfigure
 from Testing import ZopeTestCase as ztc
 from Products.PloneTestCase.layer import onsetup
 from Products.PloneTestCase import PloneTestCase as ptc
+from Products.CMFCore.permissions import View
+from Products.Archetypes.atapi import StringField
+
+from quintagroup.pfg.captcha import CaptchaWidget
+from quintagroup.pfg.captcha import CaptchaValidator
+from quintagroup.pfg.captcha.field import CAPTCHA_ID, HIDDEN_FIELDS
+
+_marker = object()
 
 PRODUCTS = [
-    'Products.PloneFormGen',
     'quintagroup.captcha.core',
     'quintagroup.pfg.captcha',
 ]
@@ -21,11 +28,12 @@ def setup_product():
     import quintagroup.pfg.captcha
     zcml.load_config('configure.zcml', quintagroup.pfg.captcha)
     fiveconfigure.debug_mode = False
+    ztc.installProduct('PloneFormGen')
     ztc.installPackage('quintagroup.pfg.captcha')
     ztc.installPackage('quintagroup.captcha.core')
 
 setup_product()
-ptc.setupPloneSite(extension_profiles=PROFILES)
+ptc.setupPloneSite(products=['PloneFormGen',], extension_profiles=PROFILES)
 
 
 class TestInstallations(ptc.PloneTestCase):
@@ -66,9 +74,42 @@ class TestInstallations(ptc.PloneTestCase):
             self.assertEqual("qplonecaptchafield" in paths, True,
                 '"qplonecaptchafield" layer not present in "%s" skin' % sname)
 
+
+class TestCaptchaField(ptc.PloneTestCase):
+
+    def afterSetUp(self):
+        self.folder.invokeFactory('FormFolder', 'ff1')
+        self.ff1 = getattr(self.folder, 'ff1')
+        self.ff1.invokeFactory('CaptchaField', 'captcha_field')
+    
+    def testId(self):
+        """CaptchaField has always CAPTCHA_ID id."""
+        self.assertEqual(CAPTCHA_ID in self.ff1, True)
+        self.assertNotEqual('captcha_field' in self.ff1, True)
+
+    def testSchema(self):
+        cf = getattr(self.ff1, CAPTCHA_ID)
+        schema = cf.Schema()
+        for field in HIDDEN_FIELDS:
+            visibility = schema[field].widget.visible
+            self.assertEqual(visibility, {'view':'invisible','edit':'invisible'},
+                '"%s" field is not hidden, but %s:' % (field, visibility))
+
+    def testFGField(self):
+        cf = getattr(self.ff1, CAPTCHA_ID)
+        fgField = getattr(cf, 'fgField', _marker)
+        self.assertNotEqual(fgField, _marker)
+        # Test fgField properties
+        self.assertEqual(type(fgField), StringField)
+        self.assertEqual(bool(fgField.searchable), False )
+        self.assertEqual(fgField.write_permission, View,)
+        self.assertEqual(type(fgField.widget), CaptchaWidget)
+        validators = [v.__class__ for v in fgField.validators._chain]
+        self.assertEqual(CaptchaValidator in validators, True)
             
 
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestInstallations))
+    suite.addTest(unittest.makeSuite(TestCaptchaField))
     return suite

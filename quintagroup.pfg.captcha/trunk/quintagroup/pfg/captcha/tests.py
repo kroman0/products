@@ -19,12 +19,12 @@ from quintagroup.pfg.captcha.widget import CAPTCHA_MACRO
 from quintagroup.pfg.captcha.field import CAPTCHA_ID, HIDDEN_FIELDS
 
 _marker = object()
-
 PACKAGES = [
     'quintagroup.captcha.core',
     'quintagroup.pfg.captcha',
 ]
 PROFILES = [p+':default' for p in PACKAGES]
+REQUIREMENTS = ['PloneFormGen',] + PACKAGES
 
 @onsetup
 def setup_product():
@@ -45,7 +45,7 @@ class TestInstallations(ptc.PloneTestCase):
     def testInstalledProducts(self):
         qi = self.portal.portal_quickinstaller
         installed = [p['id'] for p in qi.listInstalledProducts()]
-        for p in PRODUCTS:
+        for p in REQUIREMENTS:
             if p.startswith('Products'):
                 p = p[9:]
             self.assertEqual(p in installed, True,

@@ -10,6 +10,7 @@ from Products.PloneTestCase import PloneTestCase as ptc
 from Products.CMFCore.permissions import View
 from Products.Archetypes.atapi import StringField
 from Products.Archetypes.Registry import availableWidgets
+from Products.validation import validation
 
 from quintagroup.pfg.captcha import CaptchaField
 from quintagroup.pfg.captcha import CaptchaWidget
@@ -19,11 +20,11 @@ from quintagroup.pfg.captcha.field import CAPTCHA_ID, HIDDEN_FIELDS
 
 _marker = object()
 
-PRODUCTS = [
+PACKAGES = [
     'quintagroup.captcha.core',
     'quintagroup.pfg.captcha',
 ]
-PROFILES = [p+':default' for p in PRODUCTS]
+PROFILES = [p+':default' for p in PACKAGES]
 
 @onsetup
 def setup_product():
@@ -131,11 +132,47 @@ class TestCaptchaWidget(ptc.PloneTestCase):
     def testWidgetMacroAccessable(self):
         macro = self.portal.restrictedTraverse(CAPTCHA_MACRO)
         self.assertNotEqual(macro, None)
-    
+
+
+class TestCaptchaValidator(ptc.PloneTestCase):
+
+    def getValidator(self):
+        return validation.validatorFor('isCaptchaCorrect')        
+
+    def testRegistration(self):
+        self.assertEqual(self.getValidator().__class__, CaptchaValidator)
+
+    def patchCoreValidator(self, status, error=""):
+        # Patch quintagroup.catpcha.core' captcha_validator
+        class MockState:
+            def __init__(self, status, error=""):
+                self.status = status
+                self.errors = {'key':[error,]}
+
+        patch_validator = lambda : MockState(status, error)
+        self.portal.captcha_validator = patch_validator
+
+    def testValidationSuccess(self):
+        # PFG validator must call patched quintagroup.captcha.core'
+        # captcha_validator and successfully validate the data.
+        validator = self.getValidator()
+        self.patchCoreValidator("success")
+        result = validator('test', instance=self.portal)
+        self.assertEqual(result, 1)
+        
+    def testValidationFailure(self):
+        # PFG validator must call patched quintagroup.captcha.core'
+        # captcha_validator and return error.
+        validator = self.getValidator()
+        self.patchCoreValidator("failure", "Wrong value")
+        result = validator('test', instance=self.portal)
+        self.assertEqual(result, "Wrong value")
+
 
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestInstallations))
     suite.addTest(unittest.makeSuite(TestCaptchaField))
     suite.addTest(unittest.makeSuite(TestCaptchaWidget))
+    suite.addTest(unittest.makeSuite(TestCaptchaValidator))
     return suite

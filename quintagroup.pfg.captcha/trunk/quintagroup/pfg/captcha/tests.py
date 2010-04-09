@@ -9,9 +9,12 @@ from Products.PloneTestCase.layer import onsetup
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.CMFCore.permissions import View
 from Products.Archetypes.atapi import StringField
+from Products.Archetypes.Registry import availableWidgets
 
+from quintagroup.pfg.captcha import CaptchaField
 from quintagroup.pfg.captcha import CaptchaWidget
 from quintagroup.pfg.captcha import CaptchaValidator
+from quintagroup.pfg.captcha.widget import CAPTCHA_MACRO
 from quintagroup.pfg.captcha.field import CAPTCHA_ID, HIDDEN_FIELDS
 
 _marker = object()
@@ -81,7 +84,7 @@ class TestCaptchaField(ptc.PloneTestCase):
         self.folder.invokeFactory('FormFolder', 'ff1')
         self.ff1 = getattr(self.folder, 'ff1')
         self.ff1.invokeFactory('CaptchaField', 'captcha_field')
-    
+
     def testId(self):
         """CaptchaField has always CAPTCHA_ID id."""
         self.assertEqual(CAPTCHA_ID in self.ff1, True)
@@ -102,14 +105,37 @@ class TestCaptchaField(ptc.PloneTestCase):
         # Test fgField properties
         self.assertEqual(type(fgField), StringField)
         self.assertEqual(bool(fgField.searchable), False )
-        self.assertEqual(fgField.write_permission, View,)
+        self.assertEqual(fgField.write_permission, View)
         self.assertEqual(type(fgField.widget), CaptchaWidget)
         validators = [v.__class__ for v in fgField.validators._chain]
         self.assertEqual(CaptchaValidator in validators, True)
-            
+
+
+class TestCaptchaWidget(ptc.PloneTestCase):
+
+    CF = CaptchaField.__module__ + '.CaptchaField'
+    CW = CaptchaWidget.__module__ + '.CaptchaWidget'
+
+    def afterSetUp(self):
+        self.widgets = dict(availableWidgets())
+
+    def testRegistration(self):
+        self.assertEqual(self.CW in self.widgets, True)
+        cw = self.widgets[self.CW]
+        self.assertEqual(self.CF in cw.used_for, True)
+
+    def testWidgetMacro(self):
+        widget_macro = self.widgets[self.CW].klass._properties['macro']
+        self.assertEqual(widget_macro, CAPTCHA_MACRO)
+
+    def testWidgetMacroAccessable(self):
+        macro = self.portal.restrictedTraverse(CAPTCHA_MACRO)
+        self.assertNotEqual(macro, None)
+    
 
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestInstallations))
     suite.addTest(unittest.makeSuite(TestCaptchaField))
+    suite.addTest(unittest.makeSuite(TestCaptchaWidget))
     return suite

@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.0.1 (2010-04-12)
+------------------
+
+* Fixed MANIFEST.in - added docs content
+  [mylan]
+
+
 1.0 (2010-02-05)
 ----------------
 

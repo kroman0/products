@@ -67,14 +67,16 @@ class DefaultCanonicalAdapter(object):
 class DefaultCanonicalPathAdapter(DefaultCanonicalAdapter):
     """Adapts base content to canonical path.
     """
-    implements(ICanonicalLink)
+    implements(ICanonicalPath)
 
     prop = PROPERTY_PATH
 
     def getDefault(self):
         return '/'+'/'.join(self.purl.getRelativeContentPath(self.context))
 
-    canonical_path = property(getProp, setProp, delProp)
+    canonical_path = property(DefaultCanonicalAdapter.getProp,
+                              DefaultCanonicalAdapter.setProp,
+                              DefaultCanonicalAdapter.delProp)
 
 
 class DefaultCanonicalLinkAdapter(DefaultCanonicalAdapter):
@@ -87,4 +89,6 @@ class DefaultCanonicalLinkAdapter(DefaultCanonicalAdapter):
     def getDefault(self):
         return self.context.absolute_url()
 
-    canonical_link = property(getProp, setProp, delProp)
+    canonical_link = property(DefaultCanonicalAdapter.getProp,
+                              DefaultCanonicalAdapter.setProp,
+                              DefaultCanonicalAdapter.delProp)

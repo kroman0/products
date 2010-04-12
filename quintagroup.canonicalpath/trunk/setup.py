@@ -31,6 +31,8 @@ setup(name='quintagroup.canonicalpath',
       test_suite = 'quintagroup.canonicalpath.tests.test_suite',
       entry_points="""
       # -*- Entry points: -*-
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       )
  

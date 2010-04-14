@@ -14,7 +14,6 @@ except:
             self.interfaces = IDummyInterface,
 
          def __call__(self, callable):
-             callable = lambda *args, **kw:None
              callable.__component_adapts__ = self.interfaces
              callable.__implemented__ = Interface
              return callable

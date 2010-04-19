@@ -20,10 +20,9 @@ for possible usage in catalog (ZCatalog).
 
 Default adapters behaviour:
 
-- *canonical_path* returns path from portal root, i.e. for
-    `/plone/front-page` *canonical_path* will be `/front-page`.
+- `canonical_path` returns path from portal root, i.e. for `/plone/front-page` canonical_path will be `/front-page`.
 
-- *canonical_link* returns absoulute url of the object.
+- `canonical_link` returns absoulute url of the object.
 
 
 Supported Plone version

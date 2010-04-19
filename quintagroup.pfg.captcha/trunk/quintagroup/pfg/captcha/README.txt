@@ -1,43 +1,48 @@
-Plone Capcha Field
-==================
+Quintagroup PloneFormGen Captcha Field
+======================================
 
-qPloneCaptchaField is a Plone product that allows to add captcha field to the form, created with PloneFormGen product.
+Quintagroup PloneFormGen Captcha Field (quintagroup.pfg.captcha) allows to add captcha field to PloneFormGen forms.
 
-Supported Plone versions
-------------------------
+Usage
+-----
+
+To add captcha to PloneFormGen forms you need to install 2 Plone products:
+
+* PloneFormGen - for creating the form itself
+* Quintagroup PloneFormGen CaptchaField - for adding captcha field to the form, it will be installed together with Quintagroup Captcha Core (quintagroup.captcha.core) package that enables Plone captchas on Plone sites.
+
+Make sure you install PloneFormGen first, otherwise quintagroup.pfg.captcha may fail to work correctly.
+
+quintagroup.pfg.captcha plugs to PloneFormGen forms, so after successful installation
+you will have a new field among fields available for PloneFormGen form - Captcha Field. 
+Everything you need to do is to select this field from 'Add..' drop-down menu and save it.
+
+Supported Plone version
+-----------------------
 
 * 3.x
-
-Dependencies
-------------
-
-* quintagroup.captcha.core
-* Products.PloneFormGen
-
-Installation
-------------
-
-For Plone < 3.1 version, please make sure that the following products are intalled
-in the following order:
-
-* PloneFormGen
-* quintagroup.captcha.core (Quintagroup Captcha Core)
-* quintagroup.pfg.captcha (Quintagroup PloneFormGen CaptchaField)
-
-For Plone >= 3.1, only  *quintagroup.pfg.captcha (Quintagroup PloneFormGen CaptchaFiel)*
-product must be installed. Dependencies will be installed automatically.
 
 Links
 -----
     
-* Documentation - http://projects.quintagroup.com/products/wiki/qPloneCaptchaField
-* Screencast - http://quintagroup.com/cms/screencasts/qplonecaptchafield
+* Documentation - http://projects.quintagroup.com/products/wiki/quintagroup.pfg.captcha
+* SVN Repository - http://svn.quintagroup.com/products/quintagroup.pfg.captcha
+
+Notes
+-----
+
+* If you want to change captcha look - use quintagroup.captcha.core settings: http://projects.quintagroup.com/products/wiki/quintagroup.captcha.core
+
+* If you want captcha for Plone default forms - use quintagroup.plonecaptchas product http://projects.quintagroup.com/products/wiki/quintagroup.plonecaptchas
 
 Authors
 -------
 
-The product is developed by Quintagroup.com team:
+The product was developed by Quintagroup.com team:
 
 * Volodymyr Cherepanyak
 * Taras Melnychuk
-* Andriy Mylenkyy
+* Andriy Mylenkyi
+* Vitaliy Stepanov
+
+Copyright (c) "Quintagroup": http://quintagroup.com, 2004-2010

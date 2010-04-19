@@ -54,6 +54,7 @@ zcml.load_config('permissions.zcml', Five)
 
 # Force quintagroup.plonegooglesitemaps zcml initialization
 zcml.load_config('configure.zcml', quintagroup.plonegooglesitemaps)
+zcml.load_config('overrides.zcml', quintagroup.plonegooglesitemaps)
 fiveconfigure.debug_mode = False
 
 # Install quintagroup.plonegooglesitemaps package and Plone site

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <object name="portal_catalog" meta_type="Plone Catalog Tool">
- <column value="canonical_path"/>
+ <column value="canonical_path" update="True" />
 </object>
 
 

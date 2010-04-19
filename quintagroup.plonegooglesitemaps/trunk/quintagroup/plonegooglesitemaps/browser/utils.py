@@ -5,7 +5,7 @@ from DateTime import DateTime
 from Missing import MV as Missing_Value
 from Products.CMFCore.utils import getToolByName
 
-from quintagroup.canonicalpath.interfaces import ICanonicalPath
+from quintagroup.canonicalpath.interfaces import ICanonicalLink
 import quintagroup.plonegooglesitemaps.config as config
 
 ADD_ZOPE = re.compile('^/')
@@ -25,11 +25,10 @@ def applyOperations(objects, operations):
     result = {}
     for ob in objects:
         url = _marker
-        if ob.has_key('canonical_path'):
-            url = ob.canonical_path
+        if ob.has_key('canonical_link'):
+            url = ob.canonical_link
         if url in [Missing_Value, _marker]:
-            cpath = queryAdapter(ob.getObject(), ICanonicalPath)
-            url = cpath.canonical_path()
+            url = ICanonicalLink(ob.getObject()).canonical_link
         for operator, what, with in operations:
             url = OPERATORS[operator](url, what, with.replace("\\", ""))
         #TODO: Remove or replace following condition

@@ -69,10 +69,9 @@ class CommonSitemapView(BrowserView):
             if (ob.getId not in blackout_list)],
             reg_exps)
 
-        purl = self.portal.absolute_url()
         # Prepare dictionary for view
         for url, b in brain_url_map.items():
-            res_map = {'url' : purl+url,}
+            res_map = {'url' : url,}
             [res_map.update({k : f(b)}) for k, f in self.additional_maps]
             result.append(res_map)
         self.num_entries = len(result)

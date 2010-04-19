@@ -1,28 +1,31 @@
 Introduction
 ============
 
-quintagroup.pfg.captcha is a package that allows to add captcha field to the form, 
-created with PloneFormGen product.
+Quintagroup PloneFormGen Captcha Field (quintagroup.pfg.captcha) allows to 
+add captcha field to PloneFormGen forms.
+
+Usage
+-----
+
+To add captcha to PloneFormGen forms you need to install 2 Plone products:
+
+* PloneFormGen - for creating the form itself
+* Quintagroup PloneFormGen CaptchaField - for adding captcha field to the form, 
+it will be installed together with Quintagroup Captcha Core (quintagroup.captcha.core)
+package that enables Plone captchas on Plone sites.
+
+Make sure you install PloneFormGen first, otherwise quintagroup.pfg.captcha may fail to work correctly.
+
+quintagroup.pfg.captcha plugs to PloneFormGen forms, so after successful installation
+you will have a new field among fields available for PloneFormGen form - Captcha Field. 
+Everything you need to do is to select this field from 'Add..' drop-down menu and save it.
 
 Supported Plone version
 -----------------------
 
 * 3.x
 
-Dependencies
-------------
-
-* PloneFormGen
-* quintagroup.captcha.core
-
-Installation
-------------
-
-Please make sure that the following products are intalled in the following order:
-
-* PloneFormGen
-* quintagroup.captcha.core
-* quintagroup.pfg.captcha
+quintagroup.pfg.captcha was tested with Plone 3.0.6, 3.1.7, 3.2.3, and 3.3.4.
 
 Links
 -----
@@ -46,7 +49,8 @@ The product is developed by Quintagroup.com team:
 
 * Volodymyr Cherepanyak
 * Taras Melnychuk
-* Vitaliy Stepanov* Vitaliy Stepanov
+* Andriy Mylenkyi
+* Vitaliy Stepanov
 
 Copyright (c) "Quintagroup": http://quintagroup.com, 2004-2010
 

@@ -10,9 +10,7 @@ Usage
 To add captcha to PloneFormGen forms you need to install 2 Plone products:
 
 * PloneFormGen - for creating the form itself
-* Quintagroup PloneFormGen CaptchaField - for adding captcha field to the form, 
-it will be installed together with Quintagroup Captcha Core (quintagroup.captcha.core)
-package that enables Plone captchas on Plone sites.
+* Quintagroup PloneFormGen CaptchaField - for adding captcha field to the form, it will be installed together with Quintagroup Captcha Core (quintagroup.captcha.core) package that enables Plone captchas on Plone sites.
 
 Make sure you install PloneFormGen first, otherwise quintagroup.pfg.captcha may fail to work correctly.
 
@@ -36,11 +34,9 @@ Links
 Notes
 -----
 
-* If you want to change captcha look - use quintagroup.captcha.core settings: 
-http://projects.quintagroup.com/products/wiki/quintagroup.captcha.core
+* If you want to change captcha look - use quintagroup.captcha.core settings: http://projects.quintagroup.com/products/wiki/quintagroup.captcha.core
 
-* If you want captcha for Plone default forms - use quintagroup.plonecaptchas product 
-http://projects.quintagroup.com/products/wiki/quintagroup.plonecaptchas
+* If you want captcha for Plone default forms - use quintagroup.plonecaptchas product http://projects.quintagroup.com/products/wiki/quintagroup.plonecaptchas
 
 Authors
 -------

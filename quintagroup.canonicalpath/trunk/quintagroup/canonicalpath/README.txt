@@ -1,18 +1,22 @@
 quintagroup.canonicalpath Package Readme
 ========================================
 
-Canonical path serves for possibility to define path, which may be
-different from standard Physical path in portal. It's uses by such
-products as quintagroup.seoptimizer (for defining canonical url of the
-object), quintagroup.plonegooglesitemaps (on google sitemap
-generation).
+The package serves for possibility to define path and/or link for the
+object, which may differ from standard Physical path or URL in portal.
+It's uses by such products as quintagroup.seoptimizer (for defining
+canonical link of the object), quintagroup.plonegooglesitemaps (on
+google sitemaps generation).
 
-This package intended for bring *canonical_path* property to any
-traversable object.  For that it defines ICanonicalPath interface, and
-register basic adapter for ITraversable.
+This package intended for bring *canonical_path* and/or
+*canonical_link* property to any traversable object. For that it
+defines ICanonicalPath and ICanonicalLink interfaces, and register
+basic adapters for ITraversable objects.
 
-Also package register canonical_path indexer for possible usage in
-catalog (ZCatalog).
+Also package register *canonical_path* and *canonical_link* indexers
+for possible usage in catalog (ZCatalog).
 
-Default adapter return path from portal root, i.e. for
-`/plone/front-page` *canonical_path* will be `/front-page`.
+Default adapters behaviour:
+
+  - *canonical_path* return path from portal root, i.e. for
+    `/plone/front-page` *canonical_path* will be `/front-page`.
+  - *canonical_link* return absoulute url of the object.

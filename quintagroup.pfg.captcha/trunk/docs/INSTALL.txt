@@ -1,13 +1,8 @@
 Installation
 ============
 
-quintagroup.pfg.captcha has 2 dependencies: PloneFormGen and quintagroup.captcha.core. 
-Don't forget to install them as well. Please make sure that the products are intalled
-in the following order:
-
-* PloneFormGen
-* quintagroup.captcha.core
-* quintagroup.pfg.captcha
+Quintagroup PloneFormGen CaptchaField should be installed only after PloneFormGen, 
+otherwise it might fail to work correctly.
 
 quintagroup.pfg.captcha on Buildout
 -----------------------------------

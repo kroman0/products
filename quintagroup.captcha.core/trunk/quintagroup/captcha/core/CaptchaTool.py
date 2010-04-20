@@ -1,4 +1,7 @@
-from Globals import InitializeClass
+try:
+    from App.class_init import InitializeClass
+except ImportError:
+    from Globals import InitializeClass
 from AccessControl import ClassSecurityInfo
 from Products.Transience.Transience import TransientObjectContainer
 

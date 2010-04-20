@@ -13,9 +13,9 @@ ADD_PLONE = re.compile('^[^http://|https://|\\\]')
 OPERATIONS_PARSE = re.compile(r"(.?[^\\])/(.*[^\\]|)/(.*[^\\]|)/")
 _marker = []
 
-def searchAndReplace(string, what, with):
+def searchAndReplace(string, what, withs):
     """Emulate sed command s/"""
-    res = re.sub(what,with,string)
+    res = re.sub(what,withs,string)
     return res
 OPERATORS = {'s': searchAndReplace,}
 
@@ -29,8 +29,8 @@ def applyOperations(objects, operations):
             url = ob.canonical_link
         if url in [Missing_Value, _marker]:
             url = ICanonicalLink(ob.getObject()).canonical_link
-        for operator, what, with in operations:
-            url = OPERATORS[operator](url, what, with.replace("\\", ""))
+        for operator, what, withs in operations:
+            url = OPERATORS[operator](url, what, withs.replace("\\", ""))
         #TODO: Remove or replace following condition
         #it is senseless in the case we need intelligent
         #result set. Better condition would be to place

@@ -1,7 +1,10 @@
 import os
 import re
 import math
-import md5
+try:
+    import hashlib as md5
+except ImportError:
+    import md5
 from string import atoi
 from random import randint
 
@@ -16,7 +19,7 @@ except:
     import Crypto
 
 def encrypt1(s):
-    return md5.new(s).hexdigest().upper()
+    return md5.md5(s).hexdigest().upper()
 
 def getTransform(x, y, a, p, o):
     return (math.sin( (y+o[0])*p )*a + x, math.sin( (x+o[1])*p )*a + y)

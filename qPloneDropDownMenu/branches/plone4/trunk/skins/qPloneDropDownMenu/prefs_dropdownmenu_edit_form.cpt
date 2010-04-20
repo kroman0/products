@@ -34,23 +34,23 @@
     you'll get the initial portal menu.</p>
 
     <form name="menu_edit_form"
-          action="." 
-          method="post" 
-          tal:attributes="action string:${here/absolute_url}/${template/getId}" >
+          action="."
+          method="post"
+          tal:attributes="action string:${here/absolute_url}/${template/getId}"
+          tal:define="menu here/portal_properties/dropdownmenu_properties/menu|nothing" >
 
       <div class="formControls" align="right"
-           tal:define="process_creation request/process_creation|nothing;">
+           tal:define="process_creation request/process_creation|string:">
           <input class="context"
-                 tabindex=""
+                 tabindex="1"
                  type="submit"
                  value="Regenerate Menu"
                  name="form.button.Regenerate"
-                 i18n:attributes="value"
-                 tal:attributes="tabindex tabindex/next" />
+                 i18n:attributes="value" />
       </div>
 
       <dl class="portalMessage warning"
-          tal:condition="not: portal/portal_properties/dropdownmenu_properties/menu|nothing">
+          tal:condition="not:menu">
         <dt>Warning</dt>
         <dd>
           Dropdown menu property sheet or it's 'menu' field were deleted from portal_properties tool.
@@ -62,24 +62,23 @@
       <div class="field">
           <label for="menu" i18n:translate="label_portaltabs">Portal tabs</label>
           <div class="formHelp" i18n:translate="help_portaltabs_edit">Here you can change your portal tabs.</div>
-          <textarea cols="80" 
+          <textarea cols="80"
                     rows="20"
-                    tabindex=""
+                    tabindex="2"
                     name="menu"
                     id="menu"
-                    tal:content="portal/portal_properties/dropdownmenu_properties/menu|string:"
-                    tal:attributes="tabindex tabindex/next;">Portal Tabs</textarea>
+                    tal:content="menu"
+                    >Portal Tabs</textarea>
       </div>
 
       <div class="formControls"
            tal:define="process_creation request/process_creation|nothing;">
         <input class="context"
-               tabindex=""
+               tabindex="3"
                type="submit"
                value="Save"
                name="form.button.Save"
-               i18n:attributes="value"
-               tal:attributes="tabindex tabindex/next" />
+               i18n:attributes="value" />
       </div>
 
       <input type="hidden" name="form.submitted" value="1" />

@@ -1,3 +1,6 @@
+
+  * compatible with plone 3 [tdesvenain]
+
 0.2.1
 
   * fix string encoding issues during product installation and menu regeneration
@@ -17,7 +20,7 @@
 
 0.1.11
 
-  * divided :hover javascript functionality into two parts: evaluating css by script, saving styles from configlet 
+  * divided :hover javascript functionality into two parts: evaluating css by script, saving styles from configlet
 
 0.1.10
 
@@ -27,14 +30,14 @@
 
   * edited for correct work with IE before 6.0
 
-0.1.8 
+0.1.8
 
   * optimized page load time for IE
 
 0.1.7
 
   * corrected and optimized csshover.htc script
-   
+
 0.1.6
 
   * added to readme.txt explanation to use of dropdownmenutool
@@ -65,7 +68,7 @@
 
 0.1.1
 
-  * added the possibility to change portal menu within Plone 
+  * added the possibility to change portal menu within Plone
 
   * Internet Explorer 5.0 and 6.0 compatibility
 

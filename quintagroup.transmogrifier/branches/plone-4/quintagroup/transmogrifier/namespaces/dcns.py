@@ -3,7 +3,7 @@
     Control Characters for you
 """
 
-from Products.Archetypes.interfaces.base import IBaseUnit
+from Products.Archetypes.interfaces import IBaseUnit
 
 from Products.Marshall.namespaces import dcns as base
 from Products.Marshall.namespaces.dcns import normalizer
@@ -25,7 +25,7 @@ class DCAttribute(base.DCAttribute):
             # try to get 'utf-8' encoded string
             if isinstance(value, unicode):
                 value = value.encode('utf-8')
-            elif IBaseUnit.isImplementedBy(value):
+            elif IBaseUnit.providedBy(value):
                 value = value.getRaw(encoding='utf-8')
             else:
                 value = str(value)

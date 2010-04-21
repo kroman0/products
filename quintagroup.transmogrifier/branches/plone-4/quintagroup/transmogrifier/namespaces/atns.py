@@ -2,22 +2,19 @@
     Archetypes Marshall namespace but which can safely handle
     Control Characters for you
 """
+import transaction
 
-from Products.Archetypes.interfaces.base import IBaseUnit
+from Products.Archetypes.interfaces import IBaseUnit
+from Products.Archetypes.interfaces import IObjectField
 
 from Products.Marshall import config
-from Products.Marshall.handlers.atxml import XmlNamespace
-from Products.Marshall.handlers.atxml import SchemaAttribute
-from Products.Marshall.handlers.atxml import getRegisteredNamespaces
-from Products.Marshall.exceptions import MarshallingException
-from Products.Marshall import utils
-
 from Products.Marshall.namespaces import atns as base
 
 from quintagroup.transmogrifier.namespaces.util import has_ctrlchars
 
 
 class ATAttribute(base.ATAttribute):
+
 
     def serialize(self, dom, parent_node, instance, options={}):
         
@@ -36,7 +33,7 @@ class ATAttribute(base.ATAttribute):
             # try to get 'utf-8' encoded string
             if isinstance(value, unicode):
                 value = value.encode('utf-8')
-            elif IBaseUnit.isImplementedBy(value):
+            elif IBaseUnit.providedBy(value):
                 value = value.getRaw(encoding='utf-8')
             else:
                 value = str(value)
@@ -47,7 +44,7 @@ class ATAttribute(base.ATAttribute):
                                                     'reference')
                     uid_node = dom.createElementNS(self.namespace.xmlns,
                                                     'uid')
-                    value = response.createTextNode(value)
+                    value = dom.createTextNode(value)
                     uid_node.append(value)
                     ref_node.append(uid_node)
                     node.append(ref_node)
@@ -62,6 +59,12 @@ class ATAttribute(base.ATAttribute):
             else:
                 value_node = dom.createTextNode(value)
                 node.appendChild(value_node)
+
+            field = instance.schema._fields[self.name]
+            if IObjectField.providedBy(field):
+                mime_attr = dom.createAttribute('mimetype')
+                mime_attr.value = field.getContentType(instance)
+                node.setAttributeNode(mime_attr)
         
             node.normalize()
             parent_node.appendChild(node)
@@ -81,15 +84,56 @@ class ATAttribute(base.ATAttribute):
         if te is not None:
             value = value.decode(te)
 
-        data = context.getDataFor(self.namespace.xmlns)
-        if data.has_key(self.name):
-            svalues = data[self.name]
+        context_data = context.getDataFor(self.namespace.xmlns)
+        data = context_data.setdefault(self.name, {'mimetype': None})
+        mimetype = context.node.get('mimetype', None)
+        if mimetype is not None:
+            data['mimetype'] = mimetype
+        
+        if data.has_key('value'):
+            svalues = data['value']
             if not isinstance(svalues, list):
-                data[self.name] = svalues = [svalues]
+                data['value'] = svalues = [svalues]
             svalues.append(value)
             return
         else:
-            data[self.name] = value
+            data['value'] = value
+
+    def deserialize(self, instance, ns_data, options={}):
+        if not ns_data:
+            return
+        data = ns_data.get( self.name )
+        if data is None:
+            return
+        values = data.get('value', None)
+        if not values:
+            return
+
+	# check if we are a schema attribute
+        if self.isReference( instance ):
+            values = self.resolveReferences( instance, values)
+            if not config.HANDLE_REFS :
+                return
+
+        field = instance.Schema()[self.name]
+        mutator = field.getMutator(instance)
+        if not mutator:
+            # read only field no mutator, but try to set value still
+            # since it might reflect object state (like ATCriteria)
+            field = instance.getField( self.name ).set( instance, values )
+            #raise AttributeError("No Mutator for %s"%self.name)
+            return
+        
+        if self.name == "id":
+            transaction.savepoint()
+            
+        mutator(values)
+
+        # set mimetype if possible
+        mimetype = data.get('mimetype', None)
+        if (mimetype is not None and IObjectField.providedBy(field)):
+            field.setContentType(instance, mimetype)
+
 
 class Archetypes(base.Archetypes):
 

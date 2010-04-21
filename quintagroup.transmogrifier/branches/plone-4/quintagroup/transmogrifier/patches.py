@@ -1,4 +1,5 @@
 import os
+import sys
 import time
 from tarfile import TarInfo, DIRTYPE
 from StringIO import StringIO
@@ -80,7 +81,7 @@ from Products.GenericSetup.context import TarballImportContext
 TarballImportContext.listDirectory = listDirectory
 
 # patch for this bug in tarfile module - http://bugs.python.org/issue1719898
-from tarfile import TarInfo, nts, GNUTYPE_SPARSE, normpath, DIRTYPE
+from tarfile import nts, GNUTYPE_SPARSE, normpath
 def frombuf(cls, buf):
     """Construct a TarInfo object from a 512 byte string buffer.
     """
@@ -129,5 +130,6 @@ def frombuf(cls, buf):
         tarinfo.name += "/"
     return tarinfo
 
-frombuf = classmethod(frombuf)
-TarInfo.frombuf = frombuf
+if sys.version_info[:2] == (2,4):
+    frombuf = classmethod(frombuf)
+    TarInfo.frombuf = frombuf

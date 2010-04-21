@@ -16,6 +16,14 @@ from Products.Five import zcml
 import quintagroup.transmogrifier
 from quintagroup.transmogrifier.xslt import stylesheet_registry
 
+# this monkey patch is needed for compatibility with doctest format used in tests
+from collective.transmogrifier.sections.tests import PrettyPrinter
+def PrettyPrinter__iter__(self):
+    for item in self.previous:
+        self.pprint(item)
+        yield item
+PrettyPrinter.__iter__ = PrettyPrinter__iter__
+
 class DataPrinter(object):
     classProvides(ISectionBlueprint)
     implements(ISection)

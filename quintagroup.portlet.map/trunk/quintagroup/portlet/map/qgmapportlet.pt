@@ -1,11 +1,8 @@
 <metal:block use-macro="here/global_defines/macros/defines" />
-<tal:portlet
-    define="view context/@@maps_googlemaps_view;
-            enabled context/@@maps_googlemaps_enabled_view/enabled"
-    condition="python:isViewTemplate and enabled and [m for m in view.getMarkers()]"
-    on-error="nothing">
+<tal:portlet>
 
-  <dl class="portlet portletMapsPortlet">
+  <dl class="portlet portletMapsPortlet"
+      tal:define="view view/gmapview;">
 
       <dt class="portletHeader">
           <span class="portletTopLeft"></span>
@@ -30,7 +27,7 @@
           <span class="portletBottomLeft"></span>
           <span>
             <a href="#"
-               tal:attributes="href string:${here/absolute_url}/maps_map"
+               tal:attributes="href string:${view/collection/absolute_url}/maps_map"
                i18n:domain="quintagroup.portlet.map" i18n:translate="label_full_map">Full Map</a></span>
           <span class="portletBottomRight"></span>
       </dd>

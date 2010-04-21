@@ -1,14 +1,24 @@
 from zope.interface import implements
+from zope.component import queryMultiAdapter, getMultiAdapter
 
-from plone.portlets.interfaces import IPortletDataProvider
+from plone.memoize import ram
+from plone.memoize.instance import memoize
+from plone.memoize.compress import xhtml_compress
+
 from plone.app.portlets.portlets import base
+from plone.app.portlets.cache import render_cachekey
+from plone.portlets.interfaces import IPortletDataProvider
 
 from zope import schema
 from zope.formlib import form
+
+from Acquisition import aq_inner
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from quintagroup.portlet.map import QGMapPortletMessageFactory as _
 
+from logging import getLogger
+logger = getLogger("Plone")
 
 class IQGMapPortlet(IPortletDataProvider):
     """A portlet
@@ -23,9 +33,9 @@ class IQGMapPortlet(IPortletDataProvider):
     # empty interface - see also notes around the add form and edit form
     # below.
 
-    # some_field = schema.TextLine(title=_(u"Some field"),
-    #                              description=_(u"A field to use"),
-    #                              required=True)
+    collection_path = schema.TextLine(title=_(u"Path to collection"),
+        description=_(u"A plone physical path to collection of locations"),
+        required=True)
 
 
 class Assignment(base.Assignment):
@@ -39,14 +49,8 @@ class Assignment(base.Assignment):
 
     # TODO: Set default values for the configurable parameters here
 
-    # some_field = u""
-
-    # TODO: Add keyword parameters for configurable parameters here
-    # def __init__(self, some_field=u""):
-    #    self.some_field = some_field
-
-    def __init__(self):
-        pass
+    def __init__(self, collection_path=""):
+       self.collection_path = str(collection_path)
 
     @property
     def title(self):
@@ -64,41 +68,47 @@ class Renderer(base.Renderer):
     of this class. Other methods can be added and referenced in the template.
     """
 
-    render = ViewPageTemplateFile('qgmapportlet.pt')
+    _template = ViewPageTemplateFile('qgmapportlet.pt')
+
+    def __init__(self, *args):
+        base.Renderer.__init__(self, *args)
+        context = aq_inner(self.context)
+        portal_state = getMultiAdapter((context, self.request), name=u'plone_portal_state')
+        self.portal = portal_state.portal()
+        self.gmapview = queryMultiAdapter((self.collection, self.request),
+                                          name='maps_googlemaps_enabled_view')
+        #self._data = self.collection
+
+    #@ram.cache(render_cachekey)
+    def render(self):
+        return xhtml_compress(self._template())
+
+    @property
+    def available(self):
+        return bool(self.gmapview and \
+                    self.gmapview.enabled and \
+                    self.gmapview.getMarkers())
+
+    @property
+    def collection(self):
+        try:
+            return self.portal.restrictedTraverse(self.data.collection_path)
+        except:
+            return None
 
 
 class AddForm(base.AddForm):
-    """Portlet add form.
-
-    This is registered in configure.zcml. The form_fields variable tells
-    zope.formlib which fields to display. The create() method actually
-    constructs the assignment that is being added.
-    """
     form_fields = form.Fields(IQGMapPortlet)
+    label = _(u"Add Quintagroup Map Portlet")
+    description = _(u"This portlet displays Locations from the collection on the Google Map.")
 
     def create(self, data):
-        return Assignment(**data)
-
-
-# NOTE: If this portlet does not have any configurable parameters, you
-# can use the next AddForm implementation instead of the previous.
-
-# class AddForm(base.NullAddForm):
-#     """Portlet add form.
-#     """
-#     def create(self):
-#         return Assignment()
-
-
-# NOTE: If this portlet does not have any configurable parameters, you
-# can remove the EditForm class definition and delete the editview
-# attribute from the <plone:portlet /> registration in configure.zcml
-
+        portal_state = getMultiAdapter((self.context, self.request),
+                                       name=u'plone_portal_state')
+        default_path = '/'.join(portal_state.portal().getPhysicalPath()) + '/events'
+        return Assignment(collection_path=data.get('collection_path', default_path))
 
 class EditForm(base.EditForm):
-    """Portlet edit form.
-
-    This is registered with configure.zcml. The form_fields variable tells
-    zope.formlib which fields to display.
-    """
     form_fields = form.Fields(IQGMapPortlet)
+    label = _(u"Edit Quintagroup Map Portlet")
+    description = _(u"This portlet displays Locations from the collection on the Google Map.")

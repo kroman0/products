@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="quintagroup.portlet.map">
@@ -32,5 +33,25 @@
          addview=".qgmapportlet.AddForm"
          editview=".qgmapportlet.EditForm"
          />
+
+    <!-- overrides IMapEnabledView -->
+    <browser:page
+        for="Products.ATContentTypes.interface.IATTopic"
+        name="maps_googlemaps_enabled_view"
+        class=".map_fix.FolderMapView"
+        permission="zope.Public"
+        layer=".interfaces.IQGMapPortletLayer"
+        allowed_interface="Products.Maps.interfaces.map.IMapEnabledView"
+        />
+
+    <browser:page
+        for="Products.ATContentTypes.interface.IATFolder"
+        name="maps_googlemaps_enabled_view"
+        class=".map_fix.FolderMapView"
+        permission="zope.Public"
+        layer=".interfaces.IQGMapPortletLayer"
+        allowed_interface="Products.Maps.interfaces.map.IMapEnabledView"
+        />
+
 
 </configure>

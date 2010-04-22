@@ -1,8 +1,7 @@
 <metal:block use-macro="here/global_defines/macros/defines" />
 <tal:portlet>
 
-  <dl class="portlet portletMapsPortlet"
-      tal:define="view view/gmapview;">
+  <dl class="portlet portletMapsPortlet">
 
       <dt class="portletHeader">
           <span class="portletTopLeft"></span>
@@ -12,10 +11,10 @@
       </dt>
 
       <dd class="portletItem odd">
-
-        <div class="googleMapView googleMapLocation">
-          <dl metal:use-macro="here/maps_map/macros/markers">
-          </dl>
+        <div class="googleMapView googleMapLocation"
+             tal:define="view view/gmapView;">
+           <dl metal:use-macro="here/maps_map/macros/markers">
+           </dl>
         </div>
 
         &nbsp;
@@ -27,7 +26,7 @@
           <span class="portletBottomLeft"></span>
           <span>
             <a href="#"
-               tal:attributes="href string:${view/collection/absolute_url}/maps_map"
+               tal:attributes="href view/footer_url"
                i18n:domain="quintagroup.portlet.map" i18n:translate="label_full_map">Full Map</a></span>
           <span class="portletBottomRight"></span>
       </dd>

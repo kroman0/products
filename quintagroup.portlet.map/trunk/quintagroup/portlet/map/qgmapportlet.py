@@ -75,19 +75,20 @@ class Renderer(base.Renderer):
         context = aq_inner(self.context)
         portal_state = getMultiAdapter((context, self.request), name=u'plone_portal_state')
         self.portal = portal_state.portal()
-        self.gmapview = queryMultiAdapter((self.collection, self.request),
+        self.gmapEnView = queryMultiAdapter((self.collection, self.request),
                                           name='maps_googlemaps_enabled_view')
-        #self._data = self.collection
+        self.gmapView = queryMultiAdapter((self.collection, self.request),
+                                          name='maps_googlemaps_view')
 
-    #@ram.cache(render_cachekey)
+    @ram.cache(render_cachekey)
     def render(self):
         return xhtml_compress(self._template())
 
     @property
     def available(self):
-        return bool(self.gmapview and \
-                    self.gmapview.enabled and \
-                    self.gmapview.getMarkers())
+        return bool(self.gmapEnView and self.gmapView and \
+                    self.gmapEnView.enabled and \
+                    self._data())
 
     @property
     def collection(self):
@@ -95,6 +96,18 @@ class Renderer(base.Renderer):
             return self.portal.restrictedTraverse(self.data.collection_path)
         except:
             return None
+
+    @property
+    def footer_url(self):
+        collection_url = self.collection and self.collection.absolute_url()
+        return collection_url and collection_url + '/maps_map' or ''
+
+    @memoize
+    def _data(self):
+        if hasattr(self.collection, 'queryCatalog'):
+            return self.collection.queryCatalog()
+        return []
+        
 
 
 class AddForm(base.AddForm):

@@ -1,3 +1,4 @@
+import string
 from zope.interface import implements
 from zope.component import queryMultiAdapter, getMultiAdapter
 
@@ -60,6 +61,11 @@ class Assignment(base.Assignment):
         return "Quintagroup Google Map portlet"
 
 
+JS_TEMPLATE = string.Template("""
+   <script src="${portal_url}/maps-config.js" type="text/javascript"></script>
+   <script src="${portal_url}/maps-googlemaps.js" type="text/javascript"></script>
+""")
+
 class Renderer(base.Renderer):
     """Portlet renderer.
 
@@ -75,13 +81,17 @@ class Renderer(base.Renderer):
         context = aq_inner(self.context)
         portal_state = getMultiAdapter((context, self.request), name=u'plone_portal_state')
         self.portal = portal_state.portal()
+        self.portal_url = portal_state.portal_url()
         self.gmapEnView = queryMultiAdapter((self.collection, self.request),
                                           name='maps_googlemaps_enabled_view')
         self.gmapView = queryMultiAdapter((self.collection, self.request),
                                           name='maps_googlemaps_view')
 
-    @ram.cache(render_cachekey)
     def render(self):
+        return self.render_js() + self.render_html()
+
+    @ram.cache(render_cachekey)
+    def render_html(self):
         return xhtml_compress(self._template())
 
     @property
@@ -101,6 +111,16 @@ class Renderer(base.Renderer):
     def footer_url(self):
         collection_url = self.collection and self.collection.absolute_url()
         return collection_url and collection_url + '/maps_map' or ''
+
+    @memoize
+    def render_js(self):
+        #  JS block included only if it's not already present in html-header block:
+        #  for check use maps_googlemaps_enabled_view view
+        contxtEnView = queryMultiAdapter((self.context, self.request),
+                                         name='maps_googlemaps_enabled_view')
+        if not (contxtEnView and contxtEnView.enabled):
+            return JS_TEMPLATE.substitute({'portal_url':self.portal_url})
+        return ""
 
     @memoize
     def _data(self):

@@ -28,8 +28,7 @@ def applyOperations(objects, operations):
         if ob.has_key('canonical_path'):
             url = ob.canonical_path
         if url in [Missing_Value, _marker]:
-            cpath = queryAdapter(ob.getObject(), ICanonicalPath)
-            url = cpath.canonical_path()
+            url = ICanonicalPath(ob.getObject()).canonical_path
         for operator, what, with in operations:
             url = OPERATORS[operator](url, what, with.replace("\\", ""))
         #TODO: Remove or replace following condition

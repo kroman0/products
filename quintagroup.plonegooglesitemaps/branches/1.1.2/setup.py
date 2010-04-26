@@ -25,7 +25,7 @@ setup(name='quintagroup.plonegooglesitemaps',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'quintagroup.canonicalpath==0.4',
+          'quintagroup.canonicalpath==0.6',
           # -*- Extra requirements: -*-
       ],
       entry_points="""

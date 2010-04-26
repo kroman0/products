@@ -24,6 +24,7 @@ setup(name='quintagroup.portlet.map',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'Products.Maps',
           # -*- Extra requirements: -*-
       ],
       entry_points="""

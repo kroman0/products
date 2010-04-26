@@ -1,7 +1,16 @@
 Changelog
 =========
 
-1.1 (2010-04-12)
+1.1.2 (2010-04-26)
+----------------
+
+* Make compatible with quintagroup.canonicalpath v0.6
+  [mylan]
+* Tested with plone-3.x
+  [mylan]
+
+
+1.1.1 (2010-04-12)
 ----------------
 
 * Fixed MANIFEST.in - added docs content

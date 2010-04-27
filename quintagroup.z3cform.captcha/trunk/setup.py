@@ -5,7 +5,7 @@ version = '0.1.0'
 
 setup(name='quintagroup.z3cform.captcha',
       version=version,
-      description="Captcha field for z3cform based on quintagroup.plonecaptchas package",
+      description="Captcha field for z3cform based on quintagroup.captcha.core package",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
@@ -25,10 +25,20 @@ setup(name='quintagroup.z3cform.captcha',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # uncomment next packages only if they will be downloaded from some package index
-          # 'quintagroup.plonecaptchas', 
+          'quintagroup.captcha.core',
+          'z3c.form',
+          # 'zope.schema',
+          # 'zope.i18n',
+          # 'zope.component',
+          # 'zope.interface',
+          # 'zope.app.pagetemplate',
+          # 'Products.CMFCore',
       ],
       entry_points="""
       # -*- Entry points: -*-
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       )
+
+

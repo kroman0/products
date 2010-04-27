@@ -6,7 +6,7 @@ from zope.i18n import MessageFactory
 
 from Products.CMFCore.utils import getToolByName
 
-from quintagroup.plonecaptchas.utils import decrypt, parseKey, encrypt1, getWord
+from quintagroup.captcha.core.utils import decrypt, parseKey, encrypt1, getWord
 
 from z3c.form.validator import SimpleFieldValidator
 

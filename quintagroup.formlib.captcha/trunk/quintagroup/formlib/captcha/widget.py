@@ -10,7 +10,7 @@ from Acquisition import aq_inner
 
 from Products.CMFCore.utils import getToolByName
 
-from Products.qPloneCaptchas.utils import decrypt, parseKey, encrypt1, getWord
+from quintagroup.captcha.core.utils import decrypt, parseKey, encrypt1, getWord
 
 _ = MessageFactory('quintagroup.formlib.captcha')
 

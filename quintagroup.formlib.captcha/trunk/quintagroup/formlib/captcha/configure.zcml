@@ -1,10 +1,16 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="quintagroup.formlib.captcha">
 
-    <include package=".form"
-             zcml:condition="installed zope.app.form"/>
+  <include package="quintagroup.captcha.core" />
+  <include package="zope.formlib" />
 
+  <view
+      type="zope.publisher.interfaces.browser.IBrowserRequest"
+      for=".interfaces.ICaptcha"
+      provides="zope.app.form.interfaces.IInputWidget"
+      factory=".widget.CaptchaWidget"
+      permission="zope.Public"
+      />
 
 </configure>

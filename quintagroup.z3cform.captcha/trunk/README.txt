@@ -12,6 +12,7 @@ quintagroup.z3cform.captcha was tested with Plone 3.0.6, 3.1.7, 3.2.3, 3.3.4.
 Authors
 -------
 
+* Taras Melnychuk
 * Andriy Mylenkyi
 * Vitaliy Stepanov
 

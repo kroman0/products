@@ -4,14 +4,14 @@ from urllib  import quote as urlquote
 from Globals import DevelopmentMode
 from OFS.ObjectManager import BadRequestException
 
-from quintagroup.plonegooglesitemaps.config import testing
+from quintagroup.plonegooglesitemaps import config
 
 def ping_google(url, sitemap_id):
     """Ping sitemap to Google"""
 
     resurl = url + "/" + sitemap_id
 
-    if DevelopmentMode or testing:
+    if DevelopmentMode or config.testing:
         #prevent pinging in debug or testing mode
         print "Pinged %s sitemap to Google" % resurl
         return 0

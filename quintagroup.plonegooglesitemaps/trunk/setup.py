@@ -26,6 +26,7 @@ setup(name='quintagroup.plonegooglesitemaps',
       install_requires=[
           'setuptools',
           'quintagroup.canonicalpath>=0.4',
+          'quintagroup.catalogupdater',
           # -*- Extra requirements: -*-
       ],
       entry_points="""

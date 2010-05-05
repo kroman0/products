@@ -18,4 +18,12 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="examples"
+      title="ReferenceDataGridField Example"
+      directory="profiles/examples"
+      description="Installs the examples quintagroup.referencedatagridfield package content types"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
 </configure>

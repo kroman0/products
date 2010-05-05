@@ -1,5 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
@@ -7,13 +8,14 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
+  <cmf:registerDirectory name="skins" directory="skins" recursive="True" />
+
   <genericsetup:registerProfile
       name="default"
-      title="quintagroup.referencedatagridfield"
+      title="ReferenceDataGridField"
       directory="profiles/default"
       description="Installs the quintagroup.referencedatagridfield package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-  <!-- -*- extra stuff goes here -*- -->
-  
+
 </configure>

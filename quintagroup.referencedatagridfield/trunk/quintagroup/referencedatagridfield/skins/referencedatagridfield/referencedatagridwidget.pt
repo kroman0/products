@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="plone">
+<body>
+
+    <!-- VIEW -->
+    <metal:define define-macro="view">
+       
+	  <div class="box" 
+               tal:define="fielddata python:field.getAccessor(context)()"
+               tal:condition="fielddata">
+
+	    <h5>References</h5>
+            <ul><tal:loop tal:repeat="data fielddata">
+		<li class="odd"
+		    tal:define="oddrow repeat/data/odd"
+                    tal:attributes="class python:oddrow and 'odd' or 'even';">
+		  <a href="#"
+		     tal:attributes="href python:data.get('link_uid')"
+		     ><span tal:content="python:data.get('title')"/></a>
+		</li></tal:loop>
+            </ul>
+	  </div>
+
+    </metal:define>
+
+
+    <!-- EDIT -->
+    <metal:define define-macro="edit">
+      <div metal:use-macro="field_macro | here/datagridwidget/macros/edit">
+      </div>
+    </metal:define>
+
+    <!-- SEARCH -->
+    <div metal:define-macro="search">
+        <div metal:use-macro="here/datagridwidget/macros/search">
+        </div>
+    </div>
+
+</body>
+
+</html>
+

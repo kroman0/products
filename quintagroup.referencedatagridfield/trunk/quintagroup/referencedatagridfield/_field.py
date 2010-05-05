@@ -1,12 +1,20 @@
 #from Products.Archetypes import atapi
-#from AccessControl import ClassSecurityInfo
+import logging
+from AccessControl import ClassSecurityInfo
 from Products.Archetypes.Registry import registerField, registerWidget
 
 from Products.DataGridField.DataGridField import DataGridField
 from Products.DataGridField.DataGridWidget import DataGridWidget
 
+# Logger object
+#logger = logging.getLogger('ReferenceDataGridField')
+#logger.debug("ReferenceDataGrid loading")
+
 class ReferenceDataGridWidget(DataGridWidget):
     _properties = DataGridWidget._properties.copy()
+    _properties.update({
+        'macro' : "referencedatagridwidget",
+        })
 
 class ReferenceDataGridField(DataGridField):
     _properties = DataGridField._properties.copy()

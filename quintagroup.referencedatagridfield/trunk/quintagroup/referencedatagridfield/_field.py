@@ -24,6 +24,7 @@ class ReferenceDataGridWidget(DataGridWidget):
     _properties = DataGridWidget._properties.copy()
     _properties.update({
         'macro' : "referencedatagridwidget",
+        'column_names': ['Title', 'Link or UID'],
         })
 
 isURL = validation.validatorFor('isURL')
@@ -39,9 +40,7 @@ class ReferenceDataGridField(DataGridField):
 
     security.declarePrivate('isRemoteURL')
     def isRemoteURL(self, url):
-        if isURL(url) == 1:
-            return True
-        return False
+        return isURL(url) == 1 and True or False
 
     security.declarePrivate('set')
     def set(self, instance, value, **kwargs):

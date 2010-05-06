@@ -33,6 +33,7 @@
     <metal:define define-macro="edit">
       <div metal:use-macro="field_macro | here/datagridwidget/macros/edit">
       </div>
+      
     </metal:define>
 
     <!-- SEARCH -->

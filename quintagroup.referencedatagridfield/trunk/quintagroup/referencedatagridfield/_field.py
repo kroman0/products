@@ -9,8 +9,10 @@ from AccessControl import ClassSecurityInfo
 
 from Products.CMFCore.utils import getToolByName
 from Products.validation import validation #validators import baseValidators
-from Products.Archetypes.Field import encode
+from Products.Archetypes.Field import encode, ReferenceField
 from Products.Archetypes.Registry import registerField, registerWidget
+
+from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 
 from Products.DataGridField.DataGridField import DataGridField
 from Products.DataGridField.DataGridWidget import DataGridWidget
@@ -20,19 +22,23 @@ from Products.DataGridField.DataGridWidget import DataGridWidget
 #logger = logging.getLogger('ReferenceDataGridField')
 #logger.debug("ReferenceDataGrid loading")
 
-class ReferenceDataGridWidget(DataGridWidget):
-    _properties = DataGridWidget._properties.copy()
+class ReferenceDataGridWidget(DataGridWidget, ReferenceBrowserWidget):
+    _properties = ReferenceBrowserWidget._properties.copy()
+    _properties.update(DataGridWidget._properties.copy())
     _properties.update({
-        'macro' : "referencedatagridwidget",
+        'macro': "referencedatagridwidget",
         'column_names': ['Title', 'Link or UID'],
+        'helper_css': ('datagridwidget.css',),
+        'helper_js': ('referencebrowser.js', 'datagridwidget.js',),
         })
 
 isURL = validation.validatorFor('isURL')
 
-class ReferenceDataGridField(DataGridField):
-    _properties = DataGridField._properties.copy()
+class ReferenceDataGridField(DataGridField, ReferenceField):
+    _properties = ReferenceField._properties.copy()
+    _properties.update(DataGridField._properties.copy())
     _properties.update({
-        'columns' : ('title', 'link_uid'),
+        'columns': ('title', 'link_uid'),
         'widget': ReferenceDataGridWidget,
         })
 

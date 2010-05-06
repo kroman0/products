@@ -36,7 +36,6 @@ class TestConfiglet(ptc.FunctionalTestCase):
         res = self.publish(self.save_url + '&static_captchas=dynamic',
                      self.basic_auth).getBody()
         
-        open('/tmp/captcha.configlet.html','w').write(res)
         self.assertTrue(self.layerInSkins(LAYER_DYNAMIC_CAPTCHAS),
             "No '%s' skin layer in some skins" % LAYER_DYNAMIC_CAPTCHAS)
 

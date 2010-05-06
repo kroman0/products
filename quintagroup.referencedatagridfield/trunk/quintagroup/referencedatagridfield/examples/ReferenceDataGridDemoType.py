@@ -15,6 +15,7 @@ class ReferenceDataGridDemoType(ATCTContent):
 
         ReferenceDataGridField('DemoReferenceDataGridField',
             schemata='default',
+            relationship="demo_relation",
             widget = ReferenceDataGridWidget(
                 label = "Reference DataGrid Field(s)",
                 visible = {'edit' : 'visible', 'view' : 'visible'}

@@ -9,17 +9,19 @@
     <metal:define define-macro="view">
        
 	  <div class="box" 
-               tal:define="fielddata python:field.getAccessor(context)()"
+               tal:define="fielddata python:field.getAccessor(context)();
+			   ruid string:${portal_url}/resolveuid/"
                tal:condition="fielddata">
 
-	    <h5>References</h5>
+	    <h5 tal:content="string:${widget/label}">References</h5>
             <ul><tal:loop tal:repeat="data fielddata">
 		<li class="odd"
-		    tal:define="oddrow repeat/data/odd"
-                    tal:attributes="class python:oddrow and 'odd' or 'even';">
+		    tal:define="oddrow repeat/data/odd;"
+                    tal:attributes="class python:oddrow and 'odd' or 'even';"
+		    tal:condition="data/link">
 		  <a href="#"
-		     tal:attributes="href python:data.get('link_uid')"
-		     ><span tal:content="python:data.get('title')"/></a>
+                     tal:attributes="href data/link"
+		     ><span tal:content="data/title"/></a>
 		</li></tal:loop>
             </ul>
 	  </div>

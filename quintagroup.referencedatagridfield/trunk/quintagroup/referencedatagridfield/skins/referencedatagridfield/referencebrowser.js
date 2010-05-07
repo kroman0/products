@@ -1,6 +1,6 @@
 // function to open the popup window
 function getOrderIndex(currnode) {
-    if (dataGridFieldFunctions){
+    if (typeof(dataGridFieldFunctions) == "object") {
         var rows = dataGridFieldFunctions.getWidgetRows(currnode);
 	var row = dataGridFieldFunctions.getParentElementById(currnode, "datagridwidget-row");      
 	if(row == null) {
@@ -32,7 +32,7 @@ function getOrderedElement(widget_id, order_idx) {
     var element=document.getElementById(widget_id);
 
     // If it is about DataGridField use it to chose correct element
-    if (dataGridFieldFunctions){
+    if (typeof(dataGridFieldFunctions) == "object" && order_idx >= 0) {
         var rows = dataGridFieldFunctions.getWidgetRows(element);
         if (rows.length >= order_idx) {
             var row = rows[order_idx]
@@ -43,17 +43,6 @@ function getOrderedElement(widget_id, order_idx) {
                     break;
 		}
             }
-            // for (var i=0;i<=row.childNodes.length;i++) {
-            //     var node = row.childNodes[i]
-	    // 	if (node.nodeName.toLowerCase() == 'td') {
-	    // 	    for (var j=0;j<=node.childNodes.length;j++) {
-	    // 		var tr_node = node.childNodes[i]
-	    // 		if (tr_node.id == widget_id) {
-	    // 		    return tr_node;
-	    // 		}
-	    // 	    }
-            //     }
-            // }
         }
     }
     return element;

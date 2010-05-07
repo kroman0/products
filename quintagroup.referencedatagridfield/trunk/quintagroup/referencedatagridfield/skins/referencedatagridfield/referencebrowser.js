@@ -77,15 +77,18 @@ function typeOf(value) {
 // function to return a reference from the popup window back into the widget
 function referencebrowser_setReference(widget_id, uid, label, multi, order_idx)
 {
-    // differentiate between the single and mulitselect widget
-    // since the single widget has an extra label field.
-    if (multi==0) {
+    if (order_idx >= 0) {
+        // process ReferenceDataGridField
         element=getOrderedElement(widget_id, order_idx);
+        element.value=uid;
+    } else if (multi==0) {
+	// differentiate between the single and mulitselect widget
+	// since the single widget has an extra label field.
+        element=document.getElementById(widget_id);
         label_element=document.getElementById(widget_id + '_label');
         element.value=uid;
-        if (label_element != null)
-            label_element.value=label;
-     }  else {
+        label_element.value=label;
+    } else {
          // check if the item isn't already in the list
          var current_values = cssQuery('#' + widget_id + ' input');
          for (var i=0; i < current_values.length; i++) {
@@ -108,7 +111,7 @@ function referencebrowser_setReference(widget_id, uid, label, multi, order_idx)
           list.appendChild(li);
           // fix on IE7 - check *after* adding to DOM
           input.checked = true;
-     }
+    }
 }
 
 // function to clear the reference field or remove items

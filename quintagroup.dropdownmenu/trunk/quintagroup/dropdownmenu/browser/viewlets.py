@@ -92,7 +92,11 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
                     subcat = category._getOb(subcat_id)
                     if IActionCategory.providedBy(subcat):
                         children = self._subactions(subcat, object, level+1)
-
+                url = self.context.absolute_url()        
+                if url.startswith(info['url']):
+                    currentParent = True
+                if url == info['url']:
+                    currentItem = True
             # make up final tab dictionary
             tab = {'Title': info['title'],
                    'Description': info['description'],

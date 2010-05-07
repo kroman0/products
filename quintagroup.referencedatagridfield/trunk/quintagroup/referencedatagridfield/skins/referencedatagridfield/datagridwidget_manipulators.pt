@@ -32,7 +32,7 @@
 			       value="Add Reference"
 			       onClick=""
 			       i18n:attributes="value label_add;"
-			       tal:attributes="onClick string:javascript:referencebrowser_openBrowser('${startup_directory}','${field_id}', '${at_url}', '${fieldRealName}')" />
+			       tal:attributes="onClick string:javascript:referencebrowser_openBrowser('${startup_directory}','${field_id}', '${at_url}', '${fieldRealName}', this)" />
                     </div>
 		</td>
 

@@ -30,6 +30,7 @@ class ReferenceDataGridWidget(DataGridWidget, ReferenceBrowserWidget):
         'column_names': ['Title', 'Link or UID'],
         'helper_css': ('datagridwidget.css',),
         'helper_js': ('referencebrowser.js', 'datagridwidget.js',),
+        'force_close_on_insert': True,
         })
 
 isURL = validation.validatorFor('isURL')
@@ -40,6 +41,7 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
     _properties.update({
         'columns': ('title', 'link_uid'),
         'widget': ReferenceDataGridWidget,
+        'multiValued' : True,
         })
 
     security = ClassSecurityInfo()
@@ -71,6 +73,7 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
         if not isinstance(value, (ListType, TupleType)):
             value = value,
 
+        uids = []
         result = []
         for row in value:
             data = {"title":"", "link_uid":""}
@@ -79,23 +82,27 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
             if not title == "":
                 data["title"] = title
 
-            url = str(row.get('link_uid', "")).strip()
-            if url == '':
+            link_uid = str(row.get('link_uid', "")).strip()
+            if link_uid == '':
                 continue
-            elif self.isRemoteURL(url):
-                data["link_uid"] = urlparse.urlunparse(urlparse.urlparse(url))
+            elif self.isRemoteURL(link_uid):
+                data["link_uid"] = urlparse.urlunparse(urlparse.urlparse(link_uid))
             else:
-                brains = catalog(UID=url)
+                brains = catalog(UID=link_uid)
                 if len(brains) == 0:
                     continue
-                else:
-                    data["link_uid"] = url
-                    if title == "":
-                        data["title"] = getattr(brains[0], "Title","")
+                # Found objects with pointed UID
+                uids.append(link_uid)
+                brain = brains[0]
+                data["link_uid"] = link_uid
+                # Get title
+                if title == "":
+                    data["title"] = getattr(brain, "Title", "")
             result.append(data)
 
         DataGridField.set(self, instance, result, **kwargs)
-
+        ReferenceField.set(self, instance, uids, **kwargs)
+        
     security.declarePrivate('get')
     def get(self, instance, **kwargs):
         """ Return DataGridField value
@@ -121,6 +128,11 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
             result.append(data)
 
         return result
+
+    def getRaw(self, instance, **kwargs):
+        """Return raw data DataGridField data."""
+        return DataGridField.getRaw(self, instance, **kwargs)
+
 
 registerWidget(
     ReferenceDataGridWidget,

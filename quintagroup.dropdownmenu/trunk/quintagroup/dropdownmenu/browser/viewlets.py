@@ -68,13 +68,17 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
 
     def _subactions(self, category, object, level=0):
         tabs = []
+        currentParentId = -1
+        index = -1
+        currentParent = False
         for info in self._actionInfos(category, object):
             # prepare data for action
             # TODO: implement current element functionality, maybe should be
             #       done on a template level because of separate content and
             #       actions tabs are rendered separately
             currentItem = False
-            currentParent = False
+
+            index += 1
             icon = info['icon'] and '<img src="%s" />' % info['icon'] or ''
 
             # look up children for a given action
@@ -92,11 +96,16 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
                     subcat = category._getOb(subcat_id)
                     if IActionCategory.providedBy(subcat):
                         children = self._subactions(subcat, object, level+1)
-                url = self.context.absolute_url()        
-                if url.startswith(info['url']):
-                    currentParent = True
-                if url == info['url']:
-                    currentItem = True
+
+            url = self.context.absolute_url()        
+            if url.startswith(info['url']):
+                if currentParentId > -1:
+                    if len(tabs[currentParentId]['getURL']) < len(info['url']): 
+                        currentParentId = index
+                else:
+                    currentParentId = index
+            if url == info['url']:
+                currentItem = True
             # make up final tab dictionary
             tab = {'Title': info['title'],
                    'Description': info['description'],
@@ -108,6 +117,8 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
                    'item_icon': {'html_tag': icon},
                    'normalized_review_state': 'visible'}
             tabs.append(tab)
+        if currentParentId > -1:
+            tabs[currentParentId]['currentParent'] = True
         return tabs
 
     def _actionInfos(self, category, object, check_visibility=1,

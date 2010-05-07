@@ -81,10 +81,10 @@ function referencebrowser_setReference(widget_id, uid, label, multi, order_idx)
     // since the single widget has an extra label field.
     if (multi==0) {
         element=getOrderedElement(widget_id, order_idx);
-        //element=document.getElementById(widget_id)
-        label_element=document.getElementById(widget_id + '_label')
-        element.value=uid
-        label_element.value=label
+        label_element=document.getElementById(widget_id + '_label');
+        element.value=uid;
+        if (label_element != null)
+            label_element.value=label;
      }  else {
          // check if the item isn't already in the list
          var current_values = cssQuery('#' + widget_id + ' input');

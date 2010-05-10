@@ -27,7 +27,7 @@ class ReferenceDataGridWidget(DataGridWidget, ReferenceBrowserWidget):
     _properties.update(DataGridWidget._properties.copy())
     _properties.update({
         'macro': "referencedatagridwidget",
-        'column_names': ['Title', 'Link or UID'],
+        'column_names': ["Title", "Link", "UID"],
         'helper_css': ('datagridwidget.css',),
         'helper_js': ('referencebrowser.js', 'datagridwidget.js',),
         'force_close_on_insert': True,
@@ -39,7 +39,7 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
     _properties = ReferenceField._properties.copy()
     _properties.update(DataGridField._properties.copy())
     _properties.update({
-        'columns': ('title', 'link_uid'),
+        'columns': ('title', 'link', 'uid'),
         'widget': ReferenceDataGridWidget,
         'multiValued' : True,
         })
@@ -54,16 +54,16 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
     def set(self, instance, value, **kwargs):
         """
         The passed in object should be a records object, or a sequence of dictionaries
-        About link_uid data:
+        About link data:
           * interpretations:
-            * if data not starts with standard protocol names (http://, ftp://) it treats
-              as UID
+            * if data not starts with standard protocol names (http://, ftp://) than
+              *uid* field data will be used as reference
           * record removed if:
             * no data;
             * data contains UID of not existent object
         About title:
-          * if there is UID of existent object and record has not title data
-            - object's Title will be used.
+          * if there is UID of existent object and record has same title to the original
+            object - title will not be saved.
         """
         catalog = getToolByName(instance, "uid_catalog")
 
@@ -73,31 +73,39 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
         if not isinstance(value, (ListType, TupleType)):
             value = value,
 
-        uids = []
         result = []
         for row in value:
-            data = {"title":"", "link_uid":""}
+            data = {"title":"", "link":"", "uid":""}
 
+            uid = str(row.get("uid", "")).strip()
+            link = str(row.get("link", "")).strip()
             title = str(row.get('title', "")).strip()
+
             if not title == "":
                 data["title"] = title
 
-            link_uid = str(row.get('link_uid', "")).strip()
-            if link_uid == '':
+            if link == "":
                 continue
-            elif self.isRemoteURL(link_uid):
-                data["link_uid"] = urlparse.urlunparse(urlparse.urlparse(link_uid))
+            elif self.isRemoteURL(link):
+                data["link"] = urlparse.urlunparse(urlparse.urlparse(link))
             else:
-                brains = catalog(UID=link_uid)
+                if uid == '':
+                    continue
+
+                brains = catalog(UID=uid)
                 if len(brains) == 0:
                     continue
                 # Found objects with pointed UID
-                uids.append(link_uid)
                 brain = brains[0]
-                data["link_uid"] = link_uid
+                data["uid"] = uid
+                # Fix title for uid
+                if data['title'] == getattr(brain, "Title", ""):
+                    data['title'] = ""
             result.append(data)
 
         DataGridField.set(self, instance, result, **kwargs)
+
+        uids = [r['uid'] for r in result if r['uid']!=""]
         ReferenceField.set(self, instance, uids, **kwargs)
         
     security.declarePrivate('get')
@@ -105,10 +113,11 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
         """ Return DataGridField value
 
         Value is a list object of rows.
-        Row id dictionary object with standard 'link_uid' and 'title' keys
-        plus extra informal *isLink* key
+        Row id dictionary object with standard 'link', 'uid' and 'title' keys
+        plus extra informal *url* and *url_title* keys
         """
         purl = getToolByName(instance, "portal_url")
+        # use portal_catalog to hide protected object for the logged in user.
         catalog = getToolByName(instance, "portal_catalog")
 
         result = []
@@ -117,30 +126,30 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
         for row in rows:
             result.append({
                 # DataGridField row data
+                "uid": row["uid"],
+                "link": row["link"],
                 "title": row["title"],
-                "link_uid": row["link_uid"],
                 # View data
-                "link": "",
-                "link_title": row["title"]})
+                "url": "",
+                "url_title": row["title"]})
             data = result[-1]
             # Process remote URL and collect UIDs
-            link_uid = row["link_uid"]
-            if self.isRemoteURL(link_uid):
-                data["link"] = quote(link_uid, safe='?$#@/:=+;$,&%')
+            if row["link"]:
+                data["url"] = quote(row["link"], safe='?$#@/:=+;$,&%')
                 # if title not set for remote url - set it equals to url
-                if not data["link_title"]:
-                    data["link_title"] = link_uid
+                if not data["url_title"]:
+                    data["url_title"] = row["link"]
             else:
-                uids[link_uid] = data
+                uids[row["uid"]] = data
         # Process UIDs
         if uids:
             brains = catalog(UID=uids.keys())
             for b in brains:
                 data = uids[b.UID]
-                data["link"] = b.getURL()
+                data["url"] = b.getURL()
                 # If title not set - get it from the brain
-                if not data["link_title"]:
-                    data["link_title"] = self._brains_title_or_id(b, instance)
+                if not data["url_title"]:
+                    data["url_title"] = self._brains_title_or_id(b, instance)
 
         return result
 

@@ -314,7 +314,7 @@
                                         nowrap="nowrap" 
                                         style="text-align:right"
                                         tal:define="title python:item.title_or_id().replace('\'', '\\\'');
-						    path python:item.absolute_url(1)">
+						    path python:'/'+item.absolute_url(1)">
                                         <tal:referenceable tal:condition="referenceable">
                                             <a href=""
                                                 onclick=""

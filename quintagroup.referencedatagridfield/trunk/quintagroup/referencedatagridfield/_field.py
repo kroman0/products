@@ -14,9 +14,11 @@ from Products.Archetypes.Registry import registerField, registerWidget
 
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 
+from Products.DataGridField.Column import Column
 from Products.DataGridField.DataGridField import DataGridField
 from Products.DataGridField.DataGridWidget import DataGridWidget
 
+from hiddencolumn import HiddenColumn
 
 # Logger object
 #logger = logging.getLogger('ReferenceDataGridField')
@@ -27,10 +29,13 @@ class ReferenceDataGridWidget(DataGridWidget, ReferenceBrowserWidget):
     _properties.update(DataGridWidget._properties.copy())
     _properties.update({
         'macro': "referencedatagridwidget",
-        'column_names': ["Title", "Link", "UID"],
         'helper_css': ('datagridwidget.css',),
         'helper_js': ('referencebrowser.js', 'datagridwidget.js',),
         'force_close_on_insert': True,
+        'columns': {
+            'title': Column("Title"), 
+            'link': Column("Link"),
+            'uid': HiddenColumn("UID", visible=False)},
         })
 
 isURL = validation.validatorFor('isURL')

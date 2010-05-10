@@ -49,12 +49,13 @@ function getOrderedElement(widget_id, order_idx) {
 }
 
 
-function referencebrowser_openBrowser(path, fieldName, at_url, fieldRealName, currnode) {
+function referencebrowser_openBrowser(path, fieldName, at_url, fieldRealName, fieldTitleName, fieldLinkName, currnode) {
     var url = path + '/referencebrowser_popup?fieldName=' + fieldName + '&fieldRealName=' + fieldRealName +'&at_url=' + at_url;
 
     var order_idx = getOrderIndex(currnode);
-    if (order_idx)
-        url = url + '&order_idx=' + order_idx;
+    url += (order_idx)? '&order_idx=' + order_idx: "";
+    url += (typeof(fieldTitleName) != 'undefined')? '&fieldTitleName=' + fieldTitleName: "";
+    url += (typeof(fieldLinkName) != 'undefined')? '&fieldLinkName=' + fieldLinkName: "";
 
     atrefpopup = window.open(url, 'referencebrowser_popup','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=500,height=550');
 }
@@ -75,12 +76,16 @@ function typeOf(value) {
 }
 
 // function to return a reference from the popup window back into the widget
-function referencebrowser_setReference(widget_id, uid, label, multi, order_idx)
+function referencebrowser_setReference(widget_id, uid, label, multi, order_idx, widget_title_id, link_title, widget_link_id, link_path)
 {
     if (order_idx >= 0) {
         // process ReferenceDataGridField
         element=getOrderedElement(widget_id, order_idx);
         element.value=uid;
+        element=getOrderedElement(widget_title_id, order_idx);
+        element.value=link_title;
+        element=getOrderedElement(widget_link_id, order_idx);
+        element.value=link_path;
     } else if (multi==0) {
 	// differentiate between the single and mulitselect widget
 	// since the single widget has an extra label field.

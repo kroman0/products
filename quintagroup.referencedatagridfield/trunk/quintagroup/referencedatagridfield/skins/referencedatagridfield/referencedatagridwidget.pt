@@ -18,10 +18,10 @@
 		<li class="odd"
 		    tal:define="oddrow repeat/data/odd;"
                     tal:attributes="class python:oddrow and 'odd' or 'even';"
-		    tal:condition="data/link">
+		    tal:condition="data/url">
 		  <a href="#"
-                     tal:attributes="href data/link"
-		     ><span tal:content="data/link_title"/></a>
+                     tal:attributes="href data/url"
+		     ><span tal:content="data/url_title"/></a>
 		</li></tal:loop>
             </ul>
 	  </div>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layers
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+   i18n:domain="plonecomments">
+   <layer name="qPloneComments"
+          interface="Products.qPloneComments.interfaces.IPloneCommentsLayer" 
+          remove="True"/>
+</layers>

@@ -13,7 +13,7 @@
 			   ruid string:${portal_url}/resolveuid/"
                tal:condition="fielddata">
 
-	    <h5 tal:content="string:${widget/label}">References</h5>
+	    <!-- <h5 tal:content="string:${widget/label}">References</h5> -->
             <ul><tal:loop tal:repeat="data fielddata">
 		<li class="odd"
 		    tal:define="oddrow repeat/data/odd;"

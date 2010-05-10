@@ -115,20 +115,23 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
         uids = {}
         rows = DataGridField.get(self, instance, **kwargs)
         for row in rows:
-            result.append({"link_uid": row["link_uid"],
-               "title": row["title"],
-               "link": ""})
+            result.append({
+                # DataGridField row data
+                "title": row["title"],
+                "link_uid": row["link_uid"],
+                # View data
+                "link": "",
+                "link_title": row["title"]})
             data = result[-1]
             # Process remote URL and collect UIDs
             link_uid = row["link_uid"]
             if self.isRemoteURL(link_uid):
                 data["link"] = quote(link_uid, safe='?$#@/:=+;$,&%')
                 # if title not set for remote url - set it equals to url
-                if not data["title"]:
-                    data["title"] = link_uid
+                if not data["link_title"]:
+                    data["link_title"] = link_uid
             else:
                 uids[link_uid] = data
-            
         # Process UIDs
         if uids:
             brains = catalog(UID=uids.keys())
@@ -136,14 +139,10 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
                 data = uids[b.UID]
                 data["link"] = b.getURL()
                 # If title not set - get it from the brain
-                if not data["title"]:
-                    data["title"] = self._brains_title_or_id(b, instance)
+                if not data["link_title"]:
+                    data["link_title"] = self._brains_title_or_id(b, instance)
 
         return result
-
-    def getRaw(self, instance, **kwargs):
-        """Return raw data DataGridField data."""
-        return DataGridField.getRaw(self, instance, **kwargs)
 
 
 registerWidget(

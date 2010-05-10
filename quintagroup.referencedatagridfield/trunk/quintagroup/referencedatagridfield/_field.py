@@ -95,9 +95,6 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
                 uids.append(link_uid)
                 brain = brains[0]
                 data["link_uid"] = link_uid
-                # Get title
-                if title == "":
-                    data["title"] = getattr(brain, "Title", "")
             result.append(data)
 
         DataGridField.set(self, instance, result, **kwargs)
@@ -112,20 +109,35 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
         plus extra informal *isLink* key
         """
         purl = getToolByName(instance, "portal_url")
-        resuid = purl() + "/resolveuid/"
+        catalog = getToolByName(instance, "portal_catalog")
 
         result = []
+        uids = {}
         rows = DataGridField.get(self, instance, **kwargs)
         for row in rows:
-            data = {"link_uid": row["link_uid"],
-                    "title": row["title"],
-                    "link": ""}
-            url = row["link_uid"]
-            if self.isRemoteURL(url):
-                data["link"] = quote(url, safe='?$#@/:=+;$,&%')
+            result.append({"link_uid": row["link_uid"],
+               "title": row["title"],
+               "link": ""})
+            data = result[-1]
+            # Process remote URL and collect UIDs
+            link_uid = row["link_uid"]
+            if self.isRemoteURL(link_uid):
+                data["link"] = quote(link_uid, safe='?$#@/:=+;$,&%')
+                # if title not set for remote url - set it equals to url
+                if not data["title"]:
+                    data["title"] = link_uid
             else:
-                data["link"] = resuid + url
-            result.append(data)
+                uids[link_uid] = data
+            
+        # Process UIDs
+        if uids:
+            brains = catalog(UID=uids.keys())
+            for b in brains:
+                data = uids[b.UID]
+                data["link"] = b.getURL()
+                # If title not set - get it from the brain
+                if not data["title"]:
+                    data["title"] = self._brains_title_or_id(b, instance)
 
         return result
 

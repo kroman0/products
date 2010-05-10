@@ -26,13 +26,16 @@
 		    <div style="clear: both"
 			 tal:define="startup_directory python:here.referencebrowser_startupDirectory(widget.getStartupDirectory(here));
 				     global at_url at_url|python:'/'.join(here.getPhysicalPath());
-				     field_id string:link_uid_${fieldId}">
+				     field_id string:uid_${fieldId};
+				     field_link_id string:link_${fieldId};
+				     field_title_id string:title_${fieldId};
+				     ">
 			<input type="button"
 			       class="searchButton"
-			       value="Add Reference"
+			       value="Select"
 			       onClick=""
-			       i18n:attributes="value label_add;"
-			       tal:attributes="onClick string:javascript:referencebrowser_openBrowser('${startup_directory}','${field_id}', '${at_url}', '${fieldRealName}', this)" />
+			       i18n:attributes="value label_select;"
+			       tal:attributes="onClick string:javascript:referencebrowser_openBrowser('${startup_directory}','${field_id}', '${at_url}', '${fieldRealName}', '${field_title_id}', '${field_link_id}', this)" />
                     </div>
 		</td>
 

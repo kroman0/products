@@ -130,15 +130,14 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
                 "link": row["link"],
                 "title": row["title"],
                 # View data
-                "url": "",
-                "url_title": row["title"]})
+                "url": ""})
             data = result[-1]
             # Process remote URL and collect UIDs
             if row["link"]:
                 data["url"] = quote(row["link"], safe='?$#@/:=+;$,&%')
                 # if title not set for remote url - set it equals to url
-                if not data["url_title"]:
-                    data["url_title"] = row["link"]
+                if not data["title"]:
+                    data["title"] = row["link"]
             else:
                 uids[row["uid"]] = data
         # Process UIDs
@@ -147,9 +146,10 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
             for b in brains:
                 data = uids[b.UID]
                 data["url"] = b.getURL()
+                data["link"] = b.getPath()
                 # If title not set - get it from the brain
-                if not data["url_title"]:
-                    data["url_title"] = self._brains_title_or_id(b, instance)
+                if not data["title"]:
+                    data["title"] = self._brains_title_or_id(b, instance)
 
         return result
 

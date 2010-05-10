@@ -21,7 +21,7 @@
 		    tal:condition="data/url">
 		  <a href="#"
                      tal:attributes="href data/url"
-		     ><span tal:content="data/url_title"/></a>
+		     ><span tal:content="data/title"/></a>
 		</li></tal:loop>
             </ul>
 	  </div>

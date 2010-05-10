@@ -12,6 +12,7 @@ def initialize(context):
     """Initializer called when used as a Zope 2 product."""
     # Example content type initialization
     import quintagroup.referencedatagridfield.examples
+    import quintagroup.referencedatagridfield.hiddencolumn
     content_types, constructors, ftis = process_types(listTypes(PKG_NAME), PKG_NAME,)
 
     ContentInit(

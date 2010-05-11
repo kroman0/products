@@ -1,3 +1,54 @@
+// function to change class attribute for object
+function triggerTitleClass(e) {
+    var currnode = window.event ? window.event.srcElement : e.currentTarget;
+    
+	// fetch required data structure   
+    var element = getThisOrParentElement(currnode, "INPUT");
+    // If no input tag found - leave function
+    if (element == null || element.tagName.toUpperCase() == "BODY")
+	return;
+    
+    var current = element.value;
+    var initial = element.getAttribute("initial_value");
+    if (initial == null || current == null)
+	return;
+
+    if (initial == current) {
+	element.setAttribute("CLASS", "not-changed-title-field")
+    } else {
+	element.setAttribute("CLASS", "changed-title-field")
+    }
+}
+
+// Trigger styles on focusing on the element
+function triggerOnFocusStyles(e) {
+    var currnode = window.event ? window.event.srcElement : e.currentTarget;
+    
+	// fetch required data structure   
+    var element = getThisOrParentElement(currnode, "INPUT");
+    // If no input tag found - leave function
+    if (element == null || element.tagName.toUpperCase() == "BODY")
+	return;
+    element.setAttribute("CLASS", "changed-title-field")
+}
+
+function getThisOrParentElement(currnode, tagname) {
+    /* Find the first parent node with the given tag name */
+
+    tagname = tagname.toUpperCase();
+    var parent = currnode;
+
+    while(parent.tagName.toUpperCase() != tagname) {
+        parent = parent.parentNode;
+        // Next line is a safety belt
+        if(parent.tagName.toUpperCase() == "BODY") 
+            return null;
+    }
+
+    return parent;
+}
+
+
 // function to open the popup window
 function getOrderIndex(currnode) {
     if (typeof(dataGridFieldFunctions) == "object") {

@@ -20,6 +20,7 @@ from Products.DataGridField.DataGridWidget import DataGridWidget
 
 from quintagroup.referencedatagridfield.columns import BlockColumn
 from quintagroup.referencedatagridfield.columns import HiddenColumn
+from quintagroup.referencedatagridfield.columns import StyledColumn
 
 # Logger object
 #logger = logging.getLogger('ReferenceDataGridField')
@@ -34,7 +35,12 @@ class ReferenceDataGridWidget(DataGridWidget, ReferenceBrowserWidget):
         'helper_js': ('referencebrowser.js', 'datagridwidget.js',),
         'force_close_on_insert': True,
         'columns': {
-            'title': Column("Title"), 
+            'title': StyledColumn("Title", trigger_key="title_changed",
+                                  blur_handler="triggerTitleClass",
+                                  focus_handler="triggerOnFocusStyles",
+                                  class_no=None,
+                                  class_changed="changed-title-field",
+                                  class_not_changed="not-changed-title-field"),
             'link': BlockColumn("Link", column_on_class="hidden-field",
                                 columns=['link','uid'], read_only=True),
             'uid': HiddenColumn("UID", visible=False)},
@@ -156,7 +162,11 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
                 data["link"] = b.getPath()
                 # If title not set - get it from the brain
                 if not data["title"]:
+                    data["title_changed"] = False
                     data["title"] = self._brains_title_or_id(b, instance)
+                else:
+                    data["title_changed"] = True
+
 
         return result
 

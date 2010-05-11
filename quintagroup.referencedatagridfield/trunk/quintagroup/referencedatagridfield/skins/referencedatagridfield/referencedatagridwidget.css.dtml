@@ -1,0 +1,23 @@
+/*
+  DataGridWidget CSS definitions
+  ------------------------------------------
+  
+  Copyright 2006 Red Innovation <http://www.redinnovation.com>
+  
+  <dtml-with base_properties> (Loads base_properties variables)
+
+  <dtml-call "REQUEST.set('portal_url', portal_url())"> (Do not change this)
+    
+*/
+
+
+input.hidden-field {
+	/* Radio buttons try to use Plone's default text input 
+	   field CSS properties, like borders and background shade image */
+	background: #eeeeff none repeat scroll 0 0;
+	color: black;
+}
+
+/* 
+  </dtml-with>  (end of loaded base_properties variables)
+*/

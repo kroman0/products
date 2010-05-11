@@ -14,12 +14,19 @@ function triggerTitleClass(e) {
 	return;
 
     if (initial == current) {
-	element.setAttribute("CLASS", "not-changed-title-field")
+       setClassAttr(element, "not-changed-title-field")
     } else {
-	element.setAttribute("CLASS", "changed-title-field")
+       setClassAttr(element, "changed-title-field")
     }
 }
 
+function setClassAttr(element, value) {
+    if (element.className) {
+        element.className = value
+    } else {
+        element.setAttribute("CLASS", value)
+    } 
+}
 // Trigger styles on focusing on the element
 function triggerOnFocusStyles(e) {
     var currnode = window.event ? window.event.srcElement : e.currentTarget;
@@ -29,7 +36,7 @@ function triggerOnFocusStyles(e) {
     // If no input tag found - leave function
     if (element == null || element.tagName.toUpperCase() == "BODY")
 	return;
-    element.setAttribute("CLASS", "changed-title-field")
+    setClassAttr(element, "changed-title-field")
 }
 
 function getThisOrParentElement(currnode, tagname) {

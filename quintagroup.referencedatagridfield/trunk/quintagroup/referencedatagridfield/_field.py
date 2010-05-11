@@ -18,7 +18,8 @@ from Products.DataGridField.Column import Column
 from Products.DataGridField.DataGridField import DataGridField
 from Products.DataGridField.DataGridWidget import DataGridWidget
 
-from hiddencolumn import HiddenColumn
+from quintagroup.referencedatagridfield.columns import BlockColumn
+from quintagroup.referencedatagridfield.columns import HiddenColumn
 
 # Logger object
 #logger = logging.getLogger('ReferenceDataGridField')
@@ -29,12 +30,13 @@ class ReferenceDataGridWidget(DataGridWidget, ReferenceBrowserWidget):
     _properties.update(DataGridWidget._properties.copy())
     _properties.update({
         'macro': "referencedatagridwidget",
-        'helper_css': ('datagridwidget.css',),
+        'helper_css': ('datagridwidget.css','referencedatagridwidget.css'),
         'helper_js': ('referencebrowser.js', 'datagridwidget.js',),
         'force_close_on_insert': True,
         'columns': {
             'title': Column("Title"), 
-            'link': Column("Link"),
+            'link': BlockColumn("Link", column_on_class="hidden-field",
+                                columns=['link','uid'], read_only=True),
             'uid': HiddenColumn("UID", visible=False)},
         })
 

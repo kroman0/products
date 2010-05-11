@@ -80,12 +80,15 @@ function referencebrowser_setReference(widget_id, uid, label, multi, order_idx, 
 {
     if (order_idx >= 0) {
         // process ReferenceDataGridField
-        element=getOrderedElement(widget_id, order_idx);
-        element.value=uid;
-        element=getOrderedElement(widget_title_id, order_idx);
-        element.value=link_title;
-        element=getOrderedElement(widget_link_id, order_idx);
-        element.value=link_path;
+        uid_element=getOrderedElement(widget_id, order_idx);
+        uid_element.value=uid;
+        title_element=getOrderedElement(widget_title_id, order_idx);
+        title_element.value=link_title;
+        link_element=getOrderedElement(widget_link_id, order_idx);
+        link_element.readOnly=false;
+        link_element.value=link_path;
+        link_element.readOnly=true;
+        link_element.className="hidden-field"
     } else if (multi==0) {
 	// differentiate between the single and mulitselect widget
 	// since the single widget has an extra label field.

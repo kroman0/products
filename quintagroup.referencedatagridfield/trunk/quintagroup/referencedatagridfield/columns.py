@@ -75,3 +75,51 @@ class BlockColumn(Column):
 
 # Initializes class security
 InitializeClass(BlockColumn)
+
+class StyledColumn(Column):
+    """ Column with styling based on events."""
+    security = ClassSecurityInfo()
+
+    
+
+    def __init__(self, label, default=None, label_msgid=None,
+                 trigger_key=None, blur_handler="", focus_handler="",
+                 class_no="", class_changed="", class_not_changed=""):
+        """ Create a column
+        
+            @param trigger_key
+        """
+        Column.__init__(self, label, default, label_msgid)
+        self.trigger = trigger_key
+        self.blur_handler = blur_handler and blur_handler + "(event)" or ""
+        self.focus_handler = focus_handler and focus_handler + "(event)" or ""
+        self.class_no = class_no
+        self.class_not_changed = class_not_changed
+        self.class_changed = class_changed
+
+    security.declarePublic("getAttributes")
+    def getAttributes(self, rows):
+        blur_handler = None
+        focus_handler = None
+        sclass = self.class_no
+
+        if rows.has_key(self.trigger):
+            focus_handler = self.focus_handler
+            blur_handler = self.blur_handler
+            if bool(rows[self.trigger]):
+                sclass = self.class_changed
+            else:
+                sclass = self.class_not_changed
+
+        return {'class': sclass,
+                'onblur': blur_handler,
+                'onfocus': focus_handler}
+
+    security.declarePublic('getMacro')
+    def getMacro(self):
+        """ Return macro used to render this column in view/edit """
+        return "datagrid_styled_cell"
+
+# Initializes class security
+InitializeClass(StyledColumn)
+

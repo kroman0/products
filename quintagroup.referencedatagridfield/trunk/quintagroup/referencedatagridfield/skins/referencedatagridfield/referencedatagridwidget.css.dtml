@@ -18,6 +18,14 @@ input.hidden-field {
 	color: black;
 }
 
+input.not-changed-title-field {
+        color: gray;
+}
+
+input.changed-title-field {
+        color: black;
+}
+
 /* 
   </dtml-with>  (end of loaded base_properties variables)
 */

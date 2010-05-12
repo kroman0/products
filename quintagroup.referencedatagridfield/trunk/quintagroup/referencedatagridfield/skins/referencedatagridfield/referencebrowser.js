@@ -1,4 +1,31 @@
-// function to change class attribute for object
+// Crossbrowser event listeners adder
+function addEvent(obj, evType, fn, useCap) {
+    var r = false;
+    if (obj.addEventListener){
+        if (typeof(useCap) == 'undefined')
+	    useCap = false;
+        obj.addEventListener(evType, fn, useCap);
+        r = true;
+     }
+     else if (obj.attachEvent) {
+	 var id = obj.sourceIndex || -1;
+
+	 if (!fn[evType + id]) {
+	     var f = fn[evType + id] = function(e) {
+		 var o = document.all[id] || document;
+		 o._f = fn;
+		 var s = o._f(e);
+		 o._f = null;
+		 return s;
+	     };
+
+	     r = obj.attachEvent("on" + evType, f);
+	     obj = null;
+	 }
+     }
+     return r;
+ };
+
 function triggerTitleClass(e) {
     var currnode = window.event ? window.event.srcElement : e.currentTarget;
     
@@ -142,6 +169,10 @@ function referencebrowser_setReference(widget_id, uid, label, multi, order_idx, 
         uid_element.value=uid;
         title_element=getOrderedElement(widget_title_id, order_idx);
         title_element.value=link_title;
+        title_element.className="not-changed-title-field";
+        title_element.setAttribute("initial_value", link_title);
+        addEvent(title_element, 'blur', triggerTitleClass, false)
+        addEvent(title_element, 'focus', triggerOnFocusStyles, false)
         link_element=getOrderedElement(widget_link_id, order_idx);
         link_element.readOnly=false;
         link_element.value=link_path;

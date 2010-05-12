@@ -80,8 +80,6 @@ class StyledColumn(Column):
     """ Column with styling based on events."""
     security = ClassSecurityInfo()
 
-    
-
     def __init__(self, label, default=None, label_msgid=None,
                  trigger_key=None, blur_handler="", focus_handler="",
                  class_no="", class_changed="", class_not_changed=""):
@@ -98,22 +96,28 @@ class StyledColumn(Column):
         self.class_changed = class_changed
 
     security.declarePublic("getAttributes")
-    def getAttributes(self, rows):
+    def getAttributes(self, column_id, rows):
+        default = None
         blur_handler = None
         focus_handler = None
         sclass = self.class_no
 
-        if rows.has_key(self.trigger):
+        if rows.has_key(self.trigger) \
+           and rows.has_key(column_id):
             focus_handler = self.focus_handler
             blur_handler = self.blur_handler
-            if bool(rows[self.trigger]):
-                sclass = self.class_changed
-            else:
+            current = rows[column_id]
+            default = rows[self.trigger]
+            # if default is not epty string - than it is same to original value
+            if current == default:
                 sclass = self.class_not_changed
+            else:
+                sclass = self.class_changed
 
         return {'class': sclass,
                 'onblur': blur_handler,
-                'onfocus': focus_handler}
+                'onfocus': focus_handler,
+                'default': default}
 
     security.declarePublic('getMacro')
     def getMacro(self):

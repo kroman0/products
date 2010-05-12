@@ -26,6 +26,23 @@ input.changed-title-field {
         color: black;
 }
 
+
+/*  ___Start__ Hover functionality */
+.ArchetypesReferenceDataGridWidget table.datagridwidget-table-edit td.datagridwidget-manipulator {
+    visibility: hidden;
+/*    background-color: &dtml-backgroundColor;*/
+}
+
+*html .ArchetypesReferenceDataGridWidget table.datagridwidget-table-edit td.datagridwidget-manipulator {
+    visibility: visible;
+}
+
+.ArchetypesReferenceDataGridWidget table.datagridwidget-table-edit tr:hover td.datagridwidget-manipulator {
+    visibility: visible;
+}
+/*  ___END__ Hover functionality */
+ 
+
 /* 
   </dtml-with>  (end of loaded base_properties variables)
 */

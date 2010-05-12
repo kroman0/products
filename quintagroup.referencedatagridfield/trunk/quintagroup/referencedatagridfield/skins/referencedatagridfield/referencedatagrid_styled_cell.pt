@@ -12,14 +12,14 @@
     <!-- EDIT -->
     <metal:edit_cell_macro define-macro="edit_cell">
        <input style="width: 100%" name="myfield.name:records"
-	      tal:define="attribs python:column_definition.getAttributes(rows);"
+	      tal:define="attribs python:column_definition.getAttributes(column, rows);"
               tal:attributes="name string:${fieldName}.${column}:records;
                           id string:${column}_${fieldId};
                           value cell_value;
 			  class python:attribs['class'];
 			  onblur python:attribs['onblur'];
 			  onfocus python:attribs['onfocus'];
-			  initial_value cell_value;
+			  default_value python:attribs['default'];
 			  "
 	   type="text" />
     </metal:edit_cell_macro>

@@ -36,7 +36,7 @@ function triggerTitleClass(e) {
 	return;
     
     var current = element.value;
-    var initial = element.getAttribute("initial_value");
+    var initial = element.getAttribute("default_value");
     if (initial == null || current == null)
 	return;
 
@@ -170,7 +170,7 @@ function referencebrowser_setReference(widget_id, uid, label, multi, order_idx, 
         title_element=getOrderedElement(widget_title_id, order_idx);
         title_element.value=link_title;
         title_element.className="not-changed-title-field";
-        title_element.setAttribute("initial_value", link_title);
+        title_element.setAttribute("default_value", link_title);
         addEvent(title_element, 'blur', triggerTitleClass, false)
         addEvent(title_element, 'focus', triggerOnFocusStyles, false)
         link_element=getOrderedElement(widget_link_id, order_idx);

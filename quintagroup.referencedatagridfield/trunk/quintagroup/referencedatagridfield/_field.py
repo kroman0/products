@@ -35,7 +35,7 @@ class ReferenceDataGridWidget(DataGridWidget, ReferenceBrowserWidget):
         'helper_js': ('referencebrowser.js', 'datagridwidget.js',),
         'force_close_on_insert': True,
         'columns': {
-            'title': StyledColumn("Title", trigger_key="title_changed",
+            'title': StyledColumn("Title", trigger_key="default_title",
                                   blur_handler="triggerTitleClass",
                                   focus_handler="triggerOnFocusStyles",
                                   class_no=None,
@@ -143,14 +143,16 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
                 "link": row["link"],
                 "title": row["title"],
                 # View data
-                "url": ""})
+                "url": "",
+                "default_title": None})
             data = result[-1]
             # Process remote URL and collect UIDs
             if row["link"]:
                 data["url"] = quote(row["link"], safe='?$#@/:=+;$,&%')
+                data["default_title"] = row["link"]
                 # if title not set for remote url - set it equals to url
                 if not data["title"]:
-                    data["title"] = row["link"]
+                    data["title"] = data["default_title"]
             else:
                 uids[row["uid"]] = data
         # Process UIDs
@@ -160,13 +162,10 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
                 data = uids[b.UID]
                 data["url"] = b.getURL()
                 data["link"] = b.getPath()
+                data["default_title"] = self._brains_title_or_id(b, instance)
                 # If title not set - get it from the brain
                 if not data["title"]:
-                    data["title_changed"] = False
-                    data["title"] = self._brains_title_or_id(b, instance)
-                else:
-                    data["title_changed"] = True
-
+                    data["title"] = data["default_title"]
 
         return result
 

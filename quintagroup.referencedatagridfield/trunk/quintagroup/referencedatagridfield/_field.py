@@ -92,7 +92,7 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
 
             uid = str(row.get("uid", "")).strip()
             link = str(row.get("link", "")).strip()
-            title = str(row.get('title', "")).strip()
+            title = str(row.get('title', ""))
 
             if not title == "":
                 data["title"] = title

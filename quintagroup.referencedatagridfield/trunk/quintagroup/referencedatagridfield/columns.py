@@ -22,7 +22,7 @@ class HiddenColumn(Column):
     security.declarePublic('getMacro')
     def getMacro(self):
         """ Return macro used to render this column in view/edit """
-        return "datagrid_hidden_cell"
+        return "referencedatagrid_hidden_cell"
 
 # Initializes class security
 InitializeClass(HiddenColumn)
@@ -71,7 +71,7 @@ class BlockColumn(Column):
     security.declarePublic('getMacro')
     def getMacro(self):
         """ Return macro used to render this column in view/edit """
-        return "datagrid_block_cell"
+        return "referencedatagrid_block_cell"
 
 # Initializes class security
 InitializeClass(BlockColumn)
@@ -118,7 +118,7 @@ class StyledColumn(Column):
     security.declarePublic('getMacro')
     def getMacro(self):
         """ Return macro used to render this column in view/edit """
-        return "datagrid_styled_cell"
+        return "referencedatagrid_styled_cell"
 
 # Initializes class security
 InitializeClass(StyledColumn)

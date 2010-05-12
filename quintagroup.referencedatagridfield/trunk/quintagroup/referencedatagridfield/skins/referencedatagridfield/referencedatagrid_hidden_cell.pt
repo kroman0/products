@@ -3,12 +3,6 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="plone">
-      
-      
-<!-- View/edit free text columns 
- 
-  -->
-
 <body>
     <!-- VIEW -->
     <metal:view_cell_macro define-macro="view_cell">                
@@ -59,10 +53,6 @@
                        type="hidden" />
        </tal:hidden>
     </metal:edit_empty_cell_macro>
-    
-    
 
 </body>
-
 </html>
-

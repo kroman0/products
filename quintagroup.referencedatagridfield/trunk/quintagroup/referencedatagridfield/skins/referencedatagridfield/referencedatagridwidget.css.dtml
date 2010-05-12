@@ -28,16 +28,16 @@ input.changed-title-field {
 
 
 /*  ___Start__ Hover functionality */
-.ArchetypesReferenceDataGridWidget table.referencedatagridwidget-table-edit td.datagridwidget-manipulator {
+.ArchetypesReferenceDataGridWidget table.referencedatagridwidget-table-edit img {
     visibility: hidden;
 /*    background-color: &dtml-backgroundColor;*/
 }
 
-*html .ArchetypesReferenceDataGridWidget table.referencedatagridwidget-table-edit td.datagridwidget-manipulator {
+*html .ArchetypesReferenceDataGridWidget table.referencedatagridwidget-table-edit td.datagridwidget-manipulator img {
     visibility: visible;
 }
 
-.ArchetypesReferenceDataGridWidget table.referencedatagridwidget-table-edit tr:hover td.datagridwidget-manipulator {
+.ArchetypesReferenceDataGridWidget table.referencedatagridwidget-table-edit tr:hover img {
     visibility: visible;
 }
 /*  ___END__ Hover functionality */

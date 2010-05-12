@@ -28,20 +28,31 @@ input.changed-title-field {
 
 
 /*  ___Start__ Hover functionality */
-.ArchetypesReferenceDataGridWidget table.datagridwidget-table-edit td.datagridwidget-manipulator {
+.ArchetypesReferenceDataGridWidget table.referencedatagridwidget-table-edit td.datagridwidget-manipulator {
     visibility: hidden;
 /*    background-color: &dtml-backgroundColor;*/
 }
 
-*html .ArchetypesReferenceDataGridWidget table.datagridwidget-table-edit td.datagridwidget-manipulator {
+*html .ArchetypesReferenceDataGridWidget table.referencedatagridwidget-table-edit td.datagridwidget-manipulator {
     visibility: visible;
 }
 
-.ArchetypesReferenceDataGridWidget table.datagridwidget-table-edit tr:hover td.datagridwidget-manipulator {
+.ArchetypesReferenceDataGridWidget table.referencedatagridwidget-table-edit tr:hover td.datagridwidget-manipulator {
     visibility: visible;
 }
 /*  ___END__ Hover functionality */
  
+
+a.referencedatagridwidget-add-button, a.referencedatagridwidget-add-button:hover {
+	text-decoration: none;
+    background: &dtml-globalBackgroundColor; url(&dtml-portal_url;/linkOpaque.gif) 9px 1px no-repeat;
+    cursor: pointer;
+    font-size: &dtml-fontSmallSize;;
+    padding: 1px 1px 1px 15px;
+    text-transform: &dtml-textTransform;;
+    float: right;	
+}
+
 
 /* 
   </dtml-with>  (end of loaded base_properties variables)

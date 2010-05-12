@@ -1,11 +1,13 @@
 from Products.CMFCore.utils import getToolByName
-from Products.validation import validation, interfaces
+from Products.validation import validation
+from Products.validation.interfaces.IValidator import IValidator
+from zope.interface import implements
 
 from Products.CMFPlone.utils import safe_hasattr
 
 class CaptchaValidator:
 
-    __implements__ = (interfaces.ivalidator,)
+    implements(IValidator)
 
     name = 'CaptchaValidator'
 

@@ -34,7 +34,7 @@
       <metal:use use-macro="field_macro | here/widgets/field/macros/edit">
         <metal:body metal:fill-slot="widget_body">
             
-            <table class="datagridwidget-table-edit"
+            <table class="referencedatagridwidget-table-edit"
 		       	tal:attributes="id python: 'datagridwidget-table-' + field.getName()"
             	style="width: 100%"
                 tal:define="columns python:widget.getColumnDefs(field, context);
@@ -74,7 +74,7 @@
                  </tbody>
             </table>
 
-            <a class="datagridwidget-add-button" id="datagridwidget-add-button"
+            <a class="referencedatagridwidget-add-button" id="datagridwidget-add-button"
 			   tal:condition="field/allow_insert"
                    tal:attributes='onclick python: "dataGridFieldFunctions.addRow(\"" + field.getName() + "\")"'>Add new</a>
 

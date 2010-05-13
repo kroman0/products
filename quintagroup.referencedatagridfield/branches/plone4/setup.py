@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.1'
+version = '0.2'
 
 setup(name='quintagroup.referencedatagridfield',
       version=version,
@@ -25,8 +25,9 @@ setup(name='quintagroup.referencedatagridfield',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'Products.DataGridField==1.6.1',
-          'Products.OrderableReferenceField',
+          'Products.DataGridField>=1.8a1',
+          'archetypes.referencebrowserwidget>=2.0a',
+          # 'Products.ATReferenceBrowserWidget>=3.0a',
           # -*- Extra requirements: -*-
       ],
       entry_points="""
@@ -35,6 +36,6 @@ setup(name='quintagroup.referencedatagridfield',
       [z3c.autoinclude.plugin]
       target = plone
       """,
-      setup_requires=["PasteScript"],
-      paster_plugins=["ZopeSkel"],
+      # setup_requires=["PasteScript"],
+      # paster_plugins=["ZopeSkel"],
       )

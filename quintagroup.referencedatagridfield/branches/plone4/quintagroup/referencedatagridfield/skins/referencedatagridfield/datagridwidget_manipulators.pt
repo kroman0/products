@@ -6,7 +6,8 @@
 
 <body>
 
-    <metal:define define-macro="edit_manipulators">   
+    <metal:define define-macro="edit_manipulators"
+        tal:define="helper nocall:here/refbrowserhelper;">
     
      	 <tal:manipulator-cells>
      	 	
@@ -24,7 +25,7 @@
 				fieldRealName field/getName;
 				">
 		    <div style="clear: both"
-			 tal:define="startup_directory python:here.referencebrowser_startupDirectory(widget.getStartupDirectory(here));
+			 tal:define="startup_directory python:helper.getStartupDirectory(field);
 				     global at_url at_url|python:'/'.join(here.getPhysicalPath());
 				     field_id string:uid_${fieldId};
 				     field_link_id string:link_${fieldId};

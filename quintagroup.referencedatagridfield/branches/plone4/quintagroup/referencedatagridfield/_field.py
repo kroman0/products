@@ -12,7 +12,7 @@ from Products.validation import validation #validators import baseValidators
 from Products.Archetypes.Field import encode, ReferenceField
 from Products.Archetypes.Registry import registerField, registerWidget
 
-from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
+from archetypes.referencebrowserwidget.widget import ReferenceBrowserWidget
 
 from Products.DataGridField.Column import Column
 from Products.DataGridField.DataGridField import DataGridField
@@ -34,6 +34,7 @@ class ReferenceDataGridWidget(DataGridWidget, ReferenceBrowserWidget):
         'helper_css': ('datagridwidget.css','referencedatagridwidget.css'),
         'helper_js': ('referencebrowser.js', 'datagridwidget.js',),
         'force_close_on_insert': True,
+        'popup_name': 'datagridref_popup',
         'columns': {
             'title': StyledColumn("Title", trigger_key="default_title",
                                   blur_handler="triggerTitleClass",

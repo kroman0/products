@@ -13,4 +13,11 @@
       class=".view.ReferenceDataGridBrowserPopup"
       />
 
+  <zope:adapter
+      for="Products.Five.BrowserView"
+      factory=".view.datagridref_popup_template"
+      name="datagridref_popup"
+      provides="zope.formlib.namedtemplate.INamedTemplate"
+      />
+
 </configure>

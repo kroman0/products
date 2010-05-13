@@ -26,7 +26,7 @@ setup(name='quintagroup.referencedatagridfield',
       install_requires=[
           'setuptools',
           'Products.DataGridField==1.6.1',
-          'Products.OrderableReferenceField',
+          # 'Products.ATReferenceBrowserWidget==2.0.5',
           # -*- Extra requirements: -*-
       ],
       entry_points="""
@@ -35,6 +35,6 @@ setup(name='quintagroup.referencedatagridfield',
       [z3c.autoinclude.plugin]
       target = plone
       """,
-      setup_requires=["PasteScript"],
-      paster_plugins=["ZopeSkel"],
+      # setup_requires=["PasteScript"],
+      # paster_plugins=["ZopeSkel"],
       )

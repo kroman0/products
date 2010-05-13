@@ -1,5 +1,13 @@
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
+from plone.app.form._named import named_template_adapter
+
 from archetypes.referencebrowserwidget.browser.view import \
          ReferenceBrowserPopup
+
+default_popup_template = named_template_adapter(
+    ViewPageTemplateFile('datagridref_popup.pt'))
+
 
 class ReferenceDataGridBrowserPopup(ReferenceBrowserPopup):
     """ Extend default ReferenceBrowserPopup view with  properties,

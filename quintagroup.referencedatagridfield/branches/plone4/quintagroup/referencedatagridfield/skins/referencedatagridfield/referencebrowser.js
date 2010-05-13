@@ -1,96 +1,105 @@
-jq(function() {
+prepareRefPopup = function(context) {
+    jq(function() {
 
-  // the overlay itself
-  jq('.addreference').overlay({
-       closeOnClick: false,
-       onBeforeLoad: function() {
-           ov = jq('div#content').data('overlay');
-           // close overlay, if there is one already
-           // we only allow one referencebrowser per time
-           if (ov) {ov.close(); }
-           var wrap = this.getContent().find('.overlaycontent');
-           var src = this.getTrigger().attr('src');
-           var srcfilter = src + ' >*';
-           wrap.data('srcfilter', srcfilter);
-           jq('div#content').data('overlay', this);
-           resetHistory();
-           wrap.load(srcfilter);
-           },
-       onLoad: function() {
-           widget_id = this.getTrigger().attr('rel').substring(6);
-           disablecurrentrelations(widget_id);
-       }});
+      // the overlay itself
+      jq('.addreference', context).overlay({
+	   closeOnClick: false,
+	   onBeforeLoad: function() {
+               ov = jq('div#content', this).data('overlay');
+	       // close overlay, if there is one already
+	       // we only allow one referencebrowser per time
+	       if (ov) {ov.close(); }
+	       var wrap = this.getContent().find('.overlaycontent');
+	       var src = this.getTrigger().attr('src');
+	       var srcfilter = src + ' >*';
+	       wrap.data('srcfilter', srcfilter);
+	       jq('div#content', this).data('overlay', this);
+	       resetHistory();
+	       wrap.load(srcfilter);
+	       },
+	   onLoad: function() {
+	       widget_id = this.getTrigger().attr('rel').substring(6);
+	       disablecurrentrelations(widget_id);
+	   }});
 
-  // the breadcrumb-links and the links of the 'tree'-navigation
-  jq('[id^=atrb_] a.browsesite').live('click', function(event) {
-      var target = jq(this);
-      var src = target.attr('href');
-      var wrap = target.parents('.overlaycontent');
-      var srcfilter = src + ' >*';
-      pushToHistory(wrap.data('srcfilter'));
-      wrap.data('srcfilter', srcfilter);
-      // the history we are constructing here is destinct from the
-      // srcfilter-history. here we construct a selection-widget, which
-      // is available, if the history_length-parameter is set on the widget
-      // the srcfilter-history is used for storing the URLs to make the
-      // 'Back'-link work.
-      var newoption = '<option value="' + src + '">' + target.attr('rel') + '</option>';
-      refreshOverlay(wrap, srcfilter, newoption);
-      return false;
-      });
+      // the breadcrumb-links and the links of the 'tree'-navigation
+      jq('[id^=atrb_] a.browsesite', context).live('click', function(event) {
+	  var target = jq(this);
+	  var src = target.attr('href');
+	  var wrap = target.parents('.overlaycontent');
+	  var srcfilter = src + ' >*';
+	  pushToHistory(wrap.data('srcfilter'));
+	  wrap.data('srcfilter', srcfilter);
+	  // the history we are constructing here is destinct from the
+	  // srcfilter-history. here we construct a selection-widget, which
+	  // is available, if the history_length-parameter is set on the widget
+	  // the srcfilter-history is used for storing the URLs to make the
+	  // 'Back'-link work.
+	  var newoption = '<option value="' + src + '">' + target.attr('rel') + '</option>';
+	  refreshOverlay(wrap, srcfilter, newoption);
+	  return false;
+	  });
 
-  // the links for inserting referencens
-  jq('[id^=atrb_] input.insertreference').live('click', function(event) {
-      var target = jq(this);
-      var wrap = target.parents('.overlaycontent');
-      var fieldname = wrap.find('input[name=fieldName]').attr('value');
-      var multi = wrap.find('input[name=multiValued]').attr('value');
-      var close_window = wrap.find('input[name=close_window]').attr('value');
-      var title = target.parents('tr').find('img').attr('alt');
-      var uid = target.attr('rel');
-      refbrowser_setReference(fieldname, uid, title, parseInt(multi));
-      if (close_window === '1') {
-          overlay = jq('div#content').data('overlay');
-          overlay.close();
-      } else {
-          showMessage(title);
-      };
-      jq(this).attr('disabled', 'disabled');
-      });
+      // the links for inserting referencens
+      jq('[id^=atrb_] input.insertreference', context).live('click', function(event) {
+	  var target = jq(this);
+	  var wrap = target.parents('.overlaycontent');
+	  var fieldname = wrap.find('input[name=fieldName]').attr('value');
+	  var multi = wrap.find('input[name=multiValued]').attr('value');
+	  var close_window = wrap.find('input[name=close_window]').attr('value');
+	  var title = target.parents('tr').find('img').attr('alt');
+	  var uid = target.attr('rel');
+	  refbrowser_setReference(fieldname, uid, title, parseInt(multi));
+	  if (close_window === '1') {
+	      overlay = jq('div#content', this).data('overlay');
+	      overlay.close();
+	  } else {
+	      showMessage(title);
+	  };
+	  jq(this).attr('disabled', 'disabled');
+	  });
 
 
-  // the history menu
-  jq('[id^=atrb_] form#history select[name=path]').live('change', function(event) {
-      var target = jq(this);
-      var wrap = target.parents('.overlaycontent');
-      src = jq('[id^=atrb_] form#history select[name=path] :selected').attr('value');
-      var srcfilter = src + ' >*';
-      refreshOverlay(wrap, srcfilter, '');
-      return false;
-      });
+      // the history menu
+      jq('[id^=atrb_] form#history select[name=path]', context).live('change', function(event) {
+	  var target = jq(this);
+	  var wrap = target.parents('.overlaycontent');
+	  src = jq('[id^=atrb_] form#history select[name=path] :selected', this).attr('value');
+	  var srcfilter = src + ' >*';
+	  refreshOverlay(wrap, srcfilter, '');
+	  return false;
+	  });
 
-  // the search form
-  jq('[id^=atrb_] form#search input[name=submit]').live('click', function(event) {
-      var target = jq(this);
-      var src = target.parents('form').attr('action');
-      var wrap = target.parents('.overlaycontent');
-      var fieldname = wrap.find('input[name=fieldName]').attr('value');
-      var fieldrealname = wrap.find('input[name=fieldRealName]').attr('value');
-      var at_url = wrap.find('input[name=at_url]').attr('value');
-      var searchvalue = wrap.find('input[name=searchValue]').attr('value');
-      var multi = wrap.find('input[name=multiValued]').attr('value');
-      var close_window = wrap.find('input[name=close_window]').attr('value');
-      qs = 'searchValue=' + searchvalue + '&fieldRealName=' + fieldrealname +
-        '&fieldName=' + fieldname + '&multiValued=' + multi +
-        '&close_window' + close_window + '&at_url=' + at_url;
-      var srcfilter = src + '?' + qs + ' >*';
-      pushToHistory(wrap.data('srcfilter'));
-      wrap.data('srcfilter', srcfilter);
-      refreshOverlay(wrap, srcfilter, '');
-      return false;
-      });
+      // the search form
+      jq('[id^=atrb_] form#search input[name=submit]', context).live('click', function(event) {
+	  var target = jq(this);
+	  var src = target.parents('form').attr('action');
+	  var wrap = target.parents('.overlaycontent');
+	  var fieldname = wrap.find('input[name=fieldName]').attr('value');
+	  var fieldrealname = wrap.find('input[name=fieldRealName]').attr('value');
+	  var at_url = wrap.find('input[name=at_url]').attr('value');
+	  var searchvalue = wrap.find('input[name=searchValue]').attr('value');
+	  var multi = wrap.find('input[name=multiValued]').attr('value');
+	  var close_window = wrap.find('input[name=close_window]').attr('value');
+	  qs = 'searchValue=' + searchvalue + '&fieldRealName=' + fieldrealname +
+	    '&fieldName=' + fieldname + '&multiValued=' + multi +
+	    '&close_window' + close_window + '&at_url=' + at_url;
+	  var srcfilter = src + '?' + qs + ' >*';
+	  pushToHistory(wrap.data('srcfilter'));
+	  wrap.data('srcfilter', srcfilter);
+	  refreshOverlay(wrap, srcfilter, '');
+	  return false;
+	  });
 
+    });
+};
+
+jq(document).ready(function(){
+    prepareRefPopup(this);
 });
+jq.fn.prepRefPopup = function() {
+    prepareRefPopup(this);
+};
 
 function disablecurrentrelations (widget_id) {
    jq('ul#' + widget_id + ' :input').each(

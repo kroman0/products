@@ -45,11 +45,16 @@ prepareRefPopup = function(context) {
 	  var target = jq(this);
 	  var wrap = target.parents('.overlaycontent');
 	  var fieldname = wrap.find('input[name=fieldName]').attr('value');
+	  var fieldtitle = wrap.find('input[name=fieldTitleName]').attr('value');
+	  var fieldlink = wrap.find('input[name=fieldLinkName]').attr('value');
 	  var multi = wrap.find('input[name=multiValued]').attr('value');
 	  var close_window = wrap.find('input[name=close_window]').attr('value');
 	  var title = target.parents('tr').find('img').attr('alt');
+	  var linkpath = target.parents('tr').find('img').attr('rel');
+	  var active_tr = wrap.parents('tr[id=datagridwidget-row]');
 	  var uid = target.attr('rel');
-	  refbrowser_setReference(fieldname, uid, title, parseInt(multi));
+	  refbrowser_setReference(fieldname, uid, title, parseInt(multi),
+				  active_tr, fieldtitle, title, fieldlink, linkpath);
 	  if (close_window === '1') {
 	      overlay = jq('div#content', this).data('overlay');
 	      overlay.close();
@@ -76,6 +81,8 @@ prepareRefPopup = function(context) {
 	  var src = target.parents('form').attr('action');
 	  var wrap = target.parents('.overlaycontent');
 	  var fieldname = wrap.find('input[name=fieldName]').attr('value');
+	  var fieldtitle = wrap.find('input[name=fieldTitleName]').attr('value');
+	  var fieldlink = wrap.find('input[name=fieldLinkName]').attr('value');
 	  var fieldrealname = wrap.find('input[name=fieldRealName]').attr('value');
 	  var at_url = wrap.find('input[name=at_url]').attr('value');
 	  var searchvalue = wrap.find('input[name=searchValue]').attr('value');
@@ -83,7 +90,8 @@ prepareRefPopup = function(context) {
 	  var close_window = wrap.find('input[name=close_window]').attr('value');
 	  qs = 'searchValue=' + searchvalue + '&fieldRealName=' + fieldrealname +
 	    '&fieldName=' + fieldname + '&multiValued=' + multi +
-	    '&close_window' + close_window + '&at_url=' + at_url;
+	    '&close_window=' + close_window + '&at_url=' + at_url +
+            '&fieldTitleName=' + fieldtitle + '&fieldLinkName=' + fieldlink;
 	  var srcfilter = src + '?' + qs + ' >*';
 	  pushToHistory(wrap.data('srcfilter'));
 	  wrap.data('srcfilter', srcfilter);
@@ -112,7 +120,9 @@ function disablecurrentrelations (widget_id) {
 }
 
 // function to return a reference from the popup window back into the widget
-function refbrowser_setReference(widget_id, uid, label, multi)
+function refbrowser_setReference(widget_id, uid, label, multi,
+				 active_tr, widget_title_id, link_title,
+				 widget_link_id, link_path)
 {
     var element = null,
         label_element = null,
@@ -124,9 +134,26 @@ function refbrowser_setReference(widget_id, uid, label, multi)
         up_element = null,
         down_element = null,
         container = null;
-    // differentiate between the single and mulitselect widget
-    // since the single widget has an extra label field.
-    if (multi === 0) {
+
+    if (typeof(active_tr) != "undefined") {
+        // process ReferenceDataGridField
+        jq('#' + widget_id, active_tr).value = uid;
+        title = jq('#' + widget_title_id, active_tr);
+        title.value = link_title;
+        title.addClass("not-changed-title-field");
+        title.attr("default_value", link_title);
+        title.blur(triggerTitleClass);
+        title.focus(triggerOnFocusStyles);
+
+        link = jq('#' + widget_link_id, active_tr);
+        link.attr('readonly', false);
+        link.value = link_path;
+        link.attr('readonly', true);
+        link.addClass("hidden-field");
+
+    } else if (multi === 0) {
+        // differentiate between the single and mulitselect widget
+        // since the single widget has an extra label field.
         jq('#' + widget_id).attr('value', uid);
         jq('#' + widget_id + '_label').attr('value', label);
     }  else {

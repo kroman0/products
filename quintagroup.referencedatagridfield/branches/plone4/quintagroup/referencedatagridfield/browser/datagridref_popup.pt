@@ -11,7 +11,6 @@
       tal:define="fieldName view/fieldName;
                   fieldTitleName view/fieldTitleName;
                   fieldLinkName view/fieldLinkName;
-                  order_idx view/order_idx;
                   multiValued view/multiValued;
                   fieldRealName view/fieldRealName;
                   at_obj nocall:view/at_obj;
@@ -89,8 +88,6 @@
 	     tal:attributes="value fieldTitleName" />
       <input type="hidden" name="fieldLinkName"
 	     tal:attributes="value fieldLinkName" />
-      <input type="hidden" name="order_idx"
-	     tal:attributes="value order_idx" />
       <input type="hidden" name="fieldRealName" value=""
              tal:attributes="value fieldRealName" />
       <input type="hidden" name="at_url" value=""
@@ -176,7 +173,9 @@
         </td>
         <td>
           <img src="#"
-               tal:attributes="src string:${here/portal_url}/${item/getIcon};alt title_or_id" />
+               tal:attributes="src string:${here/portal_url}/${item/getIcon};
+			       alt title_or_id;
+			       rel item/getPath;" />
           <a class="browsesite" tal:condition="python: item.is_folderish and allow_browse"
              tal:attributes="
              href python:view.genRefBrowserUrl(item.getURL());

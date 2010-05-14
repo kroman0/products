@@ -19,5 +19,9 @@ class ReferenceDataGridBrowserPopup(ReferenceBrowserPopup):
 
         self.fieldTitleName = request.get('fieldTitleName','')
         self.fieldLinkName = request.get('fieldLinkName','')
-        self.order_idx = request.get('order_idx', -1)
+        self.close_window = '1';
 
+    def genRefBrowserUrl(self, urlbase):
+        url = super(ReferenceDataGridBrowserPopup, self).genRefBrowserUrl(urlbase)
+        url += "&fieldTitleName=%s&fieldLinkName=%s" % (self.fieldTitleName, self.fieldLinkName)
+        return url

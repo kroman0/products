@@ -17,6 +17,22 @@ dataGridFieldFunctions.addReferenceDataGridRow = function(id) {
     jq(active_row).prepRefPopup();
 }
 
+dataGridFieldFunctions.addReferenceDataGridRowAfter = function(currnode) {
+    /*
+        Creates a new row before the clicked row with preparation of
+	reference related overlay.
+    */
+	
+    // add row with datagrid original method
+    this.addRowAfter(currnode);
+    // find active row
+    var tbody = jq(currnode).parents("[id^=datagridwidget-tbody-]");
+    var rows = jq("#datagridwidget-row", tbody);
+    var curr_row = jq(currnode).parents("tr#datagridwidget-row");
+    var active_row = rows[rows.index(curr_row)-1];
+    // add overlay related processors for active row
+    jq(active_row).prepRefPopup();
+}
 
 // Service scripts used in referencebrowser.js
 

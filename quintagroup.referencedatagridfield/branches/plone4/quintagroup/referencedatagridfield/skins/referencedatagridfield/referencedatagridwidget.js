@@ -34,6 +34,33 @@ dataGridFieldFunctions.addReferenceDataGridRowAfter = function(currnode) {
     jq(active_row).prepRefPopup();
 }
 
+dataGridFieldFunctions.OriginalUpdateOrderIndex = dataGridFieldFunctions.updateOrderIndex;
+dataGridFieldFunctions.updateOrderIndex = function (tbody) {
+    var rows, tr, idx, ov, ov_id, under_idx, new_ov_id
+    // update order index with original method
+    this.OriginalUpdateOrderIndex(tbody);
+    // Update overlay related attributes after rows index updating
+    // for all datagridwidget rows
+    rows = jq("#datagridwidget-row", tbody);
+    for (var i=0; i<rows.length; ++i) {
+        // get working row
+        tr = rows[i];
+	// Update overlay related tags attributes
+	order_tag = jq("input[id^=orderindex__]", tr);
+	idx = order_tag.attr("value");
+        // Update rel attribute for overlay box
+	ov = jq("input.addreference", tr);
+	ov_id = ov.attr("rel");
+	under_idx = ov_id.lastIndexOf("_");
+        base_id = (under_idx >= 0)? ov_id.substring(0, under_idx): "#atrb";
+	new_ov_id = base_id + "_" + idx;
+	ov.attr("rel", new_ov_id);
+        // Update target box id - it must be equal to rel attribute
+	jq("div[id^=atrb_]", tr).attr("id", new_ov_id.substring(1) );
+    }
+    
+}
+
 // Service scripts used in referencebrowser.js
 
 function setClassAttr(element, value) {

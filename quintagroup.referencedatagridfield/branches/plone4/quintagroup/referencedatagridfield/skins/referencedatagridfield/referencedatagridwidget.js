@@ -11,13 +11,12 @@ dataGridFieldFunctions.addReferenceDataGridRow = function(id) {
 	
     // Add row with own DataGridField method
     this.addRow(id);
-    // Find adde row - row before last one
-    var tbody = document.getElementById("datagridwidget-tbody-" + id);
-    var rows = this.getRows(tbody);
-    var preLastRow = rows[rows.length-2];
-    // Update row with Reference popup functionality
-    jq(preLastRow).prepRefPopup();
+
+    // Find active row and add overlay related processors for active row
+    var active_row = jq("#datagridwidget-tbody-" + id + " tr#datagridwidget-row:last");
+    jq(active_row).prepRefPopup();
 }
+
 
 // Service scripts used in referencebrowser.js
 

@@ -61,45 +61,22 @@ dataGridFieldFunctions.updateOrderIndex = function (tbody) {
     
 }
 
-// Service scripts used in referencebrowser.js
-
-function setClassAttr(element, value) {
-    if (element.className) {
-        element.className = value
-    } else {
-        element.setAttribute("CLASS", value)
-    } 
-}
-
+// Event handlers, used in referencebrowser.js
 function triggerTitleClass(e) {
-    var currnode = window.event ? window.event.srcElement : e.currentTarget;
-    
-	// fetch required data structure   
-    var element = getThisOrParentElement(currnode, "INPUT");
-    // If no input tag found - leave function
-    if (element == null || element.tagName.toUpperCase() == "BODY")
-	return;
-    
-    var current = element.value;
-    var initial = element.getAttribute("default_value");
+    var element = jq(e.target);
+    var current = element.attr("value");
+    var initial = element.attr("default_value");
     if (initial == null || current == null)
 	return;
 
     if (initial == current) {
-       setClassAttr(element, "not-changed-title-field")
+	element.attr("class", "not-changed-title-field");
     } else {
-       setClassAttr(element, "changed-title-field")
+	element.attr("class", "changed-title-field")
     }
 }
 
 // Trigger styles on focusing on the element
 function triggerOnFocusStyles(e) {
-    var currnode = window.event ? window.event.srcElement : e.currentTarget;
-    
-	// fetch required data structure   
-    var element = getThisOrParentElement(currnode, "INPUT");
-    // If no input tag found - leave function
-    if (element == null || element.tagName.toUpperCase() == "BODY")
-	return;
-    setClassAttr(element, "changed-title-field")
+    jq(e.target).attr("class",  "changed-title-field")
 }

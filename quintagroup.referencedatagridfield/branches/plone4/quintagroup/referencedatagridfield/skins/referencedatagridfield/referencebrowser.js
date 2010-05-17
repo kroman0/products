@@ -56,7 +56,7 @@ function prepareRefPopup(context) {
 	  refbrowser_setReference(fieldname, uid, title, parseInt(multi),
 				  active_tr, fieldtitle, title, fieldlink, linkpath);
 	  if (close_window === '1') {
-	      overlay = jq('div#content', this).data('overlay');
+	      overlay = jq('div#content').data('overlay');
 	      overlay.close();
 	  } else {
 	      showMessage(title);

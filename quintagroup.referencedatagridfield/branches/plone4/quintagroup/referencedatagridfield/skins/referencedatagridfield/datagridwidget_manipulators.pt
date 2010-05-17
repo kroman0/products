@@ -58,7 +58,7 @@
 	                  	src string:${portal_url}/add_row_icon.gif;
 	                  	"
 	                  alt="Add row"  
-	                  onclick="dataGridFieldFunctions.addRowAfter(this); return false"/>
+	                  onclick="dataGridFieldFunctions.addReferenceDataGridRowAfter(this); return false"/>
 	         </td>          	
 
           	<tal:comment replace="nothing">

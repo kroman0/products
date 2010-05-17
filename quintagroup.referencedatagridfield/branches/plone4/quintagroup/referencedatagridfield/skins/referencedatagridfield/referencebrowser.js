@@ -1,11 +1,11 @@
-prepareRefPopup = function(context) {
+function prepareRefPopup(context) {
     jq(function() {
 
       // the overlay itself
       jq('.addreference', context).overlay({
 	   closeOnClick: false,
 	   onBeforeLoad: function() {
-               ov = jq('div#content', this).data('overlay');
+               ov = jq('div#content').data('overlay');
 	       // close overlay, if there is one already
 	       // we only allow one referencebrowser per time
 	       if (ov) {ov.close(); }
@@ -13,11 +13,11 @@ prepareRefPopup = function(context) {
 	       var src = this.getTrigger().attr('src');
 	       var srcfilter = src + ' >*';
 	       wrap.data('srcfilter', srcfilter);
-	       jq('div#content', this).data('overlay', this);
+	       jq('div#content').data('overlay', this);
 	       resetHistory();
 	       wrap.load(srcfilter);
 	       },
-	   onLoad: function() {
+           onLoad: function() {
 	       widget_id = this.getTrigger().attr('rel').substring(6);
 	       disablecurrentrelations(widget_id);
 	   }});

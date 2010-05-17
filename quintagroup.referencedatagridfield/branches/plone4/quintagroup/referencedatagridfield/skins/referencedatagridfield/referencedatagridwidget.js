@@ -62,6 +62,7 @@ dataGridFieldFunctions.updateOrderIndex = function (tbody) {
 }
 
 // Event handlers, used in referencebrowser.js
+
 function triggerTitleClass(e) {
     var element = jq(e.target);
     var current = element.attr("value");
@@ -76,7 +77,6 @@ function triggerTitleClass(e) {
     }
 }
 
-// Trigger styles on focusing on the element
 function triggerOnFocusStyles(e) {
     jq(e.target).attr("class",  "changed-title-field")
 }

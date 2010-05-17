@@ -69,7 +69,7 @@
                 	</tal:comment>
                     
 	                <tal:empty-row tal:define="newRow python: True">
-	                	<tal:template metal:use-macro="here/datagridwidget_edit_row/macros/edit_empty_row"/>	                
+	                	<tal:template metal:use-macro="here/datagridwidget_edit_row/macros/edit_empty_row"/>
 	                </tal:empty-row>	                	
                  </tbody>
             </table>

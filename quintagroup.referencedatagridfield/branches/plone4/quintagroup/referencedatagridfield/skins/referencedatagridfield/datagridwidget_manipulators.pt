@@ -8,7 +8,7 @@
 
     <metal:define define-macro="edit_manipulators"
         tal:define="helper nocall:here/refbrowserhelper;
-                    overlay_id string:atrb_${fieldName}">
+                    overlay_id string:atrb_${fieldId}">
     
      	 <tal:manipulator-cells>
      	 	

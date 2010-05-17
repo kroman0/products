@@ -136,18 +136,19 @@ function refbrowser_setReference(widget_id, uid, label, multi,
         container = null;
 
     if (typeof(active_tr) != "undefined") {
-        // process ReferenceDataGridField
-        jq('#' + widget_id, active_tr).value = uid;
+        // Update Uid field
+        jq('#' + widget_id, active_tr).attr("value", uid);
+        // Update title field
         title = jq('#' + widget_title_id, active_tr);
-        title.value = link_title;
+        title.attr("value", link_title);
         title.addClass("not-changed-title-field");
         title.attr("default_value", link_title);
         title.blur(triggerTitleClass);
         title.focus(triggerOnFocusStyles);
-
+        // Update link field
         link = jq('#' + widget_link_id, active_tr);
         link.attr('readonly', false);
-        link.value = link_path;
+        link.attr('value', link_path);
         link.attr('readonly', true);
         link.addClass("hidden-field");
 

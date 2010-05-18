@@ -41,13 +41,18 @@ class MixIn(object):
 
     def createDemo(self):
         # Create tested content
-        if 'demo' not in self.portal.objectIds():
-            self.loginAsPortalOwner()
+        self.loginAsPortalOwner()
+        if not 'demo' in self.portal.objectIds():
             makeContent(self.portal, portal_type='ReferenceDataGridDemoType', id='demo')
             self.demo = self.portal.demo
             self.demo.setTitle('Reference DataGrid Field Demo')
             self.demo.reindexObject()
-            self.logout()
+        if not 'doc' in self.portal.objectIds():
+            makeContent(self.portal, portal_type='Document', id='doc')
+            self.doc = self.portal.doc
+            self.doc.setTitle('Test Document')
+            self.doc.reindexObject()
+        self.logout()
 
     # def createDefaultStructure(self):
     #     if 'layer1' not in self.portal.objectIds():

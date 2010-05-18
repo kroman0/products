@@ -32,12 +32,22 @@ class MixIn(object):
             fiveconfigure.debug_mode = True
             zcml.load_config('configure.zcml',
                              quintagroup.referencedatagridfield)
-            ztc.installPackage(quintagroup.referencedatagridfield)
+            ztc.installPackage('quintagroup.referencedatagridfield')
             fiveconfigure.debug_mode = False
 
         @classmethod
         def tearDown(cls):
             pass
+
+    def createDemo(self):
+        # Create tested content
+        if 'demo' not in self.portal.objectIds():
+            self.loginAsPortalOwner()
+            makeContent(self.portal, portal_type='ReferenceDataGridDemoType', id='demo')
+            self.demo = self.portal.demo
+            self.demo.setTitle('Reference DataGrid Field Demo')
+            self.demo.reindexObject()
+            self.logout()
 
     # def createDefaultStructure(self):
     #     if 'layer1' not in self.portal.objectIds():

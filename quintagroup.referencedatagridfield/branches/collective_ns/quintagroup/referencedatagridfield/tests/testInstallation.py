@@ -1,5 +1,5 @@
 import unittest
-from quintagroup.referencedatagridfield.tests.base import TestCase
+from collective.referencedatagridfield.tests.base import TestCase
 
 
 class TestInstallation(TestCase):

@@ -18,9 +18,9 @@ from Products.DataGridField.Column import Column
 from Products.DataGridField.DataGridField import DataGridField
 from Products.DataGridField.DataGridWidget import DataGridWidget
 
-from quintagroup.referencedatagridfield.columns import BlockColumn
-from quintagroup.referencedatagridfield.columns import HiddenColumn
-from quintagroup.referencedatagridfield.columns import StyledColumn
+from collective.referencedatagridfield.columns import BlockColumn
+from collective.referencedatagridfield.columns import HiddenColumn
+from collective.referencedatagridfield.columns import StyledColumn
 
 # Logger object
 #logger = logging.getLogger('ReferenceDataGridField')
@@ -177,7 +177,7 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
 registerWidget(
     ReferenceDataGridWidget,
     title='DataGrid Reference',
-    used_for=('quintagroup.referencedatagridfield.ReferenceDataGridField',)
+    used_for=('collective.referencedatagridfield.ReferenceDataGridField',)
     )
 
 registerField(

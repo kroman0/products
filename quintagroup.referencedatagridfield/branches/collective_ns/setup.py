@@ -3,7 +3,7 @@ import os
 
 version = '0.2'
 
-setup(name='quintagroup.referencedatagridfield',
+setup(name='collective.referencedatagridfield',
       version=version,
       description="Mix of Reference and DataGrid fields",
       long_description=open("README.txt").read() + "\n" +
@@ -14,13 +14,13 @@ setup(name='quintagroup.referencedatagridfield',
         "Framework :: Plone",
         "Programming Language :: Python",
         ],
-      keywords='ReferenceField DataGridField Archetypes',
-      author='Quintagroup',
+      keywords='archetypes referencebrowser datagrid field widget relation',
+      author='Quintagroup [Andriy Mylenkyi]',
       author_email='talk@quintagroup.com',
-      url='http://svn.quintagroup.com/products/quintagroup.referencedatagridfield',
+      url='http://svn.plone.org/svn/collective/collective.referencedatagridfield',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
-      namespace_packages=['quintagroup'],
+      namespace_packages=['collective'],
       include_package_data=True,
       zip_safe=False,
       install_requires=[

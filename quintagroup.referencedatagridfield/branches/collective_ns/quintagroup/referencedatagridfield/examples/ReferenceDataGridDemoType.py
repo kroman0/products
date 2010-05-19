@@ -4,9 +4,9 @@ from Products.Archetypes.public import *
 from Products.ATContentTypes.content.base import ATCTContent
 
 
-from quintagroup.referencedatagridfield import PKG_NAME
-from quintagroup.referencedatagridfield import ReferenceDataGridField
-from quintagroup.referencedatagridfield import ReferenceDataGridWidget
+from collective.referencedatagridfield import PKG_NAME
+from collective.referencedatagridfield import ReferenceDataGridField
+from collective.referencedatagridfield import ReferenceDataGridWidget
 
 class ReferenceDataGridDemoType(ATCTContent):
     """ Simple ReferenceDataGridField demo."""

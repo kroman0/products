@@ -6,7 +6,7 @@
   <property name="description">ReferenceDataGrid Demo Type</property>
   <property name="content_meta_type">ReferenceDataGridDemoType</property>
   <property name="content_icon">document_icon.gif</property>
-  <property name="product">quintagroup.referencedatagridfield</property>
+  <property name="product">collective.referencedatagridfield</property>
   <property name="factory">addReferenceDataGridDemoType</property>
   <property name="immediate_view">atct_edit</property>
   <property name="global_allow">True</property>

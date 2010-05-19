@@ -10,9 +10,9 @@ from Products.Five import BrowserView
 from Products.PloneTestCase.PloneTestCase import portal_owner
 from Products.PloneTestCase.PloneTestCase import default_password
 
-from quintagroup.referencedatagridfield import ReferenceDataGridWidget
-from quintagroup.referencedatagridfield.tests.base import TestCase
-from quintagroup.referencedatagridfield.tests.base import FunctionalTestCase
+from collective.referencedatagridfield import ReferenceDataGridWidget
+from collective.referencedatagridfield.tests.base import TestCase
+from collective.referencedatagridfield.tests.base import FunctionalTestCase
 
 
 class TestPopupRegistrations(TestCase):

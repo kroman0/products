@@ -2,9 +2,9 @@ import unittest
 from types import ListType, TupleType, DictionaryType
 from Products.Archetypes.tests.utils import makeContent
 
-from quintagroup.referencedatagridfield.tests.base import TestCase
+from collective.referencedatagridfield.tests.base import TestCase
 
-from quintagroup.referencedatagridfield import ReferenceDataGridWidget
+from collective.referencedatagridfield import ReferenceDataGridWidget
 
 
 class TestField(TestCase):

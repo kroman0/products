@@ -93,8 +93,7 @@ class TestWidgetEditPresence(FunctionalTestCase):
         # Prepare test data
         self.createDemo()
         demo = self.portal.demo
-        data = [{"link": "http://google.com"}]
-        demo.edit(demo_rdgf=data)
+        demo.edit(demo_rdgf=[{"link": "http://google.com"}])
         # Prepare html for test edit form
         edit_path = "/" + demo.absolute_url(1) + "/edit"
         basic_auth = ':'.join((portal_owner,default_password))

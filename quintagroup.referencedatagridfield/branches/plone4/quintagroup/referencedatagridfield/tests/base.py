@@ -41,23 +41,31 @@ class MixIn(object):
         def tearDown(cls):
             pass
 
-    def createDemo(self):
+    def createDemo(self, wfaction=None):
         # Create tested content
         sm = getSecurityManager()
         self.loginAsPortalOwner()
+        content = {
+            "demo": {"type":'ReferenceDataGridDemoType', "title": 'RDGF Demo'},
+            "doc": {"type":'Document', "title": 'Test Document'},
+            "doc2": {"type":'Document', "title": 'Test Document 2'},
+            }
         try:
-            if not 'demo' in self.portal.objectIds():
-                makeContent(self.portal, portal_type='ReferenceDataGridDemoType', id='demo')
-                self.demo = self.portal.demo
-                self.demo.setTitle('Reference DataGrid Field Demo')
-                self.demo.reindexObject()
-            if not 'doc' in self.portal.objectIds():
-                makeContent(self.portal, portal_type='Document', id='doc')
-                self.doc = self.portal.doc
-                self.doc.setTitle('Test Document')
-                self.doc.reindexObject()
+            wf = self.portal.portal_workflow
+            for cid, data in content.items():
+                makeContent(self.portal, portal_type=data['type'], id=cid)
+                obj = getattr(self.portal, cid)
+                obj.setTitle(data['title'])
+                obj.reindexObject()
+                if wfaction:
+                    wf.doActionFor(obj, wfaction)
+                setattr(self, cid, obj)
         finally:
             setSecurityManager(sm)
 
 class TestCase(MixIn, ptc.PloneTestCase):
     """ Base TestCase for quintagroup.referencedatagridfield """
+
+class FunctionalTestCase(MixIn, ptc.FunctionalTestCase):
+    """ Base TestCase for quintagroup.referencedatagridfield """
+

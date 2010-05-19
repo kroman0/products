@@ -5,6 +5,8 @@ import unittest
 from Products.Five import zcml
 from Products.Five import fiveconfigure
 from Testing import ZopeTestCase as ztc
+from AccessControl import getSecurityManager
+from AccessControl.SecurityManagement import setSecurityManager
 
 from Products.Archetypes.tests.utils import makeContent
 
@@ -41,36 +43,21 @@ class MixIn(object):
 
     def createDemo(self):
         # Create tested content
+        sm = getSecurityManager()
         self.loginAsPortalOwner()
-        if not 'demo' in self.portal.objectIds():
-            makeContent(self.portal, portal_type='ReferenceDataGridDemoType', id='demo')
-            self.demo = self.portal.demo
-            self.demo.setTitle('Reference DataGrid Field Demo')
-            self.demo.reindexObject()
-        if not 'doc' in self.portal.objectIds():
-            makeContent(self.portal, portal_type='Document', id='doc')
-            self.doc = self.portal.doc
-            self.doc.setTitle('Test Document')
-            self.doc.reindexObject()
-        self.logout()
-
-    # def createDefaultStructure(self):
-    #     if 'layer1' not in self.portal.objectIds():
-    #         self.setRoles(['Manager'])
-    #         makeContent(self.portal, portal_type='Folder', id='layer1')
-    #         self.portal.layer1.setTitle('Layer1')
-    #         self.portal.layer1.reindexObject()
-    #         makeContent(self.portal.layer1, portal_type='Folder', id='layer2')
-    #         self.folder = self.portal.layer1.layer2
-    #         self.folder.setTitle('Layer2')
-    #         self.folder.reindexObject()
-    #         self.setRoles(['Member'])
-    #     return self.portal.layer1.layer2
-
-    # def removeDefaultStructure(self):
-    #     if 'layer1' in self.portal.objectIds():
-    #         self.portal._delObject('layer1')
-
+        try:
+            if not 'demo' in self.portal.objectIds():
+                makeContent(self.portal, portal_type='ReferenceDataGridDemoType', id='demo')
+                self.demo = self.portal.demo
+                self.demo.setTitle('Reference DataGrid Field Demo')
+                self.demo.reindexObject()
+            if not 'doc' in self.portal.objectIds():
+                makeContent(self.portal, portal_type='Document', id='doc')
+                self.doc = self.portal.doc
+                self.doc.setTitle('Test Document')
+                self.doc.reindexObject()
+        finally:
+            setSecurityManager(sm)
 
 class TestCase(MixIn, ptc.PloneTestCase):
     """ Base TestCase for quintagroup.referencedatagridfield """

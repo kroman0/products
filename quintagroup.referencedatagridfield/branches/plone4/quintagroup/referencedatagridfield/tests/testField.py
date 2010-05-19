@@ -1,7 +1,9 @@
 import unittest
 from types import ListType, TupleType, DictionaryType
+from Products.Archetypes.tests.utils import makeContent
 
 from quintagroup.referencedatagridfield.tests.base import TestCase
+
 from quintagroup.referencedatagridfield import ReferenceDataGridWidget
 
 
@@ -112,9 +114,40 @@ class TestField(TestCase):
         self.field.set(self.demo, data)
         self.assertEqual(self.getData("link"), "http://google.com")
        
-        
+
+class TestFieldBugs(TestCase):
+    """ ReferenceDataGridField unit tests for bugs """
+
+    def afterSetUp(self):
+        self.loginAsPortalOwner()
+        # minimal demo content creation
+        self.demo = makeContent(self.portal, portal_type="ReferenceDataGridDemoType", id="demo")
+        self.field = self.demo.getField('demo_rdgf')
+
+    def testGetNotInitializedField(self):
+        self.field.getStorage().unset('demo_rdgf', self.demo)
+        try:
+            data = self.field.get(self.demo)
+        except KeyError, e:
+            self.fail(str(e) + " on getting data from not initialized field")
+
+    def testDelLinkedObject(self):
+        doc = makeContent(self.portal, portal_type="Document", id="doc")
+        data = {"uid": doc.UID(), "link": doc.absolute_url(1)}
+        self.field.set(self.demo, data)
+
+        res = self.field.get(self.demo)
+        self.assertEqual(res[0]["uid"], doc.UID())
+
+        self.portal.manage_delObjects(ids=["doc",])
+        try:
+            res = self.field.get(self.demo)
+        except AttributeError, e:
+            self.fail(str(e) + " on getting data when linked object was delited")
+        self.assertEqual(len(res), 0, "Not removed data with link to deleted object")
 
 def test_suite():
     return unittest.TestSuite([
         unittest.makeSuite(TestField),
+        unittest.makeSuite(TestFieldBugs),
         ])

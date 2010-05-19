@@ -6,11 +6,13 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="quintagroup.referencedatagridfield">
 
-  <!-- add required packages -->
-  <include package="Products.ATReferenceBrowserWidget" />
+  <!-- include requirement packages -->
+  <include package="archetypes.referencebrowserwidget" />
   <include package="Products.DataGridField" />
 
   <five:registerPackage package="." initialize=".initialize" />
+
+  <include package=".browser" />
 
   <cmf:registerDirectory name="skins" directory="skins" recursive="True" />
 

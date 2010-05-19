@@ -4,6 +4,7 @@ import unittest
 from Products.PloneTestCase.PloneTestCase import portal_owner
 from Products.PloneTestCase.PloneTestCase import default_password
 
+from quintagroup.referencedatagridfield.tests.base import TestCase
 from quintagroup.referencedatagridfield.tests.base import FunctionalTestCase
 from quintagroup.referencedatagridfield import ReferenceDataGridWidget
 
@@ -92,10 +93,9 @@ class TestWidgetEditPresence(FunctionalTestCase):
         self.loginAsPortalOwner()
         # Prepare test data
         self.createDemo()
-        demo = self.portal.demo
-        demo.edit(demo_rdgf=[{"link": "http://google.com"}])
+        self.demo.edit(demo_rdgf=[{"link": "http://google.com"}])
         # Prepare html for test edit form
-        edit_path = "/" + demo.absolute_url(1) + "/edit"
+        edit_path = "/%s/edit" % self.demo.absolute_url(1)
         basic_auth = ':'.join((portal_owner,default_password))
         self.html = self.publish(edit_path, basic_auth).getBody()
 
@@ -117,8 +117,27 @@ class TestWidgetEditPresence(FunctionalTestCase):
         self.assertEqual('value="Add..."' in buttons[0], True)
 
 
+class TestWidgetResources(TestCase):
+    """Tests of widget resources."""
+
+    def afterSetUp(self):
+        self.widget_props = ReferenceDataGridWidget._properties
+        self.rdgw_skin_ids = self.portal.portal_skins.referencedatagridfield.objectIds()
+
+    def test_helperJS(self):
+        helper_js = self.widget_props.get("helper_js", "")
+        self.assertEqual("referencedatagridwidget.js" in helper_js, True)
+        self.assertEqual("referencedatagridwidget.js" in self.rdgw_skin_ids, True)
+
+    def test_helperCSS(self):
+        helper_css = self.widget_props.get("helper_css", "")
+        self.assertEqual("referencedatagridwidget.css" in helper_css, True)
+        self.assertEqual("referencedatagridwidget.css" in self.rdgw_skin_ids, True)
+
+
 def test_suite():
     return unittest.TestSuite([
         unittest.makeSuite(TestWidgetView),
+        unittest.makeSuite(TestWidgetResources),
         unittest.makeSuite(TestWidgetEditPresence),
         ])

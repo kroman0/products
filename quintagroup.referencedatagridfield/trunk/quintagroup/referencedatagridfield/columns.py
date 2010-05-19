@@ -1,7 +1,7 @@
 from plone.memoize.view import memoize
 
 from AccessControl import ClassSecurityInfo
-from Globals import InitializeClass
+from App.class_init import InitializeClass
 from Products.DataGridField.Column import Column
 
 class HiddenColumn(Column):

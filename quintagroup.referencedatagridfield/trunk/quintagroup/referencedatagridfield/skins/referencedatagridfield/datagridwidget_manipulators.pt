@@ -6,7 +6,9 @@
 
 <body>
 
-    <metal:define define-macro="edit_manipulators">   
+    <metal:define define-macro="edit_manipulators"
+        tal:define="helper nocall:here/refbrowserhelper;
+                    overlay_id string:atrb_${fieldId}">
     
      	 <tal:manipulator-cells>
      	 	
@@ -20,23 +22,30 @@
           	</tal:comment>
 
 		<td class="datagridwidget-manipulator"
-		    tal:define="multiVal      python:0;
-				fieldRealName field/getName;
-				">
-		    <div style="clear: both"
-			 tal:define="startup_directory python:here.referencebrowser_startupDirectory(widget.getStartupDirectory(here));
-				     global at_url at_url|python:'/'.join(here.getPhysicalPath());
-				     field_id string:uid_${fieldId};
-				     field_link_id string:link_${fieldId};
-				     field_title_id string:title_${fieldId};
-				     ">
-			<input type="button"
-			       class="searchButton"
-			       value="Select"
-			       onClick=""
-			       i18n:attributes="value label_select;"
-			       tal:attributes="onClick string:javascript:referencebrowser_openBrowser('${startup_directory}','${field_id}', '${at_url}', '${fieldRealName}', '${field_title_id}', '${field_link_id}', this)" />
-                    </div>
+		    tal:define="multiValued python:0;">
+
+		  <div style="clear: both"
+		      tal:define="
+			  global at_url at_url|python:'/'.join(here.getPhysicalPath());
+			  startup_directory python:helper.getStartupDirectory(field);
+			  field_id string:uid_${fieldId};
+			  field_link_id string:link_${fieldId};
+			  field_title_id string:title_${fieldId};
+			  ">
+		    <input type="button" class="searchButton addreference" value="Add..."
+			   i18n:attributes="value label_add;"
+			   tal:define="popup_width widget/popup_width|string:500;
+				       popup_height widget/popup_height|string:550;"
+			   tal:attributes="src string:${startup_directory}/refdatagridbrowser_popup?fieldName=${field_id}&fieldRealName=${field/getName}&at_url=${at_url}&fieldTitleName=${field_title_id}&fieldLinkName=${field_link_id};
+				       rel string:#${overlay_id}" />
+		       </div><div id="atrb" tal:attributes="id overlay_id" class="overlay overlay-ajax">
+		       <div class="pb-ajax">
+			 <!-- <a href="" i18n:translate="referencebrowser_back" class="refbrowser_back">Back</a> -->
+			 <div class="overlaycontent" style="font-size: 125%"></div>
+			 <!-- <a href="" i18n:translate="referencebrowser_back" class="refbrowser_back">Back</a> -->
+		       </div>
+		       </div>
+
 		</td>
 
           	<tal:comment replace="nothing">
@@ -49,7 +58,7 @@
 	                  	src string:${portal_url}/add_row_icon.gif;
 	                  	"
 	                  alt="Add row"  
-	                  onclick="dataGridFieldFunctions.addRowAfter(this); return false"/>
+	                  onclick="dataGridFieldFunctions.addReferenceDataGridRowAfter(this); return false"/>
 	         </td>          	
 
           	<tal:comment replace="nothing">

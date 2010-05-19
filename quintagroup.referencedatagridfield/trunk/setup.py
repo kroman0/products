@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.1'
+version = '0.2'
 
 setup(name='quintagroup.referencedatagridfield',
       version=version,
@@ -15,7 +15,7 @@ setup(name='quintagroup.referencedatagridfield',
         "Programming Language :: Python",
         ],
       keywords='ReferenceField DataGridField Archetypes',
-      author='Quintagroup',
+      author='Quintagroup [Andriy Mylenkyi]',
       author_email='talk@quintagroup.com',
       url='http://svn.quintagroup.com/products/quintagroup.referencedatagridfield',
       license='GPL',
@@ -25,8 +25,9 @@ setup(name='quintagroup.referencedatagridfield',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'Products.DataGridField==1.6.1',
-          # 'Products.ATReferenceBrowserWidget==2.0.5',
+          'Products.DataGridField>=1.8a1',
+          'archetypes.referencebrowserwidget>=2.0a',
+          # 'Products.ATReferenceBrowserWidget>=3.0a',
           # -*- Extra requirements: -*-
       ],
       entry_points="""

@@ -4,9 +4,9 @@ import unittest
 from Products.PloneTestCase.PloneTestCase import portal_owner
 from Products.PloneTestCase.PloneTestCase import default_password
 
-from quintagroup.referencedatagridfield.tests.base import TestCase
-from quintagroup.referencedatagridfield.tests.base import FunctionalTestCase
-from quintagroup.referencedatagridfield import ReferenceDataGridWidget
+from collective.referencedatagridfield.tests.base import TestCase
+from collective.referencedatagridfield.tests.base import FunctionalTestCase
+from collective.referencedatagridfield import ReferenceDataGridWidget
 
 
 class TestWidgetView(FunctionalTestCase):

@@ -16,15 +16,15 @@ from Products.PloneTestCase.layer import PloneSite
 
 # install site
 ptc.setupPloneSite(extension_profiles=[
-        'quintagroup.referencedatagridfield:default',
-        'quintagroup.referencedatagridfield:examples'
+        'collective.referencedatagridfield:default',
+        'collective.referencedatagridfield:examples'
         ])
 
-import quintagroup.referencedatagridfield
+import collective.referencedatagridfield
 
 class MixIn(object):
     """ Mixin for setting up the necessary bits for testing the
-        quintagroup.referencedatagridfield
+        collective.referencedatagridfield
     """
 
     class layer(PloneSite):
@@ -33,8 +33,8 @@ class MixIn(object):
         def setUp(cls):
             fiveconfigure.debug_mode = True
             zcml.load_config('configure.zcml',
-                             quintagroup.referencedatagridfield)
-            ztc.installPackage('quintagroup.referencedatagridfield')
+                             collective.referencedatagridfield)
+            ztc.installPackage('collective.referencedatagridfield')
             fiveconfigure.debug_mode = False
 
         @classmethod
@@ -64,8 +64,8 @@ class MixIn(object):
             setSecurityManager(sm)
 
 class TestCase(MixIn, ptc.PloneTestCase):
-    """ Base TestCase for quintagroup.referencedatagridfield """
+    """ Base TestCase for collective.referencedatagridfield """
 
 class FunctionalTestCase(MixIn, ptc.FunctionalTestCase):
-    """ Base TestCase for quintagroup.referencedatagridfield """
+    """ Base TestCase for collective.referencedatagridfield """
 

@@ -6,6 +6,7 @@ from Products.Five import zcml
 from Products.Five import fiveconfigure
 from Testing import ZopeTestCase as ztc
 from AccessControl import getSecurityManager
+from AccessControl.SecurityManagement import getSecurityManager
 from AccessControl.SecurityManagement import setSecurityManager
 
 from Products.Archetypes.tests.utils import makeContent

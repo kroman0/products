@@ -16,26 +16,26 @@ class TestWidgetView(FunctionalTestCase):
         # Prevent section links
         sp = self.portal.portal_properties.site_properties
         sp._updateProperty("disable_nonfolderish_sections", True)
-
+        # Prepare testing data and data for functional test
         self.createDemo(wfaction="publish")
         self.demo_path = "/" + self.demo.absolute_url(1)
         self.basic_auth = ':'.join((portal_owner,default_password))
-        # get html view of test document
+        # Regexp for getting links
         self.relink = re.compile("<a\s+[^>]*?href=\"(.*?)\"[^>]*?>\s*(.*?)\s*</a>",
                                  re.I|re.S|re.M)
 
     def test_LinkDefaultTitle(self):
         self.demo.edit(demo_rdgf=[{"link": "http://google.com"}])
-        self.html = self.publish(self.demo_path, self.basic_auth).getBody()
-        links = dict(self.relink.findall(self.html))
+        html = self.publish(self.demo_path, self.basic_auth).getBody()
+        links = dict(self.relink.findall(html))
         
         self.assertEqual(links.has_key("http://google.com"), True)
         self.assertEqual("http://google.com" in links["http://google.com"], True)
  
     def test_LinkCustomTitle(self):
         self.demo.edit(demo_rdgf=[{"link": "http://google.com", "title": "Google"}])
-        self.html = self.publish(self.demo_path, self.basic_auth).getBody()
-        links = dict(self.relink.findall(self.html))
+        html = self.publish(self.demo_path, self.basic_auth).getBody()
+        links = dict(self.relink.findall(html))
         
         self.assertEqual(links.has_key("http://google.com"), True)
         self.assertEqual("Google" in links["http://google.com"], True)
@@ -43,8 +43,8 @@ class TestWidgetView(FunctionalTestCase):
     def test_UIDDefaultTitle(self):
         data = [{"uid": self.doc.UID(), "link": self.doc.absolute_url(1)}]
         self.demo.edit(demo_rdgf=data)
-        self.html = self.publish(self.demo_path, self.basic_auth).getBody()
-        links = dict(self.relink.findall(self.html))
+        html = self.publish(self.demo_path, self.basic_auth).getBody()
+        links = dict(self.relink.findall(html))
 
         doc_url = self.doc.absolute_url()
         doc_title = self.doc.Title()
@@ -55,8 +55,8 @@ class TestWidgetView(FunctionalTestCase):
         data = [{"uid": self.doc.UID(), "link": self.doc.absolute_url(1),
                  "title": "Custom Title"},]
         self.demo.edit(demo_rdgf=data)
-        self.html = self.publish(self.demo_path, self.basic_auth).getBody()
-        links = dict(self.relink.findall(self.html))
+        html = self.publish(self.demo_path, self.basic_auth).getBody()
+        links = dict(self.relink.findall(html))
 
         doc_url = self.doc.absolute_url()
         self.assertEqual(links.has_key(doc_url), True)
@@ -68,16 +68,16 @@ class TestWidgetView(FunctionalTestCase):
                 {"uid": self.doc.UID(), "link": self.doc.absolute_url(1)}]
         # First check in one order
         self.demo.edit(demo_rdgf=data)
-        self.html = self.publish(self.demo_path, self.basic_auth).getBody()
-        links = relink.findall(self.html)
+        html = self.publish(self.demo_path, self.basic_auth).getBody()
+        links = relink.findall(html)
         idx1 = links.index("http://google.com")
         idx2 = links.index(self.doc.absolute_url())
         self.assertEqual( idx1 < idx2, True)
         # Now reverse rows order
         data.reverse()
         self.demo.edit(demo_rdgf=data)
-        self.html = self.publish(self.demo_path, self.basic_auth).getBody()
-        links = relink.findall(self.html)
+        html = self.publish(self.demo_path, self.basic_auth).getBody()
+        links = relink.findall(html)
         idx1 = links.index("http://google.com")
         idx2 = links.index(self.doc.absolute_url())
         self.assertEqual( idx1 > idx2, True)
@@ -86,4 +86,5 @@ class TestWidgetView(FunctionalTestCase):
 def test_suite():
     return unittest.TestSuite([
         unittest.makeSuite(TestWidgetView),
+        #unittest.makeSuite(TestWidgetEdit),
         ])

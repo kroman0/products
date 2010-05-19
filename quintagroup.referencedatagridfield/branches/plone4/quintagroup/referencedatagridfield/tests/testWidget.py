@@ -83,8 +83,43 @@ class TestWidgetView(FunctionalTestCase):
         self.assertEqual( idx1 > idx2, True)
         
 
+class TestWidgetEditPresence(FunctionalTestCase):
+    """ Test presence of columns and button
+        in edit mode of ReferenceDataGridWidget.
+    """
+
+    def afterSetUp(self):
+        self.loginAsPortalOwner()
+        # Prepare test data
+        self.createDemo()
+        demo = self.portal.demo
+        data = [{"link": "http://google.com"}]
+        demo.edit(demo_rdgf=data)
+        # Prepare html for test edit form
+        edit_path = "/" + demo.absolute_url(1) + "/edit"
+        basic_auth = ':'.join((portal_owner,default_password))
+        self.html = self.publish(edit_path, basic_auth).getBody()
+
+    def test_columnsPresence(self):
+        # Get ReferenceDataGridField field inputs without hidden template row for add new data
+        reinput = re.compile("<input\s+([^>]*?name=\"demo_rdgf\.(.*?):records\"[^>]*?)>", re.I|re.S)
+        inputs = dict([(v,k) for k,v in reinput.findall(self.html) if not "demo_rdgf_new" in k])
+        # Title and Link columns is visible
+        self.assertEqual('type="text"' in inputs["title"], True)
+        self.assertEqual('type="text"' in inputs["link"], True)
+        # UID column is hidden
+        self.assertEqual('type="hidden"' in inputs["uid"], True)
+
+    def test_addButtonPresence(self):
+        # Button for adding reference also must present
+        rebutt = re.compile("<input\s+[^>]*type=\"button\"\s*[^>]*>", re.I|re.S)
+        buttons = filter(lambda k:not "_new" in k, rebutt.findall(self.html))
+        # Add... button must present
+        self.assertEqual('value="Add..."' in buttons[0], True)
+
+
 def test_suite():
     return unittest.TestSuite([
         unittest.makeSuite(TestWidgetView),
-        #unittest.makeSuite(TestWidgetEdit),
+        unittest.makeSuite(TestWidgetEditPresence),
         ])

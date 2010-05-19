@@ -167,6 +167,9 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
                 # If title not set - get it from the brain
                 if not data["title"]:
                     data["title"] = data["default_title"]
+            # Remove records with links to unexistent objects
+            del_uids = set(uids.keys()) - set([b.UID for b in brains])
+            result = filter(lambda r: not r["uid"] in del_uids, result)
 
         return result
 

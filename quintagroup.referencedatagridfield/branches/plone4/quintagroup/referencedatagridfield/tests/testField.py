@@ -5,12 +5,12 @@ from quintagroup.referencedatagridfield.tests.base import TestCase
 from quintagroup.referencedatagridfield import ReferenceDataGridWidget
 
 
-class TestReferenceDataGridField(TestCase):
+class TestField(TestCase):
     """ ReferenceDataGridField unit tests """
 
     def afterSetUp(self):
-        self.createDemo()
         self.loginAsPortalOwner()
+        self.createDemo()
         self.refcat = self.portal.reference_catalog
         self.field = self.demo.getField('demo_rdgf')
 
@@ -116,5 +116,5 @@ class TestReferenceDataGridField(TestCase):
 
 def test_suite():
     return unittest.TestSuite([
-        unittest.makeSuite(TestReferenceDataGridField),
+        unittest.makeSuite(TestField),
         ])

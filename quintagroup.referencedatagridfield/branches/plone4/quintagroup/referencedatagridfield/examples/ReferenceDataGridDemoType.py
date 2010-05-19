@@ -13,7 +13,7 @@ class ReferenceDataGridDemoType(ATCTContent):
     security = ClassSecurityInfo()
     schema = BaseSchema + Schema((
 
-        ReferenceDataGridField('DemoReferenceDataGridField',
+        ReferenceDataGridField('demo_rdgf',
             schemata='default',
             relationship="demo_relation",
             widget = ReferenceDataGridWidget(

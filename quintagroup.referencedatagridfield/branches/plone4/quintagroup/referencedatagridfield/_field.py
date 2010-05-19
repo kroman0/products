@@ -138,24 +138,24 @@ class ReferenceDataGridField(DataGridField, ReferenceField):
         uids = {}
         rows = DataGridField.get(self, instance, **kwargs)
         for row in rows:
+            uid = row.get("uid","")
+            link = row.get("link","")
+            title = row.get("title","")
             result.append({
                 # DataGridField row data
-                "uid": row["uid"],
-                "link": row["link"],
-                "title": row["title"],
+                "uid": uid, "link": link, "title": title,
                 # View data
-                "url": "",
-                "default_title": None})
+                "url": "", "default_title": None})
             data = result[-1]
             # Process remote URL and collect UIDs
-            if row["link"]:
-                data["url"] = quote(row["link"], safe='?$#@/:=+;$,&%')
-                data["default_title"] = row["link"]
+            if link:
+                data["url"] = quote(link, safe='?$#@/:=+;$,&%')
+                data["default_title"] = link
                 # if title not set for remote url - set it equals to url
                 if not data["title"]:
                     data["title"] = data["default_title"]
             else:
-                uids[row["uid"]] = data
+                uids[uid] = data
         # Process UIDs
         if uids:
             brains = catalog(UID=uids.keys())

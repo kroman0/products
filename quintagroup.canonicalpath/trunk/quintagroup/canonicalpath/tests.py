@@ -15,6 +15,9 @@ except:
     IS_NEW = False
 
 
+from OFS.PropertyManager import PropertyManager
+from OFS.Traversable import Traversable
+
 from Testing import ZopeTestCase as ztc
 
 from Products.Five import zcml
@@ -29,6 +32,7 @@ from quintagroup.canonicalpath.interfaces import ICanonicalPath
 from quintagroup.canonicalpath.interfaces import ICanonicalLink
 from quintagroup.canonicalpath.adapters import PROPERTY_PATH
 from quintagroup.canonicalpath.adapters import PROPERTY_LINK
+from quintagroup.canonicalpath.upgrades import CanonicalConvertor
 
 class TestCase(ptc.PloneTestCase):
     class layer(PloneSite):
@@ -289,12 +293,102 @@ class TestDefaultCanonicalLinkAdapter(TestCase):
             "After deleted Canonical link customization property not set to "
             "default value for the portal")
 
+##
+## Dummy object for converter tests
+##
+class PortalURL:
+    def __call__(self):
+        return "http://nohost/plone"
+    def getRelativeContentPath(self, context):
+        return "/plone/" + context.getId()
 
+class BaseItem:
+    portal_url = PortalURL()
+
+    def __init__(self, id):
+        self.id = id
+
+    def getId(self):
+        return self.id
+
+    def absolute_url(self):
+        return self.portal_url() + '/'+ self.getId()
+
+class GoodItem(BaseItem, PropertyManager, Traversable):
+    """Property provider."""
+
+class NotProperyProviderItem(BaseItem, Traversable):
+    """Not property provider."""
+
+class NotAdaptableItem(BaseItem):
+    """Not adaptable object."""
+
+class TestConvertor(unittest.TestCase):
+
+    def setUp(self):
+        self.convertor = CanonicalConvertor("http://domain.com")
+
+    def test_convertPathToLink(self):
+        item = GoodItem("item")
+        item._setProperty(PROPERTY_PATH, "/www/some/path")
+        self.convertor.convertPathToLink(item)
+        result = ICanonicalLink(item).canonical_link
+        expect = "http://domain.com/www/some/path"
+        self.assertEqual(result, expect, "Got %s canonical link, " \
+                         "expect: %s" % (result, expect))
+        
+    def test_convertBadItems(self):
+        bad = NotProperyProviderItem("item")
+        self.convertor.convertPathToLink(bad)
+        result = self.convertor.getLogs()
+        expect = "ERROR: exceptions.AttributeError: " \
+                 "NotProperyProviderItem instance has no attribute 'hasProperty'"
+        self.assertEqual(expect in result, True, "Wrong log: %s" % result)
+
+        bad = NotAdaptableItem("item")
+        self.convertor.convertPathToLink(bad)
+        result = self.convertor.getLogs()
+        expect = "ERROR: zope.component.interfaces.ComponentLookupError: "
+        self.assertEqual(expect in result, True, "Wrong log: %s" % result)
+
+    def test_loggingSuccess(self):
+        good = GoodItem("item")
+        self.convertor.convertPathToLink(good)
+        result = self.convertor.getLogs()
+        expect = "SUCCESS"
+        self.assertEqual(expect in result, True, "Wrong log: %s" % result)
+
+    def test_loggingGet(self):
+        # log must collect new errors
+        # and return full log anytime
+        bad = NotProperyProviderItem("item")
+        self.convertor.convertPathToLink(bad)
+        logs = self.convertor.getLogs()
+        logs2 = self.convertor.getLogs()
+        assert logs != ""
+        self.assertEqual(logs == logs2, True,
+             "logs not equal: \"%s\" != \"%s\"" % (logs, logs2))
+        self.convertor.convertPathToLink(bad)
+        logs3 = self.convertor.getLogs()
+        self.assertEqual(logs3 > logs2, True,
+             "Log was not updated - last: \"%s\", previous: \"%s\"" % (logs3, logs2))
+        
+
+    def test_loggingCleanup(self):
+        bad = NotProperyProviderItem("item")
+        self.convertor.convertPathToLink(bad)
+        assert self.convertor.getLogs() != ""
+        self.convertor.cleanupLogs()
+        logs = self.convertor.getLogs()
+        self.assertEqual(logs, "", "Log not cleand-up: \"%s\"" % logs)
+
+ 
 def test_suite():
     return unittest.TestSuite([
         unittest.makeSuite(TestIndexerRegistration),
         unittest.makeSuite(TestDefaultCanonicalPathAdapter),
         unittest.makeSuite(TestDefaultCanonicalLinkAdapter),
+        unittest.makeSuite(TestConvertor),
         ])
 
 if __name__ == '__main__':

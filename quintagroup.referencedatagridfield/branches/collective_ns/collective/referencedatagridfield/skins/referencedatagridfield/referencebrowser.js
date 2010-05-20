@@ -135,7 +135,11 @@ function refbrowser_setReference(widget_id, uid, label, multi,
         down_element = null,
         container = null;
 
-    if (typeof(active_tr) != "undefined") {
+    if (typeof(active_tr) != "undefined"
+       && typeof(link_title) != "undefined"
+       && typeof(link_path) != "undefined"
+       && typeof(widget_title_id) != "undefined"
+       && typeof(widget_link_id) != "undefined") {
         // Update Uid field
         jq('#' + widget_id, active_tr).attr("value", uid);
         // Update title field

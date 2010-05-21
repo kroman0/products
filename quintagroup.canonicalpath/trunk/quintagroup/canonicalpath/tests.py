@@ -87,7 +87,6 @@ class TestIndexerRegistration(TestCase):
         
 class TestDefaultCanonicalPathAdapter(TestCase):
 
-
     def afterSetUp(self):
         self.loginAsPortalOwner()
         self.purl = getToolByName(self.portal, 'portal_url')
@@ -317,7 +316,7 @@ class BaseItem:
 class GoodItem(BaseItem, PropertyManager, Traversable):
     """Property provider."""
 
-class NotProperyProviderItem(BaseItem, Traversable):
+class NotPropertyProviderItem(BaseItem, Traversable):
     """Not property provider."""
 
 class NotAdaptableItem(BaseItem):
@@ -355,11 +354,11 @@ class TestConvertor(unittest.TestCase):
                          "custom_property not deleted from the object")
 
     def test_convertBadItems(self):
-        bad = NotProperyProviderItem("item")
+        bad = NotPropertyProviderItem("item")
         self.convertor.convertIPathToLink(bad)
         result = self.convertor.getLogs()
         expect = "ERROR: exceptions.AttributeError: " \
-                 "NotProperyProviderItem instance has no attribute 'hasProperty'"
+                 "NotPropertyProviderItem instance has no attribute 'hasProperty'"
         self.assertEqual(expect in result, True, "Wrong log: %s" % result)
 
         bad = NotAdaptableItem("item")
@@ -378,7 +377,7 @@ class TestConvertor(unittest.TestCase):
     def test_loggingGet(self):
         # log must collect new errors
         # and return full log anytime
-        bad = NotProperyProviderItem("item")
+        bad = NotPropertyProviderItem("item")
         self.convertor.convertIPathToLink(bad)
         logs = self.convertor.getLogs()
         logs2 = self.convertor.getLogs()
@@ -390,14 +389,61 @@ class TestConvertor(unittest.TestCase):
         self.assertEqual(logs3 > logs2, True,
              "Log was not updated - last: \"%s\", previous: \"%s\"" % (logs3, logs2))
         
-
     def test_loggingCleanup(self):
-        bad = NotProperyProviderItem("item")
+        bad = NotPropertyProviderItem("item")
         self.convertor.convertIPathToLink(bad)
         assert self.convertor.getLogs() != ""
         self.convertor.cleanupLogs()
         logs = self.convertor.getLogs()
         self.assertEqual(logs, "", "Log not cleand-up: \"%s\"" % logs)
+
+
+class TestAdaptersRegistration(unittest.TestCase):
+    """Test of default adapters registration."""
+
+    def setUp(self):
+        self.cant = "Can't get \"%s\" adapter for object, which implement: "
+        self.doget = "Get \"%s\" adapter for object, which implement: "
+
+    def test_PropertyManagerAndTraversable(self):
+        class ProperyAndTraverseProvider(BaseItem, PropertyManager, Traversable):
+            """Property and Traversable provider."""
+        item = ProperyAndTraverseProvider("test")
+        self.assertNotEqual(queryAdapter(item, ICanonicalLink), None,
+           self.cant % ICanonicalLink.__name__ + "IPropertyManager and ITraversable.")
+        self.assertNotEqual(queryAdapter(item, ICanonicalPath), None,
+           self.cant % ICanonicalPath.__name__ + "IPropertyManager and ITraversable.")
+
+    def test_Traversable(self):
+        """Traversable enough for get adapter"""
+        class TraverseProvider(BaseItem, Traversable):
+            """Only Traversable provider."""
+        item = TraverseProvider("test")
+        self.assertNotEqual(queryAdapter(item, ICanonicalLink), None,
+           self.cant % ICanonicalLink.__name__ + "only ITraversable.")
+        self.assertNotEqual(queryAdapter(item, ICanonicalPath), None,
+           self.cant % ICanonicalPath.__name__ + "only ITraversable.")
+
+    def test_PropertyManager(self):
+        """Implementing only IPropertyManager - not enough, because of
+           the default value need ITraversable.
+        """
+        class PropertyManagerProvider(BaseItem, PropertyManager):
+            """Only PropertyManager provider."""
+        item = PropertyManagerProvider("test")
+        self.assertEqual(queryAdapter(item, ICanonicalLink), None,
+           self.doget % ICanonicalLink.__name__ + "only IPropertyManager.")
+        self.assertEqual(queryAdapter(item, ICanonicalPath), None,
+           self.doget % ICanonicalPath.__name__ + "only IPropertyManager.")
+
+    def test_NotProvider(self):
+        class NotProvider(BaseItem):
+            """Nor Traversable not PropertyManager provider."""
+        item = NotProvider("test")
+        self.assertEqual(queryAdapter(item, ICanonicalLink), None,
+           self.doget % ICanonicalLink.__name__ + "nor ITraversabe not IPropertyManager.")
+        self.assertEqual(queryAdapter(item, ICanonicalPath), None,
+           self.doget % ICanonicalPath.__name__ + "nor ITraversabe not IPropertyManager.")
 
 
 def test_suite():
@@ -406,6 +452,7 @@ def test_suite():
         unittest.makeSuite(TestDefaultCanonicalPathAdapter),
         unittest.makeSuite(TestDefaultCanonicalLinkAdapter),
         unittest.makeSuite(TestConvertor),
+        unittest.makeSuite(TestAdaptersRegistration),
         ])
 
 if __name__ == '__main__':

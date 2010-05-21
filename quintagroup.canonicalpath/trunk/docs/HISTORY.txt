@@ -1,6 +1,21 @@
 Changelog
 =========
 
+0.7 (2010-04-19)
+----------------
+
+ * Add converters from CanonicalPath to CanonicalLink.
+   Useful for migration
+   [mylan]
+ * Added tests for convertors
+   [mylan]
+ * Extract DefaultPropertyAdapter into separate one
+   from DefaultCanonicalAdapter
+   [mylan]
+ * Added tests of default adapters registration
+   [mylan]
+
+
 0.6 (2010-04-19)
 ----------------
 

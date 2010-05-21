@@ -300,7 +300,7 @@ class PortalURL:
     def __call__(self):
         return "http://nohost/plone"
     def getRelativeContentPath(self, context):
-        return "/plone/" + context.getId()
+        return ("plone", context.getId())
 
 class BaseItem:
     portal_url = PortalURL()
@@ -332,11 +332,28 @@ class TestConvertor(unittest.TestCase):
         item = GoodItem("item")
         item._setProperty(PROPERTY_PATH, "/www/some/path")
         self.convertor.convertIPathToLink(item)
+        # 1. check canonical link in result object
         result = ICanonicalLink(item).canonical_link
         expect = "http://domain.com/www/some/path"
         self.assertEqual(result, expect, "Got %s canonical link, " \
                          "expect: %s" % (result, expect))
-        
+        # 2. canonical path propery mast be delete from the object
+        self.assertEqual(item.hasProperty(ICanonicalPath(item).prop), False,
+                         "canonical path' property not deleted from the object")
+
+    def test_convertPPathToLink(self):
+        item = GoodItem("item")
+        item._setProperty("custom_property", "/www/some/path")
+        self.convertor.convertPPathToLink(item, prop="custom_property")
+        # 1. check canonical link in result object
+        result = ICanonicalLink(item).canonical_link
+        expect = "http://domain.com/www/some/path"
+        self.assertEqual(result, expect, "Got %s canonical link, " \
+                         "expect: %s" % (result, expect))
+        # 2. custom_property mast be deleted from the object
+        self.assertEqual(item.hasProperty("custom_property"), False,
+                         "custom_property not deleted from the object")
+
     def test_convertBadItems(self):
         bad = NotProperyProviderItem("item")
         self.convertor.convertIPathToLink(bad)
@@ -382,7 +399,7 @@ class TestConvertor(unittest.TestCase):
         logs = self.convertor.getLogs()
         self.assertEqual(logs, "", "Log not cleand-up: \"%s\"" % logs)
 
- 
+
 def test_suite():
     return unittest.TestSuite([
         unittest.makeSuite(TestIndexerRegistration),

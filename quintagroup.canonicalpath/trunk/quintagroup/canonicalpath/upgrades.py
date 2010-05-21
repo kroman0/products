@@ -1,15 +1,16 @@
+import sys
+from types import StringTypes
 from logging import NOTSET, DEBUG, INFO, ERROR
 from logging import Logger, StreamHandler, Formatter
 from StringIO import StringIO
 from zope.component import getAdapter
-#from zope.component import queryMultiAdapter
 from Acquisition import aq_base, aq_inner
-#from Products.CMFCore.utils import getToolByName
 
-#from quintagroup.canonicalpath.adapters import PROPERTY_LINK
-#from quintagroup.canonicalpath.adapters import PROPERTY_PATH
 from quintagroup.canonicalpath.interfaces  import ICanonicalPath
 from quintagroup.canonicalpath.interfaces  import ICanonicalLink
+from quintagroup.canonicalpath.adapters import PROPERTY_LINK
+from quintagroup.canonicalpath.adapters import PROPERTY_PATH
+from quintagroup.canonicalpath.adapters import DefaultPropertyAdapter
 
 class CanonicalConvertor(object):
     """Convert canonical link to canonical path and vice versa."""
@@ -30,14 +31,28 @@ class CanonicalConvertor(object):
     def cleanupLogs(self):
         self._inout = StringIO()
 
-    def convertLinkToPath(self, obj):
+    def convertILinkToPath(self, obj):
         """Convert canonical link to canonical path"""
         return self._convert(obj, ICanonicalLink, ICanonicalPath,
                              self._convertL2P)
 
-    def convertPathToLink(self, obj):
+    def convertIPathToLink(self, obj):
         """Convert canonical path to canonical link"""
         return self._convert(obj, ICanonicalPath, ICanonicalLink,
+                             self._convertP2L)
+
+    def convertPLinkToPath(self, obj, prop=PROPERTY_LINK):
+        """Convert canonical link, got from the *prop* parameter
+           to canonical path.
+        """
+        return self._convert(obj, prop, ICanonicalPath,
+                             self._convertL2P)
+
+    def convertPPathToLink(self, obj, prop=PROPERTY_PATH):
+        """Convert canonical path, got from the *prop* parameter
+           to canonical link.
+        """
+        return self._convert(obj, prop, ICanonicalLink,
                              self._convertP2L)
 
     def _convert(self, obj, src_iface, dst_iface, converter):
@@ -47,10 +62,11 @@ class CanonicalConvertor(object):
            Return True is successfull, False otherwise.
            Log results in logger.
         """
+        src_msg = type(src_iface) in StringTypes and src_iface or src_iface.__name__
         msg = "Migrate %s into %s for %s object: " \
-               % (src_iface.__name__, dst_iface.__name__, obj.absolute_url())
+               % (src_msg, dst_iface.__name__, obj.absolute_url())
         try:
-            src = getAdapter(obj, src_iface)
+            src = _getOrMakeAdapter(obj, src_iface)
             dst = getAdapter(obj, dst_iface)
             # XXX: Check is this correct work XXX
             obj = aq_base(aq_inner(obj))
@@ -68,12 +84,24 @@ class CanonicalConvertor(object):
             
         return lev == INFO and True or False
     
+    def _getOrMakeAdapter(self, obj, arg):
+        """Function return adapter for process of the property.
+           Adapter get by interface (if arg is not a string - interface assumed)
+           OR if arg is string - adapter created from DefaultCanonicalAdapter.
+        """
+        if type(arg) in StringTypes:
+            adapter = DefaultPropertyAdapter(obj)
+            adapater.prop = arg
+            return adapter
+        else:
+            return getAdapter(obj, arg)
+
     def _convertP2L(self, src, dst):
         """Convert canonical path to canonical link."""
-        cpath = src.canonical_path
+        cpath = src.getProp()
         cpath = cpath.startswith('/') and cpath or '/' + cpath
         dst.canonical_link = self.portal_url + cpath
-        del src.canonical_path
+        src.delProp()
 
     def _convertL2P(self, src, dst):
         """Convert canonical link to canonical path."""

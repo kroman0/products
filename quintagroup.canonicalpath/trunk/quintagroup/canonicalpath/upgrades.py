@@ -24,6 +24,7 @@ class CanonicalConvertor(object):
         self._initLogger()
         self.portal_url = portal_url
 
+    # General APIs
     def getLogs(self):
         self._inout.flush()
         return self._inout.getvalue()
@@ -55,6 +56,7 @@ class CanonicalConvertor(object):
         return self._convert(obj, prop, ICanonicalLink,
                              self._convertP2L)
 
+    # Service methods
     def _convert(self, obj, src_iface, dst_iface, converter):
         """Convert canonical from source canonical interface
            to destination canonical interface.
@@ -91,7 +93,7 @@ class CanonicalConvertor(object):
         """
         if type(arg) in StringTypes:
             adapter = DefaultPropertyAdapter(obj)
-            adapater.prop = arg
+            adapter.prop = arg
             return adapter
         else:
             return getAdapter(obj, arg)

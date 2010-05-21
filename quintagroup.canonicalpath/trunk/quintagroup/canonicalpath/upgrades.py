@@ -66,7 +66,7 @@ class CanonicalConvertor(object):
         msg = "Migrate %s into %s for %s object: " \
                % (src_msg, dst_iface.__name__, obj.absolute_url())
         try:
-            src = _getOrMakeAdapter(obj, src_iface)
+            src = self._getOrMakeAdapter(obj, src_iface)
             dst = getAdapter(obj, dst_iface)
             # XXX: Check is this correct work XXX
             obj = aq_base(aq_inner(obj))

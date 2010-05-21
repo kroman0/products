@@ -328,10 +328,10 @@ class TestConvertor(unittest.TestCase):
     def setUp(self):
         self.convertor = CanonicalConvertor("http://domain.com")
 
-    def test_convertPathToLink(self):
+    def test_convertIPathToLink(self):
         item = GoodItem("item")
         item._setProperty(PROPERTY_PATH, "/www/some/path")
-        self.convertor.convertPathToLink(item)
+        self.convertor.convertIPathToLink(item)
         result = ICanonicalLink(item).canonical_link
         expect = "http://domain.com/www/some/path"
         self.assertEqual(result, expect, "Got %s canonical link, " \
@@ -339,21 +339,21 @@ class TestConvertor(unittest.TestCase):
         
     def test_convertBadItems(self):
         bad = NotProperyProviderItem("item")
-        self.convertor.convertPathToLink(bad)
+        self.convertor.convertIPathToLink(bad)
         result = self.convertor.getLogs()
         expect = "ERROR: exceptions.AttributeError: " \
                  "NotProperyProviderItem instance has no attribute 'hasProperty'"
         self.assertEqual(expect in result, True, "Wrong log: %s" % result)
 
         bad = NotAdaptableItem("item")
-        self.convertor.convertPathToLink(bad)
+        self.convertor.convertIPathToLink(bad)
         result = self.convertor.getLogs()
         expect = "ERROR: zope.component.interfaces.ComponentLookupError: "
         self.assertEqual(expect in result, True, "Wrong log: %s" % result)
 
     def test_loggingSuccess(self):
         good = GoodItem("item")
-        self.convertor.convertPathToLink(good)
+        self.convertor.convertIPathToLink(good)
         result = self.convertor.getLogs()
         expect = "SUCCESS"
         self.assertEqual(expect in result, True, "Wrong log: %s" % result)
@@ -362,13 +362,13 @@ class TestConvertor(unittest.TestCase):
         # log must collect new errors
         # and return full log anytime
         bad = NotProperyProviderItem("item")
-        self.convertor.convertPathToLink(bad)
+        self.convertor.convertIPathToLink(bad)
         logs = self.convertor.getLogs()
         logs2 = self.convertor.getLogs()
         assert logs != ""
         self.assertEqual(logs == logs2, True,
              "logs not equal: \"%s\" != \"%s\"" % (logs, logs2))
-        self.convertor.convertPathToLink(bad)
+        self.convertor.convertIPathToLink(bad)
         logs3 = self.convertor.getLogs()
         self.assertEqual(logs3 > logs2, True,
              "Log was not updated - last: \"%s\", previous: \"%s\"" % (logs3, logs2))
@@ -376,7 +376,7 @@ class TestConvertor(unittest.TestCase):
 
     def test_loggingCleanup(self):
         bad = NotProperyProviderItem("item")
-        self.convertor.convertPathToLink(bad)
+        self.convertor.convertIPathToLink(bad)
         assert self.convertor.getLogs() != ""
         self.convertor.cleanupLogs()
         logs = self.convertor.getLogs()

@@ -4,6 +4,8 @@ from zope.component import adapts
 from zope.schema.interfaces import InvalidValue
 
 from OFS.interfaces import ITraversable
+from OFS.interfaces import IPropertyManager
+
 from Products.CMFCore.utils import getToolByName
 
 from quintagroup.canonicalpath.interfaces import ICanonicalPath
@@ -17,22 +19,15 @@ _is_canonical = re.compile(
     ).match
 
 
-class DefaultCanonicalAdapter(object):
-    """Generic canonical adapter.
+class DefaultPropertyAdapter(object):
+    """Generic property adapter.
     """
-    adapts(ITraversable)
+    adapts(IPropertyManager)
 
     prop = None
 
     def __init__(self, context):
         self.context = context
-        self.purl = getToolByName(self.context,'portal_url')
-
-    def _validate(self, value):
-        value.strip()
-        if not _is_canonical(value):
-            raise InvalidValue(value)
-        return value
 
     def getDefault(self):
         """Return default value for the self.prop"""
@@ -50,8 +45,6 @@ class DefaultCanonicalAdapter(object):
     def setProp(self, value):
         """ First validate value, than add/updater self.prop
         """
-        value = self._validate(value)
-
         if self.context.hasProperty(self.prop):
             self.context._updateProperty(self.prop, value)
         else:
@@ -64,12 +57,35 @@ class DefaultCanonicalAdapter(object):
             self.context.manage_delProperties(ids=[self.prop,])
 
 
+class DefaultCanonicalAdapter(DefaultPropertyAdapter):
+    """Generic canonical adapter.
+       Add validation support to functionality of DefaultPropertyAdapter.
+    """
+    adapts(ITraversable)
+
+    def _validate(self, value):
+        value.strip()
+        if not _is_canonical(value):
+            raise InvalidValue(value)
+        return value
+
+    def setProp(self, value):
+        """ First validate value, than add/updater self.prop
+        """
+        value = self._validate(value)
+        super(DefaultCanonicalAdapter, self).setProp(value)
+
+
 class DefaultCanonicalPathAdapter(DefaultCanonicalAdapter):
     """Adapts base content to canonical path.
     """
     implements(ICanonicalPath)
 
     prop = PROPERTY_PATH
+
+    def __init__(self, context):
+        super(DefaultCanonicalPathAdapter, self).__init__(context)
+        self.purl = getToolByName(self.context,'portal_url')
 
     def getDefault(self):
         return '/'+'/'.join(self.purl.getRelativeContentPath(self.context))

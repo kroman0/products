@@ -14,6 +14,7 @@ def migrateCanonical(plone_tools):
     global convertor
     types = plone_tools.types()
     purl = plone_tools.url()
+    portal = purl.getPortalObject()
     allCTTypes = types.listContentTypes()
     obj_metatypes =  [m.content_meta_type for m in types.objectValues() \
                       if m.getId() in allCTTypes] 
@@ -23,7 +24,7 @@ def migrateCanonical(plone_tools):
                             obj_metatypes=','.join(obj_metatypes),
                             apply_func=renameProperty
                             )
-    print convertor.getLog()
+    print convertor.getLogs()
 
 def renameProperty(obj, path):
     """ Migrate canonical_path property into canonical_link
@@ -35,7 +36,8 @@ def renameProperty(obj, path):
 def upgrade_1_0_to_1_1(setuptool):
     """ Upgrade quintagroup.plonegooglesitemaps from version 1.0 to 1.1.
     """
-    setuptool.runAllImportStepsFromProfile('profile-quintagroup.plonegooglesitemaps:upgrade_1_0_to_1_1')
+    setuptool.runAllImportStepsFromProfile('profile-quintagroup.plonegooglesitemaps:upgrade_1_0_to_1_1',
+                                           ignore_dependencies=True)
 
 
 def upgrade_1_1_to_1_2(setuptool):
@@ -43,4 +45,5 @@ def upgrade_1_1_to_1_2(setuptool):
     """
     plone_tools = queryMultiAdapter((setuptool, setuptool.REQUEST), name="plone_tools")
     migrateCanonical(plone_tools)
-    setuptool.runAllImportStepsFromProfile('profile-quintagroup.plonegooglesitemaps:upgrade_1_1_to_1_2')
+    setuptool.runAllImportStepsFromProfile('profile-quintagroup.plonegooglesitemaps:upgrade_1_1_to_1_2',
+                                           ignore_dependencies=True)

@@ -25,23 +25,25 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
-  <genericsetup:upgradeStep
+    <genericsetup:upgradeStep
       title="Upgrade Plone Google Sitemaps"
       description="Upgrade quintagroup.plonegooglesitemaps 1.0 to 1.1"
       source="*"
       destination="1.1"
       handler=".upgrades.upgrade_1_0_to_1_1"
       sortkey="1"
-      profile="quintagroup.seoptimizer:default" />
+      profile="quintagroup.seoptimizer:default"
+      />
 
-  <genericsetup:upgradeStep
+    <genericsetup:upgradeStep
       title="Upgrade Plone Google Sitemaps"
       description="Upgrade quintagroup.plonegooglesitemaps 1.1 to 1.2"
       source="*"
       destination="1.2"
       handler=".upgrades.upgrade_1_1_to_1_2"
       sortkey="2"
-      profile="quintagroup.seoptimizer:default" />
+      profile="quintagroup.seoptimizer:default"
+      />
 
     <!-- -*- extra stuff goes here -*- -->
 

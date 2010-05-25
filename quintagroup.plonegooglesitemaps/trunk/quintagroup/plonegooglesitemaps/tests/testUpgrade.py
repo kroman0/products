@@ -5,6 +5,8 @@
 from base import *
 from Products.CMFPlone.utils import _createObjectByType
 from Products.GenericSetup.upgrade import _upgrade_registry
+from quintagroup.plonegooglesitemaps import config
+from quintagroup.plonegooglesitemaps import upgrades as gsm_upgrades
 from quintagroup.canonicalpath.interfaces import ICanonicalPath
 from quintagroup.canonicalpath.interfaces import ICanonicalLink
 
@@ -42,7 +44,7 @@ class TestUpgrade(TestCase):
         step = self.getUpgradeStep(1)
         if step is not None:
             step.doStep(self.setup)
-        # canonical_path column must be added to portal_catalog
+        # Canonical_path column must be added to portal_catalog
         self.assertEqual("canonical_path" in catalog._catalog.names, True)
 
     def test_step_1_1_to_1_2(self):
@@ -67,6 +69,26 @@ class TestUpgrade(TestCase):
         brain = catalog(id="test_doc")[0]
         self.assertEqual(brain.canonical_link, migrated_link)
 
+    def testUpgradeCallOnReinstall(self):
+        # Get upgrade steps
+        upgrades = _upgrade_registry.getUpgradeStepsForProfile(self.profile)
+        upgrades = dict([(u.sortkey, u) for u in upgrades.values()])
+        try:
+            # Replace original handlers with patched ones for test calls
+            called = []
+            upgrades[1].handler = lambda st:called.append("1.0 to 1.1")
+            upgrades[2].handler = lambda st:called.append("1.1 to 1.2")
+            # Run reinstallation
+            self.portal.portal_quickinstaller.reinstallProducts(products=config.PROJECTNAME)
+            # Test upgrades call
+            self.assertEqual("1.0 to 1.1" in called, True)
+            self.assertEqual("1.1 to 1.2" in called, True)
+        finally:
+            # Restore original upgrade handlers
+            upgrades[1].handler = gsm_upgrades.upgrade_1_0_to_1_1
+            upgrades[2].handler = gsm_upgrades.upgrade_1_1_to_1_2
+
+        
 
 def test_suite():
     from unittest import TestSuite, makeSuite
@@ -76,4 +98,3 @@ def test_suite():
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')
-#    framework()

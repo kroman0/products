@@ -1,6 +1,8 @@
+import logging
 from Products.CMFCore.utils import getToolByName
 from Products.GenericSetup.upgrade import _upgrade_registry
 
+logger = logging.getLogger("quintagroup.plonegooglesitemaps")
 PROFILE = "profile-quintagroup.plonegooglesitemaps:default"
 
 def install(self, reinstall=False):
@@ -15,16 +17,16 @@ def install(self, reinstall=False):
     if reinstall and (isPlone3 or isPlone4):
         step = None
         profile_id = 'quintagroup.plonegooglesitemaps:default'
-        steps_to_run = [s['id'] for s in setup_tool.listUpgrades(profile_id, show_old=False)]
+        steps_to_run = [s['id'] for s in ps.listUpgrades(profile_id, show_old=False)]
         for step_id in steps_to_run:
             step = _upgrade_registry.getUpgradeStep(profile_id, step_id)
-            step.doStep(setup_tool)
+            step.doStep(ps)
             msg = "Ran upgrade step %s for profile %s" % (step.title, profile_id)
             logger.log(logging.INFO, msg)
         # We update the profile version to the last one we have reached
         # with running an upgrade step.
         if step and step.dest is not None and step.checker is None:
-           setup_tool.setLastVersionForProfile(profile_id, step.dest)
+           ps.setLastVersionForProfile(profile_id, step.dest)
         return "Ran all reinstall steps."
 
     if (isPlone3 or isPlone4):

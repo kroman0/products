@@ -25,8 +25,24 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+    <genericsetup:registerProfile
+      name="upgrade_1_0_to_1_1"
+      title="Plone Google Sitemaps"
+      directory="profiles/upgrade_1_0_to_1_1"
+      description=""
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+    <genericsetup:registerProfile
+      name="upgrade_1_1_to_1_2"
+      title="Plone Google Sitemaps"
+      directory="profiles/upgrade_1_1_to_1_2"
+      description=""
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
     <genericsetup:upgradeStep
-      title="Upgrade Plone Google Sitemaps"
+      title="Upgrade Plone Google Sitemaps 1.0 to 1.1"
       description="Upgrade quintagroup.plonegooglesitemaps 1.0 to 1.1"
       source="*"
       destination="1.1"
@@ -36,7 +52,7 @@
       />
 
     <genericsetup:upgradeStep
-      title="Upgrade Plone Google Sitemaps"
+      title="Upgrade Plone Google Sitemaps 1.1 to 1.2"
       description="Upgrade quintagroup.plonegooglesitemaps 1.1 to 1.2"
       source="*"
       destination="1.2"

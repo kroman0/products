@@ -7,6 +7,7 @@
 
     <!-- Include dependent packages -->
     <include package="quintagroup.canonicalpath" />
+    <include package="quintagroup.catalogupdater" />
 
     <five:registerPackage package="." initialize=".initialize" />
 

@@ -20,6 +20,7 @@ from Products.PloneTestCase.layer import PloneSite
 from XMLParser import parse, hasURL
 
 import quintagroup.plonegooglesitemaps
+from quintagroup.plonegooglesitemaps.config import PROJECTNAME
 from quintagroup.plonegooglesitemaps.config import ping_googlesitemap
 
 quintagroup.plonegooglesitemaps.config.testing = 1
@@ -60,4 +61,4 @@ fiveconfigure.debug_mode = False
 # with the default profile for the package
 PRODUCT = 'quintagroup.plonegooglesitemaps'
 ptc.installPackage(PRODUCT)
-ptc.setupPloneSite( extension_profiles=("%s:default" % PRODUCT,))
+ptc.setupPloneSite( products=(PRODUCT,))

@@ -50,8 +50,17 @@ class TestUpgrade(TestCase):
     def test_step_1_1_to_1_2(self):
         # Prepare testing data
         catalog = self.portal.portal_catalog
-        doc = _createObjectByType('Document', self.portal, id='test_doc')
-        ICanonicalPath(doc).canonical_path = "/my_test_doc"
+        # Create container folder, update its canonical path
+        folder = _createObjectByType('Folder', self.portal, id='test_folder')
+        fldr_cpath = "/my_test_home_folder"
+        fldr_clink = self.portal.absolute_url() + fldr_cpath
+        ICanonicalPath(folder).canonical_path = fldr_cpath
+        # Create inner document, update its canonical_path
+        doc = _createObjectByType('Document', folder, id='test_doc')
+        doc_cpath = "/test_folder/my_test_doc"
+        doc_clink = self.portal.absolute_url() + doc_cpath
+        ICanonicalPath(doc).canonical_path = doc_cpath
+        # Add canonical_path column in catalog
         if not "canonical_path" in catalog._catalog.names:
             catalog.addColumn("canonical_path")
         # Upgrade to 1.2 versionb
@@ -61,13 +70,17 @@ class TestUpgrade(TestCase):
         # canonical_link column replace canonical_path one in the portal_catalog
         self.assertEqual("canonical_link" in catalog._catalog.names, True)
         self.assertEqual("canonical_path" in catalog._catalog.names, False)
-        # canonical_link property refactored from canonical_path one for the object
-        migrated_link = self.portal.absolute_url() + '/my_test_doc'
-        self.assertNotEqual(ICanonicalPath(doc).canonical_path, "/my_test_doc")
-        self.assertEqual(ICanonicalLink(doc).canonical_link, migrated_link)
+        # canonical_link property refactored from canonical_path one for inner doc
+        self.assertNotEqual(ICanonicalPath(doc).canonical_path, doc_cpath)
+        self.assertEqual(ICanonicalLink(doc).canonical_link, doc_clink)
+        # canonical_link property refactored from canonical_path one for home folder
+        self.assertNotEqual(ICanonicalPath(folder).canonical_path, fldr_cpath)
+        self.assertEqual(ICanonicalLink(folder).canonical_link, fldr_clink)
         # canonical_link brain must contains updated canonical_link data
         brain = catalog(id="test_doc")[0]
-        self.assertEqual(brain.canonical_link, migrated_link)
+        self.assertEqual(brain.canonical_link, doc_clink)
+        brain = catalog(id="test_folder")[0]
+        self.assertEqual(brain.canonical_link, fldr_clink)
 
     def testUpgradeCallOnReinstall(self):
         # Get upgrade steps

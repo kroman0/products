@@ -22,7 +22,8 @@ def migrateCanonical(plone_tools):
     portal.ZopeFindAndApply(
                             portal,
                             obj_metatypes=','.join(obj_metatypes),
-                            apply_func=renameProperty
+                            apply_func=renameProperty,
+                            search_sub=1,
                             )
     print convertor.getLogs()
 

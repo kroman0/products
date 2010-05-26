@@ -36,8 +36,7 @@ def renameProperty(obj, path):
 def upgrade_1_0_to_1_1(setuptool):
     """ Upgrade quintagroup.plonegooglesitemaps from version 1.0 to 1.1.
     """
-    setuptool.runAllImportStepsFromProfile('profile-quintagroup.plonegooglesitemaps:upgrade_1_0_to_1_1',
-                                           ignore_dependencies=True)
+    setuptool.runAllImportStepsFromProfile('profile-quintagroup.plonegooglesitemaps:upgrade_1_0_to_1_1')
 
 
 def upgrade_1_1_to_1_2(setuptool):
@@ -45,5 +44,4 @@ def upgrade_1_1_to_1_2(setuptool):
     """
     plone_tools = queryMultiAdapter((setuptool, setuptool.REQUEST), name="plone_tools")
     migrateCanonical(plone_tools)
-    setuptool.runAllImportStepsFromProfile('profile-quintagroup.plonegooglesitemaps:upgrade_1_1_to_1_2',
-                                           ignore_dependencies=True)
+    setuptool.runAllImportStepsFromProfile('profile-quintagroup.plonegooglesitemaps:upgrade_1_1_to_1_2')

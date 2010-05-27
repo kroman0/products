@@ -13,11 +13,13 @@ class TestNewsSitemapsXML(FunctionalTestCase):
         # Add testing news item to portal
         self.pubdate = (DateTime()+1).strftime("%Y-%m-%d")
         my_news = self.portal.invokeFactory("News Item", id="my_news")
-        my_news = self.portal["my_news"]
-        my_news.edit(text="Test news item", title="First news (test)", language="ua",
-                     effectiveDate=self.pubdate)
-        
-        self.portal.portal_workflow.doActionFor(my_news, "publish")
+        self.my_news = self.portal["my_news"]
+        self.my_news.edit(text="Test news item", title="First news (test)", language="ua",
+                          effectiveDate=self.pubdate)
+        self.portal.portal_workflow.doActionFor(self.my_news, "publish")
+        self.reParse()
+
+    def reParse(self):
         # Parse news sitemap
         self.sitemap = self.publish("/"+self.portal.absolute_url(1) + "/news-sitemaps",
                                     "%s:%s" % (portal_owner, default_password)).getBody()
@@ -56,11 +58,30 @@ class TestNewsSitemapsXML(FunctionalTestCase):
         self.assert_("n:title" in self.start.keys())
         self.assert_("First news (test)" in self.data, "No 'First news (test)' in data")
 
+    def test_no_naccess(self):
+        open("/tmp/news.sm.1.xml","w").write(self.sitemap)
+        self.assert_("n:access" not in self.start.keys())
+
+    def test_no_ngenres(self):
+        self.assert_("n:genres" not in self.start.keys())
+
     def test_naccess(self):
-        pass
+        # Test when access present
+        self.my_news._setProperty("gsm_access", "Registration")
+        self.my_news.reindexObject()
+        self.reParse()
+        open("/tmp/news.sm.2.xml","w").write(self.sitemap)
+        self.assert_("n:access" in self.start.keys())
+        self.assert_("Registration" in self.data, "No 'Registration' in data")
 
     def test_ngenres(self):
-        pass
+        # Test when access present
+        self.my_news._setProperty("gsm_genres", "PressRelease")
+        self.my_news.reindexObject()
+        self.reParse()
+        open("/tmp/news.sm.3.xml","w").write(self.sitemap)
+        self.assert_("n:genres" in self.start.keys())
+        self.assert_("PressRelease" in self.data, "No 'PressRelease' in data")
 
 
 def test_suite():

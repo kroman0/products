@@ -2,6 +2,8 @@
 <object name="portal_catalog" meta_type="Plone Catalog Tool">
  <column value="canonical_link" update="True" />
  <column value="Language" update="True" />
+ <column value="gsm_access" update="True" />
+ <column value="gsm_genres" update="True" />
 </object>
 
 

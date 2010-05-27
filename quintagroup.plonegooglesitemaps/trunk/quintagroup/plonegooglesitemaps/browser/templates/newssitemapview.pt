@@ -15,6 +15,10 @@
         <n:title tal:content="result/title">Full title of the news item</n:title>
         <n:publication_date tal:content="result/publication_date">2006-08-14</n:publication_date>
         <n:keywords tal:content="result/keywords">Business, Mergers, Acquisitions</n:keywords>
+        <n:access tal:condition="result/access" tal:content="result/access">
+	  Whether an article is available to all readers</n:access>
+        <n:genres tal:condition="result/genres" tal:content="result/genres">
+	  Specifies one or more properties for an article</n:genres>
     </n:news>
   </url>
 </urlset>

@@ -17,6 +17,8 @@ class NewsSitemapView(CommonSitemapView):
         ('name', lambda x:reTrailingParenthtical.sub("",x.Title)),
         ('title', lambda x:x.Title),
         ('language', lambda x:x.Language),
+        ('access', lambda x:x.gsm_access),
+        ('genres', lambda x:x.gsm_genres),
     )
 
     def getFilteredObjects(self):

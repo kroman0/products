@@ -1,15 +1,22 @@
+import re
 from DateTime import DateTime
 from commonview import *
+from zope.component import getMultiAdapter
+
+reTrailingParenthtical = re.compile("\s*\(.*\)\s*", re.S)
 
 class NewsSitemapView(CommonSitemapView):
     """
-    Mobile Sitemap browser view
+    News Sitemap browser view
     """
     implements(ISitemapView)
 
     additional_maps = (
-        ('publication_date', lambda x:DateTime(x.EffectiveDate).HTML4()),
-        ('keywords', lambda x:', '.join(x.Subject))
+        ('publication_date', lambda x:DateTime(x.EffectiveDate).strftime("%Y-%m-%d")),
+        ('keywords', lambda x:', '.join(x.Subject)),
+        ('name', lambda x:reTrailingParenthtical.sub("",x.Title)),
+        ('title', lambda x:x.Title),
+        ('language', lambda x:x.Language),
     )
 
     def getFilteredObjects(self):

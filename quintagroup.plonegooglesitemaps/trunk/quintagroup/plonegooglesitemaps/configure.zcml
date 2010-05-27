@@ -17,6 +17,10 @@
     <include package=".browser" />
     <include package=".content" />
 
+    <!-- Register gsm_* adapters for catalog -->
+    <adapter name="gsm_access" factory=".catalog.gsm_access" />
+    <adapter name="gsm_genres" factory=".catalog.gsm_genres" />
+
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
       name="default"

@@ -7,12 +7,16 @@ class TestNewsSitemapsXML(FunctionalTestCase):
     def afterSetUp(self):
         super(TestNewsSitemapsXML, self).afterSetUp()
         # Create news sitemaps
-        _createObjectByType("Sitemap", self.portal, id="news-sitemaps", sitemapType="news")
-        self.portal["news-sitemaps"].setPortalTypes(("News Item",))
+        _createObjectByType("Sitemap", self.portal, id="news-sitemaps",
+                            sitemapType="news", portalTypes=("News Item",))
+        self.portal["news-sitemaps"].at_post_create_script()
         # Add testing news item to portal
+        self.pubdate = (DateTime()+1).strftime("%Y-%m-%d")
         my_news = self.portal.invokeFactory("News Item", id="my_news")
         my_news = self.portal["my_news"]
-        my_news.edit(text="Test news item", title="First news (test)", language="ua",)
+        my_news.edit(text="Test news item", title="First news (test)", language="ua",
+                     effectiveDate=self.pubdate)
+        
         self.portal.portal_workflow.doActionFor(my_news, "publish")
         # Parse news sitemap
         self.sitemap = self.publish("/"+self.portal.absolute_url(1) + "/news-sitemaps",
@@ -40,14 +44,13 @@ class TestNewsSitemapsXML(FunctionalTestCase):
     def test_npublication(self):
         self.assert_("n:publication" in self.start.keys())
         self.assert_("n:name" in self.start.keys())
-        self.assert_("First News" in self.data, "No 'First News' in data")
+        self.assert_("First news" in self.data, "No 'First news' in data")
         self.assert_("n:language" in self.start.keys())
         self.assert_("ua" in self.data, "No 'ua' in data")
 
     def test_npublication_date(self):
-        date = DateTime().strftime("%Y-%m-%d")
         self.assert_("n:publication_date" in self.start.keys())
-        self.assert_(date in self.data, "No %s in data" % date)
+        self.assert_(self.pubdate in self.data, "No %s in data" % self.pubdate)
         
     def test_ntitle(self):
         self.assert_("n:title" in self.start.keys())

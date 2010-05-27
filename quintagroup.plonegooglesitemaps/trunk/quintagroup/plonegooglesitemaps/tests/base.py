@@ -16,6 +16,8 @@ from Products.Five import fiveconfigure
 
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import PloneSite
+from Products.PloneTestCase.setup import portal_owner
+from Products.PloneTestCase.setup import default_password
 
 from XMLParser import parse, hasURL
 

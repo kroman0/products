@@ -14,8 +14,8 @@ class NewsSitemapView(CommonSitemapView):
     additional_maps = (
         ('publication_date', lambda x:DateTime(x.EffectiveDate).strftime("%Y-%m-%d")),
         ('keywords', lambda x:', '.join(x.Subject)),
-        ('name', lambda x:reTrailingParenthtical.sub("",x.Title)),
         ('title', lambda x:x.Title),
+        ('name', lambda x:reTrailingParenthtical.sub("",x.Title)),
         ('language', lambda x:x.Language),
         ('access', lambda x:x.gsm_access),
         ('genres', lambda x:x.gsm_genres),

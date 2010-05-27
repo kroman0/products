@@ -59,7 +59,6 @@ class TestNewsSitemapsXML(FunctionalTestCase):
         self.assert_("First news (test)" in self.data, "No 'First news (test)' in data")
 
     def test_no_naccess(self):
-        open("/tmp/news.sm.1.xml","w").write(self.sitemap)
         self.assert_("n:access" not in self.start.keys())
 
     def test_no_ngenres(self):
@@ -70,16 +69,14 @@ class TestNewsSitemapsXML(FunctionalTestCase):
         self.my_news._setProperty("gsm_access", "Registration")
         self.my_news.reindexObject()
         self.reParse()
-        open("/tmp/news.sm.2.xml","w").write(self.sitemap)
         self.assert_("n:access" in self.start.keys())
         self.assert_("Registration" in self.data, "No 'Registration' in data")
 
     def test_ngenres(self):
-        # Test when access present
+        # Test when genres present
         self.my_news._setProperty("gsm_genres", "PressRelease")
         self.my_news.reindexObject()
         self.reParse()
-        open("/tmp/news.sm.3.xml","w").write(self.sitemap)
         self.assert_("n:genres" in self.start.keys())
         self.assert_("PressRelease" in self.data, "No 'PressRelease' in data")
 

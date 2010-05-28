@@ -8,6 +8,7 @@
     <!-- Include dependent packages -->
     <include package="quintagroup.canonicalpath" />
     <include package="quintagroup.catalogupdater" />
+    <include package="archetypes.schemaextender" />
 
     <five:registerPackage package="." initialize=".initialize" />
 

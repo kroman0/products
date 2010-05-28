@@ -1,6 +1,10 @@
 from base import *
-from Products.CMFPlone.utils import _createObjectByType
 from DateTime import DateTime
+
+from zope.component import getSiteManager, getGlobalSiteManager
+from archetypes.schemaextender.interfaces import ISchemaExtender
+
+from Products.CMFPlone.utils import _createObjectByType
 
 class TestNewsSitemapsXML(FunctionalTestCase):
 
@@ -81,8 +85,66 @@ class TestNewsSitemapsXML(FunctionalTestCase):
         self.assert_("PressRelease" in self.data, "No 'PressRelease' in data")
 
 
+from Products.ATContentTypes.interface import IATNewsItem
+from quintagroup.plonegooglesitemaps.content.newsextender import NewsExtender
+from quintagroup.plonegooglesitemaps.utils import addLocalSchemaExtenderAdapter
+from quintagroup.plonegooglesitemaps.utils import removeLocalSchemaExtenderAdapter
+
+class TestDynamicSchemaExtending(TestCase):
+
+    def afterSetUp(self):
+        super(TestDynamicSchemaExtending, self).afterSetUp()
+        self.loginAsPortalOwner()
+        # Add testing news item to portal
+        my_news = self.portal.invokeFactory("News Item", id="my_news")
+        self.my_news = self.portal["my_news"]
+        my_doc = self.portal.invokeFactory("Document", id="my_doc")
+        self.my_doc = self.portal["my_doc"]
+
+    def testNotExtendByDefault(self):
+        # Neither of object has extended fields
+        self.assertEqual(self.my_news.getField("gsm_access"), None)
+        self.assertEqual(self.my_news.getField("gsm_genres"), None)
+        self.assertEqual(self.my_doc.getField("gsm_access"), None)
+        self.assertEqual(self.my_doc.getField("gsm_genres"), None)
+    
+    def testExtend(self):
+        addLocalSchemaExtenderAdapter(self.portal, IATNewsItem)
+        self.assertNotEqual(self.my_news.getField("gsm_access"), None)
+        self.assertNotEqual(self.my_news.getField("gsm_genres"), None)
+        # But for document schema should not extended
+        self.assertEqual(self.my_doc.getField("gsm_access"), None)
+        self.assertEqual(self.my_doc.getField("gsm_genres"), None)
+
+    def testRemoveExtend(self):
+        addLocalSchemaExtenderAdapter(self.portal, IATNewsItem)
+        self.assertNotEqual(self.my_news.getField("gsm_access"), None)
+        self.assertNotEqual(self.my_news.getField("gsm_genres"), None)
+        removeLocalSchemaExtenderAdapter(self.portal, IATNewsItem)
+        self.assertEqual(self.my_news.getField("gsm_access"), None)
+        self.assertEqual(self.my_news.getField("gsm_genres"), None)
+
+    def testRegistrationOnLocalSM(self):
+        """SchemaExtender adapters must be registered
+           in Local SiteManager only.
+        """
+        localsm = getSiteManager(self.portal)
+        globalsm = getGlobalSiteManager()
+        # Check if by default neither site manger
+        # has ISchemaExtender adapter registered in.
+        self.assertNotEqual(localsm, globalsm)
+        self.assertEqual(localsm.queryAdapter(self.my_news, ISchemaExtender), None)
+        self.assertEqual(globalsm.queryAdapter(self.my_news, ISchemaExtender), None)
+        # Now register SchemaExtender adapter and
+        # check if it present in Local SiteManger only
+        addLocalSchemaExtenderAdapter(self.portal, IATNewsItem)
+        self.assertNotEqual(localsm.queryAdapter(self.my_news, ISchemaExtender), None)
+        self.assertEqual(globalsm.queryAdapter(self.my_news, ISchemaExtender), None)
+
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestNewsSitemapsXML))
+    suite.addTest(makeSuite(TestDynamicSchemaExtending))
     return suite

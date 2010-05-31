@@ -20,6 +20,7 @@
         <n:title tal:content="result/title">Full title of the news item</n:title>
         <n:keywords tal:condition="result/keywords" tal:content="result/keywords">
 	  Business, Mergers, Acquisitions</n:keywords>
+        <n:stock_tickers tal:condition="result/stock" tal:content="result/stock">NASDAQ:A, NASDAQ:B</n:stock_tickers>
     </n:news>
   </url>
 </urlset>

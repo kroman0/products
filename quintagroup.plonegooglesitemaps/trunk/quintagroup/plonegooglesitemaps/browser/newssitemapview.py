@@ -22,6 +22,7 @@ class NewsSitemapView(CommonSitemapView):
             ('language', lambda x:x.Language or self.default_language()),
             ('access', lambda x:x.gsm_access or ""),
             ('genres', lambda x:x and ", ".join(x.gsm_genres) or ""),
+            ('stock', lambda x:x.gsm_stock or ""),
         )
 
     @memoize

@@ -14,7 +14,6 @@ class NewsSitemapView(CommonSitemapView):
 
     @property
     def additional_maps(self):
-        import pdb;pdb.set_trace()
         return (
             ('publication_date', lambda x:DateTime(x.EffectiveDate).strftime("%Y-%m-%d")),
             ('keywords', lambda x:', '.join(x.Subject)),

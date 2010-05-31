@@ -4,6 +4,7 @@ from Products.GenericSetup.upgrade import _upgrade_registry
 
 logger = logging.getLogger("quintagroup.plonegooglesitemaps")
 PROFILE = "profile-quintagroup.plonegooglesitemaps:default"
+UNINSTALL = "profile-quintagroup.plonegooglesitemaps:uninstall"
 
 def install(self, reinstall=False):
     """ Install skin with GenericSetup install profile
@@ -37,3 +38,17 @@ def install(self, reinstall=False):
         ps.setImportContext(PROFILE)
         ps.runAllImportSteps()
         ps.setImportContext(active_context_id)
+
+
+def uninstall(portal, reinstall=False):
+    """ Uninstall this product.
+
+        This external method is need, because portal_quickinstaller doens't know
+        what GenericProfile profile to apply when uninstalling a product.
+    """
+    setup_tool = getToolByName(portal, 'portal_setup')
+    if reinstall:
+        return "Ran all reinstall steps."
+    else:
+        setup_tool.runAllImportStepsFromProfile(UNINSTALL)
+        return "Ran all uninstall steps."

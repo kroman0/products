@@ -92,6 +92,21 @@ class TestNewsSitemapsXML(FunctionalTestCase):
         self.assert_("n:genres" in self.start.keys())
         self.assert_("PressRelease, Blog" in self.data, "No 'PressRelease, Blog' in data")
 
+    def test_ngenresEmpty(self):
+        # No genres should present if it's not updated
+        self.my_news.edit()
+        self.my_news.reindexObject()
+        self.reParse()
+        self.assertNotEqual("n:genres" in self.start.keys(), True)
+
+    def test_ngenresForNotExtended(self):
+        # No genres should present for not extended content type
+        self.portal.invokeFactory("Document", id="my_doc")
+        my_doc = getattr(self.portal, "my_doc")
+        my_doc.edit(text="Test document")
+        self.portal.portal_workflow.doActionFor(my_doc, "publish")
+        self.reParse()
+        self.assertNotEqual("n:genres" in self.start.keys(), True)
 
 
 from Products.ATContentTypes.interface import IATNewsItem

@@ -96,8 +96,6 @@ class TestNewsSitemapsXML(FunctionalTestCase):
 
 from Products.ATContentTypes.interface import IATNewsItem
 from quintagroup.plonegooglesitemaps.content.newsextender import NewsExtender
-from quintagroup.plonegooglesitemaps.utils import addLocalSchemaExtenderAdapter
-from quintagroup.plonegooglesitemaps.utils import removeLocalSchemaExtenderAdapter
 
 class TestSchemaExtending(TestCase):
 

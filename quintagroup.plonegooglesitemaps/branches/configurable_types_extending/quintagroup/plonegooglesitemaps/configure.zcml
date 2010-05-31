@@ -1,0 +1,74 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
+    i18n_domain="quintagroup.plonegooglesitemaps">
+
+    <!-- Include dependent packages -->
+    <include package="quintagroup.canonicalpath" />
+    <include package="quintagroup.catalogupdater" />
+    <include package="archetypes.schemaextender" />
+
+    <five:registerPackage package="." initialize=".initialize" />
+
+    <cmf:registerDirectory name="skins" directory="skins" recursive="True" />
+
+    <!-- Include the sub-packages that use their own configure.zcml files. -->
+    <include package=".browser" />
+    <include package=".content" />
+
+    <!-- Register gsm_* adapters for catalog -->
+    <adapter name="gsm_access" factory=".catalog.gsm_access" />
+    <adapter name="gsm_genres" factory=".catalog.gsm_genres" />
+
+    <!-- Register the installation GenericSetup extension profile -->
+    <genericsetup:registerProfile
+      name="default"
+      title="Plone Google Sitemaps"
+      directory="profiles/default"
+      description=""
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+    <genericsetup:registerProfile
+      name="upgrade_1_0_to_1_1"
+      title="Plone Google Sitemaps"
+      directory="profiles/upgrade_1_0_to_1_1"
+      description=""
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+    <genericsetup:registerProfile
+      name="upgrade_1_1_to_1_2"
+      title="Plone Google Sitemaps"
+      directory="profiles/upgrade_1_1_to_1_2"
+      description=""
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+    <genericsetup:upgradeStep
+      title="Upgrade Plone Google Sitemaps 1.0 to 1.1"
+      description="Upgrade quintagroup.plonegooglesitemaps 1.0 to 1.1"
+      source="*"
+      destination="1.1"
+      handler=".upgrades.upgrade_1_0_to_1_1"
+      sortkey="1"
+      profile="quintagroup.plonegooglesitemaps:default"
+      />
+
+    <genericsetup:upgradeStep
+      title="Upgrade Plone Google Sitemaps 1.1 to 1.2"
+      description="Upgrade quintagroup.plonegooglesitemaps 1.1 to 1.2"
+      source="*"
+      destination="1.2"
+      handler=".upgrades.upgrade_1_1_to_1_2"
+      sortkey="2"
+      profile="quintagroup.plonegooglesitemaps:default"
+      />
+
+    <!-- -*- extra stuff goes here -*- -->
+
+    <subscriber handler=".handlers.pingGoogle"/>
+
+</configure>

@@ -25,6 +25,7 @@ class NewsExtender(object):
         ExtendableStringField("gsm_access",
             accessor="gsm_access",
             vocabulary=DisplayList(zip(access_lst, access_lst)),
+            default="",
             schemata="GoogleSitemap",
             widget = SelectionWidget(
                 label="Access",
@@ -37,6 +38,7 @@ class NewsExtender(object):
             accessor="gsm_genres",
             vocabulary=DisplayList(zip(genres_lst, genres_lst)),
             schemata="GoogleSitemap",
+            default=(),
             widget = MultiSelectionWidget(
                 label="Genres",
                 description="Select one or more properties for an article, " \

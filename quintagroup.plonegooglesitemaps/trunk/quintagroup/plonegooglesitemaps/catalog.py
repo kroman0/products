@@ -21,14 +21,19 @@ except:
 def gsm_access(obj, **kwargs):
     """Return value for access tag for Google's News Sitemaps.
     """
-    return obj.getProperty("gsm_access", "")
+    access = getattr(obj, 'gsm_access', "")
+    if callable(access):
+        return access()
+    return  access
 
 @indexer(Interface)
 def gsm_genres(obj, **kwargs):
     """Return value for genres tag for Google's News Sitemaps.
     """
-    return obj.getProperty("gsm_genres", "")
-
+    genres = getattr(obj, 'gsm_genres', ())
+    if callable(genres):
+        return ", ".join(genres())
+    return ", ".join(genres)
 
 #for compatibility with older plone versions 
 if not IS_NEW:

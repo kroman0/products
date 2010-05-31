@@ -20,4 +20,9 @@
 
     </class>
 
+    <utility
+      component=".vocabularies.TypesWithInterfaceVocabularyFactory"
+      name="googlesitemaps.vocabularies.TypesWithInterfaceVocabulary"
+      />
+
 </configure>

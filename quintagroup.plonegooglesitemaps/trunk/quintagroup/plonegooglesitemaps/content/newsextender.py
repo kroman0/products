@@ -34,7 +34,7 @@ class NewsExtender(object):
                     "with a free or paid membership to your site.",
                 format="radio"),
         ),
-        ExtendableStringField("gsm_genres",
+        ExtendableLinesField("gsm_genres",
             accessor="gsm_genres",
             vocabulary=DisplayList(zip(genres_lst, genres_lst)),
             schemata="GoogleSitemap",

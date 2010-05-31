@@ -32,11 +32,13 @@ SitemapSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage = atapi.AnnotationStorage(),
         required=True,
         default=['Document',],
-        vocabulary="availablePortalTypes",
+        vocabulary_factory="plone.app.vocabularies.ReallyUserFriendlyTypes",
         #schemata ='default',
         widget=atapi.MultiSelectionWidget(
             label=_(u"Define the types"),
-            description=_(u"Define the types to be included in sitemap."),
+            description=_(u"Define the types to be included in sitemap. " \
+                "All listed types automaticall will be extended with " \
+                "additional fields, if its applicable."),
         ),
     ),
     atapi.LinesField(
@@ -134,10 +136,10 @@ class Sitemap(base.ATCTContent):
         default_layout = SITEMAPS_VIEW_MAP[self.getSitemapType()]
         self._setProperty('layout', default_layout)
 
-    def availablePortalTypes(self):
-        pt = getToolByName(self, 'portal_types')
-        types = pt.listContentTypes()
-        return atapi.DisplayList(zip(types,types))
+    # def setPortalTypes(self):
+    #     pt = getToolByName(self, 'portal_types')
+    #     types = pt.listContentTypes()
+    #     return atapi.DisplayList(zip(types,types))
 
     def getWorkflowStates(self):
         pw = getToolByName(self,'portal_workflow')

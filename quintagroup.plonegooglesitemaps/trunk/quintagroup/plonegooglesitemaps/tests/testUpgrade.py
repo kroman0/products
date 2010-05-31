@@ -90,7 +90,7 @@ class TestUpgrade(TestCase):
 
     def test_step_1_2_to_1_3(self):
         # Prepare testing data
-        cols = ["Language", "gsm_access", "gsm_genres"]
+        cols = ["Language", "gsm_access", "gsm_genres", "gsm_stock"]
         lsm = getSiteManager(self.portal)
         catalog = self.portal.portal_catalog
         # Remove tested columns, if its exists

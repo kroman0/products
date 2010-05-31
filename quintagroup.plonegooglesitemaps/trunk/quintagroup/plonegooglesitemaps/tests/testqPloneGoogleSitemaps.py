@@ -3,6 +3,8 @@
 #
 
 from base import *
+from zope.component import getSiteManager
+from archetypes.schemaextender.interfaces import ISchemaExtender
 from Products.CMFPlone.utils import _createObjectByType
 
 class TestGoogleSitemapsInstallation(TestCase):
@@ -48,6 +50,27 @@ class TestGoogleSitemapsInstallation(TestCase):
         cp = self.portal.portal_controlpanel
         self.assert_([1 for ai in cp.listActionInfos() if ai['id']=='GoogleSitemaps'], 
             'No "GoogleSitemaps" configlet added to plone control panel')
+
+    def testNewsSchemaExtenderRegistered(self):
+        lsm = getSiteManager(self.portal)
+        news = self.portal.invokeFactory("News Item", id="test_news")
+        news = getattr(self.portal, "test_news")
+        self.assertNotEqual(lsm.queryAdapter(news, interface=ISchemaExtender), None)
+
+
+class TestGoogleSitemapsUninstallation(TestCase):
+
+    def afterSetUp(self):
+        self.loginAsPortalOwner()
+        qi = self.portal.portal_quickinstaller
+        qi.uninstallProducts(products=['quintagroup.plonegooglesitemaps',])
+        self._refreshSkinData()
+
+    def testNewsSchemaExtenderUnregistered(self):
+        lsm = getSiteManager(self.portal)
+        news = self.portal.invokeFactory("News Item", id="test_news")
+        news = getattr(self.portal, "test_news")
+        self.assertEqual(lsm.queryAdapter(news, interface=ISchemaExtender), None)
 
 
 class TestSitemapType(FunctionalTestCase):
@@ -364,6 +387,7 @@ def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestGoogleSitemapsInstallation))
+    suite.addTest(makeSuite(TestGoogleSitemapsUninstallation))
     suite.addTest(makeSuite(TestSitemapType))
     suite.addTest(makeSuite(TestGoogleSitemaps))
     suite.addTest(makeSuite(TestSettings))

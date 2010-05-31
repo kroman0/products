@@ -19,7 +19,8 @@ class TestNewsSitemapsXML(FunctionalTestCase):
         my_news = self.portal.invokeFactory("News Item", id="my_news")
         self.my_news = self.portal["my_news"]
         self.my_news.edit(text="Test news item", title="First news (test)", language="ua",
-                          effectiveDate=self.pubdate)
+                          effectiveDate=self.pubdate, gsm_access="Registration",
+                          gsm_genres=("PressRelease",), gsm_stock="NASDAQ:AMAT, BOM:500325")
         self.portal.portal_workflow.doActionFor(self.my_news, "publish")
         self.reParse()
 
@@ -62,25 +63,13 @@ class TestNewsSitemapsXML(FunctionalTestCase):
         self.assert_("n:title" in self.start.keys())
         self.assert_("First news (test)" in self.data, "No 'First news (test)' in data")
 
-    def test_no_naccess(self):
-        self.assert_("n:access" not in self.start.keys())
-
-    def test_no_ngenres(self):
-        self.assert_("n:genres" not in self.start.keys())
-
     def test_naccess(self):
         # Test when access present
-        self.my_news.edit(gsm_access="Registration")
-        self.my_news.reindexObject()
-        self.reParse()
         self.assert_("n:access" in self.start.keys())
         self.assert_("Registration" in self.data, "No 'Registration' in data")
 
-    def test_ngenresSingle(self):
+    def test_ngenres(self):
         # Test when genres present
-        self.my_news.edit(gsm_genres=("PressRelease",))
-        self.my_news.reindexObject()
-        self.reParse()
         self.assert_("n:genres" in self.start.keys())
         self.assert_("PressRelease" in self.data, "No 'PressRelease' in data")
 
@@ -94,7 +83,7 @@ class TestNewsSitemapsXML(FunctionalTestCase):
 
     def test_ngenresEmpty(self):
         # No genres should present if it's not updated
-        self.my_news.edit()
+        self.my_news.edit(gsm_genres=[])
         self.my_news.reindexObject()
         self.reParse()
         self.assertNotEqual("n:genres" in self.start.keys(), True)
@@ -105,8 +94,15 @@ class TestNewsSitemapsXML(FunctionalTestCase):
         my_doc = getattr(self.portal, "my_doc")
         my_doc.edit(text="Test document")
         self.portal.portal_workflow.doActionFor(my_doc, "publish")
+        self.portal["news-sitemaps"].edit(portalTypes=("Document",))
         self.reParse()
+        open("/tmp/news.sm.docs.xml", "w").write(self.sitemap)
         self.assertNotEqual("n:genres" in self.start.keys(), True)
+
+    def test_nstock_tickers(self):
+        # Test n:stock_tickers
+        self.assert_("n:stock_tickers" in self.start.keys())
+        self.assert_("NASDAQ:AMAT, BOM:500325" in self.data, "No 'NASDAQ:AMAT, BOM:500325' in data")
 
 
 class TestNewsSitemapsXMLDefaultObject(FunctionalTestCase):
@@ -137,7 +133,6 @@ class TestNewsSitemapsXMLDefaultObject(FunctionalTestCase):
         self.assert_("n:news" in self.start.keys())
         
     def test_npublication(self):
-        open("/tmp/news.sm.xml", "w").write(self.sitemap)
         self.assert_("n:publication" in self.start.keys())
         self.assert_("n:name" in self.start.keys())
         self.assert_("my_news" in self.data, "No 'First news' in data")
@@ -161,6 +156,9 @@ class TestNewsSitemapsXMLDefaultObject(FunctionalTestCase):
     def test_no_keywords(self):
         self.assert_("n:keywords" not in self.start.keys())
 
+    def test_no_keywords(self):
+        self.assert_("n:stock_tickers" not in self.start.keys())
+
 
 from Products.ATContentTypes.interface import IATNewsItem
 from quintagroup.plonegooglesitemaps.content.newsextender import NewsExtender
@@ -180,8 +178,10 @@ class TestSchemaExtending(TestCase):
         # Neither of object has extended fields
         self.assertNotEqual(self.my_news.getField("gsm_access"), None)
         self.assertNotEqual(self.my_news.getField("gsm_genres"), None)
+        self.assertNotEqual(self.my_news.getField("gsm_stock"), None)
         self.assertEqual(self.my_doc.getField("gsm_access"), None)
         self.assertEqual(self.my_doc.getField("gsm_genres"), None)
+        self.assertEqual(self.my_doc.getField("gsm_stock"), None)
     
     def testRegistrationOnLocalSM(self):
         """SchemaExtender adapters must be registered

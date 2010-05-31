@@ -39,10 +39,14 @@ def upgrade_1_0_to_1_1(setuptool):
     """
     setuptool.runAllImportStepsFromProfile('profile-quintagroup.plonegooglesitemaps:upgrade_1_0_to_1_1')
 
-
 def upgrade_1_1_to_1_2(setuptool):
     """ Upgrade quintagroup.plonegooglesitemaps from version 1.1 to 1.2.
     """
     plone_tools = queryMultiAdapter((setuptool, setuptool.REQUEST), name="plone_tools")
     migrateCanonical(plone_tools)
     setuptool.runAllImportStepsFromProfile('profile-quintagroup.plonegooglesitemaps:upgrade_1_1_to_1_2')
+
+def upgrade_1_2_to_1_3(setuptool):
+    """ Upgrade quintagroup.plonegooglesitemaps from version 1.2 to 1.3.
+    """
+    setuptool.runAllImportStepsFromProfile('profile-quintagroup.plonegooglesitemaps:upgrade_1_2_to_1_3')

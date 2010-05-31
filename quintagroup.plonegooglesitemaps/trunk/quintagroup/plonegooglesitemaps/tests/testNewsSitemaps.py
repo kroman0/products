@@ -109,6 +109,59 @@ class TestNewsSitemapsXML(FunctionalTestCase):
         self.assertNotEqual("n:genres" in self.start.keys(), True)
 
 
+class TestNewsSitemapsXMLDefaultObject(FunctionalTestCase):
+
+    def afterSetUp(self):
+        super(TestNewsSitemapsXMLDefaultObject, self).afterSetUp()
+        # Create news sitemaps 
+        _createObjectByType("Sitemap", self.portal, id="news-sitemaps",
+                            sitemapType="news", portalTypes=("News Item",))
+        self.portal["news-sitemaps"].at_post_create_script()
+        # Add minimal testing news item to portal
+        self.pubdate = (DateTime()+1).strftime("%Y-%m-%d")
+        my_news = self.portal.invokeFactory("News Item", id="my_news")
+        self.my_news = self.portal["my_news"]
+        self.my_news.edit(effectiveDate=self.pubdate)
+        self.portal.portal_workflow.doActionFor(self.my_news, "publish")
+        self.reParse()
+
+    def reParse(self):
+        # Parse news sitemap
+        self.sitemap = self.publish("/"+self.portal.absolute_url(1) + "/news-sitemaps",
+                                    "%s:%s" % (portal_owner, default_password)).getBody()
+        parsed_sitemap = parse(self.sitemap)
+        self.start = parsed_sitemap["start"]
+        self.data = parsed_sitemap["data"]
+
+    def test_nnews(self):
+        self.assert_("n:news" in self.start.keys())
+        
+    def test_npublication(self):
+        open("/tmp/news.sm.xml", "w").write(self.sitemap)
+        self.assert_("n:publication" in self.start.keys())
+        self.assert_("n:name" in self.start.keys())
+        self.assert_("my_news" in self.data, "No 'First news' in data")
+        self.assert_("n:language" in self.start.keys())
+        self.assert_("en" in self.data, "No 'en' in data")
+
+    def test_npublication_date(self):
+        self.assert_("n:publication_date" in self.start.keys())
+        self.assert_(self.pubdate in self.data, "No %s in data" % self.pubdate)
+        
+    def test_ntitle(self):
+        self.assert_("n:title" in self.start.keys())
+        self.assert_("my_news" in self.data, "No 'First news (test)' in data")
+
+    def test_no_naccess(self):
+        self.assert_("n:access" not in self.start.keys())
+
+    def test_no_ngenres(self):
+        self.assert_("n:genres" not in self.start.keys())
+
+    def test_no_keywords(self):
+        self.assert_("n:keywords" not in self.start.keys())
+
+
 from Products.ATContentTypes.interface import IATNewsItem
 from quintagroup.plonegooglesitemaps.content.newsextender import NewsExtender
 
@@ -147,5 +200,6 @@ def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestNewsSitemapsXML))
+    suite.addTest(makeSuite(TestNewsSitemapsXMLDefaultObject))
     suite.addTest(makeSuite(TestSchemaExtending))
     return suite

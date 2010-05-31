@@ -18,7 +18,8 @@
 	  Specifies one or more properties for an article</n:genres>
         <n:publication_date tal:content="result/publication_date">2006-08-14</n:publication_date>
         <n:title tal:content="result/title">Full title of the news item</n:title>
-        <n:keywords tal:content="result/keywords">Business, Mergers, Acquisitions</n:keywords>
+        <n:keywords tal:condition="result/keywords" tal:content="result/keywords">
+	  Business, Mergers, Acquisitions</n:keywords>
     </n:news>
   </url>
 </urlset>

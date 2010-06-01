@@ -1,8 +1,6 @@
 Introduction
 ============
 
-This is a package version of qPloneGoogleSitemap Plone product since qPloneGoogleSitemap v.0.8.6
-
 Plone Google Sitemaps product allows Plone websites to get better visibility for Google search engine
 by providing it with complete listing of URLs to website content.
 
@@ -19,7 +17,8 @@ With Plone Google Sitemaps product you can enable following Sitemap types on you
 * ``Mobile Sitemap`` - is a specific type of Sitemap, that indexes all site URLs that serve content for 
   mobile devices.
 * ``News Sitemap`` - is different from regular Sitemaps, since it is specific to Google News only.
-  It uses the Sitemap protocol, with additional News-specific tags, defined by Google.
+  It uses the Sitemap protocol, with additional News-specific tags, defined by Google. The package brings 
+  additional Google Sitempas tab to News Item content type for defining NewsSitemap-specific meta tags. 
 
 Different Sitemap types index their own content and do not depend on other Sitemaps.
 
@@ -32,7 +31,7 @@ To enable Google Sitemaps on your site:
   You can add any of the Sitemap types: content, mobile or news. 
 * Let Google know about your Sitemap(s) by adding your Sitemap to Google Sitemaps.
 
-See more detailed instructions on Plone Google Sitemaps usage at http://projects.quintagroup.com/products/wiki/qPloneGoogleSitemaps
+See detailed instructions on Plone Google Sitemaps usage at http://projects.quintagroup.com/products/wiki/qPloneGoogleSitemaps
 
 Screencast
 ----------
@@ -44,7 +43,7 @@ and how to let Google know about them.
 Installation
 ------------
 
-See docs/INSTALL.txt for instructions
+See http://projects.quintagroup.com/products/wiki/qPloneGoogleSitemaps/install
   
 Requirements
 ------------

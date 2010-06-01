@@ -1,12 +1,12 @@
 Changelog
 =========
 
-1.3 (unreleased)
-------------------
+1.3 (2010-06-01)
+----------------
 
-* Updated news-sitemap accordingly with new specifications.
+* Updated news-sitemap according to new specifications
   [mylan]
-* Added upgrad steps for migrate to 1.3 version
+* Added upgrade steps for migrate to 1.3 version
   [mylan]
 * Added tests for new features in news-sitemaps
   [mylan]

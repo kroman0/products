@@ -18,7 +18,8 @@ With Plone Google Sitemaps product you can enable following Sitemap types on you
   by Google's normal crawling process.
 * ``Mobile Sitemap`` - is a specific type of Sitemap, that indexes all site URLs that serve content for 
   mobile devices.
-* ``News Sitemap`` - is different from regular Sitemaps, since it is specific to Google News only. 
+* ``News Sitemap`` - is different from regular Sitemaps, since it is specific to Google News only.
+  It uses the Sitemap protocol, with additional News-specific tags, defined by Google.
 
 Different Sitemap types index their own content and do not depend on other Sitemaps.
 

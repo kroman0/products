@@ -65,6 +65,10 @@ IMPORTANT
 * *If you migrate* to quintagroup.plonegooglesitemaps >= v.1.2 - you MUST ADD overrides.zcml
   slug to instance/buildout configuration, as mentioned in previous sections.
 
+* If you want to upgrade to newer version:
+  * Perform all steps but last one from *Buildout* or *Traditional Zope 2 instance* sections
+  * *Reinstall* ``Plone Google Sitemaps`` with Quickinstaller in Plone (Site Setup -> Add/Remove Products)
+
 * Catalog rebuilding:
   ------------------
   * For quintagroup.plonegooglesitemaps >= v.1.2:

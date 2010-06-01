@@ -27,6 +27,7 @@ setup(name='quintagroup.plonegooglesitemaps',
           'setuptools',
           'quintagroup.canonicalpath>=0.4',
           'quintagroup.catalogupdater',
+          'archetypes.schemaextender',
           # -*- Extra requirements: -*-
       ],
       entry_points="""

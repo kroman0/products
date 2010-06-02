@@ -1,10 +1,22 @@
 import string
+from os.path import abspath, dirname
 from base import *
 
 from DateTime import DateTime
 from Products.CMFFormController.ControllerState import ControllerState
 
 from testStatic import TestStaticValidator
+
+# Check PIL
+try:
+    from PIL import ImageFont
+    fontspath = abspath(dirname(dirname(__file__))) + '/data/fonts/vera/'
+    font = ImageFont.truetype(fontspath+'VeraBd.ttf', 27)
+except ImportError:
+    DYNAMIC_WORKABLE = False
+else:
+    DYNAMIC_WORKABLE = True
+
 
 class DynamicMixin:
     def switchToDynamic(self):
@@ -21,6 +33,16 @@ class DynamicMixin:
             path = string.join( path, ', ' )
             skins.addSkinSelection( skin, path )
             self._refreshSkinData()
+
+
+class TestPIL(unittest.TestCase):
+    
+    def testPILImageFont(self):
+        if not DYNAMIC_WORKABLE:
+            self.fail("You can not use Dynamic Captchas, only Static one " \
+                "unless install PIL with _imagingft C module into python, " \
+                "that is used for the current Zope instance.")
+
 
 class TestDynamic(DynamicMixin, ptc.FunctionalTestCase):
 
@@ -65,7 +87,7 @@ class TestDynamic(DynamicMixin, ptc.FunctionalTestCase):
             "generated image: %s, must be 'image/jpeg'" % img_ctype)
         self.assertTrue(img_html.status == 200, "Wrong response status: " \
             "'%s', must be '200'" % img_html.status)
-        
+
 
 class TestDynamicValidator(DynamicMixin, TestStaticValidator):
 
@@ -76,6 +98,8 @@ class TestDynamicValidator(DynamicMixin, TestStaticValidator):
 
 def test_suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestDynamic))
-    suite.addTest(unittest.makeSuite(TestDynamicValidator))
+    suite.addTest(unittest.makeSuite(TestPIL))
+    if DYNAMIC_WORKABLE:
+        suite.addTest(unittest.makeSuite(TestDynamic))
+        suite.addTest(unittest.makeSuite(TestDynamicValidator))
     return suite

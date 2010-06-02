@@ -93,8 +93,39 @@ class TestConfiglet(ptc.FunctionalTestCase):
             'contains: "%s", must: "%s"' % (prop, fact, expect))
 
 
+class TestConfigletView(ptc.FunctionalTestCase):
+
+    def afterSetUp(self):
+        self.loginAsPortalOwner()
+        self.addProduct(PRODUCT_NAME)
+        self.view = self.publish(self.portal.id+'/prefs_captchas_setup_form',
+                                 portal_owner+":"+default_password).getBody()
+ 
+    def matchinput(self, name):
+        return re.match('.*<input\s+[^\>]*name=\"%s\"[^>]*>' % name,
+                        self.view, re.I|re.S)
+
+    def test_basic_form(self):
+        form = re.match('.*<form\s+[^\>]*action=\"[^\"]*?prefs_captchas_setup_form\"[^>]*>',
+                        self.view, re.I|re.S)
+        self.assertNotEqual(form, None,
+            "No 'Plone Captchas Setup' form present on the configlet view")
+        self.assertNotEqual(self.matchinput('form\.button\.form_submit'), None,
+            "No submit button on the form")
+        self.assertNotEqual(self.matchinput('static_captchas'), None,
+            "No static/dynamic radio button present on the configlet")
+
+    def test_dynamic(self):
+        params = ["image_size", "background", "font_color",
+                  "period", "amplitude", "random_params"]
+        for param in params:
+            self.assertNotEqual(self.matchinput(param), None,
+                "'%s' form element absence on the configlet form" % param)
+        
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestConfiglet))
+    suite.addTest(makeSuite(TestConfigletView))
     return suite

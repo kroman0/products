@@ -11,7 +11,9 @@
 <body>
 
 <div metal:fill-slot="prefs_configlet_main"
-     tal:define="errors python:request.get('controller_state', None).getErrors();">
+     tal:define="errors python:request.get('controller_state', None).getErrors();
+                 Iterator python:modules['Products.CMFPlone'].IndexIterator;
+                 tabindex python:Iterator(mainSlot=False)">
 
     <div metal:define-macro="main">
     <div class="configlet">

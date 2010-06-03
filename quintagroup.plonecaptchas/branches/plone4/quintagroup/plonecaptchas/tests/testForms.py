@@ -148,6 +148,9 @@ class TestSendtoForm(TestFormMixin):
                 'comment': 'Text in Comment',
                 'form.button.Send' : 'Save'}
 
+def send_patch(self, *args, **kwargs):
+    """This patch prevent breakage on sending."""
+
 class TestContactInfo(TestFormMixin):
 
     def afterSetUp(self):
@@ -156,13 +159,18 @@ class TestContactInfo(TestFormMixin):
         self.portal._updateProperty('email_from_address','manager@test.com')
         self.logout()
         self.form_url = '/contact-info'
-        
+        self.orig_mh_send = self.portal.MailHost.send
+        self.portal.MailHost.send = send_patch
+
+    def beforeTearDown(self):
+        self.portal.MailHost.send = self.orig_mh_send
+
     def getFormData(self):
         return {'form.submitted' : '1',
                 "sender_fullname" : "tester",
                 "sender_from_address" : "sender@test.com",
                 'subject': 'Subject',
-                'message': 'Message',
+                'message': 'Message',}
                 'form.button.Send' : 'Save'}
 
 

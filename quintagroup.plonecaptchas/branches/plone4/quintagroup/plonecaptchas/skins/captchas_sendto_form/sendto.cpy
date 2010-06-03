@@ -25,17 +25,6 @@ if not mtool.checkPermission(AllowSendto, context):
     context.plone_utils.addPortalMessage(_(u'You are not allowed to send this link.'), 'error')
     return state.set(status='failure')
 
-at = getToolByName(context, 'portal_actions')
-show = False
-actions = at.listActionInfos(object=context)
-# Check for visbility of sendto action
-for action in actions:
-    if action['id'] == 'sendto' and action['category'] == 'document_actions':
-        show = True
-if not show:
-    context.plone_utils.addPortalMessage(_(u'You are not allowed to send this link.'), 'error')
-    return state.set(status='failure')
-
 # Find the view action.
 context_state = context.restrictedTraverse("@@plone_context_state")
 url = context_state.view_url()

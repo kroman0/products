@@ -1,4 +1,3 @@
-global-include *.zcml
-global-include *.pot
-global-include *.xml
-global-include *.pt
+recursive-include docs *
+recursive-include quintagroup *
+global-exclude *pyc

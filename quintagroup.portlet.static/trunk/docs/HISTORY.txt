@@ -5,6 +5,8 @@ Changelog
 v0.2 - Unreleased
 -----------------
 
+* Fixed MANIFEST.in
+
 
 v0.1 - February 25, 2009
 ------------------------

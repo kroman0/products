@@ -18,9 +18,6 @@
     <cmf:registerDirectory name="captchas_discussion" />
     <cmf:registerDirectory name="captchas_sendto_form" />
     <cmf:registerDirectory name="captchas_contact_info" />
-    <cmf:registerDirectory name="captchas_join_form_30" />
-    <cmf:registerDirectory name="captchas_join_form_31_32" />
-    <cmf:registerDirectory name="captchas_join_form_33" />
 
     <gs:registerProfile
         name="default"
@@ -32,28 +29,10 @@
         />
 
     <gs:registerProfile
-        name="join_form_plone_30"
-        title="Plone Captchas Join Form for plone-3.0"
-        directory="profiles/join_form_plone_30"
-        description="This product adds captcha support to Plone."
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-
-    <gs:registerProfile
-        name="join_form_plone_31_32"
-        title="Plone Captchas Join Form for plone-3.1 - plone-3.2"
-        directory="profiles/join_form_plone_31_32"
-        description="This product adds captcha support to Plone."
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-
-    <gs:registerProfile
-        name="join_form_plone_33"
-        title="Plone Captchas Join Form for plone-3.3"
-        directory="profiles/join_form_plone_33"
-        description="This product adds captcha support to Plone."
+        name="register_form"
+        title="Plone Captchas Register Forms for Plone 4"
+        directory="profiles/register_form"
+        description="This profile adds captcha protection of Register Form in Plone 4."
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
@@ -63,15 +42,6 @@
         title="Uninstall Plone Captchas"
         directory="profiles/uninstall"
         description="Uninstall Plone Captchas product."
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-
-    <gs:registerProfile
-        name="register_form"
-        title="Plone Captchas Register Forms for plone-4.0"
-        directory="profiles/register_form"
-        description="This profile adds captcha protection of Register Form in Plone 4."
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />

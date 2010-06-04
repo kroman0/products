@@ -67,4 +67,13 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
+    <gs:registerProfile
+        name="register_form"
+        title="Plone Captchas Register Forms for plone-4.0"
+        directory="profiles/register_form"
+        description="This profile adds captcha protection of Register Form in Plone 4."
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
 </configure>

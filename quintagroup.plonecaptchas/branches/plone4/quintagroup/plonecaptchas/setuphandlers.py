@@ -21,7 +21,7 @@ def removeBrowserLayer(site):
 def uninstall(context):
     """ Do customized uninstallation.
     """
-    if context.readDataFile('seo_uninstall.txt') is None:
+    if context.readDataFile('qgplonecaptchas_uninstall.txt') is None:
         return
     site = context.getSite()
     removeBrowserLayer(site)

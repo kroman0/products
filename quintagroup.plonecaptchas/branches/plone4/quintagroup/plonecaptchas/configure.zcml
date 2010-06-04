@@ -11,6 +11,9 @@
 
     <five:registerPackage package="." initialize=".initialize" />
 
+    <!-- include packages -->
+    <include package="browser" />
+
     <!-- File System Directory Views registration -->
     <cmf:registerDirectory name="captchas_discussion" />
     <cmf:registerDirectory name="captchas_sendto_form" />

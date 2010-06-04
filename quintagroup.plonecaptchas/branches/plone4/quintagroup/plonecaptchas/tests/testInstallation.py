@@ -1,4 +1,12 @@
 from base import *
+from zope.interface import alsoProvides
+from zope.component import getSiteManager
+from zope.component import queryMultiAdapter
+from plone.browserlayer.interfaces import ILocalBrowserLayerType
+from quintagroup.plonecaptchas.interfaces import IQGPloneCaptchas
+from quintagroup.plonecaptchas.browser.register import CaptchaAddUserForm
+from quintagroup.plonecaptchas.browser.register import CaptchaRegistrationForm
+
 
 class TestInstallation(TestCase):
 
@@ -16,11 +24,39 @@ class TestInstallation(TestCase):
                 self.assert_(layer in path,
                     '%s layer not found in %s' % (PRODUCT_NAME, skin))
 
-    def testSkinUninstall(self):
-        qi = getToolByName(self.portal, 'portal_quickinstaller', None)
-        qi.uninstallProducts([PRODUCT_NAME])
-        assert not qi.isProductInstalled(PRODUCT_NAME)
+    def testBrowserLayerRegistration(self):
+        # Test if IQGPloneCaptchas browser layer registered on installation
+        site = getSiteManager(self.portal)
+        registeredLayers = [r.name for r in site.registeredUtilities()
+                            if r.provided == ILocalBrowserLayerType]
+        self.assertEqual("quintagroup.plonecaptchas" in registeredLayers, True)
 
+    def testRegisterFormOverriden(self):
+        # Mark request with IQGPloneCaptchas browser layer interface
+        alsoProvides(self.portal.REQUEST, IQGPloneCaptchas)
+        register = queryMultiAdapter((self.portal, self.portal.REQUEST), name="register")
+        self.assertEqual(isinstance(register, CaptchaRegistrationForm), True)
+
+    def testAddUserFormOverriden(self):
+        # Mark request with IQGPloneCaptchas browser layer interface
+        alsoProvides(self.portal.REQUEST, IQGPloneCaptchas)
+        newuser = queryMultiAdapter((self.portal, self.portal.REQUEST), name="new-user")
+        self.assertEqual(isinstance(newuser, CaptchaAddUserForm), True)
+
+
+
+class TestUninstallation(TestCase):
+
+    def afterSetUp(self):
+        self.loginAsPortalOwner()
+        self.skins = getToolByName(self.portal, 'portal_skins', None)
+        self.qi = getToolByName(self.portal, 'portal_quickinstaller', None)
+        self.qi.uninstallProducts([PRODUCT_NAME])
+
+    def testProductUninstalled(self):
+        self.assertNotEqual(self.qi.isProductInstalled(PRODUCT_NAME), True)
+
+    def testSkinUninstall(self):
         for skin in self.skins.getSkinSelections():
             path = self.skins.getSkinPath(skin)
             path = map(str.strip, path.split(','))
@@ -30,7 +66,26 @@ class TestInstallation(TestCase):
                 self.assert_(not layer in path,
                     '%s layer found in %s skin after uninstallation' % (layer, skin))
 
+    def testBrowserLayerUnregistration(self):
+        # Test if IQGPloneCaptchas browser layer registered on installation
+        site = getSiteManager(self.portal)
+        registeredLayers = [r.name for r in site.registeredUtilities()
+                            if r.provided == ILocalBrowserLayerType]
+        self.assertNotEqual("quintagroup.plonecaptchas" in registeredLayers, True)
+
+    def testRegisterFormOverriden(self):
+        # Mark request with IQGPloneCaptchas browser layer interface
+        register = queryMultiAdapter((self.portal, self.portal.REQUEST), name="register")
+        self.assertNotEqual(isinstance(register, CaptchaRegistrationForm), True)
+
+    def testAddUserFormOverriden(self):
+        # Mark request with IQGPloneCaptchas browser layer interface
+        newuser = queryMultiAdapter((self.portal, self.portal.REQUEST), name="new-user")
+        self.assertNotEqual(isinstance(newuser, CaptchaAddUserForm), True)
+
+
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestInstallation))
+    suite.addTest(unittest.makeSuite(TestUninstallation))
     return suite

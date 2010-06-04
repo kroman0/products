@@ -26,15 +26,15 @@ from quintagroup.plonecaptchas.config import *
 # TESTING CONSTANTS
 CAPTCHA_KEY = 'captcha_key'
 CAPTCHAS_COUNT = 165
-LAYERS = ['captchas_discussion', 'captchas_sendto_form', 'captchas_join_form']
+LAYERS = ['captchas_discussion', 'captchas_sendto_form']
 
 TOOL_ICON = 'skins/plone_captchas/tool.gif'
 TOOL_ID = 'portal_captchas'
 CONFIGLET_ID = "qpc_tool"
 PROPERTY_SHEET = 'qPloneCaptchas'
 
-# join_form profile prefix
-JF_PROFILE_PREFIX = 'profile-quintagroup.plonecaptchas:join_form_plone_'
+# register_form profile
+RF_PROFILE = 'profile-quintagroup.plonecaptchas:register_form'
 
 ptc.setupPloneSite()
 
@@ -68,19 +68,9 @@ class Installed(NotInstalled):
         qi = getattr(portal, 'portal_quickinstaller', None)
         qi.installProduct(PRODUCT_NAME)
 
-        # Install Join Form layer, depends on Plone version
-        js_layer = None
-        if getattr(ptc_setup, 'PLONE33', 0):
-            js_layer = JF_PROFILE_PREFIX+'33'
-        elif getattr(ptc_setup, 'PLONE32', 0):
-            js_layer = JF_PROFILE_PREFIX+'31_32'
-        elif getattr(ptc_setup, 'PLONE31', 0):
-            js_layer = JF_PROFILE_PREFIX+'31_32'
-        elif getattr(ptc_setup, 'PLONE30', 0):
-            js_layer = JF_PROFILE_PREFIX+'30'
-        if js_layer is not None:
-            gs = getattr(portal, 'portal_setup', None)
-            gs.runAllImportStepsFromProfile(js_layer)
+        # Run register_form profile
+        gs = getattr(portal, 'portal_setup', None)
+        gs.runAllImportStepsFromProfile(RF_PROFILE)
 
         transaction.commit()
 

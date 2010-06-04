@@ -19,7 +19,7 @@ Usage
 * Select Static Stylish text portlet from Add portlet drop-down menu
 
 * Provide content to be displayed on the portlet [as you would do for
-  usual Plone static text portlets]
+  usual Plone static text portlets
 
 * Choose a portlet style for the portlet from the list of available HTML
   classes.
@@ -31,11 +31,12 @@ Supported Plone version
 
 * 3.x
 
-Author
-------
+Authors
+-------
 
 * Vitaliy Podoba
 
-Copyright (c) "Quintagroup": http://quintagroup.com/, 2009.
+* Roman Kozlovskyi
 
-support@quintagroup.com * quintessence of modern business
+Copyright (c) "Quintagroup": http://quintagroup.com/, 2010
+

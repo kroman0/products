@@ -170,7 +170,7 @@ class TestContactInfo(TestFormMixin):
                 "sender_fullname" : "tester",
                 "sender_from_address" : "sender@test.com",
                 'subject': 'Subject',
-                'message': 'Message',}
+                'message': 'Message',
                 'form.button.Send' : 'Save'}
 
 

@@ -112,13 +112,13 @@ class TestDiscussionForm(TestFormMixin):
                 'form.button.form_submit' : 'Save'}
 
 
-class TestJoinForm(TestFormMixin):
+class TestRegisterForm(TestFormMixin):
 
     def afterSetUp(self):
         TestFormMixin.afterSetUp(self)
         ISecuritySchema(self.portal).enable_self_reg = True
         self.hasAuthenticator = True
-        self.form_url = '/join_form'
+        self.form_url = '/@@register'
         self.basic_auth = ":"
         self.logout()
 
@@ -177,7 +177,7 @@ class TestContactInfo(TestFormMixin):
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestDiscussionForm))
-    suite.addTest(unittest.makeSuite(TestJoinForm))
+    suite.addTest(unittest.makeSuite(TestRegisterForm))
     suite.addTest(unittest.makeSuite(TestSendtoForm))
     suite.addTest(unittest.makeSuite(TestContactInfo))
     return suite

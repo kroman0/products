@@ -1,6 +1,5 @@
 from zope.formlib import form
 from zope.interface import Interface
-from plone.app.users.browser.register import AddUserForm
 from plone.app.users.browser.register import RegistrationForm
 
 from quintagroup.formlib.captcha import Captcha
@@ -25,6 +24,3 @@ class CaptchaRegistrationForm(RegistrationForm):
             ffields["captcha"].custom_widget = CaptchaWidget
         return ffields
 
-
-class CaptchaAddUserForm(AddUserForm):
-    """Add user form with captacha."""

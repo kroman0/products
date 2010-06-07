@@ -62,12 +62,24 @@ class TestFormMixin(FunctionalTestCase):
         handle = re.search('value="(.*)"', html).groups()[0]
         return handle
 
+    def elog(self, name="", response=""):
+        open("/tmp/test.%s.html" % name, "w").write(response)
+        logs = self.portal.error_log.getLogEntries()
+        if len(logs)>0:
+            i = 0
+            while logs:
+                l = logs.pop()
+                i+=1                
+                open("/tmp/test.%s.error.%d.html" % (l,i),"w").write(l["tb_html"])
+            import pdb;pdb.set_trace()
+
     def testImage(self):
         self.form_data = {}
         self.form_method = "GET"
         response = self.publishForm().getBody()
         patt = re.compile(IMAGE_PATT  % self.portal.absolute_url())
         match_obj = patt.search(response)
+        self.elog("image", response)
         img_url = match_obj.group(1)
 
         content_type = self.publish('/plone' + img_url).getHeader('content-type')
@@ -79,19 +91,23 @@ class TestFormMixin(FunctionalTestCase):
         self.form_data['key'] = key
         
         response = self.publishForm().getBody()
+        self.elog("right", response)
         self.assertFalse(NOT_VALID.search(response))
 
     def testSubmitWrongCaptcha(self):
         self.form_data['key'] = 'wrong word'
         response = self.publishForm().getBody()
+        self.elog("wrong", response)
         self.assertTrue(NOT_VALID.search(response))
 
     def testSubmitRightCaptchaTwice(self):
         key = getWord(int(parseKey(decrypt(self.captcha_key, self.hashkey))['key'])-1)
         self.form_data['key'] = key
 
-        self.publishForm()
+        response1 = self.publishForm()
+        self.elog("right1", response1)
         response = self.publishForm().getBody()
+        self.elog("right2", response)
         self.assertTrue(NOT_VALID.search(response))
 
 

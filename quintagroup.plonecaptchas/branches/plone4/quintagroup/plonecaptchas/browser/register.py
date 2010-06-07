@@ -8,7 +8,6 @@ from quintagroup.formlib.captcha import CaptchaWidget
 
 from quintagroup.plonecaptchas import ProductMessageFactory as _
 
-#from quintagroup.formlib.captcha.field import Captcha
 class CaptchaSchema(Interface):
     captcha = Captcha(
         title=_(u'Type the code'),

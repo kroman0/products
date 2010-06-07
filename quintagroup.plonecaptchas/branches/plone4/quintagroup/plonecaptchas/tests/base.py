@@ -26,7 +26,7 @@ from quintagroup.plonecaptchas.config import *
 # TESTING CONSTANTS
 CAPTCHA_KEY = 'captcha_key'
 CAPTCHAS_COUNT = 165
-LAYERS = ['captchas_discussion', 'captchas_sendto_form']
+LAYERS = ['captchas_discussion', 'captchas_sendto_form', "captchas_contact_info"]
 
 TOOL_ICON = 'skins/plone_captchas/tool.gif'
 TOOL_ID = 'portal_captchas'

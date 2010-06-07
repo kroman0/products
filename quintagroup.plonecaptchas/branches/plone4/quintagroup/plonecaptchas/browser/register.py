@@ -1,3 +1,4 @@
+from zope.formlib import form
 from zope.interface import Interface
 from plone.app.users.browser.register import AddUserForm
 from plone.app.users.browser.register import RegistrationForm
@@ -20,8 +21,10 @@ class CaptchaRegistrationForm(RegistrationForm):
     def form_fields(self):
         """Add captcha field to form_fields."""
         ffields = super(CaptchaRegistrationForm, self).form_fields
-        
-        return ffields and ffields + form.Fields(CaptchaSchema) or ffields
+        if len(ffields):
+            ffields = ffields + form.Fields(CaptchaSchema)
+            ffields["captcha"].custom_widget = CaptchaWidget
+        return ffields
 
 
 class CaptchaAddUserForm(AddUserForm):

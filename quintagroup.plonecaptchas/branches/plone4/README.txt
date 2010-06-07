@@ -6,28 +6,32 @@ for validation of human input in insecure forms. This is a standalone
 implementation which does not depend on captchas.net services.
 
 quintagroup.plonecaptchas adds captcha support to Plone, it works together with 
-quintagroup.captcha.core package. http://projects.quintagroup.com/products/wiki/quintagroup.captcha.core
+quintagroup.captcha.core package (http://projects.quintagroup.com/products/wiki/quintagroup.captcha.core) and quintagroup.formlib.captcha (http://projects.quintagroup.com/products/wiki/quintagroup.formlib.captcha)
 
 With these products installed captchas will be added to Plone's 'Send this', 
 'Contact Us' (/contact-info) forms, and Plone's default discussion mechanism: 
 'Add Comment' and 'Reply' forms.
 
 quintagroup.plonecaptchas does not automatically plug to Plone's default registration
-(/join_form). You can make captcha plug to Plone's Join form via Zope Management Interface.
+(/@@register). You can make captcha plug to Plone's Register form via Zope Management Interface.
 Instructions here: http://projects.quintagroup.com/products/wiki/quintagroup.plonecaptchas#JoinForm
 
 Requirements
 ------------
 
-* Plone 3.0 and above 
+* Plone 4.0 and above 
 
-For earlier Plone versions - use 1.3.4 version of qPloneCaptchas product for use on forms
+For earlier Plone versions, use:
+  * for Plone < 3.0 - use 1.3.4 version of qPloneCaptchas product for use on forms
 created with PloneFormMailer product.
+  * for Plone 3.X - use quintagroup.plonecaptchas v3.X
+  * for Plone 4.X - use quintagroup.plonecaptchas v4.X
 
 Dependencies
 ------------
 
-* quintagroup.captcha.core
+* quintagroup.captcha.core (PIL with _imagingft C module for dynamic captcha)
+* quintagroup.formlib.captcha
 * PIL with Jpeg and FreeType support
 
 Plone Captchas on PloneFormGen forms 

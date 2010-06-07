@@ -117,6 +117,7 @@ class TestRegisterForm(TestFormMixin):
     def afterSetUp(self):
         TestFormMixin.afterSetUp(self)
         ISecuritySchema(self.portal).enable_self_reg = True
+        self.portal._updateProperty('validate_email', False)
         self.hasAuthenticator = True
         self.form_url = '/@@register'
         self.basic_auth = ":"

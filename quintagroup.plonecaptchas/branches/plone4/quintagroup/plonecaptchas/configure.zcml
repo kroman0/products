@@ -8,6 +8,7 @@
 
     <!-- include dependent packages -->
     <include package="quintagroup.captcha.core" />
+    <include package="quintagroup.formlib.captcha" />
 
     <five:registerPackage package="." initialize=".initialize" />
 

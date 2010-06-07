@@ -61,3 +61,30 @@ Protecting Register form with captcha
 quintagroup.plonecaptchas does not automatically plug to Plone's default registration
 (/@@register), to protect register form with captcha - you must follow the instructions here:
 http://projects.quintagroup.com/products/wiki/quintagroup.plonecaptchas#JoinForm
+
+
+Migration notes
+===============
+
+Following migration notes must be done only if you protect join (registration) form with captcha.
+All steps performed in ZMI (<portal>/manage_main).
+
+=== Migration from Plone-3.X to Plone-3.Y ===
+
+If you have Plone-3.X site with installed quintagroup.plonecaptchas v3 package, and want to migrate site to Plone-3.Y, you must perform following steps:
+  * migrate your plone site to Plone-3.Y
+  * update *Directory:* property of `<portal>/portal_skins/captchas_join_form` Filesystem Directory View' - go to `<portal>/portal_skins/captchas_join_form/manage_propertiesForm` and update value of the *Directory* property according to the following rooles:
+    *  for Plone-3.0: quintagroup.plonecaptchas:skins/captchas_join_form_30
+    *  for Plone-3.1 or Plone-3.2: quintagroup.plonecaptchas:skins/captchas_join_form_31_32
+    *  for Plone-3.3+: quintagroup.plonecaptchas:skins/captchas_join_form_33
+    
+
+=== Migration from Plone-3 to Plone-4 ===
+
+If you have Plone-3 site with installed quintagroup.plonecaptchas v3 package, and want to migrate site to Plone-4, you must perform following steps:
+  * update plone-4 buildout/instance - to use quintagroup.plonecaptchas v4 package instead of quintagroup.plonecaptchas v3
+  * migrate your plone site to Plone-4
+  * remove `<portal>/portal_skins/captchas_join_form` Filesystem Directory View'
+  * remove *captchas_join_form* layer from all skins in `<portal>/portal_skins/manage_propertiesForm`
+  * run all steps with "Plone Captchas Register Forms for Plone 4" upgrade profile - go to `<portal>/portal_setup/manage_importSteps`, select mentioned profile and push "Import all steps" button.
+

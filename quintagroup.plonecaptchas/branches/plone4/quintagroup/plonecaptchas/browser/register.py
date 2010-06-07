@@ -21,6 +21,9 @@ class CaptchaRegistrationForm(RegistrationForm):
         ffields = super(CaptchaRegistrationForm, self).form_fields
         if len(ffields):
             ffields = ffields + form.Fields(CaptchaSchema)
+            # XXX: Because of raising ConfigurationConflictError when include
+            # configure.zcml slug of quintagroup.formlib.captcha, we must
+            # explicytly define custom CaptchaWidget widget for Captcha field.
             ffields["captcha"].custom_widget = CaptchaWidget
         return ffields
 

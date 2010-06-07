@@ -8,7 +8,8 @@
 
     <!-- include dependent packages -->
     <include package="quintagroup.captcha.core" />
-    <include package="quintagroup.formlib.captcha" />
+    <!-- can't included quintagroup.formlib.captcha
+	 because of ConfigurationConflictError. --> 
 
     <five:registerPackage package="." initialize=".initialize" />
 

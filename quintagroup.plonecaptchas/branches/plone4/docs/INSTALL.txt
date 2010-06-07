@@ -53,3 +53,11 @@ should only contain this::
 
 * Install ``Plone Captchas`` with Quickinstaller in Plone (Site Setup -> Add/Remove Products). 
 ``Quintagroup Captcha Core`` will automatically be installed as dependency.
+
+
+Protecting Register form with captcha
+-------------------------------------
+
+quintagroup.plonecaptchas does not automatically plug to Plone's default registration
+(/@@register), to protect register form with captcha - you must follow the instructions here:
+http://projects.quintagroup.com/products/wiki/quintagroup.plonecaptchas#JoinForm

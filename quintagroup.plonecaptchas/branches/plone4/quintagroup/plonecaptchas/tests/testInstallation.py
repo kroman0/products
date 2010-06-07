@@ -4,7 +4,6 @@ from zope.component import getSiteManager
 from zope.component import queryMultiAdapter
 from plone.browserlayer.interfaces import ILocalBrowserLayerType
 from quintagroup.plonecaptchas.interfaces import IQGPloneCaptchas
-from quintagroup.plonecaptchas.browser.register import CaptchaAddUserForm
 from quintagroup.plonecaptchas.browser.register import CaptchaRegistrationForm
 
 
@@ -36,13 +35,6 @@ class TestInstallation(TestCase):
         alsoProvides(self.portal.REQUEST, IQGPloneCaptchas)
         register = queryMultiAdapter((self.portal, self.portal.REQUEST), name="register")
         self.assertEqual(isinstance(register, CaptchaRegistrationForm), True)
-
-    def testAddUserFormOverriden(self):
-        # Mark request with IQGPloneCaptchas browser layer interface
-        alsoProvides(self.portal.REQUEST, IQGPloneCaptchas)
-        newuser = queryMultiAdapter((self.portal, self.portal.REQUEST), name="new-user")
-        self.assertEqual(isinstance(newuser, CaptchaAddUserForm), True)
-
 
 
 class TestUninstallation(TestCase):
@@ -77,11 +69,6 @@ class TestUninstallation(TestCase):
         # Mark request with IQGPloneCaptchas browser layer interface
         register = queryMultiAdapter((self.portal, self.portal.REQUEST), name="register")
         self.assertNotEqual(isinstance(register, CaptchaRegistrationForm), True)
-
-    def testAddUserFormOverriden(self):
-        # Mark request with IQGPloneCaptchas browser layer interface
-        newuser = queryMultiAdapter((self.portal, self.portal.REQUEST), name="new-user")
-        self.assertNotEqual(isinstance(newuser, CaptchaAddUserForm), True)
 
 
 def test_suite():

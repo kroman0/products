@@ -18,6 +18,9 @@ testPatch()
 
 class TestFormMixin(FunctionalTestCase):
 
+    formkey_key = "key"
+    formkey_hashkey = "hashkey"
+
     def afterSetUp(self):
         self.loginAsPortalOwner()
         self.addProduct(PRODUCT_NAME)
@@ -32,8 +35,8 @@ class TestFormMixin(FunctionalTestCase):
         # Prepare captcha related test data
         self.captcha_key = self.portal.captcha_key
         self.hashkey = self.portal.getCaptcha()
-        self.form_data['hashkey'] = self.hashkey
-        self.form_data['key'] = ''
+        self.form_data[self.formkey_hashkey] = self.hashkey
+        self.form_data[self.formkey_key] = ''
 
     def getFormData(self):
         raise NotImplementedError(
@@ -88,27 +91,27 @@ class TestFormMixin(FunctionalTestCase):
 
     def testSubmitRightCaptcha(self):
         key = getWord(int(parseKey(decrypt(self.captcha_key, self.hashkey))['key'])-1)
-        self.form_data['key'] = key
+        self.form_data[self.formkey_key] = key
         
         response = self.publishForm().getBody()
         self.elog("right", response)
         self.assertFalse(NOT_VALID.search(response))
 
     def testSubmitWrongCaptcha(self):
-        self.form_data['key'] = 'wrong word'
+        self.form_data[self.formkey_key] = 'wrong word'
         response = self.publishForm().getBody()
         self.elog("wrong", response)
         self.assertTrue(NOT_VALID.search(response))
 
     def testSubmitRightCaptchaTwice(self):
         key = getWord(int(parseKey(decrypt(self.captcha_key, self.hashkey))['key'])-1)
-        self.form_data['key'] = key
+        self.form_data[self.formkey_key] = key
 
-        response1 = self.publishForm()
+        response1 = self.publishForm().getBody()
         self.elog("right1", response1)
-        response = self.publishForm().getBody()
-        self.elog("right2", response)
-        self.assertTrue(NOT_VALID.search(response))
+        response2 = self.publishForm().getBody()
+        self.elog("right2", response2)
+        self.assertTrue(NOT_VALID.search(response2))
 
 
 class TestDiscussionForm(TestFormMixin):
@@ -130,6 +133,9 @@ class TestDiscussionForm(TestFormMixin):
 
 class TestRegisterForm(TestFormMixin):
 
+    formkey_key = "form.captcha"
+    formkey_hashkey = "form..hashkey"
+
     def afterSetUp(self):
         TestFormMixin.afterSetUp(self)
         ISecuritySchema(self.portal).enable_self_reg = True
@@ -140,14 +146,12 @@ class TestRegisterForm(TestFormMixin):
         self.logout()
 
     def getFormData(self):
-        return {"last_visit:date" : str(DateTime()),
-                "prev_visit:date" : str(DateTime()-1),
-                "came_from_prefs" : "",
-                "fullname" : "Tester",
-                "username" : "tester",
-                "email" : "tester@test.com",
-                'form.button.Register':'Register',
-                'form.submitted':'1'}
+        return {"form.fullname" : "Tester",
+                "form.username" : "tester",
+                "form.email" : "tester@test.com",
+                "form.password" : "123456",
+                "form.password_ctl" : "123456",
+                'form.actions.register' : 'Register'}
 
 
 class TestSendtoForm(TestFormMixin):

@@ -25,7 +25,8 @@ setup(name='quintagroup.plonecaptchas',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'quintagroup.captcha.core',
+          'Plone>=4.0dev',
+          'quintagroup.captcha.core>=0.2',
           'quintagroup.formlib.captcha',
           # -*- Extra requirements: -*-
       ],

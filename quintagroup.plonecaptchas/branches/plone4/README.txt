@@ -21,11 +21,27 @@ Requirements
 
 * Plone 4.0 and above 
 
-For earlier Plone versions, use:
-  * for Plone < 3.0 - use 1.3.4 version of qPloneCaptchas product for use on forms
-created with PloneFormMailer product.
-  * for Plone 3.X - use quintagroup.plonecaptchas v3.X
-  * for Plone 4.X - use quintagroup.plonecaptchas v4.X
+Notes
+-----
+
+* For Plone 4 versions - use quintagroup.plonecaptchas 4.0 release and up http://plone.org/products/plone-captchas/releases/4.0. In your buildout.cfg file's egg section set product version::
+
+   [buildout]
+   ....
+   eggs =
+        ...
+        quintagroup.plonecaptchas >=4.0
+
+* For Plone 3 versions - use quintagroup.plonecaptcha 3.x releases http://plone.org/products/plone-captchas/releases/3.0. In your buildout.cfg file's egg section set product version::
+
+   [buildout]
+   ....
+   eggs =
+        ...
+        quintagroup.plonecaptchas >=3.0,<4.0
+
+* For Plone 2.x versions - use 1.3.4 version of qPloneCaptchas product for use on forms
+
 
 Dependencies
 ------------

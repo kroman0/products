@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: quintagroup.captcha.core 2.0\n"
 "POT-Creation-Date: 2010-04-01 12:26+0000\n"
-"PO-Revision-Date: 2007-01-31 18:42 +0000\n"
-"Last-Translator: Bohdan Koval <koval@quintagroup.com>\n"
+"PO-Revision-Date: 2010-06-09 13:35+0300\n"
+"Last-Translator: Olha <olha.pelishok@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -52,7 +52,7 @@ msgstr "Будь ласка введіть ще раз код перевірки
 
 #: ./profiles/default/controlpanel.xml
 msgid "Plone captchas setup"
-msgstr ""
+msgstr "Налаштування Plone Catchas"
 
 #: ./profiles/default/actionicons.xml
 msgid "Quintagroup Captcha"

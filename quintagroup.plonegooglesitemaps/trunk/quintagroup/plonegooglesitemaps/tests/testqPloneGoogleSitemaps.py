@@ -3,9 +3,30 @@
 #
 
 from base import *
+from cgi import FieldStorage
+from tempfile import TemporaryFile, NamedTemporaryFile
+
+from OFS.Image import cookId
+from Products.CMFPlone.utils import _createObjectByType
+from ZPublisher.HTTPRequest import FileUpload
+
 from zope.component import getSiteManager
 from archetypes.schemaextender.interfaces import ISchemaExtender
-from Products.CMFPlone.utils import _createObjectByType
+
+def prepareUploadFile(prefix=""):
+    """ Helper function for prerare file to uploading """
+    fp = NamedTemporaryFile(mode='w+', prefix=prefix)
+    fp.write("google-site-verification: " + fp.name)
+    fp.seek(0,2)
+    fsize = fp.tell()
+    fp.seek(0)
+
+    env = {'REQUEST_METHOD':'PUT'}
+    headers = {'content-type':'text/plain',
+               'content-length': fsize,
+               'content-disposition':'attachment; filename=%s' % fp.name}
+    fs = FieldStorage(fp=fp, environ=env, headers=headers)
+    return FileUpload(fs), fp
 
 class TestGoogleSitemapsInstallation(TestCase):
 
@@ -170,15 +191,22 @@ class TestGoogleSitemaps(FunctionalTestCase):
         self.assertTrue(self.my_doc.absolute_url(0) in data, 'Incorect url')
 
     def testVerificationFileCreation(self):
-        self.portal.gsm_create_verify_file('verif_file')
-
-        vf_created = hasattr(self.portal, 'verif_file')
+        fp, fname = None, None
+        try:
+            fupload, fp = prepareUploadFile()
+            fname, ftitle = cookId('', '', fupload)
+            self.portal.REQUEST.form['verification_file'] = fupload
+            self.portal.gsm_create_verify_file()
+        finally:
+            if fp: fp.close()
+        import pdb;pdb.set_trace()
+        vf_created = hasattr(self.portal, fname)
         self.assert_(vf_created, 'Verification file not created')
 
     def testVerificationForm(self):
         verifyConfigUrl = '/'+self.portal.absolute_url(1) + '/prefs_gsm_verification'
         verif_config = self.publish(verifyConfigUrl, self.auth).getBody()
-        rexp_input_acitve = re.compile('<input\s+name="verify_filename"\s+([^>]*)>', re.I|re.S)
+        rexp_input_acitve = re.compile('<input\s+name="verification_file"\s+([^>]*)>', re.I|re.S)
         rexp_button_acitve = re.compile('<input\s+name="form.button.CreateFile"\s+([^>]*)>', re.I|re.S)
         rexp_delete_button = re.compile('<input\s+name="form.button.DeleteFile"\s+[^>]*>', re.I|re.S)
 
@@ -190,7 +218,14 @@ class TestGoogleSitemaps(FunctionalTestCase):
         self.assert_(button_acitve and not 'disabled' in button_acitve.groups(1))
         self.assert_(not delete_button)
 
-        self.portal.gsm_create_verify_file('verif_file')
+        fp, fname = None, None
+        try:
+            fupload, fp = prepareUploadFile()
+            fname, ftitle = cookId('', '', fupload)
+            self.portal.REQUEST.form['verification_file'] = fupload
+            self.portal.gsm_create_verify_file()
+        finally:
+            if fp: fp.close()
 
         input_acitve = rexp_input_acitve.search(verif_config)
         button_acitve = rexp_button_acitve.search(verif_config)
@@ -202,27 +237,29 @@ class TestGoogleSitemaps(FunctionalTestCase):
 
     def testMultiplyVerificationFiles(self):
         verifyConfigUrl = '/'+self.portal.absolute_url(1) + '/prefs_gsm_verification'
+        fnames = []
+        for i in [1,2]:
+            fp, fname, response = None, None, None
+            try:
+                fupload, fp = prepareUploadFile(prefix=str(i))
+                fname, ftitle = cookId('', '', fupload)
+                form = {'form.button.CreateFile': 'Create verification file',
+                        'form.submitted': 1}
+                extra_update = {'verification_file': fupload}
+                response = self.publish(verifyConfigUrl, request_method='POST',
+                                        stdin=StringIO(urlencode(form)),
+                                        basic=self.auth, extra=extra_update)
+            finally:
+                if fp: fp.close()
+            
+            self.assertEqual(response.getStatus(), 200)
+            self.assert_(fname in self.gsm_props.getProperty('verification_filenames',[]),
+                             self.gsm_props.getProperty('verification_filenames',[]))
+            fnames.append(fname)
 
-        form = {'verify_filename':'verif_file_1',
-                'form.button.CreateFile': 'Create verification file',
-                'form.submitted':1}
-        post_data = StringIO(urlencode(form))
-        response = self.publish(verifyConfigUrl, request_method='POST',
-                                stdin=post_data, basic=self.auth)
-        self.assertEqual(response.getStatus(), 200)
-        self.assert_('verif_file_1' in self.gsm_props.getProperty('verification_filenames',[]),
-                     self.gsm_props.getProperty('verification_filenames',[]))
-
-        form = {'verify_filename':'verif_file_2',
-                'form.button.CreateFile': 'Create verification file',
-                'form.submitted':1}
-        post_data = StringIO(urlencode(form))
-        response = self.publish(verifyConfigUrl, request_method='POST',
-                                stdin=post_data, basic=self.auth)
-        self.assertEqual(response.getStatus(), 200)
-        self.assert_([1 for vf in ['verif_file','verif_file_2'] \
-                      if vf in self.gsm_props.getProperty('verification_filenames',[])],
-                     self.gsm_props.getProperty('verification_filenames',[]))
+        self.assertEqual(len([1 for vf in fnames \
+            if vf in self.gsm_props.getProperty('verification_filenames',[])]), 2,
+            self.gsm_props.getProperty('verification_filenames',[]))
 
 
 class TestSettings(FunctionalTestCase):

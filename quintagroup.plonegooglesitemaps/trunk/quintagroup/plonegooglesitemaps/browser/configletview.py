@@ -153,7 +153,6 @@ class ConfigletSettingsView(BrowserView):
         vfilename = ""
         portal = self.pps.portal()
         try:
-            import pdb;pdb.set_trace()
             vfile = request.get("verification_file")
             vfilename, vftitle = cookId("", "", vfile)
             portal.manage_addFile(id="", file=vfile)

@@ -4,8 +4,8 @@ from zope.interface import implements, Interface, Attribute
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 
-from quintagroup.plonegooglesitemaps import qPloneGoogleSitemapsMessageFactory as _
 from quintagroup.plonegooglesitemaps.interfaces import ISitemap
+from quintagroup.plonegooglesitemaps import qPloneGoogleSitemapsMessageFactory as _
 
 def splitNum(num):
     res = []
@@ -53,9 +53,9 @@ class ConfigletSettingsView(BrowserView):
         self.context = context
         self.request = request
 
-        catalog = getToolByName(self.context, 'portal_catalog')
-        self.sitemaps = [i.getObject() for i in catalog(portal_type='Sitemap')]
-
+        self.tools = queryMultiAdapter((self.context, self.request), name="plone_tools")
+        self.pps = queryMultiAdapter((self.context, self.request), name="plone_portal_state")
+        self.sitemaps = [i.getObject() for i in self.tools.catalog()(portal_type='Sitemap')]
 
     @property
     def sm_types(self):
@@ -129,10 +129,9 @@ class ConfigletSettingsView(BrowserView):
 
     def getVerificationFiles(self):
         vfs = []
-        pp = getToolByName(self.context, 'portal_properties')
-        props = getattr(pp,'googlesitemap_properties')
+        props = getattr(self.tools.properties(),'googlesitemap_properties')
         if props:
-            portal_ids = getToolByName(self.context, 'portal_url').getPortalObject().objectIds()
+            portal_ids = self.pps.portal().objectIds()
             props_vfs = list(props.getProperty('verification_filenames',[]))
             vfs = [vf for vf in props_vfs if vf in portal_ids]
             if not props_vfs==vfs:

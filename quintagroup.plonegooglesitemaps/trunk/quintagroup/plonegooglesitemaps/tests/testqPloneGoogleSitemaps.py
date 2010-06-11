@@ -199,7 +199,6 @@ class TestGoogleSitemaps(FunctionalTestCase):
             self.portal.gsm_create_verify_file()
         finally:
             if fp: fp.close()
-        import pdb;pdb.set_trace()
         vf_created = hasattr(self.portal, fname)
         self.assert_(vf_created, 'Verification file not created')
 

@@ -1,6 +1,8 @@
 from zope.component import queryMultiAdapter
 from zope.interface import implements, Interface, Attribute
 
+from OFS.Image import cookId
+from OFS.ObjectManager import BadRequestException
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 
@@ -42,6 +44,15 @@ class IConfigletSettingsView(Interface):
             property for only existent files
         """
 
+    def uploadVerificationFile(vfile):
+        """ Upload passed site verification file to the site.
+            On success - update googlesitemaps verification files list. 
+            Return tuple where :
+              1. boolean value - is verification file successfully created.
+              2. string value:
+                2.1. if successfull - id of created verification file
+                2.2. if failure - error descirption
+        """
 
 class ConfigletSettingsView(BrowserView):
     """
@@ -137,3 +148,22 @@ class ConfigletSettingsView(BrowserView):
             if not props_vfs==vfs:
                 props._updateProperty('verification_filenames', vfs)
         return vfs
+
+    def uploadVerificationFile(self, request):
+        vfilename = ""
+        portal = self.pps.portal()
+        try:
+            import pdb;pdb.set_trace()
+            vfile = request.get("verification_file")
+            vfilename, vftitle = cookId("", "", vfile)
+            portal.manage_addFile(id="", file=vfile)
+            portal[vfilename].manage_addProperty(
+                'CreatedBy', 'quintagroupt.plonegooglesitemaps','string')
+        except BadRequestException, e:
+            return False, str(e)
+        else:
+            props = self.tools.properties().googlesitemap_properties
+            vfilenames = list(props.getProperty('verification_filenames',[]))
+            vfilenames.append(vfilename)
+            props.manage_changeProperties(verification_filenames = vfilenames)
+        return True, vfilename

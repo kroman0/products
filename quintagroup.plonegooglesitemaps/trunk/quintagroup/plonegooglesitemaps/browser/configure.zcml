@@ -37,7 +37,7 @@
       name="sitemap_settings"
       class=".configletview.ConfigletSettingsView"
       allowed_interface=".configletview.IConfigletSettingsView"
-      permission="zope.Public"
+      permission="cmf.ManagePortal"
     />
 
 </configure>

@@ -53,7 +53,7 @@
                             Go to <a href=""
                                         tal:attributes="href string: https://www.google.com/webmasters/verification/verification?siteUrl=${portal/absolute_url}&hl=en"
                                         tal:omit-tag="step1">
-                        site verification page</a> and login if necessary. If <strong>Verification status</strong> is <i>Not Verified</i>, from <strong>Verification method</strong> selection box chose <i>Upload an HTML file</i> and download generated file to you system (you should know where the file is downloaded).
+                        site verification page</a> and login if necessary. If <strong>Verification status</strong> is <i>Not Verified</i>, from <strong>Verification method</strong> selection box choose <i>Upload an HTML file</i> and download generated file to you system.
                         </li>
                         <li tal:attributes="class step1">Select verification file:
                             <p><input name="verification_file" id="verify_filename" type="file"></p>
@@ -64,7 +64,7 @@
                         </li>
                         <li class="discreet"
                             tal:attributes="class step2">Go to <a href=""
-                                        tal:attributes="href string: https://www.google.com/webmasters/sitemaps/verify?siteUrl=${portal/absolute_url}&hl=en"
+                                        tal:attributes="href string: https://www.google.com/webmasters/verification/verification?siteUrl=${portal/absolute_url}&hl=en"
                                         tal:omit-tag="step2">
                         site verification page</a> and press "Check Status" button.
                         </li>

@@ -10,8 +10,6 @@ from OFS.Image import cookId
 from Products.CMFPlone.utils import _createObjectByType
 from ZPublisher.HTTPRequest import FileUpload
 
-from zope.component import getSiteManager
-from archetypes.schemaextender.interfaces import ISchemaExtender
 
 def prepareUploadFile(prefix=""):
     """ Helper function for prerare file to uploading """
@@ -27,126 +25,6 @@ def prepareUploadFile(prefix=""):
                'content-disposition':'attachment; filename=%s' % fp.name}
     fs = FieldStorage(fp=fp, environ=env, headers=headers)
     return FileUpload(fs), fp
-
-class TestGoogleSitemapsInstallation(TestCase):
-
-    def testType(self):
-        pt = self.portal.portal_types
-        self.assert_('Sitemap' in pt.objectIds(), 
-            'No "Sitemap" type after installation')
-        #Test views
-        views = pt.getTypeInfo('Sitemap').view_methods
-        self.assert_('sitemap.xml' in views, 
-            'No "sitemap.xml" view for Sitemap type')
-        self.assert_('mobile-sitemap.xml' in views, 
-            'No "mobile-sitemap.xml" view for Sitemap type')
-        self.assert_('news-sitemap.xml' in views, 
-            'No "news-sitemap.xml" view for Sitemap type')
-
-    def testGSMProperties(self):
-        pp = self.portal.portal_properties
-
-        # Test types_not_searched
-        self.assert_("Sitemap" in pp['site_properties'].getProperty('types_not_searched'), 
-            'No "Sitemap" added to types not searched on installation')
-        # Test metaTypesNotToList
-        self.assert_("Sitemap" in pp['navtree_properties'].getProperty('metaTypesNotToList'), 
-            'No "Sitemap" added to types not to list on installation')
-
-        # Test 'googlesitemap_properties'
-        self.assert_('googlesitemap_properties' in pp.objectIds(), 
-            'No "googlesitemap_properties" after installation')
-        qsmprops = pp['googlesitemap_properties']
-        self.assert_(qsmprops.hasProperty('verification_filenames'),
-            'No "verification_filenames" property added on installation')
-
-    def testSkins(self):
-        ps = self.portal.portal_skins
-        self.assert_('plonegooglesitemaps' in ps.objectIds(), 
-            'No "plonegooglesitemaps" skin layer in portal_skins')
-        self.assert_('plonegooglesitemaps' in ps.getSkinPath(ps.getDefaultSkin()),
-            'No "plonegooglesitemaps" skin layer in default skin')
-
-    def testConfiglet(self):
-        cp = self.portal.portal_controlpanel
-        self.assert_([1 for ai in cp.listActionInfos() if ai['id']=='GoogleSitemaps'], 
-            'No "GoogleSitemaps" configlet added to plone control panel')
-
-    def testNewsSchemaExtenderRegistered(self):
-        lsm = getSiteManager(self.portal)
-        news = self.portal.invokeFactory("News Item", id="test_news")
-        news = getattr(self.portal, "test_news")
-        self.assertNotEqual(lsm.queryAdapter(news, interface=ISchemaExtender), None)
-
-
-class TestGoogleSitemapsUninstallation(TestCase):
-
-    def afterSetUp(self):
-        self.loginAsPortalOwner()
-        qi = self.portal.portal_quickinstaller
-        qi.uninstallProducts(products=['quintagroup.plonegooglesitemaps',])
-        self._refreshSkinData()
-
-    def testNewsSchemaExtenderUnregistered(self):
-        lsm = getSiteManager(self.portal)
-        news = self.portal.invokeFactory("News Item", id="test_news")
-        news = getattr(self.portal, "test_news")
-        self.assertEqual(lsm.queryAdapter(news, interface=ISchemaExtender), None)
-
-
-class TestSitemapType(FunctionalTestCase):
-
-    def afterSetUp(self):
-        super(TestSitemapType, self).afterSetUp()
-        self.auth = 'admin:admin'
-        self.contentSM = _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
-        self.portal.portal_membership.addMember('admin', 'admin', ('Manager',), [])
-
-    def testFields(self):
-        field_ids = map(lambda x:x.getName(), self.contentSM.Schema().fields())
-        # test old Sitemap settings fields
-        self.assert_('id' in field_ids)
-        self.assert_('portalTypes' in field_ids)
-        self.assert_('states' in field_ids)
-        self.assert_('blackout_list' in field_ids)
-        self.assert_('urls' in field_ids)
-        self.assert_('pingTransitions' in field_ids)
-        # test new sitemap type field
-        self.assert_('sitemapType' in field_ids)
-
-    def testSitemapTypes(self):
-        sitemap_types = self.contentSM.getField('sitemapType').Vocabulary().keys()
-        self.assert_('content' in sitemap_types)
-        self.assert_('mobile' in sitemap_types)
-        self.assert_('news' in sitemap_types)
-
-    def testAutoSetLayout(self):
-        response = self.publish('/%s/createObject?type_name=Sitemap' % \
-                                self.portal.absolute_url(1), basic=self.auth)
-        location = response.getHeader('location')
-        newurl = location[location.find('/'+self.portal.absolute_url(1)):]
-
-        msm_id = 'mobile_sitemap'
-        form = {'id': msm_id,
-                'sitemapType':'mobile',
-                'portalTypes':['Document',],
-                'states':['published'],
-                'form_submit':'Save',
-                'form.submitted':1,
-                }
-        post_data = StringIO(urlencode(form))
-        response = self.publish(newurl, request_method='POST', stdin=post_data, basic=self.auth)
-        msitemap = getattr(self.portal, msm_id)
-
-        self.assertEqual(msitemap.defaultView(), 'mobile-sitemap.xml')
-
-    def txestPingSetting(self):
-        pwf = self.portal.portal_workflow['plone_workflow']
-        self.assertEqual(self.contentSM.getPingTransitions(), ())
-
-        self.contentSM.setPingTransitions(('plone_workflow#publish',))
-        self.assertEqual(self.contentSM.getPingTransitions(), ('plone_workflow#publish',))
-        self.assert_(ping_googlesitemap in pwf.scripts.keys(),"Not add wf script")
 
 
 class TestGoogleSitemaps(FunctionalTestCase):
@@ -422,12 +300,7 @@ class TestPinging(FunctionalTestCase):
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
-    suite.addTest(makeSuite(TestGoogleSitemapsInstallation))
-    suite.addTest(makeSuite(TestGoogleSitemapsUninstallation))
-    suite.addTest(makeSuite(TestSitemapType))
     suite.addTest(makeSuite(TestGoogleSitemaps))
-    suite.addTest(makeSuite(TestSettings))
-    suite.addTest(makeSuite(TestPinging))
     return suite
 
 if __name__ == '__main__':

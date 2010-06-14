@@ -2,6 +2,7 @@
 # Tests related to general Sitemap type.
 #
 from base import *
+from Products.Archetypes import atapi
 from Products.CMFPlone.utils import _createObjectByType
 
 
@@ -58,6 +59,16 @@ class TestSitemapType(FunctionalTestCase):
         self.contentSM.setPingTransitions(('plone_workflow#publish',))
         self.assertEqual(self.contentSM.getPingTransitions(), ('plone_workflow#publish',))
         self.assert_(ping_googlesitemap in pwf.scripts.keys(),"Not add wf script")
+
+    def testWorkflowStates(self):
+        wfstates = self.contentSM.getWorkflowStates()
+        self.assertEqual(isinstance(wfstates, atapi.DisplayList), True)
+        self.assertEqual("published" in wfstates.keys(), True)
+
+    def testWorkflowStates(self):
+        wftrans = self.contentSM.getWorkflowTransitions()
+        self.assertEqual(isinstance(wftrans, atapi.DisplayList), True)
+        self.assertEqual("simple_publication_workflow#publish" in wftrans.keys(), True)
 
 
 class TestSettings(FunctionalTestCase):

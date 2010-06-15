@@ -28,12 +28,11 @@ class TestMobileSitemapsXML(FunctionalTestCase):
         self.portal["mobile-sitemap.xml"].at_post_create_script()
         # Add testing mobile item to portal
         self.pubdate = (DateTime()+1).strftime("%Y-%m-%d")
-        my_mobile = self.portal.invokeFactory("Document", id="my_mobile")
-        self.my_mobile = self.portal["my_mobile"]
+        self.my_mobile = _createObjectByType('Document', self.portal, id='my_mobile')
         alsoProvides(self.my_mobile, IMobileMarker)
         self.my_mobile.edit(text="Test mobile item", title="First mobile (test)",
                             effectiveDate=self.pubdate)
-        self.portal.portal_workflow.doActionFor(self.my_mobile, "publish")
+        self.workflow.doActionFor(self.my_mobile, "publish")
         self.reParse()
 
     def beforeTearDown(self):

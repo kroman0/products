@@ -58,8 +58,8 @@ class TestGoogleSitemapsUninstallation(TestCase):
 
     def afterSetUp(self):
         self.loginAsPortalOwner()
-        qi = self.portal.portal_quickinstaller
-        qi.uninstallProducts(products=['quintagroup.plonegooglesitemaps',])
+        self.portal.portal_quickinstaller.uninstallProducts(
+            products=['quintagroup.plonegooglesitemaps',])
         self._refreshSkinData()
 
     def testNewsSchemaExtenderUnregistered(self):

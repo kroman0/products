@@ -15,7 +15,6 @@ class TestConfigletSettings(FunctionalTestCase):
 
     def afterSetUp(self):
         super(TestConfigletSettings, self).afterSetUp()
-        self.auth = "%s:%s" % (portal_owner, default_password)
         self.settingsURL = '/'+self.portal.absolute_url(1) + '/prefs_gsm_settings'
 
     def submitForm(self, fdata, fextra={}):
@@ -69,7 +68,6 @@ class TestConfigletOverview(FunctionalTestCase):
 
     def afterSetUp(self):
         super(TestConfigletOverview, self).afterSetUp()
-        self.auth = "%s:%s" % (portal_owner, default_password)
         self.overviewURL = '/'+self.portal.absolute_url(1) + '/prefs_gsm_overview'
         self.smURL = "%s/sitemap.xml" % self.portal.absolute_url()
         

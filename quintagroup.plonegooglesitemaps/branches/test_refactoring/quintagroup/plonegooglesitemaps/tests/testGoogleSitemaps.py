@@ -32,18 +32,13 @@ class TestGoogleSitemaps(FunctionalTestCase):
     def afterSetUp(self):
         super(TestGoogleSitemaps, self).afterSetUp()
 
-        self.workflow = self.portal.portal_workflow
-        self.auth = 'admin:admin'
         _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
         self.sitemapUrl = '/'+self.portal.absolute_url(1) + '/google-sitemaps'
-        self.portal.portal_membership.addMember('admin', 'admin', ('Manager',), [])
         self.gsm_props = self.portal.portal_properties['googlesitemap_properties']
 
         # Add testing document to portal
-        my_doc = self.portal.invokeFactory('Document', id='my_doc')
-        self.my_doc = self.portal['my_doc']
+        self.my_doc = _createObjectByType('Document', self.portal, id='my_doc')
         self.my_doc.edit(text_format='plain', text='hello world')
-
 
     def testSitemap(self):
         sitemap = self.publish(self.sitemapUrl, self.auth).getBody()

@@ -10,9 +10,7 @@ class TestSitemapType(FunctionalTestCase):
 
     def afterSetUp(self):
         super(TestSitemapType, self).afterSetUp()
-        self.auth = 'admin:admin'
         self.contentSM = _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
-        self.portal.portal_membership.addMember('admin', 'admin', ('Manager',), [])
 
     def testFields(self):
         field_ids = map(lambda x:x.getName(), self.contentSM.Schema().fields())
@@ -53,7 +51,7 @@ class TestSitemapType(FunctionalTestCase):
         self.assertEqual(msitemap.defaultView(), 'mobile-sitemap.xml')
 
     def txestPingSetting(self):
-        pwf = self.portal.portal_workflow['plone_workflow']
+        pwf = self.workflow['plone_workflow']
         self.assertEqual(self.contentSM.getPingTransitions(), ())
 
         self.contentSM.setPingTransitions(('plone_workflow#publish',))
@@ -75,19 +73,11 @@ class TestSettings(FunctionalTestCase):
 
     def afterSetUp(self):
         super(TestSettings, self).afterSetUp()
-
-        self.workflow = self.portal.portal_workflow
         self.gsm_props = self.portal.portal_properties['googlesitemap_properties']
-        self.auth = 'admin:admin'
         self.contentSM = _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
-
         self.sitemapUrl = '/'+self.portal.absolute_url(1) + '/google-sitemaps'
-
-        self.portal.portal_membership.addMember('admin', 'admin', ('Manager',), [])
-
         # Add testing document to portal
-        my_doc = self.portal.invokeFactory('Document', id='my_doc')
-        self.my_doc = self.portal['my_doc']
+        self.my_doc = _createObjectByType('Document', self.portal, id='my_doc')
         self.my_doc.edit(text_format='plain', text='hello world')
         self.my_doc_url = self.my_doc.absolute_url()
 
@@ -156,13 +146,9 @@ class TestPinging(FunctionalTestCase):
 
     def afterSetUp(self):
         super(TestPinging, self).afterSetUp()
-
-        self.workflow = self.portal.portal_workflow
         self.workflow.setChainForPortalTypes(pt_names=('News Item','Document'),
                                              chain="simple_publication_workflow")
         self.gsm_props = self.portal.portal_properties['googlesitemap_properties']
-        self.auth = 'admin:admin'
-        self.portal.portal_membership.addMember('admin', 'admin', ('Manager',), [])
         # Add sitemaps
         self.contentSM = _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
         self.contentSM.setPingTransitions(('simple_publication_workflow#publish',))
@@ -171,10 +157,8 @@ class TestPinging(FunctionalTestCase):
         self.newsSM.setPingTransitions(('simple_publication_workflow#publish',))
         self.sitemapUrl = '/'+self.portal.absolute_url(1) + '/google-sitemaps'
         # Add testing document to portal
-        my_doc = self.portal.invokeFactory('Document', id='my_doc')
-        self.my_doc = self.portal['my_doc']
-        my_news = self.portal.invokeFactory('News Item', id='my_news')
-        self.my_news = self.portal['my_news']
+        self.my_doc = _createObjectByType('Document', self.portal, id='my_doc')
+        self.my_news = _createObjectByType('News Item', self.portal, id='my_news')
 
     def testAutomatePinging(self):
         # 1. Check for pinging both sitemaps

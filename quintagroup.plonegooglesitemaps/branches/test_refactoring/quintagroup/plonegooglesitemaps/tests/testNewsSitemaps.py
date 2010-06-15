@@ -16,12 +16,11 @@ class TestNewsSitemapsXML(FunctionalTestCase):
         self.portal["news-sitemaps"].at_post_create_script()
         # Add testing news item to portal
         self.pubdate = (DateTime()+1).strftime("%Y-%m-%d")
-        my_news = self.portal.invokeFactory("News Item", id="my_news")
-        self.my_news = self.portal["my_news"]
+        self.my_news = _createObjectByType('News Item', self.portal, id='my_news')
         self.my_news.edit(text="Test news item", title="First news (test)", language="ua",
                           effectiveDate=self.pubdate, gsm_access="Registration",
                           gsm_genres=("PressRelease",), gsm_stock="NASDAQ:AMAT, BOM:500325")
-        self.portal.portal_workflow.doActionFor(self.my_news, "publish")
+        self.workflow.doActionFor(self.my_news, "publish")
         self.reParse()
 
     def reParse(self):
@@ -90,10 +89,11 @@ class TestNewsSitemapsXML(FunctionalTestCase):
 
     def test_ngenresForNotExtended(self):
         # No genres should present for not extended content type
-        self.portal.invokeFactory("Document", id="my_doc")
-        my_doc = getattr(self.portal, "my_doc")
+        my_doc = _createObjectByType('Document', self.portal, id='my_doc')
+        #self.portal.invokeFactory("Document", id="my_doc")
+        #my_doc = getattr(self.portal, "my_doc")
         my_doc.edit(text="Test document")
-        self.portal.portal_workflow.doActionFor(my_doc, "publish")
+        self.workflow.doActionFor(my_doc, "publish")
         self.portal["news-sitemaps"].edit(portalTypes=("Document",))
         self.reParse()
         open("/tmp/news.sm.docs.xml", "w").write(self.sitemap)
@@ -115,10 +115,9 @@ class TestNewsSitemapsXMLDefaultObject(FunctionalTestCase):
         self.portal["news-sitemaps"].at_post_create_script()
         # Add minimal testing news item to portal
         self.pubdate = (DateTime()+1).strftime("%Y-%m-%d")
-        my_news = self.portal.invokeFactory("News Item", id="my_news")
-        self.my_news = self.portal["my_news"]
+        self.my_news = _createObjectByType('News Item', self.portal, id='my_news')
         self.my_news.edit(effectiveDate=self.pubdate)
-        self.portal.portal_workflow.doActionFor(self.my_news, "publish")
+        self.workflow.doActionFor(self.my_news, "publish")
         self.reParse()
 
     def reParse(self):
@@ -167,12 +166,8 @@ class TestSchemaExtending(TestCase):
 
     def afterSetUp(self):
         super(TestSchemaExtending, self).afterSetUp()
-        self.loginAsPortalOwner()
-        # Add testing news item to portal
-        my_news = self.portal.invokeFactory("News Item", id="my_news")
-        self.my_news = self.portal["my_news"]
-        my_doc = self.portal.invokeFactory("Document", id="my_doc")
-        self.my_doc = self.portal["my_doc"]
+        self.my_doc = _createObjectByType('Document', self.portal, id='my_doc')
+        self.my_news = _createObjectByType('News Item', self.portal, id='my_news')
 
     def testExtendNewsItemByDefault(self):
         # Neither of object has extended fields

@@ -29,7 +29,7 @@ quintagroup.plonegooglesitemaps.config.testing = 1
 quintagroup.plonegooglesitemaps.config.UPDATE_CATALOG = True
 
 
-class MixinTestCase:
+class MixinTestCase(object):
     """ Define layer and common afterSetup method with package installation.
         Package installation on plone site setup impossible because of
         five's registerPackage directive not recognized on module initializing.
@@ -38,13 +38,19 @@ class MixinTestCase:
 
     def afterSetUp(self):
         self.loginAsPortalOwner()
+        self.workflow = self.portal.portal_workflow
 
 
 class TestCase(MixinTestCase, ptc.PloneTestCase):
     """ For unit tests """
 
+
 class FunctionalTestCase(MixinTestCase, ptc.FunctionalTestCase):
     """ For functional tests """
+
+    def afterSetUp(self):
+        super(FunctionalTestCase, self).afterSetUp()
+        self.auth = "%s:%s" % (portal_owner, default_password)
 
 # Initialize all needed zcml directives
 fiveconfigure.debug_mode = True

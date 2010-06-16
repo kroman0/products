@@ -1,7 +1,20 @@
 Changelog
 =========
 
-1.4 (2010-06-14)
+1.4.4 (2010-06-16)
+------------------
+
+* Removed BBB support for plone<3.0
+  [mylan]
+* Added security test
+  [mylan]
+* Added mobile sitemap test
+  [mylan]
+* Aadded configlet tests
+  [mylan]
+
+
+1.4 (2010-06-11)
 ----------------
 
 * Updated site verification functionality -

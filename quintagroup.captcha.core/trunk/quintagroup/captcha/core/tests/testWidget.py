@@ -78,6 +78,11 @@ class TestCaptchaWidget(ptc.FunctionalTestCase):
 
         self.assert_(NOT_VALID.search(response))
 
+    def testCaptchaWidget(self):
+        # captcha core related issue, described in
+        # in http://plone.org/products/plone-comments/issues/5
+        resp = self.publish(self.portal.absolute_url(1)+"/captcha_widget")
+        self.assertEqual(resp.status / 100, 2)
 
 def test_suite():
     suite = unittest.TestSuite()

@@ -44,7 +44,7 @@ class TestStatic(ptc.FunctionalTestCase):
         index = int(parsed_key['key'])
         self.assertTrue(index >= 1 and index <= CAPTCHAS_COUNT)
         # encrypted key must be equals to title of the image
-        key = getWord( index-1 ) 
+        key = getWord( index-1 )
         img = getattr(self.portal, '%s.jpg' % index)
         self.assertTrue(encrypt1(key) == img.title)
 
@@ -61,7 +61,7 @@ class TestStatic(ptc.FunctionalTestCase):
             self.portal.absolute_url(1)+"/getCaptchaImage/%s" % self.hashkey).getBody()
         self.assertTrue(obj_html == img_html, "Image get by getCaptchaImage script " \
             "is differ from image get by index (after parsing decrypted key)")
-
+        
 
 class TestStaticValidator(ptc.PloneTestCase):
 

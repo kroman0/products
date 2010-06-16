@@ -1,7 +1,7 @@
 from base import *
 from DateTime import DateTime
 
-from zope.interface import Interface, alsoProvides
+from zope.interface import alsoProvides
 from zope.component import queryMultiAdapter
 from zope.component import getSiteManager, getGlobalSiteManager
 from archetypes.schemaextender.interfaces import ISchemaExtender
@@ -12,17 +12,11 @@ from quintagroup.plonegooglesitemaps.browser import mobilesitemapview
 from quintagroup.plonegooglesitemaps.browser.commonview import CommonSitemapView
 from quintagroup.plonegooglesitemaps.browser.mobilesitemapview import MobileSitemapView
 
-class IMobileMarker(Interface):
-    """Marker interface for mobile objects"""
-
 class TestMobileSitemapsXML(FunctionalTestCase):
 
     def afterSetUp(self):
         super(TestMobileSitemapsXML, self).afterSetUp()
-        # patch mobile sitemap view
-        self.orig_mobile_ifaces = mobilesitemapview.MOBILE_INTERFACES
-        mobilesitemapview.MOBILE_INTERFACES = [IMobileMarker.__identifier__,]
-          # Create mobile sitemaps
+        self.patchMobile()
         _createObjectByType("Sitemap", self.portal, id="mobile-sitemap.xml",
                             sitemapType="mobile", portalTypes=("Document",))
         self.portal["mobile-sitemap.xml"].at_post_create_script()
@@ -34,10 +28,6 @@ class TestMobileSitemapsXML(FunctionalTestCase):
                             effectiveDate=self.pubdate)
         self.workflow.doActionFor(self.my_mobile, "publish")
         self.reParse()
-
-    def beforeTearDown(self):
-        mobilesitemapview.MOBILE_INTERFACES = self.orig_mobile_ifaces
-        super(TestMobileSitemapsXML, self).beforeTearDown() 
 
     def reParse(self):
         # Parse mobile sitemap

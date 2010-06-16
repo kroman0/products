@@ -57,7 +57,7 @@ class TestGoogleSitemapsInstallation(TestCase):
 class TestGoogleSitemapsUninstallation(TestCase):
 
     def afterSetUp(self):
-        self.loginAsPortalOwner()
+        super(TestGoogleSitemapsUninstallation, self).afterSetUp()
         self.portal.portal_quickinstaller.uninstallProducts(
             products=['quintagroup.plonegooglesitemaps',])
         self._refreshSkinData()

@@ -8,6 +8,7 @@ from StringIO import StringIO
 import unittest
 
 from zope.testing import doctestunit
+from zope.interface import Interface
 from zope.component import testing
 from Testing import ZopeTestCase as ztc
 
@@ -24,9 +25,14 @@ from XMLParser import parse, hasURL
 import quintagroup.plonegooglesitemaps
 from quintagroup.plonegooglesitemaps.config import PROJECTNAME
 from quintagroup.plonegooglesitemaps.config import ping_googlesitemap
+from quintagroup.plonegooglesitemaps.browser import mobilesitemapview
 
 quintagroup.plonegooglesitemaps.config.testing = 1
 quintagroup.plonegooglesitemaps.config.UPDATE_CATALOG = True
+
+
+class IMobileMarker(Interface):
+    """Test Marker interface for mobile objects"""
 
 
 class MixinTestCase(object):
@@ -39,6 +45,16 @@ class MixinTestCase(object):
     def afterSetUp(self):
         self.loginAsPortalOwner()
         self.workflow = self.portal.portal_workflow
+        self.orig_mobile_ifaces = None
+
+    def patchMobile(self):
+        # patch mobile sitemap view
+        self.orig_mobile_ifaces = mobilesitemapview.MOBILE_INTERFACES
+        mobilesitemapview.MOBILE_INTERFACES = [IMobileMarker.__identifier__,]
+
+    def beforeTearDown(self):
+        if self.orig_mobile_ifaces is not None:
+            mobilesitemapview.MOBILE_INTERFACES = self.orig_mobile_ifaces
 
 
 class TestCase(MixinTestCase, ptc.PloneTestCase):

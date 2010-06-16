@@ -157,42 +157,5 @@ class Sitemap(base.ATCTContent):
         """Add 'Ping sitemap' afterscript for selected workflow transitions.
         """
         self.getField('pingTransitions').set(self, value)
-        if not IS_PLONE_3:
-            # Update Workflow if needed
-            pw = getToolByName(self, 'portal_workflow')
-            #ping_googlesitemap = PING_EMETHODS_MAP[self.getSitemapType()]
-            transmap = {}
-            for key in value:
-                if key.find('#')>0:
-                    ids = key.split('#')
-                    wfid = ids[0]
-                    if not wfid in transmap.keys():
-                        transmap[wfid]=[]
-                    transmap[wfid].append(ids[1])
-            for wfid in transmap.keys():
-                workflow = pw.getWorkflowById(wfid)
-                if ping_googlesitemap not in workflow.scripts.objectIds():
-                    workflow.scripts.manage_addProduct['ExternalMethod'].manage_addExternalMethod(
-                        ping_googlesitemap,
-                        'Ping sitemap',
-                        'quintagroup.plonegooglesitemaps.ping_googlesitemap',
-                        ping_googlesitemap)
-                transitions_set = transmap[wfid]
-                for transition in workflow.transitions.values():
-                    trid = transition.id
-                    tras = transition.after_script_name
-                    if (tras == '') and (trid in transitions_set):
-                        #set
-                        after_script = ping_googlesitemap
-                    elif (tras == ping_googlesitemap) and not (trid in transitions_set):
-                        #reset
-                        after_script = ''
-                    else:
-                        #avoid properties set
-                        continue
-                    transition.setProperties(title=transition.title,
-                        new_state_id=transition.new_state_id,
-                        after_script_name=after_script,
-                        actbox_name=transition.actbox_name)
 
 atapi.registerType(Sitemap, PROJECTNAME)

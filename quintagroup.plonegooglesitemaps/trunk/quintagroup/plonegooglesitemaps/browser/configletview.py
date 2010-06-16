@@ -101,7 +101,6 @@ class ConfigletSettingsView(BrowserView):
             smlist.append(sm.absolute_url())
         return sitemaps
 
-
     def sitemapsDict(self):
         content, mobile, news = [],[],[]
         for sm in self.sitemaps:

@@ -17,6 +17,7 @@ from quintagroup.plonegooglesitemaps.content.newsextender import NewsExtender
 class TestUpgrade(TestCase):
 
     def afterSetUp(self):
+        super(TestUpgrade, self).afterSetUp()
         self.setup = self.portal.portal_setup
         self.profile = "quintagroup.plonegooglesitemaps:default"
 

@@ -2,11 +2,12 @@
      tal:omit-tag=""
      i18n:domain="quintagroup.captcha.core"
      tal:define="Iterator python:modules['Products.CMFPlone'].IndexIterator;
-                 tabindex python:Iterator(mainSlot=False)">
+                 tabindex python:Iterator(mainSlot=False);
+                 portal_url here/plone_portal_state/portal_url">
   <div class="field"
        tal:define="hk here/getCaptcha;
                    error errors/key|nothing"
-       tal:attributes="class python:test(error, 'field error', 'field')">
+       tal:attributes="class python:error and 'field error' or 'field'">
      <input type="hidden"
             name="hashkey"
             tal:attributes="value hk" />

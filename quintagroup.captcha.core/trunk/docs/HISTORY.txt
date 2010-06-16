@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.2.1 (2010-06-16)
+------------------
+
+* Fixed captcha_widget issue
+  (http://plone.org/products/plone-comments/issues/5)
+  [mylan]
+
+
 0.2 - June 9, 2010
 ------------------
 

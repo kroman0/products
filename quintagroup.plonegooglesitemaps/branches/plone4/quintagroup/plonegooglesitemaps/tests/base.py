@@ -16,6 +16,7 @@ from Products.Five import zcml
 from Products.Five import fiveconfigure
 
 from Products.PloneTestCase import PloneTestCase as ptc
+from Products.PloneTestCase.layer import onsetup
 from Products.PloneTestCase.layer import PloneSite
 from Products.PloneTestCase.setup import portal_owner
 from Products.PloneTestCase.setup import default_password
@@ -29,6 +30,28 @@ from quintagroup.plonegooglesitemaps.browser import mobilesitemapview
 
 quintagroup.plonegooglesitemaps.config.testing = 1
 quintagroup.plonegooglesitemaps.config.UPDATE_CATALOG = True
+
+PRODUCT = 'quintagroup.plonegooglesitemaps'
+
+@onsetup
+def setup_product():
+    """Set up the package and its dependencies.
+
+    The @onsetup decorator causes the execution of this body to be
+    deferred until the setup of the Plone site testing layer. We could
+    have created our own layer, but this is the easiest way for Plone
+    integration tests.
+    """
+    fiveconfigure.debug_mode = True
+    import quintagroup.plonegooglesitemaps
+    zcml.load_config('configure.zcml', quintagroup.plonegooglesitemaps)
+    zcml.load_config('overrides.zcml', quintagroup.plonegooglesitemaps)
+    fiveconfigure.debug_mode = False
+
+    ztc.installPackage(PRODUCT)
+
+setup_product()
+ptc.setupPloneSite( products=(PRODUCT,))
 
 
 class IMobileMarker(Interface):
@@ -68,21 +91,3 @@ class FunctionalTestCase(MixinTestCase, ptc.FunctionalTestCase):
         super(FunctionalTestCase, self).afterSetUp()
         self.auth = "%s:%s" % (portal_owner, default_password)
 
-# Initialize all needed zcml directives
-fiveconfigure.debug_mode = True
-from Products import Five, CMFCore, GenericSetup
-zcml.load_config('meta.zcml', Five)
-zcml.load_config('meta.zcml', CMFCore)
-zcml.load_config('meta.zcml', GenericSetup)
-zcml.load_config('permissions.zcml', Five)
-
-# Force quintagroup.plonegooglesitemaps zcml initialization
-zcml.load_config('configure.zcml', quintagroup.plonegooglesitemaps)
-zcml.load_config('overrides.zcml', quintagroup.plonegooglesitemaps)
-fiveconfigure.debug_mode = False
-
-# Install quintagroup.plonegooglesitemaps package and Plone site
-# with the default profile for the package
-PRODUCT = 'quintagroup.plonegooglesitemaps'
-ptc.installPackage(PRODUCT)
-ptc.setupPloneSite( products=(PRODUCT,))

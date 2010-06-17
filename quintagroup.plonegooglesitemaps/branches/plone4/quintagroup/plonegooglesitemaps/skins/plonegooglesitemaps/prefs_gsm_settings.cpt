@@ -6,7 +6,9 @@
       i18n:domain="qPloneGoogleSitemaps">
 <body>
     <div metal:fill-slot="prefs_configlet_main"
-        tal:define="errors python:request.get('errors', {})">
+        tal:define="errors python:request.get('errors', {});
+                    here_url context/@@plone_context_state/object_url;
+                    portal context/@@plone_portal_state/portal;">
 
         <div class="documentEditable">
             <ul class="contentViews">

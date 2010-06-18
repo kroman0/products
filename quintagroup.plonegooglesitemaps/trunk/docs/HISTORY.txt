@@ -1,12 +1,12 @@
 Changelog
 =========
 
-1.4.5 (unreleased)
+1.5 (2010-06-18)
 ------------------
 
-* Make plone4 related upgrades of page templates
+* Made plone4 related updates
   [mylan]
-* Some tests updates
+* Tests updated
   [mylan]
 
 

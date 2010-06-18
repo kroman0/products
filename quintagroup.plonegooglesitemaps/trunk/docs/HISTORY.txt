@@ -4,7 +4,10 @@ Changelog
 1.4.5 (unreleased)
 ------------------
 
-* Nothing changed yet
+* Make plone4 related upgrades of page templates
+  [mylan]
+* Some tests updates
+  [mylan]
 
 
 1.4.4 (2010-06-16)

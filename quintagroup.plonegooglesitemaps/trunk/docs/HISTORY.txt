@@ -2,7 +2,7 @@ Changelog
 =========
 
 1.5 (2010-06-18)
-------------------
+----------------
 
 * Made plone4 related updates
   [mylan]

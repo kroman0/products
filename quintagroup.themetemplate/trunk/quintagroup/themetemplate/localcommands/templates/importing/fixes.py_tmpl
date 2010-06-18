@@ -9,9 +9,9 @@ uid_catalog = None
 reference_catalog = None
 
 def fix_archivest(ob):
-    ''' Fix #7334 bug of CMFEdition.
-        Fixed in CMFEdition v1.1.5+
-    '''
+    """ Fix #7334 bug of CMFEdition.
+        Fixed in CMFEdition v1.1.5+.
+    """
     if portal_repository.isVersionable(ob):
         portal_repository.save(obj=ob, comment="")
 
@@ -32,7 +32,7 @@ def fix_linkintegrity(ob):
         
 def fix_all(ob):
     """ Recursive function for perform registered
-        actions for all internal objects
+        actions for all internal objects.
     """
     [a(ob) for a in perobject_actions]
 
@@ -42,8 +42,9 @@ def fix_all(ob):
 perobject_actions = [fix_archivest, fix_catalog, fix_linkintegrity]
 
 def fix(context):
-    ''' Main fix function: fix defects of importing:
-        imported objects - absence in catalogs, some other issues'''
+    """ Main fix function: fix defects of importing:
+        imported objects - absence in catalogs, some other issues.
+    """
     global portal_repository, portal_catalog
     global uid_catalog, reference_catalog
     portal_catalog = getToolByName(context,'portal_catalog')

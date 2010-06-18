@@ -116,6 +116,8 @@ class TestUpgrade(TestCase):
         # Get upgrade steps
         upgrades = _upgrade_registry.getUpgradeStepsForProfile(self.profile)
         upgrades = dict([(u.sortkey, u) for u in upgrades.values()])
+        orig_ver = self.setup.getLastVersionForProfile(self.profile)
+        self.setup.setLastVersionForProfile(self.profile, "")
         try:
             # Replace original handlers with patched ones for test calls
             called = []
@@ -133,6 +135,7 @@ class TestUpgrade(TestCase):
             upgrades[1].handler = gsm_upgrades.upgrade_1_0_to_1_1
             upgrades[2].handler = gsm_upgrades.upgrade_1_1_to_1_2
             upgrades[3].handler = gsm_upgrades.upgrade_1_2_to_1_3
+            self.setup.setLastVersionForProfile(self.profile, orig_ver)
 
         
 

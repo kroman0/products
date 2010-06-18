@@ -7,7 +7,10 @@
 <body>
     <div metal:fill-slot="prefs_configlet_main"
         tal:define="errors python:request.get('errors', {});
-                    view here/@@sitemap_settings;">
+                    view here/@@sitemap_settings;
+                    here_url context/@@plone_context_state/object_url;
+                    portal context/@@plone_portal_state/portal;
+                    template_id template/getId;">
 
         <div class="documentEditable">
             <ul class="contentViews">

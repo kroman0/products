@@ -48,7 +48,7 @@ See http://projects.quintagroup.com/products/wiki/qPloneGoogleSitemaps/install
 Requirements
 ------------
 
-* Plone 3.x 
+* Plone 3.x or Plone 4.0
 
 Links
 -----

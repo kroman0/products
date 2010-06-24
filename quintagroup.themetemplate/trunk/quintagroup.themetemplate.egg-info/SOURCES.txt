@@ -12,6 +12,7 @@ quintagroup.themetemplate.egg-info/namespace_packages.txt
 quintagroup.themetemplate.egg-info/not-zip-safe
 quintagroup.themetemplate.egg-info/requires.txt
 quintagroup.themetemplate.egg-info/top_level.txt
+quintagroup/themetemplate/README.txt
 quintagroup/themetemplate/__init__.py
 quintagroup/themetemplate/qplone3_theme.py
 quintagroup/themetemplate/localcommands/__init__.py

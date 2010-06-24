@@ -42,35 +42,34 @@ Creating theme package
 Let's create plone-3 theme python package.
 Use `paster create` command for that::
 
-    >>> paster('create -t qplone3_theme quintagroup.theme.example --no-interactive --overwrite')
-    paster create -t qplone3_theme quintagroup.theme.example --no-interactive
+    >>> paster('create -t qplone3_theme plone.example --no-interactive --overwrite')
+    paster create -t qplone3_theme plone.example --no-interactive
     ...
 
 You got standard python package content with 
   - *quintagroup* upper level namespace.
-  - *quintagroup.theme.example-configure.zcml* - zcml file 
+  - *plone.example-configure.zcml* - zcml file 
     for adding into package-includes directory
 
 Check that::
 
-    >>> package_dir = 'quintagroup.theme.example'
-    >>> objects = ['setup.py', 'quintagroup', 'quintagroup.theme.example-configure.zcml']
-    >>> objects.sort()
-    >>> [o for o in objects if o in os.listdir(package_dir)]
-    ['quintagroup', 'quintagroup.theme.example-configure.zcml', 'setup.py']
+    >>> package_dir = 'plone.example'
+    >>> objects = ('setup.py', 'quintagroup', 'plone.example-configure.zcml')
+    >>> [True for o in objects if o in os.listdir(package_dir)]
+    [True, True, True]
 
 
 *qplone3_theme* template - creates theme with nested namespace.
 
 By default - theme is placed in
 
-    quintagroup.theme.<3rd part of dotted package name> namespace
+    quintagroup.theme.<package name without dot> namespace
 
-in our case - quintagroup.theme.example
+in our case - quintagroup.theme.ploneexample
 
 So check namespaces::
 
-    >>> theme_namespace = os.path.join(package_dir,'quintagroup','theme','example')
+    >>> theme_namespace = os.path.join(package_dir,'quintagroup','theme','ploneexample')
     >>> os.path.isdir(theme_namespace)
     True
 
@@ -129,10 +128,10 @@ First create configuration file with different skin name
     >>> file('theme_config.conf','w').write(conf_data)
 
 Create the same theme with your own skin name and check this
-    >>> paster('create -t qplone3_theme quintagroup.theme.example --no-interactive --overwrite --config=theme_config.conf')
+    >>> paster('create -t qplone3_theme plone.example --no-interactive --overwrite --config=theme_config.conf')
     paster create ...
     >>> cd(package_dir)
-    >>> cat('quintagroup/theme/example/browser/configure.zcml')
+    >>> cat('quintagroup/theme/ploneexample/browser/configure.zcml')
     <configure
     ...
         <interface
@@ -150,7 +149,7 @@ It contains only README.txt file and NO SKIN LAYERS YET.
 This is a job for localcommand ;)
 
 But check whether I am right ...
-    >>> cd('quintagroup/theme/example')
+    >>> cd('quintagroup/theme/ploneexample')
     >>> ls('skins')
     README.txt
 
@@ -179,7 +178,6 @@ without any new layers (yet).
 
     >>> cat('skins.xml')
     <?xml version="1.0"?>
-    ...
     <object name="portal_skins" ...
             default_skin="My Theme Name">
     ...
@@ -195,9 +193,9 @@ _setuphandlers.py_ module for additional installation steps.
     >>> cat('import_steps.xml')
     <?xml version="1.0"?>
     ...
-    <import-step id="quintagroup.theme.example.various"
+    <import-step id="quintagroup.theme.ploneexample.various"
     ...
-                 handler="quintagroup.theme.example.setuphandlers.setupVarious"
+                 handler="quintagroup.theme.ploneexample.setuphandlers.setupVarious"
     ...
     </import-step>
     ...
@@ -277,14 +275,13 @@ with only CONTENT.txt file inside.
 
     >>> cat('profiles/default/skins.xml')
     <?xml version="1.0"?>
-    ...
     <object name="portal_skins" allow_any="False" cookie_persistence="False"
        default_skin="My Theme Name">
     ...
      <object name="skin_layer"
         meta_type="Filesystem Directory View"
-        directory="quintagroup.theme.example:skins/skin_layer"/>
-    ...
+        directory="quintagroup.theme.ploneexample:skins/skin_layer"/>
+    <BLANKLINE>
      <skin-path name="My Theme Name" based-on="Plone Default">
     ...
       <layer name="skin_layer"
@@ -311,7 +308,6 @@ Add portlet with *portlet* subtemplate.
 
     >>> paster('addcontent --no-interactive portlet')
     paster addcontent --no-interactive portlet
-    ...
     Recursing into portlets
     ...
 
@@ -335,7 +331,7 @@ And portlets/configure.zcml - register new portlet
     <configure
     ...
          <plone:portlet
-             name="quintagroup.theme.example.portlets.ExamplePortlet"
+             name="quintagroup.theme.ploneexample.portlets.ExamplePortlet"
              interface=".exampleportlet.IExamplePortlet"
              assignment=".exampleportlet.Assignment"
              view_permission="zope2.View"
@@ -352,11 +348,10 @@ Finally, new portlet type is registered in portlets.xml profile
     <?xml version="1.0"?>
     ...
        <portlet
-         addview="quintagroup.theme.example.portlets.ExamplePortlet"
+         addview="quintagroup.theme.ploneexample.portlets.ExamplePortlet"
          title="Example portlet"
          description=""
-         i18n:attributes="title; description"
-	 />
+       />
     ...
 
 Thanks to ZopeSkel developers for this subtempalte ;)
@@ -396,7 +391,7 @@ New resource directory was registered in configure.zcml
     <configure
     ...
         <browser:resourceDirectory
-            name="quintagroup.theme.example.stylesheets"
+            name="quintagroup.theme.ploneexample.stylesheets"
             directory="stylesheets"
             layer=".interfaces.IThemeSpecific"
             />
@@ -413,7 +408,7 @@ registered main.css stylesheet
     <object name="portal_css">
     <BLANKLINE>
      <stylesheet title=""
-        id="++resource++quintagroup.theme.example.stylesheets/main.css"
+        id="++resource++quintagroup.theme.ploneexample.stylesheets/main.css"
         media="screen" rel="stylesheet" rendering="inline"
         cacheable="True" compression="safe" cookable="True"
         enabled="1" expression=""/>
@@ -471,7 +466,7 @@ registered main.css stylesheet
     <object name="portal_css">
     <BLANKLINE>
      <stylesheet title=""
-        id="++resource++quintagroup.theme.example.stylesheets/main.css"
+        id="++resource++quintagroup.theme.ploneexample.stylesheets/main.css"
         media="screen" rel="stylesheet" rendering="inline"
         cacheable="True" compression="safe" cookable="True"
         enabled="1" expression=""/>
@@ -511,7 +506,7 @@ New resource directory was registered in configure.zcml, if has not been registe
     <configure
     ...
         <browser:resourceDirectory
-            name="quintagroup.theme.example.scripts"
+            name="quintagroup.theme.ploneexample.scripts"
             directory="scripts"
             layer=".interfaces.IThemeSpecific"
             />
@@ -528,7 +523,7 @@ and register new foo.js javascript resource.
     <object name="portal_javascripts">
     ...
      <javascript
-        id="++resource++quintagroup.theme.example.scripts/foo.js"
+        id="++resource++quintagroup.theme.ploneexample.scripts/foo.js"
         inline="False" cacheable="True" compression="safe"
         cookable="True" enabled="1"
         expression=""
@@ -591,7 +586,7 @@ New viewlet is registered in configure.zcml
     <configure
     ...
        <browser:viewlet
-            name="quintagroup.theme.example.example"
+            name="quintagroup.theme.ploneexample.example"
             manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
             class=".viewlets.Example"
             layer=".interfaces.IThemeSpecific"
@@ -613,7 +608,7 @@ registration, ordered for specified viewlet manager.
              based-on="Plone Default"
              skinname="My Theme Name" >
     ...
-        <viewlet name="quintagroup.theme.example.example" insert-after="*" />
+        <viewlet name="quintagroup.theme.ploneexample.example" insert-after="*" />
     <BLANKLINE>
       </order>
     <BLANKLINE>
@@ -692,7 +687,7 @@ As we see from the upper log:
 
 
 2. import_steps.xml was added in profiles/import_zexps directory,
-   which contains additional *quintagroup.theme.example.import_zexps* step.
+   which contains additional *quintagroup.theme.ploneexample.import_zexps* step.
 
     >>> 'import_zexps' in os.listdir('profiles')
     True
@@ -702,9 +697,9 @@ As we see from the upper log:
     >>> cat('profiles/import_zexps/import_steps.xml')
     <?xml version="1.0"?>
     ...
-      <import-step id="quintagroup.theme.example.import_zexps"
+      <import-step id="quintagroup.theme.ploneexample.import_zexps"
                    version="..."
-                   handler="quintagroup.theme.example.setuphandlers.importZEXPs"
+                   handler="quintagroup.theme.ploneexample.setuphandlers.importZEXPs"
                    title="My Theme Name: Import zexps objects">
         Import zexp objects into portal on My Theme Name theme installation
       </import-step>

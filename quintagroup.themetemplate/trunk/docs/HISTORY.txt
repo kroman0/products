@@ -1,6 +1,17 @@
 Changelog
 =========
 
+0.25 (2010-06-24)
+-----------------
+
+- Correct version of the pacakge
+  [mylan]
+- Fix incompatibility wity ZopeSkel>=2.15
+  [mylan]
+- Updated tests
+  [mylan]
+
+
 0.2.2 (unreleased)
 ------------------
 

@@ -754,3 +754,9 @@ Before releasing theme - I suggest to clean up setup.py script:
 
 Steps mentioned above prevent possible problems with
 theme distribution/deployment.
+
+Notes:
+------
+
+ * quintagroup.themetemplate v0.25 compatible with ZopeSkel >= 2.15
+

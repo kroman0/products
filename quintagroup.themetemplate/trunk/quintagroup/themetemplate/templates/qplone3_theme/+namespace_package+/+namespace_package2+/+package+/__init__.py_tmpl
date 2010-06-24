@@ -10,6 +10,9 @@ from zope.i18nmessageid import MessageFactory
 GLOBALS = globals()
 
 ${package}MessageFactory = MessageFactory('${namespace_package}.${namespace_package2}.${package}')
+
+  # -*- extra stuff goes here -*- 
+
 #if str($zope2product) == 'True'
 
 def initialize(context):

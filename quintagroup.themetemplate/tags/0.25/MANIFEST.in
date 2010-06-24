@@ -1,4 +1,0 @@
-recursive-include docs *.txt
-recursive-include ez_setup *.txt *.py
-recursive-include quintagroup/themetemplate/templates *
-recursive-include quintagroup/themetemplate/localcommands *

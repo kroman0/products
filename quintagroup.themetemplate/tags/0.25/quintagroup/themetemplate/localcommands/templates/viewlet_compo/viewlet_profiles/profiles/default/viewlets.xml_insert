@@ -1,2 +1,0 @@
-    <viewlet name="${namespace_package}.${namespace_package2}.${package}.${viewlet_name}" insert-${insert_type}="${insert_control_viewlet}" />
-

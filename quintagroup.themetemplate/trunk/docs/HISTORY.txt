@@ -72,15 +72,15 @@ Changelog
   [mylan]
 
 
-Version 0.7
------------
+0.7 (unreleased)
+----------------
 
 * Add uninstall profile to fix skins tool after theme is uninstalled
   [piv]
 
 
-Version 0.1
------------
+0.1 (unreleased)
+----------------
 
 * Initial import Theme template with nested namespace.
   Support ZopeSkel' "addcommad" local command for extend

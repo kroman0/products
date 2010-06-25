@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      metal:use-macro="here/main_template/macros/master"
+      >
+  <body>
+    <div metal:fill-slot="main">
+      <h1 tal:content="view/sh_title">Spreadsheet title</h1>
+      <dl>
+	<tal:loop tal:repeat="f view/files">
+          <dt>Worksheet: <span tal:content="string:${repeat/f/number} (${f/title})">1</span></dt>
+          <dd tal:content="structure f/html" tal:condition="f/html">
+	    <table>
+	      <tr><td>col 1 name</td><td>col 2 name</td></tr>
+	      <tr><td>col 1 value</td><td>col 2 value</td></tr>
+	    </table>
+          </dd>
+          <dd><a href="file://"
+		 tal:attributes="href string:${view/base_download_url}&i=${repeat/f/index};">Download</a>
+          </dd>
+	  </tal:loop>
+      </dl>
+    </div>
+  </body>
+</html>

@@ -8,9 +8,7 @@
     <div metal:fill-slot="prefs_configlet_main"
         tal:define="errors python:request.get('errors', {});
                     here_url context/@@plone_context_state/object_url;
-                    portal context/@@plone_portal_state/portal;
-                    Iterator python:modules['Products.CMFPlone'].IndexIterator;
-                    tabindex python:Iterator(mainSlot=False);">
+                    portal context/@@plone_portal_state/portal;">
 
         <div class="documentEditable">
             <ul class="contentViews">
@@ -75,12 +73,11 @@
                                 tal:attributes="class python:test(oddrow, 'even', 'odd')" >
                                 <td>
                                 <input type="checkbox" class="noborder"
-                                        name="smselected:list" id="#" value="#" tabindex=""
+                                        name="smselected:list" id="#" value="#"
                                         tal:attributes="value    data/sm_id;
                                                         id       string:cb_${data/sm_id};
                                                         alt      data/sm_type;
-                                                        title    data/sm_type;
-                                                        tabindex tabindex/next;" />
+                                                        title    data/sm_type;" />
                                 </td>
                                 <td>
                                 <strong tal:content="data/sm_type"> Sitemap type </strong>
@@ -110,44 +107,34 @@
                             tal:define="process_creation request/process_creation|nothing;"
                             i18n:domain="plone">
                             <input class="context"
-                                tabindex=""
                                 type="submit"
                                 name="form.button.AddContent"
                                 value="Add Content Sitemap"
                                 i18n:attributes="value"
-                                tal:condition="not:view/hasContentSM"
-                                tal:attributes="tabindex tabindex/next;" />
+                                tal:condition="not:view/hasContentSM" />
                             <input class="context"
-                                tabindex=""
                                 type="submit"
                                 name="form.button.AddMobile"
                                 value="Add Mobile Sitemap"
                                 i18n:attributes="value"
-                                tal:condition="not:view/hasMobileSM"
-                                tal:attributes="tabindex tabindex/next;" />
+                                tal:condition="not:view/hasMobileSM" />
                             <input class="context"
-                                tabindex=""
                                 type="submit"
                                 name="form.button.AddNews"
                                 value="Add News Sitemap"
                                 i18n:attributes="value"
-                                tal:condition="not:view/hasNewsSM"
-                                tal:attributes="tabindex tabindex/next;" />
+                                tal:condition="not:view/hasNewsSM" />
                             <tal:block condition="sitemaps">
                             <input class="context"
-                                tabindex=""
                                 type="submit"
                                 name="form.button.Delete"
                                 value="Delete"
-                                i18n:attributes="value"
-                                tal:attributes="tabindex tabindex/next;" />
+                                i18n:attributes="value" />
                             <input class="context"
-                                tabindex=""
                                 type="submit"
                                 name="form.button.Ping"
                                 value="Ping"
-                                i18n:attributes="value"
-                                tal:attributes="tabindex tabindex/next;" />
+                                i18n:attributes="value" />
                             </tal:block>
                         </div>
 

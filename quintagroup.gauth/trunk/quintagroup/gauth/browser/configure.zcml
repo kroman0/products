@@ -1,0 +1,37 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="quintagroup.gauth">
+
+    <!-- Registries for configlet -->
+    <adapter factory=".configlet.GAuthConfigletAdapter" />
+
+    <browser:page
+        name="gauth-controlpanel"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        class=".configlet.GAuthConfiglet"
+        permission="cmf.ManagePortal"
+        />
+
+    <browser:page
+        name="gauth-test"
+        for="*"
+        template="testview.pt"
+        class=".testview.TestView"
+        permission="zope2.Public"
+        />
+
+    <browser:page
+        name="gauth-download"
+        for="*"
+        class=".testview.TestView"
+        attribute="download"
+        permission="zope2.Public"
+        />
+
+    <browser:resource
+        name="gauth_icon.gif"
+        image="gauth_icon.gif"
+        />
+
+</configure>

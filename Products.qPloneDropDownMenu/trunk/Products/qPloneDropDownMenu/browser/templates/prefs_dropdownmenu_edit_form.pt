@@ -30,25 +30,25 @@
     <p>Congratulations, you've installed Plone Drop Down Menu product from Quintagroup.</p>
 
     <p>In case you have some problems following editing DropDown Menu you
-    can only click <a href="dropdownmenu_update">regenerate menu</a>, and
+    can only click <a tal:attributes="href string:${here/absolute_url}/${view/__name__}?regenerate_menu=True">regenerate menu</a>, and
     you'll get the initial portal menu.</p>
 
     <form name="menu_edit_form"
           action="." 
           method="post" 
-          tal:attributes="action string:${here/absolute_url}/${template/getId}" >
+          tal:attributes="action string:${here/absolute_url}/${view/__name__}" >
 
       <div class="formControls" align="right"
            tal:define="process_creation request/process_creation|nothing;">
           <input class="context"
                  type="submit"
                  value="Regenerate Menu"
-                 name="form.button.Regenerate"
+                 name="regenerate_menu"
                  i18n:attributes="value" />
       </div>
 
       <dl class="portalMessage warning"
-          tal:condition="not: portal/portal_properties/dropdownmenu_properties/menu|nothing">
+          tal:condition="not: view/menu">
         <dt>Warning</dt>
         <dd>
           Dropdown menu property sheet or it's 'menu' field were deleted from portal_properties tool.
@@ -64,7 +64,7 @@
                     rows="20"
                     name="menu"
                     id="menu"
-                    tal:content="portal/portal_properties/dropdownmenu_properties/menu|string:">Portal Tabs</textarea>
+                    tal:content="view/menu">Portal Tabs</textarea>
       </div>
 
       <div class="formControls"
@@ -72,11 +72,9 @@
         <input class="context"
                type="submit"
                value="Save"
-               name="form.button.Save"
+               name="save"
                i18n:attributes="value" />
       </div>
-
-      <input type="hidden" name="form.submitted" value="1" />
     </form>
 
   </div>

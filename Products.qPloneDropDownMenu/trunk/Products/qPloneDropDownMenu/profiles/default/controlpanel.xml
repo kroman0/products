@@ -3,7 +3,7 @@
     xmlns:i18n="http://xml.zope.org/namespaces/i18n" i18n:domain="qPloneDropDownMenu">
  <configlet title="Drop Down Menu" action_id="qPloneDropDownMenu"
     appId="qPloneDropDownMenu" category="Products" condition_expr=""
-    url_expr="string:${portal_url}/prefs_dropdownmenu_edit_form"
+    url_expr="string:${portal_url}/@@prefs_dropdownmenu"
     visible="True" i18n:attributes="title">
   <permission>Manage portal</permission>
  </configlet>

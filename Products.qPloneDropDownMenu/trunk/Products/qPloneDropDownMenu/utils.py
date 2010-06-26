@@ -6,7 +6,12 @@ from zope.component import getMultiAdapter
 from OFS.DTMLMethod import addDTMLMethod
 
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.migrations.migration_util import safeEditProperty
+try: 
+    # Plone 4 
+    from plone.app.upgrade.utils import safeEditProperty 
+except: 
+    from Products.CMFPlone.migrations.migration_util import safeEditProperty 
+
 from Products.CMFCore.Expression import Expression, createExprContext
 
 from config import PROPERTY_FIELD, PROPERTY_SHEET
@@ -31,6 +36,9 @@ def updateMenu(site):
     context_state = getMultiAdapter((site, site.REQUEST),
                                     name=u'plone_context_state')
     actions = context_state.actions()
+    if type(actions) == dict: 
+        # Plone 4 
+        actions = actions['portal_tabs'] 
     portal_tabs_view = getMultiAdapter((site, site.REQUEST),
                                        name='portal_tabs_view')
     portal_tabs = portal_tabs_view.topLevelTabs(actions=actions)

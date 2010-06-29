@@ -1,6 +1,6 @@
-from zope.interface import Interface
+from plone.browserlayer.interfaces import ILocalBrowserLayerType
 
-class $(layer_interface)(Interface):
+class $(layer_interface)(ILocalBrowserLayerType):
     """Marker interface that defines browser layer for the package."""
 
 

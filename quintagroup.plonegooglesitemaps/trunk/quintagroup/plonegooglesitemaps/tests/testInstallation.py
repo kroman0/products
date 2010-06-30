@@ -68,6 +68,13 @@ class TestGoogleSitemapsUninstallation(TestCase):
         news = getattr(self.portal, "test_news")
         self.assertEqual(lsm.queryAdapter(news, interface=ISchemaExtender), None)
 
+    def testConfigletUninstall(self):
+        self.assertNotEqual(self.portal.portal_quickinstaller.isProductInstalled(PRODUCT), True,
+            '%s is already installed' % PRODUCT)
+        configTool = self.portal.portal_controlpanel
+        self.assertEqual('GoogleSitemaps' in [a.getId() for a in configTool.listActions()], False,
+            'Configlet found after uninstallation')
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

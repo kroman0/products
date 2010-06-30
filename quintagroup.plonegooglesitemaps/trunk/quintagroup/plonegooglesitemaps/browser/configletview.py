@@ -28,7 +28,6 @@ class IConfigletSettingsView(Interface):
     hasContentSM = Attribute("Return boolean about existance content sitemap")
     hasMobileSM = Attribute("Return boolean about existance mobile sitemap")
     hasNewsSM = Attribute("Return boolean about existance news sitemap")
-    sitemaps = Attribute("List of sitemap typs")
     sm_types = Attribute("List of sitemap typs")
 
     def sitemapsDict():
@@ -59,6 +58,7 @@ class ConfigletSettingsView(BrowserView):
     Configlet settings browser view
     """
     implements(IConfigletSettingsView)
+    sitemaps = []
 
     def __init__(self, context, request):
         self.context = context

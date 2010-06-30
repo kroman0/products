@@ -1,6 +1,7 @@
 import logging
 from zope.component import getSiteManager
 from zope.component import getGlobalSiteManager
+from Products.CMFCore.utils import getToolByName
 from quintagroup.plonegooglesitemaps.content.newsextender import NewsExtender
 
 logger = logging.getLogger('quintagroup.plonegooglesitemaps')
@@ -28,6 +29,15 @@ def unregisterSchemaExtenderAdapters(site):
             unregistered.append(str(required))
     logger.info("Unregistered news schema extender adapters for: %s" % unregistered)
 
+def removeConfiglet(site):
+    """ Remove configlet.
+    """
+    conf_id = 'GoogleSitemaps'
+    controlpanel_tool = getToolByName(site, 'portal_controlpanel')
+    if controlpanel_tool:
+        controlpanel_tool.unregisterConfiglet(conf_id)
+        logger.log(logging.INFO, "Unregistered \"%s\" configlet." % conf_id)
+
 
 def uninstall(context):
     """ Do customized uninstallation.
@@ -36,3 +46,4 @@ def uninstall(context):
         return
     site = context.getSite()
     unregisterSchemaExtenderAdapters(site)
+    removeConfiglet(site)

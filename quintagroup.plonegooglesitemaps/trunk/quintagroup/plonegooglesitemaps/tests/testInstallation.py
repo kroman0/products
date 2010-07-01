@@ -1,7 +1,8 @@
 from base import *
 from zope.component import getSiteManager
 from archetypes.schemaextender.interfaces import ISchemaExtender
-
+from Products.CMFPlone.utils import _createObjectByType
+from quintagroup.canonicalpath.interfaces import ICanonicalLink
 
 class TestGoogleSitemapsInstallation(TestCase):
 
@@ -52,6 +53,52 @@ class TestGoogleSitemapsInstallation(TestCase):
         news = self.portal.invokeFactory("News Item", id="test_news")
         news = getattr(self.portal, "test_news")
         self.assertNotEqual(lsm.queryAdapter(news, interface=ISchemaExtender), None)
+
+    def testUpdateCatalog(self):
+        # Test added new columns in catalog
+        Language = 'test_language'
+        gsm_access = 'test_gsm_access'
+        gsm_genres = (u'test_gsm_genres',)
+        gsm_stock = 'test_gsm_stock'
+        cols = ["canonical_link", "Language", "gsm_access",
+                "gsm_genres", "gsm_stock"]
+        lsm = getSiteManager(self.portal)
+        catalog = self.portal.portal_catalog
+        setuptools = self.portal.portal_setup
+        for col in cols:
+            self.assertEqual(col in catalog._catalog.names, True)
+
+        # Test update catalog
+        # Create news
+        news = _createObjectByType('News Item', self.portal, id='test_news')
+        news_cpath = "/my_test_news"
+        news_clink = self.portal.absolute_url() + news_cpath
+
+        # The canonical_link, Language, gsm_access, gsm_genres, gsm_stock
+        # brain must contains not updated canonical_link data
+        brain = catalog(id="test_news")[0]
+        self.assertNotEqual(brain.canonical_link, news_clink)
+        self.assertNotEqual(brain.Language, Language)
+        self.assertNotEqual(brain.gsm_access, gsm_access)
+        self.assertNotEqual(brain.gsm_genres, gsm_genres)
+        self.assertNotEqual(brain.gsm_stock, gsm_stock)
+
+        # Update fields
+        ICanonicalLink(news).canonical_link = news_clink
+        news.update(
+            language=Language, gsm_access=gsm_access,
+            gsm_genres=gsm_genres, gsm_stock=gsm_stock)
+        setuptools.runImportStepFromProfile(
+            'profile-quintagroup.plonegooglesitemaps:default', 'catalog')
+
+        # The canonical_link, Language, gsm_access, gsm_genres, gsm_stock
+        # brain must contains updated canonical_link data
+        brain = catalog(id="test_news")[0]
+        self.assertEqual(brain.canonical_link, news_clink)
+        self.assertEqual(brain.Language, Language)
+        self.assertEqual(brain.gsm_access, gsm_access)
+        self.assertEqual(brain.gsm_genres, gsm_genres)
+        self.assertEqual(brain.gsm_stock, gsm_stock)
 
 
 class TestGoogleSitemapsUninstallation(TestCase):

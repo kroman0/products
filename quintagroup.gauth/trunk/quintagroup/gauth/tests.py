@@ -8,6 +8,9 @@ from Testing import ZopeTestCase as ztc
 from Products.Five import fiveconfigure
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import PloneSite
+from Products.PloneTestCase.PloneTestCase import portal_owner
+from Products.PloneTestCase.PloneTestCase import default_password
+
 ptc.setupPloneSite()
 
 import quintagroup.gauth
@@ -60,10 +63,41 @@ class TestInstall(TestCase):
         self.assert_("quintagroup.gauth" in aifs, aifs)
 
 
+class TestConfiglet(FunctionalTestCase):
+
+    def afterSetUp(self):
+        self.loginAsPortalOwner()
+        self.addProduct("quintagroup.gauth")
+        self.basic_auth = portal_owner + ":" + default_password
+        self.get_url = self.portal.id+'/@@gauth-controlpanel'
+        self.save_url = self.portal.id+'/@@gauth-controlpanel?form.actions.save=1' \
+            '&_authenticator=%s' % self._getauth()
+
+    def test_presentEmail(self):
+        res = self.publish(self.get_url, self.basic_auth).getBody()
+        self.assert_(re.match(".*<input\s[^>]*name=\"form.gauth_email\"[^>]*>", res, re.I|re.S))
+
+    def test_presentPassword(self):
+        res = self.publish(self.get_url, self.basic_auth).getBody()
+        self.assert_(re.match(".*<input\s[^>]*name=\"form.gauth_pass\"[^>]*>", res, re.I|re.S))
+
+    def test_update(self):
+        temail, tpass = "tester@test.com", "secret"
+        from quintagroup.gauth.interfaces import IGAuthInterface
+        from zope.component import queryUtility
+        gauth_util = queryUtility(IGAuthInterface)
+        gauth_util.gconf_init(self.portal, self.portal.REQUEST)
+        url = self.save_url + '&form.gauth_email='+temail + '&form.gauth_pass='+tpass
+        self.publish(url, self.basic_auth)
+        self.assert_(gauth_util.email == temail)
+        self.assert_(gauth_util.password == tpass)
+        
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestInstall))
+    suite.addTest(makeSuite(TestConfiglet))
     return suite
 
 

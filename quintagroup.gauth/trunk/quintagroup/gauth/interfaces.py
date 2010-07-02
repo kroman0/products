@@ -8,3 +8,4 @@ class IGAuthInterface(Interface):
     email = Attribute("email", "Get GDocs portal account email.")
 
     password = Attribute("password", "Get GDocs portal account password.")
+    

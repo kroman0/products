@@ -7,8 +7,8 @@ from zope.interface import implements
 from zope.component import queryMultiAdapter, queryAdapter
 from plone.memoize.view import memoize_contextless
 
-from quintagroiup.gauth.interfaces import IGAuthInterface
-from quintagroup.gdata.browser.configlet import IGDataConfigletSchema
+from quintagroup.gauth.interfaces import IGAuthInterface
+from quintagroup.gauth.browser.configlet import IGAuthConfigletSchema
 
 logger = logging.getLogger('quintagroup.gauth')
 def logException(msg, context=None):
@@ -21,24 +21,25 @@ def logException(msg, context=None):
 class GAuthUtility(object):
     implements(IGAuthInterface)
 
-    def __init__(self, context):
-        self.context = context
+    gconf = None
 
-    @property
-    @memoize_contextless
-    def gdataconf(self):
-        pps = queryMultiAdapter((self.context, self.context.REQUEST), name="plone_portal_state")
-        return queryAdapter(pps.portal(), IGDataConfigletSchema)
+    def gconf_init(self, context, request):
+        pps = queryMultiAdapter((context, request), name="plone_portal_state")
+        self.gconf = queryAdapter(pps.portal(), IGAuthConfigletSchema)
 
     @property
     def email(self):
         """ Get the email."""
-        return self.gdataconf.gdata_email
+        if not self.gconf:
+            return None
+        return self.gconf.gdata_email
 
     @property
     def password(self):
         """ Get the password."""
-        return self.gdataconf.gdata_pass
+        if not self.gconf:
+            return None
+        return self.gconf.gdata_pass
 
 
 class SafeQuery(object):

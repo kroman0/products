@@ -1,6 +1,6 @@
 from zope.interface import Interface, Attribute
 
-class IGAuthInterface(Interface):
+class IGAuthUtility(Interface):
     """ Utility, which operate with authentication data,
         stored in Google Data configlet.
     """

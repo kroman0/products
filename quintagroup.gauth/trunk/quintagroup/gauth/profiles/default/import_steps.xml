@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<import-steps>
+ <import-step id="register_gauth_utility" version="20100702-01"
+              handler="quintagroup.gauth.setuphandlers.registerGAuthUtility"
+              title="Register GAuth utility">
+    <dependency step="propertiestool"/>
+  Register GAuth utility
+ </import-step>
+</import-steps>

@@ -7,9 +7,6 @@
 
   <include package=".browser" />
 
-  <utility
-      factory=".utility.GAuthUtility" />
-
   <genericsetup:registerProfile
       name="default"
       title="quintagroup.gauth"

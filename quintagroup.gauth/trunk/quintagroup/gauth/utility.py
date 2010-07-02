@@ -7,7 +7,7 @@ from zope.interface import implements
 from zope.component import queryMultiAdapter, queryAdapter
 from plone.memoize.view import memoize_contextless
 
-from quintagroup.gauth.interfaces import IGAuthInterface
+from quintagroup.gauth.interfaces import IGAuthUtility
 from quintagroup.gauth.browser.configlet import IGAuthConfigletSchema
 
 logger = logging.getLogger('quintagroup.gauth')
@@ -19,27 +19,24 @@ def logException(msg, context=None):
             error_log.raising(sys.exc_info())
 
 class GAuthUtility(object):
-    implements(IGAuthInterface)
+    implements(IGAuthUtility)
 
     gconf = None
-
-    def gconf_init(self, context, request):
-        pps = queryMultiAdapter((context, request), name="plone_portal_state")
+    
+    def __init__(self, context):
+        # Bind utility to the context
+        pps = queryMultiAdapter((context, context.REQUEST), name="plone_portal_state")
         self.gconf = queryAdapter(pps.portal(), IGAuthConfigletSchema)
 
     @property
     def email(self):
         """ Get the email."""
-        if not self.gconf:
-            return None
-        return self.gconf.gauth_email
+        return getattr(self.gconf, 'gauth_email', '')
 
     @property
     def password(self):
         """ Get the password."""
-        if not self.gconf:
-            return None
-        return self.gconf.gauth_pass
+        return getattr(self.gconf, 'gauth_pass', '')
 
 
 class SafeQuery(object):
@@ -54,7 +51,7 @@ class SafeQuery(object):
         class MyGdataService(SafeQuery):
 
             def __init__(self):
-                gauth_util = queryUtility(IGAuthInterface)
+                gauth_util = queryUtility(IGAuthUtility)
                 self.service = gdata.spreadsheet.service.SpreadsheetService(
                                    gauth_util.email, gauth_util.password)
                 self.service.ProgrammaticLogin()

@@ -32,14 +32,14 @@ class GAuthUtility(object):
         """ Get the email."""
         if not self.gconf:
             return None
-        return self.gconf.gdata_email
+        return self.gconf.gauth_email
 
     @property
     def password(self):
         """ Get the password."""
         if not self.gconf:
             return None
-        return self.gconf.gdata_pass
+        return self.gconf.gauth_pass
 
 
 class SafeQuery(object):

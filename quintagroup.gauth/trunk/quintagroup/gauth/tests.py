@@ -1,3 +1,4 @@
+import re
 import unittest
 
 #from zope.testing import doctestunit
@@ -11,81 +12,59 @@ ptc.setupPloneSite()
 
 import quintagroup.gauth
 
+class GauthLayer(PloneSite):
+    @classmethod
+    def setUp(cls):
+        fiveconfigure.debug_mode = True
+        ztc.installPackage(quintagroup.gauth)
+        fiveconfigure.debug_mode = False
+
+    @classmethod
+    def tearDown(cls):
+        pass
+
 
 class TestCase(ptc.PloneTestCase):
-
-    class layer(PloneSite):
-
-        @classmethod
-        def setUp(cls):
-            fiveconfigure.debug_mode = True
-            ztc.installPackage(quintagroup.gauth)
-            fiveconfigure.debug_mode = False
-
-        @classmethod
-        def tearDown(cls):
-            pass
+    layer = GauthLayer
 
 
-# class SafeQuery(object):
-#     def safeCall(self, serv, meth, methargs=[], methkwargs={}):
-#         print "safecall %s: serv: %s, meth: %s, methargs: %s, methkwargs: %s" % (
-#             self, serv, meth, methargs, methkwargs)
-#         try:
-#             return meth(*methargs, **methkwargs)
-#         except gdata.service.RequestError, e:
-#             print "Token Expired -> Update it."
-#             logException("Token Expired -> Update it.")
-#             serv.ProgrammaticLogin()
-#             return meth(*methargs, **methkwargs)
-# counter = 0
-# class DummyServ:
-#     def ProgrammaticLogin(self, captcha_token=None, captcha_response=None):
-#         print "for '%s' called ProgrammaticLogin" % str(self)
-#     def Query(self, *args, **kwargs):
-#         global counter
-#         if counter > 3:
-#             counter = 0
-#             raise gdata.service.RequestError("Some Problem in Query")
-#         print "for '%s' called Query with args: %s, kwargs: %s" % tuple(
-#             map(str,[self,args,kwargs]))
-#         counter += 1
-# class C(SafeQuery):
-#     serv = None
-#     def __init__(self):
-#         self.serv = DummyServ()
-#     def operation(self, a):
-#         for i in range(5):
-#             self.safeCall(self.serv, self.serv.Query, [i,], {"q": i*i})
+class FunctionalTestCase(ptc.FunctionalPloneTestCase):
+    layer = GauthLayer
+
+    def _getauth(self):
+        # Fix authenticator for the form
+        try:
+            authenticator = self.portal.restrictedTraverse("@@authenticator")
+        except:
+            handle  = ""
+        else:
+            html = authenticator.authenticator()
+            handle = re.search('value="(.*)"', html).groups()[0]
+        return handle
 
 
+class TestInstall(TestCase):
+    def afterSetUp(self):
+        self.loginAsPortalOwner()
 
+    def testProperties(self):
+        pp = self.portal.portal_properties
+        self.assert_("gauth_properties" in pp.objectIds())
+        self.assert_(pp.gauth_properties.hasProperty("gauth_email"))
 
+    def testConfiglet(self):
+        cp = self.portal.portal_controlpanel
+        aifs = self.listActionInfos(check_visibility=0, check_permissions=0,
+                        check_condition=0)
+        self.assert_("gauth_email" in [ai.id for ai in aifs])
 
 
 def test_suite():
-    return unittest.TestSuite([
+    from unittest import TestSuite, makeSuite
+    suite = TestSuite()
+    suite.addTest(makeSuite(TestInstall))
+    return suite
 
-        # Unit tests
-        #doctestunit.DocFileSuite(
-        #    'README.txt', package='quintagroup.gauth',
-        #    setUp=testing.setUp, tearDown=testing.tearDown),
-
-        #doctestunit.DocTestSuite(
-        #    module='quintagroup.gauth.mymodule',
-        #    setUp=testing.setUp, tearDown=testing.tearDown),
-
-
-        # Integration tests that use PloneTestCase
-        #ztc.ZopeDocFileSuite(
-        #    'README.txt', package='quintagroup.gauth',
-        #    test_class=TestCase),
-
-        #ztc.FunctionalDocFileSuite(
-        #    'browser.txt', package='quintagroup.gauth',
-        #    test_class=TestCase),
-
-        ])
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

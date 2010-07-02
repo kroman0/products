@@ -3,6 +3,8 @@ import unittest
 
 #from zope.testing import doctestunit
 #from zope.component import testing
+from zope.component import queryUtility
+from zope.component import getSiteManager
 from Testing import ZopeTestCase as ztc
 
 from Products.Five import fiveconfigure
@@ -14,6 +16,7 @@ from Products.PloneTestCase.PloneTestCase import default_password
 ptc.setupPloneSite()
 
 import quintagroup.gauth
+from quintagroup.gauth.interfaces import IGAuthUtility
 
 class GauthLayer(PloneSite):
     @classmethod
@@ -47,6 +50,7 @@ class FunctionalTestCase(ptc.FunctionalTestCase):
 
 
 class TestInstall(TestCase):
+
     def afterSetUp(self):
         self.loginAsPortalOwner()
         self.addProduct("quintagroup.gauth")
@@ -62,6 +66,11 @@ class TestInstall(TestCase):
                 check_visibility=0, check_permissions=0, check_condition=0)]
         self.assert_("quintagroup.gauth" in aifs, aifs)
 
+    def testUtility(self):
+        lsm = getSiteManager(self.portal)
+        gauth = lsm.queryUtility(IGAuthUtility)
+        self.assert_(gauth is not None)
+        self.assert_(gauth.gconf is not None)
 
 class TestConfiglet(FunctionalTestCase):
 
@@ -83,15 +92,12 @@ class TestConfiglet(FunctionalTestCase):
 
     def test_update(self):
         temail, tpass = "tester@test.com", "secret"
-        from quintagroup.gauth.interfaces import IGAuthInterface
-        from zope.component import queryUtility
-        gauth_util = queryUtility(IGAuthInterface)
-        gauth_util.gconf_init(self.portal, self.portal.REQUEST)
+        gauth_util = queryUtility(IGAuthUtility)
         url = self.save_url + '&form.gauth_email='+temail + '&form.gauth_pass='+tpass
         self.publish(url, self.basic_auth)
         self.assert_(gauth_util.email == temail)
         self.assert_(gauth_util.password == tpass)
-        
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

@@ -13,21 +13,21 @@
         permission="cmf.ManagePortal"
         />
 
-    <browser:page
-        name="gauth-test"
-        for="*"
-        template="testview.pt"
-        class=".testview.TestView"
-        permission="zope2.Public"
-        />
+    <!-- <browser:page -->
+    <!--     name="gauth-test" -->
+    <!--     for="*" -->
+    <!--     template="testview.pt" -->
+    <!--     class=".testview.TestView" -->
+    <!--     permission="zope2.Public" -->
+    <!--     /> -->
 
-    <browser:page
-        name="gauth-download"
-        for="*"
-        class=".testview.TestView"
-        attribute="download"
-        permission="zope2.Public"
-        />
+    <!-- <browser:page -->
+    <!--     name="gauth-download" -->
+    <!--     for="*" -->
+    <!--     class=".testview.TestView" -->
+    <!--     attribute="download" -->
+    <!--     permission="zope2.Public" -->
+    <!--     /> -->
 
     <browser:resource
         name="gauth_icon.gif"

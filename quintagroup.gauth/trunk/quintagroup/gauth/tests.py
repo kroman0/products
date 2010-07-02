@@ -28,7 +28,7 @@ class TestCase(ptc.PloneTestCase):
     layer = GauthLayer
 
 
-class FunctionalTestCase(ptc.FunctionalPloneTestCase):
+class FunctionalTestCase(ptc.FunctionalTestCase):
     layer = GauthLayer
 
     def _getauth(self):
@@ -46,17 +46,18 @@ class FunctionalTestCase(ptc.FunctionalPloneTestCase):
 class TestInstall(TestCase):
     def afterSetUp(self):
         self.loginAsPortalOwner()
-
+        self.addProduct("quintagroup.gauth")
+        
     def testProperties(self):
         pp = self.portal.portal_properties
         self.assert_("gauth_properties" in pp.objectIds())
-        self.assert_(pp.gauth_properties.hasProperty("gauth_email"))
+        self.assert_(bool(pp.gauth_properties.hasProperty("gauth_email")))
 
     def testConfiglet(self):
         cp = self.portal.portal_controlpanel
-        aifs = self.listActionInfos(check_visibility=0, check_permissions=0,
-                        check_condition=0)
-        self.assert_("gauth_email" in [ai.id for ai in aifs])
+        aifs = [ai['id'] for ai in cp.listActionInfos(
+                check_visibility=0, check_permissions=0, check_condition=0)]
+        self.assert_("quintagroup.gauth" in aifs, aifs)
 
 
 def test_suite():

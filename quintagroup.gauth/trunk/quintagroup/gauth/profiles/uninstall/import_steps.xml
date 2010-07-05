@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<import-steps>
+ <import-step id="uninstall_gauth" version="20100705-01"
+              handler="quintagroup.gauth.setuphandlers.uninstallStuff"
+              title="Uninstall GAuth package">
+    <dependency step="propertiestool"/>
+  Uninstall GAuth package
+ </import-step>
+</import-steps>

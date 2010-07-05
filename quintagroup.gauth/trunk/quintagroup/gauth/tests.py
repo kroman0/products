@@ -1,14 +1,12 @@
-import sys
 import re
+import sys
 import unittest
-from StringIO import StringIO
 
-#from zope.testing import doctestunit
-#from zope.component import testing
 from zope.component import queryUtility, queryAdapter
 from zope.component import getSiteManager, getGlobalSiteManager
 from Testing import ZopeTestCase as ztc
 
+from Products.Five import zcml
 from Products.Five import fiveconfigure
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import PloneSite
@@ -26,8 +24,10 @@ class GauthLayer(PloneSite):
     @classmethod
     def setUp(cls):
         fiveconfigure.debug_mode = True
-        ztc.installPackage(quintagroup.gauth)
+        import quintagroup.gauth
+        zcml.load_config('configure.zcml', quintagroup.gauth)
         fiveconfigure.debug_mode = False
+        ztc.installPackage("quintagroup.gauth")
 
     @classmethod
     def tearDown(cls):
@@ -77,6 +77,44 @@ class TestInstall(TestCase):
         ggauth = gsm.queryUtility(IGAuthUtility)
         self.assertEqual(ggauth, None)
         self.assertNotEqual(lgauth, None)
+
+    def testActionIcons(self):
+        ait = self.portal.portal_actionicons
+        ai = ait.getActionInfo("controlpanel", "quintagroup.gauth")
+        self.assertNotEqual(ai, None)
+
+
+class TestUninstall(TestCase):
+
+    def afterSetUp(self):
+        self.loginAsPortalOwner()
+        self.addProduct("quintagroup.gauth")
+        qi = self.portal.portal_quickinstaller
+        # qi.installProducts(products=["quintagroup.gauth",])
+        qi.uninstallProducts(products=["quintagroup.gauth",])
+
+    def testProperties(self):
+        pp = self.portal.portal_properties
+        self.assert_(not "gauth_properties" in pp.objectIds())
+
+    def testConfiglet(self):
+        cp = self.portal.portal_controlpanel
+        aifs = [ai['id'] for ai in cp.listActionInfos(
+                check_visibility=0, check_permissions=0, check_condition=0)]
+        self.assert_(not "quintagroup.gauth" in aifs)
+
+    def testUtility(self):
+        lsm = getSiteManager(self.portal)
+        gsm = getGlobalSiteManager()
+        lgauth = lsm.queryUtility(IGAuthUtility)
+        ggauth = gsm.queryUtility(IGAuthUtility)
+        self.assertEqual(ggauth, None)
+        self.assertEqual(lgauth, None)
+
+    def testActionIcons(self):
+        ait = self.portal.portal_actionicons
+        ai = ait.getActionInfo("controlpanel", "quintagroup.gauth")
+        self.assertEqual(ai, None)
 
 
 class TestConfiglet(FunctionalTestCase):
@@ -174,6 +212,7 @@ def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestInstall))
+    suite.addTest(makeSuite(TestUninstall))
     suite.addTest(makeSuite(TestConfiglet))
     suite.addTest(makeSuite(TestUtility))
     suite.addTest(makeSuite(TestSafeQuery))

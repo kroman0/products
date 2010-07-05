@@ -3,6 +3,7 @@
 """
 
 import logging
+import gdata.service
 from zope.interface import implements
 from zope.component import queryMultiAdapter, queryAdapter
 from plone.memoize.view import memoize_contextless

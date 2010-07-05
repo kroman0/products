@@ -1,5 +1,7 @@
+import sys
 import re
 import unittest
+from StringIO import StringIO
 
 #from zope.testing import doctestunit
 #from zope.component import testing
@@ -16,6 +18,7 @@ from Products.PloneTestCase.PloneTestCase import default_password
 ptc.setupPloneSite()
 
 import quintagroup.gauth
+from quintagroup.gauth.utility import SafeQuery
 from quintagroup.gauth.interfaces import IGAuthUtility
 from quintagroup.gauth.browser.configlet import IGAuthConfigletSchema
 
@@ -123,12 +126,57 @@ class TestUtility(FunctionalTestCase):
         self.assertEqual(self.gauthutil.password, "secret")
 
 
+import gdata.service
+
+out = ""
+class DummyService(object):
+    doraise = False
+
+    def ProgrammaticLogin(self):
+        global out
+        out += "\nCall ProgrammaticLogin"
+        self.doraise = False
+
+    def Action(self, *args, **kwargs):
+        global out
+        out += "\nCall Action with: args='%s', kwargs='%s'" % (str(args), str(kwargs))
+        if self.doraise:
+            raise gdata.service.RequestError("Token is expired")
+
+class TestSafeQuery(unittest.TestCase):
+
+    def setUp(self):
+        global out
+        self.serv = DummyService()
+        self.args = "test_arg",
+        self.kwargs = {"kw1_key": "kw1_val"}
+        self.sq = SafeQuery()
+        out = ""
+
+    def testMethodCall(self):
+        self.sq.safeQuery(self.serv, self.serv.Action, *self.args, **self.kwargs)
+        res = filter(None, out.split("\n"))
+        self.assertEqual(res[0],
+            "Call Action with: args='%s', kwargs='%s'" % (str(self.args), str(self.kwargs)))
+
+    def testProgrammaticLogin(self):
+        self.serv.doraise = True
+        self.sq.safeQuery(self.serv, self.serv.Action, *self.args, **self.kwargs)
+        res = filter(None, out.split("\n"))
+        self.assertEqual(res[0], "Call Action with: args='%s', kwargs='%s'" % (
+            str(self.args), str(self.kwargs)))
+        self.assertEqual(res[1], "Call ProgrammaticLogin")
+        self.assertEqual(res[2], "Call Action with: args='%s', kwargs='%s'" % (
+            str(self.args), str(self.kwargs)))
+
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestInstall))
     suite.addTest(makeSuite(TestConfiglet))
     suite.addTest(makeSuite(TestUtility))
+    suite.addTest(makeSuite(TestSafeQuery))
     return suite
 
 

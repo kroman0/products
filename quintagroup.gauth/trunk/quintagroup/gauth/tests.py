@@ -3,8 +3,8 @@ import unittest
 
 #from zope.testing import doctestunit
 #from zope.component import testing
-from zope.component import queryUtility
-from zope.component import getSiteManager
+from zope.component import queryUtility, queryAdapter
+from zope.component import getSiteManager, getGlobalSiteManager
 from Testing import ZopeTestCase as ztc
 
 from Products.Five import fiveconfigure
@@ -17,6 +17,7 @@ ptc.setupPloneSite()
 
 import quintagroup.gauth
 from quintagroup.gauth.interfaces import IGAuthUtility
+from quintagroup.gauth.browser.configlet import IGAuthConfigletSchema
 
 class GauthLayer(PloneSite):
     @classmethod
@@ -68,9 +69,12 @@ class TestInstall(TestCase):
 
     def testUtility(self):
         lsm = getSiteManager(self.portal)
-        gauth = lsm.queryUtility(IGAuthUtility)
-        self.assert_(gauth is not None)
-        self.assert_(gauth.gconf is not None)
+        gsm = getGlobalSiteManager()
+        lgauth = lsm.queryUtility(IGAuthUtility)
+        ggauth = gsm.queryUtility(IGAuthUtility)
+        self.assertEqual(ggauth, None)
+        self.assertNotEqual(lgauth, None)
+
 
 class TestConfiglet(FunctionalTestCase):
 
@@ -99,11 +103,32 @@ class TestConfiglet(FunctionalTestCase):
         self.assert_(gauth_util.password == tpass)
 
 
+class TestUtility(FunctionalTestCase):
+
+    def afterSetUp(self):
+        self.loginAsPortalOwner()
+        self.addProduct("quintagroup.gauth")
+        sm = getSiteManager(self.portal)
+        self.gauthutil = sm.queryUtility(IGAuthUtility)
+        self.gauthconfiglet = queryAdapter(self.portal, IGAuthConfigletSchema)
+
+    def testEmail(self):
+        self.assertEqual(bool(self.gauthutil.email), False)
+        self.gauthconfiglet.gauth_email = "tester@test.com"
+        self.assertEqual(self.gauthutil.email, "tester@test.com")
+
+    def testPassword(self):
+        self.assertEqual(bool(self.gauthutil.password), False)
+        self.gauthconfiglet.gauth_pass = u"secret"
+        self.assertEqual(self.gauthutil.password, "secret")
+
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestInstall))
     suite.addTest(makeSuite(TestConfiglet))
+    suite.addTest(makeSuite(TestUtility))
     return suite
 
 

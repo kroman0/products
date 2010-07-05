@@ -5,6 +5,11 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="quintagroup.gauth">
 
+
+  <!-- This need for QI for possibility to find "uninstall"
+       method in then ./Extensions/install.py external method -->
+  <five:registerPackage package="." />
+
   <include package=".browser" />
 
   <genericsetup:registerProfile
@@ -17,7 +22,7 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="quintagroup.gauth"
+      title="Uninstall quintagroup.gauth"
       directory="profiles/uninstall"
       description="Uninstalls the quintagroup.gauth package"
       provides="Products.GenericSetup.interfaces.EXTENSION"

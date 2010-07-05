@@ -90,13 +90,10 @@ class TestNewsSitemapsXML(FunctionalTestCase):
     def test_ngenresForNotExtended(self):
         # No genres should present for not extended content type
         my_doc = _createObjectByType('Document', self.portal, id='my_doc')
-        #self.portal.invokeFactory("Document", id="my_doc")
-        #my_doc = getattr(self.portal, "my_doc")
         my_doc.edit(text="Test document")
         self.workflow.doActionFor(my_doc, "publish")
         self.portal["news-sitemaps"].edit(portalTypes=("Document",))
         self.reParse()
-        open("/tmp/news.sm.docs.xml", "w").write(self.sitemap)
         self.assertNotEqual("n:genres" in self.start.keys(), True)
 
     def test_nstock_tickers(self):

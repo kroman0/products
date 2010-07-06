@@ -36,9 +36,10 @@ def updateMenu(site):
     context_state = getMultiAdapter((site, site.REQUEST),
                                     name=u'plone_context_state')
     actions = context_state.actions()
-    if type(actions) == dict: 
-        # Plone 4 
-        actions = actions['portal_tabs'] 
+    if type(actions) == dict:
+        # Plone 4
+        actions = actions['portal_tabs']
+
     portal_tabs_view = getMultiAdapter((site, site.REQUEST),
                                        name='portal_tabs_view')
     portal_tabs = portal_tabs_view.topLevelTabs(actions=actions)

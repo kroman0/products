@@ -12,14 +12,11 @@ Quintagroup Plone Drop Down Menu
 
 Requires
 
-  Plone 3.0+
+  Plone 4
 
 Install
 
   1. Install with Quick Installer. 
-
-  2. For Plone below 2.1 to use drop_down.css add '<dtml-var drop_down.css>'
-     line to your portal ploneCustom.css.
 
 Usage
 
@@ -44,8 +41,8 @@ Usage
    <li id="portaltab-news" class="plain"><a href="http://example.com/news" accesskey="t">News</a></li>
    <li id="portaltab-events" class="plain"><a href="http://example.com/events" accesskey="t">Events</a>
        <ul>
-           <li><a href="http://example.com/events/previous">Past Events</a><li>
-           <li><a href="http://example.com/calendar">Calendar</a><li>
+           <li><a href="http://example.com/events/previous">Past Events</a></li>
+           <li><a href="http://example.com/calendar">Calendar</a></li>
        </ul>
    </li>
 
@@ -65,14 +62,8 @@ Usage
 
 
 You can click  button on 'drop down menu' configlet form to reset menu.
-This can be usefull in case  broken html of menu code. Generated code is based
-on status of 'Automatically generate tabs' in your 'Navigation settings' 
-(in Plone 2.1+). However you will lose your previous code of menu with all submenus 
+However you will lose your previous code of menu with all submenus 
 after click on 'regenerate menu'. 
-
-If you want to 'regenerate menu' you should pay attention to status of 
-'Automatically generate tabs' in your 'Navigation settings' (in Plone 2.1+).
-
 
 Authors
 

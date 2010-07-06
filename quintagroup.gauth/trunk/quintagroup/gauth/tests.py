@@ -1,6 +1,7 @@
 import re
 import sys
 import unittest
+import gdata.service
 
 from zope.component import queryUtility, queryAdapter
 from zope.component import getSiteManager, getGlobalSiteManager
@@ -163,8 +164,6 @@ class TestUtility(FunctionalTestCase):
         self.gauthconfiglet.gauth_pass = u"secret"
         self.assertEqual(self.gauthutil.password, "secret")
 
-
-import gdata.service
 
 out = ""
 class DummyService(object):

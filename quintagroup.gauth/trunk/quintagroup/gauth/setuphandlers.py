@@ -29,7 +29,7 @@ def uninstallStuff(context):
     unregisterUtility(site)
     removeGauthProperties(site)
     removeConfiglet(site)
-    removeActionIcons(site)
+    #removeActionIcons(site)
 
 def unregisterUtility(site):
     sm = getSiteManager(site)
@@ -60,8 +60,10 @@ def removeConfiglet(site):
     
 def removeActionIcons(site):
     pai = getToolByName(site, "portal_actionicons")
-    if not "quintagroup.gauth" in pai.objectIds():
-        logger.log(logging.WARN, "No 'quintagroup.gauth' configlet.")
+    import pdb;pdb.set_trace()
+    ai = pai.queryActionInfo("controlpanel", "quintagroup.gauth", default=None)
+    if ai is None:
+        logger.log(logging.WARN, "No 'quintagroup.gauth' action icon.")
     else:
         pai.manage_removeActionIcon(category="controlpanel", action_id="quintagroup.gauth")
         logger.log(logging.INFO, "Removed 'quintagroup.gauth' action icon.")

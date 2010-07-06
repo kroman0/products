@@ -50,7 +50,9 @@ def removeGauthProperties(site):
 
 def removeConfiglet(site):
     pcp = getToolByName(site, "portal_controlpanel")
-    if not "quintagroup.gauth" in pcp.objectIds():
+    aifs = [ai['id'] for ai in pcp.listActionInfos(
+            check_visibility=0, check_permissions=0, check_condition=0)]
+    if not "quintagroup.gauth" in aifs:
         logger.log(logging.WARN, "No 'quintagroup.gauth' configlet.")
     else:
         pcp.unregisterConfiglet("quintagroup.gauth")

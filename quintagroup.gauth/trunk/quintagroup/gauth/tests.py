@@ -113,8 +113,8 @@ class TestUninstall(TestCase):
 
     def testActionIcons(self):
         ait = self.portal.portal_actionicons
-        self.assertRaises(KeyError, ait.getActionInfo,
-            ait, "controlpanel", "quintagroup.gauth")
+        ai = ait.queryActionInfo("controlpanel", "quintagroup.gauth", default=None)
+        self.assert_(ai == None)
 
 
 class TestConfiglet(FunctionalTestCase):

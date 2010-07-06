@@ -62,8 +62,13 @@ Usage
 
 
 You can click  button on 'drop down menu' configlet form to reset menu.
+This can be usefull in case  broken html of menu code. Generated code is based
+on status of 'Automatically generate tabs' in your 'Navigation settings'
 However you will lose your previous code of menu with all submenus 
-after click on 'regenerate menu'. 
+after click on 'regenerate menu'.
+
+If you want to 'regenerate menu' you should pay attention to status of
+'Automatically generate tabs' in your 'Navigation settings'.
 
 Authors
 

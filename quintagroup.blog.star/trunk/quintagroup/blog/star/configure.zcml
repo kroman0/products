@@ -1,8 +1,29 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup" 
     i18n_domain="quintagroup.blog.star">
 
+  <include package="collective.blog.star" />
+
   <five:registerPackage package="." initialize=".initialize" />
+
+  <include package=".browser" />
+
+  <genericsetup:registerProfile
+     name="default"
+     title="Quintagroup blog.star customization"
+     directory="profiles/default"
+     description="Generic setup for Quintagroup blogging"
+     provides="Products.GenericSetup.interfaces.EXTENSION"
+     />
+
+  <genericsetup:registerProfile
+     name="uninstall"
+     title="Uninstall Quintagroup blog.star customization"
+     directory="profiles/uninstall"
+     description="Uninstall Quintagroup blogging"
+     provides="Products.GenericSetup.interfaces.EXTENSION"
+     />
 
 </configure>

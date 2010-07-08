@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<import-steps>
+ <import-step id="uninstall_quintagroup_blog_star" version="20100708-01"
+              handler="quintagroup.blog.star.setuphandlers.uninstall"
+              title="Uninstall Quintagroup blog.star customizations">
+  Uninstall Quintagroup blog.star customizations
+ </import-step>
+</import-steps>

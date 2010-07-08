@@ -31,9 +31,8 @@ class DropDownMenuSettingsEditForm(controlpanel.RegistryEditForm):
 
     def _overrideValue(self, widget, value):
         if value:
-            widget.value = ['true']
-        else:
-            widget.value = ['false']
+            widget.value = ['selected']
+
         widget.items = []
         for count, term in enumerate(widget.terms):
             checked = widget.isChecked(term)

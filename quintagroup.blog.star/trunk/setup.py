@@ -24,6 +24,7 @@ setup(name='quintagroup.blog.star',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'collective.blog.star',
           # -*- Extra requirements: -*-
       ],
       entry_points="""

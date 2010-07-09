@@ -14,38 +14,38 @@ from quintagroup.gdocs.spreadsheet.config import PROJECTNAME
 GSpreadsheetSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 
     atapi.StringField(
-        name = 'spreadsheet_id',
+        name = 'spreadsheet_title',
         default='',
         searchable = True,
         required = True,
-        #languageIndependent=True,
+        languageIndependent=True,
         storage=atapi.AnnotationStorage(),
         widget = atapi.StringWidget(
             label = _(
-                u'label_spreadsheet_id',
-                default=u'Spreadsheet ID'),
+                u'label_spreadsheet_title',
+                default=u'Spreadsheet Title'),
             description=_(
-                u'help_spreadsheet_id',
-                default=u"Input spreadsheet ID."),
+                u'help_spreadsheet_title',
+                default=u"Please input title Google Spreadsheet."),
             size = 40,
         ),
     ),
 
-    atapi.StringField(
-        name = 'worksheet_id',
+    atapi.IntegerField(
+        name = 'worksheet_index',
         default='',
         searchable = True,
         required = True,
-        #languageIndependent=True,
+        languageIndependent=True,
         storage=atapi.AnnotationStorage(),
-        widget = atapi.StringWidget(
+        widget = atapi.IntegerWidget(
             label = _(
-                u'label_worksheet_id',
-                default=u'Worksheet ID'),
+                u'label_worksheet_index',
+                default=u'Worksheet Index'),
             description=_(
-                u'help_worksheet_id',
-                default=u"Input worksheet ID."),
-            size = 40,
+                u'help_worksheet_index',
+                default=u"Please input worksheet index start from zero."),
+            size = 3,
         ),
     ),
 
@@ -70,8 +70,8 @@ class GSpreadsheet(base.ATCTContent):
 
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
-    spreadsheet_id = atapi.ATFieldProperty('spreadsheet_id')
-    worksheet_id = atapi.ATFieldProperty('worksheet_id')
+    spreadsheet_title = atapi.ATFieldProperty('spreadsheet_title')
+    worksheet_index = atapi.ATFieldProperty('worksheet_index')
 
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
 

@@ -4,16 +4,12 @@
     i18n_domain="quintagroup.gdocs.spreadsheet">
 
   <!-- configure your content components here -->
-  
+
   <!-- -*- extra stuff goes here -*- -->
   <class class=".gspreadsheet.GSpreadsheet">
     <require
         permission="zope2.View"
         interface="..interfaces.IGSpreadsheet"
-        />
-    <require
-        permission="cmf.ModifyPortalContent"
-        set_schema="..interfaces.IGSpreadsheet"
         />
   </class>
 

@@ -13,6 +13,42 @@ from quintagroup.gdocs.spreadsheet.config import PROJECTNAME
 
 GSpreadsheetSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 
+    atapi.StringField(
+        name = 'spreadsheet_id',
+        default='',
+        searchable = True,
+        required = True,
+        #languageIndependent=True,
+        storage=atapi.AnnotationStorage(),
+        widget = atapi.StringWidget(
+            label = _(
+                u'label_spreadsheet_id',
+                default=u'Spreadsheet ID'),
+            description=_(
+                u'help_spreadsheet_id',
+                default=u"Input spreadsheet ID."),
+            size = 40,
+        ),
+    ),
+
+    atapi.StringField(
+        name = 'worksheet_id',
+        default='',
+        searchable = True,
+        required = True,
+        #languageIndependent=True,
+        storage=atapi.AnnotationStorage(),
+        widget = atapi.StringWidget(
+            label = _(
+                u'label_worksheet_id',
+                default=u'Worksheet ID'),
+            description=_(
+                u'help_worksheet_id',
+                default=u"Input worksheet ID."),
+            size = 40,
+        ),
+    ),
+
     # -*- Your Archetypes field definitions here ... -*-
 
 ))
@@ -34,6 +70,8 @@ class GSpreadsheet(base.ATCTContent):
 
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
+    spreadsheet_id = atapi.ATFieldProperty('spreadsheet_id')
+    worksheet_id = atapi.ATFieldProperty('worksheet_id')
 
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
 

@@ -1,7 +1,7 @@
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.PloneBatch import Batch
-from collective.blog.view.interfaces import IBlogEntryRetriever
+from quintagroup.blog.star.interfaces import IQGBlogEntryRetriever
 try:
     from plone.app.discussion.interfaces import IConversation
     USE_PAD = True
@@ -23,7 +23,9 @@ class BlogView(BrowserView):
         # XXX Could perhaps be cached?
         year = int(self.request.form.get('year',0))
         month = int(self.request.form.get('month',0))
-        return IBlogEntryRetriever(self.context).get_entries(year=year, month=month)
+        subject = list(self.request.form.get('Subject',''))
+        return IQGBlogEntryRetriever(self.context).get_entries(
+            year=year, month=month, Subject=subject)
 
     def batch(self):
         portal_properties = getToolByName(self.context, 'portal_properties')

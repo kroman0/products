@@ -10,20 +10,29 @@
 
   <include package=".browser" />
 
-  <genericsetup:registerProfile
-     name="default"
-     title="Quintagroup blog.star customization"
-     directory="profiles/default"
-     description="Generic setup for Quintagroup blogging"
-     provides="Products.GenericSetup.interfaces.EXTENSION"
-     />
+  <adapter
+    factory=".adapters.FolderEntryGetter"
+    />
+
+  <adapter
+    factory=".adapters.TopicEntryGetter"
+    />
+
 
   <genericsetup:registerProfile
-     name="uninstall"
-     title="Uninstall Quintagroup blog.star customization"
-     directory="profiles/uninstall"
-     description="Uninstall Quintagroup blogging"
-     provides="Products.GenericSetup.interfaces.EXTENSION"
-     />
+    name="default"
+    title="Quintagroup blog.star customization"
+    directory="profiles/default"
+    description="Generic setup for Quintagroup blogging"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:registerProfile
+    name="uninstall"
+    title="Uninstall Quintagroup blog.star customization"
+    directory="profiles/uninstall"
+    description="Uninstall Quintagroup blogging"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
 
 </configure>

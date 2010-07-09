@@ -7,6 +7,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import IAction, IActionCategory
 from Products.CMFCore.ActionInformation import ActionInfo
+from Products.CMFPlone.utils import versionTupleFromString
 
 from plone.memoize.instance import memoize
 from plone.app.layout.viewlets import common
@@ -180,3 +181,14 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
                                           self.context,
                                           self.portal_tabs)
         self.selected_portal_tab = self.selected_tabs['portal']
+
+    @property
+    def is_plone_four(self):
+        """Indicates if we are in plone 4.
+        
+        """
+        pm = getToolByName(aq_inner(self.context), 'portal_migration') 
+        version = versionTupleFromString(pm.getSoftwareVersion())
+        if version:
+            return version[0] == 4
+

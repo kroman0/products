@@ -37,7 +37,6 @@ class DefaultItemView(BrowserView):
             postfix = ''
 
         # Fix field under
-        #import pdb;pdb.set_trace()
         if blog:
             reltags = RELTAG_RE.findall(html)
             repl_url = 'href="%s?' % blog.absolute_url()

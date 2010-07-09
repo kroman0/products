@@ -1,3 +1,4 @@
+from zope import interface
 from plone.theme.interfaces import IDefaultPloneLayer
 
 class IQBlogStarLayer(IDefaultPloneLayer):

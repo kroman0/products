@@ -182,13 +182,17 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
                                           self.portal_tabs)
         self.selected_portal_tab = self.selected_tabs['portal']
 
-    @property
+    @memoize
     def is_plone_four(self):
         """Indicates if we are in plone 4.
         
         """
         pm = getToolByName(aq_inner(self.context), 'portal_migration') 
-        version = versionTupleFromString(pm.getSoftwareVersion())
+        try:
+            version = versionTupleFromString(pm.getSoftwareVersion())
+        except AttributeError:
+            version = versionTupleFromString(pm.getFileSystemVersion())
+
         if version:
             return version[0] == 4
 

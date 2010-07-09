@@ -55,6 +55,8 @@ setup(name='quintagroup.gdocs.spreadsheet',
       include_package_data=True,
       zip_safe=False,
       install_requires=['setuptools',
+                        'gdata',
+                        'quintagroup.gauth',
                         # -*- Extra requirements: -*-
                         ],
       tests_require=tests_require,
@@ -62,11 +64,7 @@ setup(name='quintagroup.gdocs.spreadsheet',
       test_suite = 'plone.example.tests.test_docs.test_suite',
       entry_points="""
       # -*- entry_points -*-
-      [distutils.setup_keywords]
-      paster_plugins = setuptools.dist:assert_string_list
-
-      [egg_info.writers]
-      paster_plugins.txt = setuptools.command.egg_info:write_arg
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
-      paster_plugins = ["ZopeSkel"],
       )

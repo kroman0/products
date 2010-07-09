@@ -41,7 +41,6 @@ class FolderEntryGetter:
                 enddate = DateTime(year, 12, 31, 0, 0)
             query['effective'] = dict(query=(startdate, enddate),
                                       range='minmax')
-        #import pdb;pdb.set_trace()
         query.update(dict([(k,v) for k,v in kw.items() if v]))
 
         return catalog.searchResults(**query)

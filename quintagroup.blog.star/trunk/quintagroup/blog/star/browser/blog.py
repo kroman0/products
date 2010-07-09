@@ -23,9 +23,13 @@ class BlogView(BrowserView):
         # XXX Could perhaps be cached?
         year = int(self.request.form.get('year',0))
         month = int(self.request.form.get('month',0))
-        subject = list(self.request.form.get('Subject',''))
+        # add all request parameters exept year and month
+        req = dict(self.request.form)
+        for k in ['year', 'month']:
+            if req.has_key(k):
+                del req['year']
         return IQGBlogEntryRetriever(self.context).get_entries(
-            year=year, month=month, Subject=subject)
+            year=year, month=month, **req)
 
     def batch(self):
         portal_properties = getToolByName(self.context, 'portal_properties')

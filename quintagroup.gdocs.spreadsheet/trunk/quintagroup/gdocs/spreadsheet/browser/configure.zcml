@@ -7,4 +7,14 @@
 
   <!-- -*- extra stuff goes here -*- -->
 
+  <browser:page
+      for="*"
+      name="viewworksheet_view"
+      class=".viewworksheetview.viewWorksheetView"
+      template="viewworksheetview.pt"
+      allowed_interface=".viewworksheetview.IviewWorksheetView"
+      permission="zope.Public"
+      />
+
+
 </configure>

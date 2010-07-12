@@ -8,7 +8,6 @@
               content_macro view_macros/content-core | base_macros/content-core | nothing;">
 
   <tal:plone3 tal:condition="python:body_macro is not None">
-    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     <metal:use_body use-macro="body_macro" />
   </tal:plone3>
   

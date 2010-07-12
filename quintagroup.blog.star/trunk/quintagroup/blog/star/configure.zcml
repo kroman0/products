@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
+    xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup" 
     i18n_domain="quintagroup.blog.star">
 
@@ -18,6 +19,11 @@
     factory=".adapters.TopicEntryGetter"
     />
 
+  <plone:portletRenderer
+    portlet="qi.portlet.TagClouds.tagcloudportlet.ITagCloudPortlet"
+    class=".tagcloudportlet.Renderer"
+    layer=".interfaces.IQBlogStarLayer"
+    />
 
   <genericsetup:registerProfile
     name="default"

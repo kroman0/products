@@ -1,5 +1,6 @@
 """Main product initializer
 """
+import sys
 import logging
 
 from zope.i18nmessageid import MessageFactory

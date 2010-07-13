@@ -1,5 +1,6 @@
 """Main product initializer
 """
+import logging
 
 from zope.i18nmessageid import MessageFactory
 from quintagroup.gdocs.spreadsheet import config
@@ -13,6 +14,15 @@ from Products.CMFCore.permissions import setDefaultRoles
 # like _(u"message") will then be extracted by i18n tools for translation.
 
 spreadsheetMessageFactory = MessageFactory('quintagroup.gdocs.spreadsheet')
+
+logger = logging.getLogger('quintagroup.gdocs.spreadsheet')
+
+def logException(msg, context=None):
+    logger.exception(msg)
+    if context is not None:
+        error_log = getattr(context, 'error_log', None)
+        if error_log is not None:
+            error_log.raising(sys.exc_info())
 
 def initialize(context):
     """Initializer called when used as a Zope 2 product.

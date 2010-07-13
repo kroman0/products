@@ -4,10 +4,8 @@
       i18n:domain="quintagroup.gdocs.spreadsheet">
 <body>
     <div metal:fill-slot="main">
-        <tal:main-macro metal:define-macro="main"
-                        tal:define="testview view/test">
-
-            <span tal:content="testview/dummy">test</span>
+        <tal:main-macro metal:define-macro="main">
+        <div tal:replace="structure python:view.renderWorksheet(context.spreadsheet_id, context.worksheet_id, 0)" ></div>
 
         </tal:main-macro>
     </div>

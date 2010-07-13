@@ -10,11 +10,10 @@
   <browser:page
       for="*"
       name="viewworksheet_view"
-      class=".viewworksheetview.viewWorksheetView"
+      class=".viewworksheetview.ViewWorksheetView"
       template="viewworksheetview.pt"
-      allowed_interface=".viewworksheetview.IviewWorksheetView"
-      permission="zope.Public"
+      allowed_interface=".viewworksheetview.IViewWorksheetView"
+      permission="zope2.View"
       />
-
 
 </configure>

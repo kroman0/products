@@ -76,8 +76,8 @@ class ViewWorksheetView(BrowserView):
             if i+1 > startrow_idx:
                 td_row = "<tr>"
                 for key in ORDER_COLUMNS:
-                    td_row += "<td>%s</td>" % 
-                        (not (entry.custom[key].text == 'None') and entry.custom[key].text or '')
+                    td_row += "<td>%s</td>" \
+                        % (not (entry.custom[key].text == 'None') and entry.custom[key].text or '')
                 td_row += "</tr>\n"
                 table += td_row
 

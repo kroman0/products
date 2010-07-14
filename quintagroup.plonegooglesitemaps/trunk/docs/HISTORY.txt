@@ -1,6 +1,21 @@
 Changelog
 =========
 
+1.5.1 (unreleased)
+----------------
+
+* Removed upgrade step 1.2 to 1.3 and its testing
+  [liebster]
+* Added testing update catalog during installation package
+  [liebster]
+* Added uninstalling configlet and its testing
+  [liebster]
+* Added registration icon of configlet by Plone4
+  [liebster]
+* Removed using tabindex by templates
+  [liebster]
+
+
 1.5 (2010-06-18)
 ----------------
 

@@ -1,8 +1,8 @@
 Changelog
 =========
 
-3.0 - Unreleased
-----------------
+3.0 - July 14, 2010
+-------------------
 
-* Initial release
+* Plone 4 support added
 

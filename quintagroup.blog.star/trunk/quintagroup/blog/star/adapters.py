@@ -24,7 +24,7 @@ class FolderEntryGetter:
 
         path = '/'.join(self.context.getPhysicalPath())
         
-        return dict(path={'query': path, 'depth':1},
+        return dict(path=path,
                     portal_type=portal_types,
                     sort_on='effective', sort_order='reverse')
     

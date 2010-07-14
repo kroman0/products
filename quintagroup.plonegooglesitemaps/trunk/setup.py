@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.5'
+version = '1.5.1'
 
 setup(name='quintagroup.plonegooglesitemaps',
       version=version,

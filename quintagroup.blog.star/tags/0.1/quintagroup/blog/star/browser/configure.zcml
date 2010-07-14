@@ -1,0 +1,24 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="quintagroup.blog.star">
+
+  <browser:page
+    for="*"
+    name="blog_view"
+    class=".blog.BlogView"
+    template="blog.pt"
+    permission="zope2.View"
+    layer="quintagroup.blog.star.interfaces.IQBlogStarLayer"
+    />
+
+  <browser:page
+    for="*"
+    name="blog_item_view"
+    class=".default_item.DefaultItemView"
+    permission="zope2.View"
+    layer="quintagroup.blog.star.interfaces.IQBlogStarLayer"
+    />
+      
+
+</configure>

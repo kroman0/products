@@ -71,8 +71,8 @@ class SafeQuery(object):
         try:
             return meth(*margs, **mkwargs)
         except gdata.service.RequestError, e:
-            logException("Token Expired -> Update it.")
             if hasattr(serv, 'ProgrammaticLogin'):
+                logException("Token Expired -> Update it.")
                 serv.ProgrammaticLogin()
                 return meth(*margs, **mkwargs)
             else:

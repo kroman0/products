@@ -24,7 +24,7 @@ class IGSpreadsheetDataProvider(Interface):
 
     # -*- schema definition goes here -*-
 
-    def getListFeed(startrow_idx=0, query=None):
+    def getListFeed(query=None):
         """Return list feed.
            Worksheet get by spreadsheet-id, worksheet-id, got from the context
         """

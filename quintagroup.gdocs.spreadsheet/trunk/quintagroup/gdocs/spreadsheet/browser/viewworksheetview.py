@@ -1,4 +1,5 @@
 from zope.component import queryUtility
+from zope.component import queryAdapter
 from zope.interface import implements, Interface
 
 from Products.Five import BrowserView
@@ -13,6 +14,8 @@ from gdata.spreadsheet import SpreadsheetsListFeed
 
 from quintagroup.gdocs.spreadsheet import spreadsheetMessageFactory as _
 from quintagroup.gdocs.spreadsheet import logException, logger
+from quintagroup.gdocs.spreadsheet.interfaces import IGSpreadsheet
+from quintagroup.gdocs.spreadsheet.interfaces import IGSpreadsheetDataProvider
 
 
 class IViewWorksheetView(Interface):
@@ -52,7 +55,7 @@ class ViewWorksheetView(BrowserView):
         """
         """
         table = ''
-        feed = self.getFeed(ssh_id, wsh_id, startrow_idx)
+        feed = IGSpreadsheetDataProvider(self.context).getListFeed()
         if isinstance(feed, SpreadsheetsListFeed):
             # akc is a list of keys of all columns. The context is GSpreadsheet content type
             akc = self.context.all_keys_columns
@@ -75,19 +78,3 @@ class ViewWorksheetView(BrowserView):
                         table += td_row
                 table += "</table>"
         return table
-
-    def getFeed(self, ssh_id="", wsh_id='', startrow_idx=0):
-        """ Get SpreadsheetsListFeed
-        """
-        # Authorization on spreadsheets.google.com
-        gauth = queryUtility(IGAuthUtility)
-        self.sh_client = SpreadsheetsService(email=gauth.email, password=gauth.password)
-        self.sh_client.ProgrammaticLogin()
-        try:
-            feed = self.sh_client.GetListFeed(ssh_id, wksht_id=wsh_id, query=self.query)
-            self.context.all_keys_columns = len(feed.entry) and feed.entry[0].custom.keys() or []
-        except Exception:
-            logException('GetListFeed function call: '
-                         'key=%s, wksht_id=%s' % (ssh_id, wsh_id), self.context)
-            feed = None
-        return feed

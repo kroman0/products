@@ -67,3 +67,5 @@ Authors
 * Andriy Mylenkyi
 * Nazar Ilchuk 
 * Mykola Kharechko
+* Vitaliy Stepanov
+

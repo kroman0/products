@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.5.1 (unreleased)
-----------------
+1.5.1 (2010-07-16)
+------------------
 
 * Removed upgrade step 1.2 to 1.3 and its testing
   [liebster]

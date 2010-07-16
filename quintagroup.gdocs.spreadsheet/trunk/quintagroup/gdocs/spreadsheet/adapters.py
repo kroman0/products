@@ -10,6 +10,7 @@ from gdata.spreadsheet.service import SpreadsheetsService
 from gdata.spreadsheet.service import CellQuery as shCellQuery
 from gdata.spreadsheet.service import DocumentQuery as shDocumentQuery
 
+from quintagroup.gauth.interfaces import IGAuthUtility
 from quintagroup.gdocs.spreadsheet import logException, logger
 from quintagroup.gdocs.spreadsheet.interfaces import IGSpreadsheet
 from quintagroup.gdocs.spreadsheet.interfaces import IGSpreadsheetDataProvider
@@ -27,7 +28,7 @@ class GSpreadsheetDataProvider(object):
         self.shcl = SpreadsheetsService(gauth.email, gauth.password)
         self.shcl.ProgrammaticLogin()
 
-    def getListFeed(self, startrow_idx=0, query=None):
+    def getListFeed(self, query=None):
         """ Get SpreadsheetsListFeed
         """
         if query is None:

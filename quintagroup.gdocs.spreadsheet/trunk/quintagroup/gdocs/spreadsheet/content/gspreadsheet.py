@@ -13,6 +13,7 @@ from Products.DataGridField.Column import Column
 
 from quintagroup.gdocs.spreadsheet import spreadsheetMessageFactory as _
 from quintagroup.gdocs.spreadsheet.interfaces import IGSpreadsheet
+from quintagroup.gdocs.spreadsheet.interfaces import IGSpreadsheetDataProvider
 from quintagroup.gdocs.spreadsheet.config import PROJECTNAME
 
 GSpreadsheetSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
@@ -90,7 +91,6 @@ class GSpreadsheet(base.ATCTContent):
     meta_type = "GSpreadsheet"
     schema = GSpreadsheetSchema
 
-    all_keys_columns = []
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
     spreadsheet_id = atapi.ATFieldProperty('spreadsheet_id')
@@ -104,5 +104,11 @@ class GSpreadsheet(base.ATCTContent):
         return atapi.DisplayList(
             ([(t, t) for t in self.all_keys_columns])
         )
+
+    @property
+    def all_keys_columns(self):
+        if self.spreadsheet_id and self.worksheet_id:
+            return IGSpreadsheetDataProvider(self).getWorksheetColumnsInfo(maxr='1', minr='1')
+        return []
 
 atapi.registerType(GSpreadsheet, PROJECTNAME)

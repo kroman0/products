@@ -34,6 +34,8 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         self.conf = conf = self._settings()
         self.tool = getToolByName(context, 'portal_actions')
         self.site_url = getToolByName(context, 'portal_url')()
+        self.context_state = getMultiAdapter((self.context, self.request), 
+                                              name="plone_context_state")
 
         # fetch actions-based tabs?
         if conf.show_actions_tabs:
@@ -99,7 +101,9 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
                     if IActionCategory.providedBy(subcat):
                         children = self._subactions(subcat, object, level+1)
 
-            url = self.context.absolute_url()        
+            url = self.context_state.is_default_page() and \
+                  '/'.join(self.context.absolute_url().split('/')[:-1]) or \
+                  self.context.absolute_url()
             if url.startswith(info['url']) and info['url'] != self.site_url:
                 if currentParentId > -1:
                     if len(tabs[currentParentId]['getURL']) < len(info['url']): 

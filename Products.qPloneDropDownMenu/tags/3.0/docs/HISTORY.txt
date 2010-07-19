@@ -1,8 +1,0 @@
-Changelog
-=========
-
-3.0 - July 14, 2010
--------------------
-
-* Plone 4 support added
-

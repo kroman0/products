@@ -10,5 +10,6 @@
                 <li class="invisibleHeightKeeper">&nbsp;</li>
             </ul>
         </div>
+      <div class="visualClear"><!-- --></div>
     </div>
 </tal:tabs>

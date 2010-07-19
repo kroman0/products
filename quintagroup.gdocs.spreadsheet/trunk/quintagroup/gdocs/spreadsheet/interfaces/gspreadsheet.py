@@ -29,7 +29,7 @@ class IGSpreadsheetDataProvider(Interface):
            Worksheet get by spreadsheet-id, worksheet-id, got from the context
         """
 
-    def getWorksheetColumnsInfo(maxr='1', minr='1'):
-        """Return tuple of tuples with cell-id, cell-title.
+    def getWorksheetColumnsInfo():
+        """Return tuple of spreadsheet column's ids.
         """
 

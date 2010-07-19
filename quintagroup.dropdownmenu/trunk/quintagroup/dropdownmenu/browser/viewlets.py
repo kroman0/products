@@ -33,6 +33,7 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         context = aq_inner(self.context)
         self.conf = conf = self._settings()
         self.tool = getToolByName(context, 'portal_actions')
+        self.site_url = getToolByName(context, 'portal_url')()
 
         # fetch actions-based tabs?
         if conf.show_actions_tabs:
@@ -99,7 +100,7 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
                         children = self._subactions(subcat, object, level+1)
 
             url = self.context.absolute_url()        
-            if url.startswith(info['url']):
+            if url.startswith(info['url']) and info['url'] != self.site_url:
                 if currentParentId > -1:
                     if len(tabs[currentParentId]['getURL']) < len(info['url']): 
                         currentParentId = index

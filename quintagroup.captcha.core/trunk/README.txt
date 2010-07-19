@@ -21,7 +21,7 @@ colours, period, amplitude, random values.
 Requirements
 ------------
 
-* Plone 3.x or Plone 4.x
+* Plone 3.x or Plone 4.0
 
 Links
 -----

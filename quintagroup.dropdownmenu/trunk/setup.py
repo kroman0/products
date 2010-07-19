@@ -26,6 +26,8 @@ setup(name='quintagroup.dropdownmenu',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'plone.registry',
+          'plone.app.registry',
       ],
       entry_points="""
       [z3c.autoinclude.plugin]

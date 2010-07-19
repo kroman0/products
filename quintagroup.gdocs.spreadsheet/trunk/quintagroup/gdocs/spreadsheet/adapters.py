@@ -16,7 +16,7 @@ class GSpreadsheetDataProvider(object):
     implements(IGSpreadsheetDataProvider)
 
     def __init__(self, context):
-        gauth = queryUtility(IGAuthUtility, context=context)
+        gauth = queryUtility(IGAuthUtility) or queryUtility(IGAuthUtility, context=context)
         self.context = context
         self.shcl = SpreadsheetsService(gauth.email, gauth.password)
         self.shcl.ProgrammaticLogin()

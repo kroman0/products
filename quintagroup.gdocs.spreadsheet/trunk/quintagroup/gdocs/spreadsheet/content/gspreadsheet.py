@@ -108,7 +108,7 @@ class GSpreadsheet(base.ATCTContent):
     @property
     def all_keys_columns(self):
         if self.spreadsheet_id and self.worksheet_id:
-            return IGSpreadsheetDataProvider(self).getWorksheetColumnsInfo(maxr='1', minr='1')
+            return IGSpreadsheetDataProvider(self).getWorksheetColumnsInfo()
         return []
 
 atapi.registerType(GSpreadsheet, PROJECTNAME)

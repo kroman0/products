@@ -9,10 +9,10 @@
 
   <browser:page
       for="*"
-      name="viewworksheet_view"
-      class=".viewworksheetview.ViewWorksheetView"
-      template="viewworksheetview.pt"
-      allowed_interface=".viewworksheetview.IViewWorksheetView"
+      name="worksheet_view"
+      class=".worksheetview.WorksheetView"
+      template="worksheetview.pt"
+      allowed_interface=".worksheetview.IWorksheetView"
       permission="zope2.View"
       />
 

@@ -36,7 +36,7 @@ class GSpreadsheetDataProvider(object):
         feed = self.getListFeed(query=query)
         if len(feed.entry):
             title_idxs.update(feed.entry[0].custom.keys())
-        return tuple(title_idxs)
+        return sorted(title_idxs)
 
     def _safeQuery(self, meth, *margs, **mkwargs):
         # Make safe method call with logging information about exception

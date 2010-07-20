@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<import-steps>
+ <import-step id="migrateToPackage" version="20100720-01"
+              handler="quintagroup.pfg.captcha.setuphandlers.migrateToPackage"
+              title="Migrate qPloneCaptchaField to quintagroup.pfg.captcha package">
+  Migrate qPloneCaptchaField to quintagroup.pfg.captcha package
+ </import-step>
+ <import-step id="typeinfo" version="20040630-01"
+              handler="Products.CMFCore.exportimport.typeinfo.importTypesTool"
+              title="Types Tool">
+  <dependency step="componentregistry"/>
+  <dependency step="migrateToPackage"/>
+    Import types tool's type information objects.
+ </import-step>
+</import-steps>

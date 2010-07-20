@@ -33,7 +33,8 @@ do this using the default user from PloneTestCase:
     >>> browser.open(portal_url)
 
 We have the login portlet, so let's use that.
-
+    
+    >>> browser.getLink('Log in').click()
     >>> browser.getControl(name='__ac_name').value = portal_owner
     >>> browser.getControl(name='__ac_password').value = default_password
     >>> browser.getControl(name='submit').click()
@@ -78,6 +79,8 @@ Then we select the type of item we want to add. In this case we select
 Now we fill the form and submit it.
 
     >>> browser.getControl(name='title').value = 'GSpreadsheet Sample'
+    >>> browser.getControl(name='spreadsheet_id').value = 'id'
+    >>> browser.getControl(name='worksheet_id').value = 'od1'
     >>> browser.getControl('Save').click()
     >>> 'Changes saved' in browser.contents
     True
@@ -91,6 +94,8 @@ Let's click on the 'edit' tab and update the object attribute values.
 
     >>> browser.getLink('Edit').click()
     >>> browser.getControl(name='title').value = 'New GSpreadsheet Sample'
+    >>> browser.getControl(name='spreadsheet_id').value = 'id1'
+    >>> browser.getControl(name='worksheet_id').value = 'od6'
     >>> browser.getControl('Save').click()
 
 We check that the changes were applied.

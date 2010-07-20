@@ -18,9 +18,9 @@ from quintagroup.gdocs.spreadsheet.interfaces import IGSpreadsheet
 from quintagroup.gdocs.spreadsheet.interfaces import IGSpreadsheetDataProvider
 
 
-class IViewWorksheetView(Interface):
+class IWorksheetView(Interface):
     """
-    ViewWorksheet view interface
+    Worksheet view interface
     """
 
     def renderWorksheet(ssh_id, wsh_idx, startrow_idx):
@@ -31,11 +31,11 @@ class IViewWorksheetView(Interface):
         """
 
 
-class ViewWorksheetView(BrowserView):
+class WorksheetView(BrowserView):
     """
-    ViewWorksheet browser view
+    Worksheet browser view
     """
-    implements(IViewWorksheetView)
+    implements(IWorksheetView)
 
     def __init__(self, context, request):
         self.context = context

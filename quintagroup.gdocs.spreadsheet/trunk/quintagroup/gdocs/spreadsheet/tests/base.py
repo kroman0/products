@@ -21,6 +21,8 @@ from Products.PloneTestCase.layer import onsetup
 # not in the Products.*) namespace. For that, see below.
 # All of Plone's products are already set up by PloneTestCase.
 
+PROJECT_NAME = 'quintagroup.gdocs.spreadsheet'
+
 @onsetup
 def setup_product():
     """Set up the package and its dependencies.
@@ -36,7 +38,11 @@ def setup_product():
 
     fiveconfigure.debug_mode = True
     import quintagroup.gdocs.spreadsheet
+    import quintagroup.gauth
+    import Products.DataGridField
     zcml.load_config('configure.zcml', quintagroup.gdocs.spreadsheet)
+    zcml.load_config('configure.zcml', quintagroup.gauth)
+    zcml.load_config('configure.zcml', Products.DataGridField)
     fiveconfigure.debug_mode = False
 
     # We need to tell the testing framework that these products
@@ -50,14 +56,14 @@ def setup_product():
     # We may also need to load dependencies, e.g.:
     #   ztc.installPackage('borg.localrole')
 
-    ztc.installPackage('quintagroup.gdocs.spreadsheet')
+    ztc.installPackage(PROJECT_NAME)
 
 # The order here is important: We first call the (deferred) function
 # which installs the products we need for this product. Then, we let
 # PloneTestCase set up this product on installation.
 
 setup_product()
-ptc.setupPloneSite(products=['quintagroup.gdocs.spreadsheet'])
+ptc.setupPloneSite(products=[PROJECT_NAME])
 
 class TestCase(ptc.PloneTestCase):
     """We use this base class for all the tests in this package. If

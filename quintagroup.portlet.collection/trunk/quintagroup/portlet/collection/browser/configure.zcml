@@ -13,4 +13,7 @@
       permission="cmf.ManagePortal"
       />
 
+  <browser:resource
+      name="batch.js"
+      file="resources/batch.js" />
 </configure>

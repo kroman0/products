@@ -1,0 +1,39 @@
+<tal:items define="plone_view context/@@plone;
+                   toLocalizedTime nocall:plone_view/toLocalizedTime;
+                   getIcon nocall:plone_view/getIcon;
+                   page_number options/page_number|nothing"
+           repeat="item options/portlet_items">
+  <dd class="portletItem"
+      tal:define="oddrow repeat/item/odd;
+                  item_icon python:plone_view.getIcon(item);
+                  show_title python:view.showProperty('Title');
+                  show_description python:view.showProperty('Description');
+                  item_class python:oddrow and 'portletItem even' or 'portletItem odd'"
+      tal:attributes="class python:page_number and item_class+' page-'+page_number or item_class">
+      <a href="#"
+         class="tile"
+         tal:attributes="href item/getURL;
+                         title python: show_description and item.Description or ''">
+          <img tal:replace="structure item_icon/html_tag" />
+          <span class="tileTitle"
+                tal:condition="show_title"
+                tal:content="item/pretty_title_or_id">
+           Title
+          </span>
+          <span class="tileDescription"
+                tal:condition="show_description">
+            <tal:descr content="item/Description" />
+            <span class="tileReadMore"
+                  tal:condition="view/data/show_item_more"
+                  tal:attributes="href item/getURL" i18n:translate="more_url">
+                  &hellip;more
+            </span>            
+          </span>
+          <span class="portletItemDetails"
+                tal:condition="view/data/show_dates"
+                tal:content="python:toLocalizedTime(item.Date)">
+              Date
+          </span>
+      </a>
+  </dd>
+</tal:items>

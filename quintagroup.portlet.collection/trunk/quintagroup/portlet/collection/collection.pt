@@ -1,10 +1,7 @@
 <dl class="portlet portletCollection"
     i18n:domain="plone"
     tal:define="collection_url view/collection_url;
-                styling view/data/styling;
-                plone_view context/@@plone;
-                toLocalizedTime nocall:plone_view/toLocalizedTime;
-                getIcon nocall:plone_view/getIcon;"
+                styling view/data/styling"
     tal:attributes="class string:${attrs/class} ${styling}">
 
     <dt class="portletHeader">
@@ -14,43 +11,12 @@
             <span tal:content="view/data/header" />
         </a>
         <span class="portletTopRight"></span>
+        <span class="portletNavSection"
+              tal:condition="view/data/allow_batching"
+              tal:content="structure view/batch_navigation">
+        </span>
     </dt>
-    
-    <tal:events tal:repeat="obj view/results">
-    <dd class="portletItem"
-        tal:define="oddrow repeat/obj/odd;
-                    item_icon python:getIcon(obj);
-                    show_title python:view.showProperty('Title');
-                    show_description python:view.showProperty('Description')"
-        tal:attributes="class python:oddrow and 'portletItem even' or 'portletItem odd'">
-        <a href="#"
-           class="tile"
-           tal:attributes="href obj/getURL;
-                           title python: show_description and obj.Description or ''">
-            <img tal:replace="structure item_icon/html_tag" />
-            <span class="tileTitle"
-                  tal:condition="show_title"
-                  tal:content="obj/pretty_title_or_id">
-             Title
-            </span>
-            <span class="tileDescription"
-                  tal:condition="show_description">
-              <tal:descr content="obj/Description" />
-              <span class="tileReadMore"
-                    tal:condition="view/data/show_item_more"
-                    tal:attributes="href obj/getURL" i18n:translate="more_url">
-                    &hellip;more
-              </span>            
-            </span>
-            <span class="portletItemDetails"
-                  tal:condition="view/data/show_dates"
-                  tal:content="python:toLocalizedTime(obj.Date)">
-                Date
-            </span>
-        </a>
-    </dd>
-    </tal:events>
-    
+    <tal:items replace="structure view/render_items"/>
     <dd class="portletFooter" tal:condition="view/data/show_more">
         <span class="portletBottomLeft"></span>
         <span>

@@ -15,12 +15,26 @@ from plone.memoize.compress import xhtml_compress
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.vocabularies.catalog import SearchableTextSourceBinder
+from zope.schema import ValidationError
 from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
 
 from Products.ATContentTypes.interface import IATTopic
+from Products.CMFPlone.PloneBatch import Batch
 from plone.portlet.collection.collection import ICollectionPortlet
 
 from quintagroup.portlet.collection import MessageFactory as _
+
+MIN_BATCH_SIZE , MAX_BATCHSIZE = 1, 30
+
+class NotValidBatchSizeValue(ValidationError):
+    """This is not valid batch size value.
+    
+    """
+
+def validate_batch_size(value):
+    if MIN_BATCH_SIZE <= value <= MAX_BATCHSIZE:
+        return True
+    raise NotValidBatchSizeValue(value)
 
 class IQCollectionPortlet(ICollectionPortlet):
     """A portlet which based on plone.portlet.collection and
@@ -51,6 +65,18 @@ class IQCollectionPortlet(ICollectionPortlet):
                                  required=True,
                                  default=True)
 
+    allow_batching = schema.Bool(title=_(u"Allow batching."),
+                                 description=_(u"If enabled, items will be splited into pages."),
+                                 required=False,
+                                 default=False)
+
+    batch_size = schema.Int(title=_(u"Batch size"),
+                            description=_("Amount of items per page"
+                                          "(if not set 3 items will be displayed as default)."),
+                            required=False,
+                            default=3, 
+                            constraint=validate_batch_size)
+
 class Assignment(base.Assignment):
     """
     Portlet assignment.    
@@ -67,7 +93,8 @@ class Assignment(base.Assignment):
 
     def __init__(self, header=u"", target_collection=None, limit=None,
                  random=False, show_more=True, show_dates=False,
-                 item_attributes=[], styling=u"", show_item_more=False, link_title=True):
+                 item_attributes=[], styling=u"", show_item_more=False,
+                 link_title=True, allow_batching=False, batch_size=3):
 
         super(Assignment, self).__init__(header=header,
             target_collection=target_collection, limit=limit,
@@ -78,6 +105,8 @@ class Assignment(base.Assignment):
         self.styling = styling
         self.show_item_more = show_item_more
         self.link_title = link_title
+        self.allow_batching = allow_batching
+        self.batch_size = batch_size
        
     @property
     def title(self):
@@ -85,8 +114,7 @@ class Assignment(base.Assignment):
         "manage portlets" screen. Here, we use the title that the user gave.
         """
         return self.header
-
-
+    
 class Renderer(base.Renderer):
     """Portlet renderer.
     
@@ -96,10 +124,26 @@ class Renderer(base.Renderer):
     """
 
     render = ViewPageTemplateFile('collection.pt')
+    navigation = ViewPageTemplateFile('browser/templates/navigation.pt')
+    items_listing = ViewPageTemplateFile('browser/templates/items_listing.pt')
 
     def showProperty(self, name):
         return name in self.data.item_attributes
 
+    def batches(self):
+        items = super(Renderer, self).results()
+        delta = self.data.batch_size
+        return [items[idx:idx + delta] for idx in range(0, len(items), delta)]
+    
+    def batch_navigation(self):
+        return self.navigation(batches=self.batches())
+
+    def render_items(self):
+        if self.data.allow_batching:
+            return ''.join([self.items_listing(portlet_items=batch,
+                                               page_number=str(index))
+                            for index, batch in enumerate(self.batches())])
+        return self.items_listing(portlet_items=self.results())
         
 class AddForm(base.AddForm):
     """Portlet add form.

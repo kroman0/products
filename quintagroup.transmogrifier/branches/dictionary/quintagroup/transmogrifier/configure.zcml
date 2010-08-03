@@ -135,6 +135,11 @@
         name="quintagroup.transmogrifier.portletsimporter"
         />
 
+    <utility
+        component=".constructor.ConstructorSection"
+        name="quintagroup.transmogrifier.sections.constructor"
+        />
+
     <adapter factory=".portlets.PortletAssignmentExportImportHandler" />
 
     <transmogrifier:registerConfig

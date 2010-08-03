@@ -17,6 +17,30 @@ from Products.Marshall.namespaces import atns as base
 from quintagroup.transmogrifier.namespaces.util import has_ctrlchars
 
 
+
+#######################################
+#         Setup logging system        #
+#######################################
+import logging
+DEFAULT_LOG = "/tmp/quintagroup.transmogrifier.log"
+FORMAT = "[%(asctime)s]: %(message)s"
+#FORMAT = "[%H:%M:%S]: %(message)s"
+def createHandler(hndlr_cls, level, *args, **kwargs):
+    hndlr = hndlr_cls(*args, **kwargs)
+    hndlr.setLevel(level)
+    hndlr.setFormatter(logging.Formatter(FORMAT, datefmt="%H:%M:%S"))
+    return hndlr
+
+# Very IMPORTANT create logger as logging.Logger NOT logging.getLogger !!!
+logger = logging.Logger("Quintagroup Transmogrifier", logging.NOTSET)
+logger.addHandler(createHandler(
+        logging.FileHandler, logging.DEBUG, DEFAULT_LOG))
+
+#######################################
+
+_marker = ()
+
+
 class ATAttribute(base.ATAttribute):
 
     def serialize(self, dom, parent_node, instance, options={}):
@@ -24,6 +48,9 @@ class ATAttribute(base.ATAttribute):
         values = self.get(instance)
         if not values:
             return
+
+        # if self.name in ['payablesMap', 'fieldMap']:
+        #     import ipdb;ipdb.set_trace()
 
         is_ref = self.isReference(instance)
         
@@ -60,6 +87,11 @@ class ATAttribute(base.ATAttribute):
                 value_node = dom.createCDATASection(value)
                 node.appendChild(value_node)
             else:
+                items = getattr(value, 'items', _marker)
+                if items is not _marker and callable(items):
+                    type_attr = dom.createAttribute("type")
+                    type_attr.value = "dict"
+                    node.setAttributeNode( type_attr )
                 value_node = dom.createTextNode(value)
                 node.appendChild(value_node)
         
@@ -80,6 +112,22 @@ class ATAttribute(base.ATAttribute):
         te = context.node.get('transfer_encoding', None)
         if te is not None:
             value = value.decode(te)
+        # process dictionary type
+        vtype = context.node.attrib.get('type', None)
+        if vtype and vtype=='dict':
+            try:
+                s = value.strip("{}\t\n")
+                # value = dict([map(lambda x:x.strip(" '\""), item.split("': '")) \
+                #              for item in s.split("', '")])
+                value = dict([map(lambda x:x.strip(" '\""), item.split(": ")) \
+                             for item in s.split(", ")])
+            except:
+                #import ipdb;ipdb.set_trace()
+                logger.error("Error on processing '%s' dict type field,\n"\
+                    " for object: '%s'\n  " \
+                    " for the following data: '%s'" % (str(context.instance.id),
+                     context.instance.absolute_url(), str(value)))
+
 
         data = context.getDataFor(self.namespace.xmlns)
         if data.has_key(self.name):

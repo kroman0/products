@@ -16,8 +16,6 @@ from Products.Marshall.namespaces import atns as base
 
 from quintagroup.transmogrifier.namespaces.util import has_ctrlchars
 
-
-
 #######################################
 #         Setup logging system        #
 #######################################
@@ -44,7 +42,40 @@ _marker = ()
 class ATAttribute(base.ATAttribute):
 
     def serialize(self, dom, parent_node, instance, options={}):
-        
+
+        def getPreparedValue(value):
+            if isinstance(value, unicode):
+                value = value.encode('utf-8')
+            elif IBaseUnit.isImplementedBy(value):
+                value = value.getRaw(encoding='utf-8')
+            else:
+                value = str(value)
+            return value
+
+
+        def addNode(node, value, nspref):
+            # Create text node and add *value* to the *node*.
+            # Use *nspref* if needed.
+            if is_ref:
+                if config.HANDLE_REFS:
+                    ref_node = dom.createElementNS(nspref, 'reference')
+                    uid_node = dom.createElementNS(nspref, 'uid')
+                    value = response.createTextNode(value)
+                    uid_node.append(value)
+                    ref_node.append(uid_node)
+                    node.append(ref_node)
+
+            elif isinstance(value, str) and has_ctrlchars(value):
+                value = value.encode('base64')
+                attr = dom.createAttributeNS(nspref, 'transfer_encoding')
+                attr.value = 'base64'
+                node.setAttributeNode(attr)
+                value_node = dom.createCDATASection(value)
+                node.appendChild(value_node)
+            else:
+                value_node = dom.createTextNode(value)
+                node.appendChild(value_node)
+
         values = self.get(instance)
         if not values:
             return
@@ -61,39 +92,27 @@ class ATAttribute(base.ATAttribute):
             node.setAttributeNode(name_attr)
             
             # try to get 'utf-8' encoded string
-            if isinstance(value, unicode):
-                value = value.encode('utf-8')
-            elif IBaseUnit.isImplementedBy(value):
-                value = value.getRaw(encoding='utf-8')
+            items = getattr(value, 'items', _marker)
+            if items is not _marker and callable(items):
+                # set type attribute for the field
+                type_attr = dom.createAttribute("type")
+                type_attr.value = "dict"
+                node.setAttributeNode(type_attr)
+                for k, v in items():
+                    # create item node with key attribute
+                    good_key = getPreparedValue(k)
+                    item_node = dom.createElementNS(self.namespace.xmlns, "item")
+                    key_attr = dom.createAttribute("key")
+                    key_attr.value = good_key
+                    item_node.setAttributeNode(key_attr)
+                    # prepare value for the item
+                    good_value = getPreparedValue(v)
+                    addNode(item_node, good_value, self.namespace.xmlns)
+                    item_node.normalize()
+                    node.appendChild(item_node)
             else:
-                value = str(value)
-
-            if is_ref:
-                if config.HANDLE_REFS:
-                    ref_node = dom.createElementNS(self.namespace.xmlns,
-                                                    'reference')
-                    uid_node = dom.createElementNS(self.namespace.xmlns,
-                                                    'uid')
-                    value = response.createTextNode(value)
-                    uid_node.append(value)
-                    ref_node.append(uid_node)
-                    node.append(ref_node)
-            elif isinstance(value, str) and has_ctrlchars(value):
-                value = value.encode('base64')
-                attr = dom.createAttributeNS(self.namespace.xmlns,
-                                             'transfer_encoding')
-                attr.value = 'base64'
-                node.setAttributeNode(attr)
-                value_node = dom.createCDATASection(value)
-                node.appendChild(value_node)
-            else:
-                items = getattr(value, 'items', _marker)
-                if items is not _marker and callable(items):
-                    type_attr = dom.createAttribute("type")
-                    type_attr.value = "dict"
-                    node.setAttributeNode( type_attr )
-                value_node = dom.createTextNode(value)
-                node.appendChild(value_node)
+                value = getPreparedValue(value)
+                addNode(node, value, self.namespace.xmlns)
         
             node.normalize()
             parent_node.appendChild(node)

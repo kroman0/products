@@ -137,7 +137,7 @@
 
     <utility
         component=".constructor.ConstructorSection"
-        name="quintagroup.transmogrifier.sections.constructor"
+        name="quintagroup.transmogrifier.constructor"
         />
 
     <adapter factory=".portlets.PortletAssignmentExportImportHandler" />

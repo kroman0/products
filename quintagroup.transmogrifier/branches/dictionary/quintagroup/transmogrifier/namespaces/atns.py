@@ -58,15 +58,18 @@ class ATAttribute(base.ATAttribute):
             return
 
         is_ref = self.isReference(instance)
-        
         for value in values:
             node = dom.createElementNS(self.namespace.xmlns, "field")
             name_attr = dom.createAttribute("name")
             name_attr.value = self.name
             node.setAttributeNode(name_attr)
-            
-            # try to get 'utf-8' encoded string
-            items = getattr(value, 'items', _marker)
+            # map and not map fields
+            # take-off aquisition
+            if hasattr(value, 'aq_base'):
+                chck_val = value.aq_base
+            else:
+                chck_val = value
+            items = getattr(chck_val, 'items', _marker)
             if items is not _marker and callable(items):
                 # Map field
                 # set type attribute for the field

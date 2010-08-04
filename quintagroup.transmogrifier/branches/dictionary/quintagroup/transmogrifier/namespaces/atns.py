@@ -16,28 +16,7 @@ from Products.Marshall.namespaces import atns as base
 
 from quintagroup.transmogrifier.namespaces.util import has_ctrlchars
 
-#######################################
-#         Setup logging system        #
-#######################################
-import logging
-DEFAULT_LOG = "/tmp/quintagroup.transmogrifier.log"
-FORMAT = "[%(asctime)s]: %(message)s"
-#FORMAT = "[%H:%M:%S]: %(message)s"
-def createHandler(hndlr_cls, level, *args, **kwargs):
-    hndlr = hndlr_cls(*args, **kwargs)
-    hndlr.setLevel(level)
-    hndlr.setFormatter(logging.Formatter(FORMAT, datefmt="%H:%M:%S"))
-    return hndlr
-
-# Very IMPORTANT create logger as logging.Logger NOT logging.getLogger !!!
-logger = logging.Logger("Quintagroup Transmogrifier", logging.NOTSET)
-logger.addHandler(createHandler(
-        logging.FileHandler, logging.DEBUG, DEFAULT_LOG))
-
-#######################################
-
 _marker = ()
-
 
 class ATAttribute(base.ATAttribute):
 
@@ -54,8 +33,6 @@ class ATAttribute(base.ATAttribute):
 
 
         def addNode(node, value, nspref):
-            # Create text node and add *value* to the *node*.
-            # Use *nspref* if needed.
             if is_ref:
                 if config.HANDLE_REFS:
                     ref_node = dom.createElementNS(nspref, 'reference')
@@ -80,9 +57,6 @@ class ATAttribute(base.ATAttribute):
         if not values:
             return
 
-        # if self.name in ['payablesMap', 'fieldMap']:
-        #     import ipdb;ipdb.set_trace()
-
         is_ref = self.isReference(instance)
         
         for value in values:
@@ -94,6 +68,7 @@ class ATAttribute(base.ATAttribute):
             # try to get 'utf-8' encoded string
             items = getattr(value, 'items', _marker)
             if items is not _marker and callable(items):
+                # Map field
                 # set type attribute for the field
                 type_attr = dom.createAttribute("type")
                 type_attr.value = "dict"
@@ -111,6 +86,7 @@ class ATAttribute(base.ATAttribute):
                     item_node.normalize()
                     node.appendChild(item_node)
             else:
+                # Common field
                 value = getPreparedValue(value)
                 addNode(node, value, self.namespace.xmlns)
         
@@ -120,33 +96,35 @@ class ATAttribute(base.ATAttribute):
         return True
 
     def processXmlValue(self, context, value):
-        if value is None:
-            return
+        def getValue(node, value):
+            if value is None:
+                return
+            value = value.strip()
+            if not value:
+                return
+            # decode node value if needed
+            te = node.get('transfer_encoding', None)
+            if te is not None:
+                value = value.decode(te)
+            return value
+            
+        # Get value type
+        vtype = context.node.attrib.get('type', None)
+        if vtype=='dict':
+            # process dictionary type
+            d = {}
+            for item in context.node:
+                k = item.get("key", None)
+                v = getValue(item, item.text)
+                if k and v:
+                    d[k] = v
+            value = d
+        else:
+            # Common field
+            value = getValue(context.node, value)
 
-        value = value.strip()
         if not value:
             return
-
-        # decode node value if needed
-        te = context.node.get('transfer_encoding', None)
-        if te is not None:
-            value = value.decode(te)
-        # process dictionary type
-        vtype = context.node.attrib.get('type', None)
-        if vtype and vtype=='dict':
-            try:
-                s = value.strip("{}\t\n")
-                # value = dict([map(lambda x:x.strip(" '\""), item.split("': '")) \
-                #              for item in s.split("', '")])
-                value = dict([map(lambda x:x.strip(" '\""), item.split(": ")) \
-                             for item in s.split(", ")])
-            except:
-                #import ipdb;ipdb.set_trace()
-                logger.error("Error on processing '%s' dict type field,\n"\
-                    " for object: '%s'\n  " \
-                    " for the following data: '%s'" % (str(context.instance.id),
-                     context.instance.absolute_url(), str(value)))
-
 
         data = context.getDataFor(self.namespace.xmlns)
         if data.has_key(self.name):

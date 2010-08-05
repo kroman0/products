@@ -3,7 +3,7 @@ jq(document).ready(function(e) {
     var next_link = jq('.nextlink');
     var nav_links = jq('.navlink');
     var batch_size = 4;
-    batch_size = nav_links.size > batch_size ? batch_size : nav_links.size();
+    batch_size = nav_links.size() > batch_size ? batch_size : nav_links.size();
 
     var hideNavigation = function (){
       jq.each(nav_links, function(index, link){

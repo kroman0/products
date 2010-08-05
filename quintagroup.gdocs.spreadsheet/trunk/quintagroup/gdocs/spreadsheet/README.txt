@@ -81,6 +81,10 @@ Now we fill the form and submit it.
     >>> browser.getControl(name='title').value = 'GSpreadsheet Sample'
     >>> browser.getControl(name='spreadsheet_id').value = 'sp_id1'
     >>> browser.getControl(name='worksheet_id').value = 'od6'
+    >>> browser.getControl(name='order_columns.column_key:records',index=0).value
+    []
+    >>> browser.getControl(name='order_columns.column_title:records', index=0).value
+    ''
     >>> browser.getControl('Save').click()
     >>> 'Changes saved' in browser.contents
     True
@@ -96,14 +100,39 @@ Let's click on the 'edit' tab and update the object attribute values.
     >>> browser.getControl(name='title').value = 'New GSpreadsheet Sample'
     >>> browser.getControl(name='spreadsheet_id').value = 'id1'
     >>> browser.getControl(name='worksheet_id').value = 'od6'
+    >>> browser.getControl(name='order_columns.orderindex_:records',index=0).value = '1'    
+    >>> browser.getControl(name='order_columns.column_key:records',index=0).value = ['col1']
+    >>> browser.getControl(name='order_columns.column_title:records', index=0).value = 'Title 1'
     >>> browser.getControl('Save').click()
-
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='order_columns.orderindex_:records',index=1).value = '2'    
+    >>> browser.getControl(name='order_columns.column_key:records',index=1).value = ['col2']
+    >>> browser.getControl(name='order_columns.column_title:records', index=1).value = 'Title 2'
+    >>> browser.getControl('Save').click()
+    
 We check that the changes were applied.
 
     >>> 'Changes saved' in browser.contents
     True
     >>> 'New GSpreadsheet Sample' in browser.contents
     True
+    >>> browser.contents
+    '...<table id="sshwsh"><tr><th>Title 1</th><th>Title 2</th></tr><tr><td>11</td><td>12</td></tr>\n<tr><td>21</td><td>22</td></tr>\n<tr><td>31</td><td>32</td></tr>\n<tr><td>41</td><td>42</td></tr>\n<tr><td>51</td><td>52</td></tr>\n</table>...'
+
+Let's click on the 'edit' tab and update the object attribute values.
+
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='order_columns.orderindex_:records',index=1).value = '2'    
+    >>> browser.getControl(name='order_columns.column_key:records',index=1).value = ['col3']
+    >>> browser.getControl(name='order_columns.column_title:records', index=1).value = 'Title 3'
+    >>> browser.getControl('Save').click()
+
+We check that the changes were applied.
+
+    >>> 'Changes saved' in browser.contents
+    True
+    >>> browser.contents
+    '...<table id="sshwsh"><tr><th>Title 1</th><th>Title 3</th></tr><tr><td>11</td><td>13</td></tr>\n<tr><td>21</td><td>23</td></tr>\n<tr><td>31</td><td>33</td></tr>\n<tr><td>41</td><td>43</td></tr>\n<tr><td>51</td><td>53</td></tr>\n</table>...'
 
 Removing a/an GSpreadsheet content item
 --------------------------------

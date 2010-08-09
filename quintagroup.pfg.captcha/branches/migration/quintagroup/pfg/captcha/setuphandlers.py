@@ -1,30 +1,37 @@
 import logging
 from zope.component import queryMultiAdapter
 
-from quintagroup.canonicalpath.interfaces  import ICanonicalLink
-from quintagroup.canonicalpath.adapters import PROPERTY_LINK
-
 logger = logging.getLogger('quintagroup.pfg.captcha')
 
-def isNeedMigration(plone_tools):
-    ptypes = plone_tools.types()
-    cftype = getattr(ptypes, 'CaptchaField', None)
-    return cftype and getattr(cftype, 'product', "") == "qPloneCaptchaField"
+capcha_fields = []
 
 def migrateToPackage(context):
-    """ Replace old qPloneCaptchaField with new quintagroup.pfg.captcha ob.
+    """Collect old Products.qPloneCaptchaFields fields (before types tool setup).
     """
-    if context.readDataFile('_uninstall.txt') is None:
+    global captcha_fields
+    if context.readDataFile('quintagroup.pfg.captcha_default.txt') is None:
         return
-    site = context.getSite()
-    plone_tools = queryMultiAdapter((site, setuptool.REQUEST), name="plone_tools")
 
-    if isNeedMigration(plone_tools):
-        pass
-        ## Find old objects: 
-        #for cf in catalog.search({'portal_type':'CaptchaField'}):
-        #   get parent obj, del old CaptchaField and create new one 
-        # Then remove old portal type "CaptchaField"
-        # for path in plone_tools.catalog().search()
-        # recriateCaptchaFields(plone_tools)
-        # removeOldPortalType(plone_tools)
+    site = context.getSite()
+    plone_tools = queryMultiAdapter((site, site.REQUEST), name="plone_tools")
+    ptypes = plone_tools.types()
+    cftype = getattr(ptypes, 'CaptchaField', None)
+    if cftype and getattr(cftype, 'product', "") == "qPloneCaptchaField":
+        catalog = plone_tools.catalog()
+        captcha_fields = [(cf.id, cf.getObject().aq_parent) \
+                          for cf in catalog.search({'portal_type':'CaptchaField'})]
+        logger.info("Old Products.qPloneCaptchaField fields collected.")
+
+
+def afterTypesTool(context):
+    """ Replace old qPloneCaptchaField with new quintagroup.pfg.captcha fields
+    (after types tool setup).
+    """
+    if context.readDataFile('quintagroup.pfg.captcha_default.txt') is None:
+        return
+
+    for cf_id, form in captcha_fields:
+        form.manage_delObjects(cf_id)
+        form.invokeFactory("CaptchaField", cf_id)
+        logger.info("Fixed CaptchaField in '%s'" % form.getId())
+    logger.info("Finish Captcha field fixing")

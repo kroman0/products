@@ -1,12 +1,5 @@
-import re
-import string
-import unittest
+from base import *
 
-from Products.Five import zcml
-from Products.Five import fiveconfigure
-from Testing import ZopeTestCase as ztc
-from Products.PloneTestCase.layer import onsetup
-from Products.PloneTestCase import PloneTestCase as ptc
 from Products.CMFCore.permissions import View
 from Products.Archetypes.atapi import StringField
 from Products.Archetypes.Registry import availableWidgets
@@ -19,40 +12,8 @@ from quintagroup.pfg.captcha.widget import CAPTCHA_MACRO
 from quintagroup.pfg.captcha.field import CAPTCHA_ID, HIDDEN_FIELDS
 
 _marker = object()
-PACKAGES = [
-    'quintagroup.captcha.core',
-    'quintagroup.pfg.captcha',
-]
-PROFILES = [p+':default' for p in PACKAGES]
-REQUIREMENTS = ['PloneFormGen',] + PACKAGES
 
-@onsetup
-def setup_product():
-    fiveconfigure.debug_mode = True
-    import quintagroup.pfg.captcha
-    zcml.load_config('configure.zcml', quintagroup.pfg.captcha)
-    fiveconfigure.debug_mode = False
-    ztc.installProduct('PloneFormGen')
-    ztc.installPackage('quintagroup.pfg.captcha')
-    ztc.installPackage('quintagroup.captcha.core')
-
-setup_product()
-ptc.setupPloneSite() #products=['PloneFormGen',], extension_profiles=PROFILES)
-
-
-class PFGCaptchaTestCaseMixin(object):
-
-    def installPFGCaptcha(self):
-        for p in REQUIREMENTS:
-            self.addProduct(p)
-
-
-class PFGCaptchaAutoInstallTestCase(PFGCaptchaTestCaseMixin, ptc.PloneTestCase):
-    def afterSetUp(self):
-        self.installPFGCaptcha()
-
-
-class TestInstallations(PFGCaptchaAutoInstallTestCase):
+class TestInstallations(TestCase):
 
     def testInstalledProducts(self):
         qi = self.portal.portal_quickinstaller
@@ -91,10 +52,9 @@ class TestInstallations(PFGCaptchaAutoInstallTestCase):
                 '"qplonecaptchafield" layer not present in "%s" skin' % sname)
 
 
-class TestCaptchaField(PFGCaptchaAutoInstallTestCase):
+class TestCaptchaField(TestCase):
 
     def afterSetUp(self):
-        super(TestCaptchaField, self).afterSetUp()
         self.folder.invokeFactory('FormFolder', 'ff1')
         self.ff1 = getattr(self.folder, 'ff1')
         self.ff1.invokeFactory('CaptchaField', 'captcha_field')
@@ -125,13 +85,12 @@ class TestCaptchaField(PFGCaptchaAutoInstallTestCase):
         self.assertEqual(CaptchaValidator in validators, True)
 
 
-class TestCaptchaWidget(PFGCaptchaAutoInstallTestCase):
+class TestCaptchaWidget(TestCase):
 
     CF = CaptchaField.__module__ + '.CaptchaField'
     CW = CaptchaWidget.__module__ + '.CaptchaWidget'
 
     def afterSetUp(self):
-        super(TestCaptchaWidget, self).afterSetUp()
         self.widgets = dict(availableWidgets())
 
     def testRegistration(self):
@@ -148,7 +107,7 @@ class TestCaptchaWidget(PFGCaptchaAutoInstallTestCase):
         self.assertNotEqual(macro, None)
 
 
-class TestCaptchaValidator(PFGCaptchaAutoInstallTestCase):
+class TestCaptchaValidator(TestCase):
 
     def getValidator(self):
         return validation.validatorFor('isCaptchaCorrect')        

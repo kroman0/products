@@ -37,10 +37,22 @@ def setup_product():
     ztc.installPackage('quintagroup.captcha.core')
 
 setup_product()
-ptc.setupPloneSite(products=['PloneFormGen',], extension_profiles=PROFILES)
+ptc.setupPloneSite() #products=['PloneFormGen',], extension_profiles=PROFILES)
 
 
-class TestInstallations(ptc.PloneTestCase):
+class PFGCaptchaTestCaseMixin(object):
+
+    def installPFGCaptcha(self):
+        for p in REQUIREMENTS:
+            self.addProduct(p)
+
+
+class PFGCaptchaAutoInstallTestCase(PFGCaptchaTestCaseMixin, ptc.PloneTestCase):
+    def afterSetUp(self):
+        self.installPFGCaptcha()
+
+
+class TestInstallations(PFGCaptchaAutoInstallTestCase):
 
     def testInstalledProducts(self):
         qi = self.portal.portal_quickinstaller
@@ -79,9 +91,10 @@ class TestInstallations(ptc.PloneTestCase):
                 '"qplonecaptchafield" layer not present in "%s" skin' % sname)
 
 
-class TestCaptchaField(ptc.PloneTestCase):
+class TestCaptchaField(PFGCaptchaAutoInstallTestCase):
 
     def afterSetUp(self):
+        super(TestCaptchaField, self).afterSetUp()
         self.folder.invokeFactory('FormFolder', 'ff1')
         self.ff1 = getattr(self.folder, 'ff1')
         self.ff1.invokeFactory('CaptchaField', 'captcha_field')
@@ -112,12 +125,13 @@ class TestCaptchaField(ptc.PloneTestCase):
         self.assertEqual(CaptchaValidator in validators, True)
 
 
-class TestCaptchaWidget(ptc.PloneTestCase):
+class TestCaptchaWidget(PFGCaptchaAutoInstallTestCase):
 
     CF = CaptchaField.__module__ + '.CaptchaField'
     CW = CaptchaWidget.__module__ + '.CaptchaWidget'
 
     def afterSetUp(self):
+        super(TestCaptchaWidget, self).afterSetUp()
         self.widgets = dict(availableWidgets())
 
     def testRegistration(self):
@@ -134,7 +148,7 @@ class TestCaptchaWidget(ptc.PloneTestCase):
         self.assertNotEqual(macro, None)
 
 
-class TestCaptchaValidator(ptc.PloneTestCase):
+class TestCaptchaValidator(PFGCaptchaAutoInstallTestCase):
 
     def getValidator(self):
         return validation.validatorFor('isCaptchaCorrect')        

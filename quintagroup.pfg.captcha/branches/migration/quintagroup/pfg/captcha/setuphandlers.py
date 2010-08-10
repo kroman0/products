@@ -3,7 +3,7 @@ from zope.component import queryMultiAdapter
 
 logger = logging.getLogger('quintagroup.pfg.captcha')
 
-capcha_fields = []
+captcha_fields = []
 
 def migrateToPackage(context):
     """Collect old Products.qPloneCaptchaFields fields (before types tool setup).

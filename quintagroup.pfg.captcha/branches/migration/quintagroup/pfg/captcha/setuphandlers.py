@@ -27,10 +27,13 @@ def afterTypesTool(context):
     """ Replace old qPloneCaptchaField with new quintagroup.pfg.captcha fields
     (after types tool setup).
     """
+    global captcha_fields
+
     if context.readDataFile('quintagroup.pfg.captcha_default.txt') is None:
         return
 
-    for cf_id, form in captcha_fields:
+    while captcha_fields:
+        cf_id, form = captcha_fields.pop()
         form.manage_delObjects(cf_id)
         form.invokeFactory("CaptchaField", cf_id)
         logger.info("Fixed CaptchaField in '%s'" % form.getId())

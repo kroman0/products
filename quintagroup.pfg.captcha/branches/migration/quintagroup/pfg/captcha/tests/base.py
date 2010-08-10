@@ -6,20 +6,15 @@ import transaction
 from Products.Five import zcml
 from Products.Five import fiveconfigure
 from Testing import ZopeTestCase as ztc
-from Products.PloneTestCase.layer import onsetup
 
 from Products.PloneTestCase.layer import PloneSite
-from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase import setup as ptc_setup
-
-from Products.PloneTestCase.PloneTestCase import portal_owner
-from Products.PloneTestCase.PloneTestCase import default_password
+from Products.PloneTestCase import PloneTestCase as ptc
 
 PACKAGES = [
     'quintagroup.captcha.core',
     'quintagroup.pfg.captcha',
 ]
-PROFILES = [p+':default' for p in PACKAGES]
 REQUIREMENTS = ['PloneFormGen',] + PACKAGES
 
 ptc.setupPloneSite()
@@ -37,6 +32,10 @@ class NotInstalled(PloneSite):
         ztc.installPackage('quintagroup.pfg.captcha')
         ztc.installPackage('quintagroup.captcha.core')
 
+    @classmethod
+    def tearDown(cls):
+        ptc_setup.cleanupPloneSite(ptc_setup.portal_name)
+
 
 class Installed(NotInstalled):
     """ Install product into the portal
@@ -50,8 +49,7 @@ class Installed(NotInstalled):
         ptc_setup._placefulSetUp(portal)
         # Install PROJECT
         qi = getattr(portal, 'portal_quickinstaller', None)
-        for p in REQUIREMENTS:
-            qi.installProduct(p)
+        qi.installProduct("quintagroup.pfg.captcha")
         transaction.commit()
 
     @classmethod
@@ -61,6 +59,7 @@ class Installed(NotInstalled):
 
 class TestCase(ptc.PloneTestCase):
     layer = Installed
+
 
 class TestCaseNotInstalled(ptc.PloneTestCase):
     layer = NotInstalled

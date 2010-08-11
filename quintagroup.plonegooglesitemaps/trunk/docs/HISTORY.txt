@@ -1,6 +1,15 @@
 Changelog
 =========
 
+1.5.2 (2010-08-11)
+------------------
+
+* Force sitemap search content related
+  to the place, where it added to.
+  Added tests, [mylan]
+  Thanks Fabien Moret for suggestion.
+
+
 1.5.1 (2010-07-16)
 ------------------
 

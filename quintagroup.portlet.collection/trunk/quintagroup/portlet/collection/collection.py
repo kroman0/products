@@ -28,7 +28,7 @@ MIN_BATCH_SIZE , MAX_BATCHSIZE = 1, 30
 
 class NotValidBatchSizeValue(ValidationError):
     """This is not valid batch size value.
-    
+
     """
 
 def validate_batch_size(value):
@@ -46,7 +46,7 @@ class IQCollectionPortlet(ICollectionPortlet):
                                   required=False,
                                   default=[u"Title", u"Description"],
                                   value_type=schema.Choice(vocabulary='quintagroup.portlet.collection.vocabularies.PortletAttributesVocabulary'))
-                                  
+
     styling = schema.Choice(title=_(u"Portlet style"),
                             description=_(u"description_styling", default=u"Choose a css style for the porlet."),
                             required=False,
@@ -54,19 +54,19 @@ class IQCollectionPortlet(ICollectionPortlet):
                             vocabulary='quintagroup.portlet.collection.vocabularies.PortletCSSVocabulary')
 
 
-    show_item_more = schema.Bool(title=_(u"Show more... link for collection items."),
+    show_item_more = schema.Bool(title=_(u"Show more... link for collection items"),
                                  description=_(u"If enabled, a more... link will appear in the bottom of the each collection item, "
                                                 "linking to the corresponding item."),
                                  required=True,
                                  default=True)
-                       
-    link_title = schema.Bool(title=_(u"Link title."),
+
+    link_title = schema.Bool(title=_(u"Link title"),
                                  description=_(u"If enabled, title will be shown as link to corresponding object. "),
                                  required=True,
                                  default=True)
 
-    allow_batching = schema.Bool(title=_(u"Allow batching."),
-                                 description=_(u"If enabled, items will be splited into pages."),
+    allow_batching = schema.Bool(title=_(u"Allow batching"),
+                                 description=_(u"If enabled, items will be split into pages."),
                                  required=False,
                                  default=False)
 
@@ -74,12 +74,12 @@ class IQCollectionPortlet(ICollectionPortlet):
                             description=_("Amount of items per page"
                                           "(if not set 3 items will be displayed as default)."),
                             required=False,
-                            default=3, 
+                            default=3,
                             constraint=validate_batch_size)
 
 class Assignment(base.Assignment):
     """
-    Portlet assignment.    
+    Portlet assignment.
     This is what is actually managed through the portlets UI and associated
     with columns.
     """
@@ -107,17 +107,17 @@ class Assignment(base.Assignment):
         self.link_title = link_title
         self.allow_batching = allow_batching
         self.batch_size = batch_size
-       
+
     @property
     def title(self):
         """This property is used to give the title of the portlet in the
         "manage portlets" screen. Here, we use the title that the user gave.
         """
         return self.header
-    
+
 class Renderer(base.Renderer):
     """Portlet renderer.
-    
+
     This is registered in configure.zcml. The referenced page template is
     rendered, and the implicit variable 'view' will refer to an instance
     of this class. Other methods can be added and referenced in the template.
@@ -134,7 +134,7 @@ class Renderer(base.Renderer):
         items = super(Renderer, self).results()
         delta = self.data.batch_size
         return [items[idx:idx + delta] for idx in range(0, len(items), delta)]
-    
+
     def batch_navigation(self):
         return self.navigation(batches=self.batches())
 
@@ -144,17 +144,18 @@ class Renderer(base.Renderer):
                                                page_number=str(index))
                             for index, batch in enumerate(self.batches())])
         return self.items_listing(portlet_items=self.results())
-        
+
 class AddForm(base.AddForm):
     """Portlet add form.
-    
+
     This is registered in configure.zcml. The form_fields variable tells
     zope.formlib which fields to display. The create() method actually
     constructs the assignment that is being added.
     """
+
     form_fields = form.Fields(IQCollectionPortlet)
     form_fields['target_collection'].custom_widget = UberSelectionWidget
-    
+
     label = _(u"Add Collection Portlet")
     description = _(u"This portlet display a listing of items from a Collection.")
 
@@ -163,7 +164,7 @@ class AddForm(base.AddForm):
 
 class EditForm(base.EditForm):
     """Portlet edit form.
-    
+
     This is registered with configure.zcml. The form_fields variable tells
     zope.formlib which fields to display.
     """

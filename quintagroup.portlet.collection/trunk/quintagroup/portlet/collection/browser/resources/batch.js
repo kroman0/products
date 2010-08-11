@@ -26,6 +26,9 @@ jq(document).ready(function(e) {
           hideNavigation();
           for (i=1;i<=batch_size;i++){
             jq(nav_links[index-i]).show();
+            if (i==batch_size) {
+              jq(nav_links[index-i]).find('.navlinkSeparator').hide();
+            }
           }
         }
         nav_link_handler(index-1);
@@ -42,6 +45,9 @@ jq(document).ready(function(e) {
           for (i=1;i<=batch_size;i++){
             if (i+index<nav_links.size()){
               jq(nav_links[i+index]).show();
+            }
+            if (i==batch_size) {
+              jq(nav_links[i+index]).find('.navlinkSeparator').hide();
             }
           }
         }
@@ -77,6 +83,9 @@ jq(document).ready(function(e) {
       hideNavigation();
       for (i=0; i<batch_size;i++){
           jq(nav_links[i]).show();
+          if (i==batch_size-1) {
+            jq(nav_links[i]).find('.navlinkSeparator').hide();
+          }
       }
       showPageByIndex(0);
       bind_prev_handler(prev_link, 0);

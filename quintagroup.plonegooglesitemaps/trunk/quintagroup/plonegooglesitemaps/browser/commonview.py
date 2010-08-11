@@ -1,11 +1,12 @@
 from string import find
 from zope.interface import implements, Interface, Attribute
 
+from Acquisition import aq_inner, aq_parent
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 
 from quintagroup.plonegooglesitemaps import qPloneGoogleSitemapsMessageFactory as _
-from utils import additionalURLs, applyOperations
+from quintagroup.plonegooglesitemaps.browser.utils import additionalURLs, applyOperations
 
 
 class ISitemapView(Interface):
@@ -51,6 +52,10 @@ class CommonSitemapView(BrowserView):
     @property
     def portal(self):
         return getToolByName(self.context, 'portal_url').getPortalObject()
+
+    @property
+    def search_path(self):
+        return '/'.join(aq_parent(aq_inner(self.context)).getPhysicalPath())
 
     def getFilteredObjects(self):
         """ Return brains

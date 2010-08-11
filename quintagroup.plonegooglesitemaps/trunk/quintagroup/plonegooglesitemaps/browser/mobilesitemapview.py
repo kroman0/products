@@ -1,5 +1,5 @@
 from DateTime import DateTime
-from commonview import *
+from quintagroup.plonegooglesitemaps.browser.commonview import *
 
 MOBILE_INTERFACES = ['quintagroup.mobileextender.interfaces.IMobile',]
 
@@ -14,11 +14,9 @@ class MobileSitemapView(CommonSitemapView):
     )
 
     def getFilteredObjects(self):
-        path = self.portal.getPhysicalPath()
-        portal_types = self.context.getPortalTypes()
-        review_states = self.context.getStates()
-        return self.portal_catalog(path = path,
-                portal_type = portal_types,
-                review_state = review_states, 
-                object_provides = MOBILE_INTERFACES,
-                )
+        return self.portal_catalog(
+            path = self.search_path,
+            portal_type = self.context.getPortalTypes(),
+            review_state = self.context.getStates(),
+            object_provides = MOBILE_INTERFACES,
+            )

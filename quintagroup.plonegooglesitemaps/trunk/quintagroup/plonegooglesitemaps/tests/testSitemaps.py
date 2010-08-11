@@ -2,8 +2,16 @@
 # Tests related to general Sitemap type.
 #
 from base import *
+from DateTime import DateTime
+from zope.interface import alsoProvides
+from zope.publisher.browser import TestRequest
+
 from Products.Archetypes import atapi
 from Products.CMFPlone.utils import _createObjectByType
+
+from quintagroup.plonegooglesitemaps.browser.sitemapview import SitemapView
+from quintagroup.plonegooglesitemaps.browser.newssitemapview import NewsSitemapView
+from quintagroup.plonegooglesitemaps.browser.mobilesitemapview import MobileSitemapView
 
 
 class TestSitemapType(FunctionalTestCase):
@@ -212,6 +220,44 @@ class TestPinging(FunctionalTestCase):
                      "Not pinged %s: '%s'" % (self.newsSM.id, data))
 
 
+class TestContextSearch(TestCase):
+    """ Test if sitemaps collect objects from the container,
+        where it added to, but not from the portal root.
+    """
+    def prepareTestContent(self, smtype, ptypes, ifaces=()):
+        # Create test folder
+        tfolder = _createObjectByType("Folder", self.portal, id="test-folder")
+        # Add SiteMap in the test folder
+        self.sm = _createObjectByType("Sitemap", tfolder, id='sitemap',
+                                      sitemapType=smtype, portalTypes=ptypes)
+        self.sm.at_post_create_script()
+        # Add content in root and in the test folder
+        pubdate = (DateTime()+1).strftime("%Y-%m-%d")
+        root_content = _createObjectByType(ptypes[0], self.portal, id='root-content')
+        inner_content = _createObjectByType(ptypes[0], tfolder, id='inner-content')
+        for obj in (root_content, inner_content):
+            self.workflow.doActionFor(obj, 'publish')
+            if ifaces:
+                alsoProvides(obj, ifaces)
+            obj.edit(effectiveDate=pubdate) # this also reindex object
+        self.inner_path = '/'.join(inner_content.getPhysicalPath())
+        
+    def testGoogleSitemap(self):
+        self.prepareTestContent("content", ("Document",))
+        filtered = SitemapView(self.sm, TestRequest()).getFilteredObjects()
+        self.assertEqual(map(lambda x:x.getPath(), filtered), [self.inner_path,])
+
+    def testNewsSitemap(self):
+        self.prepareTestContent("news", ("News Item",))
+        filtered = NewsSitemapView(self.sm, TestRequest()).getFilteredObjects()
+        self.assertEqual(map(lambda x:x.getPath(), filtered), [self.inner_path,])
+
+    def testMobileSitemap(self):
+        self.patchMobile()
+        self.prepareTestContent("content", ("Document",), (IMobileMarker,))
+        filtered = MobileSitemapView(self.sm, TestRequest()).getFilteredObjects()
+        self.assertEqual(map(lambda x:x.getPath(), filtered), [self.inner_path,])
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite
@@ -219,6 +265,7 @@ def test_suite():
     suite.addTest(makeSuite(TestSitemapType))
     suite.addTest(makeSuite(TestSettings))
     suite.addTest(makeSuite(TestPinging))
+    suite.addTest(makeSuite(TestContextSearch))
     return suite
 
 if __name__ == '__main__':

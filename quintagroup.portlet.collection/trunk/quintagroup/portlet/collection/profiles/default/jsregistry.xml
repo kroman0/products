@@ -4,4 +4,7 @@
  <javascript cacheable="True" compression="safe" cookable="True" enabled="True"
     expression="" id="++resource++batch.js" inline="False"/>    
 
+ <javascript cacheable="True" compression="safe" cookable="True" enabled="True"
+    expression="" id="++resource++batch_size_enable.js" inline="False"/>    
+
 </object>

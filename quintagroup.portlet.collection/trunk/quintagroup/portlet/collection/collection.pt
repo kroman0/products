@@ -6,7 +6,7 @@
 
     <dt class="portletHeader">
         <span class="portletTopLeft"></span>
-        <a tal:attributes="href collection_url" 
+        <a tal:attributes="href collection_url"
            tal:omit-tag="not:view/data/link_title">
             <span tal:content="view/data/header" />
         </a>

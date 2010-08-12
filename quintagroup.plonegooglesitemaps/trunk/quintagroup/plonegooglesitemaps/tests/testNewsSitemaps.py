@@ -186,8 +186,12 @@ class TestSchemaExtending(TestCase):
         # Now register SchemaExtender adapter and
         # check if it present in Local SiteManger only
         self.assertNotEqual(localsm, globalsm)
-        self.assertNotEqual(localsm.queryAdapter(self.my_news, ISchemaExtender), None)
-        self.assertEqual(globalsm.queryAdapter(self.my_news, ISchemaExtender), None)
+        self.assertNotEqual(localsm.queryAdapter(
+                self.my_news, ISchemaExtender,
+                name="quintagroup.plonegooglesitemaps.newssitemapextender"), None)
+        self.assertEqual(globalsm.queryAdapter(
+                self.my_news, ISchemaExtender,
+                name="quintagroup.plonegooglesitemaps.newssitemapextender"), None)
 
 
 ##
@@ -212,7 +216,7 @@ class TestExtender(object):
     def getFields(self):
         return [ExtendableStringField("testField",),]
 
-
+from quintagroup.plonegooglesitemaps.interfaces import INewsSitemapProvider
 class TestNotOverrideExistingSchemaExtender(TestCase):
     """ Test if another schemaextender has been defined for the
         IATNewsItem take in account by the system.
@@ -220,7 +224,7 @@ class TestNotOverrideExistingSchemaExtender(TestCase):
     def prepareContent(self):
         
         classImplements(ATNewsItem, ITestTaggable)
-        provideAdapter(TestExtender)
+        provideAdapter(TestExtender, name=u"archetypes.schemaextender.test.adapter")
 
         self.portal.invokeFactory('News Item', 'taggable-news')
         self.taggable_news = getattr(self.portal, 'taggable-news')
@@ -228,9 +232,10 @@ class TestNotOverrideExistingSchemaExtender(TestCase):
     def testCorrectSchemaExtending(self):
         self.prepareContent()
         self.assert_(ITestTaggable.providedBy(self.taggable_news))
-        schema = self.taggable_news.Schema()
-        self.assert_("gsm_access" in schema)
-        self.assert_("testField" in schema)
+        self.assert_(INewsSitemapProvider.providedBy(self.taggable_news))
+        schema = self.taggable_news.Schema().keys()
+        self.assert_("gsm_access" in schema, "no 'gsm_access' in schema: %s" % schema)
+        self.assert_("testField" in schema, "no 'testField' in schema: %s" % schema)
 
 
 def test_suite():

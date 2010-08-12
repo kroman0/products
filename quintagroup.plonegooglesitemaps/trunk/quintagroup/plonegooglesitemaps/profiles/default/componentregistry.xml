@@ -2,8 +2,8 @@
 <componentregistry purge="False">
   <adapters>
     <adapter
-      name=""
-      for_="Products.ATContentTypes.interface.IATNewsItem"
+      name="quintagroup.plonegooglesitemaps.newssitemapextender"
+      for_="quintagroup.plonegooglesitemaps.interfaces.INewsSitemapProvider"
       provides="archetypes.schemaextender.interfaces.ISchemaExtender"
       factory="quintagroup.plonegooglesitemaps.content.newsextender.NewsExtender"/>
   </adapters>

@@ -10,6 +10,8 @@ from Products.Archetypes.public import LinesField
 from Products.Archetypes.public import StringField
 from Products.Archetypes.public import DisplayList
 
+from quintagroup.plonegooglesitemaps.interfaces import INewsSitemapProvider
+
 class ExtendableStringField(ExtensionField, StringField):
     """An extendable string field."""
 
@@ -20,6 +22,7 @@ access_lst = ["Subscription", "Registration"]
 genres_lst = ["PressRelease","Satire","Blog","OpEd","Opinion","UserGenerated"]
 
 class NewsExtender(object):
+    adapts(INewsSitemapProvider)
     implements(ISchemaExtender)
 
     fields = [

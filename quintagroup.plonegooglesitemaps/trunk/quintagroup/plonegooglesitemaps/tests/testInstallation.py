@@ -52,7 +52,9 @@ class TestGoogleSitemapsInstallation(TestCase):
         lsm = getSiteManager(self.portal)
         news = self.portal.invokeFactory("News Item", id="test_news")
         news = getattr(self.portal, "test_news")
-        self.assertNotEqual(lsm.queryAdapter(news, interface=ISchemaExtender), None)
+        self.assertNotEqual(lsm.queryAdapter(
+                news, interface=ISchemaExtender,
+                name="quintagroup.plonegooglesitemaps.newssitemapextender"), None)
 
     def testUpdateCatalog(self):
         # Test added new columns in catalog

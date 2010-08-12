@@ -15,7 +15,7 @@ jq(document).ready(function(e) {
       jq('dd[class*=page]').hide();
       jq('dd.page-'+(index)).show();
     };
-          
+
     var bind_prev_handler = function(link, index){
       if (index == 0) {
         jq(link).hide();
@@ -26,9 +26,6 @@ jq(document).ready(function(e) {
           hideNavigation();
           for (i=1;i<=batch_size;i++){
             jq(nav_links[index-i]).show();
-            if (i==batch_size) {
-              jq(nav_links[index-i]).find('.navlinkSeparator').hide();
-            }
           }
         }
         nav_link_handler(index-1);

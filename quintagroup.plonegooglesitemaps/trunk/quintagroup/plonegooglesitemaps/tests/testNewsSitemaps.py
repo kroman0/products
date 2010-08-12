@@ -1,10 +1,15 @@
 from base import *
 from DateTime import DateTime
 
+from zope.component import adapts, provideAdapter
 from zope.component import getSiteManager, getGlobalSiteManager
+from zope.interface import implements, Interface, classImplements
+from archetypes.schemaextender.field import ExtensionField
 from archetypes.schemaextender.interfaces import ISchemaExtender
 
 from Products.CMFPlone.utils import _createObjectByType
+from Products.Archetypes.public import StringField
+from Products.ATContentTypes.content.newsitem import ATNewsItem
 
 class TestNewsSitemapsXML(FunctionalTestCase):
 
@@ -156,9 +161,6 @@ class TestNewsSitemapsXMLDefaultObject(FunctionalTestCase):
         self.assert_("n:stock_tickers" not in self.start.keys())
 
 
-from Products.ATContentTypes.interface import IATNewsItem
-from quintagroup.plonegooglesitemaps.content.newsextender import NewsExtender
-
 class TestSchemaExtending(TestCase):
 
     def afterSetUp(self):
@@ -188,10 +190,54 @@ class TestSchemaExtending(TestCase):
         self.assertEqual(globalsm.queryAdapter(self.my_news, ISchemaExtender), None)
 
 
+##
+## Mock objects for TestNotOverrideExistingSchemaExtender
+## Test Case
+##
+
+class ITestTaggable(Interface):
+    """Taggable content
+    """
+
+class ExtendableStringField(ExtensionField, StringField):
+    """An extendable string field."""
+
+class TestExtender(object):
+    adapts(ITestTaggable)
+    implements(ISchemaExtender)
+
+    def __init__(self, context):
+        self.context = context
+
+    def getFields(self):
+        return [ExtendableStringField("testField",),]
+
+
+class TestNotOverrideExistingSchemaExtender(TestCase):
+    """ Test if another schemaextender has been defined for the
+        IATNewsItem take in account by the system.
+    """
+    def prepareContent(self):
+        
+        classImplements(ATNewsItem, ITestTaggable)
+        provideAdapter(TestExtender)
+
+        self.portal.invokeFactory('News Item', 'taggable-news')
+        self.taggable_news = getattr(self.portal, 'taggable-news')
+
+    def testCorrectSchemaExtending(self):
+        self.prepareContent()
+        self.assert_(ITestTaggable.providedBy(self.taggable_news))
+        schema = self.taggable_news.Schema()
+        self.assert_("gsm_access" in schema)
+        self.assert_("testField" in schema)
+
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestNewsSitemapsXML))
     suite.addTest(makeSuite(TestNewsSitemapsXMLDefaultObject))
     suite.addTest(makeSuite(TestSchemaExtending))
+    suite.addTest(makeSuite(TestNotOverrideExistingSchemaExtender))
     return suite

@@ -1,10 +1,10 @@
 <tal:navigation>
-  <a class='prevlink'>&#60;</a>
+  <a class='prevlink' style="display:none">&#60;</a>
   <tal:block repeat="batch options/batches">
-    <a class="navlink">
+    <a class="navlink" style='display: none'>
       <span class="navlinkValue" tal:content="repeat/batch/number"/>
       <span class="navlinkSeparator" tal:condition="not:repeat/batch/end">|</span>
     </a>
   </tal:block>
-  <a class='nextlink'>&#62;</a>
+  <a class='nextlink' style="display:none">&#62;</a>
 </tal:navigation>

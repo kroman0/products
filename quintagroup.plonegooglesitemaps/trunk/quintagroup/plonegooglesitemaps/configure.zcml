@@ -23,4 +23,9 @@
 
     <subscriber handler=".handlers.pingGoogle"/>
 
+    <five:implements
+        class="Products.ATContentTypes.content.newsitem.ATNewsItem"
+        interface=".interfaces.INewsSitemapProvider"
+        />
+
 </configure>

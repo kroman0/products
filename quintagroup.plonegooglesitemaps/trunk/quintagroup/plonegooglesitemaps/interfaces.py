@@ -11,4 +11,7 @@ from quintagroup.plonegooglesitemaps import qPloneGoogleSitemapsMessageFactory a
 # -*- extra stuff goes here -*-
 
 class ISitemap(Interface):
-    """Search engine Sitemap content type"""
+    """Search engine Sitemap content type."""
+
+class INewsSitemapProvider(Interface):
+    """Marker interface for News sitemap provider."""

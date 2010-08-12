@@ -77,7 +77,8 @@ jq(document).ready(function(e) {
       }
     }
     var initialize_navigation = function(){
-      hideNavigation();
+      prev_link.show();
+      next_link.show();
       for (i=0; i<batch_size;i++){
           jq(nav_links[i]).show();
           if (i==batch_size-1) {

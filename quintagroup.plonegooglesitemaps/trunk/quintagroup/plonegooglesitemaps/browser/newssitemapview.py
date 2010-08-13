@@ -6,6 +6,8 @@ from quintagroup.plonegooglesitemaps.browser.commonview import *
 
 reTrailingParenthtical = re.compile("\s*\(.*\)\s*", re.S)
 
+formatDate = lambda d:DateTime(d).strftime("%Y-%m-%d")
+
 class NewsSitemapView(CommonSitemapView):
     """
     News Sitemap browser view
@@ -14,14 +16,15 @@ class NewsSitemapView(CommonSitemapView):
 
     @property
     def additional_maps(self):
+        
         return (
-            ('publication_date', lambda x:DateTime(x.EffectiveDate).strftime("%Y-%m-%d")),
-            ('keywords', lambda x:', '.join(x.Subject)),
+            ('publication_date', lambda x:x.Date and formatDate(x.Date) or ""),
+            ('keywords', lambda x:x.Subject and ', '.join(x.Subject) or ""),
             ('title', lambda x:x.Title or x.getId or x.id),
-            ('name', lambda x:reTrailingParenthtical.sub("",x.Title)),
+            ('name', lambda x:x.Title and reTrailingParenthtical.sub("",x.Title) or ""),
             ('language', lambda x:x.Language or self.default_language()),
             ('access', lambda x:x.gsm_access or ""),
-            ('genres', lambda x:x and ", ".join(x.gsm_genres) or ""),
+            ('genres', lambda x:x.gsm_genres and ", ".join(x.gsm_genres) or ""),
             ('stock', lambda x:x.gsm_stock or ""),
         )
 

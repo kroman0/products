@@ -1,7 +1,11 @@
 from base import *
 from DateTime import DateTime
+from Missing import MV
 
+from zope.publisher.browser import TestRequest
+from zope.component import queryMultiAdapter
 from zope.component import adapts, provideAdapter
+from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.component import getSiteManager, getGlobalSiteManager
 from zope.interface import implements, Interface, classImplements
 from archetypes.schemaextender.field import ExtensionField
@@ -238,6 +242,37 @@ class TestNotOverrideExistingSchemaExtender(TestCase):
         self.assert_("testField" in schema, "no 'testField' in schema: %s" % schema)
 
 
+
+classImplements(TestRequest, IAttributeAnnotatable)
+
+class TestAdditionalMaps(TestCase):
+    """Test bug in processing Missing value in functions,
+       defined in additional_maps property.
+    """
+    mv_keys = ['Date', 'Subject', 'getId', 'Language',
+               'gsm_access', 'gsm_genres', 'gsm_stock']
+
+    def afterSetUp(self):
+        super(TestAdditionalMaps, self).afterSetUp()
+        # Create news sitemaps 
+        _createObjectByType("Sitemap", self.portal, id="news-sitemaps",
+                            sitemapType="news")
+        context = self.portal['news-sitemaps']
+        self.nsmv = queryMultiAdapter((context, TestRequest()), name="news-sitemap.xml")
+
+        self.brain = self.portal.portal_catalog(portal_type="Document")[0]
+        for k in self.mv_keys:
+            self.brain[k] = MV
+        
+    def testAdditionalMaps(self):
+        for n,func in self.nsmv.additional_maps:
+            try:
+                v = func(self.brain)
+            except Exception, e:
+                self.fail("Wrong processing 'Missing' value for '%s': %s"
+                          % (n, str(e)))
+                
+                
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
@@ -245,4 +280,5 @@ def test_suite():
     suite.addTest(makeSuite(TestNewsSitemapsXMLDefaultObject))
     suite.addTest(makeSuite(TestSchemaExtending))
     suite.addTest(makeSuite(TestNotOverrideExistingSchemaExtender))
+    suite.addTest(makeSuite(TestAdditionalMaps))
     return suite

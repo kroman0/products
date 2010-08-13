@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.5.3 (2010-08-12)
+1.5.4 (2010-08-13)
 ------------------
 
 * Force sitemap search content related
@@ -12,6 +12,10 @@ Changelog
   schema extender adapter for IATNewsItem,
   [mylan]
   Thanks Fabien Moret for suggestion.
+* Fixed bug with processing "Missing" data
+  in brains for news sitemap,
+  [mylan]
+
 
 
 1.5.1 (2010-07-16)

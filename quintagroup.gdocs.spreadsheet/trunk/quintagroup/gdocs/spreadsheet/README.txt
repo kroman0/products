@@ -109,7 +109,7 @@ Let's click on the 'edit' tab and update the object attribute values.
     >>> browser.getControl(name='order_columns.column_key:records',index=1).value = ['col2']
     >>> browser.getControl(name='order_columns.column_title:records', index=1).value = 'Title 2'
     >>> browser.getControl('Save').click()
-    
+
 We check that the changes were applied.
 
     >>> 'Changes saved' in browser.contents
@@ -122,7 +122,7 @@ We check that the changes were applied.
 Let's click on the 'edit' tab and update the object attribute values.
 
     >>> browser.getLink('Edit').click()
-    >>> browser.getControl(name='order_columns.orderindex_:records',index=1).value = '2'    
+    >>> browser.getControl(name='order_columns.orderindex_:records',index=1).value = '2'
     >>> browser.getControl(name='order_columns.column_key:records',index=1).value = ['col3']
     >>> browser.getControl(name='order_columns.column_title:records', index=1).value = 'Title 3'
     >>> browser.getControl('Save').click()

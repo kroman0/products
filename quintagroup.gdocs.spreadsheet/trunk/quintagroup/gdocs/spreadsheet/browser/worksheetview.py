@@ -42,14 +42,6 @@ class WorksheetView(BrowserView):
         self.request = request
         self.query = shDocumentQuery()
 
-    @property
-    def portal_catalog(self):
-        return getToolByName(self.context, 'portal_catalog')
-
-    @property
-    def portal(self):
-        return getToolByName(self.context, 'portal_url').getPortalObject()
-
     @memoize_contextless
     def renderWorksheet(self, ssh_id="", wsh_id='', startrow_idx=0):
         """

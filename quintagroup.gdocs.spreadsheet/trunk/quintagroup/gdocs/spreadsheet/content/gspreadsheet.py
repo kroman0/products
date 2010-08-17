@@ -85,7 +85,9 @@ GSpreadsheetSchema['description'].storage = atapi.AnnotationStorage()
 schemata.finalizeATCTSchema(GSpreadsheetSchema, moveDiscussion=False)
 
 class GSpreadsheet(base.ATCTContent):
-    """ Lets you select google spreadsheet id, worksheet id, choose keys of columns and define them title """
+    """Lets you select google spreadsheet id, worksheet id,
+    choose keys of columns and define them title
+    """
     implements(IGSpreadsheet)
 
     meta_type = "GSpreadsheet"

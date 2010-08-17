@@ -1,0 +1,50 @@
+==========================
+A GSpreadsheet content type doctest
+==========================
+
+Import the class.
+
+    >>> from quintagroup.gdocs.spreadsheet.content.gspreadsheet import GSpreadsheet
+
+Create object
+
+    >>> my_context = GSpreadsheet('id')
+
+Testing set attributes of class GSpreadsheet
+
+    >>> my_context.title = u"Some title"
+    >>> my_context.description = u"Some description"
+    >>> my_context.spreadsheet_id = u"Some spreadsheet id"
+    >>> my_context.worksheet_id = u"Some worksheet id"
+    >>> my_context.order_columns = ({'column_key': 'col1', 'column_title': 'Title 1'},)
+
+    >>> my_context.title
+    'Some title'
+    >>> my_context.description
+    'Some description'
+    >>> my_context.spreadsheet_id
+    'Some spreadsheet id'
+    >>> my_context.worksheet_id
+    'Some worksheet id'
+    >>> len(my_context.order_columns)
+    1
+    >>> my_context.order_columns[0]['column_key']
+    'col1'
+    >>> my_context.order_columns[0]['column_title']
+    'Title 1'
+
+Testing all_keys_columns property method of class GSpreadsheet
+
+    >>> my_context.all_keys_columns
+    ['col1', 'col2', 'col3', 'col4', 'col5']
+
+Testing getKeyColumnVocabulary method of class GSpreadsheet
+
+    >>> kcv = my_context.getKeyColumnVocabulary()
+    >>> len(kcv)
+    5
+    >>> kcv[0]
+    'col1'
+    >>> kcv[4]
+    'col5'
+

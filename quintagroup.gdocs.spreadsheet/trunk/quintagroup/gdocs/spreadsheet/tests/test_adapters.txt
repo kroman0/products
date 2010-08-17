@@ -1,0 +1,32 @@
+==========================
+A GSpreadsheetDataProvider adapter doctest
+==========================
+
+Import the class.
+
+    >>> from quintagroup.gdocs.spreadsheet.content.gspreadsheet import GSpreadsheet
+
+Create object
+
+    >>> my_context = GSpreadsheet('id')
+
+Get adapter
+
+    >>> from quintagroup.gdocs.spreadsheet.interfaces import IGSpreadsheetDataProvider
+    >>> adapter = IGSpreadsheetDataProvider(my_context)
+
+Testing methods of adapter
+
+    >>> wci = adapter.getWorksheetColumnsInfo()
+    >>> wci
+    ['col1', 'col2', 'col3', 'col4', 'col5']
+    >>> feed = adapter.getListFeed()
+    >>> len(feed.entry)
+    5
+    >>> keys = feed.entry[0].custom.keys()
+    >>> keys.sort()
+    >>> keys
+    ['col1', 'col2', 'col3', 'col4', 'col5']
+    >>> [feed.entry[0].custom[key].text for key in keys]
+    ['11', '12', '13', '14', '15']
+

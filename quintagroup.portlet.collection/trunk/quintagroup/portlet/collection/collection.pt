@@ -2,7 +2,7 @@
     i18n:domain="plone"
     tal:define="collection_url view/collection_url;
                 styling view/data/styling"
-    tal:attributes="class string:${attrs/class} ${styling}">
+    tal:attributes="class python: styling and '%s %s'% (attrs['class'], styling) or attrs['class']">
 
     <dt class="portletHeader">
         <span class="portletTopLeft"></span>

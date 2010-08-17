@@ -17,9 +17,7 @@ jq(document).ready(function(e) {
     };
 
     var bind_prev_handler = function(link, index){
-      if (index == 0) {
-        jq(link).hide();
-      }
+      if (index == 0) jq(link).hide();
       jq(link).unbind();
       jq(link).click(function(e) {
         if (!(index % batch_size)) {
@@ -32,9 +30,7 @@ jq(document).ready(function(e) {
      });
     };
     var bind_next_handler = function(link, index){
-      if (index == nav_links.size()-1) {
-        jq(link).hide();
-      }
+      if (index == nav_links.size()-1) jq(link).hide();
       jq(link).unbind();
       jq(link).click(function(e) {
         if (!((index+1) % batch_size)) {

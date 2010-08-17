@@ -20,7 +20,7 @@ PORTLET_ATTRIBUTES_TO_SHOW = (
 class PortletCSSVocabulary(object):
     implements(IVocabularyFactory)
 
-    
+
     def __call__(self, context):
         styles = getStylesVocabulary(context)
         if styles is None:
@@ -33,9 +33,6 @@ class PortletCSSVocabulary(object):
             if not isinstance(value, unicode):
                 value = value.decode(charset)
             items.append(SimpleTerm(value, value, _(title)))
-        return SimpleVocabulary(items)
-
-        items = [SimpleTerm(value, value, title) for value, title in PORTLET_CSS_STYLES]
         return SimpleVocabulary(items)
 
     def _charset(self, context):

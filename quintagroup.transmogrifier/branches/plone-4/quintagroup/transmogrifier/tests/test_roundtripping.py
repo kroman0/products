@@ -102,6 +102,7 @@ class RoundtrippingTests(TransmogrifierTestCase):
 
         # make sure, that prior to import, the target size does not
         # have the same number of events:
+        self.loginAsPortalOwner()
         self.failIf(sorted(list(self.portal.events.objectIds())) ==
             sorted(list(self.target.events.objectIds())))
 

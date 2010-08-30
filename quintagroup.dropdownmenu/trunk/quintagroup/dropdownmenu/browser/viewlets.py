@@ -68,12 +68,12 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
 
         self.chain = []  #save not traversable chain here
         self.tchain = []  #save the best traversable chain here
-        self.res, c = self._subactions(tool._getOb(conf.actions_category), context, 0, self.chain)
+        res, c = self._subactions(tool._getOb(conf.actions_category), context, 0, self.chain)
         self.tchain.reverse()
         self.chain.reverse()
         self.chain = self.chain and self.chain or self.tchain
-        self._activate(self.res)
-        return self.res
+        self._activate(res)
+        return res
     
     def _activate(self, res, level=0):
         """Mark selected chain in the tabs dictionary"""

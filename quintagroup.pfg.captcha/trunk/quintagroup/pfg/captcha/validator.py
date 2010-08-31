@@ -7,7 +7,7 @@ from Products.CMFPlone.utils import safe_hasattr
 
 class CaptchaValidator:
 
-    __implements__ = (IValidator,)
+    implements(IValidator)
 
     name = 'CaptchaValidator'
     title = ""

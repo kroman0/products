@@ -71,22 +71,24 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         self.normalize_actions(tool._getOb(conf.actions_category), context, 0)
         current_item = 0
         delta = 1000
+        
         for info in self.tabs:
             if  self.context_url.startswith(info['url']) and \
                len(self.context_url) - len(info['url']) < delta:
+               delta = len(self.context_url) - len(info['url'])
                current_item = self.tabs.index(info)
-        self.id_chain = [id for id in self.mark_active(self.tabs[current_item]['id'])]
+        self.id_chain = [] 
+        self.mark_active(self.tabs[current_item]['id'],self.tabs[current_item]['title'])
+        return  self._subactions(tool._getOb(conf.actions_category), context, 0)
         
-        return self._subactions(tool._getOb(conf.actions_category), context, 0)
-    
-    def mark_active(self, current_id):
+    def mark_active(self, current_id, title):
         for info in self.tabs:
-            if info['id'] == current_id:
-                info['currentItem'] = True
-                self.mark_active(info['parent'])
-                yield(info['id'])
+            if info['id'] == current_id and info['title'] == title:
+                self.mark_active(info['parent'][0], info['parent'][1])
+                self.id_chain.append((info['id'], info['title']))
                     
     def normalize_actions(self, category, object, level):
+        """walk through the tabs dictionary and build list of all tabs"""
         for info in self._actionInfos(category, object):
             children = []
             bottomLevel = self.conf.actions_tabs_level
@@ -98,30 +100,27 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
                     subcat = category._getOb(subcat_id)
                     if IActionCategory.providedBy(subcat):
                         children = self.normalize_actions(subcat, object, level+1)
+            
+            parent_id = category['id'].replace(self.cat_prefix,'').replace(self.cat_sufix,'')
             tab = {'id' : info['id'],
                'title': info['title'],
                'url': info['url'],
                'currentItem' : False,
-               'parent': category['id']}
+               'parent': (parent_id, category['title'])}
             self.tabs.append(tab)
 
-    def _subactions(self, category, object, level=0, lchain=[]):
+    def _subactions(self, category, object, level=0):
         """Build tabs dictionary out of portal actions"""
         tabs = []
-     
         for info in self._actionInfos(category, object):
             icon = info['icon'] and '<img src="%s" />' % info['icon'] or ''
-    
             # look up children for a given action
             children = []
             bottomLevel = self.conf.actions_tabs_level
             if bottomLevel < 1 or level < bottomLevel:
                 # try to find out appropriate subcategory
                 subcat_id = info['id']
-                if self.conf.nested_category_sufix is not None:
-                    subcat_id += self.conf.nested_category_sufix
-                if self.conf.nested_category_prefix is not None:
-                    subcat_id = self.conf.nested_category_prefix + subcat_id
+                subcat_id = self.cat_prefix + info['id'] + self.cat_sufix
                 if subcat_id != info['id'] and \
                    subcat_id in category.objectIds():
                     subcat = category._getOb(subcat_id)
@@ -129,7 +128,7 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
                         children = self._subactions(subcat, object, level+1)
 
             active = False
-            if info['id'] in self.id_chain:
+            if (info['id'], info['title']) in self.id_chain:
                 active = True
             # make up final tab dictionary
             tab = {'Title': info['title'],

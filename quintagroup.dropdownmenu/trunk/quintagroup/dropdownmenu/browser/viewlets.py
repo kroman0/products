@@ -40,7 +40,9 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         self.context_url =  self.context_state.is_default_page() and \
             '/'.join(self.context.absolute_url().split('/')[:-1]) or \
             self.context.absolute_url()
-
+            
+        self.cat_sufix  = self.conf.nested_category_sufix or ''
+        self.cat_prefix = self.conf.nested_category_prefix or ''
         # fetch actions-based tabs?
         if conf.show_actions_tabs:
             tabs.extend(self._actions_tabs())
@@ -65,50 +67,51 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         # check if we have required root actions category inside tool
         if conf.actions_category not in tool.objectIds():
             return []
-
-        self.chain = []  #save not traversable chain here
-        self.tchain = []  #save the best traversable chain here
-        res, c = self._subactions(tool._getOb(conf.actions_category), context, 0, self.chain)
-        self.tchain.reverse()
-        self.chain.reverse()
-        self.chain = self.chain and self.chain or self.tchain
-        self._activate(res)
-        return res
+        self.tabs =[]
+        self.normalize_actions(tool._getOb(conf.actions_category), context, 0)
+        current_item = 0
+        delta = 1000
+        for info in self.tabs:
+            if  self.context_url.startswith(info['url']) and \
+               len(self.context_url) - len(info['url']) < delta:
+               current_item = self.tabs.index(info)
+        self.id_chain = [id for id in self.mark_active(self.tabs[current_item]['id'])]
+        
+        return self._subactions(tool._getOb(conf.actions_category), context, 0)
     
-    def _activate(self, res, level=0):
-        """Mark selected chain in the tabs dictionary"""
-        if self.chain and len(self.chain) > level:
-            res[self.chain[level]]['currentItem'] = True
-            res[self.chain[level]]['currentParent'] = True
-            if level + 1 < len(self.chain):
-                self._activate(res[self.chain[level]]['children'], level+1)
-
+    def mark_active(self, current_id):
+        for info in self.tabs:
+            if info['id'] == current_id:
+                info['currentItem'] = True
+                self.mark_active(info['parent'])
+                yield(info['id'])
+                    
+    def normalize_actions(self, category, object, level):
+        for info in self._actionInfos(category, object):
+            children = []
+            bottomLevel = self.conf.actions_tabs_level
+            if bottomLevel < 1 or level < bottomLevel:
+                # try to find out appropriate subcategory
+                subcat_id = self.cat_prefix + info['id'] + self.cat_sufix
+                if subcat_id != info['id'] and \
+                   subcat_id in category.objectIds():
+                    subcat = category._getOb(subcat_id)
+                    if IActionCategory.providedBy(subcat):
+                        children = self.normalize_actions(subcat, object, level+1)
+            tab = {'id' : info['id'],
+               'title': info['title'],
+               'url': info['url'],
+               'currentItem' : False,
+               'parent': category['id']}
+            self.tabs.append(tab)
 
     def _subactions(self, category, object, level=0, lchain=[]):
         """Build tabs dictionary out of portal actions"""
         tabs = []
-        currentParentId = -1
-        index = -1
-        local = False      
+     
         for info in self._actionInfos(category, object):
-            # prepare data for action
-            # TODO: implement current element functionality, maybe should be
-            #       done on a template level because of separate content and
-            #       actions tabs are rendered separately
-
-            index += 1
             icon = info['icon'] and '<img src="%s" />' % info['icon'] or ''
     
-            if  self.context_url.startswith(info['url']) and info['url'] != self.site_url:
-                if currentParentId > -1:
-                    if len(tabs[currentParentId]['getURL']) < len(info['url']): 
-                        currentParentId = index
-                else:
-                    currentParentId = index
-            if  self.context_url == info['url']:
-                lchain.append(index)
-                local = True
-                
             # look up children for a given action
             children = []
             bottomLevel = self.conf.actions_tabs_level
@@ -123,25 +126,23 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
                    subcat_id in category.objectIds():
                     subcat = category._getOb(subcat_id)
                     if IActionCategory.providedBy(subcat):
-                        children, local = self._subactions(subcat, object, level+1, lchain)
-                        if local:
-                            lchain.append(index)
-            
+                        children = self._subactions(subcat, object, level+1)
+
+            active = False
+            if info['id'] in self.id_chain:
+                active = True
             # make up final tab dictionary
             tab = {'Title': info['title'],
                    'Description': info['description'],
                    'getURL': info['url'],
                    'show_children': len(children) > 0,
                    'children': children,
-                   'currentItem': False, 
-                   'currentParent': False,
+                   'currentItem': active, 
+                   'currentParent': active,
                    'item_icon': {'html_tag': icon},
                    'normalized_review_state': 'visible'}
             tabs.append(tab)
-
-        if currentParentId > -1:
-            self.tchain.append(currentParentId)
-        return tabs, local
+        return tabs
 
     def _actionInfos(self, category, object, check_visibility=1,
                      check_permissions=1, check_condition=1, max=-1):

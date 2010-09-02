@@ -69,16 +69,19 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
             return []
         self.tabs =[]
         self.normalize_actions(tool._getOb(conf.actions_category), context, 0)
-        current_item = 0
+        current_item = -1
         delta = 1000
-        
+        if not self.tabs:
+            return []
         for info in self.tabs:
             if  self.context_url.startswith(info['url']) and \
                len(self.context_url) - len(info['url']) < delta:
                delta = len(self.context_url) - len(info['url'])
                current_item = self.tabs.index(info)
         self.id_chain = [] 
-        self.mark_active(self.tabs[current_item]['id'],self.tabs[current_item]['title'])
+
+        if current_item > -1 and current_item < len(self.tabs):
+            self.mark_active(self.tabs[current_item]['id'],self.tabs[current_item]['title'])
         return  self._subactions(tool._getOb(conf.actions_category), context, 0)
         
     def mark_active(self, current_id, title):

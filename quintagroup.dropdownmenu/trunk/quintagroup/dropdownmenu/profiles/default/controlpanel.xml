@@ -8,10 +8,4 @@
    <permission>Manage portal</permission>
  </configlet>
 
- <configlet title="CSS Hover" action_id="csshover" appId="quintagroup.dropdownmenu"
-     category="Products" condition_expr="" url_expr="string:${portal_url}/@@dropdownmenu-csshover"
-     visible="True" i18n:attributes="title">
-   <permission>Manage portal</permission>
- </configlet>
-
 </object>

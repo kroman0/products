@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.3 - September 03, 2010
+------------------------
+
+* Fixed support with plone.portlet.static 2.0 [kroman0] 
+
+
 0.2 - June 04, 2010
 -------------------
 

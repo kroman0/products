@@ -43,7 +43,7 @@ class Assignment(static.Assignment):
     def __init__(self, header=u"", text=u"", omit_border=False, footer=u"",
                  more_url='', hide=False, styling=''):
         super(Assignment, self).__init__(header=header, text=text, omit_border=omit_border, footer=footer,
-                                         more_url=more_url, hide=hide)
+                                         more_url=more_url)
         
         self.styling = styling
     

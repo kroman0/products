@@ -19,6 +19,12 @@ from quintagroup.dropdownmenu.interfaces import IDropDownMenuSettings
 from quintagroup.dropdownmenu.browser.menu import DropDownMenuQueryBuilder
 from quintagroup.dropdownmenu.util import getDropDownMenuSettings
 
+from time import time
+from plone.memoize import ram
+import copy
+
+def cache_key(a,b,c):	
+    return c + str(time() // (60 * 60))
 
 class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
     index = ViewPageTemplateFile('templates/sections.pt')
@@ -60,6 +66,7 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
 
     def _actions_tabs(self):
         """Return tree of tabs based on portal_actions tool configuration"""
+        t1 = time()
         conf = self.conf
         tool = self.tool
         context = aq_inner(self.context)
@@ -67,84 +74,90 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         # check if we have required root actions category inside tool
         if conf.actions_category not in tool.objectIds():
             return []
-        self.tabs =[]
-        self.normalize_actions(tool._getOb(conf.actions_category), context, 0)
+        listtabs = []
+        res, listtabs = self.prepare_tabs(self.site_url)
+        res = copy.deepcopy(res)
+        self.tabs = listtabs
+        
+        # if there is no custom menu in portal tabs return
+        if not listtabs:
+            return []
+            
         current_item = -1
         delta = 1000
-        if not self.tabs:
-            return []
-        for info in self.tabs:
+        for info in listtabs:
             if  self.context_url.startswith(info['url']) and \
                len(self.context_url) - len(info['url']) < delta:
                delta = len(self.context_url) - len(info['url'])
-               current_item = self.tabs.index(info)
+               current_item = listtabs.index(info)
         self.id_chain = [] 
-
-        if current_item > -1 and current_item < len(self.tabs):
-            self.mark_active(self.tabs[current_item]['id'],self.tabs[current_item]['title'])
-        return  self._subactions(tool._getOb(conf.actions_category), context, 0)
         
-    def mark_active(self, current_id, title):
+        if current_item > -1 and current_item < len(listtabs):
+            self.mark_active(listtabs[current_item]['id'], listtabs[current_item]['url'])
+
+        self._activate(res)
+        dt = time() - t1
+        res[0]['Title'] = str(dt)
+        return res
+        
+    @ram.cache(cache_key)
+    def prepare_tabs(self, site_url):
+        def normalize_actions(category, object, level, parent_url = None):
+            """walk through the tabs dictionary and build list of all tabs"""
+            tabs = []
+            for info in self._actionInfos(category, object):
+                icon = info['icon'] and '<img src="%s" />' % info['icon'] or ''
+                children = []
+                bottomLevel = self.conf.actions_tabs_level
+                if bottomLevel < 1 or level < bottomLevel:
+                    # try to find out appropriate subcategory
+                    subcat_id = self.cat_prefix + info['id'] + self.cat_sufix
+                    if subcat_id != info['id'] and \
+                       subcat_id in category.objectIds():
+                        subcat = category._getOb(subcat_id)
+                        if IActionCategory.providedBy(subcat):
+                            children = normalize_actions(subcat, object, level+1, info['url'])
+
+                parent_id = category['id'].replace(self.cat_prefix,'').replace(self.cat_sufix,'')
+                tab = {'id' : info['id'],
+                   'title': info['title'],
+                   'url': info['url'],
+                   'parent': (parent_id, parent_url)}
+                tabslist.append(tab)
+                
+                tab = {'id' : info['id'],
+                       'Title': info['title'],
+                       'Description': info['description'],
+                       'getURL': info['url'],
+                       'show_children': len(children) > 0,
+                       'children': children,
+                       'currentItem': False, 
+                       'currentParent': False,
+                       'item_icon': {'html_tag': icon},
+                       'normalized_review_state': 'visible'}
+                tabs.append(tab)
+            return tabs    
+        tabslist = []
+        tabs = normalize_actions(self.tool._getOb(self.conf.actions_category), aq_inner(self.context), 0)
+        return tabs, tabslist
+
+    def _activate(self, res):
+        """Mark selected chain in the tabs dictionary"""
+        for info in res:
+            if info['getURL'] in self.id_chain:
+                info['currentItem'] = True
+                info['currentParent'] = True
+                if info['children']:
+                    self._activate(info['children'])
+
+        
+    def mark_active(self, current_id, url):
         for info in self.tabs:
-            if info['id'] == current_id and info['title'] == title:
+            if info['id'] == current_id and info['url'] == url:
                 self.mark_active(info['parent'][0], info['parent'][1])
-                self.id_chain.append((info['id'], info['title']))
+                self.id_chain.append(info['url'])
                     
-    def normalize_actions(self, category, object, level):
-        """walk through the tabs dictionary and build list of all tabs"""
-        for info in self._actionInfos(category, object):
-            children = []
-            bottomLevel = self.conf.actions_tabs_level
-            if bottomLevel < 1 or level < bottomLevel:
-                # try to find out appropriate subcategory
-                subcat_id = self.cat_prefix + info['id'] + self.cat_sufix
-                if subcat_id != info['id'] and \
-                   subcat_id in category.objectIds():
-                    subcat = category._getOb(subcat_id)
-                    if IActionCategory.providedBy(subcat):
-                        children = self.normalize_actions(subcat, object, level+1)
-            
-            parent_id = category['id'].replace(self.cat_prefix,'').replace(self.cat_sufix,'')
-            tab = {'id' : info['id'],
-               'title': info['title'],
-               'url': info['url'],
-               'currentItem' : False,
-               'parent': (parent_id, category['title'])}
-            self.tabs.append(tab)
 
-    def _subactions(self, category, object, level=0):
-        """Build tabs dictionary out of portal actions"""
-        tabs = []
-        for info in self._actionInfos(category, object):
-            icon = info['icon'] and '<img src="%s" />' % info['icon'] or ''
-            # look up children for a given action
-            children = []
-            bottomLevel = self.conf.actions_tabs_level
-            if bottomLevel < 1 or level < bottomLevel:
-                # try to find out appropriate subcategory
-                subcat_id = info['id']
-                subcat_id = self.cat_prefix + info['id'] + self.cat_sufix
-                if subcat_id != info['id'] and \
-                   subcat_id in category.objectIds():
-                    subcat = category._getOb(subcat_id)
-                    if IActionCategory.providedBy(subcat):
-                        children = self._subactions(subcat, object, level+1)
-
-            active = False
-            if (info['id'], info['title']) in self.id_chain:
-                active = True
-            # make up final tab dictionary
-            tab = {'Title': info['title'],
-                   'Description': info['description'],
-                   'getURL': info['url'],
-                   'show_children': len(children) > 0,
-                   'children': children,
-                   'currentItem': active, 
-                   'currentParent': active,
-                   'item_icon': {'html_tag': icon},
-                   'normalized_review_state': 'visible'}
-            tabs.append(tab)
-        return tabs
 
     def _actionInfos(self, category, object, check_visibility=1,
                      check_permissions=1, check_condition=1, max=-1):

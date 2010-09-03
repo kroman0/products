@@ -1,58 +1,54 @@
 Introduction
 ============
 
-This package allows Plone websites display multilevel portal dropdown menu based
-on portal actions settings and site structure.
+This package allows to build dropdown menu through the web with portal_actions.
+Submenus are built of the tree of nested Category Actions and Actions.
+The other strategy used to populate submenus is Plone default NavigationStrategy, 
+the one used in navigation portlet.  
 
-You may ask why we may need one more dropdown menu product for Plone, having
-already qPloneDropDownMenu, webcouturier.dropdownmenu and other products
-providing similar functionality. While qPloneDropDownMenu product just displays
-manually edited html code with nested unordered list, webcouturier.dropdownmenu
-went further and is trying to display submenus for each standard portal tab be
-it action from portal_actions tool or be it auto generated tab based on content
-structure.
+This project is successor of qPloneDropDownMenu. 
 
-But neither of those products use newly introduced portal_actions tool's
-feature: nested categories. That's why quintagroup.dropdownmenu package was
-introduced. It allows to build multilevel portal dropdown menu based on nested
-portal_actions categories inside portal_tab category as well as based on portal
-content structure.
+Building you dropdown menu with portal_actions
+----------------------------------------------
 
-It also allows you to define whether to put content tabs before or after action
-tabs, and a bit more... For details see below.
+Starting from Plone 3 portal actions introduced CMF Action Category 
+containers it opened opportunity to build nested actions trees. Though CMF Action 
+Category does not behave as a regular action, it has different set of properties. 
+We introduced convention in the quintagroup.dropdownmenu that requires to have 
+a specially named Action for each Actions Category. The id of each such action 
+must be build using the rule: 
+  
+    action_id = prefix + category_id + suffix
+   
+where:
+  
+    'category_id' is id of correspondent CMF Action Category
+    'prefix' defined in DropDownMenu configlet, default value ''
+    'suffix' defined in DropDownMenu configlet, default value '_sub'
 
+So the actions structure can look like:
 
-Notes
------
+    / portal_tabs
+    |- home
+    |- blog_sub
+    |-/ blog
+    | |-- 2009
+    | |-- 2010
+     
+By default the root of dropdown menu is 'portal_tabs' category.
 
-  * you may have actions/content-based tabs as deep as you wish, but then you'll
-    need to tweek default dropdown menu css rules a bit, default css rules show
-    only the first 4 levels of tabs
-
-Requirement
+ 
+Compatibility
 -----------
 
-  Plone 3.0+
+  Plone 3.0 - 3.3
+  Plone 4
 
 
 Installation
 ------------
 
-  * first follow instructions inside docs/INSTALL.txt document
+  * add quintagroup.dropdownmenu to your buildout
+  * install in Plone with Quick Installer
+  * find more details inside docs/INSTALL.txt 
 
-  * then install product with Quick Installer in Plone
-
-
-Migration from qPloneDropDownMenu
----------------------------------
-
-In case qPloneDropDownMenu product was previously installed, it will
-automatically detect legacy settings, migrate it to a newly created settings
-registry and update portal_actions tool if required along with removing old
-portal_dropdownmenu one.
-
-Also installation procedure will uninstall qPloneDropDownMenu product itself
-(in case it's still installed) and clean up everything after it.
-
-Note: to successfully migrate old tabs it's required to have a valid html
-markup, otherwise migration procedure won't be able to move tabs correctly.

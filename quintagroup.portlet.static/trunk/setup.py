@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.2'
+version = '0.3'
 
 setup(name='quintagroup.portlet.static',
       version=version,
@@ -15,8 +15,8 @@ setup(name='quintagroup.portlet.static',
         "Topic :: Software Development :: Libraries :: Python Modules",
         ],
       keywords='plone static portlet',
-      author='Vitaliy Podoba',
-      author_email='piv@quintagroup.com',
+      author='Quintagroup',
+      author_email='support@quintagroup.com',
       url='http://svn.quintagroup.com/products/quintagroup.portlet.static',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),

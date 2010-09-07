@@ -25,7 +25,8 @@ setup(name='quintagroup.transmogrifier',
       install_requires=[
           'setuptools',
           'collective.transmogrifier',
-          'plone.app.transmogrifier'
+          'plone.app.transmogrifier',
+          'collective.testcaselayer'
           # -*- Extra requirements: -*-
       ],
       extras_require = {

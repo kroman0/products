@@ -1,7 +1,7 @@
 quintagroup.dropdownmenu installation
 -------------------------------------
 
-* Add ``quintagroup.dropdownmenu`` to the list of eggs to install, e.g.::
+* Add ``quintagroup.dropdownmenu`` to the list of eggs to install::
 
     [buildout]
     ...

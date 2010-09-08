@@ -48,7 +48,7 @@ class IDropDownMenuSettings(Interface):
 
     show_actions_tabs = schema.Bool(
         title=_(u"Show actions tabs"),
-        description=_(u"Use this setting to enable or disable portal_actions "
+        description=_(u"Use this setting to enable/disable portal_actions "
                       u"based dropdown menu"),
         default=True)
 

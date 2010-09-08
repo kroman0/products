@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.2.2'
+version = '0.2.3'
 
 setup(name='quintagroup.captcha.core',
       version=version,
@@ -10,7 +10,9 @@ setup(name='quintagroup.captcha.core',
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
+        "Framework :: Plone",
         "Programming Language :: Python",
+        "Topic :: Software Development :: Libraries :: Python Modules",
         ],
       keywords='plone captcha',
       author='Quintagroup',

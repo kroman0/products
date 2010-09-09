@@ -28,6 +28,8 @@ setup(name='quintagroup.formlib.captcha',
           # -*- Extra requirements: -*-
           'quintagroup.captcha.core',
           'zope.app.form',
+          'zope.formlib',
+          # 'five.formlib',
           # 'zope.component',
           # 'zope.interface',
           # 'zope.schema',

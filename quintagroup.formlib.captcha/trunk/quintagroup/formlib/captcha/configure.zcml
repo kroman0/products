@@ -1,9 +1,13 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="quintagroup.formlib.captcha">
 
   <include package="quintagroup.captcha.core" />
-  <include package="zope.formlib" />
+  <include zcml:condition="installed five.formlib"
+     package="five.formlib" />
+  <include zcml:condition="not-installed five.formlib"
+     package="zope.formlib" />
 
   <view
       type="zope.publisher.interfaces.browser.IBrowserRequest"

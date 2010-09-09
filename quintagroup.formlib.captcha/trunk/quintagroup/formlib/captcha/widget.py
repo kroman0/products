@@ -1,6 +1,9 @@
 from DateTime import DateTime
 
-from zope.component import getMultiAdapter
+try:
+    from zope.site.hooks import getSite
+except ImportError:
+    from zope.app.component.hooks import getSite
 from zope.app.form.browser import ASCIIWidget
 from zope.app.form.interfaces import ConversionError
 from zope.app.form.browser.textwidgets import renderElement
@@ -9,16 +12,26 @@ from zope.i18n import MessageFactory
 from Acquisition import aq_inner
 
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.interfaces import ISiteRoot
 
 from quintagroup.captcha.core.utils import decrypt, parseKey, encrypt1, getWord
 
 _ = MessageFactory('quintagroup.formlib.captcha')
 
+import logging
+
+logger = logging.getLogger('quintagroup.formlib.captcha')
 
 class CaptchaWidget(ASCIIWidget):
-    def __call__(self):
-        context = self.context.context
 
+    def get_site(self):
+        # get from plone.app.form.widgets.wysiwygwdget
+        site = getSite()
+        while site is not None and not ISiteRoot.providedBy(site):
+            site = aq_parent(site)
+        return site
+
+    def __call__(self):
         kwargs = {'type': self.type,
                   'name': self.name,
                   'id': self.name,
@@ -27,8 +40,9 @@ class CaptchaWidget(ASCIIWidget):
                   'size': self.displayWidth,
                   'extra': self.extra}
 
-        portal_url = getToolByName(context, 'portal_url')()
-        key = context.getCaptcha()
+        site = self.get_site()
+        portal_url = getToolByName(site , 'portal_url')()
+        key = site.getCaptcha()
 
         if self._prefix:
             prefix = '%s.' % self._prefix
@@ -45,11 +59,10 @@ class CaptchaWidget(ASCIIWidget):
          
     def _toFieldValue(self, input):
         # Verify the user input against the captcha
-        context = self.context.context
-        request = context.REQUEST
-        
+
         # get captcha type (static or dynamic)
-        captcha_type = context.getCaptchaType()
+        site = self.get_site()
+        captcha_type = site.getCaptchaType()
         
         # validate captcha input
         if input and captcha_type in ['static', 'dynamic']:
@@ -59,22 +72,22 @@ class CaptchaWidget(ASCIIWidget):
             else:
                 prefix = ''
             
-            hashkey = request.get('%shashkey' % prefix, '')
-            decrypted_key = decrypt(context.captcha_key, hashkey)
+            hashkey = self.request.get('%shashkey' % prefix, '')
+            decrypted_key = decrypt(site.captcha_key, hashkey)
             parsed_key = parseKey(decrypted_key)
             
             index = parsed_key['key']
             date = parsed_key['date']
             
             if captcha_type == 'static':
-                img = getattr(context, '%s.jpg' % index)
+                img = getattr(site, '%s.jpg' % index)
                 solution = img.title
                 enc = encrypt1(input)
             else:
                 enc = input
                 solution = getWord(int(index))
             
-            captcha_tool = getToolByName(context, 'portal_captchas')
+            captcha_tool = getToolByName(site, 'portal_captchas')
             if (enc != solution) or (captcha_tool.has_key(decrypted_key)) or (DateTime().timeTime() - float(date) > 3600):
                 raise ConversionError(_(u'Please re-enter validation code.'))
             else:

@@ -15,12 +15,16 @@ class ICaptchaFormlibFormSchema(Interface):
 # schema interface
 
 class CaptchaFormlibFormAdapter(object):
-    adapts(Interface)
     implements(ICaptchaFormlibFormSchema)
+
+    def __init__(self, context):
+        self.context = context
+
     label = u''
     captcha = None
       
 # And at the last define the CaptchaFormlibForm form
 
 class CaptchaFormlibForm(EditForm):
+
     form_fields = FormFields(ICaptchaFormlibFormSchema)

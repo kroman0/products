@@ -1,9 +1,9 @@
-from zope import interface, schema
-from zope.formlib import form
-from zope.publisher.browser import TestRequest
-from zope.interface import Interface
-from quintagroup.formlib.captcha import Captcha
 from zope.schema import TextLine
+from zope.component import adapts
+from zope.interface import Interface, implements
+from zope.formlib.form import EditForm, FormFields
+
+from quintagroup.formlib.captcha import Captcha
       
 # Define CaptchaFormlibForm form schema
 
@@ -15,12 +15,12 @@ class ICaptchaFormlibFormSchema(Interface):
 # schema interface
 
 class CaptchaFormlibFormAdapter(object):
-    adapts(interface.Interface)
-    interface.implements(ICaptchaFormlibFormSchema)
+    adapts(Interface)
+    implements(ICaptchaFormlibFormSchema)
     label = u''
     captcha = None
       
 # And at the last define the CaptchaFormlibForm form
 
-class CaptchaFormlibForm(form.EditForm):
-    form_fields = form.FormFields(IFoo)
+class CaptchaFormlibForm(EditForm):
+    form_fields = FormFields(ICaptchaFormlibFormSchema)

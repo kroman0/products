@@ -2,7 +2,9 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser">
 
-  <adapter factory="quintagroup.formlib.captcha.example.CaptchaFormlibFormAdapter" />
+  <adapter
+     for="*"
+     factory="quintagroup.formlib.captcha.example.CaptchaFormlibFormAdapter" />
 
   <browser:page
       name="formlib-captcha-form"

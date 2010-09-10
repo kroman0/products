@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+  <adapter factory="quintagroup.captcha.core.example.CaptchaFormlibFormAdapter" />
+
+  <browser:page
+      name="formlib-captcha-form"
+      for="*"
+      class="quintagroup.captcha.core.example.CaptchaFormlibForm"
+      permission="zope2.View"
+      />
+    
+</configure>

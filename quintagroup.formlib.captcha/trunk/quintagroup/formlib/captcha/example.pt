@@ -1,0 +1,51 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:omit-tag="">
+
+<metal:block use-macro="context/prefs_main_template/macros/master">
+<body>
+
+<div metal:fill-slot="prefs_configlet_main">
+
+            <form action="."
+                  tal:attributes="action request/URL;"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                    <tal:block tal:repeat="widget view/widgets">
+
+                        <div class="field"
+                             tal:define="description widget/hint;
+                                         error widget/error">
+			  
+                            <label tal:attributes="for widget/name"
+                                   tal:content="widget/label">
+                                label
+                            </label>
+
+                            <div class="widget" tal:content="structure widget">
+                                <input type="text" />
+                            </div>
+                        </div>
+
+                    </tal:block>
+
+                <div class="visualClear"><!-- --></div>
+
+                <div id="actionsView" class="formControls">
+                    <span class="actionButtons"
+                          tal:condition="view/availableActions">
+                        <input tal:repeat="action view/actions"
+                               tal:replace="structure action/render" />
+                    </span>
+                </div>
+
+            </form>
+
+    </div>
+
+</body>
+
+</metal:block>
+</html>

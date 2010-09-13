@@ -49,3 +49,26 @@ Now check if captcha presented on the mentioned form.
     >>> "Type the code" in browser.contents
     True
 
+
+Now try to submit form with wrong captcha key. Error status message will
+be shown.
+
+    >>> browser.open(self.portal.absolute_url() + '/@@formlib-captcha-form')
+    >>> browser.getControl(name='form.captcha').value = "wrong captcha"
+    >>> browser.getControl(name='form..hashkey').value = self.hashkey
+    >>> browser.getControl(name="form.actions.save").click()
+    >>> "Type the code" in browser.contents
+    True
+    >>> "Please re-enter validation code." in browser.contents
+    True
+
+And now submit form with correct captcha key.
+
+    >>> browser.open(self.portal.absolute_url() + '/@@formlib-captcha-form')
+    >>> browser.getControl(name='form.captcha').value = self.captcha_word
+    >>> browser.getControl(name='form..hashkey').value = self.hashkey
+    >>> browser.getControl(name="form.actions.save").click()
+    >>> "Please re-enter validation code." in browser.contents
+    False
+
+No error shown.

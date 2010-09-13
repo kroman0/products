@@ -10,6 +10,10 @@ from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import PloneSite
 from Testing import ZopeTestCase as ztc
 
+from quintagroup.captcha.core.utils import *
+from quintagroup.captcha.core.tests.base import testPatch
+from quintagroup.captcha.core.tests.testWidget import addTestLayer
+
 class FormlibCaptchaLayer(PloneSite):
     @classmethod
     def setUp(cls):
@@ -27,9 +31,20 @@ class FormlibCaptchaLayer(PloneSite):
     
 ptc.setupPloneSite(extension_profiles=['quintagroup.captcha.core:default',])
 
-
 class FormlibCaptchaTestCase(ptc.FunctionalTestCase):
     layer = FormlibCaptchaLayer
+
+    def afterSetUp(self):
+        # prepare context
+        self.loginAsPortalOwner()
+        testPatch()
+        addTestLayer(self)
+        # prepare captcha data
+        captcha_key = self.portal.captcha_key
+        self.hashkey = self.portal.getCaptcha()
+        decrypted = decrypt(captcha_key, self.hashkey)
+        self.captcha_word = getWord(int(parseKey(decrypted)['key'])-1 )
+
 
 def test_suite():
     return unittest.TestSuite([

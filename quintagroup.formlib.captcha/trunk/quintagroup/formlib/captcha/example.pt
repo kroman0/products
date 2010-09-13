@@ -8,42 +8,46 @@
 
 <div metal:fill-slot="prefs_configlet_main">
 
-            <form action="."
-                  tal:attributes="action request/URL;"
-                  method="post"
-                  enctype="multipart/form-data">
+    <form action="."
+	  tal:attributes="action request/URL;"
+	  method="post"
+	  enctype="multipart/form-data">
 
-                    <tal:block tal:repeat="widget view/widgets">
+	    <tal:block tal:repeat="widget view/widgets">
 
-                        <div class="field"
-                             tal:define="description widget/hint;
-                                         error widget/error">
-			  
-                            <label tal:attributes="for widget/name"
-                                   tal:content="widget/label">
-                                label
-                            </label>
+		<div class="field"
+		     tal:define="description widget/hint;
+				 error widget/error">
 
-                            <div class="widget" tal:content="structure widget">
-                                <input type="text" />
-                            </div>
-                        </div>
+		    <label tal:attributes="for widget/name"
+			   tal:content="widget/label">
+			label
+		    </label>
 
-                    </tal:block>
+		    <div class="fieldErrorBox" tal:content="structure error">
+		      The Error
+		    </div>
 
-                <div class="visualClear"><!-- --></div>
+		    <div class="widget" tal:content="structure widget">
+			<input type="text" />
+		    </div>
+		</div>
 
-                <div id="actionsView" class="formControls">
-                    <span class="actionButtons"
-                          tal:condition="view/availableActions">
-                        <input tal:repeat="action view/actions"
-                               tal:replace="structure action/render" />
-                    </span>
-                </div>
+	    </tal:block>
 
-            </form>
+	<div class="visualClear"><!-- --></div>
 
-    </div>
+	<div id="actionsView" class="formControls">
+	    <span class="actionButtons"
+		  tal:condition="view/availableActions">
+		<input tal:repeat="action view/actions"
+		       tal:replace="structure action/render" />
+	    </span>
+	</div>
+
+    </form>
+
+</div>
 
 </body>
 

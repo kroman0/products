@@ -10,7 +10,8 @@ from quintagroup.formlib.captcha import Captcha
 # Define CaptchaFormlibForm form schema
 
 class ICaptchaFormlibFormSchema(Interface):
-    label = TextLine(title=u'Label')
+    label = TextLine(title=u'Label',
+                     required=False)
     captcha = Captcha(title=u'Type the code')
       
 # Create adapter for any object to ICaptchaFormlibFormSchema

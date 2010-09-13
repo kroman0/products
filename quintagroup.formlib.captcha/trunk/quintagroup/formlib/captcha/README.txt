@@ -6,7 +6,7 @@ This package allows to add captcha to zope.formlib form.
 As a result such forms are prevented from automatic submit.
 
  *example.py* module provides example of usage the *Captcha*
- field from the package in formlib forms.
+ field with formlib form.
 
 What you have to do
 -------------------

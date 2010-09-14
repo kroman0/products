@@ -6,7 +6,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.form.base import EditForm
 
 from quintagroup.formlib.captcha import Captcha
-      
+
 # Define CaptchaFormlibForm form schema
 
 class ICaptchaFormlibFormSchema(Interface):
@@ -29,5 +29,4 @@ class CaptchaFormlibFormAdapter(object):
 # And at the last define the CaptchaFormlibForm form
 
 class CaptchaFormlibForm(EditForm):
-    template = ViewPageTemplateFile("example.pt")
     form_fields = FormFields(ICaptchaFormlibFormSchema)

@@ -23,7 +23,7 @@ will render the captcha and verify the use input automatically.
 Supported Plone versions
 ------------------------
 
-quintagroup.formlib.captcha was tested with Plone 3.0.6, 3.1.7, 3.2.3, 3.3.4.
+quintagroup.formlib.captcha was tested with Plone 3.x and Plone 4.0.
 
 Authors
 -------

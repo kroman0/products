@@ -66,7 +66,6 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
 
     def _actions_tabs(self):
         """Return tree of tabs based on portal_actions tool configuration"""
-        t1 = time()
         conf = self.conf
         tool = self.tool
         context = aq_inner(self.context)
@@ -96,8 +95,6 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
             self.mark_active(listtabs[current_item]['id'], listtabs[current_item]['url'])
 
         self._activate(res)
-        dt = time() - t1
-        res[0]['Title'] = str(dt)
         return res
         
     @ram.cache(cache_key)

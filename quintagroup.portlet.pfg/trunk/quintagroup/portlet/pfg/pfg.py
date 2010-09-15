@@ -58,18 +58,20 @@ class Renderer(base.Renderer):
         return self.portal.restrictedTraverse(pfg_path, default=None)
 
     def pfgTitle(self):
-	    return self.pfg_object().Title()
+        form = self.pfg_object()
+        if form is not None:
+            return form.Title()
 
     def available(self):
-        """By default, portlets are available
-        """
         return self.pfg_object() and True or False
 
     def render_form(self):
-        pfg_path = self.pfg_object().absolute_url(True)
-        form_view = self.portal.restrictedTraverse('%s/@@embedded' % pfg_path)
-        form_view.prefix = 'pfgportlet'
-        return form_view()
+        form = self.pfg_object()
+        if form is not None:
+            form_path = '/'.join(form.getPhysicalPath()[2:])
+            form_view = self.portal.restrictedTraverse('%s/@@embedded' % form_path)
+            form_view.prefix = 'pfgportlet'
+            return form_view()
 
 class AddForm(base.AddForm):
 

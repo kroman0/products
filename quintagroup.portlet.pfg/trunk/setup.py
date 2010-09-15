@@ -24,6 +24,7 @@ setup(name='quintagroup.portlet.pfg',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'Products.PloneFormGen',
           # -*- Extra requirements: -*-
       ],
       entry_points="""

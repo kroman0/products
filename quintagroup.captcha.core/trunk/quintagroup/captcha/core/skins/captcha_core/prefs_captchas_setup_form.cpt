@@ -11,9 +11,7 @@
 <body>
 
 <div metal:fill-slot="prefs_configlet_main"
-     tal:define="errors python:request.get('controller_state', None).getErrors();
-                 Iterator python:modules['Products.CMFPlone'].IndexIterator;
-                 tabindex python:Iterator(mainSlot=False)">
+     tal:define="errors python:request.get('controller_state', None).getErrors()">
 
     <div metal:define-macro="main">
     <div class="configlet">
@@ -66,8 +64,7 @@
                            tabindex =""
                            tal:attributes="name property_id;
                                            id property_id;
-                                           value prop_value;
-                                           tabindex tabindex/next;"/>
+                                           value prop_value;"/>
 
                     <label i18n:translate=""
                            for=""
@@ -87,8 +84,7 @@
                            tabindex =""
                            tal:attributes="name property_id;
                                            id property_id;
-                                           value prop_value;
-                                           tabindex tabindex/next;"/>
+                                           value prop_value;"/>
 
                     <label i18n:translate=""
                            for=""
@@ -108,8 +104,7 @@
                            tabindex =""
                            tal:attributes="name property_id;
                                            id property_id;
-                                           value prop_value;
-                                           tabindex tabindex/next;"/>
+                                           value prop_value;"/>
 
                     <label i18n:translate=""
                            for=""
@@ -129,8 +124,7 @@
                            tabindex =""
                            tal:attributes="name property_id;
                                            id property_id;
-                                           value prop_value;
-                                           tabindex tabindex/next;"/>
+                                           value prop_value;"/>
 
                     <label i18n:translate=""
                            for=""
@@ -150,8 +144,7 @@
                            tabindex =""
                            tal:attributes="name property_id;
                                            id property_id;
-                                           value prop_value;
-                                           tabindex tabindex/next;"/>
+                                           value prop_value;"/>
 
                     <label i18n:translate=""
                            for=""
@@ -172,7 +165,6 @@
                            tal:attributes="name property_id;
                                            id property_id;
                                            value prop_value;
-                                           tabindex tabindex/next;
                                            checked prop_value"/>
 
                     <label i18n:translate=""
@@ -192,8 +184,7 @@
                        name="form.button.form_submit"
                        value="Save"
                        i18n:domain="plone"
-                       i18n:attributes="value"
-                       tal:attributes="tabindex tabindex/next;"/>
+                       i18n:attributes="value"/>
             </div>
         </form>
     </div>

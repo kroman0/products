@@ -30,13 +30,15 @@
                value=""
                size="30"
                readonly="1"
-               tal:define="editable python:path('request/%s_editable|nothing' % fieldName)"
+               tal:define="editable python:path('request/%s_editable|nothing' % fieldName);
+                           readonly python:not editable and '1' or None;"
                tal:attributes="name fieldName;
                                id fieldName;
                                value value;
                                size widget/size;
                                maxlength widget/maxlength;
-                               readonly python:not editable and '1' or None"
+                               readonly readonly;
+                               class python: readonly and 'blurrable firstToFocus readonly' or 'blurrable firstToFocus'"
                />
       </metal:use>
     </metal:define>

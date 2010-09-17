@@ -6,6 +6,7 @@ from zope.component import getGlobalSiteManager
 from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
 
+from config import SUPPORT_BLAYER
 from quintagroup.plonegooglesitemaps.content.newsextender import NewsExtender
 
 logger = logging.getLogger('quintagroup.plonegooglesitemaps')
@@ -42,6 +43,23 @@ def removeConfiglet(site):
         controlpanel_tool.unregisterConfiglet(conf_id)
         logger.log(logging.INFO, "Unregistered \"%s\" configlet." % conf_id)
 
+def removeBrowserLayer(site):
+    """ Remove browser layer.
+    """
+    if not SUPPORT_BLAYER:
+        return
+
+    from plone.browserlayer.utils import unregister_layer
+    from plone.browserlayer.interfaces import ILocalBrowserLayerType
+
+    name="quintagroup.plonegooglesitemaps"
+    site = getSiteManager(site)
+    registeredLayers = [r.name for r in site.registeredUtilities()
+                        if r.provided == ILocalBrowserLayerType]
+    if name in registeredLayers:
+        unregister_layer(name, site_manager=site)
+        logger.log(logging.INFO, "Unregistered \"%s\" browser layer." % name)
+
 def uninstall(context):
     """ Do customized uninstallation.
     """
@@ -50,6 +68,7 @@ def uninstall(context):
     site = context.getSite()
     unregisterSchemaExtenderAdapters(site)
     removeConfiglet(site)
+    removeBrowserLayer(site)
 
 
 def cleanup(site):

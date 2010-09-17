@@ -12,6 +12,7 @@
       template="templates/sitemapview.pt"
       allowed_interface=".commonview.ISitemapView"
       permission="zope.Public"
+      layer="quintagroup.plonegooglesitemaps.interfaces.IGoogleSitemapsLayer"
     />
 
     <browser:page
@@ -21,6 +22,7 @@
       template="templates/mobilesitemapview.pt"
       allowed_interface=".commonview.ISitemapView"
       permission="zope.Public"
+      layer="quintagroup.plonegooglesitemaps.interfaces.IGoogleSitemapsLayer"
     />
 
     <browser:page
@@ -30,6 +32,7 @@
       template="templates/newssitemapview.pt"
       allowed_interface=".commonview.ISitemapView"
       permission="zope.Public"
+      layer="quintagroup.plonegooglesitemaps.interfaces.IGoogleSitemapsLayer"
     />
 
     <browser:page
@@ -38,6 +41,7 @@
       class=".configletview.ConfigletSettingsView"
       allowed_interface=".configletview.IConfigletSettingsView"
       permission="cmf.ManagePortal"
+      layer="quintagroup.plonegooglesitemaps.interfaces.IGoogleSitemapsLayer"
     />
 
 </configure>

@@ -258,7 +258,9 @@ class TestAdditionalMaps(TestCase):
         _createObjectByType("Sitemap", self.portal, id="news-sitemaps",
                             sitemapType="news")
         context = self.portal['news-sitemaps']
-        self.nsmv = queryMultiAdapter((context, TestRequest()), name="news-sitemap.xml")
+        request = TestRequest()
+        alsoProvides(request, IGoogleSitemapsLayer)
+        self.nsmv = queryMultiAdapter((context, request), name="news-sitemap.xml")
 
         self.brain = self.portal.portal_catalog(portal_type="Document")[0]
         for k in self.mv_keys:

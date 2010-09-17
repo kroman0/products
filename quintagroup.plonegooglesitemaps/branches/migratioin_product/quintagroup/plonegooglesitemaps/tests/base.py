@@ -27,6 +27,7 @@ from XMLParser import parse, hasURL
 import quintagroup.plonegooglesitemaps
 from quintagroup.plonegooglesitemaps.config import PROJECTNAME
 from quintagroup.plonegooglesitemaps.config import ping_googlesitemap
+from quintagroup.plonegooglesitemaps.config import SUPPORT_BLAYER 
 from quintagroup.plonegooglesitemaps.browser import mobilesitemapview
 from quintagroup.plonegooglesitemaps.interfaces import IGoogleSitemapsLayer
 

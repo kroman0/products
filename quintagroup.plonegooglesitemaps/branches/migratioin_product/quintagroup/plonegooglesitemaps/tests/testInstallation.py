@@ -102,6 +102,14 @@ class TestGoogleSitemapsInstallation(TestCase):
         self.assertEqual(brain.gsm_genres, gsm_genres)
         self.assertEqual(brain.gsm_stock, gsm_stock)
 
+    def test_browser_layer(self):
+        if not SUPPORT_BLAYER:
+            return
+
+        from plone.browserlayer import utils
+        self.assert_(IGoogleSitemapsLayer in utils.registered_layers(),
+                     "Not registered 'IGoogleSitemapsLayer' browser layer")
+
 
 class TestGoogleSitemapsUninstallation(TestCase):
 

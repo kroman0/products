@@ -1,7 +1,11 @@
+import sys
 import logging
 from zope.component import getSiteManager
 from zope.component import getGlobalSiteManager
+
+from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
+
 from quintagroup.plonegooglesitemaps.content.newsextender import NewsExtender
 
 logger = logging.getLogger('quintagroup.plonegooglesitemaps')
@@ -38,7 +42,6 @@ def removeConfiglet(site):
         controlpanel_tool.unregisterConfiglet(conf_id)
         logger.log(logging.INFO, "Unregistered \"%s\" configlet." % conf_id)
 
-
 def uninstall(context):
     """ Do customized uninstallation.
     """
@@ -47,3 +50,74 @@ def uninstall(context):
     site = context.getSite()
     unregisterSchemaExtenderAdapters(site)
     removeConfiglet(site)
+
+
+def cleanup(site):
+    """Clean-up qPloneGoogleSitemaps artefacts."""
+    old_product = "qPloneGoogleSitemaps"
+    # Get plone tools
+    pp = getToolByName(site, 'portal_properties')
+    skins = getToolByName(site, 'portal_skins')
+    controlpanel = getToolByName(site, 'portal_controlpanel')
+    # Remove old configlet from controlpanel
+    controlpanel.unregisterConfiglet(old_product)
+    logger.info("Unregistered '%s' configlet from "\
+                "portal_controlpanel tool" % old_product)
+    # Remove qPloneGoogleSitemaps skin layer
+    for skinName in skins.getSkinSelections():
+        skin_paths = skins.getSkinPath(skinName).split(',') 
+        paths = [l.strip() for l in skin_paths if not l == old_product]
+        logger.info("Removed '%s' from '%s' skin." % (old_product, skinName))
+        skins.addSkinSelection(skinName, ','.join(paths))
+
+def recriateSitemaps(smaps):
+    msg = "Recriation Sitemaps: "
+    if smaps:
+        logger.info(msg + "Process %s sitemaps." % (
+                [sm.getPath() for sm in smaps]))
+        fields = ['id', 'sitemapType', 'portalTypes', 'states',
+                  'blackout_list','reg_exp', 'urls', 'pingTransitions']
+        for smb in smaps:
+            # get sitemap properties
+            sm_path = smb.getPath()
+            sm = smb.getObject()
+            container = aq_parent(sm)
+            data = {}
+            for fn in fields:
+                data[fn] = sm.getField(fn).getAccessor(sm)()
+            # Replace old GoogleSitemap by new one with
+            # previous properties
+            container.manage_delObjects(data['id'])
+            container.invokeFactory("Sitemap", id=data['id'])
+            new_sm = getattr(container, data['id'])
+            new_sm.update(**data)
+            new_sm.at_post_create_script()
+            logger.info("Successfully replaced '%s' Sitemap" % sm_path)
+    else:
+        logger.info(msg + "No sitemaps found")
+
+def getOldGSitemaps(site):
+    catalog = getToolByName(site, 'portal_catalog')
+    smaps = catalog(portal_type="Sitemap")
+    old_smb = [smb for smb in smaps \
+               if 'qPloneGoogleSitemaps' in str(smb.getObject().__class__)]
+    return old_smb
+    
+def migrate_qPGSM(context):
+    """ Clean-up qPloneGoogleSitemaps product artefacts and
+        recriate sitemaps from quintagroup.plonegooglesitemaps
+        package version 1.0.
+    """
+    if context.readDataFile('gsm_migration.txt') is None:
+        return
+
+    site = context.getSite()
+    old_gsmaps = getOldGSitemaps(site)
+    if old_gsmaps:
+        cleanup(site)
+        recriateSitemaps(old_gsmaps)
+        logger.info("Successfully migrated old GoogleSitemaps.")
+    else:
+        logger.info("No old GoogleSitemaps found.")
+
+

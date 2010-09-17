@@ -48,4 +48,11 @@
       file="resources/drop_down.css"
       />
 
+<!-- Resource directory for images -->
+  <browser:resourceDirectory
+      name="quintagroup.dropdownmenu.images"
+      directory="images"
+      layer="..interfaces.IDropDownMenuLayer"
+      />
+
 </configure>

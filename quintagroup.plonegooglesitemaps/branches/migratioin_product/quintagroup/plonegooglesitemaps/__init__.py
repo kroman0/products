@@ -51,22 +51,3 @@ def initialize(context):
             permission         = config.ADD_PERMISSIONS[atype.portal_type],
             extra_constructors = (constructor,),
             ).initialize(context)
-
-    #
-    # BBB: Create qPloneGoogleSitemaps module alias
-    from quintagroup import plonegooglesitemaps
-    from quintagroup.plonegooglesitemaps import interfaces
-    from quintagroup.plonegooglesitemaps.content import sitemap
-    # from quintagroup.plonegooglesitemaps import Extensions
-    # from quintagroup.plonegooglesitemaps.Extensions import Install
-    for k,v in (
-            ('Products.qPloneGoogleSitemaps', plonegooglesitemaps),
-            ('Products.qPloneGoogleSitemaps.config', config),
-            ('Products.qPloneGoogleSitemaps.interfaces', interfaces),
-            ('Products.qPloneGoogleSitemaps.content.sitemap', sitemap),
-            # ('Products.qPloneGoogleSitemaps.Extensions', Extensions),
-            # ('Products.qPloneGoogleSitemaps.Extensions.Install', Install),
-        ):
-        if not sys.modules.has_key(k):
-            sys.modules[k] = v
-

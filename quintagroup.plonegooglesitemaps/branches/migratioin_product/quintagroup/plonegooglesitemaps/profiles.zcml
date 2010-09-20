@@ -39,7 +39,7 @@
 
     <genericsetup:registerProfile
       zcml:condition="installed Products.qPloneGoogleSitemaps"
-      name="migrage_qPGSM"
+      name="migrate_qPGSM"
       title="Migrate from qPloneGoogleSitemaps to quintagroup.plonegooglesitemaps"
       directory="profiles/migrate_qPGSM"
       description=""

@@ -79,14 +79,17 @@ def cleanup(site):
     skins = getToolByName(site, 'portal_skins')
     controlpanel = getToolByName(site, 'portal_controlpanel')
     # Remove old configlet from controlpanel
-    controlpanel.unregisterConfiglet(old_product)
-    logger.info("Unregistered '%s' configlet from "\
-                "portal_controlpanel tool" % old_product)
+    configlet_ids = [ai['id'] for ai in controlpanel.listActionInfos()]
+    if old_product in configlet_ids:
+        controlpanel.unregisterConfiglet(old_product)
+        logger.info("Unregistered '%s' configlet from "\
+                    "portal_controlpanel tool" % old_product)
     # Remove qPloneGoogleSitemaps skin layer
     for skinName in skins.getSkinSelections():
         skin_paths = skins.getSkinPath(skinName).split(',') 
         paths = [l.strip() for l in skin_paths if not l == old_product]
-        logger.info("Removed '%s' from '%s' skin." % (old_product, skinName))
+        if len(paths) < len(skin_paths):
+            logger.info("Removed '%s' from '%s' skin." % (old_product, skinName))
         skins.addSkinSelection(skinName, ','.join(paths))
 
 def recriateSitemaps(smaps):
@@ -112,8 +115,6 @@ def recriateSitemaps(smaps):
             new_sm.update(**data)
             new_sm.at_post_create_script()
             logger.info("Successfully replaced '%s' Sitemap" % sm_path)
-    else:
-        logger.info(msg + "No sitemaps found")
 
 def getOldGSitemaps(site):
     catalog = getToolByName(site, 'portal_catalog')
@@ -131,9 +132,9 @@ def migrate_qPGSM(context):
         return
 
     site = context.getSite()
+    cleanup(site)
     old_gsmaps = getOldGSitemaps(site)
     if old_gsmaps:
-        cleanup(site)
         recriateSitemaps(old_gsmaps)
         logger.info("Successfully migrated old GoogleSitemaps.")
     else:

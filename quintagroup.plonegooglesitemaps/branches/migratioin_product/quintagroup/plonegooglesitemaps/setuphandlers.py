@@ -83,7 +83,7 @@ def cleanup(site):
     if old_product in configlet_ids:
         controlpanel.unregisterConfiglet(old_product)
         logger.info("Unregistered '%s' configlet from "\
-                    "portal_controlpanel tool" % old_product)
+                    "portal_controlpanel tool." % old_product)
     # Remove qPloneGoogleSitemaps skin layer
     for skinName in skins.getSkinSelections():
         skin_paths = skins.getSkinPath(skinName).split(',') 

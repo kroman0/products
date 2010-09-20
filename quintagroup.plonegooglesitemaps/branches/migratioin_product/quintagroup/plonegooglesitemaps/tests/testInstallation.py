@@ -132,6 +132,14 @@ class TestGoogleSitemapsUninstallation(TestCase):
         self.assertEqual('GoogleSitemaps' in [a.getId() for a in configTool.listActions()], False,
             'Configlet found after uninstallation')
 
+    def test_browserlayer_uninstall(self):
+        if not SUPPORT_BLAYER:
+            return
+
+        from plone.browserlayer import utils
+        self.assertEqual(IGoogleSitemapsLayer in utils.registered_layers(), False,
+            "Still registered 'IGoogleSitemapsLayer' browser layer")
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

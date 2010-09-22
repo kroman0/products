@@ -1,10 +1,12 @@
 Changelog
 =========
 
-1.0.1 - ()
+1.1 - (2010-09-22)
 -----------
 
 * removed debug code [chervol]
+* fixed the dropdown CSS
+* fixed the Home tab highlight
 
 
 1.0 - (2010-09-08)

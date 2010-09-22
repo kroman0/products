@@ -91,7 +91,9 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
                current_item = listtabs.index(info)
         self.id_chain = [] 
         
-        if current_item > -1 and current_item < len(listtabs):
+        if current_item > -1 and current_item < len(listtabs) and \
+            (listtabs[current_item]['url'] != self.site_url or \
+            listtabs[current_item]['url'] == self.site_url and self.context_url == self.site_url):
             self.mark_active(listtabs[current_item]['id'], listtabs[current_item]['url'])
 
         self._activate(res)

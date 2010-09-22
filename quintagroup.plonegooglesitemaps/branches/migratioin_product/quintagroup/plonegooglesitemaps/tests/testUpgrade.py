@@ -2,14 +2,17 @@
 # Tests for quintagroup.plonegooglesitemaps upgrading
 #
 
+import logging 
 from base import *
 from zope.component import getSiteManager
+from StringIO import StringIO
 
 from Products.CMFPlone.utils import _createObjectByType
 from Products.GenericSetup.upgrade import _upgrade_registry
 from archetypes.schemaextender.interfaces import ISchemaExtender
 from quintagroup.plonegooglesitemaps import config
 from quintagroup.plonegooglesitemaps import upgrades as gsm_upgrades
+from quintagroup.plonegooglesitemaps import setuphandlers as sh
 from quintagroup.canonicalpath.interfaces import ICanonicalPath
 from quintagroup.canonicalpath.interfaces import ICanonicalLink
 
@@ -103,9 +106,6 @@ class TestUpgrade(TestCase):
             upgrades[2].handler = gsm_upgrades.upgrade_1_1_to_1_2
             self.setup.setLastVersionForProfile(self.profile, orig_ver)
 
-from quintagroup.plonegooglesitemaps import setuphandlers as sh
-from StringIO import StringIO
-import logging 
 try:
     from Products.qPloneGoogleSitemaps.content.sitemap import Sitemap as OldSitemap
 except ImportError:

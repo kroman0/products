@@ -102,6 +102,14 @@ class TestGoogleSitemapsInstallation(TestCase):
         self.assertEqual(brain.gsm_genres, gsm_genres)
         self.assertEqual(brain.gsm_stock, gsm_stock)
 
+    def test_browser_layer(self):
+        if not SUPPORT_BLAYER:
+            return
+
+        from plone.browserlayer import utils
+        self.assert_(IGoogleSitemapsLayer in utils.registered_layers(),
+                     "Not registered 'IGoogleSitemapsLayer' browser layer")
+
 
 class TestGoogleSitemapsUninstallation(TestCase):
 
@@ -123,6 +131,14 @@ class TestGoogleSitemapsUninstallation(TestCase):
         configTool = self.portal.portal_controlpanel
         self.assertEqual('GoogleSitemaps' in [a.getId() for a in configTool.listActions()], False,
             'Configlet found after uninstallation')
+
+    def test_browserlayer_uninstall(self):
+        if not SUPPORT_BLAYER:
+            return
+
+        from plone.browserlayer import utils
+        self.assertEqual(IGoogleSitemapsLayer in utils.registered_layers(), False,
+            "Still registered 'IGoogleSitemapsLayer' browser layer")
 
 
 def test_suite():

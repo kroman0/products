@@ -5,6 +5,7 @@ from zope.app.container.constraints import contains
 from zope.app.container.constraints import containers
 
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
+from plone.browserlayer.interfaces import ILocalBrowserLayerType
 
 from quintagroup.plonegooglesitemaps import qPloneGoogleSitemapsMessageFactory as _
 
@@ -15,3 +16,7 @@ class ISitemap(Interface):
 
 class INewsSitemapProvider(Interface):
     """Marker interface for News sitemap provider."""
+
+
+class IGoogleSitemapsLayer(ILocalBrowserLayerType):
+    """Marker interface that defines browser layer for the package."""

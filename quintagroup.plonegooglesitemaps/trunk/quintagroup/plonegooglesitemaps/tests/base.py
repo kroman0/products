@@ -10,6 +10,7 @@ import unittest
 from zope.testing import doctestunit
 from zope.interface import Interface
 from zope.component import testing
+from zope.interface import alsoProvides
 from Testing import ZopeTestCase as ztc
 
 from Products.Five import zcml
@@ -26,7 +27,9 @@ from XMLParser import parse, hasURL
 import quintagroup.plonegooglesitemaps
 from quintagroup.plonegooglesitemaps.config import PROJECTNAME
 from quintagroup.plonegooglesitemaps.config import ping_googlesitemap
+from quintagroup.plonegooglesitemaps.config import SUPPORT_BLAYER 
 from quintagroup.plonegooglesitemaps.browser import mobilesitemapview
+from quintagroup.plonegooglesitemaps.interfaces import IGoogleSitemapsLayer
 
 quintagroup.plonegooglesitemaps.config.testing = 1
 quintagroup.plonegooglesitemaps.config.UPDATE_CATALOG = True
@@ -69,6 +72,7 @@ class MixinTestCase(object):
         self.loginAsPortalOwner()
         self.workflow = self.portal.portal_workflow
         self.orig_mobile_ifaces = None
+        alsoProvides(self.portal.REQUEST, IGoogleSitemapsLayer)
 
     def patchMobile(self):
         # patch mobile sitemap view

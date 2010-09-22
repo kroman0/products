@@ -2,14 +2,17 @@
 # Tests for quintagroup.plonegooglesitemaps upgrading
 #
 
+import logging 
 from base import *
 from zope.component import getSiteManager
+from StringIO import StringIO
 
 from Products.CMFPlone.utils import _createObjectByType
 from Products.GenericSetup.upgrade import _upgrade_registry
 from archetypes.schemaextender.interfaces import ISchemaExtender
 from quintagroup.plonegooglesitemaps import config
 from quintagroup.plonegooglesitemaps import upgrades as gsm_upgrades
+from quintagroup.plonegooglesitemaps import setuphandlers as sh
 from quintagroup.canonicalpath.interfaces import ICanonicalPath
 from quintagroup.canonicalpath.interfaces import ICanonicalLink
 
@@ -103,11 +106,89 @@ class TestUpgrade(TestCase):
             upgrades[2].handler = gsm_upgrades.upgrade_1_1_to_1_2
             self.setup.setLastVersionForProfile(self.profile, orig_ver)
 
+try:
+    from Products.qPloneGoogleSitemaps.content.sitemap import Sitemap as OldSitemap
+except ImportError:
+    PRESENT_OLD_PRODUCT = False
+else:
+    PRESENT_OLD_PRODUCT = True
+    
+class TestMigrationFromProduct(TestCase):
+
+    def afterSetUp(self):
+        super(TestMigrationFromProduct, self).afterSetUp()
+        self.patch_logger()
+        self.gs = self.portal.portal_setup
+        self.profile = u'profile-quintagroup.plonegooglesitemaps:migrate_qPGSM'
+        self.step = "migrate_qPGSM"
+
+    def patch_logger(self):
+        logger = logging.Logger("test:GSM", logging.NOTSET)
+        self.log = StringIO()
+        self.thndlr = logging.StreamHandler(self.log)
+        self.thndlr.setLevel(logging.DEBUG)
+        self.thndlr.setFormatter(logging.Formatter("%(message)s"))
+        logger.addHandler(self.thndlr)
+
+        self.orig_logger = sh.logger
+        sh.logger = logger
+
+    def beforeTearDown(self):
+        sh.logger = self.orig_logger
+
+    def chkLog(self, chkstr):
+        self.thndlr.flush()
+        self.log.seek(0)
+        logs = self.log.getvalue().split('\n')
+        return chkstr in logs
+
+    def testRemoveOldConfiglet(self):
+        chk_str = "Unregistered 'qPloneGoogleSitemaps' "\
+                  "configlet from portal_controlpanel tool."
+        # 1. No qPloneGoogleSitemaps configlet
+        self.gs.runImportStepFromProfile(self.profile, self.step)
+        self.assert_(not self.chkLog(chk_str), self.log.getvalue())
+        # 2. qPloneGoogleSitemaps configlet in portal
+        self.portal.portal_controlpanel.registerConfiglet(
+            id="qPloneGoogleSitemaps", name="qPloneGoogleSitemaps",
+            action="string:")
+        self.gs.runImportStepFromProfile(self.profile, self.step)
+        self.assert_(self.chkLog(chk_str), self.log.getvalue())
+
+    def testRemoveOldSkinLayer(self):
+        chk_str = "Removed 'qPloneGoogleSitemaps' from 'Plone Default' skin."
+        # 1. No qPloneGoogleSitemaps layer in portal_skins
+        self.gs.runImportStepFromProfile(self.profile, self.step)
+        self.assert_(not self.chkLog(chk_str), self.log.getvalue())
+        # 2. qPloneGoogleSitemaps layer in portal_skins
+        skins = self.portal.portal_skins
+        skinpath = 'qPloneGoogleSitemaps,' + skins.getSkinPath("Plone Default")
+        skins._getSelections()["Plone Default"] = skinpath
+        self.gs.runImportStepFromProfile(self.profile, self.step)
+        self.assert_(self.chkLog(chk_str), self.log.getvalue())
+
+    def testRecriateOldSitemaps(self):
+        chk_str = "Successfully replaced '/%s/sitemap.xml' Sitemap" \
+                  % self.portal.id
+        # 1. No old sitemap present in portal
+        self.gs.runImportStepFromProfile(self.profile, self.step)
+        self.assert_(not self.chkLog(chk_str), self.log.getvalue())
+        # 2. Add old sitemap object in to portal
+        self.portal.invokeFactory("Sitemap", 'sitemap.xml')
+        self.assert_('sitemap.xml' in self.portal.objectIds(), self.portal.objectIds())
+        sm = self.portal['sitemap.xml']
+        sm.__class__ = OldSitemap
+        self.gs.runImportStepFromProfile(self.profile, self.step)
+        self.assert_(self.chkLog(chk_str), self.log.getvalue())
+        
 
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestUpgrade))
+    if PRESENT_OLD_PRODUCT:
+        suite.addTest(makeSuite(TestMigrationFromProduct))
+
     return suite
 
 if __name__ == '__main__':

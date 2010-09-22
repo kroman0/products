@@ -46,16 +46,16 @@ MIGRATION
     2. Copy Data.fs from old Plone instance to new one.
     3. Start your new zope instance/buildout.
 
-    _Following steps performs in the plone instance_
+    _The following steps are performed in the plone instance_
     4. With portal_migration (ZMI) - upgrade plone instance.
     5. With Quickinstaller tool ("Add-on Products" in plone control panel)
        deinstall old "Plone Google Sitemaps" product and install new version.
-    6. Go to *Import* tab in portal_setup tool (ZMI), choose.
-       Select "Migrate from qPloneGoogleSitemaps to quintagroup.plonegooglesitemaps"
-       profile from selection box and choose same-named import step and push
-       "Import selected steps" button.
+    6. Go to *Import* tab in portal_setup tool (ZMI), select "Migrate from 
+       qPloneGoogleSitemaps to quintagroup.plonegooglesitemaps" profile from
+       selection box and choose same-named import step and push "Import 
+       selected steps" button.
 
-    _And last clean-up steps:_
+    _And the last clean-up steps:_
     7. Remove qPloneGoogleSitemaps product from your zope instance/buildout
        configuration.
 

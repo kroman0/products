@@ -33,6 +33,32 @@ To enable Google Sitemaps on your site:
 
 See detailed instructions on Plone Google Sitemaps usage at http://projects.quintagroup.com/products/wiki/qPloneGoogleSitemaps
 
+MIGRATION
+=========
+
+If you UPGRADE older version of quintagroup.plonegooglesitemaps package to newer:
+---------------------------------------------------------------------------------
+
+* In your zope instance configuration or buildout - replace old package version with a new one.
+* Run plone instance and reinstall package with Quickinstaller tool ("Add-on Products" in plone control panel).
+
+If your MIGRATE from Products.qPloneGoogleSitemaps to quintagroup.plonegooglesitemaps:
+--------------------------------------------------------------------------------------
+    
+* Add to new plone instance/buildout both qPloneGoogleSitemaps product and last version quintagroup.plonegooglesitemaps package.
+* Copy Data.fs from old Plone instance to new one.
+* Start your new zope instance/buildout.
+
+The following steps are performed in the plone instance:
+
+* With portal_migration (ZMI) - upgrade plone instance.
+* With Quickinstaller tool ("Add-on Products" in plone control panel) deinstall old "Plone Google Sitemaps" product and install new version.
+* Go to *Import* tab in portal_setup tool (ZMI), select "Migrate from qPloneGoogleSitemaps to quintagroup.plonegooglesitemaps" profile from selection box and choose same-named import step and push "Import selected steps" button.
+
+And the last clean-up step:
+
+* Remove qPloneGoogleSitemaps product from your zope instance/buildout configuration.
+
 Screencast
 ----------
 

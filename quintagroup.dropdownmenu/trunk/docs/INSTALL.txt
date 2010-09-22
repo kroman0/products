@@ -6,7 +6,7 @@ quintagroup.dropdownmenu installation
   [buildout]
   ...
   extends =
-    http://good-py.appspot.com/release/plone.app.registry/1.0b2
+    http://good-py.appspot.com/release/plone.app.registry/1.0b2  
 
 * Add ``quintagroup.dropdownmenu`` to the list of eggs to install::
 

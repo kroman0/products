@@ -26,3 +26,9 @@ AVAILABLE_WF_SCRIPTS = [ping_googlesitemap, '']
 UPDATE_CATALOG = False
 # DO REBUILDING catalog
 # UPDATE_CATALOG = True
+
+SUPPORT_BLAYER = True
+try:
+    from plone import browserlayer
+except ImportError:
+    SUPPORT_BLAYER = False

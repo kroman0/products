@@ -1,3 +1,4 @@
+import sys
 from AccessControl import allow_module
 
 allow_module('quintagroup.plonegooglesitemaps.utils.py')

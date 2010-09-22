@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0'
+version = '1.1'
 
 setup(name='quintagroup.dropdownmenu',
       version=version,
@@ -15,8 +15,8 @@ setup(name='quintagroup.dropdownmenu',
         "Topic :: Software Development :: Libraries :: Python Modules",
         ],
       keywords='web plone menu',
-      author='Vitaliy Podoba',
-      author_email='piv@quintagroup.com',
+      author='Quintagroup',
+      author_email='support@quintagroup.com',
       url='http://svn.quintagroup.com/products/quintagroup.dropdownmenu',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),

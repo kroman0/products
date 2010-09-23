@@ -16,37 +16,37 @@ containers, it opened opportunity to build nested actions trees. Though CMF Acti
 Category does not behave as a regular action, it has different set of properties. 
 We introduced convention in quintagroup.dropdownmenu that requires to have 
 a specially named Action for each Actions Category. The id of each such action 
-must be build using the rule: 
+must be build using the rule::
   
-    action_id = prefix + category_id + suffix
+  action_id = prefix + category_id + suffix
    
 where:
   
-    'category_id' is id of correspondent CMF Action Category
-    'prefix' defined in DropDownMenu configlet, default value ''
-    'suffix' defined in DropDownMenu configlet, default value '_sub'
+:category_id: is id of correspondent CMF Action Category    
+:prefix: defined in DropDownMenu configlet, default value ''
+:suffix: defined in DropDownMenu configlet, default value '_sub'
 
-So, the actions structure can look like:
+So, the actions structure can look like::
 
-    / portal_tabs
-    |- home
-    |- blog_sub
-    |-/ blog
-    | |-- 2009
-    | |-- 2010
+  + portal_tabs
+  |- home
+  |- blog_sub
+  |-+ blog
+  | |-- 2009
+  | |-- 2010
      
 By default the root of dropdown menu is 'portal_tabs' category.
  
 Compatibility
------------
+-------------
 
-  Plone 3.0 - 3.3
-  Plone 4
-
+* **Plone 4** sample CSS file based on Sunburst theme provided
+* **Plone 3.0-3.3** the default CSS file has to be overridden
 
 Installation
 ------------
 
-  * add quintagroup.dropdownmenu to your buildout
-  * install in Plone with Quick Installer
-  * find more details inside docs/INSTALL.txt 
+* add http://good-py.appspot.com/release/plone.app.registry/1.0b2 to your versions
+* add quintagroup.dropdownmenu to your buildout
+* install in Plone with Quick Installer
+* find more details inside docs/INSTALL.txt 

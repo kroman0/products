@@ -19,6 +19,11 @@ REQUIREMENTS = ['PloneFormGen',] + PACKAGES
 
 ptc.setupPloneSite()
 
+# !!! Not initialized factory methods for the content types
+# !!! (for Plone-4+) if located in NotInstalled.setUp
+# !!! method of the layer class.
+ztc.installProduct('PloneFormGen')
+
 class NotInstalled(PloneSite):
     """ Only package register, without installation into portal
     """
@@ -28,7 +33,6 @@ class NotInstalled(PloneSite):
         import quintagroup.pfg.captcha
         zcml.load_config('configure.zcml', quintagroup.pfg.captcha)
         fiveconfigure.debug_mode = False
-        ztc.installProduct('PloneFormGen')
         ztc.installPackage('quintagroup.pfg.captcha')
         ztc.installPackage('quintagroup.captcha.core')
 

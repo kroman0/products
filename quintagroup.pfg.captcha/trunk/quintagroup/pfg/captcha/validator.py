@@ -1,13 +1,11 @@
 from Products.CMFCore.utils import getToolByName
 from Products.validation import validation
 from Products.validation.interfaces.IValidator import IValidator
-from zope.interface import implements
-
 from Products.CMFPlone.utils import safe_hasattr
 
-class CaptchaValidator:
+from config import PLONE_VERSION
 
-    implements(IValidator)
+class CaptchaValidator:
 
     name = 'CaptchaValidator'
     title = ""
@@ -27,5 +25,11 @@ class CaptchaValidator:
             return ("%(problem)s" % {'problem' : result.errors['key'][0]})
         else:
             return 1
+
+if PLONE_VERSION == 4:
+    from zope.interface import classImplements
+    classImplements(CaptchaValidator, IValidator)
+else:
+    CaptchaValidator.__implements__ = (IValidator,)
 
 validation.register(CaptchaValidator('isCaptchaCorrect'))

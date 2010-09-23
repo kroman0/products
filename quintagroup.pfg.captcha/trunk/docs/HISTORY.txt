@@ -1,6 +1,16 @@
 Changelog
 =========
 
+1.0.4 (2010-09-23)
+------------------
+
+* Fixed conflict with declaration of implemented
+  interface by validator class for plone 3.x and 4.x,
+  [mylan]
+* Fixed some tests breakage in plone-4,
+  [mylan]
+
+
 1.0.2 (2010-09-08)
 ------------------
 

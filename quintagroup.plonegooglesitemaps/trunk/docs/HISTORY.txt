@@ -7,7 +7,8 @@ Changelog
 * Added migration support from qPloneGoogleSitemaps
   to quintagroup.plonegooglesitemaps with tests,
   [mylan]
-* All views registered to browserlayer,
+* All views registered to browserlayer, refuse from
+  Plone-3.0 support.
   [mylan]
 
 

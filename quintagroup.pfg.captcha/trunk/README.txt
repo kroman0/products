@@ -20,12 +20,11 @@ you will have a new field among fields available for PloneFormGen form - Captcha
 Everything you need to do is to select this field from 'Add..' drop-down menu and save it.
 
 
-Supported Plone version
------------------------
+Supported Plone versions
+------------------------
 
 * 3.x
-
-quintagroup.pfg.captcha was tested with Plone 3.0.6, 3.1.7, 3.2.3, and 3.3.4.
+* 4.0
 
 Links
 -----

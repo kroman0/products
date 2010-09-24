@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.4 (2010-09-23)
+1.0.4 (2010-09-24)
 ------------------
 
 * Fixed conflict with declaration of implemented

@@ -8,9 +8,9 @@ Usage
 
   quintagroup.pfg.captcha plugs to PloneFormGen forms, so after successful installation you will have a new field among fields available for PloneFormGen form - Captcha Field. Everything you need to do is to select this field from 'Add..' drop-down menu and save it.
 
-Supported Plone version
+Supported Plone versions
 
-  Plone 3.x
+  Plone 3.x, Plone 4.0
 
 Links
    

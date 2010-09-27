@@ -109,6 +109,10 @@ class StyledColumn(Column):
             current = rows[column_id]
             default = rows[self.trigger]
             # if default is not epty string - than it is same to original value
+            if isinstance(current, str): 
+                current = current.decode('utf-8')
+            if isinstance(default, str):
+                default = default.decode('utf-8')
             if current == default:
                 sclass = self.class_not_changed
             else:

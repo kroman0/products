@@ -35,7 +35,7 @@
 			       value="Select"
 			       onClick=""
 			       i18n:attributes="value label_select;"
-			       tal:attributes="onClick string:javascript:referencebrowser_openBrowser('${startup_directory}','${field_id}', '${at_url}', '${fieldRealName}', '${field_title_id}', '${field_link_id}', this)" />
+			       tal:attributes="onClick string:javascript:referencedatagridbrowser_openBrowser('${startup_directory}','${field_id}', '${at_url}', '${fieldRealName}', '${field_title_id}', '${field_link_id}', this)" />
                     </div>
 		</td>
 

@@ -61,7 +61,7 @@
                 	</tal:comment>
                 
                     <tal:row-loop tal:repeat="rows fielddata" tal:define="newRow python: False">
-                    	<tal:row metal:use-macro="here/datagridwidget_edit_row/macros/edit_row"/>
+                    	<tal:row metal:use-macro="here/referencedatagridwidget_edit_row/macros/edit_row"/>
                     </tal:row-loop>
 
                 	<tal:comment replace="nothing">
@@ -69,7 +69,7 @@
                 	</tal:comment>
                     
 	                <tal:empty-row tal:define="newRow python: True">
-	                	<tal:template metal:use-macro="here/datagridwidget_edit_row/macros/edit_empty_row"/>	                
+	                	<tal:template metal:use-macro="here/referencedatagridwidget_edit_row/macros/edit_empty_row"/>	                
 	                </tal:empty-row>	                	
                  </tbody>
             </table>

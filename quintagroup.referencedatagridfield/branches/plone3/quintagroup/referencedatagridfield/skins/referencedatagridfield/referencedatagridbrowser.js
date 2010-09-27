@@ -134,7 +134,7 @@ function getOrderedElement(widget_id, order_idx) {
 }
 
 
-function referencebrowser_openBrowser(path, fieldName, at_url, fieldRealName, fieldTitleName, fieldLinkName, currnode) {
+function referencedatagridbrowser_openBrowser(path, fieldName, at_url, fieldRealName, fieldTitleName, fieldLinkName, currnode) {
     var url = path + '/referencebrowser_popup?fieldName=' + fieldName + '&fieldRealName=' + fieldRealName +'&at_url=' + at_url;
 
     var order_idx = getOrderIndex(currnode);
@@ -161,7 +161,7 @@ function typeOf(value) {
 }
 
 // function to return a reference from the popup window back into the widget
-function referencebrowser_setReference(widget_id, uid, label, multi, order_idx, widget_title_id, link_title, widget_link_id, link_path)
+function referencedatagridbrowser_setReference(widget_id, uid, label, multi, order_idx, widget_title_id, link_title, widget_link_id, link_path)
 {
     if (order_idx >= 0) {
         // process ReferenceDataGridField

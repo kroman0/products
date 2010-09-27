@@ -275,7 +275,7 @@
                                     <td width="50%">
                                         <img src="#" tal:attributes="src string:${here/portal_url}/${item/getIcon};alt item/Title" />
                                         <a tal:condition="python: item.isPrincipiaFolderish and allow_browse"
-                                           tal:attributes="href python:item.absolute_url() + '/' + template.getId() + '?fieldName='+ fieldName + '&amp;fieldRealName=' + fieldRealName + '&amp;at_url='+at_url + '&amp;order_idx='+order_idx + '&amp;fieldTitleName='+fieldTitleName + '&amp;fieldLinkName='+fieldLinkName">
+                                           tal:attributes="href string:${item/absolute_url}/${template/getId}?fieldName=${fieldName}&amp;fieldRealName=${fieldRealName}&amp;at_url=${at_url}&amp;order_idx=${order_idx}&amp;fieldTitleName=${fieldTitleName}&amp;fieldLinkName=${fieldLinkName}">
                                             <strong tal:condition="referenceable"
                                                     tal:content="item/title_or_id">Title</strong>
                                             <span style="" 

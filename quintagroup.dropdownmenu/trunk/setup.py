@@ -28,6 +28,7 @@ setup(name='quintagroup.dropdownmenu',
           'plone.registry',
           'plone.app.registry',
       ],
+      extras_require=dict(tests=["collective.testcaselayer"]),
       entry_points="""
       [z3c.autoinclude.plugin]
       target = plone

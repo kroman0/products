@@ -27,9 +27,9 @@ def test_suite():
 
 
         # Integration tests that use PloneTestCase
-        ztc.ZopeDocFileSuite(
-            'menu.txt', package='quintagroup.dropdownmenu',
-            test_class=TestCase),
+        #ztc.ZopeDocFileSuite(
+        #    'menu.txt', package='quintagroup.dropdownmenu',
+        #    test_class=TestCase),
 
         #ztc.FunctionalDocFileSuite(
         #    'browser.txt', package='quintagroup.dropdownmenu',

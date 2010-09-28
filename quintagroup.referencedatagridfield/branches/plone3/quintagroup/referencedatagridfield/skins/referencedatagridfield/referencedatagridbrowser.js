@@ -138,7 +138,7 @@ function referencedatagridbrowser_openBrowser(path, fieldName, at_url, fieldReal
     var url = path + '/referencebrowser_popup?fieldName=' + fieldName + '&fieldRealName=' + fieldRealName +'&at_url=' + at_url;
 
     var order_idx = getOrderIndex(currnode);
-    url += (order_idx)? '&order_idx=' + order_idx: "";
+    url += (typeof(order_idx) == 'number')? '&order_idx=' + order_idx: "";
     url += (typeof(fieldTitleName) != 'undefined')? '&fieldTitleName=' + fieldTitleName: "";
     url += (typeof(fieldLinkName) != 'undefined')? '&fieldLinkName=' + fieldLinkName: "";
 

@@ -4,7 +4,11 @@ import datetime
 
 from zopeskel.plone3_theme import Plone3Theme
 from zopeskel.base import get_var
-from zopeskel.base import var
+
+try:
+    from zopeskel.vars import StringVar as str_var
+except ImportError:
+    from zopeskel.vars import var as str_var
 
 class qPlone3Theme(Plone3Theme):
     _template_dir = 'templates/qplone3_theme'
@@ -23,7 +27,7 @@ class qPlone3Theme(Plone3Theme):
     get_var(vars, 'package').default = 'example'
     get_var(vars, 'description').default = 'An installable Quintagroup theme for Plone 3'
     get_var(vars, 'version').default = '0.1'
-    vars.insert(1, var('namespace_package2',
+    vars.insert(1, str_var('namespace_package2',
                         'Nested namespace package (like theme)',
                         default='theme'))
 

@@ -1,0 +1,15 @@
+dl.portlet.portletQCollection dt a {
+  display:inline;
+  }
+.portletNavSection {
+  color:#205c90;
+  float:right;
+  }
+.portletNavSection a.navlink,
+.portletNavSection a.prevlink,
+.portletNavSection a.nextlink {
+  cursor:pointer;
+  }
+.portletNavSection a.navlink.selected {
+  color:#75AD0A; 
+  }

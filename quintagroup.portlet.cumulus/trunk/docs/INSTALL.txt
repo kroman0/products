@@ -1,5 +1,5 @@
-quintagroup.portlet.cumulus Installation
-=======================
+Installation
+============
 
  * When you're reading this you have probably already run
    ``easy_install quintagroup.portlet.cumulus``. Find out how to install setuptools
@@ -23,7 +23,7 @@ recipe to manage your project, you can do this:
         ...
         quintagroup.portlet.cumulus
 
-  * Tell the plone.recipe.zope2instance recipe to install a ZCML slug:
+ * Tell the plone.recipe.zope2instance recipe to install a ZCML slug:
 
     [instance]
     recipe = plone.recipe.zope2instance
@@ -35,5 +35,9 @@ recipe to manage your project, you can do this:
 
     $ ./bin/buildout
 
-You can skip the ZCML slug if you are going to explicitly include the package
-from another package's configure.zcml file.
+  * Restart instance, e.g. with:
+
+    $ ./bin/instance restart
+
+  * Install Tag cloud (cumulus) portlet with Quickinstaller in Plone. 
+

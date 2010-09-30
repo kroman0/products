@@ -14,48 +14,31 @@ tags when rendered inside blog.
 Usage
 -----
 
-* Install "Tag cloud (cumulus) portlet" with QuickInstaller.
+* On the page you want to add such portlet go to portlet management area and select 
+  'Tag Cloud (cumulus) portlet from Add portlet... drop-down menu 
 
-* Select Tag Cloud (cumulus) portlet from Add portlet drop-down menu.
+* Provide your own values for portlet configuration
 
-* Provide your own values for portlet configuration if needed.
+* Save changes
 
-* Save changes.
+* The portlet will now display a cloud of keywords/tags used on your Plone site. 
 
-Supported Plone version
+Cumulus Portlet options
 -----------------------
 
-* 3.x
+It is possible to set cumulus portlet options so that it fits your site design, color
+scheme etc. When you create cumulus portlet you can specify:
 
-FAQ
----
+* Width and height of the flash tag cloud portlet
+* Smallest and largest tag size
+* Main and optionally second color of the tags for creating multi-colored tag cloud
+* Optional highlight color when mouse is over it and background portlet color
+* Transparent or compatibility mode
+* Rotation speed 
 
-From what version of WP-Cumulus WordPress plugin this product was ported?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Supported Plone versions
+------------------------
 
-It's ported from WP-Cumulus 1.20.
+* Plone 4.0
+* Plone 3.x
 
-Some characters are not showing up
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Because of the way Flash handles text, only Latin characters are supported in 
-the current version. This is due to a limitation where in order to be able to 
-animate text fields smoothly the glyphs need to be embedded in the movie. The 
-Flash movie's source code is available for download through Subversion. Doing so 
-will allow you to create a version for your language. There's a text field in 
-the root of the movie that you can use to embed more characters. If you change 
-to another font, you'll need to edit the Tag class as well.
-
-Where can I find more information?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-WP-Cumulus WordPress plugin homepage: http://wordpress.org/extend/plugins/wp-cumulus/.
-
-Author
-------
-
-* Bohdan Koval
-
-Copyright (c) "Quintagroup": http://quintagroup.com/, 2009.
-
-support@quintagroup.com * quintessence of modern business

@@ -1,19 +1,7 @@
-quintagroup.portlet.collection installation
--------------------------------------------
+Installation
+------------
 
-To install quintagroup.portlet.collection into the global Python environment
-(or a workingenv), using a traditional Zope 2 instance, you can do this:
-
-* Copy ``quintagroup`` folder to the ``/path/to/instance/lib/python`` directory.
-
-* Create a file called ``quintagroup.portlet.collection-configure.zcml`` in the
-  ``/path/to/instance/etc/package-includes`` directory.  The file
-  should only contain this::
-
-    <include package="quintagroup.portlet.collection" />
-
-Alternatively, if you are using zc.buildout and the plone.recipe.zope2instance
-recipe to manage your project, you can do this:
+To install  quintagroup.portlet.collection to your buildout installation, open buildout.cfg file and:
 
 * Add ``quintagroup.portlet.collection`` to the list of eggs to install, e.g.::
 
@@ -39,6 +27,7 @@ After that:
 
 * Restart Zope server process, for example, with the following command in the terminal::
 
-   $ ./bin/zopectl restart
+   $ ./bin/instance restart
 
-Then install quintagroup.portlet.collection with Quickinstaller in Plone.
+Then install Quintagroup collection portlet with Quickinstaller in Plone.
+

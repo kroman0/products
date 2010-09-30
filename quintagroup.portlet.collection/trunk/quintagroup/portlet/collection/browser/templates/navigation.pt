@@ -3,8 +3,7 @@
   <tal:block repeat="batch options/batches">
     <a class="navlink" style='display: none'>
       <span class="navlinkValue" tal:content="repeat/batch/number"/>
-      <span class="navlinkSeparator" tal:condition="not:repeat/batch/end">|</span>
-    </a>
+    </a><span class="navlinkSeparator" tal:condition="not:repeat/batch/end">|</span>
   </tal:block>
   <a class='nextlink' style="display:none">&#62;</a>
 </tal:navigation>

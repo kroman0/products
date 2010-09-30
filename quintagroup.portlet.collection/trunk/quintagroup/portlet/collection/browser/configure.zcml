@@ -21,4 +21,10 @@
       name="batch_size_enable.js"
       file="resources/batch_size_enable.js" />
 
+  <!-- Register resources -->
+  <browser:resource
+      name="batch_qcollective.css"
+      file="resources/batch_qcollective.css"
+      />
+
 </configure>

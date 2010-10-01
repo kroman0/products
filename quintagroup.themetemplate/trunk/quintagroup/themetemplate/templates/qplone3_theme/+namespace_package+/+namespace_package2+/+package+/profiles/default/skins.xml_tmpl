@@ -12,7 +12,7 @@
        -->
 #end if
 <object name="portal_skins" allow_any="False" cookie_persistence="False"
-   default_skin="$skinname">
+   default_skin="$skinname" request_varname="plone_skin">
 
 #if str($include_doc) == 'True'
  <!-- This list registers the folders that are stored in the skins directory

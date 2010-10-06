@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:define="infos view/getPropsList">
+    <head>
+        <title>Properties stats</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="++resource++stats_style.css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Properties stats</h1>
+            <div id="navigation">
+                <a href="@@ownership_by_type">Ownership by type</a> |
+                <a href="@@ownership_by_state">Ownership by state</a> |
+                <a href="@@type_by_state">Types by state</a> |
+                <a href="@@legacy_portlets">Legacy portlets</a> |
+                <a class="current" href="@@properties_stats">Properties stats</a> |
+                <a href="@@portlets_stats">Portlets stats</a>
+            </div>
+            <form action="" method="get">
+                Walk through site up to this level (type -1 for no limits):
+                <input type="text" name="level" size="5" value="1" tal:attributes="value request/level|python:1" />
+                <br>
+                Property name
+                <input type="text" name="propname" size="10" tal:attributes="value request/propname|string:" />
+                CSV
+                <input type="checkbox" name="csv" size="40" tal:attributes="checked request/csv|python:0" />
+                <input type="submit" name="submit" value="Submit" />
+            </form>
+        </div>
+        <div>
+             <span tal:repeat="prop view/proplist">
+                 <span tal:replace="prop"/>,
+             </span>
+             <hr>
+        </div>
+        <div tal:condition="request/csv|nothing">
+            <nobr>path,<span tal:replace="view/propname" /><br /></nobr>
+            <nobr tal:repeat="info infos">
+                <span tal:replace="info/path">
+                    path
+                </span>,<span 
+                tal:condition="info/slots">"<span
+                tal:condition="python:not isinstance(info['slots'],basestring)"
+                tal:repeat="slot info/slots"><span 
+                tal:replace="slot" />;</span><span
+                tal:condition="python:isinstance(info['slots'],basestring)"
+                tal:replace="info/slots">string</span>"</span><span
+                tal:condition="python:info['slots'] is None">None</span><br />
+            </nobr>
+        </div>
+        <table style="margin: 0 auto;" tal:condition="not:request/csv|nothing">
+            <tr>
+                <th></th>
+                <th tal:content="view/propname">Property</th>
+            </tr>
+            <tr tal:repeat="info view/getPropsList">
+                <th><a href="#" tal:content="info/path" tal:attributes="href info/href">path</a></th>
+                <td>
+                    <ul tal:condition="info/slots">
+                        <li tal:condition="python:not isinstance(info['slots'],basestring)" tal:repeat="slot info/slots" tal:content="slot">slot</li>
+                        <li tal:condition="python:isinstance(info['slots'],basestring)" tal:content="info/slots">string</li>
+                    </ul>
+                    <span class="none" tal:condition="python:info['slots'] is None">doesn't exist</span>
+                </td>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <td tal:content="view/getTotal">123</td>
+            </tr>
+            <tr>
+                <th>Expressions</th>
+                <td>
+                    <ul>
+                        <li tal:repeat="expr view/getAllPortletExpressions" tal:content="expr">expressions</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

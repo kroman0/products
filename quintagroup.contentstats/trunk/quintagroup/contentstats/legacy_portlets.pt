@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:define="infos view/getPortlets">
+    <head>
+        <title>Legacy portlets</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="++resource++stats_style.css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Legacy portlets</h1>
+            <div id="navigation">
+                <a href="@@ownership_by_type">Ownership by type</a> |
+                <a href="@@ownership_by_state">Ownership by state</a> |
+                <a href="@@type_by_state">Types by state</a> |
+                <a class="current" href="@@legacy_portlets">Legacy portlets</a> |
+                <a href="@@properties_stats">Properties stats</a> |
+                <a href="@@portlets_stats">Portlets stats</a>
+            </div>
+            <form action="" method="get">
+                Walk through site up to this level (type -1 for no limits):
+                <input type="text" name="level" size="5" value="1" tal:attributes="value request/level|python:1" />
+                <br>
+                CSV
+                <input type="checkbox" name="csv" tal:attributes="checked request/csv|python:0" />
+                <input type="submit" name="submit" value="Submit" />
+            </form>
+        </div>
+        <div tal:condition="request/csv|nothing">
+            <nobr>path,left_slots,right_slots</nobr><br>
+            <nobr tal:repeat="info infos">
+                <span tal:content="info/path">path</span>,
+                <span tal:condition="info/left_slots">"
+                    <span tal:repeat="slot info/left_slots">
+                        <span tal:content="slot" />;
+                    </span>"
+                </span>
+                <span tal:condition="python:info['left_slots'] is None">None</span>,
+                <span tal:condition="info/right_slots">"
+                    <span tal:repeat="slot info/right_slots">
+                        <span tal:content="slot" />;
+                    </span>"
+                </span>
+                <span tal:condition="python:info['right_slots'] is None">None</span>
+                <br>
+            </nobr>
+        </div>
+        <table style="margin: 0 auto;" tal:condition="not:request/csv|nothing">
+            <tr>
+                <th></th>
+                <th>left_slots</th>
+                <th>right_slots</th>
+            </tr>
+            <tr tal:repeat="info infos">
+                <th><a href="#" tal:content="info/path" tal:attributes="href info/href">path</a></th>
+                <td>
+                    <ul tal:condition="info/left_slots">
+                        <li tal:repeat="slot info/left_slots" tal:content="slot">slot</li>
+                    </ul>
+                    <span tal:condition="python:info['left_slots'] is None">doesn't exist</span>
+                </td>
+                <td>
+                    <ul tal:condition="info/right_slots">
+                        <li tal:repeat="slot info/right_slots" tal:content="slot">slot</li>
+                    </ul>
+                    <span tal:condition="python:info['right_slots'] is None">doesn't exist</span>
+                </td>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <td colspan="2" tal:content="view/getTotal">123</td>
+            </tr>
+            <tr>
+                <th>Expressions</th>
+                <td colspan="2">
+                    <ul>
+                        <li tal:repeat="expr view/getAllPortletExpressions" tal:content="expr">expressions</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

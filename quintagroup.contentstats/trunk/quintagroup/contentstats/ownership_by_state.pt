@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal">
+    <head>
+        <title>Content ownership by state</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="++resource++stats_style.css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Content ownership by state</h1>
+            <div id="navigation">
+                <a href="@@ownership_by_type">Ownership by type</a> |
+                <a class="current" href="@@ownership_by_state">Ownership by state</a> |
+                <a href="@@type_by_state">Types by state</a> |
+                <a href="@@legacy_portlets">Legacy portlets</a> |
+                <a href="@@properties_stats">Properties stats</a> |
+                <a href="@@portlets_stats">Portlets stats</a>
+            </div>
+        </div>
+        <div id="chart" tal:content="structure view/getChart">
+            Chart will be here
+        </div>
+        <table style="margin: 0 auto;">
+            <tr>
+                <th></th>
+                <th tal:repeat="user view/getUsers" tal:content="user">User</th>
+            </tr>
+            <tr tal:repeat="type view/getStates">
+                <th tal:content="type">Document</th>
+                <td tal:repeat="count python:view.getContent(type)" tal:content="count">123</td>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <td tal:repeat="total view/getTotal" tal:content="total">123</td>
+            </tr>
+        </table>
+    </body>
+</html>

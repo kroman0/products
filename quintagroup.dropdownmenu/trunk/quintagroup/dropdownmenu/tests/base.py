@@ -14,6 +14,7 @@ from Products.CMFCore.utils import getToolByName
 from quintagroup.dropdownmenu.interfaces import IDropDownMenuLayer
 
 PROJECT_NAME = "quintagroup.dropdownmenu"
+IPREFIX = 'quintagroup.dropdownmenu.interfaces.IDropDownMenuSettings.'
 
 # This step made in collective.testcaselayer.ptc
 #ptc.setupPloneSite()

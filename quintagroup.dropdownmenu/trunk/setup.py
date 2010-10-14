@@ -3,6 +3,9 @@ import os
 
 version = '1.1.1'
 
+tests_require=['zope.testing',
+               'collective.testcaselayer']
+
 setup(name='quintagroup.dropdownmenu',
       version=version,
       description="Multilevel portal dropdown menu for Plone sites.",
@@ -28,7 +31,9 @@ setup(name='quintagroup.dropdownmenu',
           'plone.registry',
           'plone.app.registry',
       ],
-      extras_require=dict(tests=["collective.testcaselayer"]),
+      tests_require=tests_require,
+      extras_require=dict(tests=tests_require),
+      test_suite = 'quintagroup.dropdownmenu.tests',
       entry_points="""
       [z3c.autoinclude.plugin]
       target = plone

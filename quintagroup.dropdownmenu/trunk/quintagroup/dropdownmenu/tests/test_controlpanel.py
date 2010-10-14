@@ -1,23 +1,18 @@
 # -*- coding: utf-8 -*-
 import unittest
-
 from plone.registry import Registry
 
-from Products.CMFCore.utils import getToolByName
-from Products.PloneTestCase.ptc import PloneTestCase
+from base import *
 
 from quintagroup.dropdownmenu.interfaces import IDropDownMenuSettings
-from quintagroup.dropdownmenu.tests.layer import DropDownMenuLayer
-
 
 IPREFIX = 'quintagroup.dropdownmenu.interfaces.IDropDownMenuSettings.'
 
-class RegistryTest(PloneTestCase):
-
-    layer = DropDownMenuLayer
+class RegistryTest(TestCase):
 
     def afterSetUp(self):
         # Set up the registry
+        super(RegistryTest, self).afterSetUp()
         self.registry = Registry()
         self.registry.registerInterface(IDropDownMenuSettings)
 

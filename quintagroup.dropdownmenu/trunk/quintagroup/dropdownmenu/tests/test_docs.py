@@ -1,17 +1,9 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from zope.testing import doctestunit
-from zope.component import testing
-from Testing import ZopeTestCase as ztc
-
-from Products.PloneTestCase import ptc
-
-from quintagroup.dropdownmenu.tests.layer import DropDownMenuLayer
-
-
-class TestCase(ptc.PloneTestCase):
-    layer = DropDownMenuLayer
+#from zope.testing import doctestunit
+#from zope.component import testing
+from base import TestCase, ztc
 
 def test_suite():
     return unittest.TestSuite([

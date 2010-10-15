@@ -26,11 +26,16 @@ body {
   }
 #portal-globalnav li a {
   display:block;
+  line-height:2em;
+  padding:1px 1em 21px;
   }
-#portal-globalnav li.selected a,
-#portal-globalnav li.selected a:hover {
+#portal-globalnav li.selected a {
   background-color:#205C90;
   color:#fff;
+  }
+#portal-globalnav li a span {
+  cursor:pointer; /* fix ie */
+  display:block; /* fix ie */
   }
 
 /*----- DropDown -----*/
@@ -74,3 +79,12 @@ body {
   background-repeat:no-repeat;
   background-color:#205C90;
   }
+#portal-globalnav:hover li:hover > a {
+  background-color:#205C90;
+  color:#fff;
+  }
+#portal-globalnav:hover li:hover ul > a {
+  background-color:#ddd;
+  color:#205C90;
+  }
+

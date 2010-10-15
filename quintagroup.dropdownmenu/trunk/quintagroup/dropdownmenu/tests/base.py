@@ -11,9 +11,9 @@ from collective.testcaselayer.ptc import BasePTCLayer, ptc_layer
 
 from Products.CMFCore.utils import getToolByName
 
+from quintagroup.dropdownmenu import PROJECT_NAME
 from quintagroup.dropdownmenu.interfaces import IDropDownMenuLayer
 
-PROJECT_NAME = "quintagroup.dropdownmenu"
 IPREFIX = 'quintagroup.dropdownmenu.interfaces.IDropDownMenuSettings.'
 
 # This step made in collective.testcaselayer.ptc
@@ -44,7 +44,7 @@ class UnInstalled(BasePTCLayer):
         try:
             qi = self.portal.portal_quickinstaller
             qi.uninstallProducts(products=[PROJECT_NAME,])
-            self._refreshSkinData()
+            #self._refreshSkinData()
         finally:
             setSecurityManager(sm)
 

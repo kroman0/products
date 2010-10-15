@@ -6,8 +6,6 @@ from base import *
 
 from quintagroup.dropdownmenu.interfaces import IDropDownMenuSettings
 
-IPREFIX = 'quintagroup.dropdownmenu.interfaces.IDropDownMenuSettings.'
-
 class RegistryTest(TestCase):
 
     def afterSetUp(self):

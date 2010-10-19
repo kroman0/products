@@ -1,13 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
-      tal:define="infos view/getPropsList">
-    <head>
-        <title>Properties stats</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" type="text/css" href="++resource++stats_style.css" />
-    </head>
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/prefs_main_template/macros/master">
+
+<metal:main metal:fill-slot="prefs_configlet_main"
+            i18n:domain="quintagroup.analytics"
+            tal:define="infos view/getPropsList">
     <body>
         <div id="wrapper">
             <h1>Properties stats</h1>
@@ -41,17 +41,18 @@
             <nobr tal:repeat="info infos">
                 <span tal:replace="info/path">
                     path
-                </span>,<span 
+                </span>,<span
                 tal:condition="info/slots">"<span
                 tal:condition="python:not isinstance(info['slots'],basestring)"
-                tal:repeat="slot info/slots"><span 
+                tal:repeat="slot info/slots"><span
                 tal:replace="slot" />;</span><span
                 tal:condition="python:isinstance(info['slots'],basestring)"
                 tal:replace="info/slots">string</span>"</span><span
                 tal:condition="python:info['slots'] is None">None</span><br />
             </nobr>
         </div>
-        <table style="margin: 0 auto;" tal:condition="not:request/csv|nothing">
+        <table class="listing"
+               tal:condition="not:request/csv|nothing">
             <tr>
                 <th></th>
                 <th tal:content="view/propname">Property</th>
@@ -80,4 +81,5 @@
             </tr>
         </table>
     </body>
+  </metal:main>
 </html>

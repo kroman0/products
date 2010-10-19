@@ -3,9 +3,9 @@ import os
 
 version = '1.0'
 
-setup(name='quintagroup.contentstats',
+setup(name='quintagroup.analytics',
       version=version,
-      description="Plone site's content statistics",
+      description="Plone site's statistics",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
@@ -17,7 +17,7 @@ setup(name='quintagroup.contentstats',
       keywords='',
       author='Quintagroup',
       author_email='support@quintagroup.com',
-      url='http://svn.quintagroup.com/eubusiness/packages/quintagroup.contentstats',
+      url='http://svn.quintagroup.com/products/quintagroup.analytics',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['quintagroup'],

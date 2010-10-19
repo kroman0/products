@@ -10,12 +10,12 @@
         <div id="wrapper">
             <h1>Content ownership by type</h1>
             <ul class="formTabs" id="navigation">
-                <li class="formTab"><a class="selected" href="@@ownership_by_type">Ownership by type</a>
-                <li class="formTab"><a href="@@ownership_by_state">Ownership by state</a>
-                <li class="formTab"><a href="@@type_by_state">Types by state</a>
-                <li class="formTab"><a href="@@legacy_portlets">Legacy portlets</a>
-                <li class="formTab"><a href="@@properties_stats">Properties stats</a>
-                <li class="formTab"><a href="@@portlets_stats">Portlets stats</a>
+                <li class="formTab"><a class="selected" href="@@ownership_by_type">Ownership by type</a></li>
+                <li class="formTab"><a href="@@ownership_by_state">Ownership by state</a></li>
+                <li class="formTab"><a href="@@type_by_state">Types by state</a></li>
+                <li class="formTab"><a href="@@legacy_portlets">Legacy portlets</a></li>
+                <li class="formTab"><a href="@@properties_stats">Properties stats</a></li>
+                <li class="formTab"><a href="@@portlets_stats">Portlets stats</a></li>
             </ul>
         </div>
         <div id="chart" tal:content="structure view/getChart">

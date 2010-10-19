@@ -9,14 +9,14 @@
     <body>
         <div id="wrapper">
             <h1>Content type by state</h1>
-            <div id="navigation">
-                <a href="@@ownership_by_type">Ownership by type</a> |
-                <a href="@@ownership_by_state">Ownership by state</a> |
-                <a class="current" href="@@type_by_state">Types by state</a> |
-                <a href="@@legacy_portlets">Legacy portlets</a> |
-                <a href="@@properties_stats">Properties stats</a> |
-                <a href="@@portlets_stats">Portlets stats</a>
-            </div>
+            <ul class="formTabs" id="navigation">
+                <li class="formTab"><a href="@@ownership_by_type">Ownership by type</a>
+                <li class="formTab"><a href="@@ownership_by_state">Ownership by state</a>
+                <li class="formTab"><a class="selected" href="@@type_by_state">Types by state</a>
+                <li class="formTab"><a href="@@legacy_portlets">Legacy portlets</a>
+                <li class="formTab"><a href="@@properties_stats">Properties stats</a>
+                <li class="formTab"><a href="@@portlets_stats">Portlets stats</a>
+            </ul>
         </div>
         <div id="chart" tal:content="structure view/getChart">
             Chart will be here

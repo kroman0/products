@@ -1,7 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
-    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="quintagroup.analytics">
 
     <!-- make plone site object traversable -->
@@ -9,57 +9,14 @@
         class="Products.CMFPlone.Portal.PloneSite"
         /-->
 
-    <browser:page
-        name="ownership_by_type"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        permission="zope2.ViewManagementScreens"
-        class=".browser.OwnershipByType"
-        template="ownership_by_type.pt"
-        />
+    <include package=".browser" />
 
-    <browser:page
-        name="ownership_by_state"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        permission="zope2.ViewManagementScreens"
-        class=".browser.OwnershipByState"
-        template="ownership_by_state.pt"
-        />
-
-    <browser:page
-        name="type_by_state"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        permission="zope2.ViewManagementScreens"
-        class=".browser.TypeByState"
-        template="type_by_state.pt"
-        />
-
-    <browser:page
-        name="legacy_portlets"
-        for="*"
-        permission="zope2.ViewManagementScreens"
-        class=".browser.LegacyPortlets"
-        template="legacy_portlets.pt"
-        />
-
-    <browser:page
-        name="properties_stats"
-        for="*"
-        permission="zope2.ViewManagementScreens"
-        class=".browser.PropertiesStats"
-        template="properties_stats.pt"
-        />
-
-    <browser:page
-        name="portlets_stats"
-        for="*"
-        permission="zope2.ViewManagementScreens"
-        class=".browser.PortletsStats"
-        template="portlets_stats.pt"
-        />
-
-    <browser:resource
-        name="stats_style.css"
-        file="stats_style.css"
-        />
+  <genericsetup:registerProfile
+      name="QAnalytics"
+      title="Quintagroup Analytics"
+      directory="profiles/default"
+      description="Profile for a Quintagroup Analytics."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
 
 </configure>

@@ -1,12 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal">
-    <head>
-        <title>Content ownership by state</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" type="text/css" href="++resource++stats_style.css" />
-    </head>
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/prefs_main_template/macros/master">
+
+<metal:main metal:fill-slot="prefs_configlet_main" i18n:domain="quintagroup.analytics">
     <body>
         <div id="wrapper">
             <h1>Content ownership by state</h1>
@@ -22,7 +21,7 @@
         <div id="chart" tal:content="structure view/getChart">
             Chart will be here
         </div>
-        <table style="margin: 0 auto;">
+        <table class="listing">
             <tr>
                 <th></th>
                 <th tal:repeat="user view/getUsers" tal:content="user">User</th>
@@ -37,4 +36,5 @@
             </tr>
         </table>
     </body>
+  </metal:main>
 </html>

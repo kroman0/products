@@ -10,6 +10,12 @@ from plone.portlets.interfaces import IPortletManager
 from plone.portlets.interfaces import IPortletAssignmentMapping
 from plone.portlets.interfaces import ILocalPortletAssignmentManager
 from plone.portlets.interfaces import IPortletAssignmentSettings
+try:
+    from plone.portlets.interfaces import IPortletAssignmentSettings
+except ImportError:
+    "Before plon4 we don't have an annotation storage for settings."
+    IPortletAssignmentSettings = lambda assignment:{}
+
 from GChartWrapper import VerticalBarStack
 
 class OwnershipByType(BrowserView):
@@ -82,7 +88,8 @@ class OwnershipByType(BrowserView):
         chart = VerticalBarStack(data, encoding='text')
         chart.title('Content ownership by type').legend(*self.types)
         chart.bar('a', 10, 0).legend_pos("b")
-        chart.color('FF0000', '00FF00', '0000FF', 'FFFF00', 'FF00FF', '00FFFF', 'FF7700', '77FF00', '0077FF', 'FFFF77', 'FF77FF', '77FFFF')
+        chart.color('669933', 'CC9966', '993300', 'FF6633', 'E8E4E3', 'A9A486',
+                    'DCB57E', 'FFCC99', '996633', '333300')
         chart.size(800, 375).scale(0,max_value).axes('xy').label(*self.users)
         chart.axes.type("y")
         chart.axes.range(0,0,max_value)
@@ -159,7 +166,8 @@ class OwnershipByState(BrowserView):
         chart = VerticalBarStack(data, encoding='text')
         chart.title('Content ownership by state').legend(*self.states)
         chart.bar('a', 10, 0).legend_pos("b")
-        chart.color('FF0000', '00FF00', '0000FF', 'FFFF00', 'FF00FF', '00FFFF', 'FF7700', '77FF00', '0077FF', 'FFFF77', 'FF77FF', '77FFFF')
+        chart.color('669933', 'CC9966', '993300', 'FF6633', 'E8E4E3', 'A9A486',
+                    'DCB57E', 'FFCC99', '996633', '333300')
         chart.size(800, 375).scale(0,max_value).axes('xy').label(*self.users)
         chart.axes.type("y")
         chart.axes.range(0,0,max_value)
@@ -237,7 +245,8 @@ class TypeByState(BrowserView):
         chart = VerticalBarStack(data, encoding='text')
         chart.title('Content type by state').legend(*self.states)
         chart.bar('a', 10, 0).legend_pos("b")
-        chart.color('FF0000', '00FF00', '0000FF', 'FFFF00', 'FF00FF', '00FFFF', 'FF7700', '77FF00', '0077FF', 'FFFF77', 'FF77FF', '77FFFF')
+        chart.color('669933', 'CC9966', '993300', 'FF6633', 'E8E4E3', 'A9A486',
+                    'DCB57E', 'FFCC99', '996633', '333300')
         chart.size(800, 375).scale(0,max_value).axes('xy').label(*self.types)
         chart.axes.type("y")
         chart.axes.range(0,0,max_value)
@@ -251,7 +260,7 @@ class LegacyPortlets(BrowserView):
         self.total = None
         self.DEBUG = False
         self.expressions = set()
-        
+
     def _getInfo(self, obj):
         href = obj.absolute_url()
         path = '/'.join(obj.getPhysicalPath())
@@ -312,9 +321,9 @@ class PropertiesStats(BrowserView):
         self.expressions = set()
         self.proplist = []
         self.propname = self.request.form.get('propname') or ""
-        
+
     def _getInfo(self, obj):
-        
+
         href = obj.absolute_url()
         path = '/'.join(obj.getPhysicalPath())
         info = {
@@ -341,7 +350,7 @@ class PropertiesStats(BrowserView):
             for v in obj.contentValues():
                 for i in self._walk(v, level-1):
                     yield i
-    
+
     def getPropsList(self):
         level = self.request.form.get('level', 1)
         level = int(level)
@@ -373,7 +382,7 @@ class PortletsStats(BrowserView):
         self.expressions = set()
         self.proplist = []
         self.propname = self.request.form.get('propname') or ""
-        
+
     def getAssignmentMappingUrl(self, context, manager):
         baseUrl = str(getMultiAdapter((context, self.request), name='absolute_url'))
         return '%s/++contextportlets++%s' % (baseUrl, manager.__name__)
@@ -395,12 +404,12 @@ class PortletsStats(BrowserView):
         leftmanager = getMultiAdapter((context, leftcolumn,), ILocalPortletAssignmentManager)
         rightmanager = getMultiAdapter((context, rightcolumn,), ILocalPortletAssignmentManager)
         return (leftmanager, rightmanager)
-        
+
     def getPortletsManager(self, context):
         left = getUtility(IPortletManager, name='plone.leftcolumn', context=context)
         right = getUtility(IPortletManager, name='plone.rightcolumn', context=context)
         return (left, right)
-    
+
     def portlets_for_assignments(self, assignments, manager, base_url):
         data = []
         for idx in range(len(assignments)):
@@ -422,11 +431,11 @@ class PortletsStats(BrowserView):
                 'visible'    : settings.get('visible', True),
                 })
         return data
-        
+
     def getPortlets(self, context, mapping, manager):
         #import pdb; pdb.set_trace()
         return mapping.keys()
-        
+
     def _getInfo(self, obj):
         href = obj.absolute_url()
         path = '/'.join(obj.getPhysicalPath())
@@ -439,8 +448,8 @@ class PortletsStats(BrowserView):
         left, right = self.getPortletsManager(obj)
         #leftmapping, rightmapping = self.getPortletsMapping(obj)
         #leftmanager, rightmanager = self.getLocalPortletsManager(obj)
-        #info['left_slots'] = self.getPortlets(obj, leftmapping, leftmanager)        
-        #info['right_slots'] = self.getPortlets(obj, rightmapping, rightmanager)        
+        #info['left_slots'] = self.getPortlets(obj, leftmapping, leftmanager)
+        #info['right_slots'] = self.getPortlets(obj, rightmapping, rightmanager)
         lass = self.getAssignmentsForManager(obj, left)
         rass = self.getAssignmentsForManager(obj, right)
         lurl = self.getAssignmentMappingUrl(obj, left)
@@ -461,7 +470,7 @@ class PortletsStats(BrowserView):
             for v in obj.contentValues():
                 for i in self._walk(v, level-1):
                     yield i
-    
+
     def getPropsList(self):
         level = self.request.form.get('level', 1)
         level = int(level)

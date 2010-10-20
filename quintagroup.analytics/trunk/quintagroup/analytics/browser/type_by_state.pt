@@ -27,7 +27,8 @@
                 <th tal:repeat="user view/getTypes" tal:content="user">User</th>
             </tr>
             <tr tal:repeat="type view/getStates">
-                <th tal:content="type">Document</th>
+                <th tal:content="type"
+                    tal:attributes="class string: state-$type">Document</th>
                 <td tal:repeat="count python:view.getContent(type)" tal:content="count">123</td>
             </tr>
             <tr>

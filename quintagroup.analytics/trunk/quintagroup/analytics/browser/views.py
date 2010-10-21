@@ -9,7 +9,6 @@ from Products.Archetypes.interfaces import IBaseFolder
 from plone.portlets.interfaces import IPortletManager
 from plone.portlets.interfaces import IPortletAssignmentMapping
 from plone.portlets.interfaces import ILocalPortletAssignmentManager
-from plone.portlets.interfaces import IPortletAssignmentSettings
 try:
     from plone.portlets.interfaces import IPortletAssignmentSettings
 except ImportError:

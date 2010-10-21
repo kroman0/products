@@ -20,3 +20,15 @@ class INewsSitemapProvider(Interface):
 
 class IGoogleSitemapsLayer(ILocalBrowserLayerType):
     """Marker interface that defines browser layer for the package."""
+
+class IBlackoutFilterUtility(Interface):
+    """Base interface for filter utility."""
+
+    def filterOut(fdata, fkey, **kwargs):
+        """Filter out fdata by passed arguments in kwargs.
+            * fdata (list/tuple) - is data to filtering.
+            * fkey (string) - is key for filtering.
+            * **kwargs - contains additional data, needed for filtering.
+           Return list/tuple like object without filtered out items.
+        """
+

@@ -32,3 +32,5 @@ try:
     from plone import browserlayer
 except ImportError:
     SUPPORT_BLAYER = False
+
+BLACKOUT_PREFIX = "seoptimzier.blackoutfilter."

@@ -8,7 +8,7 @@ class IdBlackoutFilterUtility(object):
 
     def filterOut(self, fdata, fkey, **kwargs):
         """Filter-out fdata list by id in fkey."""
-        return fdata
+        return [b for b in fdata if (b.getId or b.id) != fkey]
 
 
 class PathBlackoutFilterUtility(object):
@@ -18,4 +18,4 @@ class PathBlackoutFilterUtility(object):
 
     def filterOut(self, fdata, fkey, **kwargs):
         """Filter-out fdata list by path in fkey."""
-        return fdata
+        return [b for b in fdata if b.getPath() != fkey]

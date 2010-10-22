@@ -23,28 +23,37 @@ class TestBOFilterUtilities(TestCase):
             "Not registered default '%s' IBlackoutFilterUtility" % pathfname)
 
 
-def createTestContent(self):
-    # Add testing content to portal
-    for cont in [self.portal, self.folder]:
-        for i in range(1,4):
-            doc = _createObjectByType('Document', cont, id='doc%i' % i)
-            doc.edit(text_format='plain', text='hello world %i' % i)
-            self.workflow.doActionFor(doc, 'publish')
-
-class TestDefaultFilters(TestCase):
+class TestFilterMixin(TestCase):
 
     def afterSetUp(self):
-        super(TestDefaultFilters, self).afterSetUp()
-        createTestContent(self)
+        super(TestFilterMixin, self).afterSetUp()
+        self.createTestContent()
+        self.sm = _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
         self.catres = self.portal.portal_catalog(portal_type=["Document",])
         self.logout()
 
-    def testIdFilter(self):
-        idfilter = queryUtility(IBlackoutFilterUtility, name=idfname)
+    def createTestContent(self):
+        # Add testing content to portal
+        for cont in [self.portal, self.folder]:
+            for i in range(1,4):
+                doc = _createObjectByType('Document', cont, id='doc%i' % i)
+                doc.edit(text_format='plain', text='hello world %i' % i)
+                self.workflow.doActionFor(doc, 'publish')
+
+
+class TestDefaultFilters(TestFilterMixin):
+
+    def getPreparedLists(self, fname, fargs, checkindex):
+        futil = queryUtility(IBlackoutFilterUtility, name=fname)
+        filtered = [f.getPath() for f in futil.filterOut(self.catres, fkey=fargs)]
         catpaths = [c.getPath() for c in self.catres]
-        filtered = [f.getPath() for f in idfilter.filterOut(self.catres, fkey="doc1")]
-        excluded = [c.getPath() for c in self.catres if c.id == "doc1"]
+        excluded = [c.getPath() for c in self.catres if checkindex(c) == fargs]
         map(lambda l:l.sort(), [catpaths, filtered, excluded])
+        return catpaths, filtered, excluded
+
+    def testIdFilter(self):
+        catpaths, filtered, excluded = self.getPreparedLists(idfname, "doc1",
+            lambda b: b.id)
         self.assertTrue(type(filtered) in [ListType, TupleType],
             'Object type, returned by filteredOut method of "%s" utility '\
             'not list nor tuple' % idfname)
@@ -53,11 +62,8 @@ class TestDefaultFilters(TestCase):
              idfname, catpaths, filtered, excluded))
 
     def testPathFilter(self):
-        pathfilter = queryUtility(IBlackoutFilterUtility, name=pathfname)
-        catpaths = [c.getPath() for c in self.catres]
-        filtered = [f.getPath() for f in pathfilter.filterOut(self.catres, fkey="/plone/doc1")]
-        excluded = [c.getPath() for c in self.catres if c.getPath() == "/plone/doc1"]
-        map(lambda l:l.sort(), [catpaths, filtered, excluded])
+        catpaths, filtered, excluded = self.getPreparedLists(pathfname,
+            "/plone/doc1", lambda b: b.getPath())
         self.assertTrue(type(filtered) in [ListType, TupleType],
             'Object type, returned by filteredOut method of "%s" utility '\
             'not list nor tuple' % pathfname)
@@ -66,38 +72,36 @@ class TestDefaultFilters(TestCase):
              pathfname, catpaths, filtered, excluded))
 
 
-class TestFormDataProcessing(TestCase):
+class TestFormDataProcessing(TestFilterMixin):
 
     def afterSetUp(self):
         super(TestFormDataProcessing, self).afterSetUp()
-        createTestContent(self)
-        # Add sitemap object
-        self.sm = _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
+        self.loginAsPortalOwner()
         self.smview = queryMultiAdapter((self.sm, self.app.REQUEST), name="sitemap.xml")
-        self.catres = self.portal.portal_catalog(portal_type=["Document",])
 
-    def testGetNamedFilterUtility(self):
-        self.sm.edit(blackout_list="path:/plone/doc1")
+    def getPreparedLists(self, bl, fargs, checkindex):
+        self.sm.edit(blackout_list=bl)
         filtered = [f['url'] for f in self.smview.results()]
         catpaths = [c.getURL() for c in self.catres]
-        excluded = [c.getURL() for c in self.catres \
-                    if c.getPath() == "/plone/doc1"]
+        excluded = [c.getURL() for c in self.catres if checkindex(c) == fargs]
         map(lambda l:l.sort(), [catpaths, filtered, excluded])
+        return catpaths, filtered, excluded
+
+    def testGetNamedFilterUtility(self):
+        catpaths, filtered, excluded = self.getPreparedLists("path:/plone/doc1",
+            "/plone/doc1", lambda b: b.getPath())
         self.assertTrue(set(catpaths)-set(filtered) == set(excluded),
             'Wrong filtered-out by "%s" filter:\nsrc %s\nres %s\nexcluded %s' % (
              idfname, catpaths, filtered, excluded))
 
     def testDefaultFilterUtility(self):
-        self.sm.edit(blackout_list="id:doc1")
-        filtered = [f['url'] for f in self.smview.results()]
-        catpaths = [c.getURL() for c in self.catres]
-        excluded = [c.getURL() for c in self.catres if c.id == "doc1"]
-        map(lambda l:l.sort(), [catpaths, filtered, excluded])
+        catpaths, filtered, excluded = self.getPreparedLists("id:doc1",
+            "doc1", lambda b: b.id)
         self.assertTrue(set(catpaths)-set(filtered) == set(excluded),
             'Wrong filtered-out by "%s" filter:\nsrc %s\nres %s\nexcluded %s' % (
              idfname, catpaths, filtered, excluded))
         # Now check is output of unnamed filter same to id-named one.
-        self.sm.edit(blackout_list="id:doc1")
+        self.sm.edit(blackout_list="doc1")
         filtered_def = [f['url'] for f in self.smview.results()]
         filtered_def.sort()
         self.assertTrue(filtered == filtered_def,

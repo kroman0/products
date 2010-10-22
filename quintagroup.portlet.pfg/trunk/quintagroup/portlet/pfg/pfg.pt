@@ -1,4 +1,4 @@
-<dl class="portlet"
+<dl class="portlet portletPFG"
     tal:condition="view/available">
   <dt class="portletHeader">
     <span class="portletTitle"

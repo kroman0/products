@@ -14,6 +14,11 @@
      provides="Products.GenericSetup.interfaces.EXTENSION"
      />
 
+  <browser:resource
+    name="hidetextlabels.js"
+    image="hidetextlabels.js"
+    />
+    
     <include package="plone.app.portlets" />
 
     <plone:portlet

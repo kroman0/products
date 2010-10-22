@@ -15,8 +15,8 @@
      />
 
   <browser:resource
-    name="hidetextlabels.js"
-    image="hidetextlabels.js"
+    name="enableinputlabel.js"
+    image="enableinputlabel.js"
     />
     
     <include package="plone.app.portlets" />

@@ -71,11 +71,30 @@ class TestDefaultFilters(TestFilterMixin):
             'Wrong filtered-out by "%s" filter:\nsrc %s\nres %s\nexcluded %s' % (
              pathfname, catpaths, filtered, excluded))
 
+    def testPathFilter(self):
+        # 
+        fpath = '/'.join(self.folder.absolute_url(1).split('/')[2:])
+        futil = queryUtility(IBlackoutFilterUtility, name=pathfname)
+        sm = _createObjectByType('Sitemap', self.folder, id='google-sitemaps')
+        
+        fres = futil.filterOut(self.catres, fkey="./doc1", sitemap=sm)
+        filtered = [f.getPath() for f in fres]
+        catpaths = [c.getPath() for c in self.catres]
+        excluded = [c.getPath() for c in self.catres if c.getPath()==fpath+"/doc1"]
+        map(lambda l:l.sort(), [catpaths, filtered, excluded])
+
+        self.assertTrue(type(filtered) in [ListType, TupleType],
+            'Object type, returned by filteredOut method of "%s" utility '\
+            'not list nor tuple' % pathfname)
+        self.assertTrue(set(catpaths)-set(filtered) == set(excluded),
+            'Wrong filtered-out by "%s" filter:\nsrc %s\nres %s\nexcluded %s' % (
+             pathfname, catpaths, filtered, excluded))
+
 
 class TestBlacklistFormProcessing(TestFilterMixin):
 
     def afterSetUp(self):
-        super(TestFormDataProcessing, self).afterSetUp()
+        super(TestBlacklistFormProcessing, self).afterSetUp()
         self.loginAsPortalOwner()
         self.smview = queryMultiAdapter((self.sm, self.app.REQUEST), name="sitemap.xml")
 

@@ -72,7 +72,7 @@ class TestDefaultFilters(TestFilterMixin):
              pathfname, catpaths, filtered, excluded))
 
 
-class TestFormDataProcessing(TestFilterMixin):
+class TestBlacklistFormProcessing(TestFilterMixin):
 
     def afterSetUp(self):
         super(TestFormDataProcessing, self).afterSetUp()
@@ -114,7 +114,7 @@ def test_suite():
     suite = TestSuite()
     suite.addTest(makeSuite(TestBOFilterUtilities))
     suite.addTest(makeSuite(TestDefaultFilters))
-    suite.addTest(makeSuite(TestFormDataProcessing))
+    suite.addTest(makeSuite(TestBlacklistFormProcessing))
     return suite
 
 if __name__ == '__main__':

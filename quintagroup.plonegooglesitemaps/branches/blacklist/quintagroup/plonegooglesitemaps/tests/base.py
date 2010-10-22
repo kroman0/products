@@ -80,7 +80,7 @@ class MixinTestCase(object):
         mobilesitemapview.MOBILE_INTERFACES = [IMobileMarker.__identifier__,]
 
     def beforeTearDown(self):
-        if self.orig_mobile_ifaces is not None:
+        if getattr(self, 'orig_mobile_ifaces', None) is not None:
             mobilesitemapview.MOBILE_INTERFACES = self.orig_mobile_ifaces
 
 

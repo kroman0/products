@@ -71,7 +71,7 @@ class TestDefaultFilters(TestFilterMixin):
             'Wrong filtered-out by "%s" filter:\nsrc %s\nres %s\nexcluded %s' % (
              pathfname, catpaths, filtered, excluded))
 
-    def testPathFilter(self):
+    def testRelativePathFilter(self):
         # 
         fpath = '/'.join(self.folder.absolute_url(1).split('/')[2:])
         futil = queryUtility(IBlackoutFilterUtility, name=pathfname)
@@ -86,6 +86,7 @@ class TestDefaultFilters(TestFilterMixin):
         self.assertTrue(type(filtered) in [ListType, TupleType],
             'Object type, returned by filteredOut method of "%s" utility '\
             'not list nor tuple' % pathfname)
+        import pdb;pdb.set_trace()
         self.assertTrue(set(catpaths)-set(filtered) == set(excluded),
             'Wrong filtered-out by "%s" filter:\nsrc %s\nres %s\nexcluded %s' % (
              pathfname, catpaths, filtered, excluded))

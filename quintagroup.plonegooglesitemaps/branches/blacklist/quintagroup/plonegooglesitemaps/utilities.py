@@ -19,11 +19,12 @@ class PathBlackoutFilterUtility(object):
     def filterOut(self, fdata, fkey, **kwargs):
         """Filter-out fdata list by path in fkey."""
         if fkey.startswith("/"):
+            # absolute path filter
             return [b for b in fdata if b.getPath() != fkey]
         elif fkey.startswith("./"):
-            # Add relative path filter
+            # relative path filter
             smpath = kwargs.get("sitemap")
-            contpath = '/'.join(smpath.getPhysicalPath()[1:-1])
+            contpath = '/'.join(smpath.getPhysicalPath()[:-1])
             resfilter = contpath + fkey[1:]
             return [b for b in fdata if b.getPath() != resfilter]
         return fdata

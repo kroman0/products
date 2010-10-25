@@ -73,7 +73,7 @@ class TestDefaultFilters(TestFilterMixin):
 
     def testRelativePathFilter(self):
         # 
-        fpath = '/'.join(self.folder.absolute_url(1).split('/')[2:])
+        fpath = '/'.join(self.folder.getPhysicalPath())
         futil = queryUtility(IBlackoutFilterUtility, name=pathfname)
         sm = _createObjectByType('Sitemap', self.folder, id='google-sitemaps')
         
@@ -86,7 +86,6 @@ class TestDefaultFilters(TestFilterMixin):
         self.assertTrue(type(filtered) in [ListType, TupleType],
             'Object type, returned by filteredOut method of "%s" utility '\
             'not list nor tuple' % pathfname)
-        import pdb;pdb.set_trace()
         self.assertTrue(set(catpaths)-set(filtered) == set(excluded),
             'Wrong filtered-out by "%s" filter:\nsrc %s\nres %s\nexcluded %s' % (
              pathfname, catpaths, filtered, excluded))

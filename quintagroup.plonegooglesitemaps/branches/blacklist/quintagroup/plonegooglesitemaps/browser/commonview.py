@@ -117,6 +117,7 @@ class CommonSitemapView(BrowserView):
             futility = queryUtility(IBlackoutFilterUtility, name=fname)
             if futility:
                 kw = {"sitemap": self.context,
+                      "request": self.request,
                       "extras": fspec}
                 objects = futility.filterOut(objects, fargs, **kw)
         return objects

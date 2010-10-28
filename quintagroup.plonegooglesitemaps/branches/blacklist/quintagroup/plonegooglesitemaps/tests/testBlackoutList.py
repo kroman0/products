@@ -6,25 +6,22 @@ from types import ListType, TupleType
 from zope.component import queryMultiAdapter
 
 from Products.CMFPlone.utils import _createObjectByType
-from quintagroup.plonegooglesitemaps.config import BLACKOUT_PREFIX
 from quintagroup.plonegooglesitemaps.interfaces import IBlackoutFilter
 
-idfname = BLACKOUT_PREFIX + "id"
-pathfname = BLACKOUT_PREFIX + "path"
 
 class TestBOFilters(TestCase):
 
     def testDefaultId(self):
         idfilter = queryMultiAdapter((self.portal, self.app.REQUEST),
-                       IBlackoutFilter, name=idfname)
+                       IBlackoutFilter, name="id")
         self.assertTrue(idfilter is not None,
-            "Not registered default '%s' IBlackoutFilter" % idfname)
+            "Not registered default 'id' IBlackoutFilter")
 
     def testDefaultPath(self):
         pathfilter = queryMultiAdapter((self.portal, self.app.REQUEST),
-                         IBlackoutFilter, name=pathfname)
+                         IBlackoutFilter, name="path")
         self.assertTrue(pathfilter is not None,
-            "Not registered default '%s' IBlackoutFilter" % pathfname)
+            "Not registered default 'path' IBlackoutFilter")
 
 
 class TestFilterMixin(TestCase):
@@ -55,39 +52,39 @@ class TestDefaultFilters(TestFilterMixin):
         return catpaths, filtered
 
     def testIdFilter(self):
-        catpaths, filtered = self.getPreparedLists(idfname, "doc1")
+        catpaths, filtered = self.getPreparedLists("id", "doc1")
         self.assertTrue(type(filtered) in [ListType, TupleType],
-            'Object type, returned by filteredOut method of "%s" utility '\
-            'not list nor tuple' % idfname)
+            'Object type, returned by filteredOut method of "id" filter '\
+            'not list nor tuple')
         excluded = ["/%s/doc1" % self.portal.absolute_url(1),
                     "/%s/doc1" % self.folder.absolute_url(1)]
         self.assertTrue(
             set(catpaths)-set(filtered) == set(excluded),
-            'Wrong filtered-out by "%s" filter:\nsrc %s\nres %s\nexcluded %s' % (
-             idfname, catpaths, filtered, excluded))
+            'Wrong filtered-out by "id" filter:\nsrc %s\nres %s\nexcluded %s' % (
+             catpaths, filtered, excluded))
 
     def testAbsolutePathFilter(self):
-        catpaths, filtered = self.getPreparedLists(pathfname, "/doc1")
+        catpaths, filtered = self.getPreparedLists("path", "/doc1")
         self.assertTrue(type(filtered) in [ListType, TupleType],
-            'Object type, returned by filteredOut method of "%s" utility '\
-            'not list nor tuple' % pathfname)
+            'Object type, returned by filteredOut method of "path" filter '\
+            'not list nor tuple')
         excluded = ["/%s/doc1" % self.portal.absolute_url(1)]
         self.assertTrue(
             set(catpaths)-set(filtered) == set(excluded),
-            'Wrong filtered-out by "%s" filter:\nsrc %s\nres %s\nexcluded %s' % (
-             pathfname, catpaths, filtered, excluded))
+            'Wrong filtered-out by "path" filter:\nsrc %s\nres %s\nexcluded %s' % (
+             catpaths, filtered, excluded))
 
     def testRelativePathFilter(self):
         self.sm = _createObjectByType('Sitemap', self.folder, id='google-sitemaps')
-        catpaths, filtered = self.getPreparedLists(pathfname, "./doc1")
+        catpaths, filtered = self.getPreparedLists("path", "./doc1")
         self.assertTrue(type(filtered) in [ListType, TupleType],
-            'Object type, returned by filteredOut method of "%s" utility '\
-            'not list nor tuple' % pathfname)
+            'Object type, returned by filteredOut method of "path" utility '\
+            'not list nor tuple')
         excluded = ["/%s/doc1" % self.folder.absolute_url(1)]
         self.assertTrue(
             set(catpaths)-set(filtered) == set(excluded),
-            'Wrong filtered-out by "%s" filter:\nsrc %s\nres %s\nexcluded %s' % (
-             pathfname, catpaths, filtered, excluded))
+            'Wrong filtered-out by "path" filter:\nsrc %s\nres %s\nexcluded %s' % (
+             catpaths, filtered, excluded))
 
 
 
@@ -109,16 +106,16 @@ class TestBlacklistFormProcessing(TestFilterMixin):
         catpaths, filtered = self.getPreparedLists("path:/doc1", "/plone/doc1")
         excluded = ["%s/doc1" % self.portal.absolute_url()]
         self.assertTrue(set(catpaths)-set(filtered) == set(excluded),
-            'Wrong filtered-out by "%s" filter:\nsrc %s\nres %s\nexcluded %s' % (
-             idfname, catpaths, filtered, excluded))
+            'Wrong filtered-out by "id" filter:\nsrc %s\nres %s\nexcluded %s' % (
+             catpaths, filtered, excluded))
 
     def testDefaultFilterUtility(self):
         catpaths, filtered = self.getPreparedLists("id:doc1", "doc1")
         excluded = ["%s/doc1" % self.portal.absolute_url(),
                     "%s/doc1" % self.folder.absolute_url()]
         self.assertTrue(set(catpaths)-set(filtered) == set(excluded),
-            'Wrong filtered-out by "%s" filter:\nsrc %s\nres %s\nexcluded %s' % (
-             idfname, catpaths, filtered, excluded))
+            'Wrong filtered-out by "id" filter:\nsrc %s\nres %s\nexcluded %s' % (
+             catpaths, filtered, excluded))
         # Now check is output of unnamed filter samed to named one.
         self.sm.edit(blackout_list="doc1")
         filtered_dflt = [f['url'] for f in self.smview.results()]

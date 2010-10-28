@@ -1,6 +1,6 @@
 from string import find
 from zope.interface import implements, Interface, Attribute
-from zope.component import queryUtility
+from zope.component import queryMultiAdapter
 
 from Acquisition import aq_inner, aq_parent
 from Products.Five import BrowserView
@@ -8,7 +8,7 @@ from Products.CMFCore.utils import getToolByName
 
 from quintagroup.plonegooglesitemaps import qPloneGoogleSitemapsMessageFactory as _
 from quintagroup.plonegooglesitemaps.config import BLACKOUT_PREFIX
-from quintagroup.plonegooglesitemaps.interfaces import IBlackoutFilterUtility
+from quintagroup.plonegooglesitemaps.interfaces import IBlackoutFilter
 from quintagroup.plonegooglesitemaps.browser.utils import additionalURLs, applyOperations
 
 
@@ -114,12 +114,10 @@ class CommonSitemapView(BrowserView):
             fspec = frec.split(":")
             fargs = fspec.pop()
             fname = BLACKOUT_PREFIX + (fspec and fspec.pop() or "id")
-            futility = queryUtility(IBlackoutFilterUtility, name=fname)
-            if futility:
-                kw = {"sitemap": self.context,
-                      "request": self.request,
-                      "extras": fspec}
-                objects = futility.filterOut(objects, fargs, **kw)
+            fengine = queryMultiAdapter((self.context, self.request),
+                          interface=IBlackoutFilter, name=fname)
+            if fengine:
+                objects = fengine.filterOut(objects, fargs)
         return objects
 
     def updateRequest(self):

@@ -28,14 +28,20 @@
         interface=".interfaces.INewsSitemapProvider"
         />
 
-    <!-- Register utilities -->
-    <utility factory=".utilities.IdBlackoutFilterUtility"
-             name="seoptimzier.blackoutfilter.id"
-	     permission="zope.Public" />
+    <!-- Register default filters -->
+    <adapter
+	for="*
+	     zope.publisher.interfaces.browser.IBrowserRequest"
+	factory=".filters.IdBlackoutFilter"
+        name="seoptimzier.blackoutfilter.id"
+	permission="zope.Public" />
 
-    <utility factory=".utilities.PathBlackoutFilterUtility"
-             name="seoptimzier.blackoutfilter.path"
-	     permission="zope.Public" />
+    <adapter
+        for="*
+             zope.publisher.interfaces.browser.IBrowserRequest"
+        factory=".filters.PathBlackoutFilter"
+        name="seoptimzier.blackoutfilter.path"
+	permission="zope.Public" />
 
 
 </configure>

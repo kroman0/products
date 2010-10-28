@@ -83,34 +83,33 @@ class CommonSitemapView(BrowserView):
     def getBOFiltered(self, objects):
         """Return blkack-out filtered objects
           Every record in blackout_list filter should follow the spec:
-             [extra filter data, separated by ':':][<filter name>:]<filter data>
+            [<filter name>:]<filter arguments>
           For example:
           1|  index.html
           2|  id:index.html
           3|  path:/folder_1_level/obj_in_folder
           4|  path:./folder_near_sitemap/obj_in_folder
-          5|  extra_arg1:extra_arg2:super_filter:super arg-1, super arg-2
+          5|  foo_filter:arg-1, arg-2
          
           1->used default "id" filter - remove "index.html" objects;
           2->explicit "id" filter - remove "index.html" objects;
           3->"path" filter - remove /folder_1_level/obj_in_folder object,
               path from the root of the plone site;
           4->same to 3), but path get from the folder, where sitemap is located;
-          5->filter name is "super_filter" (must be registered IBlackoutFilterUtility,
-             named "seoptimzier.blackoutfilter.super_filter:), which get list of extra
-             parameters, e.g. [extra_arg1,extra_arg2] to the filterOut method in
-             "extras" option, and get filter arguments: super arg-1, super arg-2
+          5->filter name is "foo_filter" (must be registered IBlackoutFilter,
+             named "foo_filter"), which get filter arguments: arg-1, arg-2
           
-          class SuperFilterUtility(object):
-              def filterOut(self, fdata, fargs, **kwargs):
-                  sitemap = kwargs.get("sitemap")
-                  extras = kwargs.get("extras") # [extra_arg1,extra_arg2]
+          class FooFilterUtility(object):
+              def __init__(self, context, request):
+                  self.context = context
+                  self.request = request
+              def filterOut(self, fdata, fargs):
                   # some logic to filter-out fdata by fargs with taking into
-                  # consideration extras ...
+                  # consideration self.context and self.request, if needed.
         """
         blackout_list = filter(None, self.context.getBlackout_list())
         for frec in blackout_list:
-            fspec = frec.split(":")
+            fspec = frec.split(":", 1)
             fargs = fspec.pop()
             fname = fspec and fspec.pop() or "id"
             fengine = queryMultiAdapter((self.context, self.request),

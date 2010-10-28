@@ -3,6 +3,7 @@
 #
 from base import *
 from types import ListType, TupleType
+from zope import component
 from zope.component import queryMultiAdapter
 
 from Products.CMFPlone.utils import _createObjectByType
@@ -88,7 +89,6 @@ class TestDefaultFilters(TestFilterMixin):
 
 
 
-
 class TestBlacklistFormProcessing(TestFilterMixin):
 
     def afterSetUp(self):
@@ -124,6 +124,21 @@ class TestBlacklistFormProcessing(TestFilterMixin):
             'Output of named "id" filter is not same to unnamed one:' \
             'id-named: %s\nunnamed: %s' % (filtered, filtered_dflt))
 
+    # def testGetCorrectFilterName(self):
+    #     call_names = []
+    #     origQMA = component._api.queryMultiAdapter
+    #     def patchQMA(objects, interface=Interface, name=u'', context=None):
+    #         call_names.append(name)
+    #         origQMA(objects, interface=interface, name=name, context=context)
+    #     component.queryMutliAdapter = patchQMA
+    #     self.sm.edit(blackout_list="FooFilterName:arg1:arg2:doc1")
+    #     self.smview.results()
+    #     self.assertTrue("FooFilterName" in call_names,
+    #         "Wrong filter name parsing - no FooFilterName in %s" % call_names)
+    #     component._api.queryMutliAdapter = origQMA
+        
+        
+        
 
 def test_suite():
     from unittest import TestSuite, makeSuite

@@ -3,24 +3,28 @@
 #
 from base import *
 from types import ListType, TupleType
-from zope.component import queryUtility, queryMultiAdapter
+from zope.component import queryMultiAdapter
 
 from Products.CMFPlone.utils import _createObjectByType
 from quintagroup.plonegooglesitemaps.config import BLACKOUT_PREFIX
-from quintagroup.plonegooglesitemaps.interfaces import IBlackoutFilterUtility
+from quintagroup.plonegooglesitemaps.interfaces import IBlackoutFilter
 
 idfname = BLACKOUT_PREFIX + "id"
 pathfname = BLACKOUT_PREFIX + "path"
 
-class TestBOFilterUtilities(TestCase):
+class TestBOFilters(TestCase):
 
-    def testDefaultIdUtility(self):
-        self.assertTrue(queryUtility(IBlackoutFilterUtility, name=idfname) is not None,
-            "Not registered default '%s' IBlackoutFilterUtility" % idfname)
+    def testDefaultId(self):
+        idfilter = queryMultiAdapter((self.portal, self.app.REQUEST),
+                       IBlackoutFilter, name=idfname)
+        self.assertTrue(idfilter is not None,
+            "Not registered default '%s' IBlackoutFilter" % idfname)
 
-    def testDefaultPathUtility(self):
-        self.assertTrue(queryUtility(IBlackoutFilterUtility, name=pathfname) is not None,
-            "Not registered default '%s' IBlackoutFilterUtility" % pathfname)
+    def testDefaultPath(self):
+        pathfilter = queryMultiAdapter((self.portal, self.app.REQUEST),
+                         IBlackoutFilter, name=pathfname)
+        self.assertTrue(pathfilter is not None,
+            "Not registered default '%s' IBlackoutFilter" % pathfname)
 
 
 class TestFilterMixin(TestCase):
@@ -45,9 +49,8 @@ class TestFilterMixin(TestCase):
 class TestDefaultFilters(TestFilterMixin):
 
     def getPreparedLists(self, fname, fargs):
-        futil = queryUtility(IBlackoutFilterUtility, name=fname)
-        filtered = [f.getPath() for f in futil.filterOut(self.catres, fkey=fargs,
-                    sitemap=self.sm, request=self.req)]
+        fengine = queryMultiAdapter((self.sm, self.req), IBlackoutFilter, name=fname)
+        filtered = [f.getPath() for f in fengine.filterOut(self.catres, fargs)]
         catpaths = [c.getPath() for c in self.catres]
         return catpaths, filtered
 
@@ -128,7 +131,7 @@ class TestBlacklistFormProcessing(TestFilterMixin):
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
-    suite.addTest(makeSuite(TestBOFilterUtilities))
+    suite.addTest(makeSuite(TestBOFilters))
     suite.addTest(makeSuite(TestDefaultFilters))
     suite.addTest(makeSuite(TestBlacklistFormProcessing))
     return suite

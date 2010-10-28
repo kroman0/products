@@ -7,7 +7,6 @@ from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 
 from quintagroup.plonegooglesitemaps import qPloneGoogleSitemapsMessageFactory as _
-from quintagroup.plonegooglesitemaps.config import BLACKOUT_PREFIX
 from quintagroup.plonegooglesitemaps.interfaces import IBlackoutFilter
 from quintagroup.plonegooglesitemaps.browser.utils import additionalURLs, applyOperations
 
@@ -113,7 +112,7 @@ class CommonSitemapView(BrowserView):
         for frec in blackout_list:
             fspec = frec.split(":")
             fargs = fspec.pop()
-            fname = BLACKOUT_PREFIX + (fspec and fspec.pop() or "id")
+            fname = fspec and fspec.pop() or "id"
             fengine = queryMultiAdapter((self.context, self.request),
                           interface=IBlackoutFilter, name=fname)
             if fengine:

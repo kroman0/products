@@ -107,7 +107,7 @@ class CommonSitemapView(BrowserView):
                   # some logic to filter-out fdata by fargs with taking into
                   # consideration self.context and self.request, if needed.
         """
-        blackout_list = filter(None, self.context.getBlackout_list())
+        blackout_list = self.context.getBlackout_list()
         for frec in blackout_list:
             fspec = frec.split(":", 1)
             fargs = fspec.pop()

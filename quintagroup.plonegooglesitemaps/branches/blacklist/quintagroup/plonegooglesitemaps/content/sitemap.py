@@ -61,8 +61,12 @@ SitemapSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         #schemata ='default',
         widget=atapi.LinesWidget(
             label=_(u"Blackout entries"),
-            description=_(u"The objects with the given ids will not be " \
-                          u"included in sitemap."),
+            description=_(
+              u"Objects which match filter condition will be excluded from the sitemap." \
+              u"Every record should follow the spec: [<filter name>:]<filter arguments>."\
+              u" By default there are \"id\" and \"path\" filters (\"id\" used if filter"\
+              u" name not specified). There is possibility to add new filters. "\
+              u"Look into README.txt of the quintagroup.plonegooglesitemaps package."),
         ),
     ),
     atapi.LinesField(
@@ -161,7 +165,6 @@ class Sitemap(base.ATCTContent):
 
     def setBlackout_list(self, value, **kw):
         """Clean-up whitespaces and empty lines."""
-        import pdb;pdb.set_trace()
         val = filter(None, map(string.strip, value))
         self.getField('blackout_list').set(self, val)
         

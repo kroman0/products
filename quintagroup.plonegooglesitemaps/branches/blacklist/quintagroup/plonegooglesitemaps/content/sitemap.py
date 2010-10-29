@@ -1,6 +1,7 @@
 """Definition of the Sitemap content type
 """
 
+import string
 from zope.interface import implements, directlyProvides
 
 from Products.Archetypes import atapi
@@ -157,5 +158,12 @@ class Sitemap(base.ATCTContent):
         """Add 'Ping sitemap' afterscript for selected workflow transitions.
         """
         self.getField('pingTransitions').set(self, value)
+
+    def setBlackout_list(self, value, **kw):
+        """Clean-up whitespaces and empty lines."""
+        import pdb;pdb.set_trace()
+        val = filter(None, map(string.strip, value))
+        self.getField('blackout_list').set(self, val)
+        
 
 atapi.registerType(Sitemap, PROJECTNAME)

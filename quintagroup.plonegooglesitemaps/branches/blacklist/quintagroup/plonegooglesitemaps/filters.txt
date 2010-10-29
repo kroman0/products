@@ -1,0 +1,143 @@
+
+Blackout filtering
+==================
+
+Sitemaps has option to filterout objects, which shouldn't present
+in a sitemap. This option is accessable in sitemap edit form
+and present as "Blackout entries" lines field.
+
+In earlier (<3.0.7 and <4.0.1) versions of the package the field
+filter-out objects only by its ids, and looks like:
+
+<pre>
+  index.html
+  index_html
+</pre>
+
+So all objects with "index.html" or "index_html" ids excluded
+from the sitemap.
+
+In the new versions of GoogleSitemaps filtering was remaked
+to pluggable architecture. Now filters are named mutli adapters.
+By default there are only two most useful filters - "id" and
+"path".
+
+Because of different filters can be used - new syntax applied
+to the "Blackout entries" field. Every record in the field
+should follow the spec:
+  
+  [<filter name>:]<filter arguments>
+
+By default (if no <filter name> specified) - "id" filter will
+be used. If <filter name> specified - system looking for 
+<filter name> name  multiadapter to IBlackoutFilter interface.
+If such multiadapter was not found - it's ignored silently.
+
+
+Setup 
+=====
+
+First, we must perform some setup. We use the testbrowser that is shipped
+with Five, as this provides proper Zope 2 integration. Most of the 
+documentation, though, is in the underlying zope.testbrower package.
+
+    >>> from Products.Five.testbrowser import Browser
+    >>> browser = Browser()
+    >>> portal_url = self.portal.absolute_url()
+
+The following is useful when writing and debugging testbrowser tests. It lets
+us see all error messages in the error_log.
+
+    >>> self.portal.error_log._ignored_exceptions = ()
+
+With that in place, we can go to the portal front page and log in. We will
+do this using the default user from PloneTestCase:
+
+    >>> from Products.PloneTestCase.setup import portal_owner, default_password
+    >>> browser.open(portal_url)
+
+We have the login portlet, so let's use that.
+
+    >>> browser.open('http://nohost/plone/login_form')
+    >>> browser.getLink('Log in').click()
+    >>> browser.url
+    'http://nohost/plone/login_form'
+    >>> browser.getControl('Login Name').value = portal_owner
+    >>> browser.getControl('Password').value = default_password
+    >>> browser.getControl('Log in').click()
+    >>> "You are now logged in" in browser.contents
+    True
+    >>> "Login failed" in browser.contents
+    False
+    >>> browser.url
+    'http://nohost/plone/login_form'
+
+
+
+Functionality
+=============
+
+First create several documents for demonstrations.
+
+In the root of the portal
+
+    >>> self.addDocument(self.portal, "doc1", "Document 1 text")
+    >>> self.addDocument(self.portal, "doc2", "Document 2 text")
+
+And in the memeber's folder
+
+    >>> self.addDocument(self.folder, "doc1", "Member Document 1 text")
+    >>> self.addDocument(self.folder, "doc2", "Member Document 2 text")
+
+We need add sitemap, of corse, for demonstration.
+
+    >>> browser.open(portal_url + "/prefs_gsm_settings")
+    >>> browser.getControl('Add Content Sitemap').click()
+    
+Now we bring-up to edit form of the newly created content sitemap.
+We interested in two things: "Blackout entries" field must present
+in the form and "Save" button.
+
+    >>> blackout_list = browser.getControl("Blackout entries")
+    >>> blackout_list
+    <Control name='blackout_list:lines' type='textarea'>
+    >>> save_button = browser.getControl("Blackout entries")
+    >>> save_button
+    <Control name='form.button.save' type='submit'>
+
+
+
+
+
+
+
+
+...
+
+
+
+Return blkack-out filtered objects
+          Every record in blackout_list filter should follow the spec:
+            [<filter name>:]<filter arguments>
+          For example:
+          1|  index.html
+          2|  id:index.html
+          3|  path:/folder_1_level/obj_in_folder
+          4|  path:./folder_near_sitemap/obj_in_folder
+          5|  foo_filter:arg-1, arg-2
+         
+          1->used default "id" filter - remove "index.html" objects;
+          2->explicit "id" filter - remove "index.html" objects;
+          3->"path" filter - remove /folder_1_level/obj_in_folder object,
+              path from the root of the plone site;
+          4->same to 3), but path get from the folder, where sitemap is located;
+          5->filter name is "foo_filter" (must be registered IBlackoutFilter,
+             named "foo_filter"), which get filter arguments: arg-1, arg-2
+          
+          class FooFilterUtility(object):
+              def __init__(self, context, request):
+                  self.context = context
+                  self.request = request
+              def filterOut(self, fdata, fargs):
+                  # some logic to filter-out fdata by fargs with taking into
+                  # consideration self.context and self.request, if needed.

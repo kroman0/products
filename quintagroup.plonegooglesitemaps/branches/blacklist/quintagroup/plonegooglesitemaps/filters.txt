@@ -101,10 +101,10 @@ in the form and "Save" button.
     >>> blackout_list = browser.getControl("Blackout entries")
     >>> blackout_list
     <Control name='blackout_list:lines' type='textarea'>
-    >>> save_button = browser.getControl("Blackout entries")
+    >>> save_button = browser.getControl("Save")
     >>> save_button
-    <Control name='form.button.save' type='submit'>
-
+    <SubmitControl name='form.button.save' type='submit'>
+    >>> save_button.click()
 
 
 

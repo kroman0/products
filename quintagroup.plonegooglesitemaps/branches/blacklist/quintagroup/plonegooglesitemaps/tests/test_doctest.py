@@ -23,9 +23,8 @@ def test_suite():
         ztc.FunctionalDocFileSuite(
             'filters.txt', package='quintagroup.plonegooglesitemaps',
             test_class=DocTestCase, globs=globals(),
-            optionflags=doctest.REPORT_ONLY_FIRST_FAILURE |
-                doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
-
+            optionflags= doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
+                       # | doctest.REPORT_ONLY_FIRST_FAILURE |
         ])
 
 if __name__ == '__main__':

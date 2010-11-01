@@ -155,8 +155,6 @@ With help of reloc regular expression - check if all 4 documents + default
 front-page present in the sitemap without filters.
 
     >>> no_filters_res = reloc.findall(no_filters_content)
-    >>> len(no_filters_res) == 5
-    True
     >>> no_filters_res.sort()
     >>> print "\n".join(no_filters_res)
     /Members/test_user_1_/doc1
@@ -175,7 +173,10 @@ and "front-page" lines with "id:" prefix to the
 
     >>> browser.open(smedit_url)
     >>> filtercontrol = browser.getControl("Blackout entries")
-    >>> filtercontrol.value = "id:doc1\nid:front-page"
+    >>> filtercontrol.value = """
+    ...     id:doc1
+    ...     id:front-page
+    ... """
     >>> browser.getControl("Save").click()
     >>> id_filter_content = browser.contents
 
@@ -183,8 +184,6 @@ As result - all "doc1" and "front-page" documents must be
 filtered-out from the sitemap.
 
     >>> id_filter_res = reloc.findall(id_filter_content)
-    >>> len(id_filter_res) == 2
-    True
     >>> id_filter_res.sort()
     >>> print "\n".join(id_filter_res)
     /Members/test_user_1_/doc2
@@ -199,7 +198,10 @@ not from the portal root) and the front-page from the portal root.
 
     >>> browser.open(smedit_url)
     >>> filtercontrol = browser.getControl("Blackout entries")
-    >>> filtercontrol.value = "path:/Members/test_user_1_/doc2\npath:/front-page"
+    >>> filtercontrol.value = """
+    ...    path:/Members/test_user_1_/doc2
+    ...    path:/front-page
+    ... """
     >>> browser.getControl("Save").click()
     >>> path_filter_content = browser.contents
 
@@ -207,8 +209,6 @@ As result - "doc2" of the pointed member and "front-page" documents
 must be filtered-out from the sitemap.
 
     >>> path_filter_res = reloc.findall(path_filter_content)
-    >>> len(path_filter_res) == 3
-    True
     >>> path_filter_res.sort()
     >>> print "\n".join(path_filter_res)
     /Members/test_user_1_/doc1
@@ -228,7 +228,10 @@ field.
 
     >>> browser.open(portal_url + "/sitemap.xml/edit")
     >>> filtercontrol = browser.getControl("Blackout entries")
-    >>> filtercontrol.value = "doc1\nfront-page"
+    >>> filtercontrol.value = """
+    ...     doc1
+    ...     front-page
+    ... """
     >>> browser.getControl("Save").click()
     >>> default_filter_content = browser.contents
 
@@ -236,8 +239,6 @@ By default "id" filter must be used, so all "doc1" and "front-page"
 objects must be filtered-out from the sitemap.
 
     >>> default_filter_res = reloc.findall(default_filter_content)
-    >>> len(default_filter_res) == 2
-    True
     >>> default_filter_res.sort()
     >>> print "\n".join(default_filter_res)
     /Members/test_user_1_/doc2
@@ -296,15 +297,15 @@ to the "Blackout entries" field.
 
     >>> browser.open(smedit_url)
     >>> filtercontrol = browser.getControl("Blackout entries")
-    >>> filtercontrol.value = "signedid:+doc1"
+    >>> filtercontrol.value = """
+    ...    signedid:+doc1
+    ... """
     >>> browser.getControl("Save").click()
     >>> signedid_filter_content = browser.contents
 
 As result - only objects with "doc1" id must present in the sitemap.
 
     >>> signedid_filter_res = reloc.findall(signedid_filter_content)
-    >>> len(signedid_filter_res) == 2
-    True
     >>> signedid_filter_res.sort()
     >>> print "\n".join(signedid_filter_res)
     /Members/test_user_1_/doc1
@@ -317,15 +318,15 @@ to the "Blackout entries" field.
 
     >>> browser.open(smedit_url)
     >>> filtercontrol = browser.getControl("Blackout entries")
-    >>> filtercontrol.value = "signedid:-doc1"
+    >>> filtercontrol.value = """
+    ...     signedid:-doc1
+    ... """
     >>> browser.getControl("Save").click()
     >>> signedid_filter_content = browser.contents
 
 As result - all except objects with "doc1" id must present in the sitemap.
 
     >>> signedid_filter_res = reloc.findall(signedid_filter_content)
-    >>> len(signedid_filter_res) == 3
-    True
     >>> signedid_filter_res.sort()
     >>> print "\n".join(signedid_filter_res)
     /Members/test_user_1_/doc2

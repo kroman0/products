@@ -96,20 +96,149 @@ We need add sitemap, of corse, for demonstration.
     
 Now we bring-up to edit form of the newly created content sitemap.
 We interested in two things: "Blackout entries" field must present
-in the form and "Save" button.
-
+in the form and it should be empty by default.
+    
+    
+    >>> file("/tmp/browser.0.html","wb").write(browser.contents)
     >>> blackout_list = browser.getControl("Blackout entries")
     >>> blackout_list
     <Control name='blackout_list:lines' type='textarea'>
+    >>> blackout_list.value == ""
+    True
     >>> save_button = browser.getControl("Save")
     >>> save_button
     <SubmitControl name='form.button.save' type='submit'>
     >>> save_button.click()
 
 
+Click on "Save" button lead us to result sitemap view.
+
+    >>> browser.contents.startswith('<?xml version="1.0" encoding="UTF-8"?>')
+    True
+
+After adding "Content Sitemap", "sitemap.xml" link will appear
+on "Settings" tab page of Plone Google Sitemap configlet.
+
+    >>> browser.open(portal_url + "/prefs_gsm_settings")
+    >>> smedit_link = browser.getLink('sitemap.xml')
+
+This link lead to edit form of the newly created sitemap.xml.
+Also prepare view link to simplifier following demonstrations.
+
+    >>> smedit_link.endswith("sitemap.xml/edit")
+    True
+    >>> smview_link = smedit_link[:-5]
 
 
+No filters
+==========
 
+Resulted sitemap has no filters - all document should present in it.
+
+    >>> browser.open(smview_link)
+    >>> file("/tmp/browser.1.html","wb").write(browser.contents)
+    >>> no_filters_content = browser.contents
+
+Check if resulted page is real sitemap...
+
+    >>> browser.contents.startswith('<?xml version="1.0" encoding="UTF-8"?>')
+    True
+
+To check urls, which pass filters - create regular expression...
+
+    >>> reloc = re.compile("<loc>%s([^\<]*)</loc>" % self.portal.absolute_url(), re.S)
+
+With help of reloc regular expression - check if all 4 documents + default
+front-page present in the sitemap without filters.
+
+    >>> no_filters_res = reloc.findall(no_filters_content)
+    >>> len(no_filters_res) == 5
+    True
+    >>> no_filters_res.sort()
+    >>> print "\n".join(no_filters_res)
+    /Members/test_user_1_/doc1
+    /Members/test_user_1_/doc2
+    /doc1
+    /doc2
+    /front-page
+
+
+Check "id" filter
+=================
+
+Go to the edit form of the sitemap and add "doc1"
+and "front-page" lines with "id:" prefix to the
+"Blackout entries" field.
+
+    >>> browser.open(smedit_link)
+    >>> filtercontrol = browser.getControl("Blackout entries")
+    >>> filtercontrol.value = "id:doc1\nid:front-page"
+    >>> browser.getControl("Save").click()
+    >>> id_filter_content = browser.contents
+
+As result - all "doc1" and "front-page" documents must be
+filtered-out from the sitemap.
+
+    >>> id_filter_res = reloc.findall(id_filter_content)
+    >>> len(id_filter_res) == 2
+    True
+    >>> id_filter_res.sort()
+    >>> print "\n".join(id_filter_res)
+    /Members/test_user_1_/doc2
+    /doc2
+
+
+Check "path" filter
+===================
+
+Suppouse we wont to filter-out doc2 of the test_user_1_'s (but 
+not from the portal root) and the front-page from the portal root.
+
+    >>> browser.open(smedit_link)
+    >>> filtercontrol = browser.getControl("Blackout entries")
+    >>> filtercontrol.value = "path:/Members/test_user_1_/doc2\npath:/front-page"
+    >>> browser.getControl("Save").click()
+    >>> path_filter_content = browser.contents
+
+As result - "doc2" of the pointed member and "front-page" documents
+must be filtered-out from the sitemap.
+
+    >>> path_filter_res = reloc.findall(path_filter_content)
+    >>> len(path_filter_res) == 3
+    True
+    >>> path_filter_res.sort()
+    >>> print "\n".join(path_filter_res)
+    /Members/test_user_1_/doc2
+    /doc1
+    /doc2
+
+
+Check default filter
+====================
+
+Lets check what filter should be used for old-feshion filters
+(without any filter name prefixes)?
+
+Go to the edit form of the sitemap and add "doc1" and front-page
+lines without any filter name prefix to the "Blackout entries"
+field.
+
+    >>> browser.open(portal_url + "/sitemap.xml/edit")
+    >>> filtercontrol = browser.getControl("Blackout entries")
+    >>> filtercontrol.value = "doc1\front-page"
+    >>> browser.getControl("Save").click()
+    >>> default_filter_content = browser.contents
+
+By default "id" filter must be used, so all "doc1" and "front-page"
+objects must be filtered-out from the sitemap.
+
+    >>> default_filter_res = reloc.findall(default_filter_content)
+    >>> len(default_filter_res) == 3
+    True
+    >>> default_filter_res.sort()
+    >>> print "\n".join(default_filter_res)
+    /Members/test_user_1_/doc2
+    /doc2
 
 
 ...

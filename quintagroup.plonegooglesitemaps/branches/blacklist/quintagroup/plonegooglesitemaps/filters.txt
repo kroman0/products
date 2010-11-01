@@ -113,21 +113,23 @@ in the form and it should be empty by default.
 
 Click on "Save" button lead us to result sitemap view.
 
-    >>> browser.contents.startswith('<?xml version="1.0" encoding="UTF-8"?>')
-    True
+    >>> print browser.contents
+    <?xml version="1.0" encoding=...
+
 
 After adding "Content Sitemap", "sitemap.xml" link will appear
 on "Settings" tab page of Plone Google Sitemap configlet.
 
     >>> browser.open(portal_url + "/prefs_gsm_settings")
     >>> smedit_link = browser.getLink('sitemap.xml')
+    >>> smedit_url = smedit_link.url
 
 This link lead to edit form of the newly created sitemap.xml.
 Also prepare view link to simplifier following demonstrations.
 
-    >>> smedit_link.endswith("sitemap.xml/edit")
+    >>> smedit_url.endswith("sitemap.xml/edit")
     True
-    >>> smview_link = smedit_link[:-5]
+    >>> smview_url = smedit_url[:-5]
 
 
 No filters
@@ -135,14 +137,15 @@ No filters
 
 Resulted sitemap has no filters - all document should present in it.
 
-    >>> browser.open(smview_link)
+    >>> browser.open(smview_url)
     >>> file("/tmp/browser.1.html","wb").write(browser.contents)
     >>> no_filters_content = browser.contents
 
 Check if resulted page is real sitemap...
 
-    >>> browser.contents.startswith('<?xml version="1.0" encoding="UTF-8"?>')
-    True
+    >>> print browser.contents
+    <?xml version="1.0" encoding=...
+
 
 To check urls, which pass filters - create regular expression...
 
@@ -170,7 +173,7 @@ Go to the edit form of the sitemap and add "doc1"
 and "front-page" lines with "id:" prefix to the
 "Blackout entries" field.
 
-    >>> browser.open(smedit_link)
+    >>> browser.open(smedit_url)
     >>> filtercontrol = browser.getControl("Blackout entries")
     >>> filtercontrol.value = "id:doc1\nid:front-page"
     >>> browser.getControl("Save").click()
@@ -194,7 +197,7 @@ Check "path" filter
 Suppouse we wont to filter-out doc2 of the test_user_1_'s (but 
 not from the portal root) and the front-page from the portal root.
 
-    >>> browser.open(smedit_link)
+    >>> browser.open(smedit_url)
     >>> filtercontrol = browser.getControl("Blackout entries")
     >>> filtercontrol.value = "path:/Members/test_user_1_/doc2\npath:/front-page"
     >>> browser.getControl("Save").click()
@@ -208,7 +211,7 @@ must be filtered-out from the sitemap.
     True
     >>> path_filter_res.sort()
     >>> print "\n".join(path_filter_res)
-    /Members/test_user_1_/doc2
+    /Members/test_user_1_/doc1
     /doc1
     /doc2
 
@@ -225,7 +228,7 @@ field.
 
     >>> browser.open(portal_url + "/sitemap.xml/edit")
     >>> filtercontrol = browser.getControl("Blackout entries")
-    >>> filtercontrol.value = "doc1\front-page"
+    >>> filtercontrol.value = "doc1\nfront-page"
     >>> browser.getControl("Save").click()
     >>> default_filter_content = browser.contents
 
@@ -233,7 +236,7 @@ By default "id" filter must be used, so all "doc1" and "front-page"
 objects must be filtered-out from the sitemap.
 
     >>> default_filter_res = reloc.findall(default_filter_content)
-    >>> len(default_filter_res) == 3
+    >>> len(default_filter_res) == 2
     True
     >>> default_filter_res.sort()
     >>> print "\n".join(default_filter_res)
@@ -241,32 +244,3 @@ objects must be filtered-out from the sitemap.
     /doc2
 
 
-...
-
-
-
-Return blkack-out filtered objects
-          Every record in blackout_list filter should follow the spec:
-            [<filter name>:]<filter arguments>
-          For example:
-          1|  index.html
-          2|  id:index.html
-          3|  path:/folder_1_level/obj_in_folder
-          4|  path:./folder_near_sitemap/obj_in_folder
-          5|  foo_filter:arg-1, arg-2
-         
-          1->used default "id" filter - remove "index.html" objects;
-          2->explicit "id" filter - remove "index.html" objects;
-          3->"path" filter - remove /folder_1_level/obj_in_folder object,
-              path from the root of the plone site;
-          4->same to 3), but path get from the folder, where sitemap is located;
-          5->filter name is "foo_filter" (must be registered IBlackoutFilter,
-             named "foo_filter"), which get filter arguments: arg-1, arg-2
-          
-          class FooFilterUtility(object):
-              def __init__(self, context, request):
-                  self.context = context
-                  self.request = request
-              def filterOut(self, fdata, fargs):
-                  # some logic to filter-out fdata by fargs with taking into
-                  # consideration self.context and self.request, if needed.

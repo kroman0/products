@@ -244,3 +244,90 @@ objects must be filtered-out from the sitemap.
     /doc2
 
 
+Creation own filters
+====================
+
+Suppouse we want to create own blackout filter, 
+which behave like id-filter, but with some differencies.
+Our fitler has following format:
+
+  (+|-)<filtered id>
+
+  - when 1st sign "+" then only objects with <filtered id>
+    must leave after filetering,
+  - if 1st sign is "-" or  all objects with <filtered id> must be
+    filtered-out (like default id filter)
+
+You need create new IBlckoutFilter multi-adapter,
+and register it with unique name.
+
+    >>> from zope.component import adapts
+    >>> from zope.interface import Interface, implements
+    >>> from zope.publisher.interfaces.browser import IBrowserRequest
+    >>> from quintagroup.plonegooglesitemaps.interfaces import IBlackoutFilter
+    >>> class SignedIdFilter(object):
+    ...     adapts(Interface, IBrowserRequest)
+    ...     implements(IBlackoutFilter)
+    ...     def __init__(self, context, request):
+    ...         self.context = context
+    ...         self.request = request
+    ...     def filterOut(self, fdata, fargs):
+    ...         sign = fargs[0]
+    ...         fid = fargs[1:]
+    ...         if sign == "+":
+    ...             return [b for b in fdata if b.getId==fid]
+    ...         elif sign == "-":
+    ...             return [b for b in fdata if b.getId!=fid]
+    ...         return fdata
+
+
+Now register this new filter as named multiadapter ...
+
+    >>> from zope.component import provideAdapter
+    >>> provideAdapter(SignedIdFilter, 
+    ...                name=u'signedid')
+
+So thet's all what neede to add new filter.
+No test if newly added filter really take into consideration.
+
+Check if white filtering ("+" prefix) work correctly.
+Go to the edit form of the sitemap and add "signedid:+doc1"
+to the "Blackout entries" field.
+
+    >>> browser.open(smedit_url)
+    >>> filtercontrol = browser.getControl("Blackout entries")
+    >>> filtercontrol.value = "signedid:+doc1"
+    >>> browser.getControl("Save").click()
+    >>> signedid_filter_content = browser.contents
+
+As result - only objects with "doc1" id must present in the sitemap.
+
+    >>> signedid_filter_res = reloc.findall(signedid_filter_content)
+    >>> len(signedid_filter_res) == 2
+    True
+    >>> signedid_filter_res.sort()
+    >>> print "\n".join(signedid_filter_res)
+    /Members/test_user_1_/doc1
+    /doc1
+
+
+An for the last - check black filtering ("-" prefix) is working.
+Go to the edit form of the sitemap and add "signedid:-doc1"
+to the "Blackout entries" field.
+
+    >>> browser.open(smedit_url)
+    >>> filtercontrol = browser.getControl("Blackout entries")
+    >>> filtercontrol.value = "signedid:-doc1"
+    >>> browser.getControl("Save").click()
+    >>> signedid_filter_content = browser.contents
+
+As result - all except objects with "doc1" id must present in the sitemap.
+
+    >>> signedid_filter_res = reloc.findall(signedid_filter_content)
+    >>> len(signedid_filter_res) == 3
+    True
+    >>> signedid_filter_res.sort()
+    >>> print "\n".join(signedid_filter_res)
+    /Members/test_user_1_/doc2
+    /doc2
+    /front-page

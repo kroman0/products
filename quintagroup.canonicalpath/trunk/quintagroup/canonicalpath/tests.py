@@ -322,7 +322,7 @@ class NotPropertyProviderItem(BaseItem, Traversable):
 class NotAdaptableItem(BaseItem):
     """Not adaptable object."""
 
-class TestConvertor(unittest.TestCase):
+class TestConvertor(TestCase):
 
     def setUp(self):
         self.convertor = CanonicalConvertor("http://domain.com")
@@ -398,7 +398,7 @@ class TestConvertor(unittest.TestCase):
         self.assertEqual(logs, "", "Log not cleand-up: \"%s\"" % logs)
 
 
-class TestAdaptersRegistration(unittest.TestCase):
+class TestAdaptersRegistration(TestCase):
     """Test of default adapters registration."""
 
     def setUp(self):

@@ -26,13 +26,9 @@
                 <th></th>
                 <th tal:repeat="user view/getUsers" tal:content="user">User</th>
             </tr>
-            <tr tal:repeat="type view/getTypes">
+            <tr tal:repeat="type python:view.getTypes(all=True)">
                 <th tal:content="type">Document</th>
                 <td tal:repeat="count python:view.getContent(type)" tal:content="count">123</td>
-            </tr>
-            <tr>
-                <th>...</th>
-                <td tal:repeat="count view/getTotal">...</td>
             </tr>
             <tr>
                 <th>Total</th>

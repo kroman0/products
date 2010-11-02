@@ -17,6 +17,8 @@ except ImportError:
 
 from GChartWrapper import VerticalBarStack
 
+from quintagroup.analytics.config import COLORS, OTHER_TYPES
+
 class OwnershipByType(BrowserView):
     MAX = 10
     def __init__(self, context, request):
@@ -46,7 +48,7 @@ class OwnershipByType(BrowserView):
             self.total = [i[1] for i in data]
         return self.users
 
-    def getTypes(self):
+    def getTypes(self, all=False):
         if self.types is None:
             index = self.cat._catalog.getIndex('portal_type')
             data = {}
@@ -61,8 +63,8 @@ class OwnershipByType(BrowserView):
             data = data.items()
             data.sort(lambda a, b: a[1] - b[1])
             data.reverse()
-            self.types = [i[0] for i in data[:self.MAX]]
-        return self.types
+            self.types = [i[0] for i in data]
+        return all and self.types or self.types[:self.MAX]
 
     def getContent(self, type_):
         if type_ not in self.data:
@@ -81,14 +83,16 @@ class OwnershipByType(BrowserView):
 
     def getChart(self):
         data = []
-        for type_ in self.getTypes():
+        types = self.getTypes()
+        for type_ in types:
             data.append(self.getContent(type_))
+        other = [self.getContent(t) for t in self.getTypes(all=True)[self.MAX:]]
+        data.append([sum(l) for l in zip(*other)])
         max_value = max(self.getTotal())
         chart = VerticalBarStack(data, encoding='text')
-        chart.title('Content ownership by type').legend(*self.types)
+        chart.title('Content ownership by type').legend(*(types+OTHER_TYPES))
         chart.bar('a', 10, 0).legend_pos("b")
-        chart.color('669933', 'CC9966', '993300', 'FF6633', 'E8E4E3', 'A9A486',
-                    'DCB57E', 'FFCC99', '996633', '333300')
+        chart.color(*COLORS)
         chart.size(800, 375).scale(0,max_value).axes('xy').label(*self.users)
         chart.axes.type("y")
         chart.axes.range(0,0,max_value)
@@ -165,8 +169,7 @@ class OwnershipByState(BrowserView):
         chart = VerticalBarStack(data, encoding='text')
         chart.title('Content ownership by state').legend(*self.states)
         chart.bar('a', 10, 0).legend_pos("b")
-        chart.color('669933', 'CC9966', '993300', 'FF6633', 'E8E4E3', 'A9A486',
-                    'DCB57E', 'FFCC99', '996633', '333300')
+        chart.color(*COLORS)
         chart.size(800, 375).scale(0,max_value).axes('xy').label(*self.users)
         chart.axes.type("y")
         chart.axes.range(0,0,max_value)
@@ -244,8 +247,7 @@ class TypeByState(BrowserView):
         chart = VerticalBarStack(data, encoding='text')
         chart.title('Content type by state').legend(*self.states)
         chart.bar('a', 10, 0).legend_pos("b")
-        chart.color('669933', 'CC9966', '993300', 'FF6633', 'E8E4E3', 'A9A486',
-                    'DCB57E', 'FFCC99', '996633', '333300')
+        chart.color(*COLORS)
         chart.size(800, 375).scale(0,max_value).axes('xy').label(*self.types)
         chart.axes.type("y")
         chart.axes.range(0,0,max_value)

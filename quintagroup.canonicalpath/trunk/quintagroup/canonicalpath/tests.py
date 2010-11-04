@@ -34,14 +34,22 @@ from quintagroup.canonicalpath.adapters import PROPERTY_PATH
 from quintagroup.canonicalpath.adapters import PROPERTY_LINK
 from quintagroup.canonicalpath.upgrades import CanonicalConvertor
 
+def registerCanonicalPathInReg():
+    import quintagroup.canonicalpath, Products.Five
+    fiveconfigure.debug_mode = True
+    zcml.load_config('meta.zcml', Products.Five)
+    zcml.load_config('configure.zcml', quintagroup.canonicalpath)
+    fiveconfigure.debug_mode = False
+
 class TestCase(ptc.PloneTestCase):
     class layer(PloneSite):
         @classmethod
         def setUp(cls):
-            import quintagroup.canonicalpath
-            fiveconfigure.debug_mode = True
-            zcml.load_config('configure.zcml', quintagroup.canonicalpath)
-            fiveconfigure.debug_mode = False
+            registerCanonicalPathInReg()
+            # import quintagroup.canonicalpath
+            # fiveconfigure.debug_mode = True
+            # zcml.load_config('configure.zcml', quintagroup.canonicalpath)
+            # fiveconfigure.debug_mode = False
 
 ptc.setupPloneSite()
 
@@ -322,9 +330,11 @@ class NotPropertyProviderItem(BaseItem, Traversable):
 class NotAdaptableItem(BaseItem):
     """Not adaptable object."""
 
-class TestConvertor(TestCase):
+
+class TestConvertor(unittest.TestCase):
 
     def setUp(self):
+        registerCanonicalPathInReg()
         self.convertor = CanonicalConvertor("http://domain.com")
 
     def test_convertIPathToLink(self):
@@ -357,14 +367,13 @@ class TestConvertor(TestCase):
         bad = NotPropertyProviderItem("item")
         self.convertor.convertIPathToLink(bad)
         result = self.convertor.getLogs()
-        expect = "ERROR: exceptions.AttributeError: " \
-                 "NotPropertyProviderItem instance has no attribute 'hasProperty'"
+        expect = "NotPropertyProviderItem instance has no attribute 'hasProperty'"
         self.assertEqual(expect in result, True, "Wrong log: %s" % result)
 
         bad = NotAdaptableItem("item")
         self.convertor.convertIPathToLink(bad)
         result = self.convertor.getLogs()
-        expect = "ERROR: zope.component.interfaces.ComponentLookupError: "
+        expect = "zope.component.interfaces.ComponentLookupError"
         self.assertEqual(expect in result, True, "Wrong log: %s" % result)
 
     def test_loggingSuccess(self):
@@ -398,10 +407,11 @@ class TestConvertor(TestCase):
         self.assertEqual(logs, "", "Log not cleand-up: \"%s\"" % logs)
 
 
-class TestAdaptersRegistration(TestCase):
+class TestAdaptersRegistration(unittest.TestCase):
     """Test of default adapters registration."""
 
     def setUp(self):
+        registerCanonicalPathInReg()
         self.cant = "Can't get \"%s\" adapter for object, which implement: "
         self.doget = "Get \"%s\" adapter for object, which implement: "
 

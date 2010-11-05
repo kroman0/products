@@ -97,7 +97,7 @@ class TestBlacklistFormProcessing(TestFilterMixin):
         self.smview = queryMultiAdapter((self.sm, self.app.REQUEST), name="sitemap.xml")
 
     def getPreparedLists(self, bl, fargs):
-        self.sm.edit(blackout_list=bl)
+        self.sm.edit(blackout_list=[bl,])
         filtered = [f['url'] for f in self.smview.results()]
         catpaths = [c.getURL() for c in self.catres]
         return catpaths, filtered
@@ -117,11 +117,11 @@ class TestBlacklistFormProcessing(TestFilterMixin):
             'Wrong filtered-out by "id" filter:\nsrc %s\nres %s\nexcluded %s' % (
              catpaths, filtered, excluded))
         # Now check is output of unnamed filter samed to named one.
-        self.sm.edit(blackout_list="doc1")
+        self.sm.edit(blackout_list=["doc1",])
         filtered_dflt = [f['url'] for f in self.smview.results()]
         map(lambda l: l.sort(), (filtered, filtered_dflt))
         self.assertTrue(filtered == filtered_dflt,
-            'Output of named "id" filter is not same to unnamed one:' \
+            'Output of named "id" filter is not same to unnamed one:\n' \
             'id-named: %s\nunnamed: %s' % (filtered, filtered_dflt))
 
     # def testGetCorrectFilterName(self):

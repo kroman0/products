@@ -81,7 +81,7 @@ class CommonSitemapView(BrowserView):
         return result
 
     def getBOFiltered(self, objects):
-        """Return blkack-out filtered objects
+        """Return black-out filtered objects
           Every record in blackout_list filter should follow the spec:
             [<filter name>:]<filter arguments>
           For example:
@@ -98,15 +98,9 @@ class CommonSitemapView(BrowserView):
           4->same to 3), but path get from the folder, where sitemap is located;
           5->filter name is "foo_filter" (must be registered IBlackoutFilter,
              named "foo_filter"), which get filter arguments: arg-1, arg-2
-          
-          class FooFilterUtility(object):
-              def __init__(self, context, request):
-                  self.context = context
-                  self.request = request
-              def filterOut(self, fdata, fargs):
-                  # some logic to filter-out fdata by fargs with taking into
-                  # consideration self.context and self.request, if needed.
-        """
+         
+          Detailed explanation look in filters.txt doctest.
+        """ 
         blackout_list = self.context.getBlackout_list()
         for frec in blackout_list:
             fspec = frec.split(":", 1)

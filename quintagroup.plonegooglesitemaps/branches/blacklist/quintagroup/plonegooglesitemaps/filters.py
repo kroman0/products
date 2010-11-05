@@ -13,7 +13,9 @@ class IdBlackoutFilter(object):
 
     def filterOut(self, fdata, fargs):
         """Filter-out fdata list by id in fargs."""
-        return [b for b in fdata if (b.getId or b.id) != fargs]
+        for b in fdata:
+            if (b.getId or b.id) != fargs:
+                yield b
 
 
 class PathBlackoutFilter(object):
@@ -27,13 +29,21 @@ class PathBlackoutFilter(object):
 
     def filterOut(self, fdata, fargs):
         """Filter-out fdata list by path in fargs."""
+        if not (fargs.startswith("/") or fargs.startswith("./")):
+            for b in fdata:
+                yield b
+            
         if fargs.startswith("/"):
             # absolute path filter
-            portal = queryMultiAdapter((self.context, self.request),
-                         name=u"plone_portal_state").portal()
-            return [b for b in fdata if b.getPath() != '/%s%s' % (portal.getId(), fargs)]
-        elif fargs.startswith("./"):
+            portal_id = queryMultiAdapter((self.context, self.request),
+                         name=u"plone_portal_state").portal().getId()
+            test_path = '/' + portal_id + fargs
+        else:
             # relative path filter
-            contpath = '/'.join(self.context.getPhysicalPath()[:-1])
-            return [b for b in fdata if b.getPath() != (contpath + fargs[1:])]
-        return fdata
+            container_path = '/'.join(self.context.getPhysicalPath()[:-1])
+            test_path = container_path + fargs[1:]
+
+        for b in fdata:
+            if b.getPath() != test_path:
+                yield b 
+

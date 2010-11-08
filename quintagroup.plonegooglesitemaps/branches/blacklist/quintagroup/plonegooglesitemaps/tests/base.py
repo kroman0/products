@@ -51,6 +51,9 @@ def setup_product():
     zcml.load_config('overrides.zcml', quintagroup.plonegooglesitemaps)
     fiveconfigure.debug_mode = False
 
+    if not ptc.PLONE31:
+        qi.installPackage("plone.browserlayer")
+
     ztc.installPackage(PRODUCT)
 
 setup_product()

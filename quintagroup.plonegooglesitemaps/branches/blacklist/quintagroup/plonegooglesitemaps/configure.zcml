@@ -8,6 +8,7 @@
     <include package="quintagroup.canonicalpath" />
     <include package="quintagroup.catalogupdater" />
     <include package="archetypes.schemaextender" />
+    <include package="plone.browserlayer" />
 
     <five:registerPackage package="." initialize=".initialize" />
 

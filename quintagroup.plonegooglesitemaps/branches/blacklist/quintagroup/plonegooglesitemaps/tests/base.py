@@ -72,7 +72,6 @@ class MixinTestCase(object):
     layer = PloneSite
 
     def afterSetUp(self):
-        super(MixinTestCase, self).afterSetUp()
         self.loginAsPortalOwner()
         self.workflow = self.portal.portal_workflow
         self.orig_mobile_ifaces = None
@@ -84,19 +83,32 @@ class MixinTestCase(object):
         mobilesitemapview.MOBILE_INTERFACES = [IMobileMarker.__identifier__,]
 
     def beforeTearDown(self):
-        super(MixinTestCase, self).beforeTearDown()
         if getattr(self, 'orig_mobile_ifaces', None) is not None:
             mobilesitemapview.MOBILE_INTERFACES = self.orig_mobile_ifaces
 
 
 class TestCase(MixinTestCase, ptc.PloneTestCase):
     """ For unit tests """
+    
+    def afterSetUp(self):
+        MixinTestCase.afterSetUp(self)
+        ptc.PloneTestCase.afterSetUp(self)
+
+    def beforeTearDown(self):
+        MixinTestCase.beforeTearDown(self)
+        ptc.PloneTestCase.beforeTearDown(self)
+
 
 
 class FunctionalTestCase(MixinTestCase, ptc.FunctionalTestCase):
     """ For functional tests """
 
     def afterSetUp(self):
-        super(FunctionalTestCase, self).afterSetUp()
+        MixinTestCase.afterSetUp(self)
+        ptc.FunctionalTestCase.afterSetUp(self)
         self.auth = "%s:%s" % (portal_owner, default_password)
+
+    def beforeTearDown(self):
+        MixinTestCase.beforeTearDown(self)
+        ptc.FunctionalTestCase.beforeTearDown(self)
 

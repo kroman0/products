@@ -107,7 +107,7 @@ in the form and it should be empty by default.
     True
     >>> save_button = browser.getControl("Save")
     >>> save_button
-    <SubmitControl name='form.button.save' type='submit'>
+    <SubmitControl name='form...' type='submit'>
     >>> save_button.click()
 
 

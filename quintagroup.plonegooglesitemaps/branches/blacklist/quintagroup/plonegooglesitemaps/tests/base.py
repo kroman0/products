@@ -52,7 +52,7 @@ def setup_product():
     fiveconfigure.debug_mode = False
 
     if not ptc.PLONE31:
-        qi.installPackage("plone.browserlayer")
+        ztc.installPackage("plone.browserlayer")
 
     ztc.installPackage(PRODUCT)
 
@@ -72,6 +72,7 @@ class MixinTestCase(object):
     layer = PloneSite
 
     def afterSetUp(self):
+        super(MixinTestCase, self).afterSetUp()
         self.loginAsPortalOwner()
         self.workflow = self.portal.portal_workflow
         self.orig_mobile_ifaces = None
@@ -83,6 +84,7 @@ class MixinTestCase(object):
         mobilesitemapview.MOBILE_INTERFACES = [IMobileMarker.__identifier__,]
 
     def beforeTearDown(self):
+        super(MixinTestCase, self).beforeTearDown()
         if getattr(self, 'orig_mobile_ifaces', None) is not None:
             mobilesitemapview.MOBILE_INTERFACES = self.orig_mobile_ifaces
 

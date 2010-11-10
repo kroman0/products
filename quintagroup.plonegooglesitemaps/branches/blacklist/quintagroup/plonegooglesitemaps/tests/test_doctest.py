@@ -7,7 +7,7 @@ from Products.CMFPlone.utils import _createObjectByType
 class DocTestCase(FunctionalTestCase):
 
     def afterSetUp(self):
-        super(FunctionalTestCase, self).afterSetUp()
+        super(DocTestCase, self).afterSetUp()
         #self.createTestContent()
 
     def addDocument(self, cont, id, text):

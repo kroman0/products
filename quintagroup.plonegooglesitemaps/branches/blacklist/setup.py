@@ -4,6 +4,9 @@ import os
 
 version = '1.5.6'
 
+tests_require=['zope.testing'
+               'collective.testcaselayer']
+
 setup(name='quintagroup.plonegooglesitemaps',
       version=version,
       description="Allows Plone websites to get better visibility for Google search engine",
@@ -31,12 +34,13 @@ setup(name='quintagroup.plonegooglesitemaps',
           'archetypes.schemaextender',
           # -*- Extra requirements: -*-
       ],
+      tests_require=tests_require,
+      extras_require=dict(tests=tests_require),
       entry_points="""
       # -*- Entry points: -*-
 
       [z3c.autoinclude.plugin]
       target = plone
       """,
-      setup_requires=["PasteScript"],
       paster_plugins = ["ZopeSkel"],
       )

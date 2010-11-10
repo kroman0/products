@@ -4,7 +4,7 @@ import os
 
 version = '1.5.6'
 
-tests_require=['zope.testing'
+tests_require=['zope.testing',
                'collective.testcaselayer']
 
 setup(name='quintagroup.plonegooglesitemaps',

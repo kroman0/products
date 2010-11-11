@@ -2,7 +2,10 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.5.6'
+version = '1.6.0'
+
+tests_require=['zope.testing',
+               'collective.testcaselayer']
 
 setup(name='quintagroup.plonegooglesitemaps',
       version=version,
@@ -25,17 +28,19 @@ setup(name='quintagroup.plonegooglesitemaps',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'plone.browserlayer',
           'quintagroup.canonicalpath>=0.7',
           'quintagroup.catalogupdater',
           'archetypes.schemaextender',
           # -*- Extra requirements: -*-
       ],
+      tests_require=tests_require,
+      extras_require=dict(tests=tests_require),
       entry_points="""
       # -*- Entry points: -*-
 
       [z3c.autoinclude.plugin]
       target = plone
       """,
-      setup_requires=["PasteScript"],
       paster_plugins = ["ZopeSkel"],
       )

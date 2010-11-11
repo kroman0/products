@@ -8,6 +8,7 @@
     <include package="quintagroup.canonicalpath" />
     <include package="quintagroup.catalogupdater" />
     <include package="archetypes.schemaextender" />
+    <include package="plone.browserlayer" />
 
     <five:registerPackage package="." initialize=".initialize" />
 
@@ -27,5 +28,21 @@
         class="Products.ATContentTypes.content.newsitem.ATNewsItem"
         interface=".interfaces.INewsSitemapProvider"
         />
+
+    <!-- Register default filters -->
+    <adapter
+        for="*
+             zope.publisher.interfaces.browser.IBrowserRequest"
+        factory=".filters.IdBlackoutFilter"
+        name="id"
+        permission="zope.Public" />
+
+    <adapter
+        for="*
+             zope.publisher.interfaces.browser.IBrowserRequest"
+        factory=".filters.PathBlackoutFilter"
+        name="path"
+        permission="zope.Public" />
+
 
 </configure>

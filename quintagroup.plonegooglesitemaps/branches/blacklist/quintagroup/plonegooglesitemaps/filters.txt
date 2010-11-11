@@ -2,56 +2,67 @@
 Blackout filtering
 ==================
 
-Sitemaps has option to filterout objects, which shouldn't present
-in a sitemap. This option is accessable in sitemap edit form
-and present as "Blackout entries" lines field.
+Filtering introductioin
+=======================
 
-In earlier (<3.0.7 and <4.0.1) versions of the package the field
-filter-out objects only by its ids, and looks like:
+Sitemap portal type has an option, designed to filter out
+objects which should be excluded from a sitemap. This option is
+accessable in sitemap edit form and is labeled as
+"Blackout entries".
+
+In earlier versions of the package (<4.0.1 for plone-4 branch
+and <3.0.7 for plone-3 branch) this field allowed to
+filter objects only by their ids, and looked like:
 
 <pre>
   index.html
   index_html
 </pre>
 
-So all objects with "index.html" or "index_html" ids excluded
-from the sitemap.
+So, all objects with "index.html" or "index_html" ids were
+excluded from the sitemap.
 
-In the new versions of GoogleSitemaps filtering was remaked
-to pluggable architecture. Now filters are named mutli adapters.
-By default there are only two most useful filters - "id" and
+In the new versions of GoogleSitemaps filtering was remade
+to pluggable architecture. Now filters became named multi
+adapters. There are only two default filters - "id" and
 "path".
 
-Because of different filters can be used - new syntax applied
+Since different filters can be used - new syntax was applied
 to the "Blackout entries" field. Every record in the field
-should follow the spec:
+should follow the specification:
   
   [<filter name>:]<filter arguments>
 
-By default (if no <filter name> specified) - "id" filter will
-be used. If <filter name> specified - system looking for 
-<filter name> name  multiadapter to IBlackoutFilter interface.
-If such multiadapter was not found - it's ignored silently.
+If no <filter name> is specified - "id" filter will
+be used. If <filter name> is specified - system will look
+for <filter name>-named  multiadapter to IBlackoutFilter
+interface. If such multiadapter is not found - filter
+will be ignored without raising any errors.
 
 
-Setup 
-=====
+Following parts demonstrate working of the filtering.
+Aspects of default filters ("id" and "path")
+are considered yet.
 
-First, we must perform some setup. We use the testbrowser that is shipped
-with Five, as this provides proper Zope 2 integration. Most of the 
-documentation, though, is in the underlying zope.testbrower package.
+Setup demonstration environment
+===============================
+
+First, we must perform some setup. We use the testbrowser that is
+shipped with Five, as this provides proper Zope 2 integration. Most
+of the documentation, though, is in the underlying zope.testbrower
+package.
 
     >>> from Products.Five.testbrowser import Browser
     >>> browser = Browser()
     >>> portal_url = self.portal.absolute_url()
 
-The following is useful when writing and debugging testbrowser tests. It lets
-us see all error messages in the error_log.
+The following is useful when writing and debugging testbrowser tests.
+It lets us see all error messages in the error_log.
 
     >>> self.portal.error_log._ignored_exceptions = ()
 
-With that in place, we can go to the portal front page and log in. We will
-do this using the default user from PloneTestCase:
+With that in place, we can go to the portal front page and log in.
+We will do this using the default user from PloneTestCase:
 
     >>> from Products.PloneTestCase.setup import portal_owner, default_password
     >>> browser.open(portal_url)
@@ -73,11 +84,10 @@ We have the login portlet, so let's use that.
     'http://nohost/plone/login_form'
 
 
-
 Functionality
 =============
 
-First create several documents for demonstrations.
+First create some content for demonstrations.
 
 In the root of the portal
 
@@ -89,16 +99,15 @@ And in the memeber's folder
     >>> self.addDocument(self.folder, "doc1", "Member Document 1 text")
     >>> self.addDocument(self.folder, "doc2", "Member Document 2 text")
 
-We need add sitemap, of corse, for demonstration.
+We need to add sitemap for demonstration.
 
     >>> browser.open(portal_url + "/prefs_gsm_settings")
     >>> browser.getControl('Add Content Sitemap').click()
     
 Now we bring-up to edit form of the newly created content sitemap.
-We interested in two things: "Blackout entries" field must present
-in the form and it should be empty by default.
-    
-    
+We are interested in two things: "Blackout entries" field must
+present in the form and by default it should be empty.
+
     >>> file("/tmp/browser.0.html","wb").write(browser.contents)
     >>> blackout_list = browser.getControl("Blackout entries")
     >>> blackout_list
@@ -117,15 +126,16 @@ Click on "Save" button lead us to result sitemap view.
     <?xml version="1.0" encoding=...
 
 
-After adding "Content Sitemap", "sitemap.xml" link will appear
-on "Settings" tab page of Plone Google Sitemap configlet.
+"sitemap.xml" link should appear in "Settings" page of the
+Plone Google Sitemap configlet when "Content Sitemap"
+was added.
 
     >>> browser.open(portal_url + "/prefs_gsm_settings")
     >>> smedit_link = browser.getLink('sitemap.xml')
     >>> smedit_url = smedit_link.url
 
-This link lead to edit form of the newly created sitemap.xml.
-Also prepare view link to simplifier following demonstrations.
+This link points to edit form of the newly created sitemap.xml.
+Let prepare view link to simplifier following demonstrations.
 
     >>> smedit_url.endswith("sitemap.xml/edit")
     True
@@ -135,24 +145,24 @@ Also prepare view link to simplifier following demonstrations.
 No filters
 ==========
 
-Resulted sitemap has no filters - all document should present in it.
+Created sitemap has no filters and all documents should appear in it.
 
     >>> browser.open(smview_url)
     >>> file("/tmp/browser.1.html","wb").write(browser.contents)
     >>> no_filters_content = browser.contents
 
-Check if resulted page is real sitemap...
+Check if resulted page really is sitemap...
 
     >>> print browser.contents
     <?xml version="1.0" encoding=...
 
 
-To check urls, which pass filters - create regular expression...
+Create regular expression, which help us to test which urls pass the filters.
 
     >>> reloc = re.compile("<loc>%s([^\<]*)</loc>" % self.portal.absolute_url(), re.S)
 
-With help of reloc regular expression - check if all 4 documents + default
-front-page present in the sitemap without filters.
+Test if all 4 documents and default front-page present in the sitemap
+without filters.
 
     >>> no_filters_res = reloc.findall(no_filters_content)
     >>> no_filters_res.sort()
@@ -180,8 +190,8 @@ and "front-page" lines with "id:" prefix to the
     >>> browser.getControl("Save").click()
     >>> id_filter_content = browser.contents
 
-As result - all "doc1" and "front-page" documents must be
-filtered-out from the sitemap.
+"doc1" and "front-page" documents should be excluded from the
+sitemap.
 
     >>> id_filter_res = reloc.findall(id_filter_content)
     >>> id_filter_res.sort()
@@ -193,8 +203,9 @@ filtered-out from the sitemap.
 Check "path" filter
 ===================
 
-Suppouse we wont to filter-out doc2 of the test_user_1_'s (but 
-not from the portal root) and the front-page from the portal root.
+Suppouse we wont to exclude the "front_page" from portal root
+and "doc2" document, located in test_user_1_ home folder,
+but leave untouched "doc2" in portal root with all other objects.
 
     >>> browser.open(smedit_url)
     >>> filtercontrol = browser.getControl("Blackout entries")
@@ -205,13 +216,13 @@ not from the portal root) and the front-page from the portal root.
     >>> browser.getControl("Save").click()
     >>> path_filter_content = browser.contents
 
-As result - "doc2" of the pointed member and "front-page" documents
-must be filtered-out from the sitemap.
+"/Members/test_user_1_/doc2" and "/front_page" objects should
+be excluded from the sitemap.
 
     >>> path_filter_res = reloc.findall(path_filter_content)
     >>> path_filter_res.sort()
     >>> print "\n".join(path_filter_res)
-    /Members/test_user_1_/doc1
+    /Membe rs/test_user_1_/doc1
     /doc1
     /doc2
 
@@ -219,12 +230,13 @@ must be filtered-out from the sitemap.
 Check default filter
 ====================
 
-Lets check what filter should be used for old-feshion filters
-(without any filter name prefixes)?
+Now I have the question: "What filter will be used when no 
+filter name prefix was specified (old-fashion filters for
+example)?"
 
-Go to the edit form of the sitemap and add "doc1" and front-page
-lines without any filter name prefix to the "Blackout entries"
-field.
+Go to the edit form of the sitemap and add "doc1" and
+"front-page" lines without any filter name prefix to the
+"Blackout entries" field.
 
     >>> browser.open(portal_url + "/sitemap.xml/edit")
     >>> filtercontrol = browser.getControl("Blackout entries")
@@ -235,8 +247,8 @@ field.
     >>> browser.getControl("Save").click()
     >>> default_filter_content = browser.contents
 
-By default "id" filter must be used, so all "doc1" and "front-page"
-objects must be filtered-out from the sitemap.
+"id" filter must be used as default filter. So all "doc1" and
+"front-page" objects should be excluded from the sitemap.
 
     >>> default_filter_res = reloc.findall(default_filter_content)
     >>> default_filter_res.sort()
@@ -249,15 +261,16 @@ Creation own filters
 ====================
 
 Suppouse we want to create own blackout filter, 
-which behave like id-filter, but with some differencies.
+which behave like id-filter, but has some differencies.
 Our fitler has following format:
 
   (+|-)<filtered id>
 
-  - when 1st sign "+" then only objects with <filtered id>
-    must leave after filetering,
-  - if 1st sign is "-" or  all objects with <filtered id> must be
-    filtered-out (like default id filter)
+  - when 1st sign is "+" then only objects with <filtered id>
+    should be leaved in sitemap after filetering;
+  - if 1st sign is "-" then all objects with <filtered id>
+    should be excluded from the sitemap (like default id
+    filter).
 
 You need create new IBlckoutFilter multi-adapter,
 and register it with unique name.
@@ -288,11 +301,11 @@ Now register this new filter as named multiadapter ...
     >>> provideAdapter(SignedIdFilter, 
     ...                name=u'signedid')
 
-So thet's all what neede to add new filter.
-No test if newly added filter really take into consideration.
+So that's all what needed to add new filter.
+Now test newly created filter.
 
-Check if white filtering ("+" prefix) work correctly.
-Go to the edit form of the sitemap and add "signedid:+doc1"
+Check whether white filtering ("+" prefix) works correctly.
+Go to edit form of the sitemap and add "signedid:+doc1"
 to the "Blackout entries" field.
 
     >>> browser.open(smedit_url)
@@ -303,7 +316,7 @@ to the "Blackout entries" field.
     >>> browser.getControl("Save").click()
     >>> signedid_filter_content = browser.contents
 
-As result - only objects with "doc1" id must present in the sitemap.
+Only objects with "doc1" id should be leaved in the sitemap.
 
     >>> signedid_filter_res = reloc.findall(signedid_filter_content)
     >>> signedid_filter_res.sort()
@@ -312,7 +325,8 @@ As result - only objects with "doc1" id must present in the sitemap.
     /doc1
 
 
-An for the last - check black filtering ("-" prefix) is working.
+And for the last - check wheter black filtering ("-" prefix)
+works correctly.
 Go to the edit form of the sitemap and add "signedid:-doc1"
 to the "Blackout entries" field.
 
@@ -324,7 +338,8 @@ to the "Blackout entries" field.
     >>> browser.getControl("Save").click()
     >>> signedid_filter_content = browser.contents
 
-As result - all except objects with "doc1" id must present in the sitemap.
+All objects except those having "doc1" id must be included in
+the sitemap.
 
     >>> signedid_filter_res = reloc.findall(signedid_filter_content)
     >>> signedid_filter_res.sort()

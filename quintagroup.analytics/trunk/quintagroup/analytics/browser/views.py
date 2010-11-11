@@ -17,7 +17,7 @@ except ImportError:
 
 from GChartWrapper import VerticalBarStack
 
-from quintagroup.analytics.config import COLORS, OTHER_TYPES
+from quintagroup.analytics.config import COLORS, OTHER_TYPES, NO_WF_BIND
 
 class OwnershipByType(BrowserView):
     MAX = 10
@@ -146,6 +146,8 @@ class OwnershipByState(BrowserView):
 
     def getContent(self, type_):
         if type_ not in self.data:
+            if NO_WF_BIND not in self.data:
+                self.data[NO_WF_BIND] = self.getTotal()
             data = self.data[type_] = []
             for user in self.getUsers():
                 res = self.cat(review_state=type_, Creator=user)
@@ -154,7 +156,15 @@ class OwnershipByState(BrowserView):
                     data.append(0)
                 else:
                     data.append(l)
+            if len(data) > 0:
+                self.data[NO_WF_BIND] = map(lambda t,d:t-d, self.data[NO_WF_BIND], data)
         return self.data[type_]
+
+    def getNoWFContentTitle(self):
+        return NO_WF_BIND
+
+    def getNoWFContent(self):
+        return self.getContent(NO_WF_BIND)
 
     def getTotal(self):
         if self.total is None:
@@ -165,9 +175,10 @@ class OwnershipByState(BrowserView):
         data = []
         for state in self.getStates():
             data.append(self.getContent(state))
+        data.append(self.getNoWFContent())
         max_value = max(self.getTotal())
         chart = VerticalBarStack(data, encoding='text')
-        chart.title('Content ownership by state').legend(*self.states)
+        chart.title('Content ownership by state').legend(*self.states+[NO_WF_BIND])
         chart.bar('a', 10, 0).legend_pos("b")
         chart.color(*COLORS)
         chart.size(800, 375).scale(0,max_value).axes('xy').label(*self.users)
@@ -224,6 +235,8 @@ class TypeByState(BrowserView):
 
     def getContent(self, state):
         if state not in self.data:
+            if NO_WF_BIND not in self.data:
+                self.data[NO_WF_BIND] = self.getTotal()
             data = self.data[state] = []
             for type_ in self.getTypes():
                 res = self.cat(portal_type=type_, review_state=state)
@@ -232,6 +245,8 @@ class TypeByState(BrowserView):
                     data.append(0)
                 else:
                     data.append(l)
+            if len(data) > 0:
+                self.data[NO_WF_BIND] = map(lambda t,d:t-d, self.data[NO_WF_BIND], data)
         return self.data[state]
 
     def getTotal(self):
@@ -239,13 +254,20 @@ class TypeByState(BrowserView):
             self.getTypes()
         return self.total
 
+    def getNoWFContentTitle(self):
+        return NO_WF_BIND
+
+    def getNoWFContent(self):
+        return self.getContent(NO_WF_BIND)
+
     def getChart(self):
         data = []
         for state in self.getStates():
             data.append(self.getContent(state))
+        data.append(self.getContent(NO_WF_BIND))
         max_value = max(self.getTotal())
         chart = VerticalBarStack(data, encoding='text')
-        chart.title('Content type by state').legend(*self.states)
+        chart.title('Content type by state').legend(*self.states+[NO_WF_BIND])
         chart.bar('a', 10, 0).legend_pos("b")
         chart.color(*COLORS)
         chart.size(800, 375).scale(0,max_value).axes('xy').label(*self.types)

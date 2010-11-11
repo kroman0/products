@@ -4,12 +4,7 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="quintagroup.analytics">
 
-    <!-- make plone site object traversable -->
-    <!--five:traversable
-        class="Products.CMFPlone.Portal.PloneSite"
-        /-->
-
-    <include package=".browser" />
+  <include package=".browser" />
 
   <genericsetup:registerProfile
       name="QAnalytics"

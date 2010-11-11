@@ -222,7 +222,7 @@ be excluded from the sitemap.
     >>> path_filter_res = reloc.findall(path_filter_content)
     >>> path_filter_res.sort()
     >>> print "\n".join(path_filter_res)
-    /Membe rs/test_user_1_/doc1
+    /Members/test_user_1_/doc1
     /doc1
     /doc2
 

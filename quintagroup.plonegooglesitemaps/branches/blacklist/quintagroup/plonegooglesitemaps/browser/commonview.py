@@ -109,7 +109,7 @@ class CommonSitemapView(BrowserView):
             fengine = queryMultiAdapter((self.context, self.request),
                           interface=IBlackoutFilter, name=fname)
             if fengine:
-                objects = fengine.filterOut(objects, fargs)
+                objects = list(fengine.filterOut(objects, fargs))
         return objects
 
     def updateRequest(self):

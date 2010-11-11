@@ -1,11 +1,13 @@
 from string import find
 from zope.interface import implements, Interface, Attribute
+from zope.component import queryMultiAdapter
 
 from Acquisition import aq_inner, aq_parent
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 
 from quintagroup.plonegooglesitemaps import qPloneGoogleSitemapsMessageFactory as _
+from quintagroup.plonegooglesitemaps.interfaces import IBlackoutFilter
 from quintagroup.plonegooglesitemaps.browser.utils import additionalURLs, applyOperations
 
 
@@ -67,13 +69,9 @@ class CommonSitemapView(BrowserView):
         """
         result = []
         objects = self.getFilteredObjects()
-        blackout_list = self.context.getBlackout_list()
         reg_exps = self.context.getReg_exp()
 
-        brain_url_map = applyOperations([ob for ob in objects 
-            if (ob.getId not in blackout_list)],
-            reg_exps)
-
+        brain_url_map = applyOperations(self.getBOFiltered(objects), reg_exps)
         # Prepare dictionary for view
         for url, b in brain_url_map.items():
             res_map = {'url' : url,}
@@ -81,6 +79,38 @@ class CommonSitemapView(BrowserView):
             result.append(res_map)
         self.num_entries = len(result)
         return result
+
+    def getBOFiltered(self, objects):
+        """Return black-out filtered objects
+          Every record in blackout_list filter should follow the spec:
+            [<filter name>:]<filter arguments>
+          For example:
+          1|  index.html
+          2|  id:index.html
+          3|  path:/folder_1_level/obj_in_folder
+          4|  path:./folder_near_sitemap/obj_in_folder
+          5|  foo_filter:arg-1, arg-2
+         
+          1->used default "id" filter - remove "index.html" objects;
+          2->explicit "id" filter - remove "index.html" objects;
+          3->"path" filter - remove /folder_1_level/obj_in_folder object,
+              path from the root of the plone site;
+          4->same to 3), but path get from the folder, where sitemap is located;
+          5->filter name is "foo_filter" (must be registered IBlackoutFilter,
+             named "foo_filter"), which get filter arguments: arg-1, arg-2
+         
+          Detailed explanation look in filters.txt doctest.
+        """ 
+        blackout_list = self.context.getBlackout_list()
+        for frec in blackout_list:
+            fspec = frec.split(":", 1)
+            fargs = fspec.pop()
+            fname = fspec and fspec.pop() or "id"
+            fengine = queryMultiAdapter((self.context, self.request),
+                          interface=IBlackoutFilter, name=fname)
+            if fengine:
+                objects = list(fengine.filterOut(objects, fargs))
+        return objects
 
     def updateRequest(self):
         self.request.RESPONSE.setHeader('Content-Type', 'text/xml')

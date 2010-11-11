@@ -76,6 +76,14 @@ class TestSitemapType(FunctionalTestCase):
         self.assertEqual(isinstance(wftrans, atapi.DisplayList), True)
         self.assertEqual("simple_publication_workflow#publish" in wftrans.keys(), True)
 
+    def testSettingBlackout(self):
+        bolist = ["path:./el1  ","   ",""," id:index.html  ","index_html"]
+        expect = ("path:./el1","id:index.html","index_html")
+        self.contentSM.edit(blackout_list=bolist)
+        value = self.contentSM.getBlackout_list()
+        self.assertTrue(value == expect, "Blackout list was not cleaned "\
+             "up from whitespaces: %s" % str(value))
+
 
 class TestSettings(FunctionalTestCase):
 

@@ -32,6 +32,10 @@
                 <td tal:repeat="count python:view.getContent(type)" tal:content="count">123</td>
             </tr>
             <tr>
+                <th tal:content="view/getNoWFContentTitle">No workflow</th>
+                <td tal:repeat="count view/getNoWFContent" tal:content="count">123</td>
+            </tr>
+            <tr>
                 <th>Total</th>
                 <td tal:repeat="total view/getTotal" tal:content="total">123</td>
             </tr>

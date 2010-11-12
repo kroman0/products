@@ -1,7 +1,7 @@
 import unittest
 import transaction
 
-from zope.component import testing
+from zope.component import testing, queryMultiAdapter
 from Testing import ZopeTestCase as ztc
 
 from Products.Five import zcml
@@ -37,8 +37,6 @@ class TestCase(ptc.PloneTestCase):
 
 
 #TO DO:=====================================================================
-#      add test to verify if QA control panel action is present;
-#      add tests for views registration;
 #      add tests for every views methods;
 #      add doc tests to validate if all needed elements are present on page;
 
@@ -50,11 +48,65 @@ class TestQAInstallation(TestCase):
     """
 
     def test_cp_action_installation(self):
-        """Here we are testin control panel action. """
+        """This test validates control panel action. """
         control_panel = self.portal.portal_controlpanel
         self.assert_('QAnalytics' in [a.id for a in control_panel.listActions()],
                      "Configlet for quintagroup.analitycs isn't registered.")
 
+    def test_OwnershipByType(self):
+        """ This test validates registration of
+            ownership_by_type view.
+        """
+        view = queryMultiAdapter((self.portal, self.portal.REQUEST),
+                                 name="ownership_by_type")
+
+        self.assert_(view, "Ownership by type view isn't registered")
+
+    def test_OwnershipByState(self):
+        """ This test validates registration of
+            ownership_by_state view.
+        """
+        view = queryMultiAdapter((self.portal, self.portal.REQUEST),
+                                 name="ownership_by_state")
+
+        self.assert_(view, "Ownership by state view isn't registered")
+
+    def test_TypeByState(self):
+        """ This test validates registration of
+            type_by_state view.
+        """
+        view = queryMultiAdapter((self.portal, self.portal.REQUEST),
+                                 name="type_by_state")
+
+        self.assert_(view, "Type by state view isn't registered")
+
+    def test_LegacyPortlets(self):
+        """ This test validates registration of
+            legacy_portlets view.
+        """
+        view = queryMultiAdapter((self.portal, self.portal.REQUEST),
+                                 name="legacy_portlets")
+
+        self.assert_(view, "Legacy Portlets view isn't registered")
+
+    def test_PropertiesStats(self):
+        """ This test validates registration of
+            properties_stats view.
+        """
+        view = queryMultiAdapter((self.portal, self.portal.REQUEST),
+                                 name="properties_stats")
+
+        self.assert_(view, "Properties Stats view isn't registered")
+
+
+    def test_PortletsStats(self):
+        """ This test validates registration of
+            portlets_stats view.
+        """
+        view = queryMultiAdapter((self.portal, self.portal.REQUEST),
+                                 name="portlets_stats")
+
+        self.assert_(view, "Portlets Stats view isn't registered")
 
 def test_suite():
     from unittest import TestSuite, makeSuite

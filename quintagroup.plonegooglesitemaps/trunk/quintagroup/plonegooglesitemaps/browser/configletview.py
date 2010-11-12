@@ -24,11 +24,11 @@ class IConfigletSettingsView(Interface):
     Sitemap view interface
     """
 
-    sitemaps = Attribute("return mapping of sitemap's type to list of appropriate objects")
-    hasContentSM = Attribute("Return boolean about existance content sitemap")
-    hasMobileSM = Attribute("Return boolean about existance mobile sitemap")
-    hasNewsSM = Attribute("Return boolean about existance news sitemap")
-    sm_types = Attribute("List of sitemap typs")
+    sitemaps = Attribute("Returns mapping of sitemap's type to list of appropriate objects")
+    hasContentSM = Attribute("Returns boolean about existance of content sitemap")
+    hasMobileSM = Attribute("Returns boolean about existance of mobile sitemap")
+    hasNewsSM = Attribute("Returns boolean about existance of news sitemap")
+    sm_types = Attribute("List of sitemap types")
 
     def sitemapsDict():
         """ Return dictionary like object with data for table

@@ -1,13 +1,13 @@
 Changelog
 =========
 
-1.6.0 (2010-10-11)
+1.6.0 (2010-11-12)
 ------------------
 
 * Replaced hardcoded filtering to pluggable architecture,
   with default "id" and "path" filters.
   [mylan]
-* Updated tests, added filtering doctests,
+* Updated tests, added filtering doctests.
   [mylan]
 
 

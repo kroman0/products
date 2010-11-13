@@ -55,7 +55,7 @@ class SetUpContent(Installed):
 
     @classmethod
     def setupContent(cls, portal):
-        """ Creates users"""
+        """ Creates test content."""
         uf = portal.acl_users
         pm = portal.portal_membership
         pc = portal.portal_catalog
@@ -160,15 +160,68 @@ class TestOwnershipByType(TestCase):
 
     layer = SetUpContent
 
-    def test_getUsers(self):
-        """
-        """
-        view = queryMultiAdapter((self.portal, self.portal.REQUEST),
+    def afterSetUp(self):
+        self.view = queryMultiAdapter((self.portal, self.portal.REQUEST),
                                  name="ownership_by_type")
+        self.pc = self.portal.portal_catalog
 
-        self.assert_(False in map(lambda u1, u2:u1==u2,
-                     [u[0] for u in self.layer.users], view.getUsers()))
+    def test_getUsers(self):
+        """ Tests method that returns ordered list of users."""
+        users = [u[0] for u in self.layer.users]
+        users.reverse()
+        self.assert_(False not in map(lambda u1, u2:u1==u2,
+                     users, self.view.getUsers()))
 
+    def test_getTypes(self):
+        """ Tests method that returns ordered list of types."""
+        data = {}
+        index = self.pc._catalog.getIndex('portal_type')
+        for k in index._index.keys():
+            if not k:
+                continue
+            haslen = hasattr(index._index[k], '__len__')
+            if haslen:
+                data[k] = len(index._index[k])
+            else:
+                data[k] = 1
+        data = data.items()
+        data.sort(lambda a, b: a[1] - b[1])
+        data.reverse()
+        types = [i[0] for i in data]
+        self.assert_(False not in map(lambda t1, t2:t1==t2,
+                     self.view.getTypes(), types))
+
+    def test_getContent(self):
+        """ This test verifies method that returns list of numbers.
+            Each number is amount of specified content type objects
+            that owned  by particular user.
+        """
+        # we need to login in to the site as Manager to be able to
+        # see catalog results
+        self.loginAsPortalOwner()
+
+        for type_ in self.layer.types_:
+            self.assert_(False not in \
+            map(lambda i, j:i==j, [len(self.pc(portal_type=type_, Creator=user))
+                                   for user in self.view.getUsers()],
+                                  self.view.getContent(type_)))
+
+    def test_getChart(self):
+        """ This test verifies creation of chart image tag."""
+        chart_tag = """<img src="http://chart.apis.google.com/chart?chxt=y&amp;
+                       chds=0,57&amp;chd=t:19.0,18.0,17.0,16.0,15.0,14.0,
+                       13.0,12.0,11.0,10.0|19.0,18.0,17.0,16.0,15.0,14.0,13.0,
+                       12.0,11.0,10.0|19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,
+                       11.0,10.0|0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0|&amp;
+                       chxr=0,0,57&amp;chco=669933,cc9966,993300,ff6633,e8e4e3,
+                       a9a486,dcb57e,ffcc99,996633,333300,00ff00&amp;chl=user9|
+                       user8|user7|user6|user5|user4|user3|user2|user1|user0&amp;
+                       chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;
+                       chtt=Content+ownership+by+type&amp;chdl=Folder|Document|
+                       Event|Topic|Other+types&amp;chdlp=b" />"""
+        self.loginAsPortalOwner()
+        self.assertEqual(*map(lambda s:''.join(s.split()),
+                              [chart_tag, self.view.getChart()]))
 
 
 def test_suite():

@@ -277,6 +277,59 @@ class TestOwnershipByState(TestCase):
         self.loginAsPortalOwner()
         self.assertEqual(*map(lambda s:''.join(s.split()),
                               [chart_tag, self.view.getChart()]))
+
+class TestTypeByState(TestCase):
+    """Tests all type_by_state view methods."""
+    layer = SetUpContent
+    states = ['private', 'published', 'pending']
+
+    def afterSetUp(self):
+        self.view = queryMultiAdapter((self.portal, self.portal.REQUEST),
+                                 name="type_by_state")
+        self.pc = self.portal.portal_catalog
+
+    def test_getTypes(self):
+        """ Tests method that returns ordered list of types."""
+        self.assert_(False not in map(lambda t1, t2:t1==t2,
+                                      ['Folder', 'Document', 'Event', 'Topic'],
+                                      self.view.getTypes()))
+
+    def test_getStates(self):
+        """ Tests method that returns ordered list of states."""
+        self.assert_(False not in map(lambda s1, s2:s1==s2,
+                     ['private', 'published'], self.view.getStates()))
+
+    def test_getContent(self):
+        """ This test verifies method that returns list of numbers.
+            Each number is amount of specified content type objects
+            that owned  by particular user.
+        """
+        # we need to login in to the site as Manager to be able to
+        # see catalog results
+        self.loginAsPortalOwner()
+
+        for state in self.states:
+            self.assert_(False not in \
+            map(lambda i, j:i==j, [len(self.pc(portal_type=type_,
+                                               review_state=state))
+                                   for type_ in self.view.getTypes()],
+                                  self.view.getContent(state)))
+
+    def test_getChart(self):
+        """ This test verifies creation of chart image tag."""
+        chart_tag = """ <imgsrc="http://chart.apis.google.com/chart?chxt=y&amp;
+                        chds=0,159&amp;chd=t:156.0,145.0,145.0,0.0|3.0,1.0,0.0,
+                        3.0|0.0,0.0,0.0,0.0&amp;chxr=0,0,159&amp;chco=669933,
+                        cc9966,993300,ff6633,e8e4e3,a9a486,dcb57e,ffcc99,996633,
+                        333300,00ff00&amp;chl=Folder|Document|Event|Topic&amp;
+                        chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;
+                        chtt=Content+type+by+state&amp;chdl=private|published|
+                        No+workflow&amp;chdlp=b"/>"""
+
+        self.loginAsPortalOwner()
+        self.assertEqual(*map(lambda s:''.join(s.split()),
+                              [chart_tag, self.view.getChart()]))
+
 def test_suite():
     from unittest import TestSuite, makeSuite
 
@@ -306,6 +359,7 @@ def test_suite():
     test_suite.addTest(makeSuite(TestQAInstallation))
     test_suite.addTest(makeSuite(TestOwnershipByType))
     test_suite.addTest(makeSuite(TestOwnershipByState))
+    test_suite.addTest(makeSuite(TestTypeByState))
     return test_suite
 
 if __name__ == '__main__':

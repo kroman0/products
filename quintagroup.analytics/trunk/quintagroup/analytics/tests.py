@@ -2,15 +2,18 @@ import unittest
 import transaction
 
 from AccessControl.SecurityManagement import newSecurityManager
-from zope.component import testing, queryMultiAdapter
 from Testing import ZopeTestCase as ztc
-
 from Products.Five import zcml
 from Products.Five import fiveconfigure
+from zope.component import testing, queryMultiAdapter, getUtility
+
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase import setup as ptc_setup
 from Products.PloneTestCase.layer import PloneSite
+from plone.portlets.interfaces import IPortletType
+
 import quintagroup.analytics
+
 ptc.setupPloneSite()
 
 class Installed(PloneSite):
@@ -85,9 +88,6 @@ class SetUpContent(Installed):
 class TestCase(ptc.PloneTestCase):
     layer = Installed
 
-#TO DO:=====================================================================
-#      add tests for every views methods;
-#      add doc tests to validate if all needed elements are present on page;
 
 class TestQAInstallation(TestCase):
     """ This class veryfies registrations of all needed views and
@@ -330,6 +330,65 @@ class TestTypeByState(TestCase):
         self.assertEqual(*map(lambda s:''.join(s.split()),
                               [chart_tag, self.view.getChart()]))
 
+class LegacyPortlets(TestCase):
+    """Test all legasy_portlets view methods."""
+
+
+    def afterSetUp(self):
+        self.view = queryMultiAdapter((self.portal, self.portal.REQUEST),
+                                       name='legacy_portlets')
+
+    def test_getPortlets(self):
+        """Tests method that returns portlets info."""
+
+        # this is true for Plone 4
+        self.assert_(self.view.getPortlets() == [])
+
+    def test_getAllPortletExpressions(self):
+        """Tests method that returns portlets expressions."""
+
+        # this is true for Plone 4
+        self.assert_(self.view.getAllPortletExpressions() == [])
+
+class TestPropertiesStats(TestCase):
+    """Tests all properties_stats view methods."""
+
+    def afterSetUp(self):
+        self.view = queryMultiAdapter((self.portal, self.portal.REQUEST),
+                                       name='properties_stats')
+
+    def test_getPropsList(self):
+        self.view.propname = 'title'
+        result = [u'Plone site', u'Welcome to Plone',
+                  u'News', u'Events', u'Users']
+
+        for title in result:
+            self.assert_(title in [prop_info['slots']
+                     for prop_info in self.view.getPropsList()])
+
+
+class TestPortletsStats(TestCase):
+    """Tests all properties_stats view methods."""
+
+    def afterSetUp(self):
+        self.view = queryMultiAdapter((self.portal, self.portal.REQUEST),
+                                       name='portlets_stats')
+
+    def test_getPropsList(self):
+        """Tests method that collects portlet information from site."""
+
+        self.loginAsPortalOwner()
+        portlet = getUtility(IPortletType, name='portlets.Calendar')
+        mapping = \
+          self.portal.restrictedTraverse('++contextportlets++plone.leftcolumn')
+        mapping.restrictedTraverse('+/' + portlet.addview)()
+
+        plone_portlets_info = filter(lambda info:info['path'] == '/plone',
+                                     self.view.getPropsList())
+        lslots = plone_portlets_info[0]['left_slots']
+        self.assert_(filter(lambda info: info['title'] == 'Calendar', lslots))
+
+
 def test_suite():
     from unittest import TestSuite, makeSuite
 
@@ -360,6 +419,9 @@ def test_suite():
     test_suite.addTest(makeSuite(TestOwnershipByType))
     test_suite.addTest(makeSuite(TestOwnershipByState))
     test_suite.addTest(makeSuite(TestTypeByState))
+    test_suite.addTest(makeSuite(LegacyPortlets))
+    test_suite.addTest(makeSuite(TestPropertiesStats))
+    test_suite.addTest(makeSuite(TestPortletsStats))
     return test_suite
 
 if __name__ == '__main__':

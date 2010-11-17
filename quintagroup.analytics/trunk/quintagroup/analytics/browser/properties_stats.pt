@@ -12,6 +12,7 @@
         <div id="wrapper">
             <h1>Properties stats</h1>
             <ul class="formTabs" id="navigation">
+                <li class="formTab"><a href="@@qa_overview">Overview</a></li>
                 <li class="formTab"><a href="@@ownership_by_type">Ownership by type</a></li>
                 <li class="formTab"><a href="@@ownership_by_state">Ownership by state</a></li>
                 <li class="formTab"><a href="@@type_by_state">Types by state</a></li>
@@ -19,6 +20,7 @@
                 <li class="formTab"><a class="selected" href="@@properties_stats">Properties stats</a></li>
                 <li class="formTab"><a href="@@portlets_stats">Portlets stats</a></li>
             </ul>
+            <p>Info comming soon</p>
             <form action="" method="get">
                 Walk through site up to this level (type -1 for no limits):
                 <input type="text" name="level" size="5" value="1" tal:attributes="value request/level|python:1" />

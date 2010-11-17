@@ -10,6 +10,7 @@
         <div id="wrapper">
             <h1>Content ownership by type</h1>
             <ul class="formTabs" id="navigation">
+                <li class="formTab"><a href="@@qa_overview">Overview</a></li>
                 <li class="formTab"><a class="selected" href="@@ownership_by_type">Ownership by type</a></li>
                 <li class="formTab"><a href="@@ownership_by_state">Ownership by state</a></li>
                 <li class="formTab"><a href="@@type_by_state">Types by state</a></li>
@@ -18,6 +19,11 @@
                 <li class="formTab"><a href="@@portlets_stats">Portlets stats</a></li>
             </ul>
         </div>
+        <p>This page provides information about content objects added to your site and their creators.
+           Below you can see chart that shows 10 most freaquently created content types and owners of that types
+           objects. Also there is a table under the chart. This table displays all content types and how many
+           objects of them was created and by whom.
+        </p>
         <div id="chart" tal:content="structure view/getChart">
             Chart will be here
         </div>

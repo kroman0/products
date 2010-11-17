@@ -2,7 +2,7 @@
 <object name="portal_controlpanel" meta_type="Plone Control Panel Tool"
   i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <configlet title="QAnalytics" action_id="QAnalytics" appId="QAnalytics"
-    category="Plone" condition_expr=""
+    category="Products" condition_expr=""
     icon_expr="string:${portal_url}/++resource++qaicon.png"
     url_expr="string:${portal_url}/@@ownership_by_type"
     visible="True" i18n:attributes="title">

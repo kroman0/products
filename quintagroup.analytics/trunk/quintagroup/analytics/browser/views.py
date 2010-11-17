@@ -87,10 +87,12 @@ class OwnershipByType(BrowserView):
         for type_ in types:
             data.append(self.getContent(type_))
         other = [self.getContent(t) for t in self.getTypes(all=True)[self.MAX:]]
-        data.append([sum(l) for l in zip(*other)])
+        if other:
+            data.append([sum(l) for l in zip(*other)])
         max_value = max(self.getTotal())
         chart = VerticalBarStack(data, encoding='text')
-        chart.title('Content ownership by type').legend(*(types+OTHER_TYPES))
+        types = other and types+OTHER_TYPES or types
+        chart.title('Content ownership by type').legend(*(types))
         chart.bar('a', 10, 0).legend_pos("b")
         chart.color(*COLORS)
         chart.size(800, 375).scale(0,max_value).axes('xy').label(*self.users)

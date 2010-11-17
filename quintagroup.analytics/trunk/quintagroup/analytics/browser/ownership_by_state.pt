@@ -10,6 +10,7 @@
         <div id="wrapper">
             <h1>Content ownership by state</h1>
             <ul class="formTabs" id="navigation">
+                <li class="formTab"><a href="@@qa_overview">Overview</a></li>
                 <li class="formTab"><a href="@@ownership_by_type">Ownership by type</a></li>
                 <li class="formTab"><a class="selected" href="@@ownership_by_state">Ownership by state</a></li>
                 <li class="formTab"><a href="@@type_by_state">Types by state</a></li>
@@ -18,6 +19,11 @@
                 <li class="formTab"><a href="@@portlets_stats">Portlets stats</a></li>
             </ul>
         </div>
+        <p>Here you can see information about workflow states that content objects are in and owners of those objects.
+           Below you can see chart that shows workflow states to users map. Also there is a table
+           under the chart. That table displays all workflow states and how many objects are in certain state and who
+           is owner of those objects.
+         </p>
         <div id="chart" tal:content="structure view/getChart">
             Chart will be here
         </div>

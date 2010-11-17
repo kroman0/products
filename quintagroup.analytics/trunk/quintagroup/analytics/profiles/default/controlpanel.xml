@@ -4,7 +4,7 @@
  <configlet title="QAnalytics" action_id="QAnalytics" appId="QAnalytics"
     category="Products" condition_expr=""
     icon_expr="string:${portal_url}/++resource++qaicon.png"
-    url_expr="string:${portal_url}/@@ownership_by_type"
+    url_expr="string:${portal_url}/@@qa_overview"
     visible="True" i18n:attributes="title">
   <permission>Manage portal</permission>
  </configlet>

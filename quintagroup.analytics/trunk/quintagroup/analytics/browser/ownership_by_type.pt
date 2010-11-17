@@ -19,10 +19,10 @@
                 <li class="formTab"><a href="@@portlets_stats">Portlets stats</a></li>
             </ul>
         </div>
-        <p>This page provides information about content objects added to your site and their creators.
-           Below you can see chart that shows 10 most freaquently created content types and owners of that types
-           objects. Also there is a table under the chart. This table displays all content types and how many
-           objects of them was created and by whom.
+        <p>The following chart displays the most frequently created content types (up to 10) in relation 
+            to their owners (up to 10 most active site content contributors are displayed).</p>
+        <p>The table under the chart displays number of content objects of all site's content types
+            in relation to their owners.
         </p>
         <div id="chart" tal:content="structure view/getChart">
             Chart will be here

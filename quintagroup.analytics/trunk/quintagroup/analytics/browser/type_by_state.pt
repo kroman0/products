@@ -19,7 +19,7 @@
                 <li class="formTab"><a href="@@portlets_stats">Portlets stats</a></li>
             </ul>
         </div>
-        <p>Info comming soon.</p>
+        <p>The following chart and table display workflow states of the site's most frequently created content types.</p>
         <div id="chart" tal:content="structure view/getChart">
             Chart will be here
         </div>

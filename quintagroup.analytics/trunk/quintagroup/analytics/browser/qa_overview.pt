@@ -8,7 +8,7 @@
   <metal:main metal:fill-slot="prefs_configlet_main" i18n:domain="quintagroup.analytics">
     <body>
         <div id="wrapper">
-            <h1>Content ownership by state</h1>
+            <h1>Quintagroup Analytics Tool</h1>
             <ul class="formTabs" id="navigation">
                 <li class="formTab"><a class="selected" href="@@qa_overview">Overview</a></li>
                 <li class="formTab"><a href="@@ownership_by_type">Ownership by type</a></li>
@@ -19,41 +19,42 @@
                 <li class="formTab"><a href="@@portlets_stats">Portlets stats</a></li>
             </ul>
             <h2>Welcome to Quintagroup Analytics Tool</h2>
-            <p>This control panel configlet provides statistic information about your Plone site.
-               Every above tab displays information about site content, properties and portlets.
+            <p>Quintagroup Analytics Tool provides statistic information about your Plone site.
+               Every tab includes information about site content, its properties and portlets.
                You can see how many content objects are on you site, who are content owners,
-               what are content workflow states, etc. You can simply find all portlets that are
-               assigned on your site and even edit them. You can also export this information into .csv file.
-               This information can be very helpful: it allows you to see your site's
-               overall content from different perspectives. This information can be very useful while
-               migrating your site into newer Plone version, or into another CMS.
-            </p>
+               what are content workflow states, etc. You can see all portlets that are assigned
+               on your site and edit them. You can also export the information into .csv files.</p>
+            <p>Information provided by Quintagroup Analytics Tool allows you to see your site's overall
+               content from different perspectives. This information can be very useful while migrating
+               your site into newer Plone version, or into another CMS.</p>
+            <p>Visit the following pages to see your site's statistics:</p>
             <dl>
               <dt>
                 <a href="@@ownership_by_type">Ownership by type</a>
               </dt>
-              <dd>This tab gives you information about content owners.</dd>
+              <dd>Information about most popular content types on your site. Here you can see the most frequently 
+                  created content types on your site and their owners. </dd>
               <dt>
                 <a href="@@ownership_by_state">Ownership by state</a>
               </dt>
-              <dd>Here you can see information about content and it workflow states.
-                  You can see how many content object are published and by whom.</dd>
+              <dd>Information about site's content workflow states. Here you can see how many content object
+                  are published/submitted for review/etc. and their owners.</dd>
               <dt>
                 <a href="@@type_by_state">Types by state</a>
               </dt>
-              <dd>This view provides information about content types and their workflow states.</dd>
+              <dd>Information about site's most frequently created content types and their workflow states.</dd>
               <dt>
                 <a href="@@legacy_portlets">Legacy portlets</a>
               </dt>
-              <dd>On this tab you can see legacy portlets information and where they are assigned.</dd>
+              <dd>Information about legacy portlets and their location.</dd>
               <dt>
                 <a href="@@properties_stats">Properties stats</a>
               </dt>
-              <dd>On this tab you can see certain property values for all site objects.</dd>
+              <dd>Information on certain property values for all site objects.</dd>
               <dt>
                 <a href="@@portlets_stats">Portlets stats</a>
               </dt>
-              <dd>On this tab you can see portlets information and where they are assigned.</dd>
+              <dd>Information about site portlets and their location.</dd>
             </dl>
         </div>
     </body>

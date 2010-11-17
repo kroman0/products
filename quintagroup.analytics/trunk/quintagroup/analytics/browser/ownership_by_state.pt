@@ -19,11 +19,11 @@
                 <li class="formTab"><a href="@@portlets_stats">Portlets stats</a></li>
             </ul>
         </div>
-        <p>Here you can see information about workflow states that content objects are in and owners of those objects.
-           Below you can see chart that shows workflow states to users map. Also there is a table
-           under the chart. That table displays all workflow states and how many objects are in certain state and who
-           is owner of those objects.
-         </p>
+        <p>The following chart displays workflow states of site's content objects in relation to their owners 
+           (up to 10 most active site content contributors are displayed).</p>
+        <p>The table under the chart displays number of content objects in all site's workflow states in relation 
+           to content owners.
+        </p>
         <div id="chart" tal:content="structure view/getChart">
             Chart will be here
         </div>

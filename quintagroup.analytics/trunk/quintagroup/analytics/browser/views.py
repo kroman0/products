@@ -314,7 +314,10 @@ class LegacyPortlets(BrowserView):
 
     def getPortlets(self):
         level = self.request.form.get('level', 1)
-        level = int(level)
+        try:
+            level = level and int(level) or 1
+        except ValueError:
+            level = 1
         infos = []
         for i in self._walk(self.context, level):
             if self.DEBUG or i['left_slots'] is not None or i['right_slots'] is not None:
@@ -378,7 +381,10 @@ class PropertiesStats(BrowserView):
 
     def getPropsList(self):
         level = self.request.form.get('level', 1)
-        level = int(level)
+        try:
+            level = level and int(level) or 1
+        except ValueError:
+            level = 1
         infos = []
         for i in self._walk(self.context, level):
             if self.DEBUG or i['slots'] is not None:
@@ -498,7 +504,10 @@ class PortletsStats(BrowserView):
 
     def getPropsList(self):
         level = self.request.form.get('level', 1)
-        level = int(level)
+        try:
+            level = level and int(level) or 1
+        except ValueError:
+            level = 1
         infos = []
         for i in self._walk(self.context, level):
             if self.DEBUG or i['left_slots'] is not None or i['right_slots'] is not None:

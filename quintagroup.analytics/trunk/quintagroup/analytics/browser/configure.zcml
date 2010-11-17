@@ -67,9 +67,4 @@
         image="resources/qaicon.png"
      />
 
-    <browser:resource
-        name="set_chartcolor.js"
-        image="resources/set_chartcolor.js"
-     />
-
 </configure>

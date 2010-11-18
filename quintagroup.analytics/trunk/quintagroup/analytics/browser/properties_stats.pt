@@ -29,7 +29,7 @@
                 <input type="text" name="propname" size="10" tal:attributes="value request/propname|string:" />
                 CSV
                 <input type="checkbox" name="csv" size="40" tal:attributes="checked request/csv|python:0" />
-                <input type="submit" name="submit" value="Submit" />
+                <input type="submit" name="submit" value="Search" />
             </form>
         </div>
         <div>

@@ -26,7 +26,7 @@
                 <input type="text" name="level" size="5" value="1" tal:attributes="value request/level|python:1" />
                 CSV
                 <input type="checkbox" name="csv" tal:attributes="checked request/csv|python:0" />
-                <input type="submit" name="submit" value="Submit" />
+                <input type="submit" name="submit" value="Search" />
             </form>
         </div>
         <div tal:condition="request/csv|nothing">

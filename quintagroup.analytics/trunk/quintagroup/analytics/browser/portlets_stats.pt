@@ -25,7 +25,7 @@
             <form action="" method="get">
                 Search depth (-1 means no limit, 1 means that objects in the site root only will be searched):
                 <input type="text" name="level" size="5" value="1" tal:attributes="value request/level|python:1" />
-                <input type="submit" name="submit" value="Submit" />
+                <input type="submit" name="submit" value="Search" />
             </form>
         </div>
         <div>

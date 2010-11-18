@@ -34,7 +34,8 @@
         </div>
         <div>
              <span tal:repeat="prop view/proplist">
-                 <span tal:replace="prop"/>,
+                 <span tal:replace="prop"/>
+                 <span tal:condition="not:repeat/prop/end">,</span>
              </span>
              <hr>
         </div>

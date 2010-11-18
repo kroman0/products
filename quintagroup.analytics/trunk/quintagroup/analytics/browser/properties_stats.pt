@@ -10,7 +10,7 @@
             tal:define="infos view/getPropsList">
     <body>
         <div id="wrapper">
-            <h1>Properties stats</h1>
+            <h1>Quintagroup Analytics Tool for Plone</h1>
             <ul class="formTabs" id="navigation">
                 <li class="formTab"><a href="@@qa_overview">Overview</a></li>
                 <li class="formTab"><a href="@@ownership_by_type">Ownership by type</a></li>
@@ -20,7 +20,12 @@
                 <li class="formTab"><a href="@@legacy_portlets">Legacy portlets</a></li>
                 <li class="formTab"><a class="selected" href="@@properties_stats">Properties stats</a></li>
             </ul>
-            <p>List of values for certain property for site objects.</p>
+            <p>The following list can display values for certain property for site objects. To generate the 
+               list - specify the search depth (objects on what level(s) will be included) and type in 
+               property name (a list of all available properties is provided below). For example: to display
+               all site objects titles type '-1' into 'Search depth' field and 'title' into 'Property name' field.
+                Select CSV to render this information in .csv format.
+            </p>
             <form action="" method="get">
                 Search depth (-1 means no limit, 1 means that objects in the site root only will be searched):
                 <input type="text" name="level" size="5" value="1" tal:attributes="value request/level|python:1" />

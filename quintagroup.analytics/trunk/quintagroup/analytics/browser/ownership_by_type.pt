@@ -8,7 +8,7 @@
 <metal:main metal:fill-slot="prefs_configlet_main" i18n:domain="quintagroup.analytics">
     <body>
         <div id="wrapper">
-            <h1>Content ownership by type</h1>
+            <h1>Quintagroup Analytics Tool for Plone</h1>
             <ul class="formTabs" id="navigation">
                 <li class="formTab"><a href="@@qa_overview">Overview</a></li>
                 <li class="formTab"><a class="selected" href="@@ownership_by_type">Ownership by type</a></li>
@@ -19,10 +19,13 @@
                 <li class="formTab"><a href="@@properties_stats">Properties stats</a></li>
             </ul>
         </div>
-        <p>The following chart displays the most frequently created content types (up to 10) in relation
-            to their owners (up to 10 most active site content contributors are displayed).</p>
+        <p>The following chart displays the most frequently created content types in relation
+            to their owners (up to 10 most active site content contributors and up to 10 most popular
+            content types are displayed).
+        </p>
         <p>The table under the chart displays number of content objects of all site's content types
-            in relation to their owners.
+           in relation to their owners. Besides, the total number of created objects by every contributor
+           is provided.
         </p>
         <div id="chart" tal:content="structure view/getChart">
             Chart will be here

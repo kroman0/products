@@ -212,13 +212,13 @@ class TestOwnershipByType(TestCase):
                        chds=0,57&amp;chd=t:19.0,18.0,17.0,16.0,15.0,14.0,
                        13.0,12.0,11.0,10.0|19.0,18.0,17.0,16.0,15.0,14.0,13.0,
                        12.0,11.0,10.0|19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,
-                       11.0,10.0|0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0|&amp;
+                       11.0,10.0|0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0&amp;
                        chxr=0,0,57&amp;chco=669933,cc9966,993300,ff6633,e8e4e3,
                        a9a486,dcb57e,ffcc99,996633,333300,00ff00&amp;chl=user9|
                        user8|user7|user6|user5|user4|user3|user2|user1|user0&amp;
                        chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;
                        chtt=Content+ownership+by+type&amp;chdl=Folder|Document|
-                       Event|Topic|Other+types&amp;chdlp=b" />"""
+                       Event|Topic&amp;chdlp=b" />"""
         self.loginAsPortalOwner()
         self.assertEqual(*map(lambda s:''.join(s.split()),
                               [chart_tag, self.view.getChart()]))

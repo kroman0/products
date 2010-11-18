@@ -16,9 +16,9 @@
                 <li class="formTab"><a href="@@ownership_by_type">Ownership by type</a></li>
                 <li class="formTab"><a href="@@ownership_by_state">Ownership by state</a></li>
                 <li class="formTab"><a href="@@type_by_state">Types by state</a></li>
+                <li class="formTab"><a href="@@portlets_stats">Portlets stats</a></li>
                 <li class="formTab"><a href="@@legacy_portlets">Legacy portlets</a></li>
                 <li class="formTab"><a class="selected" href="@@properties_stats">Properties stats</a></li>
-                <li class="formTab"><a href="@@portlets_stats">Portlets stats</a></li>
             </ul>
             <p>List of values for certain property for site objects.</p>
             <form action="" method="get">

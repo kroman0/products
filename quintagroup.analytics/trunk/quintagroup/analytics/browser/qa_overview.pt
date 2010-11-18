@@ -44,6 +44,10 @@
               </dt>
               <dd>Information about site's most frequently created content types and their workflow states.</dd>
               <dt>
+                <a href="@@portlets_stats">Portlets stats</a>
+              </dt>
+              <dd>Information about site portlets and their location.</dd>
+              <dt>
                 <a href="@@legacy_portlets">Legacy portlets</a>
               </dt>
               <dd>Information about legacy portlets and their location.</dd>
@@ -51,10 +55,6 @@
                 <a href="@@properties_stats">Properties stats</a>
               </dt>
               <dd>Information on certain property values for all site objects.</dd>
-              <dt>
-                <a href="@@portlets_stats">Portlets stats</a>
-              </dt>
-              <dd>Information about site portlets and their location.</dd>
             </dl>
         </div>
     </body>

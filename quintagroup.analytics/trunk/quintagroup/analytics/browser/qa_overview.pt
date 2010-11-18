@@ -23,7 +23,7 @@
                Every tab includes information about site content, its properties and portlets.
                You can see how many content objects are on you site, who are content owners,
                what are content workflow states, etc. You can see all portlets that are assigned
-               on your site and edit them. You can also export the information into .csv files.</p>
+               on your site and edit them. You can also export the information into .csv format.</p>
             <p>Information provided by Quintagroup Analytics Tool allows you to see your site's overall
                content from different perspectives. This information can be very useful while migrating
                your site into newer Plone version, or into another CMS.</p>
@@ -32,7 +32,7 @@
               <dt>
                 <a href="@@ownership_by_type">Ownership by type</a>
               </dt>
-              <dd>Information about most popular content types on your site. Here you can see the most frequently 
+              <dd>Information about most popular content types on your site. Here you can see the most frequently
                   created content types on your site and their owners. </dd>
               <dt>
                 <a href="@@ownership_by_state">Ownership by state</a>

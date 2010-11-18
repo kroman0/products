@@ -25,6 +25,8 @@
             <form action="" method="get">
                 Search depth (-1 means no limit, 1 means that objects in the site root only will be searched):
                 <input type="text" name="level" size="5" value="1" tal:attributes="value request/level|python:1" />
+                CSV
+                <input type="checkbox" name="csv" size="40" tal:attributes="checked request/csv|python:0" />
                 <input type="submit" name="submit" value="Search" />
             </form>
         </div>
@@ -35,17 +37,21 @@
              <hr>
         </div>
         <div tal:condition="request/csv|nothing">
-            <nobr>path,<span tal:replace="view/propname" /></nobr><br/>
+            <nobr>path,</nobr>
+            <nobr>left_slots,</nobr>
+            <nobr>right_slots,</nobr><br/>
             <nobr tal:repeat="info infos">
-                <span tal:replace="info/path">path</span>,
-                <span tal:condition="info/slots">"
-                    <span tal:condition="python:not isinstance(info['slots'],basestring)" tal:repeat="slot info/slots">
-                        <span tal:replace="slot" />;
-                    </span>
-                    <span tal:condition="python:isinstance(info['slots'],basestring)" tal:replace="info/slots">string</span>"
-                </span>
-                <span tal:condition="python:info['slots'] is None">None</span>
-                <br/>
+              <span tal:replace="info/path">path</span>,
+              <span tal:condition="info/left_slots">
+                <tal:left_slot repeat="item info/left_slots">
+                  <span tal:replace="item/title" />
+                </tal:left_slot>
+              </span>,
+              <span tal:condition="info/right_slots">
+                <tal:left_slot repeat="item info/right_slots">
+                  <span tal:replace="item/title" />
+                </tal:left_slot>
+              </span>,<br/>
             </nobr>
         </div>
         <table class="listing" tal:condition="not:request/csv|nothing">

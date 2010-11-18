@@ -16,9 +16,9 @@
                 <li class="formTab"><a href="@@ownership_by_type">Ownership by type</a></li>
                 <li class="formTab"><a href="@@ownership_by_state">Ownership by state</a></li>
                 <li class="formTab"><a href="@@type_by_state">Types by state</a></li>
+                <li class="formTab"><a class="selected" href="@@portlets_stats">Portlets stats</a></li>
                 <li class="formTab"><a href="@@legacy_portlets">Legacy portlets</a></li>
                 <li class="formTab"><a href="@@properties_stats">Properties stats</a></li>
-                <li class="formTab"><a class="selected" href="@@portlets_stats">Portlets stats</a></li>
             </ul>
             <p>The following list displays all site's portlets, assigned to left and right columns in all site sections.
                Click on the porltet title to land on the porltet edit form.</p>

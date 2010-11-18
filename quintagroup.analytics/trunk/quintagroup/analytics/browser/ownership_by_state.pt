@@ -14,14 +14,14 @@
                 <li class="formTab"><a href="@@ownership_by_type">Ownership by type</a></li>
                 <li class="formTab"><a class="selected" href="@@ownership_by_state">Ownership by state</a></li>
                 <li class="formTab"><a href="@@type_by_state">Types by state</a></li>
+                <li class="formTab"><a href="@@portlets_stats">Portlets stats</a></li>
                 <li class="formTab"><a href="@@legacy_portlets">Legacy portlets</a></li>
                 <li class="formTab"><a href="@@properties_stats">Properties stats</a></li>
-                <li class="formTab"><a href="@@portlets_stats">Portlets stats</a></li>
             </ul>
         </div>
-        <p>The following chart displays workflow states of site's content objects in relation to their owners 
+        <p>The following chart displays workflow states of site's content objects in relation to their owners
            (up to 10 most active site content contributors are displayed).</p>
-        <p>The table under the chart displays number of content objects in all site's workflow states in relation 
+        <p>The table under the chart displays number of content objects in all site's workflow states in relation
            to content owners.
         </p>
         <div id="chart" tal:content="structure view/getChart">

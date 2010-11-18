@@ -8,7 +8,7 @@
 <metal:main metal:fill-slot="prefs_configlet_main" i18n:domain="quintagroup.analytics">
     <body>
         <div id="wrapper">
-            <h1>Content ownership by state</h1>
+            <h1>Quintagroup Analytics Tool for Plone</h1>
             <ul class="formTabs" id="navigation">
                 <li class="formTab"><a href="@@qa_overview">Overview</a></li>
                 <li class="formTab"><a href="@@ownership_by_type">Ownership by type</a></li>

@@ -10,7 +10,7 @@
             tal:define="infos view/getPropsList">
     <body>
         <div id="wrapper">
-            <h1>Properties stats</h1>
+            <h1>Quintagroup Analytics Tool for Plone</h1>
             <ul class="formTabs" id="navigation">
                 <li class="formTab"><a href="@@qa_overview">Overview</a></li>
                 <li class="formTab"><a href="@@ownership_by_type">Ownership by type</a></li>
@@ -20,8 +20,9 @@
                 <li class="formTab"><a href="@@legacy_portlets">Legacy portlets</a></li>
                 <li class="formTab"><a href="@@properties_stats">Properties stats</a></li>
             </ul>
-            <p>The following list displays all site's portlets, assigned to left and right columns in all site sections.
-               Click on the porltet title to land on the porltet edit form.</p>
+            <p>The following list can displays site's portlets, assigned to left and right columns on different 
+               contexts. Specify the search depth: portlets on what level(s) to be included. Click on the porltet
+               title to land on the porltet edit form. Select CSV to render this information in .csv format.</p>
             <form action="" method="get">
                 Search depth (-1 means no limit, 1 means that objects in the site root only will be searched):
                 <input type="text" name="level" size="5" value="1" tal:attributes="value request/level|python:1" />

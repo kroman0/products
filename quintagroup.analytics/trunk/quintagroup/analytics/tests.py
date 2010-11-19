@@ -8,7 +8,7 @@ from Products.Five import fiveconfigure
 from zope.component import testing, queryMultiAdapter, getUtility
 
 from Products.PloneTestCase import PloneTestCase as ptc
-from Products.PloneTestCase.version import PLONE33
+from Products.PloneTestCase.version import PLONE40
 from Products.PloneTestCase import setup as ptc_setup
 from Products.PloneTestCase.layer import PloneSite
 from plone.portlets.interfaces import IPortletType
@@ -210,18 +210,17 @@ class TestOwnershipByType(TestCase):
     def test_getChart(self):
         """ This test verifies creation of chart image tag."""
         plone33chart_tag = \
-          """<imgsrc="http://chart.apis.google.com/chart?chxt=y&amp;
-             chds=0,57&amp;chd=t:19.0,18.0,17.0,16.0,15.0,14.0,13.0,
-             12.0,11.0,10.0|19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,
-             11.0,10.0|19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,11.0,
-             10.0|0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0|0.0,0.0,
-             0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0&amp;chxr=0,0,57&amp;
-             chco=669933,cc9966,993300,ff6633,e8e4e3,a9a486,dcb57e,
-             ffcc99,996633,333300,00ff00&amp;chl=user9|user8|
-             user7|user6|user5|user4|user3|user2|user1|user0&amp;
-             chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;
-             chtt=Content+ownership+by+type&amp;chdl=Folder|
-             Document|Event|Large+Plone+Folder|Topic&amp;chdlp=b"/>"""
+          """<imgsrc="http://chart.apis.google.com/chart?chxt=y&amp;chds=0,
+             57&amp;chd=t:19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,11.0,
+             10.0|19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,11.0,10.0|
+             19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,11.0,10.0|0.0,
+             0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0|0.0,0.0,0.0,0.0,
+             0.0,0.0,0.0,0.0,0.0,0.0&amp;chxr=0,0,57&amp;chco=669933,cc9966,
+             993300,ff6633,e8e4e3,a9a486,dcb57e,ffcc99,996633,333300,00ff00&amp;
+             chl=user9|user8|user7|user6|user5|user4|user3|user2|user1|
+             user0&amp;chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;
+             chtt=Content+ownership+by+type&amp;chdl=Folder|Document|Event
+             |Large+Plone+Folder|Topic&amp;chdlp=b"/>"""
         plone4chart_tag = \
           """<img src="http://chart.apis.google.com/chart?chxt=y&amp;
              chds=0,57&amp;chd=t:19.0,18.0,17.0,16.0,15.0,14.0,
@@ -234,7 +233,9 @@ class TestOwnershipByType(TestCase):
              chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;
              chtt=Content+ownership+by+type&amp;chdl=Folder|Document|
              Event|Topic&amp;chdlp=b" />"""
-        chart_tag = PLONE33 and plone33chart_tag or plone4chart_tag
+        chart_tag = plone4chart_tag
+        if not PLONE40:
+            chart_tag = plone33chart_tag
 
         self.loginAsPortalOwner()
         self.assertEqual(*map(lambda s:''.join(s.split()),
@@ -357,18 +358,18 @@ class TestTypeByState(TestCase):
              chtt=Content+type+by+state&amp;chdl=private|published|
              No+workflow&amp;chdlp=b"/>"""
         plone4chart_tag = \
-          """<img src="http://chart.apis.google.com/chart?chxt=y&amp;
-             chds=0,57&amp;chd=t:19.0,18.0,17.0,16.0,15.0,14.0,
-             13.0,12.0,11.0,10.0|19.0,18.0,17.0,16.0,15.0,14.0,13.0,
-             12.0,11.0,10.0|19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,
-             11.0,10.0|0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0&amp;
-             chxr=0,0,57&amp;chco=669933,cc9966,993300,ff6633,e8e4e3,
-             a9a486,dcb57e,ffcc99,996633,333300,00ff00&amp;chl=user9|
-             user8|user7|user6|user5|user4|user3|user2|user1|user0&amp;
+          """<imgsrc="http://chart.apis.google.com/chart?chxt=y&amp;
+             chds=0,159&amp;chd=t:156.0,145.0,145.0,0.0|3.0,1.0,0.0,
+             3.0|0.0,0.0,0.0,0.0&amp;chxr=0,0,159&amp;chco=669933,
+             cc9966,993300,ff6633,e8e4e3,a9a486,dcb57e,ffcc99,996633,
+             333300,00ff00&amp;chl=Folder|Document|Event|Topic&amp;
              chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;
-             chtt=Content+ownership+by+type&amp;chdl=Folder|Document|
-             Event|Topic&amp;chdlp=b" />"""
-        chart_tag = PLONE33 and plone33chart_tag or plone4chart_tag
+             chtt=Content+type+by+state&amp;chdl=private|published|
+             No+workflow&amp;chdlp=b"/>"""
+
+        chart_tag = plone4chart_tag
+        if not PLONE40:
+            chart_tag = plone33chart_tag
 
         self.loginAsPortalOwner()
         self.assertEqual(*map(lambda s:''.join(s.split()),

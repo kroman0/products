@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.26 (2010-11-22)
+-----------------
+
+- Updated README: hidden --no-interactive option,
+  added note about reason of --overwrite option
+  usage.
+  [mylan]
+
+
 0.25 (2010-06-24)
 -----------------
 

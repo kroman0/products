@@ -39,6 +39,10 @@ local ZopeSkel command (extended in this product).
 Creating theme package
 ======================
 
+In the demo below we'll use "--overwrite" option as multiple templates are
+running one after another, and some same-named files should be overwritten
+without extra questions.
+
 Let's create plone-3 theme python package.
 Use `paster create` command for that::
 

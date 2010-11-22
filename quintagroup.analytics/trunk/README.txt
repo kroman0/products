@@ -1,9 +1,11 @@
-Introduction
-============
+Quintagroup Analytics Tool for Plone
+====================================
 
-Quintagroup Analytics Tool (quintagroup.analytics) provides statistic information
-about your Plone site. It adds few content stats views of plone content workflow
-states, ownership and portlets registered on different contexts. 
+.. figure:: http://quintagroup.com/services/plone-development/products/quintagroup.analytics/plone-analytics.png/
+
+quintagroup.analytics provides statistic information about your Plone site. It 
+adds few content stats views of plone content workflow states, ownership and 
+portlets registered on different contexts. 
 
 Information provided by Quintagroup Analytics Tool allows you to see Plone site 
 content from different perspectives. This information can be very useful while 

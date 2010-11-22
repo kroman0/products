@@ -47,6 +47,10 @@ Description: qplone3 theme template
         Creating theme package
         ======================
         
+        In the demo below we'll use "--overwrite" option as multiple templates are
+        running one after another, and some same-named files should be overwritten
+        without extra questions.
+        
         Let's create plone-3 theme python package.
         Use `paster create` command for that::
         
@@ -780,6 +784,15 @@ Description: qplone3 theme template
         
         Changelog
         =========
+        
+        0.26 (2010-11-22)
+        -----------------
+        
+        - Updated README: hidden --no-interactive option,
+        added note about reason of --overwrite option
+        usage.
+        [mylan]
+        
         
         0.25 (2010-06-24)
         -----------------

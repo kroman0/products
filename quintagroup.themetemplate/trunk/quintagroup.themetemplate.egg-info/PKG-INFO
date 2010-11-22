@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: quintagroup.themetemplate
-Version: 0.23
+Version: 0.26
 Summary: Quintagroup theme template for Plone 3 with nested namespace
 Home-page: http://svn.quintagroup.com/products/quintagroup.themetemplate
 Author: Andriy Mylenkyy
@@ -16,7 +16,7 @@ Description: qplone3 theme template
         of its functionality.
         
         quintagroup.themetemplate package is used for development of all Quintagroup themes
-        for Plone 3 (http://skins.quintagroup.com).
+        for Plone 3 at http://skins.quintagroup.com.
         
         Contents
         --------
@@ -50,14 +50,14 @@ Description: qplone3 theme template
         Let's create plone-3 theme python package.
         Use `paster create` command for that::
         
-        >>> paster('create -t qplone3_theme quintagroup.theme.example --no-interactive --overwrite')
-        paster create -t qplone3_theme quintagroup.theme.example --no-interactive
+        >>> paster('create -t qplone3_theme quintagroup.theme.example --overwrite')
+        paster create -t qplone3_theme quintagroup.theme.example ...
         ...
         
         You got standard python package content with
+        
         - *quintagroup* upper level namespace.
-        - *quintagroup.theme.example-configure.zcml* - zcml file
-        for adding into package-includes directory
+        - *quintagroup.theme.example-configure.zcml* - zcml file for adding into package-includes directory
         
         Check that::
         
@@ -70,9 +70,7 @@ Description: qplone3 theme template
         
         *qplone3_theme* template - creates theme with nested namespace.
         
-        By default - theme is placed in
-        
-        quintagroup.theme.<3rd part of dotted package name> namespace
+        By default - theme is placed in *quintagroup.theme.<3rd part of dotted package name> namespace*
         
         in our case - quintagroup.theme.example
         
@@ -100,9 +98,10 @@ Description: qplone3 theme template
         -------------------
         
         Browser directory contains:
+        
         - 'templates' resource directory
         - interfaces.py module with IThemeSpecific marker interface
-        - configure.zcml, with registered theme marker interface
+        - configure.zcml, with registered theme marker interface::
         
         >>> ls('browser')
         __init__.py
@@ -129,15 +128,17 @@ Description: qplone3 theme template
         As we see, default theme name is 'Custom Theme', but on theme
         creation you can point out your own name. Check this ...
         
-        First create configuration file with different skin name
+        First create configuration file with different skin name::
+        
         >>> conf_data = """
         ... [pastescript]
         ... skinname=My Theme Name
         ... """
         >>> file('theme_config.conf','w').write(conf_data)
         
-        Create the same theme with your own skin name and check this
-        >>> paster('create -t qplone3_theme quintagroup.theme.example --no-interactive --overwrite --config=theme_config.conf')
+        Create the same theme with your own skin name and check this::
+        
+        >>> paster('create -t qplone3_theme quintagroup.theme.example --overwrite --config=theme_config.conf')
         paster create ...
         >>> cd(package_dir)
         >>> cat('quintagroup/theme/example/browser/configure.zcml')
@@ -152,28 +153,32 @@ Description: qplone3 theme template
         
         
         *skins* directory
-        ------------------------
+        -----------------
         
         It contains only README.txt file and NO SKIN LAYERS YET.
         This is a job for localcommand ;)
         
-        But check whether I am right ...
+        But check whether I am right ...::
+        
         >>> cd('quintagroup/theme/example')
         >>> ls('skins')
         README.txt
         
         
-        *profiles* directory.
-        --------------------------------
-        There is 'default' and uninstall profiles inside
+        *profiles* directory
+        --------------------
+        
+        There is 'default' and uninstall profiles inside::
+        
         >>> 'default' in os.listdir('profiles')
         True
         >>> 'uninstall' in os.listdir('profiles')
         True
         
         There are the following items in default profile:
+        
         - import_steps.xml - for any reason.
-        - skins.xml - for registering skins directory
+        - skins.xml - for registering skins directory::
         
         >>> cd('profiles/default')
         >>> 'import_steps.xml' in os.listdir('.')
@@ -183,13 +188,13 @@ Description: qplone3 theme template
         
         *skins.xml* profile makes your theme default on installation
         and uses layers list from 'Plone Default' for our theme,
-        without any new layers (yet).
+        without any new layers (yet)::
         
         >>> cat('skins.xml')
         <?xml version="1.0"?>
         ...
         <object name="portal_skins" ...
-        default_skin="My Theme Name">
+        default_skin="My Theme Name" request_varname="plone_skin">
         ...
         <skin-path name="My Theme Name" based-on="Plone Default">
         <!-- -*- extra layer stuff goes here -*- -->
@@ -198,7 +203,7 @@ Description: qplone3 theme template
         ...
         
         *import_steps.xml* - call _setupVarious_ function from
-        _setuphandlers.py_ module for additional installation steps.
+        _setuphandlers.py_ module for additional installation steps::
         
         >>> cat('import_steps.xml')
         <?xml version="1.0"?>
@@ -210,7 +215,8 @@ Description: qplone3 theme template
         </import-step>
         ...
         
-        Look at setuphandlers.py module
+        Look at setuphandlers.py module::
+        
         >>> cd('../..')
         >>> cat('setuphandlers.py')
         def setupVarious(context):
@@ -238,7 +244,7 @@ Description: qplone3 theme template
         
         IMPORTANT TO NOTE: localcommand (addcontent in our case) should be
         called in any subdirectory of the generated theme package. And it won't
-        work outside this package..
+        work outside this package::
         
         >>> paster('addcontent -a')
         paster addcontent -a
@@ -266,28 +272,28 @@ Description: qplone3 theme template
         Adding SKIN LAYER
         =================
         
-        For that case use *skin_layer* subtemplate with *addcontent* local command
+        For that case use *skin_layer* subtemplate with *addcontent* local command::
         
-        >>> paster('addcontent --no-interactive skin_layer')
-        paster addcontent --no-interactive skin_layer
+        >>> paster('addcontent skin_layer')
+        paster addcontent skin_layer ...
         Recursing into profiles
         ...
         
         This command adds NEW 'skin_layer' (default name) directory to _skins_ directory,
-        with only CONTENT.txt file inside.
+        with only CONTENT.txt file inside::
         
         >>> 'skin_layer' in os.listdir('skins')
         True
         >>> ls('skins/skin_layer')
         CONTENT.txt
         
-        *skins.xml* profile is also updated:
+        *skins.xml* profile is also updated::
         
         >>> cat('profiles/default/skins.xml')
         <?xml version="1.0"?>
         ...
         <object name="portal_skins" allow_any="False" cookie_persistence="False"
-        default_skin="My Theme Name">
+        default_skin="My Theme Name" request_varname="plone_skin">
         ...
         <object name="skin_layer"
         meta_type="Filesystem Directory View"
@@ -302,30 +308,31 @@ Description: qplone3 theme template
         ...
         
         We can see, that:
+        
         - skin_layer directory was registered as Filesystem Directory View
         - skin_layer Filesystem Directory View was added to our theme layers list
         
         
         Adding PORTLET
-        ==========================
+        ==============
         
-        Only initialization files are available in portlets directory before adding new portlet.
+        Only initialization files are available in portlets directory before adding new portlet::
         
         >>> ls('portlets')
         __init__.py
         configure.zcml
         
-        Add portlet with *portlet* subtemplate.
+        Add portlet with *portlet* subtemplate::
         
-        >>> paster('addcontent --no-interactive portlet')
-        paster addcontent --no-interactive portlet
+        >>> paster('addcontent portlet')
+        paster addcontent portlet ...
         ...
         Recursing into portlets
         ...
         
         After executing this local command ...
         
-        configure.zcml file in the theme root directory - includes portlets registry:
+        configure.zcml file in the theme root directory - includes portlets registry::
         
         >>> cat('configure.zcml')
         <configure
@@ -333,12 +340,14 @@ Description: qplone3 theme template
         <include package=".portlets" />
         ...
         
-        exampleportlet.pt template and exampleportlet.py script added to portlets directory.
+        exampleportlet.pt template and exampleportlet.py script added to portlets directory::
+        
         >>> files = ('exampleportlet.pt', 'exampleportlet.py')
         >>> [True for d in files if d in os.listdir('portlets')]
         [True, True]
         
-        And portlets/configure.zcml - register new portlet
+        And portlets/configure.zcml - register new portlet::
+        
         >>> cat('portlets/configure.zcml')
         <configure
         ...
@@ -354,7 +363,7 @@ Description: qplone3 theme template
         />
         ...
         
-        Finally, new portlet type is registered in portlets.xml profile
+        Finally, new portlet type is registered in portlets.xml profile::
         
         >>> cat('profiles/default/portlets.xml')
         <?xml version="1.0"?>
@@ -370,27 +379,26 @@ Description: qplone3 theme template
         Thanks to ZopeSkel developers for this subtempalte ;)
         
         
-        
         Adding CSS resource
         ===================
         
-        Use *css_resource* subtemplate.
+        Use *css_resource* subtemplate::
         
-        >>> paster("addcontent --no-interactive css_resource")
-        paster addcontent --no-interactive css_resource
+        >>> paster("addcontent css_resource")
+        paster addcontent css_resource ...
         Recursing into browser
         ...
         Recursing into profiles
         ...
         
         This template adds (if does not exist yet) _stylesheets_ directory in _browser_
-        directory
+        directory::
         
         >>> 'stylesheets' in os.listdir('browser')
         True
         
         In _stylesheets_ resource directory empty main.css stylesheet
-        resource added
+        resource added::
         
         >>> 'main.css' in os.listdir('browser/stylesheets')
         True
@@ -398,7 +406,7 @@ Description: qplone3 theme template
         <BLANKLINE>
         
         
-        New resource directory was registered in configure.zcml
+        New resource directory was registered in configure.zcml::
         
         >>> cat('browser/configure.zcml')
         <configure
@@ -412,7 +420,7 @@ Description: qplone3 theme template
         
         
         And cssregistry.xml profile was added into profiles/default directory with
-        registered main.css stylesheet
+        registered main.css stylesheet::
         
         >>> 'cssregistry.xml' in os.listdir('profiles/default')
         True
@@ -437,6 +445,7 @@ Description: qplone3 theme template
         And, of course, css resource added into pointing *skins/<layer_name>/<css_reseource_name>.dtml* file.
         
         This subtemplate has several benefits before registering css as resource layer:
+        
         - in dtml file you can use power of dtml language
         - this resource can be overriden by customer if he needs that
         
@@ -445,21 +454,22 @@ Description: qplone3 theme template
         in conjunction with *skin_layer* one.
         
         
-        Use *css_dtml_skin* subtemplate.
+        Use *css_dtml_skin* subtemplate::
         
-        >>> paster("addcontent --no-interactive css_dtml_skin")
-        paster addcontent --no-interactive css_dtml_skin
+        >>> paster("addcontent css_dtml_skin")
+        paster addcontent css_dtml_skin ...
         Recursing into profiles
         ...
         Recursing into skins
         ...
         
-        This template adds main.css.dtml file into skins/skin_layer folder
+        This template adds main.css.dtml file into skins/skin_layer folder::
         
         >>> 'main.css.dtml' in os.listdir('skins/skin_layer')
         True
         
-        The main.css.dtml file already prepared to use as dtml-document
+        The main.css.dtml file already prepared to use as dtml-document::
+        
         >>> cat('skins/skin_layer/main.css.dtml')
         /*
         ...
@@ -470,7 +480,7 @@ Description: qplone3 theme template
         
         
         And cssregistry.xml profile was added into profiles/default directory with
-        registered main.css stylesheet
+        registered main.css stylesheet::
         
         >>> 'cssregistry.xml' in os.listdir('profiles/default')
         True
@@ -489,23 +499,23 @@ Description: qplone3 theme template
         Adding JAVASCRIPT resource
         --------------------------
         
-        Use *js_resource* subtemplate.
+        Use *js_resource* subtemplate::
         
-        >>> paster('addcontent --no-interactive js_resource')
-        paster addcontent --no-interactive js_resource
+        >>> paster('addcontent js_resource')
+        paster addcontent js_resource ...
         Recursing into browser
         ...
         Recursing into profiles
         ...
         
         This template adds (if does not exist yet) _scripts_ directory in _browser_
-        directory
+        directory::
         
         >>> 'scripts' in os.listdir('browser')
         True
         
         
-        Empty foo.js javascript file was added to _scripts_ directory
+        Empty foo.js javascript file was added to _scripts_ directory::
         
         >>> 'foo.js' in os.listdir('browser/scripts')
         True
@@ -513,7 +523,7 @@ Description: qplone3 theme template
         <BLANKLINE>
         
         
-        New resource directory was registered in configure.zcml, if has not been registered yet.
+        New resource directory was registered in configure.zcml, if has not been registered yet::
         
         >>> cat('browser/configure.zcml')
         <configure
@@ -527,7 +537,7 @@ Description: qplone3 theme template
         
         
         cssregistry.xml profile was added into profiles/default directory (if does not exist yet),
-        and register new foo.js javascript resource.
+        and register new foo.js javascript resource::
         
         >>> 'jsregistry.xml' in os.listdir('profiles/default')
         True
@@ -549,6 +559,7 @@ Description: qplone3 theme template
         ==========================
         
         There are 2 types of viewlet subtemplates:
+        
         - viewlet_order
         - viewlet_hidden
         
@@ -559,10 +570,10 @@ Description: qplone3 theme template
         Ordered NEW viewlet
         -------------------
         
-        Use *viewlet_order* subtemplate
+        Use *viewlet_order* subtemplate::
         
-        >>> paster('addcontent --no-interactive viewlet_order')
-        paster addcontent --no-interactive viewlet_order
+        >>> paster('addcontent viewlet_order')
+        paster addcontent viewlet_order ...
         Recursing into browser
         ...
         Recursing into templates
@@ -572,7 +583,7 @@ Description: qplone3 theme template
         
         This template adds (if not exist ;)) _viewlets.py_ module in browser directory.
         With added Example ViewletBase class, which is bound to templates/example_viewlet.pt
-        template
+        template::
         
         >>> 'viewlets.py' in os.listdir('browser')
         True
@@ -586,14 +597,14 @@ Description: qplone3 theme template
         render = ViewPageTemplateFile('templates/example_viewlet.pt')
         <BLANKLINE>
         
-        Check template file in templates directory.
+        Check template file in templates directory::
         
         >>> 'example_viewlet.pt' in os.listdir('browser/templates')
         True
         >>> cat('browser/templates/example_viewlet.pt')
         <BLANKLINE>
         
-        New viewlet is registered in configure.zcml
+        New viewlet is registered in configure.zcml::
         
         >>> cat('browser/configure.zcml')
         <configure
@@ -609,7 +620,7 @@ Description: qplone3 theme template
         
         
         viewlets.xml profile is added to profiles/default directory with new viewlet
-        registration, ordered for specified viewlet manager.
+        registration, ordered for specified viewlet manager::
         
         >>> 'viewlets.xml' in os.listdir('profiles/default')
         True
@@ -632,10 +643,10 @@ Description: qplone3 theme template
         Hide EXISTING viewlet
         ---------------------
         
-        For that case you can use *viewlet_hidden* subtemplate
+        For that case you can use *viewlet_hidden* subtemplate::
         
-        >>> paster('addcontent --no-interactive viewlet_hidden')
-        paster addcontent --no-interactive viewlet_hidden
+        >>> paster('addcontent viewlet_hidden')
+        paster addcontent viewlet_hidden ...
         Recursing into profiles
         ...
         
@@ -643,7 +654,7 @@ Description: qplone3 theme template
         
         
         There is viewlet.xml profile in profiles/default directory
-        which hides viewlet for specified viewlet manager
+        which hides viewlet for specified viewlet manager::
         
         >>> 'viewlets.xml' in os.listdir('profiles/default')
         True
@@ -672,10 +683,10 @@ Description: qplone3 theme template
         
         *import_zexps* subtemplate extends your theme with
         mechanism for importing list of zexp formated files
-        into portal root on theme instllation.
+        into portal root on theme instllation::
         
-        >>> paster('addcontent --no-interactive import_zexps')
-        paster addcontent --no-interactive import_zexps
+        >>> paster('addcontent import_zexps')
+        paster addcontent import_zexps ...
         ...
         Recursing into import
         ...
@@ -686,21 +697,22 @@ Description: qplone3 theme template
         Inserting from setuphandlers.py_insert into ...
         ...
         
-        As we see from the upper log:
+        As we see from the upper log
+        
         - 'import' directory was added into root of the theme
         - profiles stuff was updated
         - profiles.zcml file is updated
         - some stuff into setuphandlers.py module was inserted
         
         1. There was empty 'import' directory added, where you
-        will put zexp objects for install into portal root.
+        will put zexp objects for install into portal root.::
         
         >>> ls('import')
         CONTENT.txt
         
         
         2. import_steps.xml was added in profiles/import_zexps directory,
-        which contains additional *quintagroup.theme.example.import_zexps* step.
+        which contains additional *quintagroup.theme.example.import_zexps* step::
         
         >>> 'import_zexps' in os.listdir('profiles')
         True
@@ -720,7 +732,7 @@ Description: qplone3 theme template
         ...
         
         3. profiles.zcml configuration updated with new genericsetup profile for zexps
-        importing.
+        importing::
         
         >>> cat('profiles.zcml')
         <configure
@@ -735,7 +747,7 @@ Description: qplone3 theme template
         <BLANKLINE>
         ...
         
-        4. Check setuphandlers.py module - there must be importZEXPs function defined
+        4. Check setuphandlers.py module - there must be importZEXPs function defined::
         
         >>> cat('setuphandlers.py')
         def setupVarious(context):
@@ -751,20 +763,34 @@ Description: qplone3 theme template
         
         Before releasing theme - I suggest to clean up setup.py script:
         
-        - remove *theme_vars* argument (its value is useful only for
-        theme development)
+        - remove *theme_vars* argument (its value is useful only for theme development)
         
-        - remove *entry_points* argument (same reason).
-        It's useless in plone for now.
+        - remove *entry_points* argument (same reason). It's useless in plone for now.
         
-        - And remove *paster_plugins* argument too (it has sence
-        in conjunction with entry_points during theme developing)
+        - And remove *paster_plugins* argument too (it has sence in conjunction with entry_points during theme developing)
         
         Steps mentioned above prevent possible problems with
         theme distribution/deployment.
         
+        Notes:
+        ------
+        
+        * quintagroup.themetemplate v0.25 compatible with ZopeSkel >= 2.15
+        
+        
         Changelog
         =========
+        
+        0.25 (2010-06-24)
+        -----------------
+        
+        - Correct version of the pacakge
+        [mylan]
+        - Fix incompatibility wity ZopeSkel>=2.15
+        [mylan]
+        - Updated tests
+        [mylan]
+        
         
         0.2.2 (unreleased)
         ------------------
@@ -826,15 +852,15 @@ Description: qplone3 theme template
         [mylan]
         
         
-        Version 0.7
-        -----------
+        0.7 (unreleased)
+        ----------------
         
         * Add uninstall profile to fix skins tool after theme is uninstalled
         [piv]
         
         
-        Version 0.1
-        -----------
+        0.1 (unreleased)
+        ----------------
         
         * Initial import Theme template with nested namespace.
         Support ZopeSkel' "addcommad" local command for extend

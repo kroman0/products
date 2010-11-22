@@ -42,8 +42,8 @@ Creating theme package
 Let's create plone-3 theme python package.
 Use `paster create` command for that::
 
-    >>> paster('create -t qplone3_theme quintagroup.theme.example --no-interactive --overwrite')
-    paster create -t qplone3_theme quintagroup.theme.example --no-interactive
+    >>> paster('create -t qplone3_theme quintagroup.theme.example --overwrite')
+    paster create -t qplone3_theme quintagroup.theme.example ...
     ...
 
 You got standard python package content with
@@ -130,7 +130,7 @@ First create configuration file with different skin name::
 
 Create the same theme with your own skin name and check this::
 
-    >>> paster('create -t qplone3_theme quintagroup.theme.example --no-interactive --overwrite --config=theme_config.conf')
+    >>> paster('create -t qplone3_theme quintagroup.theme.example --overwrite --config=theme_config.conf')
     paster create ...
     >>> cd(package_dir)
     >>> cat('quintagroup/theme/example/browser/configure.zcml')
@@ -186,7 +186,7 @@ without any new layers (yet)::
     <?xml version="1.0"?>
     ...
     <object name="portal_skins" ...
-            default_skin="My Theme Name">
+            default_skin="My Theme Name" request_varname="plone_skin">
     ...
     <skin-path name="My Theme Name" based-on="Plone Default">
       <!-- -*- extra layer stuff goes here -*- -->
@@ -266,8 +266,8 @@ Adding SKIN LAYER
 
 For that case use *skin_layer* subtemplate with *addcontent* local command::
 
-    >>> paster('addcontent --no-interactive skin_layer')
-    paster addcontent --no-interactive skin_layer
+    >>> paster('addcontent skin_layer')
+    paster addcontent skin_layer ...
     Recursing into profiles
     ...
 
@@ -285,7 +285,7 @@ with only CONTENT.txt file inside::
     <?xml version="1.0"?>
     ...
     <object name="portal_skins" allow_any="False" cookie_persistence="False"
-       default_skin="My Theme Name">
+       default_skin="My Theme Name" request_varname="plone_skin">
     ...
      <object name="skin_layer"
         meta_type="Filesystem Directory View"
@@ -316,8 +316,8 @@ Only initialization files are available in portlets directory before adding new 
 
 Add portlet with *portlet* subtemplate::
 
-    >>> paster('addcontent --no-interactive portlet')
-    paster addcontent --no-interactive portlet
+    >>> paster('addcontent portlet')
+    paster addcontent portlet ...
     ...
     Recursing into portlets
     ...
@@ -376,8 +376,8 @@ Adding CSS resource
 
 Use *css_resource* subtemplate::
 
-    >>> paster("addcontent --no-interactive css_resource")
-    paster addcontent --no-interactive css_resource
+    >>> paster("addcontent css_resource")
+    paster addcontent css_resource ...
     Recursing into browser
     ...
     Recursing into profiles
@@ -448,8 +448,8 @@ in conjunction with *skin_layer* one.
 
 Use *css_dtml_skin* subtemplate::
 
-    >>> paster("addcontent --no-interactive css_dtml_skin")
-    paster addcontent --no-interactive css_dtml_skin
+    >>> paster("addcontent css_dtml_skin")
+    paster addcontent css_dtml_skin ...
     Recursing into profiles
     ...
     Recursing into skins
@@ -493,8 +493,8 @@ Adding JAVASCRIPT resource
 
 Use *js_resource* subtemplate::
 
-    >>> paster('addcontent --no-interactive js_resource')
-    paster addcontent --no-interactive js_resource
+    >>> paster('addcontent js_resource')
+    paster addcontent js_resource ...
     Recursing into browser
     ...
     Recursing into profiles
@@ -564,8 +564,8 @@ Ordered NEW viewlet
 
 Use *viewlet_order* subtemplate::
 
-    >>> paster('addcontent --no-interactive viewlet_order')
-    paster addcontent --no-interactive viewlet_order
+    >>> paster('addcontent viewlet_order')
+    paster addcontent viewlet_order ...
     Recursing into browser
     ...
     Recursing into templates
@@ -637,8 +637,8 @@ Hide EXISTING viewlet
 
 For that case you can use *viewlet_hidden* subtemplate::
 
-    >>> paster('addcontent --no-interactive viewlet_hidden')
-    paster addcontent --no-interactive viewlet_hidden
+    >>> paster('addcontent viewlet_hidden')
+    paster addcontent viewlet_hidden ...
     Recursing into profiles
     ...
 
@@ -677,8 +677,8 @@ For this situation *import_zexps* subtemplate exists.
 mechanism for importing list of zexp formated files
 into portal root on theme instllation::
 
-    >>> paster('addcontent --no-interactive import_zexps')
-    paster addcontent --no-interactive import_zexps
+    >>> paster('addcontent import_zexps')
+    paster addcontent import_zexps ...
     ...
     Recursing into import
     ...

@@ -6,6 +6,12 @@ __docformat__ = 'restructuredtext'
 
 from zopeskel.tests.test_zopeskeldocs import *
 
+# Create patch to hide --no-interactive paster option
+# to prevent confusing of a user.
+orig_paster = paster
+def paster(cmd):
+    return orig_paster(cmd + " --no-interactive")
+
 current_dir = os.path.abspath(os.path.dirname(__file__))
 
 def doc_suite(test_dir, setUp=testSetUp, tearDown=testTearDown, globs=None):

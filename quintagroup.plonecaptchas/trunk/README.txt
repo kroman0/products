@@ -5,6 +5,8 @@ quintagroup.plonecaptchas is a simple captchas implementation for Plone, designe
 for validation of human input in insecure forms. This is a standalone 
 implementation which does not depend on captchas.net services.
 
+.. figure:: http://quintagroup.com/services/plone-development/products/plone-captchas/plone-captchas.png
+
 quintagroup.plonecaptchas adds captcha support to Plone, it works together with 
 quintagroup.captcha.core package. http://projects.quintagroup.com/products/wiki/quintagroup.captcha.core
 

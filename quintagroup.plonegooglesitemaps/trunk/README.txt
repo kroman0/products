@@ -4,6 +4,8 @@ Introduction
 Plone Google Sitemaps product allows Plone websites to get better visibility for Google search engine
 by providing it with complete listing of URLs to website content.
 
+.. figure:: http://quintagroup.com/services/plone-development/products/google-sitemaps/plone-google-sitemaps.png
+
 Plone Google Sitemaps allows you to enable different kinds of Google Sitemaps on your Plone website. 
 Such Sitemaps help Google identify site URLs and the data under each site section. With Google Sitemaps
 enabled, search engines could track your Plone site URLs faster and more efficiently, optimizing their 

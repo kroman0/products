@@ -8,7 +8,7 @@ like a regular tags cloud, but is more visually exciting. This is the WordPress
 WP-Cumulus plugin ported to Plone as a portlet.
 
 When you add this portlet anywhere in the site it will display all site's tags. 
-If you have installed QullsEnabled product this portlet will display only blog's 
+If you have installed QuillsEnabled product this portlet will display only blog's 
 tags when rendered inside blog.
 
 Usage

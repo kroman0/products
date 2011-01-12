@@ -1,6 +1,8 @@
 Introduction
 ============
 
+.. figure:: http://quintagroup.com/services/plone-development/products/quintagroup.transmogrifier/quintagroup.transmogrifier.jpg
+
 Plone Migration Tool for migrating content between two Plone websites that allows to export content
 from one Plone website and import it into another one.
 

@@ -79,11 +79,16 @@ SitemapSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"URL processing Regular Expressions"),
             description=_(u"Provide regular expressions (in Perl syntax), " \
                           u"one per line to be applied to URLs before " \
-                          u"including them into Sitemap. For instance, " \
+                          u"including them into Sitemap. Example 1: " \
                           u"\"s/\/index_html//\" will remove /index_html " \
-                          u"from URLs representing default documents."),
+                          u"from URLs representing default documents. " \
+                          u"Example 2: \"s/[you_site\/internal\/path]/[domain]/\" will " \
+                          u"fix URLs in the sitemap in case they are " \
+                          u"generated on the basis of your site internal" \
+                          u"path rather than your site domain URL. "),
         ),
     ),
+
     atapi.LinesField(
         name='urls',
         storage = atapi.AnnotationStorage(),

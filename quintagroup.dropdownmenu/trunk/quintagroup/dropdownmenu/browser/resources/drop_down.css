@@ -44,6 +44,7 @@ body {
   left:0;
   position:absolute;
   top:100%;
+  z-index:1000;
   }
 #portal-globalnav li:hover > ul {
   display:block;

@@ -24,4 +24,3 @@ def replaceNamespace(ns):
 
 replaceNamespace(DublinCore)
 replaceNamespace(Archetypes)
-replaceNamespace(CMF)

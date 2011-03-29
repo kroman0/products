@@ -9,7 +9,7 @@
   <five:registerPackage package="." />
 
   <!-- Include configuration for dependencies listed in setup.py -->
-  <includeDependencies package="." />
+  <include package="plone.app.registry" />
 
   <!-- Include internal packages -->
   <include package=".browser" />

@@ -57,6 +57,14 @@
         template="portlets_stats.pt"
         />
 
+    <browser:page
+        name="size_stats"
+        for="*"
+        permission="zope2.ViewManagementScreens"
+        class=".views.SizeByPath"
+        template="size_stats.pt"
+        />
+
     <browser:resource
         name="stats_style.css"
         file="resources/stats_style.css"

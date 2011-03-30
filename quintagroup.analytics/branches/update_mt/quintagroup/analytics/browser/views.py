@@ -1,3 +1,4 @@
+from pprint import pprint
 from Acquisition import aq_base
 from zope.component import getUtility, getMultiAdapter, queryMultiAdapter
 
@@ -9,6 +10,7 @@ from Products.Archetypes.interfaces import IBaseFolder
 from plone.portlets.interfaces import IPortletManager
 from plone.portlets.interfaces import IPortletAssignmentMapping
 from plone.portlets.interfaces import ILocalPortletAssignmentManager
+
 try:
     from plone.portlets.interfaces import IPortletAssignmentSettings
 except ImportError:
@@ -526,3 +528,83 @@ class PortletsStats(BrowserView):
                 exprs.append(name)
         #exprs.sort()
         return exprs
+
+def human_format(num):
+    magnitude = 0
+    while num >= 1024:
+        magnitude += 1
+        num /= 1024.0
+    # add more suffixes if you need them
+    return '%.2f %sB' % (num, ['', 'K', 'M', 'G', 'T', 'P'][magnitude])
+
+class SizeByPath(BrowserView):
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        self.cat = getToolByName(self.context, 'portal_catalog')
+        self.purl = getToolByName(self.context, 'portal_url')
+        self.total = None
+        self.DEBUG = True
+        bpath = self.request.form.get('basepath')
+        self.basepath = bpath and "/"+bpath.strip("/") or ""
+
+    # def _getInfo(self, k, path, size):
+    #     obpath = "%s/%s" % (path, k)
+    #     return {'path': obpath,
+    #             'href': "%s/%s" % (self.purl(), obpath),
+    #             'size': size,
+    #             'human_size': "%d b" % size}
+
+    def _walk(self, obj, path):
+
+        def getSize(brain):
+            return float(brain.getObjSize.split()[0])*(
+                         brain.getObjSize.endswith('kB') and 1024 \
+                         or brain.getObjSize.endswith('MB') and 1024*1024 \
+                         or 1)
+
+        brains = self.cat(path=path, Language="all")
+        result = {}
+        for b in brains:
+            bpath = b.getPath()[len(path):]
+            p1 = len(bpath)>1 and bpath.split('/')[1] or ''
+            if not p1:
+                continue
+            data = result.setdefault(p1, {'size': 0, 'brain': None})
+            data['size'] += getSize(b)
+            if b.getPath() == "%s/%s" % (path, p1):
+                data['brain'] = b
+            result[p1] = data
+
+        self.total = human_format(sum([d['size'] for d in result.values()]))
+
+        sresult = [(d['size'], d['brain']) for k,d in result.items() if d['brain']]
+        sresult.sort(key=lambda i:i[0], reverse=True)
+
+        sortedres = []
+        burl = "%s/%s" % (self.purl(), self.basepath)
+        banalyse_url_tmpl = "%s/@@size_stats?basepath=%s/%%s&submit=Search" % (
+            self.purl(), self.basepath)
+        for size, b in sresult:
+            isFolder = b.getObject().isPrincipiaFolderish
+            oid = b.getId or b.id
+            sortedres.append({'id': oid,
+                      'path': "%s/%s" % (self.basepath, oid),
+                      'href': "%s/%s" % (burl, oid),
+                      'human_size': human_format(size),
+                      'analyse_url': isFolder and banalyse_url_tmpl % oid or "",})
+        return sortedres
+
+    def getSizeStats(self):
+        if self.request.get("submit", None) is None:
+            return []
+
+        portal = self.purl.getPortalObject()
+        path = "/%s%s" % (portal.getId(), self.basepath)
+        
+        infos = []
+        for i in self._walk(self.context, path):
+            if self.DEBUG or i['size'] > 1:
+                infos.append(i)
+        
+        return infos

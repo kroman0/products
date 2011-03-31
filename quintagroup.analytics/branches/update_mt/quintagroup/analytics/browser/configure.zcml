@@ -65,6 +65,14 @@
         template="size_stats.pt"
         />
 
+    <browser:page
+        name="size_stats_path"
+        for="*"
+        permission="zope2.ViewManagementScreens"
+        attribute="getSizeInfoByPath"
+        class=".views.SizeByPath"
+        />
+
     <browser:resource
         name="stats_style.css"
         file="resources/stats_style.css"

@@ -559,6 +559,18 @@ class SizeByPath(BrowserView):
     def _brainsByPath(self, path):
         return self.cat(path=path, Language="all")
 
+    def getValidPath(self):
+        portal = self.purl.getPortalObject()
+        return "/%s%s" % (portal.getId(), self.basepath)
+
+    def getSizeInfoByPath(self):
+        """API for chart builder"""
+        path = self.getValidPath()
+        return [{'size': getSize(b),
+                 'type': b.portal_type,
+                 'path': b.getPath()} \
+                for b in self._brainsByPath(path)]
+
     def _walk(self, obj, path):
         result = {}
         for b in self._brainsByPath(path):
@@ -594,10 +606,8 @@ class SizeByPath(BrowserView):
         if self.request.get("submit", None) is None:
             return []
 
-        portal = self.purl.getPortalObject()
-        path = "/%s%s" % (portal.getId(), self.basepath)
-        
         infos = []
+        path = self.getValidPath()
         for size, brain in self._walk(self.context, path):
             if self.DEBUG or size > 1:
                 infos.append(self.getInfoForTableItem(size, brain))

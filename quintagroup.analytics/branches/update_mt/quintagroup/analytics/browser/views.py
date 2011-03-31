@@ -537,6 +537,13 @@ def human_format(num):
     # add more suffixes if you need them
     return '%.2f %sB' % (num, ['', 'K', 'M', 'G', 'T', 'P'][magnitude])
 
+def getSize(brain):
+    return float(brain.getObjSize.split()[0])*(
+                 brain.getObjSize.endswith('kB') and 1024 \
+                 or brain.getObjSize.endswith('MB') and 1024*1024 \
+                 or 1)
+
+
 class SizeByPath(BrowserView):
     def __init__(self, context, request):
         self.context = context
@@ -548,24 +555,13 @@ class SizeByPath(BrowserView):
         bpath = self.request.form.get('basepath')
         self.basepath = bpath and "/"+bpath.strip("/") or ""
 
-    # def _getInfo(self, k, path, size):
-    #     obpath = "%s/%s" % (path, k)
-    #     return {'path': obpath,
-    #             'href': "%s/%s" % (self.purl(), obpath),
-    #             'size': size,
-    #             'human_size': "%d b" % size}
+
+    def _brainsByPath(self, path):
+        return self.cat(path=path, Language="all")
 
     def _walk(self, obj, path):
-
-        def getSize(brain):
-            return float(brain.getObjSize.split()[0])*(
-                         brain.getObjSize.endswith('kB') and 1024 \
-                         or brain.getObjSize.endswith('MB') and 1024*1024 \
-                         or 1)
-
-        brains = self.cat(path=path, Language="all")
         result = {}
-        for b in brains:
+        for b in self._brainsByPath(path):
             bpath = b.getPath()[len(path):]
             p1 = len(bpath)>1 and bpath.split('/')[1] or ''
             if not p1:
@@ -578,22 +574,21 @@ class SizeByPath(BrowserView):
 
         self.total = human_format(sum([d['size'] for d in result.values()]))
 
-        sresult = [(d['size'], d['brain']) for k,d in result.items() if d['brain']]
-        sresult.sort(key=lambda i:i[0], reverse=True)
-
-        sortedres = []
-        burl = "%s/%s" % (self.purl(), self.basepath)
-        banalyse_url_tmpl = "%s/@@size_stats?basepath=%s/%%s&submit=Search" % (
-            self.purl(), self.basepath)
-        for size, b in sresult:
-            isFolder = b.getObject().isPrincipiaFolderish
-            oid = b.getId or b.id
-            sortedres.append({'id': oid,
-                      'path': "%s/%s" % (self.basepath, oid),
-                      'href': "%s/%s" % (burl, oid),
-                      'human_size': human_format(size),
-                      'analyse_url': isFolder and banalyse_url_tmpl % oid or "",})
+        sortedres = [(d['size'], d['brain']) for k,d in result.items() if d['brain']]
+        sortedres.sort(key=lambda i:i[0], reverse=True)
         return sortedres
+
+    def getInfoForTableItem(self, size, brain):
+        oid = brain.getId or brain.id
+        analyse_url = ""
+        if brain.getObject().isPrincipiaFolderish:
+            analyse_url =  "%s/@@size_stats?basepath=%s/%s&submit=Search" % (
+                            self.purl(), self.basepath, oid)
+        return {'id': oid,
+                'path': "%s/%s" % (self.basepath, oid),
+                'href': "%s%s/%s" % (self.purl(), self.basepath, oid),
+                'human_size': human_format(size),
+                'analyse_url': analyse_url,}
 
     def getSizeStats(self):
         if self.request.get("submit", None) is None:
@@ -603,8 +598,8 @@ class SizeByPath(BrowserView):
         path = "/%s%s" % (portal.getId(), self.basepath)
         
         infos = []
-        for i in self._walk(self.context, path):
-            if self.DEBUG or i['size'] > 1:
-                infos.append(i)
+        for size, brain in self._walk(self.context, path):
+            if self.DEBUG or size > 1:
+                infos.append(self.getInfoForTableItem(size, brain))
         
         return infos

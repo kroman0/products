@@ -47,6 +47,6 @@ Installation
 ------------
 
 * add http://good-py.appspot.com/release/plone.app.registry/1.0b2 to your versions
-* add quintagroup.dropdownmenu to your buildout
+* add quintagroup.dropdownmenu to eggs in your buildout
 * install in Plone with Quick Installer
 * find more details inside docs/INSTALL.txt 

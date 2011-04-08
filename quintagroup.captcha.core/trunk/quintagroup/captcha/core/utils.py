@@ -26,11 +26,14 @@ def getTransform(x, y, a, p, o):
 
 def gen_captcha(**kwargs):
     """Generate a captcha image"""
-    import ImageFile
-    import Image
-    import ImageFont
-    import ImageDraw
-    import ImageFilter
+    try:
+        from App import ImageFile
+    except ImportError:
+        import ImageFile
+    from PIL import Image
+    from PIL import ImageFont
+    from PIL import ImageDraw
+    from PIL import ImageFilter
     import random
     from PIL import ImageFile as pyImageFile
     import sys

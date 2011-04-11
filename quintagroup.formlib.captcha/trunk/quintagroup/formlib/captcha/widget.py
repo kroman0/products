@@ -6,7 +6,7 @@ except ImportError:
     from zope.app.component.hooks import getSite
 from zope.app.form.browser import ASCIIWidget
 from zope.app.form.interfaces import ConversionError
-from zope.app.form.browser.textwidgets import renderElement
+from zope.app.form.browser.widget import renderElement
 from zope.i18n import MessageFactory
 
 from Acquisition import aq_inner

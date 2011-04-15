@@ -9,7 +9,7 @@ from zope.app.form.interfaces import ConversionError
 from zope.app.form.browser.widget import renderElement
 from zope.i18n import MessageFactory
 
-from Acquisition import aq_inner
+from Acquisition import aq_parent
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import ISiteRoot

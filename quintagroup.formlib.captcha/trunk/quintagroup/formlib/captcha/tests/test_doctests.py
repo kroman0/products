@@ -1,8 +1,6 @@
 import unittest
 import doctest
 
-from zope.interface import Interface
-
 from Products.Five import zcml
 from Products.Five import fiveconfigure
 
@@ -10,7 +8,7 @@ from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import PloneSite
 from Testing import ZopeTestCase as ztc
 
-from quintagroup.captcha.core.utils import *
+from quintagroup.captcha.core.utils import decrypt, parseKey, getWord
 from quintagroup.captcha.core.tests.base import testPatch
 from quintagroup.captcha.core.tests.testWidget import addTestLayer
 

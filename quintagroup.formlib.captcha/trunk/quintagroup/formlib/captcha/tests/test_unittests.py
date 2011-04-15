@@ -13,7 +13,7 @@ from Testing import ZopeTestCase as ztc
 from Products.PloneTestCase.layer import onsetup
 from Products.PloneTestCase import PloneTestCase as ptc
 
-from quintagroup.captcha.core.utils import *
+from quintagroup.captcha.core.utils import decrypt, parseKey, getWord
 from quintagroup.captcha.core.tests.base import testPatch
 from quintagroup.captcha.core.tests.testWidget import addTestLayer
 
@@ -112,7 +112,7 @@ class TestCaptchaWidgetToField(ptc.PloneTestCase):
 
     def testSubmitWrongCaptcha(self):
         try:
-            res = self.widget._toFieldValue("wrong key")
+            self.widget._toFieldValue("wrong key")
         except ConversionError, e:
             self.assertEqual(e.doc(), u'Please re-enter validation code.')
         else:

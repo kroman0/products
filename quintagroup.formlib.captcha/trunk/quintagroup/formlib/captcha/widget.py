@@ -91,7 +91,7 @@ class CaptchaWidget(ASCIIWidget):
                 solution = getWord(int(index))
 
             captcha_tool = getToolByName(site, 'portal_captchas')
-            if (enc != solution) or (decrypted_key in captcha_tool) or \
+            if (enc != solution) or (decrypted_key in captcha_tool.keys()) or \
                (DateTime().timeTime() - float(date) > 3600):
                 raise ConversionError(_(u'Please re-enter validation code.'))
             else:

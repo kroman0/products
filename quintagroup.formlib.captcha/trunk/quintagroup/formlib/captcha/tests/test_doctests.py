@@ -14,6 +14,7 @@ from quintagroup.captcha.core.utils import *
 from quintagroup.captcha.core.tests.base import testPatch
 from quintagroup.captcha.core.tests.testWidget import addTestLayer
 
+
 class FormlibCaptchaLayer(PloneSite):
     @classmethod
     def setUp(cls):
@@ -28,8 +29,9 @@ class FormlibCaptchaLayer(PloneSite):
     @classmethod
     def tearDown(cls):
         pass
-    
-ptc.setupPloneSite(extension_profiles=['quintagroup.captcha.core:default',])
+
+ptc.setupPloneSite(extension_profiles=['quintagroup.captcha.core:default', ])
+
 
 class FormlibCaptchaTestCase(ptc.FunctionalTestCase):
     layer = FormlibCaptchaLayer
@@ -43,7 +45,7 @@ class FormlibCaptchaTestCase(ptc.FunctionalTestCase):
         captcha_key = self.portal.captcha_key
         self.hashkey = self.portal.getCaptcha()
         decrypted = decrypt(captcha_key, self.hashkey)
-        self.captcha_word = getWord(int(parseKey(decrypted)['key'])-1 )
+        self.captcha_word = getWord(int(parseKey(decrypted)['key']) - 1)
 
 
 def test_suite():
@@ -53,8 +55,8 @@ def test_suite():
         ztc.ZopeDocFileSuite(
             'README.txt', package='quintagroup.formlib.captcha',
             test_class=FormlibCaptchaTestCase,
-            optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
-            
+            optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | \
+                        doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
         ])
 
 if __name__ == '__main__':

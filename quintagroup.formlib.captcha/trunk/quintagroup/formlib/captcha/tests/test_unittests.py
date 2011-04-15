@@ -20,6 +20,7 @@ from quintagroup.captcha.core.tests.testWidget import addTestLayer
 from quintagroup.formlib.captcha import Captcha
 from quintagroup.formlib.captcha import CaptchaWidget
 
+
 @onsetup
 def setup_product():
     fiveconfigure.debug_mode = True
@@ -30,7 +31,7 @@ def setup_product():
     ztc.installPackage('quintagroup.captcha.core')
 
 setup_product()
-ptc.setupPloneSite(extension_profiles=['quintagroup.captcha.core:default',])
+ptc.setupPloneSite(extension_profiles=['quintagroup.captcha.core:default', ])
 
 
 class TestRegistrations(ptc.PloneTestCase):
@@ -78,7 +79,7 @@ class TestCaptchaWidgetHTML(ptc.PloneTestCase):
     def testTextField(self):
         FIELDTAG = '<input\s+[^>]*type=\"text\"\s*[^>]*>'
         self.assertEqual(re.search(FIELDTAG, self.html) is not None, True)
-        
+
 
 class TestCaptchaWidgetToField(ptc.PloneTestCase):
 
@@ -100,14 +101,15 @@ class TestCaptchaWidgetToField(ptc.PloneTestCase):
 
     def testSubmitRightCaptcha(self):
         decrypted = decrypt(self.captcha_key, self.hashkey)
-        key = getWord(int(parseKey(decrypted)['key'])-1 )
+        key = getWord(int(parseKey(decrypted)['key']) - 1)
         try:
             res = self.widget._toFieldValue(key)
         except ConversionError, e:
-            self.fail("Rised unexpected %s error on right captcha submit" % e.doc())
+            self.fail("Rised unexpected %s error on right captcha submit" % \
+                      e.doc())
         else:
             self.assertEqual(res, key)
-        
+
     def testSubmitWrongCaptcha(self):
         try:
             res = self.widget._toFieldValue("wrong key")
@@ -118,7 +120,7 @@ class TestCaptchaWidgetToField(ptc.PloneTestCase):
 
     def testSubmitRightCaptchaTwice(self):
         decrypted = decrypt(self.captcha_key, self.hashkey)
-        key = getWord(int(parseKey(decrypted)['key'])-1 )
+        key = getWord(int(parseKey(decrypted)['key']) - 1)
         self.widget._toFieldValue(key)
         try:
             res = self.widget._toFieldValue(key)

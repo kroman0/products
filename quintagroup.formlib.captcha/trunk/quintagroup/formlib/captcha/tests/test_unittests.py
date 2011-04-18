@@ -123,7 +123,7 @@ class TestCaptchaWidgetToField(ptc.PloneTestCase):
         key = getWord(int(parseKey(decrypted)['key']) - 1)
         self.widget._toFieldValue(key)
         try:
-            res = self.widget._toFieldValue(key)
+            self.widget._toFieldValue(key)
         except ConversionError, e:
             self.assertEqual(e.doc(), u'Please re-enter validation code.')
         else:

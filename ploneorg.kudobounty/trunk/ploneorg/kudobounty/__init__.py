@@ -14,10 +14,6 @@ from Products.CMFCore import utils
 kudobountyMessageFactory = MessageFactory('ploneorg.kudobounty')
 logger = logging.getLogger('ploneorg.kudobounty')
 
-
-print "%%%% in Bounty.__init__ %%%%%%"
-
-
 def initialize(context):
     """Initializer called when used as a Zope 2 product.
 

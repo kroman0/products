@@ -8,9 +8,9 @@ from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.config import RENAME_AFTER_CREATION_ATTEMPTS
 
-
-from ploneorg.kudobounty import kudobountyMessageFactory as _
+from ploneorg.kudobounty import logger
 from ploneorg.kudobounty.config import *
+from ploneorg.kudobounty import kudobountyMessageFactory as _
 
 
 class BountyFormProcessorView(BrowserView):

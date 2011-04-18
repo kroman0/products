@@ -4,6 +4,5 @@
   <dependencies>
     <dependency>profile-Products.PloneFormGen:default</dependency>
     <dependency>profile-Products.ContentWellPortlets:default</dependency>
-    <dependency>profile-ploneorg.kudobounty:struct</dependency>
   </dependencies>
 </metadata>

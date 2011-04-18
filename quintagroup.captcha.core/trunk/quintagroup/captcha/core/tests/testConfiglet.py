@@ -3,6 +3,7 @@ import string
 from base import ptc, default_password, portal_owner, LAYER_STATIC_CAPTCHAS, \
     PROPERTY_SHEET, LAYER_DYNAMIC_CAPTCHAS, PRODUCT_NAME
 
+
 class TestConfiglet(ptc.FunctionalTestCase):
 
     def afterSetUp(self):

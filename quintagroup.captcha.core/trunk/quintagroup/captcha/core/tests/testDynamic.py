@@ -11,7 +11,7 @@ from testStatic import TestStaticValidator
 try:
     from PIL import ImageFont
     fontspath = abspath(dirname(dirname(__file__))) + '/data/fonts/vera/'
-    font = ImageFont.truetype(fontspath+'VeraBd.ttf', 27)
+    font = ImageFont.truetype(fontspath + 'VeraBd.ttf', 27)
 except ImportError:
     DYNAMIC_WORKABLE = False
 else:
@@ -23,20 +23,20 @@ class DynamicMixin:
         skins = self.portal.portal_skins
         for skin in skins.getSkinSelections():
             path = skins.getSkinPath(skin)
-            path = map( string.strip, string.split( path,',' ))
+            path = map(string.strip, string.split(path, ','))
             try:
                 i = path.index(LAYER_STATIC_CAPTCHAS)
                 path.remove(LAYER_STATIC_CAPTCHAS)
                 path.insert(i, LAYER_DYNAMIC_CAPTCHAS)
             except ValueError:
                 pass
-            path = string.join( path, ', ' )
-            skins.addSkinSelection( skin, path )
+            path = string.join(path, ', ')
+            skins.addSkinSelection(skin, path)
             self._refreshSkinData()
 
 
 class TestPIL(unittest.TestCase):
-    
+
     def testPILImageFont(self):
         if not DYNAMIC_WORKABLE:
             self.fail("You can not use Dynamic Captchas, only Static one " \
@@ -68,19 +68,20 @@ class TestDynamic(DynamicMixin, ptc.FunctionalTestCase):
         self.assertTrue('key' in parsed_key.keys())
         # index start from 0 and lower or equals to captchas count
         index = int(parsed_key['key'])
-        self.assertTrue(index >= 0 and index <= len(utils.basic_english.words.split()))
+        words = utils.basic_english.words.split()
+        self.assertTrue(index >= 0 and index <= len(words))
         # encrypted key must be equals to word from the dictionary,
         # under index position and must be not empty string
         self.assertFalse(getWord(index) == "")
 
     def test_GetImage(self):
         # getCaptchaImage function must return image coded in hashkey same to
-        # image get by 'key' after parsing decrypted key 
+        # image get by 'key' after parsing decrypted key
         decrypted_key = decrypt(self.captcha_key, self.hashkey)
         parsed_key = parseKey(decrypted_key)
 
         img_html = self.publish(
-            self.portal.absolute_url(1)+"/getCaptchaImage/%s" % self.hashkey)
+            self.portal.absolute_url(1) + "/getCaptchaImage/%s" % self.hashkey)
 
         img_ctype = img_html.getHeader('content-type')
         self.assertTrue(img_ctype == 'image/jpeg', "Wrong content type for " \

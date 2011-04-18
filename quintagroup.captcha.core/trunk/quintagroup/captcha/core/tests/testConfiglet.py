@@ -1,14 +1,16 @@
-import re, string
+import re
+import string
 from base import *
+
 
 class TestConfiglet(ptc.FunctionalTestCase):
 
     def afterSetUp(self):
         self.sp = self.portal.portal_properties.site_properties
-        self.basic_auth = ':'.join((portal_owner,default_password))
+        self.basic_auth = ':'.join((portal_owner, default_password))
         self.loginAsPortalOwner()
         self.addProduct(PRODUCT_NAME)
-        
+
         self.capprops = self.portal.portal_properties[PROPERTY_SHEET]
         self.save_url = self.portal.id + \
             '/prefs_captchas_setup_form?form.submitted=1' + \
@@ -19,7 +21,7 @@ class TestConfiglet(ptc.FunctionalTestCase):
         skins = self.portal.portal_skins
         for skin in skins.getSkinSelections():
             path = skins.getSkinPath(skin)
-            path = map( string.strip, string.split( path,',' ))
+            path = map(string.strip, string.split(path, ','))
             if not layer in path:
                 return False
 
@@ -28,14 +30,14 @@ class TestConfiglet(ptc.FunctionalTestCase):
     def test_staticOn(self):
         self.publish(self.save_url + '&static_captchas=static',
                      self.basic_auth)
-        
+
         self.assertTrue(self.layerInSkins(LAYER_STATIC_CAPTCHAS),
             "No '%s' skin layer in some skins" % LAYER_STATIC_CAPTCHAS)
 
     def test_dynamicOn(self):
         res = self.publish(self.save_url + '&static_captchas=dynamic',
                      self.basic_auth).getBody()
-        
+
         self.assertTrue(self.layerInSkins(LAYER_DYNAMIC_CAPTCHAS),
             "No '%s' skin layer in some skins" % LAYER_DYNAMIC_CAPTCHAS)
 
@@ -98,16 +100,18 @@ class TestConfigletView(ptc.FunctionalTestCase):
     def afterSetUp(self):
         self.loginAsPortalOwner()
         self.addProduct(PRODUCT_NAME)
-        self.view = self.publish(self.portal.id+'/prefs_captchas_setup_form',
-                                 portal_owner+":"+default_password).getBody()
- 
+        captcha_pref_path = self.portal.id + '/prefs_captchas_setup_form'
+        basic_auth = portal_owner + ":" + default_password
+        self.view = self.publish(captcha_pref_path, basic_auth).getBody()
+
     def matchinput(self, name):
         return re.match('.*<input\s+[^\>]*name=\"%s\"[^>]*>' % name,
-                        self.view, re.I|re.S)
+                        self.view, re.I | re.S)
 
     def test_basic_form(self):
-        form = re.match('.*<form\s+[^\>]*action=\"[^\"]*?prefs_captchas_setup_form\"[^>]*>',
-                        self.view, re.I|re.S)
+        reg_expr = '.*<form\s+[^\>]*action=\"[^\"]*?'\
+                   'prefs_captchas_setup_form\"[^>]*>'
+        form = re.match(reg_expr, self.view, re.I | re.S)
         self.assertNotEqual(form, None,
             "No 'Plone Captchas Setup' form present on the configlet view")
         self.assertNotEqual(self.matchinput('form\.button\.form_submit'), None,
@@ -121,7 +125,7 @@ class TestConfigletView(ptc.FunctionalTestCase):
         for param in params:
             self.assertNotEqual(self.matchinput(param), None,
                 "'%s' form element absence on the configlet form" % param)
-        
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

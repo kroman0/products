@@ -15,7 +15,7 @@ from quintagroup.captcha.core.config import LAYER_STATIC_CAPTCHAS
 skinsTool = getToolByName(context, 'portal_skins')
 default_skin = skinsTool.getDefaultSkin()
 path = skinsTool.getSkinPath(default_skin)
-path = map( string.strip, string.split( path,',' ) )
+path = map(string.strip, string.split(path, ','))
 
 if LAYER_STATIC_CAPTCHAS in path:
     return 'static'

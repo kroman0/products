@@ -23,6 +23,8 @@ blue
 false
 burn
 """
+
+
 def testPatch():
     # PATCH dictionary for captcha testing
     class TestData(object):
@@ -31,6 +33,7 @@ def testPatch():
     utils.basic_english = TestData()
     utils.CAPTCHAS_COUNT = len(utils.basic_english.words.split())
     # END OF PATCH
+
 
 @onsetup
 def setup_product():

@@ -11,6 +11,7 @@ IMAGE_PATT = '\s+src="%s(/getCaptchaImage/[0-9a-fA-F]+)"'
 # patch to use test images and dictionary
 testPatch()
 
+
 def addTestLayer(self):
     # Install test_captcha skin layer
     registerDirectory('tests', GLOBALS)
@@ -18,7 +19,7 @@ def addTestLayer(self):
     addDirectoryViews(skins, 'tests', GLOBALS)
     skinName = skins.getDefaultSkin()
     paths = map(string.strip, skins.getSkinPath(skinName).split(','))
-    paths.insert(paths.index('custom')+1, 'test_captcha')
+    paths.insert(paths.index('custom') + 1, 'test_captcha')
     skins.addSkinSelection(skinName, ','.join(paths))
     self._refreshSkinData()
 
@@ -33,28 +34,33 @@ class TestCaptchaWidget(ptc.FunctionalTestCase):
         self.portal['index_html'].allowDiscussion(True)
         self.absolute_url = self.portal['index_html'].absolute_url_path()
 
-        self.basic_auth = ':'.join((portal_owner,default_password))
+        self.basic_auth = ':'.join((portal_owner, default_password))
         self.captcha_key = self.portal.captcha_key
 
     def testImage(self):
         path = '%s/test_form' % self.absolute_url
-        response = self.publish(path, self.basic_auth, request_method='GET').getBody()
+        response = self.publish(path, self.basic_auth,
+                                request_method='GET').getBody()
         patt = re.compile(IMAGE_PATT % self.portal.absolute_url())
         match_obj = patt.search(response)
 
         img_url = match_obj.group(1)
-        content_type = self.publish('/plone' + img_url, self.basic_auth).getHeader('content-type')
+        res = self.publish('/plone' + img_url, self.basic_auth)
+        content_type = res.getHeader('content-type')
         self.assert_(content_type.startswith('image'))
 
     def testSubmitRightCaptcha(self):
         hashkey = self.portal.getCaptcha()
-        # index of word number starts from 1, but index of dictionary starts from 0
-        key = getWord(int(parseKey(decrypt(self.captcha_key, hashkey))['key'])-1 )
+        # index of word number starts from 1,
+        # but index of dictionary starts from 0
+        decrypted_key = decrypt(self.captcha_key, hashkey)
+        key = getWord(int(parseKey(decrypted_key)['key']) - 1)
         parameters = 'form.submitted=1&key=%s' % key
         path = '%s/test_form?%s' % (self.absolute_url, parameters)
         extra = {'hashkey': hashkey,
                  'form.button.Save': 'Save'}
-        response = self.publish(path, self.basic_auth, extra=extra, request_method='GET').getBody()
+        response = self.publish(path, self.basic_auth, extra=extra,
+                                request_method='GET').getBody()
         self.assert_(not NOT_VALID.search(response))
 
     def testSubmitWrongCaptcha(self):
@@ -63,26 +69,30 @@ class TestCaptchaWidget(ptc.FunctionalTestCase):
         path = '%s/test_form?%s' % (self.absolute_url, parameters)
         extra = {'hashkey': hashkey,
                  'form.button.Save': 'Save'}
-        response = self.publish(path, self.basic_auth, extra=extra, request_method='GET').getBody()
+        response = self.publish(path, self.basic_auth, extra=extra,
+                                request_method='GET').getBody()
         self.assert_(NOT_VALID.search(response))
 
     def testSubmitRightCaptchaTwice(self):
         hashkey = self.portal.getCaptcha()
-        key = getWord(int(parseKey(decrypt(self.captcha_key, hashkey))['key'])-1)
-        parameters = 'form.submitted=1&key=%s'%key
-        path = '%s/test_form?%s'%(self.absolute_url, parameters)
+        decrypted_key = decrypt(self.captcha_key, hashkey)
+        key = getWord(int(parseKey(decrypted_key)['key']) - 1)
+        parameters = 'form.submitted=1&key=%s' % key
+        path = '%s/test_form?%s' % (self.absolute_url, parameters)
         extra = {'hashkey': hashkey,
                  'form.button.Save': 'Save'}
         self.publish(path, self.basic_auth, extra=extra, request_method='GET')
-        response = self.publish(path, self.basic_auth, extra=extra, request_method='GET').getBody()
+        response = self.publish(path, self.basic_auth, extra=extra,
+                                request_method='GET').getBody()
 
         self.assert_(NOT_VALID.search(response))
 
     def testCaptchaWidget(self):
         # captcha core related issue, described in
         # in http://plone.org/products/plone-comments/issues/5
-        resp = self.publish(self.portal.absolute_url(1)+"/captcha_widget")
+        resp = self.publish(self.portal.absolute_url(1) + "/captcha_widget")
         self.assertEqual(resp.status / 100, 2)
+
 
 def test_suite():
     suite = unittest.TestSuite()

@@ -5,11 +5,13 @@ from Products.CMFCore.utils import getToolByName
 from quintagroup.captcha.core.config import CAPTCHA_KEY, CONFIGLET_ID, \
     ALL_LAYERS, PROPERTY_SHEET
 
+
 def generateKey(length):
     key = ''
     for i in range(length):
         key += str(randint(0, 9))
     return key
+
 
 def setupVarious(context):
     if context.readDataFile('quintagroup.captcha.core_various.txt') is None:
@@ -23,6 +25,7 @@ def setupVarious(context):
         site._updateProperty(CAPTCHA_KEY, value)
     else:
         site._setProperty(CAPTCHA_KEY, value, 'string')
+
 
 def uninstall(context):
     # Only run step if a flag file is present (e.g. not an extension profile)

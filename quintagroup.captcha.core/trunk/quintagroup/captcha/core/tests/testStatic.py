@@ -4,6 +4,7 @@ from base import *
 from DateTime import DateTime
 from Products.CMFFormController.ControllerState import ControllerState
 
+
 class TestStatic(ptc.FunctionalTestCase):
 
     def afterSetUp(self):
@@ -18,16 +19,16 @@ class TestStatic(ptc.FunctionalTestCase):
         # After installation static layer must present in all skin paths
         for skin in self.skins.getSkinSelections():
             path = self.skins.getSkinPath(skin)
-            path = map( string.strip, string.split( path,',' ))
+            path = map(string.strip, string.split(path, ','))
             self.assertTrue(LAYER_STATIC_CAPTCHAS in path)
 
     def testImagesCount(self):
         # All images must present in static skin layer
         static = self.skins.restrictedTraverse('captchas')
         static_ids = static.objectIds()
-        for i in range(1, CAPTCHAS_COUNT+1):
+        for i in range(1, CAPTCHAS_COUNT + 1):
             self.assertTrue("%s.jpg" % i in static_ids,
-                            "No %s.jpg in static, %s" % (i,static_ids))
+                            "No %s.jpg in static, %s" % (i, static_ids))
 
     def test_GetCaptcha_Date(self):
         # *date* must present after parsing decrypted key
@@ -44,24 +45,26 @@ class TestStatic(ptc.FunctionalTestCase):
         index = int(parsed_key['key'])
         self.assertTrue(index >= 1 and index <= CAPTCHAS_COUNT)
         # encrypted key must be equals to title of the image
-        key = getWord( index-1 )
+        key = getWord(index - 1)
         img = getattr(self.portal, '%s.jpg' % index)
         self.assertTrue(encrypt1(key) == img.title)
 
     def test_GetImage(self):
         # getCaptchaImage function must return image coded in hashkey same to
-        # image get by 'key' after parsing decrypted key 
+        # image get by 'key' after parsing decrypted key
         req, resp = self.app.REQUEST, self.app.REQUEST.RESPONSE
         decrypted_key = decrypt(self.captcha_key, self.hashkey)
         parsed_key = parseKey(decrypted_key)
-        img = self.portal.restrictedTraverse(parsed_key['key']+'.jpg')
+        img = self.portal.restrictedTraverse(parsed_key['key'] + '.jpg')
         img_html = img.index_html(req, resp)
 
-        obj_html = self.publish(
-            self.portal.absolute_url(1)+"/getCaptchaImage/%s" % self.hashkey).getBody()
-        self.assertTrue(obj_html == img_html, "Image get by getCaptchaImage script " \
-            "is differ from image get by index (after parsing decrypted key)")
-        
+        portal = self.portal.absolute_url(1)
+        captcha_path = portal + "/getCaptchaImage/%s" % self.hashkey
+        obj_html = self.publish(captcha_path).getBody()
+        msg = "Image get by getCaptchaImage script is differ from"\
+              "image get by index (after parsing decrypted key)"
+        self.assertTrue(obj_html == img_html, msg)
+
 
 class TestStaticValidator(ptc.PloneTestCase):
 
@@ -79,22 +82,28 @@ class TestStaticValidator(ptc.PloneTestCase):
 
     def testGoodData(self):
         hashkey = self.portal.getCaptcha()
-        key = getWord(int(parseKey(decrypt(self.captcha_key, hashkey))['key'])-1 )
+        decrypted_key = decrypt(self.captcha_key, hashkey)
+        key = getWord(int(parseKey(decrypted_key)['key']) - 1)
         self.req.form['hashkey'] = hashkey
-        self.req.form['key'] = key+'1'
+        self.req.form['key'] = key + '1'
 
-        cstate = self.pfc.validate(self.dummycs, self.req, ['captcha_validator',])
-        self.assertTrue(cstate.getErrors()['key'] == 'Please re-enter validation code.',
+        cstate = self.pfc.validate(self.dummycs, self.req,
+                                   ['captcha_validator', ])
+        error_msg = 'Please re-enter validation code.'
+        self.assertTrue(cstate.getErrors()['key'] == error_msg,
                         "Static captcha validator validate wrong key")
 
     def testBadKey(self):
         hashkey = self.portal.getCaptcha()
-        key = getWord(int(parseKey(decrypt(self.captcha_key, hashkey))['key'])-1 )
+        decrypted_key = decrypt(self.captcha_key, hashkey)
+        key = getWord(int(parseKey(decrypted_key)['key']) - 1)
         self.req.form['hashkey'] = hashkey
         self.req.form['key'] = 'bad key'
-        
-        cstate = self.pfc.validate(self.dummycs, self.req, ['captcha_validator',])
-        self.assertTrue(cstate.getErrors()['key'] == 'Please re-enter validation code.',
+
+        cstate = self.pfc.validate(self.dummycs, self.req,
+                                   ['captcha_validator', ])
+        error_msg = 'Please re-enter validation code.'
+        self.assertTrue(cstate.getErrors()['key'] == error_msg,
                         "Static captcha validator validate wrong key")
 
     def testBadDate(self):
@@ -102,15 +111,19 @@ class TestStaticValidator(ptc.PloneTestCase):
         origDTTT = DateTime.timeTime
         now = DateTime().timeTime()
         DateTime.timeTime = lambda s: now - float(3601)
-        
+
         hashkey = self.portal.getCaptcha()
-        key = getWord(int(parseKey(decrypt(self.captcha_key, hashkey))['key'])-1 )
+
+        decrypted_key = decrypt(self.captcha_key, hashkey)
+        key = getWord(int(parseKey(decrypted_key)['key']) - 1)
         self.req.form['hashkey'] = hashkey
         self.req.form['key'] = key
         # Return original Date
         DateTime.timeTime = origDTTT
-        cstate = self.pfc.validate(self.dummycs, self.req, ['captcha_validator',])
-        self.assertTrue(cstate.getErrors()['key'] == 'Please re-enter validation code.',
+        cstate = self.pfc.validate(self.dummycs, self.req,
+                                   ['captcha_validator', ])
+        error_msg = 'Please re-enter validation code.'
+        self.assertTrue(cstate.getErrors()['key'] == error_msg,
                         "Static captcha validator validate wrong key")
 
 

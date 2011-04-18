@@ -5,6 +5,7 @@ except ImportError:
 from AccessControl import ClassSecurityInfo
 from Products.Transience.Transience import TransientObjectContainer
 
+
 class CaptchaTool(TransientObjectContainer):
     """portal_captcha tool class
     """
@@ -12,10 +13,12 @@ class CaptchaTool(TransientObjectContainer):
     security = ClassSecurityInfo()
     security.declarePublic('addExpiredKey')
 
-    def __init__(self, id='portal_captchas', title='', timeout_mins=60, addNotification=None,
+    def __init__(self, id='portal_captchas', title='',
+                 timeout_mins=60, addNotification=None,
                  delNotification=None, limit=0, period_secs=60):
-        TransientObjectContainer.__init__(self, id, title, timeout_mins, addNotification,
-                                          delNotification, limit, period_secs)
+        TransientObjectContainer.__init__(self, id, title, timeout_mins,
+                                          addNotification, delNotification,
+                                          limit, period_secs)
 
     def addExpiredKey(self, key):
         self.new(key)

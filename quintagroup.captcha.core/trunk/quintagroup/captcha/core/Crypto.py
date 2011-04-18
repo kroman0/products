@@ -1,7 +1,9 @@
 # xor implementation with PyCrypto interface
 
+
 def new(key):
     return Xor(key)
+
 
 class Xor:
     def __init__(self, key):

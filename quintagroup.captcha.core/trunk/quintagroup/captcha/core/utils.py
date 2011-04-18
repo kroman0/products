@@ -18,11 +18,14 @@ try:
 except:
     import Crypto
 
+
 def encrypt1(s):
     return md5.md5(s).hexdigest().upper()
 
+
 def getTransform(x, y, a, p, o):
-    return (math.sin( (y+o[0])*p )*a + x, math.sin( (x+o[1])*p )*a + y)
+    return (math.sin((y + o[0]) * p) * a + x, math.sin((x + o[1]) * p) * a + y)
+
 
 def gen_captcha(**kwargs):
     """Generate a captcha image"""
@@ -56,21 +59,23 @@ def gen_captcha(**kwargs):
     FONT_PATH = DATA_PATH + '/fonts'
 
     #select font for captcha text
-    ALL_FONTS=('Bd', 'It', 'MoBI', 'Mono', 'Se', 'BI', 'MoBd', 'MoIt', 'SeBd', '')
+    ALL_FONTS = ('Bd', 'It', 'MoBI', 'Mono', 'Se',
+                 'BI', 'MoBd', 'MoIt', 'SeBd', '')
     rand_font = random.choice(ALL_FONTS)
-    font = ImageFont.truetype(FONT_PATH+'/vera/Vera%s.ttf'%rand_font, fnt_sz)
+    rand_font_path = FONT_PATH + '/vera/Vera%s.ttf' % rand_font
+    font = ImageFont.truetype(rand_font_path, fnt_sz)
     textSize = font.getsize(text)
 
 #------------------------------render   background1 -----------------------
-    image = Image.new('RGB', (textSize[0]+7,textSize[1]+7), bkground)
+    image = Image.new('RGB', (textSize[0] + 7, textSize[1] + 7), bkground)
     image.paste(bkground)
 #------------------------------render       Text2 ------------------------
     draw = ImageDraw.Draw(image)
-    alignment = (random.uniform(0,1), random.uniform(0,1))
+    alignment = (random.uniform(0, 1), random.uniform(0, 1))
     x = int((image.size[0] - textSize[0]) * alignment[0] + 0.5)
     y = int((image.size[1] - textSize[1]) * alignment[1] + 0.5)
 
-    draw.text((x,y), text, font=font, fill=font_color)
+    draw.text((x, y), text, font=font, fill=font_color)
 
 #------------------------------render       Distortion -----------------------
     r = 1
@@ -84,11 +89,11 @@ def gen_captcha(**kwargs):
         xRow = []
         yRow = []
         for i in xrange(xPoints):
-            x, y = getTransform(i*r, j*r, amplitude, period, offset)
+            x, y = getTransform(i * r, j * r, amplitude, period, offset)
 
             # Clamp the edges so we don't get black undefined areas
-            x = max(0, min(image.size[0]-1, x))
-            y = max(0, min(image.size[1]-1, y))
+            x = max(0, min(image.size[0] - 1, x))
+            y = max(0, min(image.size[1] - 1, y))
 
             xRow.append(x)
             yRow.append(y)
@@ -98,17 +103,17 @@ def gen_captcha(**kwargs):
     # Create the mesh list, with a transformation for
     # each square between points on the grid
     mesh = []
-    for j in xrange(yPoints-1):
-        for i in xrange(xPoints-1):
+    for j in xrange(yPoints - 1):
+        for i in xrange(xPoints - 1):
             mesh.append((
                 # Destination rectangle
-                (i*r, j*r,
-                 (i+1)*r, (j+1)*r),
+                (i * r, j * r,
+                 (i + 1) * r, (j + 1) * r),
                 # Source quadrilateral
-                (xRows[j  ][i  ], yRows[j  ][i  ],
-                 xRows[j+1][i  ], yRows[j+1][i  ],
-                 xRows[j+1][i+1], yRows[j+1][i+1],
-                 xRows[j  ][i+1], yRows[j  ][i+1]),
+                (xRows[j][i],         yRows[j][i],
+                 xRows[j + 1][i],     yRows[j + 1][i],
+                 xRows[j + 1][i + 1], yRows[j + 1][i + 1],
+                 xRows[j][i + 1],     yRows[j][i + 1]),
                 ))
 
     img = image.transform(image.size, Image.MESH, mesh, Image.BILINEAR)
@@ -119,20 +124,22 @@ def gen_captcha(**kwargs):
     src = outFile.read()
     size = len(src)
     sys.modules['ImageFile'] = ImageFile
-    return {'src':src, 'size':size}
+    return {'src': src, 'size': size}
 
 
 def getWord(index):
     words = basic_english.words.split()
     return words[index]
 
+
 def getIndex(word):
     words = basic_english.words.split()
     try:
         res = words.index(word)
     except ValueError:
-        res = getLen()+1
+        res = getLen() + 1
     return res
+
 
 def getCaptchasCount(dynamic):
     if dynamic:
@@ -140,33 +147,39 @@ def getCaptchasCount(dynamic):
     else:
         return CAPTCHAS_COUNT
 
+
 def formKey(num):
     def normalize(s):
-        return (not len(s)%8 and s) or normalize(s+str(randint(0, 9)))
+        return (not len(s) % 8 and s) or normalize(s + str(randint(0, 9)))
 
-    return normalize('%s_%i_'%(str(DateTime().timeTime()), num))
+    return normalize('%s_%i_' % (str(DateTime().timeTime()), num))
+
 
 def encrypt(key, s):
     return toHex(Crypto.new(key).encrypt(s))
 
+
 def decrypt(key, s):
     return Crypto.new(key).decrypt(toStr(s))
+
 
 def parseKey(s):
     ps = re.match('^(.+?)_(.+?)_', s)
     if ps is None:
         return {'date': '', 'key': ''}
-    return {'date': ps.group(1), 'key':ps.group(2)}
+    return {'date': ps.group(1), 'key': ps.group(2)}
+
 
 def toHex(s):
     lst = []
     for ch in s:
         hv = hex(ord(ch)).replace('0x', '')
         if len(hv) == 1:
-            hv = '0'+hv
+            hv = '0' + hv
         lst.append(hv)
 
-    return reduce(lambda x,y:x+y, lst)
+    return reduce(lambda x, y: x + y, lst)
+
 
 def toStr(s):
     return s and chr(atoi(s[:2], base=16)) + toStr(s[2:]) or ''

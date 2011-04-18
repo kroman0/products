@@ -1,0 +1,31 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="ploneorg.kudobounty">
+
+  <include package="plone.app.contentmenu" />
+
+  <!-- -*- extra stuff goes here -*- -->
+
+  <!-- <browser:viewlet -->
+  <!--     name="ploneorg.bounty.submission"  -->
+  <!--     manager="plone.app.layout.viewlets.interfaces.IPortalFooter" -->
+  <!--     for="*" -->
+  <!--     class=".viewlets.BountyViewlet" -->
+  <!--     permission="zope.Public"  -->
+  <!--     /> -->
+
+  <browser:resource
+     name="ploneorg_bounty.css"
+     file="ploneorg_bounty.css"
+     />
+
+  <browser:page
+     name="processBountyForm"
+     for="*"
+     permission="zope.Public"
+     class=".views.BountyFormProcessorView"
+     />
+
+
+</configure>

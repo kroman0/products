@@ -11,7 +11,7 @@ ADD_PERMISSIONS = {
 SUBMISSION_CONTAINER_ID = "bounty-submissions"
 FORM_ID = "bounty-submissions-form"
 FORM_PATH = "/".join([SUBMISSION_CONTAINER_ID, FORM_ID])
-TOPIC_ID = "index_html"
+TOPIC_ID = "index.html"
 TOPIC_PATH = "/".join([SUBMISSION_CONTAINER_ID, TOPIC_ID])
 
 

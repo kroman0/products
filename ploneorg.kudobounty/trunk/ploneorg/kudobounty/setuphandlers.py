@@ -40,7 +40,6 @@ def createTopic(container, logger):
         logger.info("To '%s' collection already present in the portal" \
                     % '/'.join(theCollection.getPhysicalPath())) 
 
-
 def createPFGForm(context, container, logger):
     """
     """
@@ -77,8 +76,6 @@ def createPFGForm(context, container, logger):
         logger.info("'%s' PFG form successfully published" % form.Title())
     else:
         logger.info("'%s' PFG form already in 'published' state" % form.Title())
-
-
 
 def createStructure(context, logger):
     site = context.getSite()

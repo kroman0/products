@@ -79,22 +79,31 @@ def createPFGForm(context, container, logger):
 
 def createStructure(context, logger):
     site = context.getSite()
+    wftool = getToolByName(site, "portal_workflow")
 
     subcontainer = getattr(site, SUBMISSION_CONTAINER_ID, None)
     if subcontainer is None:
         site.invokeFactory("Folder", SUBMISSION_CONTAINER_ID)
         subcontainer = getattr(site, SUBMISSION_CONTAINER_ID)
-        subcontainer.update(title="Bounty Submissions container")
+        subcontainer.update(title="Bounty Submissions")
         logger.info("Successfully crated '%s' submissions container" \
                     "in the portal" % SUBMISSION_CONTAINER_ID)
+        # Publish the submissions container
+        if wftool.getInfoFor(subcontainer, 'review_state') != 'published':
+            wftool.doActionFor(subcontainer, 'publish')
+            logger.info("Bounty submissions container successfully published")
+        else:
+            logger.info("Bounty submissions container already in 'published' state")
+        # exclude folder from navigation
+        subcontainer.setExcludeFromNav(True)
+        logger.info("Excluded Bounty submissions container from navigation")
+
     else:
         logger.info("To '%s' container already present in the portal" \
                     % '/'.join(subcontainer.getPhysicalPath())) 
 
     createTopic(subcontainer, logger)
     createPFGForm(context, subcontainer, logger)
-        
-
 
 def importVarious(context):
     """ Various import steps

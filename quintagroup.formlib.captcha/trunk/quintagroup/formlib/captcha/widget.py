@@ -2,6 +2,7 @@ from DateTime import DateTime
 
 try:
     from zope.site.hooks import getSite
+    getSite()
 except ImportError:
     from zope.app.component.hooks import getSite
 from zope.app.form.browser import ASCIIWidget

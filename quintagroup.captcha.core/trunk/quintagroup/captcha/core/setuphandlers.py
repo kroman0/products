@@ -3,7 +3,7 @@ from random import randint
 from Products.CMFCore.utils import getToolByName
 
 from quintagroup.captcha.core.config import CAPTCHA_KEY, CONFIGLET_ID, \
-    ALL_LAYERS, PROPERTY_SHEET
+    PROPERTY_SHEET
 
 
 def generateKey(length):

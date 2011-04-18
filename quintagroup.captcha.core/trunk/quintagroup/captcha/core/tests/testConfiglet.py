@@ -1,7 +1,7 @@
 import re
 import string
-from base import *
-
+from base import ptc, default_password, portal_owner, LAYER_STATIC_CAPTCHAS, \
+    PROPERTY_SHEET, LAYER_DYNAMIC_CAPTCHAS, PRODUCT_NAME
 
 class TestConfiglet(ptc.FunctionalTestCase):
 
@@ -17,7 +17,6 @@ class TestConfiglet(ptc.FunctionalTestCase):
             '&form.button.form_submit=Save'
 
     def layerInSkins(self, layer):
-        res = False
         skins = self.portal.portal_skins
         for skin in skins.getSkinSelections():
             path = skins.getSkinPath(skin)
@@ -35,7 +34,7 @@ class TestConfiglet(ptc.FunctionalTestCase):
             "No '%s' skin layer in some skins" % LAYER_STATIC_CAPTCHAS)
 
     def test_dynamicOn(self):
-        res = self.publish(self.save_url + '&static_captchas=dynamic',
+        self.publish(self.save_url + '&static_captchas=dynamic',
                      self.basic_auth).getBody()
 
         self.assertTrue(self.layerInSkins(LAYER_DYNAMIC_CAPTCHAS),

@@ -1,4 +1,5 @@
-from base import *
+from base import LAYERS, LAYER_STATIC_CAPTCHAS, PROPERTY_SHEET, CONFIGLET_ID, \
+    TOOL_ID, CAPTCHA_KEY, PRODUCT_NAME, getToolByName, unittest, ptc
 
 
 class TestInstallation(ptc.FunctionalTestCase):

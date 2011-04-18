@@ -1,9 +1,9 @@
 import string
 from os.path import abspath, dirname
-from base import *
+from base import LAYER_STATIC_CAPTCHAS, LAYER_DYNAMIC_CAPTCHAS, PRODUCT_NAME, \
+    utils, unittest, ptc
 
-from DateTime import DateTime
-from Products.CMFFormController.ControllerState import ControllerState
+from quintagroup.captcha.core.utils import getWord, decrypt, parseKey
 
 from testStatic import TestStaticValidator
 
@@ -77,8 +77,6 @@ class TestDynamic(DynamicMixin, ptc.FunctionalTestCase):
     def test_GetImage(self):
         # getCaptchaImage function must return image coded in hashkey same to
         # image get by 'key' after parsing decrypted key
-        decrypted_key = decrypt(self.captcha_key, self.hashkey)
-        parsed_key = parseKey(decrypted_key)
 
         img_html = self.publish(
             self.portal.absolute_url(1) + "/getCaptchaImage/%s" % self.hashkey)

@@ -1,9 +1,9 @@
 import string
-from base import *
+from base import GLOBALS, getWord, decrypt, parseKey, portal_owner, \
+    re, default_password, testPatch, ptc, unittest, PRODUCT_NAME
 
 from Products.CMFCore.DirectoryView import registerDirectory
 from Products.CMFCore.DirectoryView import addDirectoryViews
-from Products.CMFCore.DirectoryView import DirectoryView
 
 NOT_VALID = re.compile("Please re\-enter validation code")
 IMAGE_PATT = '\s+src="%s(/getCaptchaImage/[0-9a-fA-F]+)"'

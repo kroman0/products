@@ -1,5 +1,6 @@
 import string
-from base import *
+from base import LAYER_STATIC_CAPTCHAS, CAPTCHAS_COUNT, PRODUCT_NAME, \
+    encrypt1, parseKey, ptc, unittest, decrypt, getWord
 
 from DateTime import DateTime
 from Products.CMFFormController.ControllerState import ControllerState
@@ -95,8 +96,6 @@ class TestStaticValidator(ptc.PloneTestCase):
 
     def testBadKey(self):
         hashkey = self.portal.getCaptcha()
-        decrypted_key = decrypt(self.captcha_key, hashkey)
-        key = getWord(int(parseKey(decrypted_key)['key']) - 1)
         self.req.form['hashkey'] = hashkey
         self.req.form['key'] = 'bad key'
 

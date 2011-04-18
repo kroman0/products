@@ -11,11 +11,13 @@ from random import randint
 from DateTime import DateTime
 
 from quintagroup.captcha.core.data import basic_english
-from quintagroup.captcha.core.config import *
+#import quintagroup.captcha.core configuration values
+from quintagroup.captcha.core.config import (DEFAULT_IMAGE_SIZE, DEFAULT_BG,
+    DEFAULT_FONT_COLOR, DEFAULT_DISTORTION, CAPTCHAS_COUNT)
 
 try:
     import Crypto.Cipher.DES as Crypto
-except:
+except ImportError:
     import Crypto
 
 
@@ -36,7 +38,6 @@ def gen_captcha(**kwargs):
     from PIL import Image
     from PIL import ImageFont
     from PIL import ImageDraw
-    from PIL import ImageFilter
     import random
     from PIL import ImageFile as pyImageFile
     import sys

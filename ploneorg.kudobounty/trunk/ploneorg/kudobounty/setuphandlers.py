@@ -1,8 +1,12 @@
 from ploneorg.kudobounty.config import FORM_ID
 from ploneorg.kudobounty.config import TOPIC_ID
-from ploneorg.kudobounty.config import SUBMISSION_CONTAINER_ID
+from ploneorg.kudobounty.config import CONTAINER_ID
+from ploneorg.kudobounty.config import CONTAINER_TITLE
 
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import _createObjectByType
+from Products.ATContentTypes.lib import constraintypes
+
 from Products.GenericSetup.context import TarballExportContext, TarballImportContext
 from Products.GenericSetup.interfaces import IFilesystemExporter, IFilesystemImporter
 
@@ -13,97 +17,83 @@ formProcessor()
 return {}
 """
 
-def createTopic(container, logger):
+def createTopic(container, wftool, logger):
     """
-    Located in: /bounty-mission/index_html
-
+    Located in: /bounty-mission/aggregator
     Item Type = ["Bounty Program Submission",]
     state = ['published',]
-
     sort_on = "creation"    
     """
-    theCollection = getattr(container, TOPIC_ID, None)
-    ptype = getattr(theCollection, 'portal_type', None)
-    if not ptype == "Topic":
-        container.invokeFactory(id=TOPIC_ID, type_name="Topic")
-        theCollection = getattr(container, TOPIC_ID)
-        theCollection.unmarkCreationFlag()
-        theCriteria = theCollection.addCriterion('Type','ATPortalTypeCriterion')
-        theCriteria.setValue(["Bounty Program Submission",])
-        theCriteria = theCollection.addCriterion('review_state','ATSelectionCriterion')
-        theCriteria.setValue("published")
-        theCriteria = theCollection.addCriterion('created','ATSortCriterion') 
-        logger.info("To '%s' added collection, which grab all " \
-                    "'Bounty Program Submission' objects" % \
-                    '/'.join(theCriteria.getPhysicalPath()))
-    else:
-        logger.info("To '%s' collection already present in the portal" \
-                    % '/'.join(theCollection.getPhysicalPath())) 
+    topic = getattr(container, TOPIC_ID, None)
+    if topic is None:
+        # Add criteria
+        _createObjectByType('Topic', container, id=TOPIC_ID,
+                            title=CONTAINER_TITLE)
+        topic = getattr(container, TOPIC_ID, None)
+        crit = topic.addCriterion('Type','ATPortalTypeCriterion')
+        crit.setValue(["Bounty Program Submission",])
+        crit = topic.addCriterion('review_state','ATSelectionCriterion')
+        crit.setValue("published")
+        crit = topic.addCriterion('created','ATSortCriterion') 
+        topic.setLayout('folder_summary_view')
+        topic.unmarkCreationFlag()
 
-def createPFGForm(context, container, logger):
+        if wftool.getInfoFor(topic, 'review_state') != 'published':
+            wftool.doActionFor(topic, 'publish')
+        
+        logger.info("Bounty submissions aggregator successfully added")
+
+
+def createPFGForm(context, container, wftool, logger):
     """
     """
     form = getattr(container, FORM_ID, None)
-    wftool = getToolByName(container, "portal_workflow")
-
     if form is not None:
-        # Delete form if it exist
         container.manage_delObjects(ids = FORM_ID)
-
     # Create new form object
     container.invokeFactory(id=FORM_ID, type_name="FormFolder",
-                           title="Form of Bounty Program")
+                           title="Bounty Submission Form")
     form = getattr(container, FORM_ID)
-    logger.info("To '%s' added Form Folder" % \
-                '/'.join(form.getPhysicalPath()))
     # cleanup form and import data from the archive
     form.manage_delObjects(ids=form.objectIds())
     pfg_data = context.readDataFile("pfg_data.tar.gz")
     ctx = TarballImportContext(form, pfg_data)
     IFilesystemImporter(form).import_(ctx, 'structure', True)
-    logger.info("Successfully imported PFG from data from archive into the form")
     # Fix importing PFG via GS bug
     #   - it adds extra indentation, wchich breaks the script.
     create_bounty_script = form["create-bounty-submission"]
     create_bounty_script.setScriptBody(CREATE_SCRIPT_BODY)
-    # Update form
+    # Update and pubhish the form
     form.update(**{"actionAdapter":["create-bounty-submission",],})
     form.unmarkCreationFlag()
     form.reindexObject()
-    # Publish the form
     if wftool.getInfoFor(form, 'review_state') != 'published':
         wftool.doActionFor(form, 'publish')
-        logger.info("'%s' PFG form successfully published" % form.Title())
-    else:
-        logger.info("'%s' PFG form already in 'published' state" % form.Title())
+    logger.info("Bounty submission form successfully created") 
 
 def createStructure(context, logger):
     site = context.getSite()
     wftool = getToolByName(site, "portal_workflow")
 
-    subcontainer = getattr(site, SUBMISSION_CONTAINER_ID, None)
-    if subcontainer is None:
-        site.invokeFactory("Folder", SUBMISSION_CONTAINER_ID)
-        subcontainer = getattr(site, SUBMISSION_CONTAINER_ID)
-        subcontainer.update(title="Bounty Submissions")
-        logger.info("Successfully crated '%s' submissions container" \
-                    "in the portal" % SUBMISSION_CONTAINER_ID)
-        # Publish the submissions container
-        if wftool.getInfoFor(subcontainer, 'review_state') != 'published':
-            wftool.doActionFor(subcontainer, 'publish')
-            logger.info("Bounty submissions container successfully published")
-        else:
-            logger.info("Bounty submissions container already in 'published' state")
-        # exclude folder from navigation
-        subcontainer.setExcludeFromNav(True)
-        logger.info("Excluded Bounty submissions container from navigation")
+    # CONTAINER
+    if  CONTAINER_ID not in site.objectIds():
+        _createObjectByType('Folder', site, id=CONTAINER_ID,
+                            title=CONTAINER_TITLE)
+        folder = getattr(site, CONTAINER_ID)
+        folder.setOrdering('unordered')
+        folder.setConstrainTypesMode(constraintypes.ENABLED)
+        #folder.setLocallyAllowedTypes(["Bounty Program Submission"])
+        #folder.setImmediatelyAddableTypes(["Bounty Program Submission"])
+        folder.setDefaultPage(TOPIC_ID)
+        folder.unmarkCreationFlag()
 
-    else:
-        logger.info("To '%s' container already present in the portal" \
-                    % '/'.join(subcontainer.getPhysicalPath())) 
+        if wftool.getInfoFor(folder, 'review_state') != 'published':
+            wftool.doActionFor(folder, 'publish')
 
-    createTopic(subcontainer, logger)
-    createPFGForm(context, subcontainer, logger)
+        logger.info("Submissions container added")
+
+    createTopic(folder, wftool, logger)
+    createPFGForm(context, folder, wftool, logger)
 
 def importVarious(context):
     """ Various import steps
@@ -111,5 +101,4 @@ def importVarious(context):
     if context.readDataFile('ploneorg_kudobounty.txt') is None:
         return
     logger = context.getLogger("ploneorg.kudobounty")
-    
     createStructure(context, logger)

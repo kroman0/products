@@ -1,9 +1,11 @@
 from zope.interface import Interface
 
+
 class IUpdatableCatalog(Interface):
     """ Marker interface for separate GenericSetup
         exportimport handler
     """
+
 
 class ICatalogUpdater(Interface):
 
@@ -16,4 +18,3 @@ class ICatalogUpdater(Interface):
                           string with name of single
                           metadata, which must be updated.
         """
-

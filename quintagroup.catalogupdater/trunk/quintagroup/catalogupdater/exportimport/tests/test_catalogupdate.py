@@ -38,7 +38,6 @@ _CATALOG_UPDATE_BODY = """\
 </object>
 """ % (PLONEFOUR and '<object name="old_plexicon" remove="True"/>' or \
                      '<object name="foo_vocabulary" remove="True"/>')
-             
 
 
 class DummyCatalogUpdaterUtility:
@@ -46,7 +45,7 @@ class DummyCatalogUpdaterUtility:
 
     def updateMetadata4All(self, catalog, columns):
         self._logger.info("%s:%s" % (catalog.id, columns))
-    
+
 
 class CatalogUpdaterZCMLLayer(test_exportimport.ZCatalogXMLAdapterTests.layer):
 
@@ -64,7 +63,8 @@ class CatalogUpdaterXMLAdapterTest(test_exportimport.ZCatalogXMLAdapterTests):
     layer = CatalogUpdaterZCMLLayer
 
     def _getTargetClass(self):
-        from quintagroup.catalogupdater.exportimport.catalogupdater import CatalogUpdaterXMLAdapter
+        from quintagroup.catalogupdater.exportimport.catalogupdater \
+            import CatalogUpdaterXMLAdapter
         return CatalogUpdaterXMLAdapter
 
     def setUp(self):
@@ -77,7 +77,7 @@ class CatalogUpdaterXMLAdapterTest(test_exportimport.ZCatalogXMLAdapterTests):
 
     def getLastMessage(self):
         messages = getattr(self.logger, '_messages', [])
-        return messages[-1] or [None,]*3
+        return messages[-1] or [None, ] * 3
 
     def test_body_set_update(self):
         # Assert that the catalog ends up the way we expect it to.
@@ -89,8 +89,9 @@ class CatalogUpdaterXMLAdapterTest(test_exportimport.ZCatalogXMLAdapterTests):
         self.assertEqual(adapted.body, _CATALOG_BODY % ('', _ZCTEXT_XML, ''))
 
         message = self.getLastMessage()
-        self.assertEqual( message[-1], "foo_catalog:['eggs', 'spam']",
-            "Not updated columns in catalog" )
+        self.assertEqual(message[-1], "foo_catalog:['eggs', 'spam']",
+            "Not updated columns in catalog")
+
 
 def test_suite():
     return unittest.TestSuite((

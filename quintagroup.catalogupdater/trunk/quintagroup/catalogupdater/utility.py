@@ -1,11 +1,11 @@
-import logging, types
+import logging
+import types
 import transaction
 from zope.interface import implements
 from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
 
 from Missing import MV
-from Acquisition import aq_inner
 from Acquisition import aq_parent
 
 from Products.CMFCore.utils import getToolByName
@@ -17,7 +17,7 @@ except ImportError:
     from plone.app.content.interfaces import IIndexableObjectWrapper \
         as _old_IIndexableObjectWrapper
     IS_NEW = False
-else:    
+else:
     IS_NEW = True
 
 
@@ -32,32 +32,34 @@ class CatalogUpdaterUtility(object):
 
     def validate(self, cat, cols):
         # Validate catalog and column name
-        AVAIL_COLTYPES = list(types.StringTypes) + [types.ListType, types.TupleType]
+        AVAIL_COLTYPES = list(types.StringTypes) + [types.ListType,
+                                                    types.TupleType]
 
         _cat = getattr(cat, '_catalog', None)
         if _cat is None:
             raise AttributeError("%s - is not ZCatalog based catalog" % cat)
 
         if not type(cols) in AVAIL_COLTYPES:
-            raise TypeError("'columns' parameter must be one of the following " \
-                "types: %s" % AVAIL_COLTYPES)
+            raise TypeError("'columns' parameter must be one of the " \
+                "following types: %s" % AVAIL_COLTYPES)
         # Normalize columns
         if type(cols) in types.StringTypes:
-            cols = [cols,]
+            cols = [cols, ]
         # Check is every column present in the catalog
         for col in cols:
-            if not _cat.schema.has_key(col):
-                raise AttributeError("'%s' - not presented column in %s catalog " % (col, cat))
+            if not col in _cat.schema:
+                raise AttributeError("'%s' - not presented column in " \
+                                     "%s catalog " % (col, cat))
 
         return _cat, cols
-
 
     def getWrappedObjectNew(self, obj, portal, catalog):
         # Returned wrapped 'obj' object with IIndexable wrapper
         wrapper = None
         if not IIndexableObject.providedBy(obj):
-             # This is the CMF 2.2 compatible approach, which should be used going forward
-             wrapper = queryMultiAdapter((obj, catalog), IIndexableObject)
+            # This is the CMF 2.2 compatible approach,
+            # which should be used going forward
+            wrapper = queryMultiAdapter((obj, catalog), IIndexableObject)
         return wrapper and wrapper or obj
 
     def getWrappedObjectOld(self, obj, portal, catalog):
@@ -71,12 +73,11 @@ class CatalogUpdaterUtility(object):
             vars = wf.getCatalogVariablesFor(obj)
         else:
             vars = {}
-        
+
         w = getMultiAdapter((obj, portal), _old_IIndexableObjectWrapper)
         w.update(vars)
 
         return w
-
 
     def updateMetadata4All(self, catalog, columns):
         """ Look into appropriate method of ICatalogUpdate interface
@@ -86,11 +87,12 @@ class CatalogUpdaterUtility(object):
 
         portal = getToolByName(catalog, 'portal_url').getPortalObject()
         root = aq_parent(portal)
-        
+
         data = _catalog.data
         schema = _catalog.schema
         paths = _catalog.paths
-        getWrappedObject = IS_NEW and self.getWrappedObjectNew or self.getWrappedObjectOld
+        getWrappedObject = (IS_NEW and self.getWrappedObjectNew
+                                    or self.getWrappedObjectOld)
         # For subtransaction support
         threshold = getattr(catalog, 'threshold', 10000)
         _v_total = 0
@@ -111,8 +113,9 @@ class CatalogUpdaterUtility(object):
             mdlist = list(md)
             for column in columns:
                 # calculate the column value
-                attr=getattr(obj, column, MV)
-                if(attr is not MV and safe_callable(attr)): attr=attr()
+                attr = getattr(obj, column, MV)
+                if (attr is not MV and safe_callable(attr)):
+                    attr = attr()
                 # Update metadata value
                 indx = schema[column]
                 mdlist[indx] = attr
@@ -133,4 +136,3 @@ class CatalogUpdaterUtility(object):
                     catalog._p_jar.cacheGC()
                     _v_total = 0
                     LOG.info('commiting subtransaction')
-

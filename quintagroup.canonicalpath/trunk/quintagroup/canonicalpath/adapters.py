@@ -54,7 +54,7 @@ class DefaultPropertyAdapter(object):
         """ Delete self.prop customization
         """
         if self.context.hasProperty(self.prop):
-            self.context.manage_delProperties(ids=[self.prop,])
+            self.context.manage_delProperties(ids=[self.prop, ])
 
 
 class DefaultCanonicalAdapter(DefaultPropertyAdapter):
@@ -85,10 +85,10 @@ class DefaultCanonicalPathAdapter(DefaultCanonicalAdapter):
 
     def __init__(self, context):
         super(DefaultCanonicalPathAdapter, self).__init__(context)
-        self.purl = getToolByName(self.context,'portal_url')
+        self.purl = getToolByName(self.context, 'portal_url')
 
     def getDefault(self):
-        return '/'+'/'.join(self.purl.getRelativeContentPath(self.context))
+        return '/' + '/'.join(self.purl.getRelativeContentPath(self.context))
 
     canonical_path = property(DefaultCanonicalAdapter.getProp,
                               DefaultCanonicalAdapter.setProp,

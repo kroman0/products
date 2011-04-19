@@ -4,6 +4,7 @@ from zope.component import queryAdapter
 #for compatibility with older plone versions
 try:
     from plone.indexer.decorator import indexer
+    indexer
     IS_NEW = True
 except:
     IS_NEW = False

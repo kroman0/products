@@ -1,4 +1,3 @@
-import sys
 from types import StringTypes
 from logging import NOTSET, DEBUG, INFO, ERROR
 from logging import Logger, StreamHandler, Formatter

@@ -36,7 +36,7 @@ class CatalogUpdaterXMLAdapter(ZCatalogXMLAdapter):
             catalog = self.context
 
             self._logger.info('Updating %s columns for %s Catalog.' % (
-                updatecols, '/'.join(catalog.getPhysicalPath())) )
+                updatecols, '/'.join(catalog.getPhysicalPath())))
 
             cu = queryUtility(ICatalogUpdater, name='catalog_updater')
             cu.updateMetadata4All(catalog, updatecols)

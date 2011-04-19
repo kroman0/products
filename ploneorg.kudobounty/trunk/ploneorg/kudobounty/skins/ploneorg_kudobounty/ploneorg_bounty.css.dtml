@@ -1,0 +1,4 @@
+/* needed for JS to hide bounty elements */
+#portal-bounty-program .hidden {
+    display: none;
+}

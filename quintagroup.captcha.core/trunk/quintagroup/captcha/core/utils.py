@@ -3,6 +3,7 @@ import re
 import math
 try:
     import hashlib as md5
+    md5.md5
 except ImportError:
     import md5
 from string import atoi
@@ -17,6 +18,7 @@ from quintagroup.captcha.core.config import (DEFAULT_IMAGE_SIZE, DEFAULT_BG,
 
 try:
     import Crypto.Cipher.DES as Crypto
+    Crypto
 except ImportError:
     import Crypto
 
@@ -33,6 +35,7 @@ def gen_captcha(**kwargs):
     """Generate a captcha image"""
     try:
         from App import ImageFile
+        ImageFile
     except ImportError:
         import ImageFile
     from PIL import Image
@@ -138,7 +141,7 @@ def getIndex(word):
     try:
         res = words.index(word)
     except ValueError:
-        res = getLen() + 1
+        res = len(words) + 1
     return res
 
 

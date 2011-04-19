@@ -1,7 +1,11 @@
 import re
 import string
-from base import ptc, default_password, portal_owner, LAYER_STATIC_CAPTCHAS, \
+from quintagroup.captcha.core.config import LAYER_STATIC_CAPTCHAS, \
     PROPERTY_SHEET, LAYER_DYNAMIC_CAPTCHAS, PRODUCT_NAME
+
+from Products.PloneTestCase import PloneTestCase as ptc
+from Products.PloneTestCase.PloneTestCase import portal_owner
+from Products.PloneTestCase.PloneTestCase import default_password
 
 
 class TestConfiglet(ptc.FunctionalTestCase):

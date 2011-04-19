@@ -1,8 +1,12 @@
 import string
 from os.path import abspath, dirname
-from base import LAYER_STATIC_CAPTCHAS, LAYER_DYNAMIC_CAPTCHAS, PRODUCT_NAME, \
-    utils, unittest, ptc
+import unittest
 
+from Products.PloneTestCase import PloneTestCase as ptc
+from quintagroup.captcha.core.config import LAYER_STATIC_CAPTCHAS, \
+    LAYER_DYNAMIC_CAPTCHAS, PRODUCT_NAME
+
+from quintagroup.captcha.core import utils
 from quintagroup.captcha.core.utils import getWord, decrypt, parseKey
 
 from testStatic import TestStaticValidator

@@ -1,6 +1,13 @@
+import re
 import string
-from base import GLOBALS, getWord, decrypt, parseKey, portal_owner, \
-    re, default_password, testPatch, ptc, unittest, PRODUCT_NAME
+import unittest
+from quintagroup.captcha.core.config import PRODUCT_NAME, GLOBALS
+from base import testPatch
+from quintagroup.captcha.core.utils import getWord, decrypt, parseKey
+
+from Products.PloneTestCase import PloneTestCase as ptc
+from Products.PloneTestCase.PloneTestCase import portal_owner
+from Products.PloneTestCase.PloneTestCase import default_password
 
 from Products.CMFCore.DirectoryView import registerDirectory
 from Products.CMFCore.DirectoryView import addDirectoryViews

@@ -1,7 +1,5 @@
 import unittest
 
-from zope.testing import doctestunit
-from zope.component import testing
 from zope.component import queryAdapter, queryMultiAdapter, getMultiAdapter
 from zope.schema.interfaces import InvalidValue
 
@@ -17,8 +15,6 @@ except:
 
 from OFS.PropertyManager import PropertyManager
 from OFS.Traversable import Traversable
-
-from Testing import ZopeTestCase as ztc
 
 from Products.Five import zcml
 from Products.Five import fiveconfigure

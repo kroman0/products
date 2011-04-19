@@ -33,10 +33,10 @@ class BountyFormProcessorView(BrowserView):
         test method
         """
         try:
-            container = self.portal.restrictedTraverse(SUBMISSION_CONTAINER_ID)
+            container = self.portal.restrictedTraverse(CONTAINER_ID)
         except:
             logger.warn("Can't find bounty submission container " \
-               "with '%s' path" % SUBMISSION_CONTAINER_ID)
+               "with '%s' path" % CONTAINER_ID)
         else:
             # Create Bounty Program Submission object
             form = self.request.form

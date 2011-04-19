@@ -1,5 +1,6 @@
 try:
     from App.class_init import InitializeClass
+    InitializeClass
 except ImportError:
     from Globals import InitializeClass
 from AccessControl import ClassSecurityInfo

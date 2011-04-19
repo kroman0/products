@@ -1,21 +1,11 @@
-import unittest
-import os
-import sys
-import re
-
 from Products.Five import zcml
 from Products.Five import fiveconfigure
 
 from Testing import ZopeTestCase as ztc
 from Products.PloneTestCase.layer import onsetup
 from Products.PloneTestCase import PloneTestCase as ptc
-from Products.PloneTestCase.PloneTestCase import portal_owner
-from Products.PloneTestCase.PloneTestCase import default_password
-from Products.CMFCore.utils import getToolByName
 
-from quintagroup.captcha.core.config import *
 from quintagroup.captcha.core import utils
-from quintagroup.captcha.core.utils import getWord, decrypt, parseKey, encrypt1
 
 PATCH_WORDS = """heart
 glass

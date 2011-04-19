@@ -1,6 +1,10 @@
 import string
-from base import LAYER_STATIC_CAPTCHAS, CAPTCHAS_COUNT, PRODUCT_NAME, \
-    encrypt1, parseKey, ptc, unittest, decrypt, getWord
+import unittest
+from quintagroup.captcha.core.config import LAYER_STATIC_CAPTCHAS, \
+    CAPTCHAS_COUNT, PRODUCT_NAME
+from quintagroup.captcha.core.utils import encrypt1, parseKey, decrypt, getWord
+
+from Products.PloneTestCase import PloneTestCase as ptc
 
 from DateTime import DateTime
 from Products.CMFFormController.ControllerState import ControllerState

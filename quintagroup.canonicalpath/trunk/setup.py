@@ -3,13 +3,12 @@ import os
 
 version = '0.7'
 
-tests_require=['zope.testing']
+tests_require = ['zope.testing']
 setup(name='quintagroup.canonicalpath',
       version=version,
       description="Brings canonical path calculation functionality",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
-      # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Programming Language :: Python",
         "Topic :: Software Development :: Libraries :: Python Modules",
@@ -28,11 +27,10 @@ setup(name='quintagroup.canonicalpath',
       ],
       tests_require=tests_require,
       extras_require=dict(tests=tests_require),
-      test_suite = 'quintagroup.canonicalpath.tests.test_suite',
+      test_suite='quintagroup.canonicalpath.tests.test_suite',
       entry_points="""
       # -*- Entry points: -*-
       [z3c.autoinclude.plugin]
       target = plone
       """,
       )
- 

@@ -12,6 +12,7 @@ from quintagroup.canonicalpath.adapters import PROPERTY_LINK
 from quintagroup.canonicalpath.adapters import PROPERTY_PATH
 from quintagroup.canonicalpath.adapters import DefaultPropertyAdapter
 
+
 class CanonicalConvertor(object):
     """Convert canonical link to canonical path and vice versa."""
 
@@ -64,7 +65,8 @@ class CanonicalConvertor(object):
            Return True is successfull, False otherwise.
            Log results in logger.
         """
-        src_msg = type(src_iface) in StringTypes and src_iface or src_iface.__name__
+        src_msg = type(src_iface) in StringTypes and src_iface \
+                                                 or src_iface.__name__
         msg = "Migrate %s into %s for %s object: " \
                % (src_msg, dst_iface.__name__, obj.absolute_url())
         try:
@@ -83,12 +85,12 @@ class CanonicalConvertor(object):
             lev = INFO
             msg += "SUCCESS"
         self._logger.log(lev, msg)
-            
+
         return lev == INFO and True or False
-    
+
     def _getOrMakeAdapter(self, obj, arg):
         """Function return adapter for process of the property.
-           Adapter get by interface (if arg is not a string - interface assumed)
+           Adapter get by interface(if arg is not a string - interface assumed)
            OR if arg is string - adapter created from DefaultCanonicalAdapter.
         """
         if type(arg) in StringTypes:
@@ -119,4 +121,3 @@ class CanonicalConvertor(object):
         handler.setFormatter(formatter)
         self._logger = Logger("quintagroup.canonicalpath", NOTSET)
         self._logger.addHandler(handler)
-

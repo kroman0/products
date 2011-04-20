@@ -1,10 +1,13 @@
-from base import *
+from quintagroup.plonegooglesitemaps.tests.base import TestCase, \
+    FunctionalTestCase, IMobileMarker
+from Products.PloneTestCase.setup import portal_owner, default_password
+from quintagroup.plonegooglesitemaps.tests.XMLParser import parse
+import unittest
+
 from DateTime import DateTime
 
 from zope.interface import alsoProvides
 from zope.component import queryMultiAdapter
-from zope.component import getSiteManager, getGlobalSiteManager
-from archetypes.schemaextender.interfaces import ISchemaExtender
 
 from Products.CMFPlone.utils import _createObjectByType
 
@@ -101,8 +104,11 @@ class TestMobileSitemaps(TestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestMobileSitemapsXML))
-    suite.addTest(makeSuite(TestMobileSitemaps))
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TestMobileSitemapsXML))
+    suite.addTest(unittest.makeSuite(TestMobileSitemaps))
     return suite
+
+if __name__ == '__main__':
+    unittest.main(defaultTest='test_suite')
+#    framework()

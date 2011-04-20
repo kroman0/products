@@ -1,5 +1,6 @@
 from DateTime import DateTime
-from quintagroup.plonegooglesitemaps.browser.commonview import *
+from quintagroup.plonegooglesitemaps.browser.commonview \
+    import CommonSitemapView, implements, ISitemapView
 
 MOBILE_INTERFACES = ['quintagroup.mobileextender.interfaces.IMobile', ]
 

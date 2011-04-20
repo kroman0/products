@@ -1,12 +1,9 @@
 import re
-from zope.component import queryAdapter
 
-from DateTime import DateTime
 from Missing import MV as Missing_Value
 from Products.CMFCore.utils import getToolByName
 
 from quintagroup.canonicalpath.interfaces import ICanonicalLink
-import quintagroup.plonegooglesitemaps.config as config
 
 ADD_ZOPE = re.compile('^/')
 ADD_PLONE = re.compile('^[^http://|https://|\\\]')

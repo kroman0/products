@@ -2,7 +2,7 @@
 """
 
 import string
-from zope.interface import implements, directlyProvides
+from zope.interface import implements
 
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
@@ -12,7 +12,8 @@ from Products.CMFCore.utils import getToolByName
 from quintagroup.plonegooglesitemaps \
     import qPloneGoogleSitemapsMessageFactory as _
 from quintagroup.plonegooglesitemaps.interfaces import ISitemap
-from quintagroup.plonegooglesitemaps.config import *
+from quintagroup.plonegooglesitemaps.config import SITEMAPS_VIEW_MAP, \
+    PROJECTNAME, AVAILABLE_WF_SCRIPTS
 
 SitemapSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 

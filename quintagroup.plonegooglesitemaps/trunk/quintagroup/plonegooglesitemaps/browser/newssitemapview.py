@@ -2,7 +2,8 @@ import re
 from DateTime import DateTime
 from zope.component import getMultiAdapter
 from plone.memoize.view import memoize
-from quintagroup.plonegooglesitemaps.browser.commonview import *
+from quintagroup.plonegooglesitemaps.browser.commonview \
+    import CommonSitemapView, implements, ISitemapView
 
 reTrailingParenthtical = re.compile("\s*\(.*\)\s*", re.S)
 

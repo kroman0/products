@@ -1,4 +1,3 @@
-import sys
 import logging
 from zope.component import getSiteManager
 from zope.component import getGlobalSiteManager
@@ -80,7 +79,7 @@ def cleanup(site):
     """Clean-up qPloneGoogleSitemaps artefacts."""
     old_product = "qPloneGoogleSitemaps"
     # Get plone tools
-    pp = getToolByName(site, 'portal_properties')
+    getToolByName(site, 'portal_properties')
     skins = getToolByName(site, 'portal_skins')
     controlpanel = getToolByName(site, 'portal_controlpanel')
     # Remove old configlet from controlpanel

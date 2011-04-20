@@ -1,9 +1,10 @@
 #
 # Tests related to general Sitemap type.
 #
-from base import *
+from quintagroup.plonegooglesitemaps.tests.base import TestCase
+import unittest
+
 from types import ListType, TupleType
-from zope import component
 from zope.component import queryMultiAdapter
 
 from Products.CMFPlone.utils import _createObjectByType
@@ -128,6 +129,7 @@ class TestBlacklistFormProcessing(TestFilterMixin):
             'id-named: %s\nunnamed: %s' % (filtered, filtered_dflt))
 
     # def testGetCorrectFilterName(self):
+    #     from zope import component
     #     call_names = []
     #     origQMA = component._api.queryMultiAdapter
     #     def patchQMA(objects, interface=Interface, name=u'', context=None):
@@ -142,11 +144,10 @@ class TestBlacklistFormProcessing(TestFilterMixin):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestBOFilters))
-    suite.addTest(makeSuite(TestDefaultFilters))
-    suite.addTest(makeSuite(TestBlacklistFormProcessing))
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TestBOFilters))
+    suite.addTest(unittest.makeSuite(TestDefaultFilters))
+    suite.addTest(unittest.makeSuite(TestBlacklistFormProcessing))
     return suite
 
 if __name__ == '__main__':

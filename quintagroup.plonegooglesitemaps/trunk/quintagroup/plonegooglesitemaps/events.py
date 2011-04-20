@@ -1,10 +1,12 @@
 try:
     from Products.DCWorkflow.events import AfterTransitionEvent
+    AfterTransitionEvent()
 except ImportError:
     # Copy AfterTransitionEvent from Plone-3/Products.DCWorkflow.events
     from zope.interface import implements
     from zope.app.event.objectevent import ObjectEvent
-    from quintagroup.plonegooglesitemaps.interfaces import *
+    from quintagroup.plonegooglesitemaps.interfaces import ITransitionEvent, \
+        IAfterTransitionEvent
 
     class TransitionEvent(ObjectEvent):
         implements(ITransitionEvent)

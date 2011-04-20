@@ -1,4 +1,10 @@
-from base import *
+from quintagroup.plonegooglesitemaps.tests.base \
+    import FunctionalTestCase, TestCase, IGoogleSitemapsLayer
+from quintagroup.plonegooglesitemaps.tests.XMLParser import parse
+from Products.PloneTestCase.setup import portal_owner, default_password
+from zope.interface import alsoProvides
+import unittest
+
 from DateTime import DateTime
 from Missing import MV
 
@@ -177,7 +183,7 @@ class TestNewsSitemapsXMLDefaultObject(FunctionalTestCase):
     def test_no_keywords(self):
         self.assert_("n:keywords" not in self.start.keys())
 
-    def test_no_keywords(self):
+    def test_no_stock_tickers(self):
         self.assert_("n:stock_tickers" not in self.start.keys())
 
 
@@ -297,18 +303,21 @@ class TestAdditionalMaps(TestCase):
     def testAdditionalMaps(self):
         for n, func in self.nsmv.additional_maps:
             try:
-                v = func(self.brain)
+                func(self.brain)
             except Exception, e:
                 self.fail("Wrong processing 'Missing' value for '%s': %s" \
                           % (n, str(e)))
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestNewsSitemapsXML))
-    suite.addTest(makeSuite(TestNewsSitemapsXMLDefaultObject))
-    suite.addTest(makeSuite(TestSchemaExtending))
-    suite.addTest(makeSuite(TestNotOverrideExistingSchemaExtender))
-    suite.addTest(makeSuite(TestAdditionalMaps))
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TestNewsSitemapsXML))
+    suite.addTest(unittest.makeSuite(TestNewsSitemapsXMLDefaultObject))
+    suite.addTest(unittest.makeSuite(TestSchemaExtending))
+    suite.addTest(unittest.makeSuite(TestNotOverrideExistingSchemaExtender))
+    suite.addTest(unittest.makeSuite(TestAdditionalMaps))
     return suite
+
+if __name__ == '__main__':
+    unittest.main(defaultTest='test_suite')
+#    framework()

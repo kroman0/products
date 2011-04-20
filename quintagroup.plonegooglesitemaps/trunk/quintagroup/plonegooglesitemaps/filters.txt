@@ -156,6 +156,7 @@ Check if result page is really a sitemap...
 
 Create regular expression, which will help us to test which urls pass the filters.
 
+    >>> import re
     >>> reloc = re.compile("<loc>%s([^\<]*)</loc>" % self.portal.absolute_url(), re.S)
 
 Test if all 4 documents and default front-page are in the sitemap without filters.

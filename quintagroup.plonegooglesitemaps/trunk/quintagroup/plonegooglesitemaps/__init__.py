@@ -1,4 +1,3 @@
-import sys
 from AccessControl import allow_module
 
 allow_module('quintagroup.plonegooglesitemaps.utils.py')
@@ -9,7 +8,6 @@ from quintagroup.plonegooglesitemaps import config
 
 from Products.Archetypes import atapi
 from Products.CMFCore.utils import ContentInit
-from Products.CMFCore.permissions import setDefaultRoles
 
 # Define a message factory for when this product is internationalised.
 # This will be imported with the special name "_" in most modules. Strings

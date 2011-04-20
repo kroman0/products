@@ -1,4 +1,3 @@
-from string import find
 from zope.interface import implements, Interface, Attribute
 from zope.component import queryMultiAdapter
 
@@ -6,8 +5,8 @@ from Acquisition import aq_inner, aq_parent
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 
-from quintagroup.plonegooglesitemaps \
-    import qPloneGoogleSitemapsMessageFactory as _
+#from quintagroup.plonegooglesitemaps \
+#    import qPloneGoogleSitemapsMessageFactory as _
 from quintagroup.plonegooglesitemaps.interfaces import IBlackoutFilter
 from quintagroup.plonegooglesitemaps.browser.utils import additionalURLs, \
     applyOperations

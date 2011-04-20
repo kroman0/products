@@ -16,11 +16,13 @@ PROP_MAPPING = {
     'show_nonfolderish_tabs': 'disable_nonfolderish_sections',
 }
 
+
 def getDropDownMenuSettings(context):
     """Return dropdown menu settings"""
     registry = getUtility(IRegistry)
     return DropDownMenuRecordsProxy(context, registry, IDropDownMenuSettings,
                                     omitted=())
+
 
 class DropDownMenuRecordsProxy(RecordsProxy):
     """Override a few dropdown menu specific settings to get from portal
@@ -29,8 +31,8 @@ class DropDownMenuRecordsProxy(RecordsProxy):
     def __init__(self, context, registry, schema, omitted=()):
         # override initialization to pass context for further purposes;
         # yes, I know, this is badly to depend on context in utilities,
-        # but I haven't come up with some better way to proxy plone.registry yet
-        # skip __setattr__
+        # but I haven't come up with some better way to proxy
+        # plone.registry yet skip __setattr__
         self.__dict__['__context__'] = context
         super(DropDownMenuRecordsProxy, self).__init__(registry, schema,
                                                        omitted)

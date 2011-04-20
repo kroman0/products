@@ -23,12 +23,15 @@ def removeConfiglet(site):
         controlpanel_tool.unregisterConfiglet(conf_id)
         logger.log(logging.INFO, "Unregistered \"%s\" configlet." % conf_id)
 
+
 def cleanupRegistry(site):
     registry = queryUtility(IRegistry)
     iprefix = IDropDownMenuSettings.__identifier__ + '.'
     delrecs = [r for r in registry.records.keys() if r.startswith(iprefix)]
     map(registry.records.__delitem__, delrecs)
-    logger.log(logging.INFO, "Removed %s items from plone.app.registry" % delrecs)
+    logger.log(logging.INFO,
+               "Removed %s items from plone.app.registry" % delrecs)
+
 
 def fixQIUninstallDependencies(site):
     """Uninstallation procedure of Quickinstaller tool clean-up settings,
@@ -38,10 +41,12 @@ def fixQIUninstallDependencies(site):
     qiprod = getattr(qi, PROJECT_NAME, None)
     if qiprod:
         utilities = getattr(qiprod, 'utilities', [])
-        todel = filter(lambda k:not sum(map(lambda i:PROJECT_NAME in i, k)), utilities)
+        todel = filter(lambda k: not sum(map(
+                    lambda i: PROJECT_NAME in i, k)), utilities)
         for u in todel:
             uidx = utilities.index(u)
             del utilities[uidx]
+
 
 def uninstall(context):
     """ Do customized uninstallation.
@@ -53,4 +58,3 @@ def uninstall(context):
     fixQIUninstallDependencies(site)
     removeConfiglet(site)
     cleanupRegistry(site)
-

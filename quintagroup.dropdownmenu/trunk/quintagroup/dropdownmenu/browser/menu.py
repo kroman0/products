@@ -23,7 +23,7 @@ class DropDownMenuQueryBuilder(SitemapQueryBuilder):
         # customize depth according to dropdown menu settings
         if self._settings.content_tabs_level > 0:
             self.query['path']['depth'] = self._settings.content_tabs_level
-        elif self.query['path'].has_key('depth'):
+        elif 'depth' in self.query['path']:
             del self.query['path']['depth']
 
         # constrain non-folderish objects if required

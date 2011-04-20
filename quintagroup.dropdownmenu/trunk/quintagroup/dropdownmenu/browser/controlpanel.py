@@ -27,7 +27,8 @@ class DropDownMenuSettingsEditForm(controlpanel.RegistryEditForm):
         super(DropDownMenuSettingsEditForm, self).update()
         conf = self._settings()
         self._overrideValue(self.widgets['show_content_tabs'], not conf[0])
-        self._overrideValue(self.widgets['show_nonfolderish_tabs'], not conf[1])
+        self._overrideValue(self.widgets['show_nonfolderish_tabs'],
+                            not conf[1])
 
     def _overrideValue(self, widget, value):
         if value:
@@ -42,7 +43,7 @@ class DropDownMenuSettingsEditForm(controlpanel.RegistryEditForm):
                 label = translate(term.title, context=widget.request,
                                   default=term.title)
             widget.items.append({'id': id, 'name': widget.name + ':list',
-                'value':term.token, 'label':label, 'checked':checked})
+                'value': term.token, 'label': label, 'checked': checked})
 
     def _settings(self, folder=None, nonfolderish=None):
         """Return portal_properties settings"""

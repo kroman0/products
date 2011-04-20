@@ -8,11 +8,12 @@ logger = logging.getLogger('quintagroup.dropdownmenu')
 
 UNINSTALL = "profile-%s:uninstall" % PROJECT_NAME
 
+
 def uninstall(portal, reinstall=False):
     """ Uninstall this product.
 
-        This external method is need, because portal_quickinstaller doens't know
-        what GenericProfile profile to apply when uninstalling a product.
+        This external method is need, because portal_quickinstaller doens't
+        know what GenericProfile profile to apply when uninstalling a product.
     """
     setup_tool = getToolByName(portal, 'portal_setup')
     if reinstall:

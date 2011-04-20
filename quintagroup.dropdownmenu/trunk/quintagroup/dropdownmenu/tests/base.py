@@ -19,6 +19,7 @@ IPREFIX = 'quintagroup.dropdownmenu.interfaces.IDropDownMenuSettings.'
 # This step made in collective.testcaselayer.ptc
 #ptc.setupPloneSite()
 
+
 class NotInstalled(BasePTCLayer):
     """Initialize the package, without installation into portal
     """
@@ -29,11 +30,13 @@ class NotInstalled(BasePTCLayer):
         fiveconfigure.debug_mode = False
         ztc.installPackage(PROJECT_NAME)
 
+
 class Installed(BasePTCLayer):
     """ Install product into the portal
     """
     def afterSetUp(self):
         self.addProduct(PROJECT_NAME)
+
 
 class UnInstalled(BasePTCLayer):
     """ UnInstall product from the portal
@@ -43,18 +46,19 @@ class UnInstalled(BasePTCLayer):
         self.loginAsPortalOwner()
         try:
             qi = self.portal.portal_quickinstaller
-            qi.uninstallProducts(products=[PROJECT_NAME,])
+            qi.uninstallProducts(products=[PROJECT_NAME, ])
             #self._refreshSkinData()
         finally:
             setSecurityManager(sm)
 
-NotInstalledLayer = NotInstalled([ptc_layer,])
-InstalledLayer = Installed([NotInstalledLayer,])
-UnInstalledLayer = UnInstalled([InstalledLayer,])
+NotInstalledLayer = NotInstalled([ptc_layer, ])
+InstalledLayer = Installed([NotInstalledLayer, ])
+UnInstalledLayer = UnInstalled([InstalledLayer, ])
 
 
 class TestCaseNotInstalled(ptc.PloneTestCase):
     layer = NotInstalledLayer
+
 
 class TestCase(ptc.PloneTestCase):
     layer = InstalledLayer
@@ -64,12 +68,14 @@ class TestCase(ptc.PloneTestCase):
         super(TestCase, self).afterSetUp()
         alsoProvides(self.app.REQUEST, IDropDownMenuLayer)
 
+
 class TestCaseUnInstalled(ptc.PloneTestCase):
     layer = UnInstalledLayer
 
 
 class FunctionalTestCaseNotInstalled(ptc.FunctionalTestCase):
     layer = NotInstalledLayer
+
 
 class FunctionalTestCase(ptc.FunctionalTestCase):
     layer = InstalledLayer
@@ -78,6 +84,7 @@ class FunctionalTestCase(ptc.FunctionalTestCase):
         # mark request with our browser layer
         super(FunctionalTestCase, self).afterSetUp()
         alsoProvides(self.app.REQUEST, IDropDownMenuLayer)
+
 
 class FunctionalTestCaseUnInstalled(ptc.FunctionalTestCase):
     layer = UnInstalledLayer

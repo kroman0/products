@@ -23,13 +23,14 @@ from time import time
 from plone.memoize import ram
 import copy
 
-def cache_key(a,b,c):	
+
+def cache_key(a, b, c):
     return c + str(time() // (60 * 60))
+
 
 class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
     index = ViewPageTemplateFile('templates/sections.pt')
     recurse = ViewPageTemplateFile('templates/sections_recurse.pt')
-
 
     def update(self):
         # we may need some previously defined variables
@@ -41,13 +42,13 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         self.conf = conf = self._settings()
         self.tool = getToolByName(context, 'portal_actions')
         self.site_url = getToolByName(context, 'portal_url')()
-        self.context_state = getMultiAdapter((self.context, self.request), 
+        self.context_state = getMultiAdapter((self.context, self.request),
                                               name="plone_context_state")
-        self.context_url =  self.context_state.is_default_page() and \
+        self.context_url = self.context_state.is_default_page() and \
             '/'.join(self.context.absolute_url().split('/')[:-1]) or \
             self.context.absolute_url()
-            
-        self.cat_sufix  = self.conf.nested_category_sufix or ''
+
+        self.cat_sufix = self.conf.nested_category_sufix or ''
         self.cat_prefix = self.conf.nested_category_prefix or ''
         # fetch actions-based tabs?
         if conf.show_actions_tabs:
@@ -77,31 +78,34 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         res, listtabs = self.prepare_tabs(self.site_url)
         res = copy.deepcopy(res)
         self.tabs = listtabs
-        
+
         # if there is no custom menu in portal tabs return
         if not listtabs:
             return []
-            
+
         current_item = -1
         delta = 1000
         for info in listtabs:
             if  self.context_url.startswith(info['url']) and \
-               len(self.context_url) - len(info['url']) < delta:
-               delta = len(self.context_url) - len(info['url'])
-               current_item = listtabs.index(info)
-        self.id_chain = [] 
-        
+                len(self.context_url) - len(info['url']) < delta:
+                delta = len(self.context_url) - len(info['url'])
+                current_item = listtabs.index(info)
+        self.id_chain = []
+
         if current_item > -1 and current_item < len(listtabs) and \
             (listtabs[current_item]['url'] != self.site_url or \
-            listtabs[current_item]['url'] == self.site_url and self.context_url == self.site_url):
-            self.mark_active(listtabs[current_item]['id'], listtabs[current_item]['url'])
+            listtabs[current_item]['url'] == self.site_url and \
+            self.context_url == self.site_url):
+
+            self.mark_active(listtabs[current_item]['id'],
+                             listtabs[current_item]['url'])
 
         self._activate(res)
         return res
-        
+
     @ram.cache(cache_key)
     def prepare_tabs(self, site_url):
-        def normalize_actions(category, object, level, parent_url = None):
+        def normalize_actions(category, object, level, parent_url=None):
             """walk through the tabs dictionary and build list of all tabs"""
             tabs = []
             for info in self._actionInfos(category, object):
@@ -115,29 +119,33 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
                        subcat_id in category.objectIds():
                         subcat = category._getOb(subcat_id)
                         if IActionCategory.providedBy(subcat):
-                            children = normalize_actions(subcat, object, level+1, info['url'])
+                            children = normalize_actions(subcat, object,
+                                                         level + 1,
+                                                         info['url'])
 
-                parent_id = category['id'].replace(self.cat_prefix,'').replace(self.cat_sufix,'')
-                tab = {'id' : info['id'],
+                parent_id = category['id'].replace(self.cat_prefix,
+                                '').replace(self.cat_sufix, '')
+                tab = {'id': info['id'],
                    'title': info['title'],
                    'url': info['url'],
                    'parent': (parent_id, parent_url)}
                 tabslist.append(tab)
-                
-                tab = {'id' : info['id'],
+
+                tab = {'id': info['id'],
                        'Title': info['title'],
                        'Description': info['description'],
                        'getURL': info['url'],
                        'show_children': len(children) > 0,
                        'children': children,
-                       'currentItem': False, 
+                       'currentItem': False,
                        'currentParent': False,
                        'item_icon': {'html_tag': icon},
                        'normalized_review_state': 'visible'}
                 tabs.append(tab)
-            return tabs    
+            return tabs
         tabslist = []
-        tabs = normalize_actions(self.tool._getOb(self.conf.actions_category), aq_inner(self.context), 0)
+        tabs = normalize_actions(self.tool._getOb(self.conf.actions_category),
+                                 aq_inner(self.context), 0)
         return tabs, tabslist
 
     def _activate(self, res):
@@ -149,14 +157,11 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
                 if info['children']:
                     self._activate(info['children'])
 
-        
     def mark_active(self, current_id, url):
         for info in self.tabs:
             if info['id'] == current_id and info['url'] == url:
                 self.mark_active(info['parent'][0], info['parent'][1])
                 self.id_chain.append(info['url'])
-                    
-
 
     def _actionInfos(self, category, object, check_visibility=1,
                      check_permissions=1, check_condition=1, max=-1):
@@ -221,9 +226,9 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
     @memoize
     def is_plone_four(self):
         """Indicates if we are in plone 4.
-        
+
         """
-        pm = getToolByName(aq_inner(self.context), 'portal_migration') 
+        pm = getToolByName(aq_inner(self.context), 'portal_migration')
         try:
             version = versionTupleFromString(pm.getSoftwareVersion())
         except AttributeError:
@@ -231,4 +236,3 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
 
         if version:
             return version[0] == 4
-

@@ -3,7 +3,7 @@ import os
 
 version = '1.2'
 
-tests_require=['zope.testing',
+tests_require = ['zope.testing',
                'collective.testcaselayer']
 
 setup(name='quintagroup.dropdownmenu',
@@ -11,7 +11,6 @@ setup(name='quintagroup.dropdownmenu',
       description="Multilevel portal dropdown menu for Plone sites.",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
-      # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",
         "Programming Language :: Python",
@@ -33,7 +32,7 @@ setup(name='quintagroup.dropdownmenu',
       ],
       tests_require=tests_require,
       extras_require=dict(tests=tests_require),
-      test_suite = 'quintagroup.dropdownmenu.tests',
+      test_suite='quintagroup.dropdownmenu.tests',
       entry_points="""
       [z3c.autoinclude.plugin]
       target = plone

@@ -66,12 +66,14 @@ class IDropDownMenuSettings(Interface):
 
     nested_category_prefix = schema.TextLine(
         title=_(u"Nested category prefix"),
-        description=_(u"Prefix of category id, used to bind category with action"),
+        description=_(u"Prefix of category id, used to bind category "
+                      u"with action"),
         default=u"",
         required=False)
 
     nested_category_sufix = schema.TextLine(
         title=_(u"Nested category sufix"),
-        description=_(u"Sufix of category id, used to bind category with action"),
+        description=_(u"Sufix of category id, used to bind category "
+                      u"with action"),
         default=u"_sub",
         required=False)

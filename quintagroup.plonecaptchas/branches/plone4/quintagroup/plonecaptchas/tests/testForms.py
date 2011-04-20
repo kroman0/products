@@ -16,7 +16,7 @@ from quintagroup.captcha.core.utils import getWord, decrypt, parseKey
 
 from plone.app.controlpanel.security import ISecuritySchema
 
-# BBB for plone v<3.1, where plone.protect not used yet 
+# BBB for plone v<3.1, where plone.protect not used yet
 PROTECT_SUPPORT = True
 try:
     from plone import protect
@@ -29,6 +29,7 @@ except ImportError:
 # patch to use test images and dictionary
 testPatch()
 
+
 class TestFormMixin(FunctionalTestCase):
 
     formkey_key = "key"
@@ -40,7 +41,7 @@ class TestFormMixin(FunctionalTestCase):
         # Add test_captcha layer from quintagroup.captcah.core
         addTestLayer(self)
         # Prepare form data
-        self.basic_auth = ':'.join((portal_owner,default_password))
+        self.basic_auth = ':'.join((portal_owner, default_password))
         self.form_url = ''
         self.form_method = "POST"
         self.hasAuthenticator = False
@@ -54,7 +55,7 @@ class TestFormMixin(FunctionalTestCase):
     def getFormData(self):
         raise NotImplementedError(
             "getFormData not implemented")
-        
+
     def publishForm(self):
         stdin_data = None
         form_url = self.portal.absolute_url(1) + self.form_url
@@ -81,31 +82,33 @@ class TestFormMixin(FunctionalTestCase):
     def elog(self, name="", response=""):
         open("/tmp/test.%s.html" % name, "w").write(response)
         logs = self.portal.error_log.getLogEntries()
-        if len(logs)>0:
+        if len(logs) > 0:
             i = 0
             while logs:
                 l = logs.pop()
-                i+=1                
-                open("/tmp/test.%s.error.%d.html" % (l,i),"w").write(l["tb_html"])
-            import pdb;pdb.set_trace()
+                i += 1
+                open("/tmp/test.%s.error.%d.html" % (l["id"], i),
+                                                     "w").write(l["tb_html"])
 
     def testImage(self):
         self.form_data = {}
         self.form_method = "GET"
         response = self.publishForm().getBody()
-        patt = re.compile(IMAGE_PATT  % self.portal.absolute_url())
+        patt = re.compile(IMAGE_PATT % self.portal.absolute_url())
         match_obj = patt.search(response)
         self.elog("image", response)
         img_url = match_obj.group(1)
 
-        content_type = self.publish('/plone' + img_url).getHeader('content-type')
+        content_type = self.publish(
+                            '/plone' + img_url).getHeader('content-type')
         self.assertTrue(content_type.startswith('image'),
             "Wrong captcha image content type")
 
     def testSubmitRightCaptcha(self):
-        key = getWord(int(parseKey(decrypt(self.captcha_key, self.hashkey))['key'])-1)
+        key = getWord(int(parseKey(decrypt(self.captcha_key,
+                                           self.hashkey))['key']) - 1)
         self.form_data[self.formkey_key] = key
-        
+
         response = self.publishForm().getBody()
         self.elog("right", response)
         self.assertFalse(NOT_VALID.search(response))
@@ -117,7 +120,8 @@ class TestFormMixin(FunctionalTestCase):
         self.assertTrue(NOT_VALID.search(response))
 
     def testSubmitRightCaptchaTwice(self):
-        key = getWord(int(parseKey(decrypt(self.captcha_key, self.hashkey))['key'])-1)
+        key = getWord(int(parseKey(decrypt(self.captcha_key,
+                                           self.hashkey))['key']) - 1)
         self.form_data[self.formkey_key] = key
 
         response1 = self.publishForm().getBody()
@@ -134,14 +138,14 @@ class TestDiscussionForm(TestFormMixin):
         self.portal.invokeFactory('Document', 'index_html')
         self.portal['index_html'].allowDiscussion(True)
         self.form_url = '/index_html/discussion_reply_form'
-        
+
     def getFormData(self):
-        return {'form.submitted' : '1',
+        return {'form.submitted': '1',
                 'subject': 'testing',
                 'Creator': portal_owner,
                 'body_text': 'Text in Comment',
                 'discussion_reply:method': 'Save',
-                'form.button.form_submit' : 'Save'}
+                'form.button.form_submit': 'Save'}
 
 
 class TestRegisterForm(TestFormMixin):
@@ -159,12 +163,12 @@ class TestRegisterForm(TestFormMixin):
         self.logout()
 
     def getFormData(self):
-        return {"form.fullname" : "Tester",
-                "form.username" : "tester",
-                "form.email" : "tester@test.com",
-                "form.password" : "123456",
-                "form.password_ctl" : "123456",
-                'form.actions.register' : 'Register'}
+        return {"form.fullname": "Tester",
+                "form.username": "tester",
+                "form.email": "tester@test.com",
+                "form.password": "123456",
+                "form.password_ctl": "123456",
+                'form.actions.register': 'Register'}
 
 
 class TestSendtoForm(TestFormMixin):
@@ -174,23 +178,25 @@ class TestSendtoForm(TestFormMixin):
         self.portal.invokeFactory('Document', 'index_html')
         self.portal['index_html'].allowDiscussion(True)
         self.form_url = '/index_html/sendto_form'
-        
+
     def getFormData(self):
-        return {'form.submitted' : '1',
-                "send_to_address" : "recipient@test.com",
-                "send_from_address" : "sender@test.com",
+        return {'form.submitted': '1',
+                "send_to_address": "recipient@test.com",
+                "send_from_address": "sender@test.com",
                 'comment': 'Text in Comment',
-                'form.button.Send' : 'Save'}
+                'form.button.Send': 'Save'}
+
 
 def send_patch(self, *args, **kwargs):
     """This patch prevent breakage on sending."""
+
 
 class TestContactInfo(TestFormMixin):
 
     def afterSetUp(self):
         TestFormMixin.afterSetUp(self)
         # preparation to form correct working
-        self.portal._updateProperty('email_from_address','manager@test.com')
+        self.portal._updateProperty('email_from_address', 'manager@test.com')
         self.logout()
         self.form_url = '/contact-info'
         self.orig_mh_send = self.portal.MailHost.send
@@ -200,12 +206,12 @@ class TestContactInfo(TestFormMixin):
         self.portal.MailHost.send = self.orig_mh_send
 
     def getFormData(self):
-        return {'form.submitted' : '1',
-                "sender_fullname" : "tester",
-                "sender_from_address" : "sender@test.com",
+        return {'form.submitted': '1',
+                "sender_fullname": "tester",
+                "sender_from_address": "sender@test.com",
                 'subject': 'Subject',
                 'message': 'Message',
-                'form.button.Send' : 'Save'}
+                'form.button.Send': 'Save'}
 
 
 def test_suite():

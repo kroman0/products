@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from zope.interface import implements
-from zope.component import getUtility
 
 from Products.CMFPlone.browser.navtree import SitemapQueryBuilder
 from Products.CMFPlone.browser.navtree import DefaultNavtreeStrategy
@@ -8,7 +7,6 @@ from Products.CMFPlone.browser.navtree import DefaultNavtreeStrategy
 from plone.app.layout.navigation.interfaces import INavtreeStrategy
 from plone.app.layout.navigation.interfaces import INavigationQueryBuilder
 
-from quintagroup.dropdownmenu.interfaces import IDropDownMenuSettings
 from quintagroup.dropdownmenu.util import getDropDownMenuSettings
 
 

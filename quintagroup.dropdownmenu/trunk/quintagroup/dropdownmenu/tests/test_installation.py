@@ -1,14 +1,18 @@
 #
 # Test product's installation
 #
-import string
 from zope.component import queryUtility
-from zope.component import queryMultiAdapter
-from zope.viewlet.interfaces import IViewletManager
 from plone.registry.interfaces import IRegistry
 from plone.browserlayer import utils as blutils
 
-from base import *
+from Products.CMFCore.utils import getToolByName
+
+from quintagroup.dropdownmenu.tests.base import TestCase, TestCaseUnInstalled
+from quintagroup.dropdownmenu.tests.base import IPREFIX
+
+from quintagroup.dropdownmenu import PROJECT_NAME
+from quintagroup.dropdownmenu.interfaces import IDropDownMenuLayer
+
 CSS_RESOURCES = ["++resource++drop_down.css", ]
 DEPENDENCIES = ["plone.app.registry", ]
 CONFIGLETS = ["dropdownmenu", ]

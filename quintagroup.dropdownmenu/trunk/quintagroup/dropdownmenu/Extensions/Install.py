@@ -1,6 +1,5 @@
 import logging
 from Products.CMFCore.utils import getToolByName
-from Products.GenericSetup.upgrade import _upgrade_registry
 
 from quintagroup.dropdownmenu import PROJECT_NAME
 

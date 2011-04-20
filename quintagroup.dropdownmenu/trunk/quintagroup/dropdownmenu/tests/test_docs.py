@@ -3,7 +3,6 @@ import unittest
 
 #from zope.testing import doctestunit
 #from zope.component import testing
-from base import TestCase, ztc
 
 
 def test_suite():

@@ -18,8 +18,8 @@ class DropDownMenuSettingsEditForm(controlpanel.RegistryEditForm):
     def applyChanges(self, data):
         """To save a few fields into portal_properties tool"""
         result = super(DropDownMenuSettingsEditForm, self).applyChanges(data)
-        dummy = self._settings(data['show_content_tabs'],
-                               data['show_nonfolderish_tabs'])
+        self._settings(data['show_content_tabs'],
+                       data['show_nonfolderish_tabs'])
         return result
 
     def update(self):

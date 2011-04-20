@@ -9,10 +9,11 @@ from plone.registry.interfaces import IRegistry
 from plone.browserlayer import utils as blutils
 
 from base import *
-CSS_RESOURCES = ["++resource++drop_down.css",]
-DEPENDENCIES = ["plone.app.registry",]
-CONFIGLETS = ["dropdownmenu",]
-#REGISTRY_INTERFACE = "quintagroup.dropdownmenu.interfaces.IDropDownMenuSettings"
+CSS_RESOURCES = ["++resource++drop_down.css", ]
+DEPENDENCIES = ["plone.app.registry", ]
+CONFIGLETS = ["dropdownmenu", ]
+#REGISTRY_INTERFACE="quintagroup.dropdownmenu.interfaces.IDropDownMenuSettings"
+
 
 class TestInstallation(TestCase):
 
@@ -23,8 +24,9 @@ class TestInstallation(TestCase):
 
     def testInstalledDependencies(self):
         cp = self.portal.portal_controlpanel
-        configlets = [ai['id'] for ai in cp.listActionInfos(check_permissions=0)]
-        self.assertTrue([1 for ai in configlets if ai=="plone.app.registry"], 
+        configlets = [ai['id'] for ai in cp.listActionInfos(
+                                             check_permissions=0)]
+        self.assertTrue([1 for ai in configlets if ai == "plone.app.registry"],
                 'Not installed required plone.app.registry product.')
 
     def testStyles(self):
@@ -35,9 +37,10 @@ class TestInstallation(TestCase):
 
     def testConfiglet(self):
         cp = self.portal.portal_controlpanel
-        configlets = [ai['id'] for ai in cp.listActionInfos(check_permissions=0)]
+        configlets = [ai['id'] for ai in cp.listActionInfos(
+                                             check_permissions=0)]
         for cid in CONFIGLETS:
-            self.assertTrue([1 for ai in configlets if ai==cid], 
+            self.assertTrue([1 for ai in configlets if ai == cid],
                 'No "%s" configlet added to plone control panel' % cid)
 
     def testBrowserLayer(self):
@@ -47,8 +50,9 @@ class TestInstallation(TestCase):
     def testRegistry(self):
         registry = queryUtility(IRegistry)
         afield = "show_content_tabs"
-        self.assertTrue(registry.records.get(IPREFIX+afield, None),
+        self.assertTrue(registry.records.get(IPREFIX + afield, None),
             "Not registered '%s' registry interface" % IPREFIX)
+
 
 class TestUninstallation(TestCaseUnInstalled):
 
@@ -65,10 +69,12 @@ class TestUninstallation(TestCaseUnInstalled):
 
     def testConfiglet(self):
         cp = self.portal.portal_controlpanel
-        configlets = [ai['id'] for ai in cp.listActionInfos(check_permissions=0)]
+        configlets = [ai['id'] for ai in cp.listActionInfos(
+                                            check_permissions=0)]
         for cid in CONFIGLETS:
-            self.assertFalse([1 for ai in configlets if ai==cid], 
-                '"%s" configlet not uninstalled from plone control panel' % cid)
+            self.assertFalse([1 for ai in configlets if ai == cid],
+                '"%s" configlet not uninstalled '\
+                'from plone control panel' % cid)
 
     def testBrowserLayer(self):
         self.assertFalse(IDropDownMenuLayer in blutils.registered_layers(),
@@ -77,7 +83,7 @@ class TestUninstallation(TestCaseUnInstalled):
     def testRegistry(self):
         registry = queryUtility(IRegistry)
         afield = "show_content_tabs"
-        self.assertFalse(registry.records.get(IPREFIX+afield, None),
+        self.assertFalse(registry.records.get(IPREFIX + afield, None),
             "Not unregistered '%s' registry interface" % IPREFIX)
 
 

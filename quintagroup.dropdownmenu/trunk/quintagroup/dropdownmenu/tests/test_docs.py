@@ -5,6 +5,7 @@ import unittest
 #from zope.component import testing
 from base import TestCase, ztc
 
+
 def test_suite():
     return unittest.TestSuite([
 

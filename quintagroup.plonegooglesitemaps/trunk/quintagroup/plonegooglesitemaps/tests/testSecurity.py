@@ -6,10 +6,12 @@ from zope.interface import alsoProvides
 from Products.Archetypes import atapi
 from Products.CMFPlone.utils import _createObjectByType
 
+
 class MixinSecurity(FunctionalTestCase):
 
     def getview(self, vpath):
-        return self.publish("/"+self.portal.absolute_url(1)+"/"+vpath, self.auth)
+        return self.publish("/" + self.portal.absolute_url(1) + \
+                            "/" + vpath, self.auth)
 
 
 class TestSecurityConfigletManager(MixinSecurity):
@@ -17,7 +19,8 @@ class TestSecurityConfigletManager(MixinSecurity):
     def afterSetUp(self):
         super(TestSecurityConfigletManager, self).afterSetUp()
         self.auth = "admin:admin"
-        self.portal.portal_membership.addMember('admin', 'admin', ('Manager',), [])
+        self.portal.portal_membership.addMember('admin', 'admin',
+                                                ('Manager',), [])
 
     def testConfigOverview(self):
         resp = self.getview("prefs_gsm_overview")
@@ -59,6 +62,7 @@ SM_TYPES = {
 }
 from DateTime import DateTime
 
+
 class TestSecuritySiteMaps(MixinSecurity):
 
     def afterSetUp(self):
@@ -72,7 +76,8 @@ class TestSecuritySiteMaps(MixinSecurity):
         self.smaps = {}
         for smtype, smdata in SM_TYPES.items():
             _createObjectByType("Sitemap", self.portal, id=smdata["id"],
-                                sitemapType=smtype, portalTypes=smdata["types"])
+                                sitemapType=smtype,
+                                portalTypes=smdata["types"])
             sm = getattr(self.portal, smdata["id"])
             sm.at_post_create_script()
             self.smaps[smtype] = sm
@@ -80,11 +85,13 @@ class TestSecuritySiteMaps(MixinSecurity):
     def createContent(self):
         self.my_doc = _createObjectByType('Document', self.portal, id='my_doc')
         self.workflow.doActionFor(self.my_doc, 'publish')
-        self.my_news = _createObjectByType('News Item', self.portal, id='my_news')
+        self.my_news = _createObjectByType('News Item', self.portal,
+                                           id='my_news')
         self.my_news.edit(title="My News Item (test)",
                           effectiveDate=DateTime().strftime("%Y-%m-%d"))
         self.workflow.doActionFor(self.my_news, 'publish')
-        # mobile content must provides additional interfaces to fall into mobile sitemap
+        # mobile content must provides additional interfaces
+        # to fall into mobile sitemap
         alsoProvides(self.my_doc, IMobileMarker)
         self.my_doc.reindexObject()
         self.my_news.reindexObject()
@@ -99,21 +106,21 @@ class TestSecuritySiteMaps(MixinSecurity):
         start, data = self.reparse(resp.getBody())
         self.assert_("loc" in start)
         self.assert_(self.my_doc.absolute_url() in data)
-        
+
     def testNewsSM(self):
         resp = self.getview("news-sitemap.xml")
         self.assertEqual(resp.status / 100, 2)
         start, data = self.reparse(resp.getBody())
         self.assert_("n:name" in start)
         self.assert_("My News Item" in data)
-        
+
     def testMobileSM(self):
         resp = self.getview("mobile-sitemap.xml")
         self.assertEqual(resp.status / 100, 2)
         start, data = self.reparse(resp.getBody())
         self.assert_("loc" in start)
         self.assert_(self.my_doc.absolute_url() in data)
-        
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

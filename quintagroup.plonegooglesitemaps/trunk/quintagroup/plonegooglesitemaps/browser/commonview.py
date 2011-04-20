@@ -6,9 +6,11 @@ from Acquisition import aq_inner, aq_parent
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 
-from quintagroup.plonegooglesitemaps import qPloneGoogleSitemapsMessageFactory as _
+from quintagroup.plonegooglesitemaps \
+    import qPloneGoogleSitemapsMessageFactory as _
 from quintagroup.plonegooglesitemaps.interfaces import IBlackoutFilter
-from quintagroup.plonegooglesitemaps.browser.utils import additionalURLs, applyOperations
+from quintagroup.plonegooglesitemaps.browser.utils import additionalURLs, \
+    applyOperations
 
 
 class ISitemapView(Interface):
@@ -32,6 +34,7 @@ class ISitemapView(Interface):
 
     numEntries = Attribute("Return number of entries")
 
+
 class CommonSitemapView(BrowserView):
     """
     Sitemap browser view
@@ -41,7 +44,6 @@ class CommonSitemapView(BrowserView):
     # key, function map for extend return results
     # with mapping data
     additional_maps = ()
-
 
     def __init__(self, context, request):
         self.context = context
@@ -74,8 +76,8 @@ class CommonSitemapView(BrowserView):
         brain_url_map = applyOperations(self.getBOFiltered(objects), reg_exps)
         # Prepare dictionary for view
         for url, b in brain_url_map.items():
-            res_map = {'url' : url,}
-            [res_map.update({k : f(b)}) for k, f in self.additional_maps]
+            res_map = {'url': url, }
+            [res_map.update({k: f(b)}) for k, f in self.additional_maps]
             result.append(res_map)
         self.num_entries = len(result)
         return result
@@ -90,17 +92,18 @@ class CommonSitemapView(BrowserView):
           3|  path:/folder_1_level/obj_in_folder
           4|  path:./folder_near_sitemap/obj_in_folder
           5|  foo_filter:arg-1, arg-2
-         
+
           1->used default "id" filter - remove "index.html" objects;
           2->explicit "id" filter - remove "index.html" objects;
           3->"path" filter - remove /folder_1_level/obj_in_folder object,
               path from the root of the plone site;
-          4->same to 3), but path get from the folder, where sitemap is located;
+          4->same to 3), but path get from the folder, where sitemap is
+             located;
           5->filter name is "foo_filter" (must be registered IBlackoutFilter,
              named "foo_filter"), which get filter arguments: arg-1, arg-2
-         
+
           Detailed explanation look in filters.txt doctest.
-        """ 
+        """
         blackout_list = self.context.getBlackout_list()
         for frec in blackout_list:
             fspec = frec.split(":", 1)

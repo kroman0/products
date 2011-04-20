@@ -2,7 +2,8 @@
 # Tests for quintagroup.plonegooglesitemaps
 #
 
-import re, sys
+import re
+import sys
 from urllib import urlencode
 from StringIO import StringIO
 import unittest
@@ -27,7 +28,7 @@ from XMLParser import parse, hasURL
 import quintagroup.plonegooglesitemaps
 from quintagroup.plonegooglesitemaps.config import PROJECTNAME
 from quintagroup.plonegooglesitemaps.config import ping_googlesitemap
-from quintagroup.plonegooglesitemaps.config import SUPPORT_BLAYER 
+from quintagroup.plonegooglesitemaps.config import SUPPORT_BLAYER
 from quintagroup.plonegooglesitemaps.browser import mobilesitemapview
 from quintagroup.plonegooglesitemaps.interfaces import IGoogleSitemapsLayer
 
@@ -63,17 +64,18 @@ class Installed(BasePTCLayer):
             self.addProduct("plone.browserlayer")
         self.addProduct(PRODUCT)
 
+
 class UnInstalled(BasePTCLayer):
     """ UnInstall product from the portal
     """
     def afterSetUp(self):
         qi = getattr(self.portal, 'portal_quickinstaller', None)
-        qi.uninstallProducts(products=[PRODUCT,])
+        qi.uninstallProducts(products=[PRODUCT, ])
 
 
-NotInstalledLayer = NotInstalled([ptc_layer,])
-InstalledLayer = Installed([NotInstalledLayer,])
-UnInstalledLayer = UnInstalled([InstalledLayer,])
+NotInstalledLayer = NotInstalled([ptc_layer, ])
+InstalledLayer = Installed([NotInstalledLayer, ])
+UnInstalledLayer = UnInstalled([InstalledLayer, ])
 
 
 class IMobileMarker(Interface):
@@ -94,7 +96,7 @@ class MixinTestCase(object):
     def patchMobile(self):
         # patch mobile sitemap view
         self.orig_mobile_ifaces = mobilesitemapview.MOBILE_INTERFACES
-        mobilesitemapview.MOBILE_INTERFACES = [IMobileMarker.__identifier__,]
+        mobilesitemapview.MOBILE_INTERFACES = [IMobileMarker.__identifier__, ]
 
     def beforeTearDown(self):
         if getattr(self, 'orig_mobile_ifaces', None) is not None:
@@ -103,6 +105,7 @@ class MixinTestCase(object):
 
 class TestCaseNotInstalled(ptc.PloneTestCase):
     layer = NotInstalledLayer
+
 
 class TestCase(ptc.PloneTestCase, MixinTestCase):
     layer = InstalledLayer
@@ -123,6 +126,7 @@ class TestCaseUnInstalled(ptc.PloneTestCase):
 class FunctionalTestCaseNotInstalled(ptc.FunctionalTestCase):
     layer = NotInstalledLayer
 
+
 class FunctionalTestCase(ptc.FunctionalTestCase, MixinTestCase):
     layer = InstalledLayer
 
@@ -134,6 +138,7 @@ class FunctionalTestCase(ptc.FunctionalTestCase, MixinTestCase):
     def beforeTearDown(self):
         ptc.FunctionalTestCase.beforeTearDown(self)
         MixinTestCase.beforeTearDown(self)
+
 
 class FunctionalTestCaseUnInstalled(ptc.FunctionalTestCase):
     layer = UnInstalledLayer

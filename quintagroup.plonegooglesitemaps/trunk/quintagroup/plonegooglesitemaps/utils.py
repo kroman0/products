@@ -6,6 +6,7 @@ from OFS.ObjectManager import BadRequestException
 
 from quintagroup.plonegooglesitemaps import config
 
+
 def ping_google(url, sitemap_id):
     """Ping sitemap to Google"""
 
@@ -18,7 +19,8 @@ def ping_google(url, sitemap_id):
 
     sitemap_url = urlquote(resurl)
 
-    g = urlopen('http://www.google.com/webmasters/tools/ping?sitemap='+sitemap_url)
+    g = urlopen('http://www.google.com/webmasters/tools/ping?sitemap=' + \
+                sitemap_url)
     result = g.read()
     g.close()
 

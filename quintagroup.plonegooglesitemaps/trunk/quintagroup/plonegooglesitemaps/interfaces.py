@@ -7,12 +7,15 @@ from zope.app.container.constraints import containers
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from plone.browserlayer.interfaces import ILocalBrowserLayerType
 
-from quintagroup.plonegooglesitemaps import qPloneGoogleSitemapsMessageFactory as _
+from quintagroup.plonegooglesitemaps \
+    import qPloneGoogleSitemapsMessageFactory as _
 
 # -*- extra stuff goes here -*-
 
+
 class ISitemap(Interface):
     """Search engine Sitemap content type."""
+
 
 class INewsSitemapProvider(Interface):
     """Marker interface for News sitemap provider."""
@@ -20,6 +23,7 @@ class INewsSitemapProvider(Interface):
 
 class IGoogleSitemapsLayer(ILocalBrowserLayerType):
     """Marker interface that defines browser layer for the package."""
+
 
 class IBlackoutFilter(Interface):
     """Base interface for filter adapter."""
@@ -31,4 +35,3 @@ class IBlackoutFilter(Interface):
             * fargs (string) - is key for filtering.
            Return list/tuple like object without filtered out items.
         """
-

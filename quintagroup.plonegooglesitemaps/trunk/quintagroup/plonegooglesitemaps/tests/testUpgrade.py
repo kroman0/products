@@ -2,7 +2,7 @@
 # Tests for quintagroup.plonegooglesitemaps upgrading
 #
 
-import logging 
+import logging
 from base import *
 from zope.component import getSiteManager
 from StringIO import StringIO
@@ -16,6 +16,7 @@ from quintagroup.plonegooglesitemaps import setuphandlers as sh
 from quintagroup.canonicalpath.interfaces import ICanonicalPath
 from quintagroup.canonicalpath.interfaces import ICanonicalLink
 
+
 class TestUpgrade(TestCase):
 
     def afterSetUp(self):
@@ -25,7 +26,7 @@ class TestUpgrade(TestCase):
 
     def getUpgradeStep(self, sortkey):
         upgrades = self.setup.listUpgrades(self.profile, show_old=True)
-        upgrade_id = upgrades[sortkey-1]["id"]
+        upgrade_id = upgrades[sortkey - 1]["id"]
         step = _upgrade_registry.getUpgradeStep(self.profile, upgrade_id)
         return step
 
@@ -39,8 +40,10 @@ class TestUpgrade(TestCase):
     def test_upgradeSetupRegistration(self):
         # Test registered upgrade profiles
         pids = [i['id'] for i in self.setup.listProfileInfo()]
-        self.assertEqual("quintagroup.plonegooglesitemaps:upgrade_1_0_to_1_1" in pids, True)
-        self.assertEqual("quintagroup.plonegooglesitemaps:upgrade_1_1_to_1_2" in pids, True)
+        self.assertEqual("quintagroup.plonegooglesitemaps:upgrade_1_0_to_1_1" \
+                         in pids, True)
+        self.assertEqual("quintagroup.plonegooglesitemaps:upgrade_1_1_to_1_2" \
+                         in pids, True)
 
     def test_step_1_0_to_1_1(self):
         # Prepare testing data
@@ -74,13 +77,16 @@ class TestUpgrade(TestCase):
         step = self.getUpgradeStep(2)
         if step is not None:
             step.doStep(self.setup)
-        # canonical_link column replace canonical_path one in the portal_catalog
+        # canonical_link column replace canonical_path
+        # one in the portal_catalog
         self.assertEqual("canonical_link" in catalog._catalog.names, True)
         self.assertEqual("canonical_path" in catalog._catalog.names, False)
-        # canonical_link property refactored from canonical_path one for inner doc
+        # canonical_link property refactored from canonical_path one
+        # for inner doc
         self.assertNotEqual(ICanonicalPath(doc).canonical_path, doc_cpath)
         self.assertEqual(ICanonicalLink(doc).canonical_link, doc_clink)
-        # canonical_link property refactored from canonical_path one for home folder
+        # canonical_link property refactored from canonical_path one
+        # for home folder
         self.assertNotEqual(ICanonicalPath(folder).canonical_path, fldr_cpath)
         self.assertEqual(ICanonicalLink(folder).canonical_link, fldr_clink)
 
@@ -93,10 +99,11 @@ class TestUpgrade(TestCase):
         try:
             # Replace original handlers with patched ones for test calls
             called = []
-            upgrades[1].handler = lambda st:called.append("1.0 to 1.1")
-            upgrades[2].handler = lambda st:called.append("1.1 to 1.2")
+            upgrades[1].handler = lambda st: called.append("1.0 to 1.1")
+            upgrades[2].handler = lambda st: called.append("1.1 to 1.2")
             # Run reinstallation
-            self.portal.portal_quickinstaller.reinstallProducts(products=config.PROJECTNAME)
+            qi = self.portal.portal_quickinstaller
+            qi.reinstallProducts(products=config.PROJECTNAME)
             # Test upgrades call
             self.assertEqual("1.0 to 1.1" in called, True)
             self.assertEqual("1.1 to 1.2" in called, True)
@@ -107,12 +114,14 @@ class TestUpgrade(TestCase):
             self.setup.setLastVersionForProfile(self.profile, orig_ver)
 
 try:
-    from Products.qPloneGoogleSitemaps.content.sitemap import Sitemap as OldSitemap
+    from Products.qPloneGoogleSitemaps.content.sitemap import Sitemap \
+        as OldSitemap
 except ImportError:
     PRESENT_OLD_PRODUCT = False
 else:
     PRESENT_OLD_PRODUCT = True
-    
+
+
 class TestMigrationFromProduct(TestCase):
 
     def afterSetUp(self):
@@ -175,12 +184,13 @@ class TestMigrationFromProduct(TestCase):
         self.assert_(not self.chkLog(chk_str), self.log.getvalue())
         # 2. Add old sitemap object in to portal
         self.portal.invokeFactory("Sitemap", 'sitemap.xml')
-        self.assert_('sitemap.xml' in self.portal.objectIds(), self.portal.objectIds())
+        self.assert_('sitemap.xml' in self.portal.objectIds(),
+                     self.portal.objectIds())
         sm = self.portal['sitemap.xml']
         sm.__class__ = OldSitemap
         self.gs.runImportStepFromProfile(self.profile, self.step)
         self.assert_(self.chkLog(chk_str), self.log.getvalue())
-        
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

@@ -1,7 +1,18 @@
-from base import *
+import unittest
+import re
 from urllib import urlencode
 from StringIO import StringIO
-from DateTime import DateTime
+
+from Products.PloneTestCase.PloneTestCase import portal_owner
+from Products.PloneTestCase.PloneTestCase import default_password
+
+from quintagroup.plonecaptchas.tests.base import FunctionalTestCase
+from quintagroup.plonecaptchas.config import PRODUCT_NAME
+
+from quintagroup.captcha.core.tests.testWidget import IMAGE_PATT, NOT_VALID
+from quintagroup.captcha.core.tests.testWidget import addTestLayer
+from quintagroup.captcha.core.tests.base import testPatch
+from quintagroup.captcha.core.utils import getWord, decrypt, parseKey
 
 from plone.app.controlpanel.security import ISecuritySchema
 
@@ -9,6 +20,8 @@ from plone.app.controlpanel.security import ISecuritySchema
 PROTECT_SUPPORT = True
 try:
     from plone import protect
+    # pyflakes fix (pyflakes message: 'protect' imported but unused)
+    protect
 except ImportError:
     PROTECT_SUPPORT = False
 

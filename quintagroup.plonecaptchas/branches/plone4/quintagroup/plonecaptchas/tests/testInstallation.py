@@ -1,10 +1,16 @@
-from base import *
+import unittest
+from quintagroup.plonecaptchas.tests.base import TestCase, LAYERS
+
+from Products.CMFCore.utils import getToolByName
+
 from zope.interface import alsoProvides
 from zope.component import getSiteManager
 from zope.component import queryMultiAdapter
 from plone.browserlayer.interfaces import ILocalBrowserLayerType
+
 from quintagroup.plonecaptchas.interfaces import IQGPloneCaptchas
 from quintagroup.plonecaptchas.browser.register import CaptchaRegistrationForm
+from quintagroup.plonecaptchas.config import PRODUCT_NAME
 
 
 class TestInstallation(TestCase):

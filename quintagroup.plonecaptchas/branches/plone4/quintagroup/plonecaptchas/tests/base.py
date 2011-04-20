@@ -1,5 +1,3 @@
-import os, sys, re
-import unittest
 import transaction
 
 from Products.Five import zcml
@@ -9,19 +7,9 @@ from Testing import ZopeTestCase as ztc
 
 from Products.PloneTestCase import setup as ptc_setup
 from Products.PloneTestCase import PloneTestCase as ptc
-from Products.PloneTestCase.layer import onsetup, PloneSite
-from Products.PloneTestCase.PloneTestCase import portal_owner
-from Products.PloneTestCase.PloneTestCase import default_password
+from Products.PloneTestCase.layer import PloneSite
 
-from Products.CMFCore.utils import getToolByName
-
-from quintagroup.captcha.core.tests.base import testPatch
-from quintagroup.captcha.core.tests.testWidget import NOT_VALID
-from quintagroup.captcha.core.tests.testWidget import IMAGE_PATT
-from quintagroup.captcha.core.tests.testWidget import addTestLayer
-from quintagroup.captcha.core.utils import getWord, decrypt, parseKey
-
-from quintagroup.plonecaptchas.config import *
+from quintagroup.plonecaptchas.config import PRODUCT_NAME
 
 # TESTING CONSTANTS
 CAPTCHA_KEY = 'captcha_key'
@@ -77,7 +65,7 @@ class Installed(NotInstalled):
     @classmethod
     def tearDown(cls):
         ptc_setup._placefulTearDown()
-        
+
 
 class TestCase(ptc.PloneTestCase):
     layer = Installed

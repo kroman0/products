@@ -56,7 +56,7 @@ def createPFGForm(context, container, wftool, logger):
     form = getattr(container, FORM_ID)
     # cleanup form and import data from the archive
     form.manage_delObjects(ids=form.objectIds())
-    pfg_data = context.readDataFile("pfg_data.tar.gz")
+    pfg_data = context.readDataFile("submissions-form.tar.gz")
     ctx = TarballImportContext(form, pfg_data)
     IFilesystemImporter(form).import_(ctx, 'structure', True)
     # Fix importing PFG via GS bug

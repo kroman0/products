@@ -1,7 +1,8 @@
 import unittest
 import doctest
 
-from base import *
+from base import FunctionalTestCase
+from Testing import ZopeTestCase as ztc
 from Products.CMFPlone.utils import _createObjectByType
 
 

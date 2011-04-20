@@ -4,11 +4,6 @@ from zope.interface import implements, Interface, Attribute
 from OFS.Image import cookId
 from OFS.ObjectManager import BadRequestException
 from Products.Five import BrowserView
-from Products.CMFCore.utils import getToolByName
-
-from quintagroup.plonegooglesitemaps.interfaces import ISitemap
-from quintagroup.plonegooglesitemaps \
-    import qPloneGoogleSitemapsMessageFactory as _
 
 
 def splitNum(num):
@@ -136,7 +131,7 @@ class ConfigletSettingsView(BrowserView):
         size, entries = (0, 0)
         view = ob and ob.defaultView() or None
         if view:
-            resp = self.request.RESPONSE
+            self.request.RESPONSE
             bview = queryMultiAdapter((ob, self.request), name=view)
             if bview:
                 try:

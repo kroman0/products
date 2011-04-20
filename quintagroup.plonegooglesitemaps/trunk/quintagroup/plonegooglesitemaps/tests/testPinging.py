@@ -1,4 +1,8 @@
-from base import *
+from quintagroup.plonegooglesitemaps.tests.base import FunctionalTestCase
+import sys
+from StringIO import StringIO
+import unittest
+
 from Products.CMFPlone.utils import _createObjectByType
 
 
@@ -71,7 +75,7 @@ class TestPinging(FunctionalTestCase):
         back_out, myout = sys.stdout, StringIO()
         sys.stdout = myout
         try:
-            response = self.publish("%s?%s" % (formUrl, qs), basic=self.auth)
+            self.publish("%s?%s" % (formUrl, qs), basic=self.auth)
             myout.seek(0)
             data = myout.read()
         finally:
@@ -86,9 +90,8 @@ class TestPinging(FunctionalTestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestPinging))
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TestPinging))
     return suite
 
 if __name__ == '__main__':

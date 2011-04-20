@@ -1,7 +1,7 @@
 from zope.component import adapter
 from Products.CMFCore.utils import getToolByName
 #from quintagroup.plonegooglesitemaps.events import AfterTransitionEvent
-from quintagroup.plonegooglesitemaps.interfaces import IAfterTransitionEvent
+from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from quintagroup.plonegooglesitemaps.utils import ping_google
 
 

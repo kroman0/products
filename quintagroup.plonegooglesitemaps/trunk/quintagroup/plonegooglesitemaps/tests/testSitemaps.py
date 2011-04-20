@@ -1,7 +1,15 @@
 #
 # Tests related to general Sitemap type.
 #
-from base import *
+from quintagroup.plonegooglesitemaps.tests.base \
+    import FunctionalTestCase, TestCase, IMobileMarker
+from quintagroup.plonegooglesitemaps.config import ping_googlesitemap
+from StringIO import StringIO
+from urllib import urlencode
+import sys
+from XMLParser import hasURL
+import unittest
+
 from DateTime import DateTime
 from zope.interface import alsoProvides
 from zope.publisher.browser import TestRequest
@@ -79,7 +87,7 @@ class TestSitemapType(FunctionalTestCase):
         self.assertEqual(isinstance(wfstates, atapi.DisplayList), True)
         self.assertEqual("published" in wfstates.keys(), True)
 
-    def testWorkflowStates(self):
+    def testWorkflowTransitions(self):
         wftrans = self.contentSM.getWorkflowTransitions()
         self.assertEqual(isinstance(wftrans, atapi.DisplayList), True)
         self.assertEqual("simple_publication_workflow#publish" in \
@@ -238,7 +246,7 @@ class TestPinging(FunctionalTestCase):
         back_out, myout = sys.stdout, StringIO()
         sys.stdout = myout
         try:
-            response = self.publish("%s?%s" % (formUrl, qs), basic=self.auth)
+            self.publish("%s?%s" % (formUrl, qs), basic=self.auth)
             myout.seek(0)
             data = myout.read()
         finally:
@@ -298,12 +306,11 @@ class TestContextSearch(TestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestSitemapType))
-    suite.addTest(makeSuite(TestSettings))
-    suite.addTest(makeSuite(TestPinging))
-    suite.addTest(makeSuite(TestContextSearch))
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TestSitemapType))
+    suite.addTest(unittest.makeSuite(TestSettings))
+    suite.addTest(unittest.makeSuite(TestPinging))
+    suite.addTest(unittest.makeSuite(TestContextSearch))
     return suite
 
 if __name__ == '__main__':

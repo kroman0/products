@@ -3,13 +3,14 @@
 #
 
 import logging
-from base import *
-from zope.component import getSiteManager
+
+from quintagroup.plonegooglesitemaps.tests.base import TestCase
+import unittest
+
 from StringIO import StringIO
 
 from Products.CMFPlone.utils import _createObjectByType
 from Products.GenericSetup.upgrade import _upgrade_registry
-from archetypes.schemaextender.interfaces import ISchemaExtender
 from quintagroup.plonegooglesitemaps import config
 from quintagroup.plonegooglesitemaps import upgrades as gsm_upgrades
 from quintagroup.plonegooglesitemaps import setuphandlers as sh
@@ -193,11 +194,10 @@ class TestMigrationFromProduct(TestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestUpgrade))
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TestUpgrade))
     if PRESENT_OLD_PRODUCT:
-        suite.addTest(makeSuite(TestMigrationFromProduct))
+        suite.addTest(unittest.makeSuite(TestMigrationFromProduct))
 
     return suite
 

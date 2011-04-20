@@ -2,13 +2,12 @@
 # Tests for quintagroup.plonegooglesitemaps
 #
 
-from base import *
-from cgi import FieldStorage
-from tempfile import TemporaryFile, NamedTemporaryFile
+from quintagroup.plonegooglesitemaps.tests.base import FunctionalTestCase
+from StringIO import StringIO
+from urllib import urlencode
+import unittest
 
-from OFS.Image import cookId
 from Products.CMFPlone.utils import _createObjectByType
-from ZPublisher.HTTPRequest import FileUpload
 
 
 class TestConfigletSettings(FunctionalTestCase):
@@ -38,8 +37,8 @@ class TestConfigletSettings(FunctionalTestCase):
         sm_edit = "sitemap.xml/edit"
         self.assertEqual(resp.getHeader("Location").endswith(sm_edit), True)
         # Add SM
-        sm = self.portal["sitemap.xml"]
-        #sm.setPortalTypes(("Documents",))
+        self.portal["sitemap.xml"]
+        #self.portal["sitemap.xml"].setPortalTypes(("Documents",))
         newform = self.publish(self.settingsURL, basic=self.auth).getBody()
         self.assertEqual('href="http://nohost/plone/sitemap.xml/edit"' in \
                          newform, True)
@@ -51,8 +50,8 @@ class TestConfigletSettings(FunctionalTestCase):
         sm_edit = "news-sitemap.xml/edit"
         self.assertEqual(resp.getHeader("Location").endswith(sm_edit), True)
         # Add SM
-        sm = self.portal["news-sitemap.xml"]
-        #sm.setPortalTypes(("News Item",))
+        self.portal["news-sitemap.xml"]
+        #self.portal["news-sitemap.xml"].setPortalTypes(("News Item",))
         newform = self.publish(self.settingsURL, basic=self.auth).getBody()
         self.assertEqual('href="http://nohost/plone/news-sitemap.xml/edit"' \
                          in newform, True)
@@ -64,8 +63,8 @@ class TestConfigletSettings(FunctionalTestCase):
         msm_edit = "mobile-sitemap.xml/edit"
         self.assertEqual(resp.getHeader("Location").endswith(msm_edit), True)
         # Add SM
-        sm = self.portal["mobile-sitemap.xml"]
-        #sm.setPortalTypes(("Documents",))
+        self.portal["mobile-sitemap.xml"]
+        #self.portal["mobile-sitemap.xml"].setPortalTypes(("Documents",))
         newform = self.publish(self.settingsURL, basic=self.auth).getBody()
         self.assertEqual('href="http://nohost/plone/mobile-sitemap.xml/edit"' \
                          in newform, True)
@@ -92,10 +91,9 @@ class TestConfigletOverview(FunctionalTestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestConfigletSettings))
-    suite.addTest(makeSuite(TestConfigletOverview))
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TestConfigletSettings))
+    suite.addTest(unittest.makeSuite(TestConfigletOverview))
     return suite
 
 if __name__ == '__main__':

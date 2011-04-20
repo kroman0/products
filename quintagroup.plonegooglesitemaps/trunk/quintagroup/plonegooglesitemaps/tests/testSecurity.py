@@ -1,9 +1,12 @@
 #
 # Tests related to general Sitemap type.
 #
-from base import *
+from quintagroup.plonegooglesitemaps.tests.base \
+    import FunctionalTestCase, IMobileMarker
+from quintagroup.plonegooglesitemaps.tests.XMLParser import parse
+
+import unittest
 from zope.interface import alsoProvides
-from Products.Archetypes import atapi
 from Products.CMFPlone.utils import _createObjectByType
 
 
@@ -123,11 +126,10 @@ class TestSecuritySiteMaps(MixinSecurity):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestSecurityConfigletManager))
-    suite.addTest(makeSuite(TestSecurityConfigletNotManager))
-    suite.addTest(makeSuite(TestSecuritySiteMaps))
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TestSecurityConfigletManager))
+    suite.addTest(unittest.makeSuite(TestSecurityConfigletNotManager))
+    suite.addTest(unittest.makeSuite(TestSecuritySiteMaps))
     return suite
 
 if __name__ == '__main__':

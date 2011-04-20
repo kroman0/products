@@ -2,15 +2,7 @@
 # Tests for quintagroup.plonegooglesitemaps
 #
 
-import re
-import sys
-from urllib import urlencode
-from StringIO import StringIO
-import unittest
-
-from zope.testing import doctestunit
 from zope.interface import Interface
-from zope.component import testing
 from zope.interface import alsoProvides
 from Testing import ZopeTestCase as ztc
 
@@ -18,17 +10,10 @@ from Products.Five import zcml
 from Products.Five import fiveconfigure
 
 from Products.PloneTestCase import PloneTestCase as ptc
-from Products.PloneTestCase.layer import onsetup
-from Products.PloneTestCase.layer import PloneSite
 from Products.PloneTestCase.setup import portal_owner
 from Products.PloneTestCase.setup import default_password
 
-from XMLParser import parse, hasURL
-
 import quintagroup.plonegooglesitemaps
-from quintagroup.plonegooglesitemaps.config import PROJECTNAME
-from quintagroup.plonegooglesitemaps.config import ping_googlesitemap
-from quintagroup.plonegooglesitemaps.config import SUPPORT_BLAYER
 from quintagroup.plonegooglesitemaps.browser import mobilesitemapview
 from quintagroup.plonegooglesitemaps.interfaces import IGoogleSitemapsLayer
 

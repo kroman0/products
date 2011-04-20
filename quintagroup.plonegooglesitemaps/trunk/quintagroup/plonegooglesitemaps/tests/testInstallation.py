@@ -1,4 +1,8 @@
-from base import *
+from quintagroup.plonegooglesitemaps.config import SUPPORT_BLAYER
+from quintagroup.plonegooglesitemaps.tests.base import TestCase, \
+    PRODUCT, IGoogleSitemapsLayer
+import unittest
+
 from zope.component import getSiteManager
 from archetypes.schemaextender.interfaces import ISchemaExtender
 from Products.CMFPlone.utils import _createObjectByType
@@ -70,7 +74,7 @@ class TestGoogleSitemapsInstallation(TestCase):
         gsm_stock = 'test_gsm_stock'
         cols = ["canonical_link", "Language", "gsm_access",
                 "gsm_genres", "gsm_stock"]
-        lsm = getSiteManager(self.portal)
+        getSiteManager(self.portal)
         catalog = self.portal.portal_catalog
         setuptools = self.portal.portal_setup
         for col in cols:
@@ -151,10 +155,9 @@ class TestGoogleSitemapsUninstallation(TestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestGoogleSitemapsInstallation))
-    suite.addTest(makeSuite(TestGoogleSitemapsUninstallation))
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TestGoogleSitemapsInstallation))
+    suite.addTest(unittest.makeSuite(TestGoogleSitemapsUninstallation))
     return suite
 
 if __name__ == '__main__':

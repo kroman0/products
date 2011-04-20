@@ -2,9 +2,15 @@
 # Tests for quintagroup.plonegooglesitemaps
 #
 
-from base import *
+from quintagroup.plonegooglesitemaps.tests.base import FunctionalTestCase
+from quintagroup.plonegooglesitemaps.tests.XMLParser import parse
+from StringIO import StringIO
+from urllib import urlencode
+import re
+import unittest
+
 from cgi import FieldStorage
-from tempfile import TemporaryFile, NamedTemporaryFile
+from tempfile import NamedTemporaryFile
 
 from OFS.Image import cookId
 from Products.CMFPlone.utils import _createObjectByType
@@ -148,9 +154,8 @@ class TestGoogleSitemaps(FunctionalTestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestGoogleSitemaps))
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TestGoogleSitemaps))
     return suite
 
 if __name__ == '__main__':

@@ -1,4 +1,9 @@
-from base import *
+import unittest
+from base import TestCase, LAYERS
+
+from Products.CMFCore.utils import getToolByName
+
+from quintagroup.plonecaptchas.config import PRODUCT_NAME
 
 class TestInstallation(TestCase):
 

@@ -14,7 +14,8 @@ from quintagroup.plonecaptchas.config import PRODUCT_NAME
 # TESTING CONSTANTS
 CAPTCHA_KEY = 'captcha_key'
 CAPTCHAS_COUNT = 165
-LAYERS = ['captchas_discussion', 'captchas_sendto_form', "captchas_contact_info"]
+LAYERS = ['captchas_discussion', 'captchas_sendto_form',
+          'captchas_contact_info']
 
 TOOL_ICON = 'skins/plone_captchas/tool.gif'
 TOOL_ID = 'portal_captchas'
@@ -25,6 +26,7 @@ PROPERTY_SHEET = 'qPloneCaptchas'
 RF_PROFILE = 'profile-quintagroup.plonecaptchas:register_form'
 
 ptc.setupPloneSite()
+
 
 class NotInstalled(PloneSite):
     """ Only package register, without installation into portal
@@ -70,12 +72,14 @@ class Installed(NotInstalled):
 class TestCase(ptc.PloneTestCase):
     layer = Installed
 
+
 class TestCaseNotInstalled(ptc.PloneTestCase):
     layer = NotInstalled
 
 
 class FunctionalTestCase(ptc.FunctionalTestCase):
     layer = Installed
+
 
 class FunctionalTestCaseNotInstalled(ptc.FunctionalTestCase):
     layer = NotInstalled

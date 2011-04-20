@@ -7,10 +7,12 @@ from quintagroup.formlib.captcha import CaptchaWidget
 
 from quintagroup.plonecaptchas import ProductMessageFactory as _
 
+
 class CaptchaSchema(Interface):
     captcha = Captcha(
         title=_(u'Type the code'),
         description=_(u'Type the code from the picture shown below.'))
+
 
 class CaptchaRegistrationForm(RegistrationForm):
     """Registration form with captacha."""
@@ -26,4 +28,3 @@ class CaptchaRegistrationForm(RegistrationForm):
             # explicytly define custom CaptchaWidget widget for Captcha field.
             ffields["captcha"].custom_widget = CaptchaWidget
         return ffields
-

@@ -25,9 +25,10 @@ class TestInstallation(TestCase):
             path = map(str.strip, path.split(','))
             for layer in LAYERS:
                 self.assert_(layer.split('/')[0] in self.skins.objectIds(),
-                    '%s directory view not found in portal_skins after installation' % layer)
+                             '%s directory view not found in portal_skins '\
+                             'after installation' % layer)
                 self.assert_(layer in path,
-                    '%s layer not found in %s' % (PRODUCT_NAME, skin))
+                             '%s layer not found in %s' % (PRODUCT_NAME, skin))
 
     def testBrowserLayerRegistration(self):
         # Test if IQGPloneCaptchas browser layer registered on installation
@@ -39,7 +40,8 @@ class TestInstallation(TestCase):
     def testRegisterFormOverriden(self):
         # Mark request with IQGPloneCaptchas browser layer interface
         alsoProvides(self.portal.REQUEST, IQGPloneCaptchas)
-        register = queryMultiAdapter((self.portal, self.portal.REQUEST), name="register")
+        register = queryMultiAdapter((self.portal, self.portal.REQUEST),
+                                     name="register")
         self.assertEqual(isinstance(register, CaptchaRegistrationForm), True)
 
 
@@ -59,22 +61,28 @@ class TestUninstallation(TestCase):
             path = self.skins.getSkinPath(skin)
             path = map(str.strip, path.split(','))
             for layer in LAYERS:
-                self.assertTrue(not layer.split('/')[0] in self.skins.objectIds(),
-                    '%s directory view found in portal_skins after uninstallation' % layer)
+                self.assertTrue(
+                        not layer.split('/')[0] in self.skins.objectIds(),
+                        '%s directory view found in portal_skins '\
+                        'after uninstallation' % layer)
                 self.assert_(not layer in path,
-                    '%s layer found in %s skin after uninstallation' % (layer, skin))
+                    '%s layer found in %s skin after uninstallation' % (layer,
+                                                                        skin))
 
     def testBrowserLayerUnregistration(self):
         # Test if IQGPloneCaptchas browser layer registered on installation
         site = getSiteManager(self.portal)
         registeredLayers = [r.name for r in site.registeredUtilities()
                             if r.provided == ILocalBrowserLayerType]
-        self.assertNotEqual("quintagroup.plonecaptchas" in registeredLayers, True)
+        self.assertNotEqual("quintagroup.plonecaptchas" in registeredLayers,
+                            True)
 
     def testRegisterFormOverriden(self):
         # Mark request with IQGPloneCaptchas browser layer interface
-        register = queryMultiAdapter((self.portal, self.portal.REQUEST), name="register")
-        self.assertNotEqual(isinstance(register, CaptchaRegistrationForm), True)
+        register = queryMultiAdapter((self.portal, self.portal.REQUEST),
+                                     name="register")
+        self.assertNotEqual(isinstance(register, CaptchaRegistrationForm),
+                            True)
 
 
 def test_suite():

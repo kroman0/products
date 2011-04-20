@@ -1,13 +1,7 @@
-import sys
 import logging
 from zope.component import queryUtility
-from zope.component import getSiteManager
-from zope.component import getGlobalSiteManager
 from plone.registry.interfaces import IRegistry
-from plone.browserlayer.utils import unregister_layer
-from plone.browserlayer.interfaces import ILocalBrowserLayerType
 
-from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
 
 from quintagroup.dropdownmenu.interfaces import IDropDownMenuSettings

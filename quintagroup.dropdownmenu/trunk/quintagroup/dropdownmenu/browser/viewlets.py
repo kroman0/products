@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 
-from zope.component import getMultiAdapter, getUtility
+from zope.component import getMultiAdapter
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
@@ -13,9 +13,7 @@ from plone.memoize.instance import memoize
 from plone.app.layout.viewlets import common
 from plone.app.layout.navigation.navtree import buildFolderTree
 from plone.app.layout.navigation.interfaces import INavtreeStrategy
-from plone.app.layout.navigation.interfaces import INavigationQueryBuilder
 
-from quintagroup.dropdownmenu.interfaces import IDropDownMenuSettings
 from quintagroup.dropdownmenu.browser.menu import DropDownMenuQueryBuilder
 from quintagroup.dropdownmenu.util import getDropDownMenuSettings
 
@@ -69,7 +67,6 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         """Return tree of tabs based on portal_actions tool configuration"""
         conf = self.conf
         tool = self.tool
-        context = aq_inner(self.context)
 
         # check if we have required root actions category inside tool
         if conf.actions_category not in tool.objectIds():
@@ -166,7 +163,6 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
     def _actionInfos(self, category, object, check_visibility=1,
                      check_permissions=1, check_condition=1, max=-1):
         """Return action infos for a given category"""
-        context = aq_inner(self.context)
         ec = self.tool._getExprContext(object)
         actions = [ActionInfo(action, ec) for action in category.objectValues()
                     if IAction.providedBy(action)]

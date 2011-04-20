@@ -9,7 +9,6 @@ from Products.PloneTestCase import PloneTestCase as ptc
 
 from collective.testcaselayer.ptc import BasePTCLayer, ptc_layer
 
-from Products.CMFCore.utils import getToolByName
 
 from quintagroup.dropdownmenu import PROJECT_NAME
 from quintagroup.dropdownmenu.interfaces import IDropDownMenuLayer

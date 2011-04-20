@@ -26,6 +26,7 @@ JF_PROFILE_PREFIX = 'profile-quintagroup.plonecaptchas:join_form_plone_'
 
 ptc.setupPloneSite()
 
+
 class NotInstalled(PloneSite):
     """ Only package register, without installation into portal
     """
@@ -59,13 +60,13 @@ class Installed(NotInstalled):
         # Install Join Form layer, depends on Plone version
         js_layer = None
         if getattr(ptc_setup, 'PLONE33', 0):
-            js_layer = JF_PROFILE_PREFIX+'33'
+            js_layer = JF_PROFILE_PREFIX + '33'
         elif getattr(ptc_setup, 'PLONE32', 0):
-            js_layer = JF_PROFILE_PREFIX+'31_32'
+            js_layer = JF_PROFILE_PREFIX + '31_32'
         elif getattr(ptc_setup, 'PLONE31', 0):
-            js_layer = JF_PROFILE_PREFIX+'31_32'
+            js_layer = JF_PROFILE_PREFIX + '31_32'
         elif getattr(ptc_setup, 'PLONE30', 0):
-            js_layer = JF_PROFILE_PREFIX+'30'
+            js_layer = JF_PROFILE_PREFIX + '30'
         if js_layer is not None:
             gs = getattr(portal, 'portal_setup', None)
             gs.runAllImportStepsFromProfile(js_layer)
@@ -75,10 +76,11 @@ class Installed(NotInstalled):
     @classmethod
     def tearDown(cls):
         ptc_setup._placefulTearDown()
-        
+
 
 class TestCase(ptc.PloneTestCase):
     layer = Installed
+
 
 class TestCaseNotInstalled(ptc.PloneTestCase):
     layer = NotInstalled
@@ -86,6 +88,7 @@ class TestCaseNotInstalled(ptc.PloneTestCase):
 
 class FunctionalTestCase(ptc.FunctionalTestCase):
     layer = Installed
+
 
 class FunctionalTestCaseNotInstalled(ptc.FunctionalTestCase):
     layer = NotInstalled

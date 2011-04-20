@@ -5,6 +5,7 @@ from Products.CMFCore.utils import getToolByName
 
 from quintagroup.plonecaptchas.config import PRODUCT_NAME
 
+
 class TestInstallation(TestCase):
 
     def afterSetUp(self):
@@ -17,7 +18,8 @@ class TestInstallation(TestCase):
             path = map(str.strip, path.split(','))
             for layer in LAYERS:
                 self.assert_(layer.split('/')[0] in self.skins.objectIds(),
-                    '%s directory view not found in portal_skins after installation' % layer)
+                             '%s directory view not found in portal_skins '\
+                             'after installation' % layer)
                 self.assert_(layer in path,
                     '%s layer not found in %s' % (PRODUCT_NAME, skin))
 
@@ -30,10 +32,14 @@ class TestInstallation(TestCase):
             path = self.skins.getSkinPath(skin)
             path = map(str.strip, path.split(','))
             for layer in LAYERS:
-                self.assertTrue(not layer.split('/')[0] in self.skins.objectIds(),
-                    '%s directory view found in portal_skins after uninstallation' % layer)
+                self.assertTrue(
+                        not layer.split('/')[0] in self.skins.objectIds(),
+                                '%s directory view found in portal_skins '\
+                                'after uninstallation' % layer)
                 self.assert_(not layer in path,
-                    '%s layer found in %s skin after uninstallation' % (layer, skin))
+                             '%s layer found in %s skin '\
+                             'after uninstallation' % (layer, skin))
+
 
 def test_suite():
     suite = unittest.TestSuite()

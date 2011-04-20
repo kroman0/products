@@ -1,6 +1,5 @@
 import logging
 from zope.component import getSiteManager
-from Products.CMFCore.utils import getToolByName
 
 logger = logging.getLogger('quintagroup.plonecaptchas')
 

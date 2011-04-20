@@ -1,14 +1,31 @@
-from base import *
+import re
+import unittest
+
 from urllib import urlencode
 from StringIO import StringIO
 from DateTime import DateTime
 
+from quintagroup.plonecaptchas.tests.base import FunctionalTestCase
+from quintagroup.plonecaptchas.config import PRODUCT_NAME
+
+from quintagroup.captcha.core.tests.testWidget import NOT_VALID
+from quintagroup.captcha.core.tests.testWidget import IMAGE_PATT
+from quintagroup.captcha.core.tests.testWidget import addTestLayer
+from quintagroup.captcha.core.tests.base import testPatch
+from quintagroup.captcha.core.utils import getWord, decrypt, parseKey
+
+from Products.PloneTestCase.PloneTestCase import portal_owner
+from Products.PloneTestCase.PloneTestCase import default_password
+
 from plone.app.controlpanel.security import ISecuritySchema
 
-# BBB for plone v<3.1, where plone.protect not used yet 
+
+# BBB for plone v<3.1, where plone.protect not used yet
 PROTECT_SUPPORT = True
 try:
     from plone import protect
+    # fix for pyflakes test
+    protect
 except ImportError:
     PROTECT_SUPPORT = False
 
@@ -38,7 +55,7 @@ class TestFormMixin(FunctionalTestCase):
     def getFormData(self):
         raise NotImplementedError(
             "getFormData not implemented")
-        
+
     def publishForm(self):
         stdin_data = None
         form_url = self.portal.absolute_url(1) + self.form_url

@@ -2,6 +2,7 @@ import transaction
 from Products.CMFCore.utils import getToolByName
 REQUIRED = 'quintagroup.captcha.core'
 
+
 def install(self):
     qi = getToolByName(self, 'portal_quickinstaller')
     # install required quintagroup.captcha.core product
@@ -12,10 +13,13 @@ def install(self):
         qi.installProduct(REQUIRED)
     # install plonecaptchas
     gs = getToolByName(self, 'portal_setup')
-    gs.runAllImportStepsFromProfile('profile-quintagroup.plonecaptchas:default')
+    profile = 'profile-quintagroup.plonecaptchas:default'
+    gs.runAllImportStepsFromProfile(profile)
     transaction.savepoint()
+
 
 def uninstall(self):
     portal_setup = getToolByName(self, 'portal_setup')
-    portal_setup.runAllImportStepsFromProfile('profile-quintagroup.plonecaptchas:uninstall', purge_old=False)
+    profile = 'profile-quintagroup.plonecaptchas:uninstall'
+    portal_setup.runAllImportStepsFromProfile(profile, purge_old=False)
     transaction.savepoint()

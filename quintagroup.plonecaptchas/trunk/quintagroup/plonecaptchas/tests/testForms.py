@@ -33,6 +33,7 @@ except ImportError:
 # patch to use test images and dictionary
 testPatch()
 
+
 class TestFormMixin(FunctionalTestCase):
 
     def afterSetUp(self):
@@ -41,7 +42,7 @@ class TestFormMixin(FunctionalTestCase):
         # Add test_captcha layer from quintagroup.captcah.core
         addTestLayer(self)
         # Prepare form data
-        self.basic_auth = ':'.join((portal_owner,default_password))
+        self.basic_auth = ':'.join((portal_owner, default_password))
         self.form_url = ''
         self.form_method = "POST"
         self.hasAuthenticator = False
@@ -83,18 +84,20 @@ class TestFormMixin(FunctionalTestCase):
         self.form_data = {}
         self.form_method = "GET"
         response = self.publishForm().getBody()
-        patt = re.compile(IMAGE_PATT  % self.portal.absolute_url())
+        patt = re.compile(IMAGE_PATT % self.portal.absolute_url())
         match_obj = patt.search(response)
         img_url = match_obj.group(1)
 
-        content_type = self.publish('/plone' + img_url).getHeader('content-type')
+        content_type = self.publish('/plone' + img_url).getHeader(
+                                                            'content-type')
         self.assertTrue(content_type.startswith('image'),
             "Wrong captcha image content type")
 
     def testSubmitRightCaptcha(self):
-        key = getWord(int(parseKey(decrypt(self.captcha_key, self.hashkey))['key'])-1)
+        key = getWord(int(parseKey(decrypt(
+                self.captcha_key, self.hashkey))['key']) - 1)
         self.form_data['key'] = key
-        
+
         response = self.publishForm().getBody()
         self.assertFalse(NOT_VALID.search(response))
 
@@ -104,7 +107,8 @@ class TestFormMixin(FunctionalTestCase):
         self.assertTrue(NOT_VALID.search(response))
 
     def testSubmitRightCaptchaTwice(self):
-        key = getWord(int(parseKey(decrypt(self.captcha_key, self.hashkey))['key'])-1)
+        key = getWord(int(parseKey(decrypt(
+                self.captcha_key, self.hashkey))['key']) - 1)
         self.form_data['key'] = key
 
         self.publishForm()
@@ -119,14 +123,14 @@ class TestDiscussionForm(TestFormMixin):
         self.portal.invokeFactory('Document', 'index_html')
         self.portal['index_html'].allowDiscussion(True)
         self.form_url = '/index_html/discussion_reply_form'
-        
+
     def getFormData(self):
-        return {'form.submitted' : '1',
+        return {'form.submitted': '1',
                 'subject': 'testing',
                 'Creator': portal_owner,
                 'body_text': 'Text in Comment',
                 'discussion_reply:method': 'Save',
-                'form.button.form_submit' : 'Save'}
+                'form.button.form_submit': 'Save'}
 
 
 class TestJoinForm(TestFormMixin):
@@ -140,14 +144,14 @@ class TestJoinForm(TestFormMixin):
         self.logout()
 
     def getFormData(self):
-        return {"last_visit:date" : str(DateTime()),
-                "prev_visit:date" : str(DateTime()-1),
-                "came_from_prefs" : "",
-                "fullname" : "Tester",
-                "username" : "tester",
-                "email" : "tester@test.com",
-                'form.button.Register':'Register',
-                'form.submitted':'1'}
+        return {"last_visit:date": str(DateTime()),
+                "prev_visit:date": str(DateTime() - 1),
+                "came_from_prefs": "",
+                "fullname": "Tester",
+                "username": "tester",
+                "email": "tester@test.com",
+                'form.button.Register': 'Register',
+                'form.submitted': '1'}
 
 
 class TestSendtoForm(TestFormMixin):
@@ -157,30 +161,31 @@ class TestSendtoForm(TestFormMixin):
         self.portal.invokeFactory('Document', 'index_html')
         self.portal['index_html'].allowDiscussion(True)
         self.form_url = '/index_html/sendto_form'
-        
+
     def getFormData(self):
-        return {'form.submitted' : '1',
-                "send_to_address" : "recipient@test.com",
-                "send_from_address" : "sender@test.com",
+        return {'form.submitted': '1',
+                "send_to_address": "recipient@test.com",
+                "send_from_address": "sender@test.com",
                 'comment': 'Text in Comment',
-                'form.button.Send' : 'Save'}
+                'form.button.Send': 'Save'}
+
 
 class TestContactInfo(TestFormMixin):
 
     def afterSetUp(self):
         TestFormMixin.afterSetUp(self)
         # preparation to form correct working
-        self.portal._updateProperty('email_from_address','manager@test.com')
+        self.portal._updateProperty('email_from_address', 'manager@test.com')
         self.logout()
         self.form_url = '/contact-info'
-        
+
     def getFormData(self):
-        return {'form.submitted' : '1',
-                "sender_fullname" : "tester",
-                "sender_from_address" : "sender@test.com",
+        return {'form.submitted': '1',
+                "sender_fullname": "tester",
+                "sender_from_address": "sender@test.com",
                 'subject': 'Subject',
                 'message': 'Message',
-                'form.button.Send' : 'Save'}
+                'form.button.Send': 'Save'}
 
 
 def test_suite():

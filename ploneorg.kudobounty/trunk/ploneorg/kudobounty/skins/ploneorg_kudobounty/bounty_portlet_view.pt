@@ -1,11 +1,14 @@
-<metal:listingmacro define-macro="listing"
-       tal:define="portal_state here/@@plone_portal_state;
-                   portal_url portal_state/portal_url">
+<metal:listingmacro define-macro="listing">
 
 <div id="portal-bounty-program"
      tal:condition="view/available">
-  <div class="abobe-bounty-text">
-    Special thanks to the following companies and individuals for their recent contributions to improving Plone:
+  <div class="helperText" tal:define="portal_state here/@@plone_portal_state;">
+    <span>Special thanks to the following companies and individuals for their recent contributions to improving Plone:</span>
+    <div class="moreInfo">        
+       &#91;<a href="http://" alt="bounty submission form"
+       tal:attributes="href string:${portal_state/portal_url}/bounty-submissions/bounty-submissions-form">
+       Find out more about how you can contribute</a>&#93;
+    </div> 
   </div>
   <ul>
     <li tal:repeat="item view/results" class="hidden">
@@ -19,12 +22,7 @@
                              alt item/Description;"/></a>
     </li>
   </ul>
-  <div class="below-bounty-text">
-    &#91;<a href="http://" alt="bounty submission form"
-       tal:attributes="href string:${portal_url}/bounty-submissions/bounty-submissions-form">
-      Find out more about how you can contribute
-    </a>&#93;
-  </div>
+  
 </div>
 
 </metal:listingmacro>

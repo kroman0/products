@@ -1,6 +1,6 @@
 from zope.i18nmessageid import MessageFactory
 
-from AccessControl import allow_module, ModuleSecurityInfo
+from AccessControl import ModuleSecurityInfo
 
 ProductMessageFactory = MessageFactory('quintagroup.plonecaptchas')
 ModuleSecurityInfo('quintagroup.plonecaptchas').declarePublic("ProductMessageFactory")

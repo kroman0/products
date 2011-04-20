@@ -13,15 +13,17 @@ ADD_PLONE = re.compile('^[^http://|https://|\\\]')
 OPERATIONS_PARSE = re.compile(r"(.?[^\\])/(.*[^\\]|)/(.*[^\\]|)/")
 _marker = []
 
+
 def searchAndReplace(string, what, withs):
     """Emulate sed command s/"""
-    res = re.sub(what,withs,string)
+    res = re.sub(what, withs, string)
     return res
-OPERATORS = {'s': searchAndReplace,}
+OPERATORS = {'s': searchAndReplace, }
+
 
 def applyOperations(objects, operations):
     """Parse Operations """
-    operations=[OPERATIONS_PARSE.match(op).groups() for op in operations]
+    operations = [OPERATIONS_PARSE.match(op).groups() for op in operations]
     result = {}
     for ob in objects:
         url = _marker
@@ -37,10 +39,11 @@ def applyOperations(objects, operations):
         #freshest brain into result
         if url in result.keys():
             continue
-        #TODO: replace brain with only data necessary to 
+        #TODO: replace brain with only data necessary to
         #generate sitemap
-        result[url]=ob
+        result[url] = ob
     return result
+
 
 def additionalURLs(context):
     """Add URLs to sitemap that arn't objects"""
@@ -48,13 +51,13 @@ def additionalURLs(context):
 
     plone_home = getToolByName(context, 'portal_url')()
     root = context.getPhysicalRoot().absolute_url()
-    URLs =  context.getUrls()
+    URLs = context.getUrls()
 
     for url in URLs:
         if ADD_ZOPE.match(url):
-            res.append(root+url)
+            res.append(root + url)
         elif ADD_PLONE.match(url):
-            res.append(plone_home+'/'+url)
+            res.append(plone_home + '/' + url)
         else:
             res.append(url)
     return res

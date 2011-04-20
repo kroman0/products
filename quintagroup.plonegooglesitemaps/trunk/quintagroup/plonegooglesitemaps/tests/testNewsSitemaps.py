@@ -15,6 +15,7 @@ from Products.CMFPlone.utils import _createObjectByType
 from Products.Archetypes.public import StringField
 from Products.ATContentTypes.content.newsitem import ATNewsItem
 
+
 class TestNewsSitemapsXML(FunctionalTestCase):
 
     def afterSetUp(self):
@@ -24,18 +25,25 @@ class TestNewsSitemapsXML(FunctionalTestCase):
                             sitemapType="news", portalTypes=("News Item",))
         self.portal["news-sitemaps"].at_post_create_script()
         # Add testing news item to portal
-        self.pubdate = (DateTime()+1).strftime("%Y-%m-%d")
-        self.my_news = _createObjectByType('News Item', self.portal, id='my_news')
-        self.my_news.edit(text="Test news item", title="First news (test)", language="ua",
-                          effectiveDate=self.pubdate, gsm_access="Registration",
-                          gsm_genres=("PressRelease",), gsm_stock="NASDAQ:AMAT, BOM:500325")
+        self.pubdate = (DateTime() + 1).strftime("%Y-%m-%d")
+        self.my_news = _createObjectByType('News Item', self.portal,
+                                           id='my_news')
+        self.my_news.edit(text="Test news item",
+                          title="First news (test)",
+                          language="ua",
+                          effectiveDate=self.pubdate,
+                          gsm_access="Registration",
+                          gsm_genres=("PressRelease",),
+                          gsm_stock="NASDAQ:AMAT, BOM:500325")
         self.workflow.doActionFor(self.my_news, "publish")
         self.reParse()
 
     def reParse(self):
         # Parse news sitemap
-        self.sitemap = self.publish("/"+self.portal.absolute_url(1) + "/news-sitemaps",
-                                    "%s:%s" % (portal_owner, default_password)).getBody()
+        self.sitemap = self.publish("/" + self.portal.absolute_url(1) + \
+                                    "/news-sitemaps",
+                                    "%s:%s" % (portal_owner,
+                                               default_password)).getBody()
         parsed_sitemap = parse(self.sitemap)
         self.start = parsed_sitemap["start"]
         self.data = parsed_sitemap["data"]
@@ -43,8 +51,10 @@ class TestNewsSitemapsXML(FunctionalTestCase):
     def test_urlset(self):
         self.assert_("urlset" in self.start.keys())
         urlset = self.start["urlset"]
-        self.assertEqual(urlset.get("xmlns", ""), "http://www.sitemaps.org/schemas/sitemap/0.9")
-        self.assertEqual(urlset.get("xmlns:n", ""), "http://www.google.com/schemas/sitemap-news/0.9")
+        self.assertEqual(urlset.get("xmlns", ""),
+                         "http://www.sitemaps.org/schemas/sitemap/0.9")
+        self.assertEqual(urlset.get("xmlns:n", ""),
+                         "http://www.google.com/schemas/sitemap-news/0.9")
 
     def test_url(self):
         self.assert_("url" in self.start.keys())
@@ -55,7 +65,7 @@ class TestNewsSitemapsXML(FunctionalTestCase):
 
     def test_nnews(self):
         self.assert_("n:news" in self.start.keys())
-        
+
     def test_npublication(self):
         self.assert_("n:publication" in self.start.keys())
         self.assert_("n:name" in self.start.keys())
@@ -66,10 +76,11 @@ class TestNewsSitemapsXML(FunctionalTestCase):
     def test_npublication_date(self):
         self.assert_("n:publication_date" in self.start.keys())
         self.assert_(self.pubdate in self.data, "No %s in data" % self.pubdate)
-        
+
     def test_ntitle(self):
         self.assert_("n:title" in self.start.keys())
-        self.assert_("First news (test)" in self.data, "No 'First news (test)' in data")
+        self.assert_("First news (test)" in self.data,
+                     "No 'First news (test)' in data")
 
     def test_naccess(self):
         # Test when access present
@@ -87,7 +98,8 @@ class TestNewsSitemapsXML(FunctionalTestCase):
         self.my_news.reindexObject()
         self.reParse()
         self.assert_("n:genres" in self.start.keys())
-        self.assert_("PressRelease, Blog" in self.data, "No 'PressRelease, Blog' in data")
+        self.assert_("PressRelease, Blog" in self.data,
+                     "No 'PressRelease, Blog' in data")
 
     def test_ngenresEmpty(self):
         # No genres should present if it's not updated
@@ -108,35 +120,39 @@ class TestNewsSitemapsXML(FunctionalTestCase):
     def test_nstock_tickers(self):
         # Test n:stock_tickers
         self.assert_("n:stock_tickers" in self.start.keys())
-        self.assert_("NASDAQ:AMAT, BOM:500325" in self.data, "No 'NASDAQ:AMAT, BOM:500325' in data")
+        self.assert_("NASDAQ:AMAT, BOM:500325" in self.data,
+                     "No 'NASDAQ:AMAT, BOM:500325' in data")
 
 
 class TestNewsSitemapsXMLDefaultObject(FunctionalTestCase):
 
     def afterSetUp(self):
         super(TestNewsSitemapsXMLDefaultObject, self).afterSetUp()
-        # Create news sitemaps 
+        # Create news sitemaps
         _createObjectByType("Sitemap", self.portal, id="news-sitemaps",
                             sitemapType="news", portalTypes=("News Item",))
         self.portal["news-sitemaps"].at_post_create_script()
         # Add minimal testing news item to portal
-        self.pubdate = (DateTime()+1).strftime("%Y-%m-%d")
-        self.my_news = _createObjectByType('News Item', self.portal, id='my_news')
+        self.pubdate = (DateTime() + 1).strftime("%Y-%m-%d")
+        self.my_news = _createObjectByType('News Item', self.portal,
+                                           id='my_news')
         self.my_news.edit(effectiveDate=self.pubdate)
         self.workflow.doActionFor(self.my_news, "publish")
         self.reParse()
 
     def reParse(self):
         # Parse news sitemap
-        self.sitemap = self.publish("/"+self.portal.absolute_url(1) + "/news-sitemaps",
-                                    "%s:%s" % (portal_owner, default_password)).getBody()
+        self.sitemap = self.publish("/" + self.portal.absolute_url(1) + \
+                                    "/news-sitemaps",
+                                    "%s:%s" % (portal_owner, default_password)
+                                    ).getBody()
         parsed_sitemap = parse(self.sitemap)
         self.start = parsed_sitemap["start"]
         self.data = parsed_sitemap["data"]
 
     def test_nnews(self):
         self.assert_("n:news" in self.start.keys())
-        
+
     def test_npublication(self):
         self.assert_("n:publication" in self.start.keys())
         self.assert_("n:name" in self.start.keys())
@@ -147,7 +163,7 @@ class TestNewsSitemapsXMLDefaultObject(FunctionalTestCase):
     def test_npublication_date(self):
         self.assert_("n:publication_date" in self.start.keys())
         self.assert_(self.pubdate in self.data, "No %s in data" % self.pubdate)
-        
+
     def test_ntitle(self):
         self.assert_("n:title" in self.start.keys())
         self.assert_("my_news" in self.data, "No 'First news (test)' in data")
@@ -170,7 +186,8 @@ class TestSchemaExtending(TestCase):
     def afterSetUp(self):
         super(TestSchemaExtending, self).afterSetUp()
         self.my_doc = _createObjectByType('Document', self.portal, id='my_doc')
-        self.my_news = _createObjectByType('News Item', self.portal, id='my_news')
+        self.my_news = _createObjectByType('News Item', self.portal,
+                                           id='my_news')
 
     def testExtendNewsItemByDefault(self):
         # Neither of object has extended fields
@@ -180,7 +197,7 @@ class TestSchemaExtending(TestCase):
         self.assertEqual(self.my_doc.getField("gsm_access"), None)
         self.assertEqual(self.my_doc.getField("gsm_genres"), None)
         self.assertEqual(self.my_doc.getField("gsm_stock"), None)
-    
+
     def testRegistrationOnLocalSM(self):
         """SchemaExtender adapters must be registered
            in Local SiteManager only.
@@ -192,10 +209,12 @@ class TestSchemaExtending(TestCase):
         self.assertNotEqual(localsm, globalsm)
         self.assertNotEqual(localsm.queryAdapter(
                 self.my_news, ISchemaExtender,
-                name="quintagroup.plonegooglesitemaps.newssitemapextender"), None)
+                name="quintagroup.plonegooglesitemaps.newssitemapextender"),
+            None)
         self.assertEqual(globalsm.queryAdapter(
                 self.my_news, ISchemaExtender,
-                name="quintagroup.plonegooglesitemaps.newssitemapextender"), None)
+                name="quintagroup.plonegooglesitemaps.newssitemapextender"),
+            None)
 
 
 ##
@@ -205,10 +224,13 @@ class TestSchemaExtending(TestCase):
 
 class ITestTaggable(Interface):
     """Taggable content
-    """
+
+"""
+
 
 class ExtendableStringField(ExtensionField, StringField):
     """An extendable string field."""
+
 
 class TestExtender(object):
     adapts(ITestTaggable)
@@ -218,17 +240,20 @@ class TestExtender(object):
         self.context = context
 
     def getFields(self):
-        return [ExtendableStringField("testField",),]
+        return [ExtendableStringField("testField",), ]
 
 from quintagroup.plonegooglesitemaps.interfaces import INewsSitemapProvider
+
+
 class TestNotOverrideExistingSchemaExtender(TestCase):
     """ Test if another schemaextender has been defined for the
         IATNewsItem take in account by the system.
     """
     def prepareContent(self):
-        
+
         classImplements(ATNewsItem, ITestTaggable)
-        provideAdapter(TestExtender, name=u"archetypes.schemaextender.test.adapter")
+        provideAdapter(TestExtender,
+                       name=u"archetypes.schemaextender.test.adapter")
 
         self.portal.invokeFactory('News Item', 'taggable-news')
         self.taggable_news = getattr(self.portal, 'taggable-news')
@@ -238,12 +263,14 @@ class TestNotOverrideExistingSchemaExtender(TestCase):
         self.assert_(ITestTaggable.providedBy(self.taggable_news))
         self.assert_(INewsSitemapProvider.providedBy(self.taggable_news))
         schema = self.taggable_news.Schema().keys()
-        self.assert_("gsm_access" in schema, "no 'gsm_access' in schema: %s" % schema)
-        self.assert_("testField" in schema, "no 'testField' in schema: %s" % schema)
-
+        self.assert_("gsm_access" in schema, "no 'gsm_access' in schema: %s" \
+                     % schema)
+        self.assert_("testField" in schema, "no 'testField' in schema: %s" \
+                     % schema)
 
 
 classImplements(TestRequest, IAttributeAnnotatable)
+
 
 class TestAdditionalMaps(TestCase):
     """Test bug in processing Missing value in functions,
@@ -254,27 +281,28 @@ class TestAdditionalMaps(TestCase):
 
     def afterSetUp(self):
         super(TestAdditionalMaps, self).afterSetUp()
-        # Create news sitemaps 
+        # Create news sitemaps
         _createObjectByType("Sitemap", self.portal, id="news-sitemaps",
                             sitemapType="news")
         context = self.portal['news-sitemaps']
         request = TestRequest()
         alsoProvides(request, IGoogleSitemapsLayer)
-        self.nsmv = queryMultiAdapter((context, request), name="news-sitemap.xml")
+        self.nsmv = queryMultiAdapter((context, request),
+                                      name="news-sitemap.xml")
 
         self.brain = self.portal.portal_catalog(portal_type="Document")[0]
         for k in self.mv_keys:
             self.brain[k] = MV
-        
+
     def testAdditionalMaps(self):
-        for n,func in self.nsmv.additional_maps:
+        for n, func in self.nsmv.additional_maps:
             try:
                 v = func(self.brain)
             except Exception, e:
-                self.fail("Wrong processing 'Missing' value for '%s': %s"
+                self.fail("Wrong processing 'Missing' value for '%s': %s" \
                           % (n, str(e)))
-                
-                
+
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()

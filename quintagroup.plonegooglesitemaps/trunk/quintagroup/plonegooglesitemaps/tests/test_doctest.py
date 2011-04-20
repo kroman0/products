@@ -4,6 +4,7 @@ import doctest
 from base import *
 from Products.CMFPlone.utils import _createObjectByType
 
+
 class DocTestCase(FunctionalTestCase):
 
     def afterSetUp(self):
@@ -14,7 +15,8 @@ class DocTestCase(FunctionalTestCase):
         doc = _createObjectByType('Document', cont, id=id)
         doc.edit(text_format='plain', text=text)
         self.workflow.doActionFor(doc, 'publish')
-        #return doc        
+        #return doc
+
 
 def test_suite():
     return unittest.TestSuite([
@@ -23,7 +25,7 @@ def test_suite():
         ztc.FunctionalDocFileSuite(
             'filters.txt', package='quintagroup.plonegooglesitemaps',
             test_class=DocTestCase, globs=globals(),
-            optionflags= doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
+            optionflags=doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
                        # | doctest.REPORT_ONLY_FIRST_FAILURE |
         ])
 

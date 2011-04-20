@@ -30,15 +30,16 @@ class TestFilterMixin(TestCase):
     def afterSetUp(self):
         super(TestFilterMixin, self).afterSetUp()
         self.createTestContent()
-        self.sm = _createObjectByType('Sitemap', self.portal, id='google-sitemaps')
+        self.sm = _createObjectByType('Sitemap', self.portal,
+                                      id='google-sitemaps')
         self.req = self.app.REQUEST
-        self.catres = self.portal.portal_catalog(portal_type=["Document",])
+        self.catres = self.portal.portal_catalog(portal_type=["Document", ])
         self.logout()
 
     def createTestContent(self):
         # Add testing content to portal
         for cont in [self.portal, self.folder]:
-            for i in range(1,4):
+            for i in range(1, 4):
                 doc = _createObjectByType('Document', cont, id='doc%i' % i)
                 doc.edit(text_format='plain', text='hello world %i' % i)
                 self.workflow.doActionFor(doc, 'publish')
@@ -47,7 +48,8 @@ class TestFilterMixin(TestCase):
 class TestDefaultFilters(TestFilterMixin):
 
     def getPreparedLists(self, fname, fargs):
-        fengine = queryMultiAdapter((self.sm, self.req), IBlackoutFilter, name=fname)
+        fengine = queryMultiAdapter((self.sm, self.req), IBlackoutFilter,
+                                    name=fname)
         filtered = [f.getPath() for f in fengine.filterOut(self.catres, fargs)]
         catpaths = [c.getPath() for c in self.catres]
         return catpaths, filtered
@@ -60,9 +62,9 @@ class TestDefaultFilters(TestFilterMixin):
         excluded = ["/%s/doc1" % self.portal.absolute_url(1),
                     "/%s/doc1" % self.folder.absolute_url(1)]
         self.assertTrue(
-            set(catpaths)-set(filtered) == set(excluded),
-            'Wrong filtered-out by "id" filter:\nsrc %s\nres %s\nexcluded %s' % (
-             catpaths, filtered, excluded))
+            set(catpaths) - set(filtered) == set(excluded),
+            'Wrong filtered-out by "id" filter:\nsrc %s\nres %s\nexcluded %s' \
+            % (catpaths, filtered, excluded))
 
     def testAbsolutePathFilter(self):
         catpaths, filtered = self.getPreparedLists("path", "/doc1")
@@ -71,22 +73,22 @@ class TestDefaultFilters(TestFilterMixin):
             'not list nor tuple')
         excluded = ["/%s/doc1" % self.portal.absolute_url(1)]
         self.assertTrue(
-            set(catpaths)-set(filtered) == set(excluded),
-            'Wrong filtered-out by "path" filter:\nsrc %s\nres %s\nexcluded %s' % (
-             catpaths, filtered, excluded))
+            set(catpaths) - set(filtered) == set(excluded),
+            'Wrong filtered-out by "path" filter:\nsrc %s\nres %s\nexcluded ' \
+            '%s' % (catpaths, filtered, excluded))
 
     def testRelativePathFilter(self):
-        self.sm = _createObjectByType('Sitemap', self.folder, id='google-sitemaps')
+        self.sm = _createObjectByType('Sitemap', self.folder,
+                                      id='google-sitemaps')
         catpaths, filtered = self.getPreparedLists("path", "./doc1")
         self.assertTrue(type(filtered) in [ListType, TupleType],
             'Object type, returned by filteredOut method of "path" utility '\
             'not list nor tuple')
         excluded = ["/%s/doc1" % self.folder.absolute_url(1)]
         self.assertTrue(
-            set(catpaths)-set(filtered) == set(excluded),
-            'Wrong filtered-out by "path" filter:\nsrc %s\nres %s\nexcluded %s' % (
-             catpaths, filtered, excluded))
-
+            set(catpaths) - set(filtered) == set(excluded),
+            'Wrong filtered-out by "path" filter:\nsrc %s\nres %s\nexcluded ' \
+            '%s' % (catpaths, filtered, excluded))
 
 
 class TestBlacklistFormProcessing(TestFilterMixin):
@@ -94,10 +96,11 @@ class TestBlacklistFormProcessing(TestFilterMixin):
     def afterSetUp(self):
         super(TestBlacklistFormProcessing, self).afterSetUp()
         self.loginAsPortalOwner()
-        self.smview = queryMultiAdapter((self.sm, self.app.REQUEST), name="sitemap.xml")
+        self.smview = queryMultiAdapter((self.sm, self.app.REQUEST),
+                                        name="sitemap.xml")
 
     def getPreparedLists(self, bl, fargs):
-        self.sm.edit(blackout_list=[bl,])
+        self.sm.edit(blackout_list=[bl, ])
         filtered = [f['url'] for f in self.smview.results()]
         catpaths = [c.getURL() for c in self.catres]
         return catpaths, filtered
@@ -105,19 +108,19 @@ class TestBlacklistFormProcessing(TestFilterMixin):
     def testGetNamedFilterUtility(self):
         catpaths, filtered = self.getPreparedLists("path:/doc1", "/plone/doc1")
         excluded = ["%s/doc1" % self.portal.absolute_url()]
-        self.assertTrue(set(catpaths)-set(filtered) == set(excluded),
-            'Wrong filtered-out by "id" filter:\nsrc %s\nres %s\nexcluded %s' % (
-             catpaths, filtered, excluded))
+        self.assertTrue(set(catpaths) - set(filtered) == set(excluded),
+            'Wrong filtered-out by "id" filter:\nsrc %s\nres %s\nexcluded %s' \
+            % (catpaths, filtered, excluded))
 
     def testDefaultFilterUtility(self):
         catpaths, filtered = self.getPreparedLists("id:doc1", "doc1")
         excluded = ["%s/doc1" % self.portal.absolute_url(),
                     "%s/doc1" % self.folder.absolute_url()]
-        self.assertTrue(set(catpaths)-set(filtered) == set(excluded),
-            'Wrong filtered-out by "id" filter:\nsrc %s\nres %s\nexcluded %s' % (
-             catpaths, filtered, excluded))
+        self.assertTrue(set(catpaths) - set(filtered) == set(excluded),
+            'Wrong filtered-out by "id" filter:\nsrc %s\nres %s\nexcluded %s' \
+            % (catpaths, filtered, excluded))
         # Now check is output of unnamed filter samed to named one.
-        self.sm.edit(blackout_list=["doc1",])
+        self.sm.edit(blackout_list=["doc1", ])
         filtered_dflt = [f['url'] for f in self.smview.results()]
         map(lambda l: l.sort(), (filtered, filtered_dflt))
         self.assertTrue(filtered == filtered_dflt,
@@ -133,12 +136,10 @@ class TestBlacklistFormProcessing(TestFilterMixin):
     #     component.queryMutliAdapter = patchQMA
     #     self.sm.edit(blackout_list="FooFilterName:arg1:arg2:doc1")
     #     self.smview.results()
-    #     self.assertTrue("FooFilterName" in call_names,
-    #         "Wrong filter name parsing - no FooFilterName in %s" % call_names)
+    #     self.assertTrue("FooFilterName" in call_names, "Wrong filter " \
+    #         "name parsing - no FooFilterName in %s" % call_names)
     #     component._api.queryMutliAdapter = origQMA
-        
-        
-        
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

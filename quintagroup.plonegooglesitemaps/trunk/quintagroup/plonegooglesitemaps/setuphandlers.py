@@ -11,6 +11,7 @@ from quintagroup.plonegooglesitemaps.content.newsextender import NewsExtender
 
 logger = logging.getLogger('quintagroup.plonegooglesitemaps')
 
+
 def unregisterSchemaExtenderAdapters(site):
     """ Unregister news schema extender adapters
         from local component registry.
@@ -32,7 +33,9 @@ def unregisterSchemaExtenderAdapters(site):
             lsm.unregisterAdapter(factory=factory,
                 required=required, provided=provided, name=name)
             unregistered.append(str(required))
-    logger.info("Unregistered news schema extender adapters for: %s" % unregistered)
+    logger.info("Unregistered news schema extender adapters for: %s" \
+                % unregistered)
+
 
 def removeConfiglet(site):
     """ Remove configlet.
@@ -43,6 +46,7 @@ def removeConfiglet(site):
         controlpanel_tool.unregisterConfiglet(conf_id)
         logger.log(logging.INFO, "Unregistered \"%s\" configlet." % conf_id)
 
+
 def removeBrowserLayer(site):
     """ Remove browser layer.
     """
@@ -52,13 +56,14 @@ def removeBrowserLayer(site):
     from plone.browserlayer.utils import unregister_layer
     from plone.browserlayer.interfaces import ILocalBrowserLayerType
 
-    name="quintagroup.plonegooglesitemaps"
+    name = "quintagroup.plonegooglesitemaps"
     site = getSiteManager(site)
     registeredLayers = [r.name for r in site.registeredUtilities()
                         if r.provided == ILocalBrowserLayerType]
     if name in registeredLayers:
         unregister_layer(name, site_manager=site)
         logger.log(logging.INFO, "Unregistered \"%s\" browser layer." % name)
+
 
 def uninstall(context):
     """ Do customized uninstallation.
@@ -86,11 +91,13 @@ def cleanup(site):
                     "portal_controlpanel tool." % old_product)
     # Remove qPloneGoogleSitemaps skin layer
     for skinName in skins.getSkinSelections():
-        skin_paths = skins.getSkinPath(skinName).split(',') 
+        skin_paths = skins.getSkinPath(skinName).split(',')
         paths = [l.strip() for l in skin_paths if not l == old_product]
         if len(paths) < len(skin_paths):
-            logger.info("Removed '%s' from '%s' skin." % (old_product, skinName))
+            logger.info("Removed '%s' from '%s' skin." \
+                        % (old_product, skinName))
         skins.addSkinSelection(skinName, ','.join(paths))
+
 
 def recriateSitemaps(smaps):
     msg = "Recriation Sitemaps: "
@@ -98,7 +105,7 @@ def recriateSitemaps(smaps):
         logger.info(msg + "Process %s sitemaps." % (
                 [sm.getPath() for sm in smaps]))
         fields = ['id', 'sitemapType', 'portalTypes', 'states',
-                  'blackout_list','reg_exp', 'urls', 'pingTransitions']
+                  'blackout_list', 'reg_exp', 'urls', 'pingTransitions']
         for smb in smaps:
             # get sitemap properties
             sm_path = smb.getPath()
@@ -116,13 +123,15 @@ def recriateSitemaps(smaps):
             new_sm.at_post_create_script()
             logger.info("Successfully replaced '%s' Sitemap" % sm_path)
 
+
 def getOldGSitemaps(site):
     catalog = getToolByName(site, 'portal_catalog')
     smaps = catalog(portal_type="Sitemap")
     old_smb = [smb for smb in smaps \
                if 'qPloneGoogleSitemaps' in str(smb.getObject().__class__)]
     return old_smb
-    
+
+
 def migrate_qPGSM(context):
     """ Clean-up qPloneGoogleSitemaps product artefacts and
         recriate sitemaps from quintagroup.plonegooglesitemaps
@@ -139,5 +148,3 @@ def migrate_qPGSM(context):
         logger.info("Successfully migrated old GoogleSitemaps.")
     else:
         logger.info("No old GoogleSitemaps found.")
-
-

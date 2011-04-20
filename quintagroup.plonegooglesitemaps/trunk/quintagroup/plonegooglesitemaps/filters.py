@@ -15,7 +15,7 @@ class IdBlackoutFilter(object):
 
     def filterOut(self, fdata, fargs):
         """Filter-out fdata list by id in fargs."""
-        return ifilter(lambda b,fa=fargs:(b.getId or b.id) != fargs,
+        return ifilter(lambda b, fa=fargs: (b.getId or b.id) != fargs,
                        fdata)
 
 
@@ -43,5 +43,5 @@ class PathBlackoutFilter(object):
             # unrecognized starting point
             return fdata
 
-        return ifilter(lambda b,tp=test_path: b.getPath() != tp,
+        return ifilter(lambda b, tp=test_path: b.getPath() != tp,
                        fdata)

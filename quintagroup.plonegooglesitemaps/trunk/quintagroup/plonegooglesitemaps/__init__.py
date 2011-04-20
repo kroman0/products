@@ -17,6 +17,7 @@ from Products.CMFCore.permissions import setDefaultRoles
 
 qPloneGoogleSitemapsMessageFactory = MessageFactory('qPloneGoogleSitemaps')
 
+
 def initialize(context):
     """Initializer called when used as a Zope 2 product.
 
@@ -47,7 +48,7 @@ def initialize(context):
 
     for atype, constructor in zip(content_types, constructors):
         ContentInit('%s: %s' % (config.PROJECTNAME, atype.portal_type),
-            content_types      = (atype,),
-            permission         = config.ADD_PERMISSIONS[atype.portal_type],
-            extra_constructors = (constructor,),
-            ).initialize(context)
+                    content_types=(atype,),
+                    permission=config.ADD_PERMISSIONS[atype.portal_type],
+                    extra_constructors=(constructor,),
+                   ).initialize(context)

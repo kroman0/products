@@ -4,9 +4,10 @@ from Products.CMFCore.utils import getToolByName
 from quintagroup.plonegooglesitemaps.interfaces import IAfterTransitionEvent
 from quintagroup.plonegooglesitemaps.utils import ping_google
 
+
 @adapter(IAfterTransitionEvent)
 def pingGoogle(event):
-    tr_id = getattr(event.transition,'id','')
+    tr_id = getattr(event.transition, 'id', '')
     if not tr_id:
         # object under creation
         return 0
@@ -16,7 +17,8 @@ def pingGoogle(event):
 
     sitemaps = [b.getObject() for b in catalog(portal_type='Sitemap')]
     if sitemaps:
-        plone_home = getToolByName(object, 'portal_url').getPortalObject().absolute_url()
+        url = getToolByName(object, 'portal_url')
+        plone_home = url.getPortalObject().absolute_url()
         wftrans_name = "%s#%s" % (event.workflow.id, tr_id)
         obj_ptype = object.portal_type
         for sm in sitemaps:

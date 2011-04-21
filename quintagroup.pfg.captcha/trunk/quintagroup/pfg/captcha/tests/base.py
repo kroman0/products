@@ -1,6 +1,3 @@
-import re
-import string
-import unittest
 import transaction
 
 from Products.Five import zcml
@@ -15,7 +12,7 @@ PACKAGES = [
     'quintagroup.captcha.core',
     'quintagroup.pfg.captcha',
 ]
-REQUIREMENTS = ['PloneFormGen',] + PACKAGES
+REQUIREMENTS = ['PloneFormGen', ] + PACKAGES
 
 ptc.setupPloneSite()
 
@@ -23,6 +20,7 @@ ptc.setupPloneSite()
 # !!! (for Plone-4+) if located in NotInstalled.setUp
 # !!! method of the layer class.
 ztc.installProduct('PloneFormGen')
+
 
 class NotInstalled(PloneSite):
     """ Only package register, without installation into portal
@@ -59,7 +57,7 @@ class Installed(NotInstalled):
     @classmethod
     def tearDown(cls):
         ptc_setup._placefulTearDown()
-        
+
 
 class TestCase(ptc.PloneTestCase):
     layer = Installed

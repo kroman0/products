@@ -13,14 +13,16 @@ try:
     from plone.portlets.interfaces import IPortletAssignmentSettings
 except ImportError:
     "Before plon4 we don't have an annotation storage for settings."
-    IPortletAssignmentSettings = lambda assignment:{}
+    IPortletAssignmentSettings = lambda assignment: {}
 
 from GChartWrapper import VerticalBarStack
 
 from quintagroup.analytics.config import COLORS, OTHER_TYPES, NO_WF_BIND
 
+
 class OwnershipByType(BrowserView):
     MAX = 10
+
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -86,23 +88,25 @@ class OwnershipByType(BrowserView):
         types = self.getTypes()
         for type_ in types:
             data.append(self.getContent(type_))
-        other = [self.getContent(t) for t in self.getTypes(all=True)[self.MAX:]]
+        other = [self.getContent(t) for t in self.getTypes(
+                                                    all=True)[self.MAX:]]
         if other:
             data.append([sum(l) for l in zip(*other)])
         max_value = max(self.getTotal())
         chart = VerticalBarStack(data, encoding='text')
-        types = other and types+OTHER_TYPES or types
+        types = other and types + OTHER_TYPES or types
         chart.title('Content ownership by type').legend(*(types))
         chart.bar('a', 10, 0).legend_pos("b")
         chart.color(*COLORS)
-        chart.size(800, 375).scale(0,max_value).axes('xy').label(*self.users)
+        chart.size(800, 375).scale(0, max_value).axes('xy').label(*self.users)
         chart.axes.type("y")
-        chart.axes.range(0,0,max_value)
+        chart.axes.range(0, 0, max_value)
         return chart.img()
 
 
 class OwnershipByState(BrowserView):
     MAX = 10
+
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -159,7 +163,8 @@ class OwnershipByState(BrowserView):
                 else:
                     data.append(l)
             if len(data) > 0:
-                self.data[NO_WF_BIND] = map(lambda t,d:t-d, self.data[NO_WF_BIND], data)
+                self.data[NO_WF_BIND] = map(lambda t, d: t - d,
+                                            self.data[NO_WF_BIND], data)
         return self.data[type_]
 
     def getNoWFContentTitle(self):
@@ -180,17 +185,19 @@ class OwnershipByState(BrowserView):
         data.append(self.getNoWFContent())
         max_value = max(self.getTotal())
         chart = VerticalBarStack(data, encoding='text')
-        chart.title('Content ownership by state').legend(*self.states+[NO_WF_BIND])
+        title = 'Content ownership by state'
+        chart.title(title).legend(*self.states + [NO_WF_BIND])
         chart.bar('a', 10, 0).legend_pos("b")
         chart.color(*COLORS)
-        chart.size(800, 375).scale(0,max_value).axes('xy').label(*self.users)
+        chart.size(800, 375).scale(0, max_value).axes('xy').label(*self.users)
         chart.axes.type("y")
-        chart.axes.range(0,0,max_value)
+        chart.axes.range(0, 0, max_value)
         return chart.img()
 
 
 class TypeByState(BrowserView):
     MAX = 10
+
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -248,7 +255,8 @@ class TypeByState(BrowserView):
                 else:
                     data.append(l)
             if len(data) > 0:
-                self.data[NO_WF_BIND] = map(lambda t,d:t-d, self.data[NO_WF_BIND], data)
+                self.data[NO_WF_BIND] = map(lambda t, d: t - d,
+                                            self.data[NO_WF_BIND], data)
         return self.data[state]
 
     def getTotal(self):
@@ -269,12 +277,13 @@ class TypeByState(BrowserView):
         data.append(self.getContent(NO_WF_BIND))
         max_value = max(self.getTotal())
         chart = VerticalBarStack(data, encoding='text')
-        chart.title('Content type by state').legend(*self.states+[NO_WF_BIND])
+        chart.title('Content type by state').legend(
+            *self.states + [NO_WF_BIND])
         chart.bar('a', 10, 0).legend_pos("b")
         chart.color(*COLORS)
-        chart.size(800, 375).scale(0,max_value).axes('xy').label(*self.types)
+        chart.size(800, 375).scale(0, max_value).axes('xy').label(*self.types)
         chart.axes.type("y")
-        chart.axes.range(0,0,max_value)
+        chart.axes.range(0, 0, max_value)
         return chart.img()
 
 
@@ -299,17 +308,20 @@ class LegacyPortlets(BrowserView):
             obj = aq_base(obj)
             if obj.hasProperty('left_slots'):
                 info['left_slots'] = obj.getProperty('left_slots')
-                self.expressions = self.expressions.union(set(info['left_slots']))
+                self.expressions = self.expressions.union(
+                                            set(info['left_slots']))
             if obj.hasProperty('right_slots'):
                 info['right_slots'] = obj.getProperty('right_slots')
-                self.expressions = self.expressions.union(set(info['right_slots']))
+                self.expressions = self.expressions.union(
+                                            set(info['right_slots']))
         return info
 
     def _walk(self, obj, level=-1):
         yield self._getInfo(obj)
-        if level != 0 and (IFolderish.providedBy(obj) or IBaseFolder.providedBy(obj)):
+        if level != 0 and (IFolderish.providedBy(obj) \
+                       or IBaseFolder.providedBy(obj)):
             for v in obj.contentValues():
-                for i in self._walk(v, level-1):
+                for i in self._walk(v, level - 1):
                     yield i
 
     def getPortlets(self):
@@ -320,7 +332,8 @@ class LegacyPortlets(BrowserView):
             level = 1
         infos = []
         for i in self._walk(self.context, level):
-            if self.DEBUG or i['left_slots'] is not None or i['right_slots'] is not None:
+            if self.DEBUG or i['left_slots'] is not None \
+                          or i['right_slots'] is not None:
                 infos.append(i)
         self.total = len(infos)
         return infos
@@ -339,6 +352,7 @@ class LegacyPortlets(BrowserView):
                 exprs.append(name)
         exprs.sort()
         return exprs
+
 
 class PropertiesStats(BrowserView):
     def __init__(self, context, request):
@@ -361,22 +375,26 @@ class PropertiesStats(BrowserView):
         }
         if IPropertyManager.providedBy(obj):
             obj = aq_base(obj)
-            self.proplist.extend([i for i in obj.propertyIds() if i not in self.proplist])
+            self.proplist.extend(
+                    [i for i in obj.propertyIds() if i not in self.proplist])
             if obj.hasProperty(self.propname):
                 info['slots'] = obj.getProperty(self.propname)
                 if isinstance(info['slots'], int):
                     info['slots'] = str(info['slots'])
                 if not isinstance(info['slots'], basestring):
-                    self.expressions = self.expressions.union(set(info['slots']))
+                    self.expressions = self.expressions.union(
+                                                set(info['slots']))
                 else:
-                    self.expressions = self.expressions.union(set([info['slots']]))
+                    self.expressions = self.expressions.union(
+                                                set([info['slots']]))
         return info
 
     def _walk(self, obj, level=-1):
         yield self._getInfo(obj)
-        if level != 0 and (IFolderish.providedBy(obj) or IBaseFolder.providedBy(obj)):
+        if level != 0 and (IFolderish.providedBy(obj) \
+                       or IBaseFolder.providedBy(obj)):
             for v in obj.contentValues():
-                for i in self._walk(v, level-1):
+                for i in self._walk(v, level - 1):
                     yield i
 
     def getPropsList(self):
@@ -404,6 +422,7 @@ class PropertiesStats(BrowserView):
         #exprs.sort()
         return exprs
 
+
 class PortletsStats(BrowserView):
     def __init__(self, context, request):
         self.context = context
@@ -415,30 +434,42 @@ class PortletsStats(BrowserView):
         self.propname = self.request.form.get('propname') or ""
 
     def getAssignmentMappingUrl(self, context, manager):
-        baseUrl = str(getMultiAdapter((context, self.request), name='absolute_url'))
+        baseUrl = str(getMultiAdapter((context, self.request),
+                                      name='absolute_url'))
         return '%s/++contextportlets++%s' % (baseUrl, manager.__name__)
 
     def getAssignmentsForManager(self, context, manager):
-        assignments = getMultiAdapter((context, manager), IPortletAssignmentMapping)
+        assignments = getMultiAdapter((context, manager),
+                                      IPortletAssignmentMapping)
         return assignments.values()
 
     def getPortletsMapping(self, context):
-        leftcolumn = getUtility(IPortletManager, name=u'plone.leftcolumn', context=context)
-        rightcolumn = getUtility(IPortletManager, name=u'plone.rightcolumn', context=context)
-        leftmapping = getMultiAdapter((context, leftcolumn,), IPortletAssignmentMapping)
-        rightmapping = getMultiAdapter((context, rightcolumn,), IPortletAssignmentMapping)
+        leftcolumn = getUtility(IPortletManager, name=u'plone.leftcolumn',
+                                context=context)
+        rightcolumn = getUtility(IPortletManager, name=u'plone.rightcolumn',
+                                 context=context)
+        leftmapping = getMultiAdapter((context, leftcolumn,),
+                                      IPortletAssignmentMapping)
+        rightmapping = getMultiAdapter((context, rightcolumn,),
+                                       IPortletAssignmentMapping)
         return (leftmapping, rightmapping)
 
     def getLocalPortletsManager(self, context):
-        leftcolumn = getUtility(IPortletManager, name='plone.leftcolumn', context=context)
-        rightcolumn = getUtility(IPortletManager, name='plone.rightcolumn', context=context)
-        leftmanager = getMultiAdapter((context, leftcolumn,), ILocalPortletAssignmentManager)
-        rightmanager = getMultiAdapter((context, rightcolumn,), ILocalPortletAssignmentManager)
+        leftcolumn = getUtility(IPortletManager, name='plone.leftcolumn',
+                                context=context)
+        rightcolumn = getUtility(IPortletManager, name='plone.rightcolumn',
+                                 context=context)
+        leftmanager = getMultiAdapter((context, leftcolumn,),
+                                      ILocalPortletAssignmentManager)
+        rightmanager = getMultiAdapter((context, rightcolumn,),
+                                       ILocalPortletAssignmentManager)
         return (leftmanager, rightmanager)
 
     def getPortletsManager(self, context):
-        left = getUtility(IPortletManager, name='plone.leftcolumn', context=context)
-        right = getUtility(IPortletManager, name='plone.rightcolumn', context=context)
+        left = getUtility(IPortletManager, name='plone.leftcolumn',
+                          context=context)
+        right = getUtility(IPortletManager, name='plone.rightcolumn',
+                           context=context)
         return (left, right)
 
     def portlets_for_assignments(self, assignments, manager, base_url):
@@ -457,9 +488,9 @@ class PortletsStats(BrowserView):
             settings = IPortletAssignmentSettings(assignments[idx])
 
             data.append({
-                'title'      : assignments[idx].title,
-                'editview'   : editviewName,
-                'visible'    : settings.get('visible', True),
+                'title': assignments[idx].title,
+                'editview': editviewName,
+                'visible': settings.get('visible', True),
                 })
         return data
 
@@ -480,7 +511,7 @@ class PortletsStats(BrowserView):
         #leftmapping, rightmapping = self.getPortletsMapping(obj)
         #leftmanager, rightmanager = self.getLocalPortletsManager(obj)
         #info['left_slots'] = self.getPortlets(obj, leftmapping, leftmanager)
-        #info['right_slots'] = self.getPortlets(obj, rightmapping, rightmanager)
+        #info['right_slots'] = self.getPortlets(obj, rightmapping,rightmanager)
         lass = self.getAssignmentsForManager(obj, left)
         rass = self.getAssignmentsForManager(obj, right)
         lurl = self.getAssignmentMappingUrl(obj, left)
@@ -488,8 +519,8 @@ class PortletsStats(BrowserView):
         plass = self.portlets_for_assignments(lass, left, lurl)
         prass = self.portlets_for_assignments(rass, right, rurl)
         #print obj, plass, prass
-        info['left_slots'] = plass #[i['title'] for i in plass]
-        info['right_slots'] = prass #[i['title'] for i in prass]
+        info['left_slots'] = plass  # [i['title'] for i in plass]
+        info['right_slots'] = prass  # [i['title'] for i in prass]
         return info
 
     def _walk(self, obj, level=-1):
@@ -497,9 +528,10 @@ class PortletsStats(BrowserView):
             yield self._getInfo(obj)
         except:
             pass
-        if level != 0 and (IFolderish.providedBy(obj) or IBaseFolder.providedBy(obj)):
+        if level != 0 and (IFolderish.providedBy(obj) \
+                       or IBaseFolder.providedBy(obj)):
             for v in obj.contentValues():
-                for i in self._walk(v, level-1):
+                for i in self._walk(v, level - 1):
                     yield i
 
     def getPropsList(self):
@@ -510,7 +542,8 @@ class PortletsStats(BrowserView):
             level = 1
         infos = []
         for i in self._walk(self.context, level):
-            if self.DEBUG or i['left_slots'] is not None or i['right_slots'] is not None:
+            if self.DEBUG or i['left_slots'] is not None \
+                          or i['right_slots'] is not None:
                 infos.append(i)
         self.total = len(infos)
         return infos

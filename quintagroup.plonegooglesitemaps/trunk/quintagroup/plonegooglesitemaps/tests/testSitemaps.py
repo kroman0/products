@@ -72,15 +72,13 @@ class TestSitemapType(FunctionalTestCase):
 
         self.assertEqual(msitemap.defaultView(), 'mobile-sitemap.xml')
 
-    def txestPingSetting(self):
+    def testPingSetting(self):
         pwf = self.workflow['plone_workflow']
         self.assertEqual(self.contentSM.getPingTransitions(), ())
 
         self.contentSM.setPingTransitions(('plone_workflow#publish',))
         self.assertEqual(self.contentSM.getPingTransitions(),
                          ('plone_workflow#publish',))
-        self.assert_(ping_googlesitemap in pwf.scripts.keys(),
-                     "Not add wf script")
 
     def testWorkflowStates(self):
         wfstates = self.contentSM.getWorkflowStates()

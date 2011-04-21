@@ -1,7 +1,6 @@
-from base import *
-from Products.PloneTestCase.setup import cleanupPloneSite
-from Products.PloneTestCase.setup import portal_name
-from Products.PloneTestCase.setup import SiteCleanup
+import unittest
+from quintagroup.pfg.captcha.tests.base import TestCaseNotInstalled
+
 
 class TestMigration(TestCaseNotInstalled):
     """Migration perform recreation old CaptchaField
@@ -31,7 +30,7 @@ class TestMigration(TestCaseNotInstalled):
         self.prepareToMigration()
 
     def beforeTearDown(self):
-        self.qi.uninstallProducts(["quintagroup.pfg.captcha",])
+        self.qi.uninstallProducts(["quintagroup.pfg.captcha", ])
 
     def prepareToMigration(self):
         # Install types
@@ -41,14 +40,15 @@ class TestMigration(TestCaseNotInstalled):
         test_form = self.portal['test_form']
         test_form.invokeFactory("CaptchaField", 'test_captcha_field')
         self.cf_path = "test_form/key"
-        self.old_cf = self.portal.unrestrictedTraverse(self.cf_path) 
+        self.old_cf = self.portal.unrestrictedTraverse(self.cf_path)
         self.assert_(self.old_cf)
-        self.pt['CaptchaField'].manage_changeProperties(product="qPloneCaptchaField")
+        self.pt['CaptchaField'].manage_changeProperties(
+            product="qPloneCaptchaField")
         self.qi.manage_delObjects('quintagroup.pfg.captcha')
 
     def testMigration(self):
         self.addProduct("quintagroup.pfg.captcha")
-        new_cf = self.portal.unrestrictedTraverse(self.cf_path) 
+        new_cf = self.portal.unrestrictedTraverse(self.cf_path)
         self.assert_(self.old_cf != new_cf)
 
 

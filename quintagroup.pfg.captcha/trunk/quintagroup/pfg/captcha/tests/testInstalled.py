@@ -1,4 +1,5 @@
-from base import *
+import string
+import unittest
 
 from Products.CMFCore.permissions import View
 from Products.Archetypes.atapi import StringField
@@ -10,8 +11,10 @@ from quintagroup.pfg.captcha import CaptchaWidget
 from quintagroup.pfg.captcha import CaptchaValidator
 from quintagroup.pfg.captcha.widget import CAPTCHA_MACRO
 from quintagroup.pfg.captcha.field import CAPTCHA_ID, HIDDEN_FIELDS
+from quintagroup.pfg.captcha.tests.base import TestCase, REQUIREMENTS
 
 _marker = object()
+
 
 class TestInstallations(TestCase):
 
@@ -36,7 +39,7 @@ class TestInstallations(TestCase):
         pw = self.portal.portal_workflow
         default_chain = pw.getDefaultChain()
         cf_chain = pw.getChainForPortalType('CaptchaField')
-        self.assertNotEqual(cf_chain == default_chain , True)
+        self.assertNotEqual(cf_chain == default_chain, True)
 
     def testNotToList(self):
         navtree = self.portal.portal_properties.navtree_properties
@@ -69,7 +72,8 @@ class TestCaptchaField(TestCase):
         schema = cf.Schema()
         for field in HIDDEN_FIELDS:
             visibility = schema[field].widget.visible
-            self.assertEqual(visibility, {'view':'invisible','edit':'invisible'},
+            self.assertEqual(visibility, {'view': 'invisible',
+                                          'edit': 'invisible'},
                 '"%s" field is not hidden, but %s:' % (field, visibility))
 
     def testFGField(self):
@@ -78,7 +82,7 @@ class TestCaptchaField(TestCase):
         self.assertNotEqual(fgField, _marker)
         # Test fgField properties
         self.assertEqual(type(fgField), StringField)
-        self.assertEqual(bool(fgField.searchable), False )
+        self.assertEqual(bool(fgField.searchable), False)
         self.assertEqual(fgField.write_permission, View)
         self.assertEqual(type(fgField.widget), CaptchaWidget)
         validators = [v.__class__ for v in fgField.validators._chain]
@@ -110,7 +114,7 @@ class TestCaptchaWidget(TestCase):
 class TestCaptchaValidator(TestCase):
 
     def getValidator(self):
-        return validation.validatorFor('isCaptchaCorrect')        
+        return validation.validatorFor('isCaptchaCorrect')
 
     def testRegistration(self):
         self.assertEqual(self.getValidator().__class__, CaptchaValidator)
@@ -120,9 +124,9 @@ class TestCaptchaValidator(TestCase):
         class MockState:
             def __init__(self, status, error=""):
                 self.status = status
-                self.errors = {'key':[error,]}
+                self.errors = {'key': [error, ]}
 
-        patch_validator = lambda : MockState(status, error)
+        patch_validator = lambda: MockState(status, error)
         self.portal.captcha_validator = patch_validator
 
     def testValidationSuccess(self):
@@ -132,7 +136,7 @@ class TestCaptchaValidator(TestCase):
         self.patchCoreValidator("success")
         result = validator('test', instance=self.portal)
         self.assertEqual(result, 1)
-        
+
     def testValidationFailure(self):
         # PFG validator must call patched quintagroup.captcha.core'
         # captcha_validator and return error.

@@ -3,7 +3,6 @@
 #
 from quintagroup.plonegooglesitemaps.tests.base \
     import FunctionalTestCase, TestCase, IMobileMarker
-from quintagroup.plonegooglesitemaps.config import ping_googlesitemap
 from StringIO import StringIO
 from urllib import urlencode
 import sys
@@ -73,7 +72,6 @@ class TestSitemapType(FunctionalTestCase):
         self.assertEqual(msitemap.defaultView(), 'mobile-sitemap.xml')
 
     def testPingSetting(self):
-        pwf = self.workflow['plone_workflow']
         self.assertEqual(self.contentSM.getPingTransitions(), ())
 
         self.contentSM.setPingTransitions(('plone_workflow#publish',))

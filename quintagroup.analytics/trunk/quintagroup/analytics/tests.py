@@ -5,7 +5,7 @@ from AccessControl.SecurityManagement import newSecurityManager
 from Testing import ZopeTestCase as ztc
 from Products.Five import zcml
 from Products.Five import fiveconfigure
-from zope.component import testing, queryMultiAdapter, getUtility
+from zope.component import queryMultiAdapter, getUtility
 
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.version import PLONE40
@@ -64,7 +64,7 @@ class SetUpContent(Installed):
         """ Creates test content."""
         uf = portal.acl_users
         pm = portal.portal_membership
-        pc = portal.portal_catalog
+        portal.portal_catalog
         users = [u[0] for u in cls.users]
         for u in users:
             folder = pm.getHomeFolder(u)
@@ -445,8 +445,6 @@ class TestPortletsStats(TestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-
     test_suite = unittest.TestSuite([
 
         # Unit tests
@@ -470,13 +468,13 @@ def test_suite():
 
         ])
 
-    test_suite.addTest(makeSuite(TestQAInstallation))
-    test_suite.addTest(makeSuite(TestOwnershipByType))
-    test_suite.addTest(makeSuite(TestOwnershipByState))
-    test_suite.addTest(makeSuite(TestTypeByState))
-    test_suite.addTest(makeSuite(LegacyPortlets))
-    test_suite.addTest(makeSuite(TestPropertiesStats))
-    test_suite.addTest(makeSuite(TestPortletsStats))
+    test_suite.addTest(unittest.makeSuite(TestQAInstallation))
+    test_suite.addTest(unittest.makeSuite(TestOwnershipByType))
+    test_suite.addTest(unittest.makeSuite(TestOwnershipByState))
+    test_suite.addTest(unittest.makeSuite(TestTypeByState))
+    test_suite.addTest(unittest.makeSuite(LegacyPortlets))
+    test_suite.addTest(unittest.makeSuite(TestPropertiesStats))
+    test_suite.addTest(unittest.makeSuite(TestPortletsStats))
     return test_suite
 
 if __name__ == '__main__':

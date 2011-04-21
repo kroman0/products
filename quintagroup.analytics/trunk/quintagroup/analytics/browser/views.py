@@ -11,6 +11,7 @@ from plone.portlets.interfaces import IPortletAssignmentMapping
 from plone.portlets.interfaces import ILocalPortletAssignmentManager
 try:
     from plone.portlets.interfaces import IPortletAssignmentSettings
+    IPortletAssignmentSettings
 except ImportError:
     "Before plon4 we don't have an annotation storage for settings."
     IPortletAssignmentSettings = lambda assignment: {}

@@ -39,7 +39,7 @@ class Installed(PloneSite):
 
     @classmethod
     def tearDown(cls):
-            pass
+        pass
 
 
 class SetUpContent(Installed):
@@ -64,7 +64,7 @@ class SetUpContent(Installed):
         """ Creates test content."""
         uf = portal.acl_users
         pm = portal.portal_membership
-        portal.portal_catalog
+        #portal.portal_catalog
         users = [u[0] for u in cls.users]
         for u in users:
             folder = pm.getHomeFolder(u)
@@ -185,10 +185,12 @@ class TestOwnershipByType(TestCase):
             if not k:
                 continue
             haslen = hasattr(index._index[k], '__len__')
+
             if haslen:
                 data[k] = len(index._index[k])
             else:
                 data[k] = 1
+
         data = data.items()
         data.sort(lambda a, b: a[1] - b[1])
         data.reverse()
@@ -215,30 +217,30 @@ class TestOwnershipByType(TestCase):
     def test_getChart(self):
         """ This test verifies creation of chart image tag."""
         plone33chart_tag = \
-          """<imgsrc="http://chart.apis.google.com/chart?chxt=y&amp;chds=0,
-             57&amp;chd=t:19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,11.0,
-             10.0|19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,11.0,10.0|
-             19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,11.0,10.0|0.0,
-             0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0|0.0,0.0,0.0,0.0,
-             0.0,0.0,0.0,0.0,0.0,0.0&amp;chxr=0,0,57&amp;
-             chco=669933,cc9966,993300,ff6633,e8e4e3,a9a486,
-             dcb57e,ffcc99,996633,333300,00ff00&amp;
-             chl=user9|user8|user7|user6|user5|user4|user3|user2|user1|
-             user0&amp;chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;
-             chtt=Content+ownership+by+type&amp;chdl=Folder|Document|Event
-             |Large+Plone+Folder|Topic&amp;chdlp=b"/>"""
+            '<imgsrc="http://chart.apis.google.com/chart?chxt=y&amp;chds=0,'\
+            '57&amp;chd=t:19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,11.0,'\
+            '10.0|19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,11.0,10.0|'\
+            '19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,11.0,10.0|0.0,'\
+            '0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0|0.0,0.0,0.0,0.0,'\
+            '0.0,0.0,0.0,0.0,0.0,0.0&amp;chxr=0,0,57&amp;'\
+            'chco=669933,cc9966,993300,ff6633,e8e4e3,a9a486,'\
+            'dcb57e,ffcc99,996633,333300,00ff00&amp;'\
+            'chl=user9|user8|user7|user6|user5|user4|user3|user2|user1|'\
+            'user0&amp;chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;'\
+            'chtt=Content+ownership+by+type&amp;chdl=Folder|Document|Event'\
+            '|Large+Plone+Folder|Topic&amp;chdlp=b"/>'
         plone4chart_tag = \
-          """<img src="http://chart.apis.google.com/chart?chxt=y&amp;
-             chds=0,57&amp;chd=t:19.0,18.0,17.0,16.0,15.0,14.0,
-             13.0,12.0,11.0,10.0|19.0,18.0,17.0,16.0,15.0,14.0,13.0,
-             12.0,11.0,10.0|19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,
-             11.0,10.0|0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0&amp;
-             chxr=0,0,57&amp;chco=669933,cc9966,993300,ff6633,e8e4e3,
-             a9a486,dcb57e,ffcc99,996633,333300,00ff00&amp;chl=user9|
-             user8|user7|user6|user5|user4|user3|user2|user1|user0&amp;
-             chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;
-             chtt=Content+ownership+by+type&amp;chdl=Folder|Document|
-             Event|Topic&amp;chdlp=b" />"""
+            '<img src="http://chart.apis.google.com/chart?chxt=y&amp;'\
+            'chds=0,57&amp;chd=t:19.0,18.0,17.0,16.0,15.0,14.0,'\
+            '13.0,12.0,11.0,10.0|19.0,18.0,17.0,16.0,15.0,14.0,13.0,'\
+            '12.0,11.0,10.0|19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,'\
+            '11.0,10.0|0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0&amp;'\
+            'chxr=0,0,57&amp;chco=669933,cc9966,993300,ff6633,e8e4e3,'\
+            'a9a486,dcb57e,ffcc99,996633,333300,00ff00&amp;chl=user9|'\
+            'user8|user7|user6|user5|user4|user3|user2|user1|user0&amp;'\
+            'chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;'\
+            'chtt=Content+ownership+by+type&amp;chdl=Folder|Document|'\
+            'Event|Topic&amp;chdlp=b" />'
         chart_tag = plone4chart_tag
         if not PLONE40:
             chart_tag = plone33chart_tag
@@ -319,17 +321,21 @@ class TestTypeByState(TestCase):
         """ Tests method that returns ordered list of types."""
         index = self.pc._catalog.getIndex('portal_type')
         data = {}
+
         for k in index._index.keys():
             if not k:
                 continue
             haslen = hasattr(index._index[k], '__len__')
+
             if haslen:
                 data[k] = len(index._index[k])
+
             else:
                 data[k] = 1
         data = data.items()
         data.sort(lambda a, b: a[1] - b[1])
         data.reverse()
+
         types = [i[0] for i in data]
         self.assert_(False not in map(lambda t1, t2: t1 == t2, types,
                                       self.view.getTypes()))
@@ -358,23 +364,23 @@ class TestTypeByState(TestCase):
     def test_getChart(self):
         """ This test verifies creation of chart image tag."""
         plone33chart_tag = \
-          """<imgsrc="http://chart.apis.google.com/chart?chxt=y&amp;chds=0,
-             156&amp;chd=t:156.0,145.0,145.0,0.0,0.0|0.0,1.0,0.0,3.0,3.0|
-             0.0,0.0,0.0,0.0,0.0&amp;chxr=0,0,156&amp;chco=669933,cc9966,
-             993300,ff6633,e8e4e3,a9a486,dcb57e,ffcc99,996633,333300,
-             00ff00&amp;chl=Folder|Document|Event|Large+Plone+Folder|
-             Topic&amp;chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;
-             chtt=Content+type+by+state&amp;chdl=private|published|
-             No+workflow&amp;chdlp=b"/>"""
+            '<imgsrc="http://chart.apis.google.com/chart?chxt=y&amp;chds=0,'\
+            '156&amp;chd=t:156.0,145.0,145.0,0.0,0.0|0.0,1.0,0.0,3.0,3.0|'\
+            '0.0,0.0,0.0,0.0,0.0&amp;chxr=0,0,156&amp;chco=669933,cc9966,'\
+            '993300,ff6633,e8e4e3,a9a486,dcb57e,ffcc99,996633,333300,'\
+            '00ff00&amp;chl=Folder|Document|Event|Large+Plone+Folder|'\
+            'Topic&amp;chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;'\
+            'chtt=Content+type+by+state&amp;chdl=private|published|'\
+            'No+workflow&amp;chdlp=b"/>'
         plone4chart_tag = \
-          """<imgsrc="http://chart.apis.google.com/chart?chxt=y&amp;
-             chds=0,159&amp;chd=t:156.0,145.0,145.0,0.0|3.0,1.0,0.0,
-             3.0|0.0,0.0,0.0,0.0&amp;chxr=0,0,159&amp;chco=669933,
-             cc9966,993300,ff6633,e8e4e3,a9a486,dcb57e,ffcc99,996633,
-             333300,00ff00&amp;chl=Folder|Document|Event|Topic&amp;
-             chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;
-             chtt=Content+type+by+state&amp;chdl=private|published|
-             No+workflow&amp;chdlp=b"/>"""
+            '<imgsrc="http://chart.apis.google.com/chart?chxt=y&amp;'\
+            'chds=0,159&amp;chd=t:156.0,145.0,145.0,0.0|3.0,1.0,0.0,'\
+            '3.0|0.0,0.0,0.0,0.0&amp;chxr=0,0,159&amp;chco=669933,'\
+            'cc9966,993300,ff6633,e8e4e3,a9a486,dcb57e,ffcc99,996633,'\
+            '333300,00ff00&amp;chl=Folder|Document|Event|Topic&amp;'\
+            'chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;'\
+            'chtt=Content+type+by+state&amp;chdl=private|published|'\
+            'No+workflow&amp;chdlp=b"/>'
 
         chart_tag = plone4chart_tag
         if not PLONE40:
@@ -441,7 +447,7 @@ class TestPortletsStats(TestCase):
         plone_portlets_info = filter(lambda info: info['path'] == '/plone',
                                      self.view.getPropsList())
         lslots = plone_portlets_info[0]['left_slots']
-        self.assert_(filter(lambda info: info['title'] == 'Calendar', lslots))
+        self.assert_(info for info in lslots if info['title'] == 'Calendar')
 
 
 def test_suite():

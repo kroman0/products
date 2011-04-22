@@ -13,7 +13,7 @@ try:
     from plone.portlets.interfaces import IPortletAssignmentSettings
     IPortletAssignmentSettings
 except ImportError:
-    "Before plon4 we don't have an annotation storage for settings."
+    # Before plon4 we don't have an annotation storage for settings.
     IPortletAssignmentSettings = lambda assignment: {}
 
 from GChartWrapper import VerticalBarStack
@@ -143,8 +143,10 @@ class OwnershipByState(BrowserView):
                 haslen = hasattr(index._index[k], '__len__')
                 if haslen:
                     data[k] = len(index._index[k])
+
                 else:
                     data[k] = 1
+
             data = data.items()
             data.sort(lambda a, b: a[1] - b[1])
             data.reverse()

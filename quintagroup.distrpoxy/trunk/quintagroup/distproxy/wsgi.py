@@ -9,10 +9,13 @@ from paste import request
 from paste.httpexceptions import HTTPNotFound
 import urllib2
 
+FILES = ['ico','txt','tgz','.gz','egg','zip','exe','cfg']
+
 
 class PackageProxyApp(object):
 
-    def __init__(self, index_url=None, pack_dir=None, username=None,password=None,realm=None):
+    def __init__(self, index_url=None, pack_dir=None, username=None,
+                 password=None, realm=None, stimeout=None, ptimeout=None):
         if not index_url: 
             print "No repository index provided"
             sys.exit()
@@ -30,8 +33,11 @@ class PackageProxyApp(object):
             handler = urllib2.HTTPBasicAuthHandler(password_mgr)
             opener = urllib2.build_opener(handler)
             urllib2.install_opener(opener)
+        if stimeout:
+            socket.setdefaulttimeout(float(stimeout))
         self.index_url = index_url
         self.pack_dir = pack_dir
+        self.ptimeout = ptimeout or 3600
 
     def __call__(self, environ, start_response):
         """ serve the static files """
@@ -47,17 +53,17 @@ class PackageProxyApp(object):
     def checkCache(self, path):
         """check if we already have the file and download it if not"""   
         pth = self.pack_dir + path
-        index =0 
-        if not (path[-3:] in ['ico','txt','tgz','.gz','egg','zip','exe','cfg']): 
+        index = 0 
+        if not (path[-3:] in FILES): 
             if not os.path.exists(pth):
-              os.makedirs(pth) #create dir if it is not there
+                os.makedirs(pth) # create dir if it is not there
             # add index.html for supposedly folders
             pth = pth + 'index.html'
             index = 1
         else:
             pth1 = '/'.join(pth.split('/')[:-1])
             if not os.path.exists(pth1):
-              os.makedirs(pth1)#create parent dir if it is not there
+                os.makedirs(pth1) # create parent dir if it is not there
         url = self.index_url+path
         #if we dont have download it
         if not os.path.exists(pth):
@@ -66,11 +72,14 @@ class PackageProxyApp(object):
             lf.write(f.read())
             lf.close()
         #if we have the index.html file if it is older the 1 hour update
-        elif index and int(time()) - os.path.getmtime(pth) > 3600:
-            f = urllib2.urlopen(url)
-            lf = open(pth,'wb')
-            lf.write(f.read())
-            lf.close()           
+        elif index and int(time()) - os.path.getmtime(pth) > self.ptimeout:
+            try:
+                f = urllib2.urlopen(url)
+                lf = open(pth,'wb')
+                lf.write(f.read())
+                lf.close()
+            except urllib2.URLError:
+                pass      
         return pth
 
 def app_factory(global_config, **local_conf):
@@ -81,7 +90,9 @@ def app_factory(global_config, **local_conf):
     username = local_conf.get('username', None)
     password = local_conf.get('password', None)
     realm = local_conf.get('realm', None)
-    return PackageProxyApp(index_url, pack_dir, username, password, realm)
+    stimeout = local_conf.get('stimeout', None)
+    ptimeout = local_conf.get('ptimeout', None)
+    return PackageProxyApp(index_url, pack_dir, username, password, realm, stimeout, ptimeout)
 
 class StaticURLParser(urlparser.StaticURLParser):
 

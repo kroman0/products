@@ -5,9 +5,9 @@
   <div class="helperText" tal:define="portal_state here/@@plone_portal_state;">
     <span>Special thanks to the following companies and individuals for their recent contributions to improving Plone:</span>
     <div class="moreInfo">        
-       &#91;<a href="http://" alt="bounty submission form"
+       <a href="http://" alt="bounty submission form"
        tal:attributes="href string:${portal_state/portal_url}/bounty-submissions/bounty-submissions-form">
-       Find out more about how you can contribute</a>&#93;
+       &#91;Find out more about how you can contribute&#93;</a>
     </div> 
   </div>
   <ul>

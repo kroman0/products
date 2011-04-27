@@ -16,8 +16,9 @@ function getRandomSubset(array, choice_num) {
 };
 
 $(document).ready(function() {
+    $("#portal-bounty-program").addClass('js-enabled');
     $(getRandomSubset($("#portal-bounty-program ul li"), 5))
-        .each(function(){
-            $(this).removeClass('hidden');
+        .each(function(i, el){
+            $(el).removeClass('hidden');
 	})
 });

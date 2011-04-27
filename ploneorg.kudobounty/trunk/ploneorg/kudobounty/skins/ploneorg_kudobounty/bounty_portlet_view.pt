@@ -1,6 +1,6 @@
 <metal:listingmacro define-macro="listing">
 
-<div id="portal-bounty-program"
+<div id="portal-bounty-program" class=""
      tal:condition="view/available">
   <div class="helperText" tal:define="portal_state here/@@plone_portal_state;">
     <span>Special thanks to the following companies and individuals for their recent contributions to improving Plone:</span>

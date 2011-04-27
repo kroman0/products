@@ -7,7 +7,7 @@
     <div class="moreInfo">        
        <a href="http://" alt="bounty submission form"
        tal:attributes="href string:${portal_state/portal_url}/bounty-submissions/bounty-submissions-form">
-       &#91;Find out more about how you can contribute&#93;</a>
+       [Find out more about how you can contribute]</a>
     </div> 
   </div>
   <ul>
@@ -16,7 +16,7 @@
 	 title="Title of the submission"
 	 tal:attributes="href item/getRemoteUrl;
 			 title item/Title;">
-        <img src="http://"
+        <img src="http://submission/image_bounty"
 	     alt="Alternate text for the image"
 	     tal:attributes="src string:${item/getURL}/image_bounty;
                              alt item/Description;"/></a>

@@ -1,5 +1,5 @@
 /* needed for JS to hide bounty elements */
-#portal-bounty-program .hidden {
+#portal-bounty-program.js-enabled .hidden {
     display: none;
 }
 /* styles */

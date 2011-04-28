@@ -17,18 +17,19 @@ from ploneorg.kudobounty import kudobountyMessageFactory as _
 from collective.portlet.collectionmultiview.renderers.base import (
                                     CollectionMultiViewBaseRenderer)
 
-
 class BountyCollectionRenderer(CollectionMultiViewBaseRenderer):
     __name__ = 'Bounty Collection View'
     template = ViewPageTemplateFile('bounty_collection_view.pt')
 
     @property
     def available(self):
+        # Render only on the portal context and there are some results
         context_state = getMultiAdapter((self.context, self.request),
                                         name='plone_context_state')
         return context_state.is_portal_root() and len(self.results())
 
     def bounty_form_url(self):
+        # Prepare bounty-form url based on plone.registry record
         portal_url = getMultiAdapter((self.context, self.request),
                                       name='plone_portal_state').portal_url()
         form_path = getUtility(IRegistry)['ploneorg.kudobounty.bountySubmissionForm']
@@ -37,7 +38,8 @@ class BountyCollectionRenderer(CollectionMultiViewBaseRenderer):
 
 class BountyFormProcessorView(BrowserView):
     """
-    test_view browser view
+    Browser page view for automation of 'Bounty Program Submission'
+    content object creation.
     """
 
     @property
@@ -52,7 +54,10 @@ class BountyFormProcessorView(BrowserView):
 
     def __call__(self):
         """
-        test method
+        Perform following steps:
+          * Fill it with data from the PFG form,
+          * Set effective and expiration date to nearest month
+          * Change the workflow state into pending state
         """
         try:
             container = self.portal.restrictedTraverse(CONTAINER_ID)
@@ -98,6 +103,11 @@ class BountyFormProcessorView(BrowserView):
         
 
     def getUniqueId(self, container, title):
+        # NOTE:
+        # Mixed and little refactored functions of
+        # Products.Archetypes.BaseObject.BaseObject class:
+        #  * _findUniqueId (check uniqueness of id in the container)
+        #  * generateNewId (used url noralizer utility)
         id = queryUtility(IURLNormalizer).normalize(title)
         container_ids = container.objectIds()
         check_id = lambda id, required: id in container_ids

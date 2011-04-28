@@ -58,7 +58,7 @@ setup(name='ploneorg.kudobounty',
                         # -*- Extra requirements: -*-
                         'Products.PloneFormGen',
                         'Products.ContentWellPortlets',
-                        'redturtle.portlet.collection',
+                        'collective.portlet.collectionmultiview',
                         'plone.app.registry',
                         ],
       tests_require=tests_require,

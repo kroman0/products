@@ -1,4 +1,12 @@
 <?xml version="1.0"?>
 <object name="portal_javascripts" meta_type="JavaScripts Registry">
- <javascript id="ploneorg_bounty.js" />
+
+ <javascript cacheable="True"
+             compression="True"
+             cookable="True"
+             enabled="True"
+             expression="here/plone_context_state/is_portal_root"
+             id="ploneorg_bounty.js"
+             inline="True"/>
+
 </object>

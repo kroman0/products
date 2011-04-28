@@ -15,11 +15,6 @@
   <!--     permission="zope.Public"  -->
   <!--     /> -->
 
-  <browser:resource
-     name="ploneorg_bounty.css"
-     file="ploneorg_bounty.css"
-     />
-
   <browser:page
      name="processBountyForm"
      for="*"

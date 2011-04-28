@@ -28,8 +28,9 @@ BountyProgramSubmissionSchema = schemata.ATContentTypeSchema.copy() + atapi.Sche
         widget=atapi.ComputedWidget(
             label=_(u'Name'),
         ),
-        expression="' '.join(filter(None, [context.getFirstName(),context.getLastName()," \
-                   "context.getOrganization()]))"
+        expression="' '.join(filter(None, [context.getFirstName(),context.getLastName()])) + " \
+                   "context.getFirstName() or context.getLastName() and ', ' or '' + "\
+                   "context.getOrganization()"
     ),
 
     atapi.ImageField(
@@ -51,7 +52,7 @@ BountyProgramSubmissionSchema = schemata.ATContentTypeSchema.copy() + atapi.Sche
     ),
 
     atapi.StringField(
-        'remoteUrl', # ?? for use getRemoteUrl metadata from catalog
+        'remoteUrl', # for use getRemoteUrl metadata from catalog
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"URL"),

@@ -2,7 +2,7 @@
 <object name="portal_css">
 
 <stylesheet title=""
-    id="ploneorg_bounty.css"
+    id="++resource++ploneorg_bounty.css"
     media="screen" rel="stylesheet" rendering="import"
     cacheable="True" compression="safe" cookable="True"
     enabled="1" expression="here/plone_context_state/is_portal_root"/>

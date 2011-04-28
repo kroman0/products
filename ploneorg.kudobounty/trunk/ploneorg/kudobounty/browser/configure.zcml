@@ -22,5 +22,8 @@
      class=".views.BountyFormProcessorView"
      />
 
+  <adapter name="bounty_collection_view"
+       factory=".views.BountyCollectionRenderer"/>
+
 
 </configure>

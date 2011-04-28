@@ -10,7 +10,7 @@
 
   <!-- Include required packages -->
   <include package="plone.app.registry" />
-  <include package="redturtle.portlet.collection" />
+  <include package="collective.portlet.collectionmultiview" />
 
 
   <!-- Include the sub-packages that use their own configure.zcml files. -->

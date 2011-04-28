@@ -1,0 +1,28 @@
+<metal:listingmacro define-macro="listing">
+
+<div id="portal-bounty-program" class=""
+     tal:condition="view/available">
+  <div class="helperText">
+    <span>Special thanks to the following companies and individuals for their recent contributions to improving Plone:</span>
+    <div class="moreInfo">        
+       <a href="http://" alt="bounty submission form"
+          tal:attributes="href view/bounty_form_url">
+       [Find out more about how you can contribute]</a>
+    </div> 
+  </div>
+  <ul>
+    <li tal:repeat="item view/results" class="hidden">
+      <a href="http://submission.url"
+	 title="Title of the submission"
+	 tal:attributes="href item/getRemoteUrl;
+			 title item/Title;">
+        <img src="http://submission/image_bounty"
+	     alt="Alternate text for the image"
+	     tal:attributes="src string:${item/getURL}/image_bounty;
+                             alt item/Description;"/></a>
+    </li>
+  </ul>
+  
+</div>
+
+</metal:listingmacro>

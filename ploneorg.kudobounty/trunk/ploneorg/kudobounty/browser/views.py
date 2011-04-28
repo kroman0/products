@@ -1,8 +1,10 @@
 from DateTime import DateTime
 from zope.interface import implements, Interface
-from zope.component import queryUtility
+from zope.component import getUtility, queryUtility
 from zope.component import getMultiAdapter
+from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from plone.i18n.normalizer.interfaces import IURLNormalizer
+from plone.registry.interfaces import IRegistry
 
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
@@ -11,6 +13,24 @@ from Products.Archetypes.config import RENAME_AFTER_CREATION_ATTEMPTS
 from ploneorg.kudobounty import logger
 from ploneorg.kudobounty.config import *
 from ploneorg.kudobounty import kudobountyMessageFactory as _
+
+from collective.portlet.collectionmultiview.renderers.base import (
+                                    CollectionMultiViewBaseRenderer)
+
+
+class BountyCollectionRenderer(CollectionMultiViewBaseRenderer):
+    __name__ = 'Bounty Collection View'
+    template = ViewPageTemplateFile('bounty_collection_view.pt')
+
+    @property
+    def available(self):
+        return len(self.results())
+
+    def bounty_form_url(self):
+        portal_url = getMultiAdapter((self.context, self.request),
+                                      name='plone_portal_state').portal_url()
+        form_path = getUtility(IRegistry)['ploneorg.kudobounty.bountySubmissionForm']
+        return "%s/%s" % (portal_url, form_path)
 
 
 class BountyFormProcessorView(BrowserView):

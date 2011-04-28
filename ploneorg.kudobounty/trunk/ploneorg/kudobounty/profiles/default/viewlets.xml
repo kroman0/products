@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<object>
-  <order manager="plone.portalfooter" skinname="Plone Default">
-    <viewlet name="ploneorg.bounty.submission" />
-    <viewlet name="plone.footer" />
-    <viewlet name="plone.colophon" />
-    <viewlet name="plone.site_actions" />
-  </order>
-</object>

@@ -1,0 +1,10 @@
+<registry>
+
+    <record name="ploneorg.kudobounty.bountySubmissionForm">
+        <field type="plone.registry.field.TextLine">
+            <title>Path to Bounty Program Submission Form</title>
+        </field>
+        <value>/bounty-submissions/bounty-submissions-form</value>
+    </record>
+
+</registry>

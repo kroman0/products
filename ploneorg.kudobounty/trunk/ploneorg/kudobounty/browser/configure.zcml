@@ -16,5 +16,14 @@
   <adapter name="bounty_collection_view"
        factory=".views.BountyCollectionRenderer"/>
 
+  <browser:resource
+      name="ploneorg_bounty.css"
+      file="ploneorg_bounty.css"
+      />
+
+  <browser:resource
+      name="ploneorg_bounty.js"
+      file="ploneorg_bounty.js"
+      />
 
 </configure>

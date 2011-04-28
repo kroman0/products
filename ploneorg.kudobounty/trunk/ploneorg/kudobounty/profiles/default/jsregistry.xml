@@ -6,7 +6,7 @@
              cookable="True"
              enabled="True"
              expression="here/plone_context_state/is_portal_root"
-             id="ploneorg_bounty.js"
+             id="++resource++ploneorg_bounty.js"
              inline="True"/>
 
 </object>

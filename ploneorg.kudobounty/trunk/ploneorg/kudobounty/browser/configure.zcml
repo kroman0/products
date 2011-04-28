@@ -6,15 +6,6 @@
   <include package="plone.app.contentmenu" />
 
   <!-- -*- extra stuff goes here -*- -->
-
-  <!-- <browser:viewlet -->
-  <!--     name="ploneorg.bounty.submission"  -->
-  <!--     manager="plone.app.layout.viewlets.interfaces.IPortalFooter" -->
-  <!--     for="*" -->
-  <!--     class=".viewlets.BountyViewlet" -->
-  <!--     permission="zope.Public"  -->
-  <!--     /> -->
-
   <browser:page
      name="processBountyForm"
      for="*"

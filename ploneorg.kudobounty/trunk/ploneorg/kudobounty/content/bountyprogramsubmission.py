@@ -29,7 +29,7 @@ BountyProgramSubmissionSchema = schemata.ATContentTypeSchema.copy() + atapi.Sche
             label=_(u'Name'),
         ),
         expression="' '.join(filter(None, [context.getFirstName(),context.getLastName()])) + " \
-                   "context.getFirstName() or context.getLastName() and ', ' or '' + "\
+                   "((context.getFirstName() or context.getLastName()) and ', ' or '') + "\
                    "context.getOrganization()"
     ),
 

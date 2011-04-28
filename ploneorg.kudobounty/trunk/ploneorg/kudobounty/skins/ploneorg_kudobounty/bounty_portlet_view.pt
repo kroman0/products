@@ -6,7 +6,8 @@
     <span>Special thanks to the following companies and individuals for their recent contributions to improving Plone:</span>
     <div class="moreInfo">        
        <a href="http://" alt="bounty submission form"
-       tal:attributes="href string:${portal_state/portal_url}/bounty-submissions/bounty-submissions-form">
+       tal:define="bounty_form_path string:/bounty-submission/bounty-submissions-form"
+       tal:attributes="href string:${portal_state/portal_url}${bounty_form_path}">
        [Find out more about how you can contribute]</a>
     </div> 
   </div>

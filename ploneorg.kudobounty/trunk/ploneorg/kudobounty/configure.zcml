@@ -8,6 +8,11 @@
     
   <five:registerPackage package="." initialize=".initialize" />
 
+  <!-- Include required packages -->
+  <include package="plone.app.registry" />
+  <include package="redturtle.portlet.collection" />
+
+
   <!-- Include the sub-packages that use their own configure.zcml files. -->
   <include package=".browser" />
   <include package=".content" />

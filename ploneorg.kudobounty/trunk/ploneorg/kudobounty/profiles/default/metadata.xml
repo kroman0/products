@@ -5,5 +5,6 @@
     <dependency>profile-Products.PloneFormGen:default</dependency>
     <dependency>profile-Products.ContentWellPortlets:default</dependency>
     <dependency>profile-redturtle.portlet.collection:default</dependency>
+    <dependency>profile-plone.app.registry:default</dependency>
   </dependencies>
 </metadata>

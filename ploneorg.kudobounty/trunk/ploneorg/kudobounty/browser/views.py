@@ -24,7 +24,9 @@ class BountyCollectionRenderer(CollectionMultiViewBaseRenderer):
 
     @property
     def available(self):
-        return len(self.results())
+        context_state = getMultiAdapter((self.context, self.request),
+                                        name='plone_context_state')
+        return context_state.is_portal_root() and len(self.results())
 
     def bounty_form_url(self):
         portal_url = getMultiAdapter((self.context, self.request),

@@ -3,8 +3,6 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="ploneorg.kudobounty">
 
-  <include package="plone.app.contentmenu" />
-
   <!-- -*- extra stuff goes here -*- -->
   <browser:page
      name="processBountyForm"

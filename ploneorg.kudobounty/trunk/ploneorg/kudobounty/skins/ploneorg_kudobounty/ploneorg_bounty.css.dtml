@@ -1,7 +1,3 @@
-/* needed for JS to hide bounty elements */
-#portal-bounty-program.js-enabled .hidden {
-    display: none;
-}
 /* styles */
 #portal-bounty-program {
 	margin:1em auto;

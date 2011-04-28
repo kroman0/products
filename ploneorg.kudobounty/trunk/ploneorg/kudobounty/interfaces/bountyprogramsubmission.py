@@ -35,11 +35,10 @@ class IBountyProgramSubmission(Interface):
         required=False,
     )
 #
-    # altText = schema.TextLine(
-    #     title=_(u"alt text"),
-    #     required=False,
-    #     description=_(u"Field description"),
-    # )
+    description = schema.TextLine(
+        title=_(u"alt text"),
+        required=False,
+    )
 #
     remoteUrl = schema.TextLine(
         title=_(u"URL"),

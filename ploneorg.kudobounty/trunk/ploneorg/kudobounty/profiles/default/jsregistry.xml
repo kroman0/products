@@ -1,11 +1,17 @@
 <?xml version="1.0"?>
 <object name="portal_javascripts" meta_type="JavaScripts Registry">
-
+ 
+ <!--
+     XXX:
+         conditional expression in the following resource present for
+	 prevent brkeakage due to #11397 bug (http://dev.plone.org/plone/ticket/11397)
+     TODO: this conditional expression should be removed after fixing mentioned bug
+ -->
  <javascript cacheable="True"
              compression="True"
              cookable="True"
              enabled="True"
-             expression="here/plone_context_state/is_portal_root"
+             expression="python:here.request.method != 'POST'"
              id="++resource++ploneorg_bounty.js"
              inline="True"/>
 

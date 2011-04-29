@@ -15,6 +15,16 @@ from ploneorg.kudobounty import kudobountyMessageFactory as _
 from ploneorg.kudobounty.interfaces import IBountyProgramSubmission
 from ploneorg.kudobounty.config import PROJECTNAME
 
+def calcTitle(first, last, organization):
+    """
+    Calculate title with space ceparated first and last name
+    and add organization name by comma, if it exist.
+    """
+    fst, lst, org = map(str.strip,[first, last, organization])
+    fst_lst = ' '.join(filter(None, [fst, lst]))
+    comma = org and (fst or lst) and ', ' or ''
+    return fst_lst + comma + org
+
 BountyProgramSubmissionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 
     # -*- Your Archetypes field definitions here ... -*-
@@ -28,9 +38,7 @@ BountyProgramSubmissionSchema = schemata.ATContentTypeSchema.copy() + atapi.Sche
         widget=atapi.ComputedWidget(
             label=_(u'Name'),
         ),
-        expression="' '.join(filter(None, [context.getFirstName(),context.getLastName()])) + " \
-                   "((context.getFirstName() or context.getLastName()) and ', ' or '') + "\
-                   "context.getOrganization()"
+        expression="context.getCalcTitle()"
     ),
 
     atapi.ImageField(
@@ -166,5 +174,10 @@ class BountyProgramSubmission(base.ATCTContent):
                 return image
 
         return base.ATCTContent.__bobo_traverse__(self, REQUEST, name)
+
+    def getCalcTitle(self):
+        return calcTitle(self.getFirstName(), self.getLastName(),
+                         self.getOrganization())
+
     
 atapi.registerType(BountyProgramSubmission, PROJECTNAME)

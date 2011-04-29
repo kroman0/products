@@ -1,4 +1,4 @@
-// Hide #portal-bounty-program container BEFORE it will be loaded
+B0;115;0c// Hide #portal-bounty-program container BEFORE it will be loaded
 // This will be done only for browser with javascript support.
 $("<style type='text/css'>#portal-bounty-program .hidden{display:none;}</style>").appendTo("head");
 
@@ -6,7 +6,7 @@ function getRandomSubset(array, choice_num) {
     // Return randomly selected *choice_num* elements from the array.
     // Solution is based on the Fisher-Yates (Knuth) algorithm
     // (http://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
-    if (array.length < choice_num)
+    if (array.length <= choice_num)
         return array;
 
     var tmp, current, top = array.length;

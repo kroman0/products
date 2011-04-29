@@ -64,7 +64,7 @@ BountyProgramSubmissionSchema = schemata.ATContentTypeSchema.copy() + atapi.Sche
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"URL"),
-            maxlength = '511',
+            maxlength = '511', # Got from ATLinkSchema
         ),
         required=True,
         validators=('isURL'),
@@ -85,7 +85,6 @@ BountyProgramSubmissionSchema = schemata.ATContentTypeSchema.copy() + atapi.Sche
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"First name"),
-            description=_(u"Field description"),
         ),
     ),
 
@@ -94,7 +93,6 @@ BountyProgramSubmissionSchema = schemata.ATContentTypeSchema.copy() + atapi.Sche
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Last name"),
-            description=_(u"Field description"),
         ),
     ),
 
@@ -103,7 +101,6 @@ BountyProgramSubmissionSchema = schemata.ATContentTypeSchema.copy() + atapi.Sche
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Organization name"),
-            description=_(u"Field description"),
         ),
     ),
 

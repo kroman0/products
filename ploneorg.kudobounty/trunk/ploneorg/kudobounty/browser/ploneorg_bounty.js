@@ -6,7 +6,8 @@ function getRandomSubset(array, choice_num) {
     // Return randomly selected *choice_num* elements from the array
     var tmp, current, top = array.length;
     if (array.length > choice_num) {
-	// random elements places to the end of the array
+        // Solution is based on Fisher-Yates (Knuth) algorithm
+        // (http://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
 	for(top=array.length-1; top>array.length-choice_num; --top) {
 	    current = Math.floor(Math.random() * top);
 	    tmp = array[current];

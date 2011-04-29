@@ -5,7 +5,7 @@
   <div class="helperText">
     <span>Special thanks to the following companies and individuals for their recent contributions to improving Plone:</span>
     <div class="moreInfo">        
-       <a href="http://" alt="bounty submission form"
+       <a href="http://" title="Kudo Bounty Program Submission Form"
           tal:attributes="href view/bounty_form_url">
        [Find out more about how you can contribute]</a>
     </div> 

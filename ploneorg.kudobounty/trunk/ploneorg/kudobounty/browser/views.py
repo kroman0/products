@@ -24,10 +24,7 @@ class BountyCollectionRenderer(CollectionMultiViewBaseRenderer):
 
     @property
     def available(self):
-        # Render only on the portal context and there are some results
-        context_state = getMultiAdapter((self.context, self.request),
-                                        name='plone_context_state')
-        return context_state.is_portal_root() and len(self.results())
+        return len(self.results())
 
     def bounty_form_url(self):
         # Prepare bounty-form url based on plone.registry record

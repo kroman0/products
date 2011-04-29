@@ -1,4 +1,4 @@
-B0;115;0c// Hide #portal-bounty-program container BEFORE it will be loaded
+// Hide #portal-bounty-program container BEFORE it will be loaded
 // This will be done only for browser with javascript support.
 $("<style type='text/css'>#portal-bounty-program .hidden{display:none;}</style>").appendTo("head");
 

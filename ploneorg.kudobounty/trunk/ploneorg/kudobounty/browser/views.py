@@ -13,6 +13,7 @@ from Products.Archetypes.config import RENAME_AFTER_CREATION_ATTEMPTS
 from ploneorg.kudobounty import logger
 from ploneorg.kudobounty.config import *
 from ploneorg.kudobounty import kudobountyMessageFactory as _
+from ploneorg.kudobounty.content.bountyprogramsubmission import calcTitle
 
 from collective.portlet.collectionmultiview.renderers.base import (
                                     CollectionMultiViewBaseRenderer)
@@ -68,8 +69,7 @@ class BountyFormProcessorView(BrowserView):
         else:
             # Create Bounty Program Submission object
             form = self.request.form
-            title = ' '.join(filter(None,
-                        [form['firstName'], form['lastName'], form['organization']]))
+            title = calcTitle(form['firstName'], form['lastName'], form['organization'])
             id = self.getUniqueId(container, title)
             container.invokeFactory("Bounty Program Submission", id)
             bps = getattr(container, id)

@@ -3,9 +3,9 @@
  
  <!--
      XXX:
-         conditional expression in the following resource present for
-	 prevent brkeakage due to #11397 bug (http://dev.plone.org/plone/ticket/11397)
-     TODO: this conditional expression should be removed after fixing mentioned bug
+         *conditional expression* in the following resource present for
+	 prevent brkeakage due to #11397 bug (http://dev.plone.org/plone/ticket/11397).
+         The expression should be erased after fixing mentioned bug.
  -->
  <javascript cacheable="True"
              compression="True"

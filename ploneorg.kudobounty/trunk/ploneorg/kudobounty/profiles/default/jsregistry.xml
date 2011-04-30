@@ -11,7 +11,7 @@
              compression="True"
              cookable="True"
              enabled="True"
-             expression="python:here.request.method != 'POST'"
+             expression="python:here.REQUEST.method != 'POST'"
              id="++resource++ploneorg_bounty.js"
              inline="True"/>
 

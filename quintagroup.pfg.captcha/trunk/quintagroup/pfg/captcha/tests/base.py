@@ -51,7 +51,9 @@ class Installed(NotInstalled):
         ptc_setup._placefulSetUp(portal)
         # Install PROJECT
         qi = getattr(portal, 'portal_quickinstaller', None)
-        qi.installProduct("quintagroup.pfg.captcha")
+        for p in REQUIREMENTS:
+            if not qi.isProductInstalled(p):
+                qi.installProduct(p)
         transaction.commit()
 
     @classmethod

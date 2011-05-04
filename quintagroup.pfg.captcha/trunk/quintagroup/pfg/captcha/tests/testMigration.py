@@ -1,5 +1,6 @@
 import unittest
-from quintagroup.pfg.captcha.tests.base import TestCaseNotInstalled
+from quintagroup.pfg.captcha.tests.base import TestCaseNotInstalled, \
+    REQUIREMENTS
 
 
 class TestMigration(TestCaseNotInstalled):
@@ -34,7 +35,9 @@ class TestMigration(TestCaseNotInstalled):
 
     def prepareToMigration(self):
         # Install types
-        self.addProduct("quintagroup.pfg.captcha")
+        for p in REQUIREMENTS:
+            if not self.qi.isProductInstalled(p):
+                self.qi.installProduct(p)
         # Add captcha field
         self.portal.invokeFactory("FormFolder", 'test_form')
         test_form = self.portal['test_form']

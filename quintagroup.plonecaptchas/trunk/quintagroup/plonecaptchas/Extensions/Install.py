@@ -22,4 +22,17 @@ def uninstall(self):
     portal_setup = getToolByName(self, 'portal_setup')
     profile = 'profile-quintagroup.plonecaptchas:uninstall'
     portal_setup.runAllImportStepsFromProfile(profile, purge_old=False)
+
+    # BBB: Remove skin layers. Need for plone < 3.1
+    skin_tool = getToolByName(self, 'portal_skins')
+    for skin in skin_tool.getSkinSelections():
+        path = [elem for elem in skin_tool.getSkinPath(skin).split(',')]
+        for layer in ['captchas_discussion', 'captchas_sendto_form',
+                      'captchas_join_form']:
+            if layer in skin_tool.objectIds():
+                skin_tool.manage_delObjects(ids=[layer])
+            if layer in path:
+                path.remove(layer)
+        skin_path = ','.join(path)
+        skin_tool.addSkinSelection(skin, skin_path)
     transaction.savepoint()

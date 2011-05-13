@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: quintagroup.captcha.core 2.0\n"
-"POT-Creation-Date: 2010-04-01 12:26+0000\n"
+"POT-Creation-Date: 2011-05-13 10:29+0000\n"
 "PO-Revision-Date: 2010-06-09 13:35+0300\n"
 "Last-Translator: Olha <olha.pelishok@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,27 +20,31 @@ msgstr ""
 "Report-Msgid-Bugs-To: Quintagroup Support <support@quintagroup.com>\n"
 
 #. Default: "Amplitude"
-#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:154
+#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:149
 msgid "Amplitude"
 msgstr "Амплітуда"
 
 #. Default: "Background"
-#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:91
+#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:89
 msgid "Background"
 msgstr "Колір фону"
 
+#: ./skins/captcha_core/prefs_captchas_setup.cpy:56
+msgid "Changes saved."
+msgstr ""
+
 #. Default: "Font color"
-#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:112
+#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:109
 msgid "Font color"
 msgstr "Колір шрифта"
 
 #. Default: "Font size"
-#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:70
+#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:69
 msgid "Font size"
 msgstr "Розмір шрифта"
 
 #. Default: "Period"
-#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:133
+#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:129
 msgid "Period"
 msgstr "Період"
 
@@ -59,12 +63,12 @@ msgid "Quintagroup Captcha"
 msgstr ""
 
 #. Default: "Random values"
-#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:176
+#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:170
 msgid "Random values"
 msgstr "Випадкові значення"
 
 #. Default: "Enter the word below"
-#: ./skins/captcha_core/captcha_widget.pt:13
+#: ./skins/captcha_core/captcha_widget.pt:12
 msgid "enter_word"
 msgstr "Введіть слово нижче"
 

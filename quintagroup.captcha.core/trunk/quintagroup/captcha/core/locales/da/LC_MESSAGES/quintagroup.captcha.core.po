@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: quintagroup.captcha.core 2.0\n"
-"POT-Creation-Date: 2010-04-01 12:26+0000\n"
+"POT-Creation-Date: 2011-05-13 10:29+0000\n"
 "PO-Revision-Date: 2007-01-12 15:38 +0100\n"
 "Last-Translator: Sune Woeller <woeller@headnet.dk>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,27 +17,31 @@ msgstr ""
 "X-Is-Fallback-For: da-da\n"
 
 #. Default: "Amplitude"
-#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:154
+#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:149
 msgid "Amplitude"
 msgstr "Amplitude"
 
 #. Default: "Background"
-#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:91
+#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:89
 msgid "Background"
 msgstr "Baggrund"
 
+#: ./skins/captcha_core/prefs_captchas_setup.cpy:56
+msgid "Changes saved."
+msgstr ""
+
 #. Default: "Font color"
-#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:112
+#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:109
 msgid "Font color"
 msgstr "Fontfarve"
 
 #. Default: "Font size"
-#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:70
+#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:69
 msgid "Font size"
 msgstr "Fontstørrelse"
 
 #. Default: "Period"
-#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:133
+#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:129
 msgid "Period"
 msgstr "Periode"
 
@@ -55,12 +59,12 @@ msgid "Quintagroup Captcha"
 msgstr ""
 
 #. Default: "Random values"
-#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:176
+#: ./skins/captcha_core/prefs_captchas_setup_form.cpt:170
 msgid "Random values"
 msgstr "Tilfældige værdier"
 
 #. Default: "Enter the word below"
-#: ./skins/captcha_core/captcha_widget.pt:13
+#: ./skins/captcha_core/captcha_widget.pt:12
 msgid "enter_word"
 msgstr "Indtast ordet nedenfor"
 

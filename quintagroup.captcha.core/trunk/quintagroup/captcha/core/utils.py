@@ -114,10 +114,10 @@ def gen_captcha(**kwargs):
                 (i * r, j * r,
                  (i + 1) * r, (j + 1) * r),
                 # Source quadrilateral
-                (xRows[j][i],         yRows[j][i],
-                 xRows[j + 1][i],     yRows[j + 1][i],
+                (xRows[j][i], yRows[j][i],
+                 xRows[j + 1][i], yRows[j + 1][i],
                  xRows[j + 1][i + 1], yRows[j + 1][i + 1],
-                 xRows[j][i + 1],     yRows[j][i + 1]),
+                 xRows[j][i + 1], yRows[j][i + 1]),
                 ))
 
     img = image.transform(image.size, Image.MESH, mesh, Image.BILINEAR)

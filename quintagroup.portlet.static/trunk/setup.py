@@ -1,12 +1,13 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.3'
+version = '0.4'
 
 setup(name='quintagroup.portlet.static',
       version=version,
       description="Static portlet with one extra styling field",
-      long_description=open("README.txt").read() + "\n" +
+      long_description=open(os.path.join("quintagroup", "portlet", "static", "README.txt")).read() + "\n\n" +
+                       open(os.path.join("docs", "INSTALL.txt")).read() + "\n\n"+
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[

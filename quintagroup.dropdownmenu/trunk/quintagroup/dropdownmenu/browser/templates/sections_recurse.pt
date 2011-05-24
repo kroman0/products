@@ -11,12 +11,8 @@
                 item_icon       node/item_icon;
                 is_current      node/currentItem;
                 is_in_path      node/currentParent;
-                is_first        repeat/node/start;
-                is_last         repeat/node/end;
                 li_curr_class   python:is_current and 'selected' or '';
                 li_extr_class   python:(is_in_path and not is_current) and 'selected' or '';
-                li_extr_class   python:is_first and 'ddmisfirst '+li_extr_class or li_extr_class;
-                li_extr_class   python:is_last and 'ddmislast '+li_extr_class or li_extr_class;
                 li_extr_class   python:(not (is_in_path or is_current)) and li_extr_class + 'plain' or li_extr_class;
                 item_type       node/normalized_portal_type | nothing;
                 li_class string:${li_curr_class}${li_extr_class};

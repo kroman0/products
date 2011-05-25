@@ -36,15 +36,19 @@ setup(name=${repr($project)},
       namespace_packages=['$namespace_package', '$namespace_package.$namespace_package2',],
       include_package_data=True,
       zip_safe=${repr(bool($zip_safe)) or False},
-      install_requires=['setuptools',
-                        # -*- Extra requirements: -*-
-                        ],
       tests_require=tests_require,
       extras_require=dict(tests=tests_require),
       test_suite = '$namespace_package.$namespace_package2.${package}.tests',
+      install_requires=[
+          'setuptools',
+          # -*- Extra requirements: -*-
+      ],
       entry_points="""
-      # -*- entry_points -*- #
+      # -*- Entry points: -*-
+
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
-      paster_plugins = ["ZopeSkel",],
-      setup_requires = ["setuptools",],
+      setup_requires=["PasteScript"],
+      paster_plugins=["ZopeSkel"],
       )

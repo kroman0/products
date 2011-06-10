@@ -22,6 +22,7 @@ from time import time
 from plone.memoize import ram
 import copy
 
+
 def menu_cache_key(f, view):
     try:
         section = view.context.getPhysicalPath()[2]

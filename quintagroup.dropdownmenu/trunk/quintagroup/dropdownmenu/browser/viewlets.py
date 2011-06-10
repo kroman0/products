@@ -51,7 +51,7 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
 
         # prepare to gather portal tabs
         context = aq_inner(self.context)
-        self.conf = conf = self._settings()
+        self.conf = self._settings()
         self.tool = getToolByName(context, 'portal_actions')
         self.site_url = getToolByName(context, 'portal_url')()
         self.context_state = getMultiAdapter((self.context, self.request),

@@ -10,6 +10,7 @@ from Products.CMFCore.ActionInformation import ActionInfo
 from Products.CMFPlone.utils import versionTupleFromString
 
 from plone.memoize.instance import memoize
+from plone.memoize.compress import xhtmlslimmer
 from plone.app.layout.viewlets import common
 from plone.app.layout.navigation.navtree import buildFolderTree
 from plone.app.layout.navigation.interfaces import INavtreeStrategy
@@ -21,9 +22,22 @@ from time import time
 from plone.memoize import ram
 import copy
 
+def menu_cache_key(f, view):
+    try:
+        section = view.context.getPhysicalPath()[2]
+    except:
+        section = ""
 
-def cache_key(a, b, c):
-    return c + str(time() // (60 * 60))
+    return view.__name__ + \
+           section + \
+           str(time() // (60 * 5))  # Every five minutes
+                                    # Note that the HTTP RAM-cache
+                                    # typically purges entries after
+                                    # 60 minutes.
+
+
+def tabs_cache_key(f, view, site_url):
+    return site_url + str(time() // (60 * 60))
 
 
 class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
@@ -35,7 +49,6 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         #super(GlobalSectionsViewlet, self).update()
 
         # prepare to gather portal tabs
-        tabs = []
         context = aq_inner(self.context)
         self.conf = conf = self._settings()
         self.tool = getToolByName(context, 'portal_actions')
@@ -48,20 +61,24 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
 
         self.cat_sufix = self.conf.nested_category_sufix or ''
         self.cat_prefix = self.conf.nested_category_prefix or ''
+
+    @property
+    def portal_tabs(self):
+        tabs = []
+
         # fetch actions-based tabs?
-        if conf.show_actions_tabs:
+        if self.conf.show_actions_tabs:
             tabs.extend(self._actions_tabs())
 
         # fetch content structure-based tabs?
-        if conf.show_content_tabs:
+        if self.conf.show_content_tabs:
             # put content-based actions before content structure-based ones?
-            if conf.content_before_actions_tabs:
+            if self.conf.content_before_actions_tabs:
                 tabs = self._content_tabs() + tabs
             else:
                 tabs.extend(self._content_tabs())
 
-        # assign collected tabs eventually
-        self.portal_tabs = tabs
+        return tabs
 
     def _actions_tabs(self):
         """Return tree of tabs based on portal_actions tool configuration"""
@@ -100,7 +117,7 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         self._activate(res)
         return res
 
-    @ram.cache(cache_key)
+    @ram.cache(tabs_cache_key)
     def prepare_tabs(self, site_url):
         def normalize_actions(category, object, level, parent_url=None):
             """walk through the tabs dictionary and build list of all tabs"""
@@ -202,8 +219,10 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         """Fetch dropdown menu settings registry"""
         return getDropDownMenuSettings(self.context)
 
+    @ram.cache(menu_cache_key)
     def createMenu(self):
-        return self.recurse(children=self.portal_tabs, level=1)
+        html = self.recurse(children=self.portal_tabs, level=1)
+        return xhtmlslimmer.compress(html)
 
     def _old_update(self):
         context_state = getMultiAdapter((self.context, self.request),

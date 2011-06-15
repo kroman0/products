@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.2'
+version = '1.2.1'
 
 tests_require = ['zope.testing',
                'collective.testcaselayer']
@@ -19,7 +19,7 @@ setup(name='quintagroup.dropdownmenu',
       keywords='web plone menu',
       author='Quintagroup',
       author_email='support@quintagroup.com',
-      url='http://svn.quintagroup.com/products/quintagroup.dropdownmenu',
+      url='http://quintagroup.com/services/plone-development/products/quintagroup.dropdownmenu',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['quintagroup'],

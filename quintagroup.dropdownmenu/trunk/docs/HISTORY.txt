@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.2.2 - June 20, 2011
+---------------------
+
+* Fixed caching content tabs and action tabs
+
 1.2.1 - June 15, 2011
 ---------------------
 

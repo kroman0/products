@@ -24,21 +24,29 @@ import copy
 
 
 def menu_cache_key(f, view):
-    try:
-        section = view.context.getPhysicalPath()[2]
-    except:
-        section = ""
-
+    portal_state = getMultiAdapter((view.context, view.request),
+                                   name=u'plone_portal_state')
+    site_len = len(portal_state.navigation_root_path().split('/'))
+    content_path = view.context.getPhysicalPath()[site_len:]
+    if view.conf.content_tabs_level > 0:
+        content_path = content_path[:view.conf.content_tabs_level]
+    path_key = '/'.join(content_path)
     return view.__name__ + \
-           section + \
+           path_key + \
            str(time() // (60 * 5))  # Every five minutes
                                     # Note that the HTTP RAM-cache
                                     # typically purges entries after
                                     # 60 minutes.
 
-
 def tabs_cache_key(f, view, site_url):
     return site_url + str(time() // (60 * 60))
+
+def dropdowncache(f):
+    def func(view):
+        if view.conf.show_actions_tabs:
+            return f(view)
+        return ram.cache(menu_cache_key)(f)(view)
+    return func
 
 
 class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
@@ -220,7 +228,7 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         """Fetch dropdown menu settings registry"""
         return getDropDownMenuSettings(self.context)
 
-    @ram.cache(menu_cache_key)
+    @dropdowncache
     def createMenu(self):
         html = self.recurse(children=self.portal_tabs, level=1)
         return xhtmlslimmer.compress(html)

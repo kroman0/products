@@ -38,8 +38,10 @@ def menu_cache_key(f, view):
                                     # typically purges entries after
                                     # 60 minutes.
 
+
 def tabs_cache_key(f, view, site_url):
     return site_url + str(time() // (60 * 60))
+
 
 def dropdowncache(f):
     def func(view):

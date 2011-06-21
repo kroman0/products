@@ -1,10 +1,11 @@
 Changelog
 =========
 
-1.2.2 - June 20, 2011
+1.2.2 - June 21, 2011
 ---------------------
 
 * Fixed caching content tabs and action tabs
+* portal_action generated menu caching is conditional and switched off for now
 
 1.2.1 - June 15, 2011
 ---------------------

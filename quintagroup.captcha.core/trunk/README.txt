@@ -18,10 +18,12 @@ dynamic - captcha images will be generated on the fly and you will be able to
 configure captchas look by using different font sizes, background and font 
 colours, period, amplitude, random values.
 
-Requirements
-------------
+Compatibility
+-------------
 
-* Plone 3.x or Plone 4.0
+* Plone 3.x
+* Plone 4.0.x
+* Plone 4.1
 
 Links
 -----

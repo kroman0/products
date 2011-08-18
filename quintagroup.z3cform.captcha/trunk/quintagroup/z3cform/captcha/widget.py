@@ -8,10 +8,22 @@ from Products.CMFCore.utils import getToolByName
 
 from z3c.form.browser.text import TextWidget
 
+
+class CaptchaError(BaseException):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
+
+
 class CaptchaWidget(TextWidget):
     
    def getCaptcha(self):
-       return self.form.context.getCaptcha()
+       try:
+           return self.form.context.getCaptcha()
+       except AttributeError:
+           raise CaptchaError('quintagroup.captcha.core not installed. '
+                              'Install quintagroup.captcha.core using Quickinstaller or Plone Control Panel')
 
    def render(self):
        key = self.getCaptcha()

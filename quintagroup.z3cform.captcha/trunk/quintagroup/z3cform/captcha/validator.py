@@ -21,6 +21,8 @@ class CaptchaValidator(SimpleFieldValidator):
 
     def validate(self, value):
         # Verify the user input against the captcha
+        if 'kss_z3cform_inline_validation' in self.request['URL']:
+            return
         errors = ()
         context = self.context
         request = self.request

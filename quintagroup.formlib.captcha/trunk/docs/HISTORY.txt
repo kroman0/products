@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.4 (2011-08-25)
+----------------
+
+* widget import fixed
+* pyflakes, pep8 clean up
+
 1.3 (2010-09-14)
 ----------------
 

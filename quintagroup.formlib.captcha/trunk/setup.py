@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.3'
+version = '1.4'
 
 setup(name='quintagroup.formlib.captcha',
       version=version,
@@ -29,12 +29,6 @@ setup(name='quintagroup.formlib.captcha',
           'quintagroup.captcha.core',
           'zope.app.form',
           'zope.formlib',
-          # 'five.formlib',
-          # 'zope.component',
-          # 'zope.interface',
-          # 'zope.schema',
-          # 'zope.i18n',
-          # 'Products.CMFCore',
       ],
       entry_points="""
       # -*- Entry points: -*-

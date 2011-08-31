@@ -1,9 +1,9 @@
 Installation
 ============
 
-In buildout.cfg file of your instance: 
+In buildout.cfg file of your instance:
 
- * Add ``quintagroup.portlet.static`` to the list of eggs to install, e.g.:
+* Add ``quintagroup.portlet.static`` to the list of eggs to install, e.g.::
 
     [buildout]
     ...
@@ -11,19 +11,19 @@ In buildout.cfg file of your instance:
         ...
         quintagroup.portlet.static
 
- * Tell the plone.recipe.zope2instance recipe to install a ZCML slug:
+* Tell the plone.recipe.zope2instance recipe to install a ZCML slug::
 
     [instance]
     ...
     zcml =
         quintagroup.portlet.static
 
- * Re-run buildout, e.g. with:
+* Re-run buildout, e.g. with::
 
     $ ./bin/buildout
 
- * Restart the Zope server, for example, with the following command in the terminal::
+* Restart the Zope server, for example, with the following command in the terminal::
 
     $ ./bin/instance restart
 
- * Install 'Static Stylish Portlet' via Site Setup -> Add-ons
+* Install 'Static Stylish Portlet' via Site Setup -> Add-ons

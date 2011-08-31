@@ -1,10 +1,10 @@
 Changelog
 =========
 
-0.4 - May 20, 2011
+0.4 - August 31, 2011
 ------------------
 
-* Plone 4 compatibility added
+* Plone 4.1 compatibility added
 
 
 0.3 - September 03, 2010

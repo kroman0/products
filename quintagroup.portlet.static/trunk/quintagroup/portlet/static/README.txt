@@ -24,13 +24,13 @@ Usage
 * Choose a portlet style for the portlet from the list of available HTML
   classes.
 
-* Save changes.
+* Save changes
 
 Supported Plone version
 -----------------------
 
-* 4.0
-* 3.x
+* Plone 4
+* Plone 3
 
 Authors
 -------

@@ -6,6 +6,10 @@ body {
 #portal-top {
   z-index:1;
   }
+#portal-searchbox {
+  position:relative;
+  z-index:2;
+  }  
 
 /*---------- BASIC STYLE one level ----------*/
 #portal-globalnav {

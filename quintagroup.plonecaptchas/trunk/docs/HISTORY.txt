@@ -1,11 +1,13 @@
 Changelog
 =========
 
-4.1 (unreleased)
+4.1  - Sep 5, 2011
+------------------
 
 * compatibility with plone.app.discussion added
 
 4.0 - June 9, 2010
+------------------
 
 * compatibility with Plone 4 added
 

@@ -40,8 +40,8 @@ class NotInstalled(PloneSite):
         zcml.load_config('configure.zcml', quintagroup.captcha.core)
         zcml.load_config('configure.zcml', quintagroup.plonecaptchas)
         fiveconfigure.debug_mode = False
-        ztc.installPackage('quintagroup.plonecaptchas')
         ztc.installPackage('quintagroup.captcha.core')
+        ztc.installPackage('quintagroup.plonecaptchas')
 
 
 class Installed(NotInstalled):

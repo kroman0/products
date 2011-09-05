@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '4.0'
+version = '4.1'
 
 setup(name='quintagroup.plonecaptchas',
       version=version,
@@ -29,6 +29,7 @@ setup(name='quintagroup.plonecaptchas',
           'Plone>=4.0dev',
           'quintagroup.captcha.core>=0.2',
           'quintagroup.formlib.captcha',
+          'quintagroup.z3cform.captcha',
           # -*- Extra requirements: -*-
       ],
       entry_points="""

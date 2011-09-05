@@ -1,4 +1,5 @@
 import unittest
+import doctest
 import re
 from urllib import urlencode
 from StringIO import StringIO
@@ -6,8 +7,8 @@ from StringIO import StringIO
 from Products.PloneTestCase.PloneTestCase import portal_owner
 from Products.PloneTestCase.PloneTestCase import default_password
 
-from quintagroup.plonecaptchas.tests.base import FunctionalTestCase
-from quintagroup.plonecaptchas.config import PRODUCT_NAME
+from quintagroup.plonecaptchas.tests.base import FunctionalTestCase, ztc
+from quintagroup.plonecaptchas.config import PRODUCT_NAME, HAS_APP_DISCUSSION
 
 from quintagroup.captcha.core.tests.testWidget import IMAGE_PATT, NOT_VALID
 from quintagroup.captcha.core.tests.testWidget import addTestLayer
@@ -216,7 +217,17 @@ class TestContactInfo(TestFormMixin):
 
 def test_suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestDiscussionForm))
+    if HAS_APP_DISCUSSION:
+        suite.addTest(unittest.TestSuite([
+            ztc.FunctionalDocFileSuite(
+                'discussion.txt', package='quintagroup.plonecaptchas.tests',
+                test_class=FunctionalTestCase, globs=globals(),
+                optionflags=doctest.REPORT_ONLY_FIRST_FAILURE |
+                    doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
+            ]))
+
+    else:
+        suite.addTest(unittest.makeSuite(TestDiscussionForm))
     suite.addTest(unittest.makeSuite(TestRegisterForm))
     suite.addTest(unittest.makeSuite(TestSendtoForm))
     suite.addTest(unittest.makeSuite(TestContactInfo))

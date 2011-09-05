@@ -1,6 +1,8 @@
 import transaction
 from Products.CMFCore.utils import getToolByName
 REQUIRED = 'quintagroup.captcha.core'
+from quintagroup.plonecaptchas.config import HAS_APP_DISCUSSION
+from quintagroup.plonecaptchas.setuphandlers import registerDiscussionLayer
 
 
 def install(self):
@@ -15,6 +17,9 @@ def install(self):
     gs = getToolByName(self, 'portal_setup')
     profile = 'profile-quintagroup.plonecaptchas:default'
     gs.runAllImportStepsFromProfile(profile)
+    if HAS_APP_DISCUSSION:
+        # register browser layer
+        registerDiscussionLayer(self)
     transaction.savepoint()
 
 

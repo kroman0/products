@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.2.3 - September 05, 2011
+---------------------
+
+* Live search with dropdown menu overlaps fixed
+
 1.2.2 - June 21, 2011
 ---------------------
 

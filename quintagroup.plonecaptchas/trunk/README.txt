@@ -89,4 +89,4 @@ Contributors
 
 * Dorneles Tremea
 
-Copyright (c) "Quintagroup": http://quintagroup.com, 2004-2010
+Copyright (c) "Quintagroup": http://quintagroup.com, 2004-2011

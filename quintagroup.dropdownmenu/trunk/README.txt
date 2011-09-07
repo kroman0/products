@@ -1,5 +1,5 @@
 Introduction
-============
+------------
 
 This package allows to build dropdown menu through the web with portal_actions.
 Submenus are built from a tree of nested Category Actions and Actions.
@@ -9,7 +9,7 @@ the one used in navigation portlet.
 This project is successor of qPloneDropDownMenu. 
 
 Building you dropdown menu with portal_actions
-----------------------------------------------
+==============================================
 
 Starting from Plone 3 portal actions introduced CMF Action Category 
 containers, it opened opportunity to build nested actions trees. Though CMF Action 
@@ -38,15 +38,16 @@ So, the actions structure can look like::
 By default the root of dropdown menu is 'portal_tabs' category.
  
 Compatibility
--------------
+=============
 
 * **Plone 4** sample CSS file based on Sunburst theme provided
 * **Plone 3.0-3.3** the default CSS file has to be overridden
 
 Installation
-------------
+============
 
-* add http://good-py.appspot.com/release/plone.app.registry/1.0b2 to your versions
+* add http://good-py.appspot.com/release/plone.app.registry/1.0b2 to versions in your buildout
 * add quintagroup.dropdownmenu to eggs in your buildout
-* install in Plone with Quick Installer
-* find more details inside docs/INSTALL.txt 
+* install Plone DropDown Menu in Plone via Site Setup -> Add-ons
+
+Find more details inside docs/INSTALL.txt 

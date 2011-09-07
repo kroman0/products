@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.2.4 - Sep 07, 2011
+--------------------
+
+* documentation formatting fixed
+
 1.2.3 - September 05, 2011
 --------------------------
 

@@ -6,7 +6,7 @@ logger = logging.getLogger('quintagroup.plonecaptchas')
 
 def registerDiscussionLayer(context):
     """ Register browser layer for extending discussion
-        with quintagroup captcha 
+        with quintagroup captcha
     """
     from quintagroup.plonecaptchas.interfaces import IQGDiscussionCaptchas
     from plone.browserlayer.utils import register_layer
@@ -28,7 +28,8 @@ def removeBrowserLayers(site):
     for name in layers:
         if name in registeredLayers:
             unregister_layer(name, site_manager=site)
-            logger.log(logging.INFO, "Unregistered \"%s\" browser layer." % name)
+            logger.log(logging.INFO,
+                       "Unregistered \"%s\" browser layer." % name)
 
 
 def uninstall(context):

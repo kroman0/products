@@ -5,8 +5,10 @@ if HAS_APP_DISCUSSION:
     from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
     class IQGDiscussionCaptchas(IDefaultBrowserLayer):
-        """quintagroup.plonecaptchas browser layer interface for plone.app.discussion"""
+        """ quintagroup.plonecaptchas browser layer interface for
+            plone.app.discussion
+        """
 
 
 class IQGPloneCaptchas(IDefaultPloneLayer):
-    """quintagroup.plonecaptchas browser layer interface"""
+    """ quintagroup.plonecaptchas browser layer interface """

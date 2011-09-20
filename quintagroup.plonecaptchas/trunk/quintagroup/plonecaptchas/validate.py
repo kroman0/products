@@ -2,7 +2,7 @@ from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.interfaces import ICaptcha
 from quintagroup.z3cform.captcha.validator import CaptchaValidator
 from quintagroup.z3cform.captcha.widget import CaptchaWidget
-from quintagroup.plonecaptchas.config import CAPTCHA_NAME 
+from quintagroup.plonecaptchas.config import CAPTCHA_NAME
 from quintagroup.plonecaptchas.interfaces import IQGDiscussionCaptchas
 
 from zope.component import queryUtility

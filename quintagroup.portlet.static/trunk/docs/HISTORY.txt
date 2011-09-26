@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.5 - September 26, 2011
+------------------------
+
+* Added option to display portlet for anonymous users only.
+
+
 0.4 - August 31, 2011
 ---------------------
 

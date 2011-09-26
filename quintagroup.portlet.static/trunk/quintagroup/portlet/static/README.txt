@@ -29,7 +29,7 @@ Usage
 Supported Plone version
 -----------------------
 
-* Plone 4
+* Plone 4.x
 * Plone 3
 
 Authors

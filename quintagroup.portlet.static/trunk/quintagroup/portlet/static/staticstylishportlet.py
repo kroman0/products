@@ -8,6 +8,8 @@ from plone.app.form.widgets.wysiwygwidget import WYSIWYGWidget
 from zope import schema
 from zope.formlib import form
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.CMFCore.utils import getToolByName
+from Acquisition import aq_inner
 
 from quintagroup.portlet.static.utils import getVocabulary
 from quintagroup.portlet.static import StaticStylishPortletMessageFactory as _
@@ -20,6 +22,13 @@ class IStaticStylishPortlet(static.IStaticPortlet):
     data that is being rendered and the portlet assignment itself are the
     same.
     """
+
+    anonymous_only = schema.Bool(
+        title=_(u"Anonymous only"),
+        description=_(u"Check this to hide the portlet for logged-in users."),
+        required=False,
+        default=False,
+        )
 
     styling = schema.Choice(title=_(u"Portlet style"),
                             description=_(u"Choose a css style for the porlet. "
@@ -39,14 +48,17 @@ class Assignment(static.Assignment):
     implements(IStaticStylishPortlet)
 
     styling = ''
-    
+
+    anonymous_only = False
+
     def __init__(self, header=u"", text=u"", omit_border=False, footer=u"",
-                 more_url='', hide=False, styling=''):
+                 more_url='', hide=False, styling='', anonymous_only=False):
         super(Assignment, self).__init__(header=header, text=text, omit_border=omit_border, footer=footer,
                                          more_url=more_url)
-        
+
         self.styling = styling
-    
+        self.anonymous_only = anonymous_only
+
 class Renderer(static.Renderer):
     """Portlet renderer.
 
@@ -56,6 +68,15 @@ class Renderer(static.Renderer):
     """
 
     render = ViewPageTemplateFile('staticstylishportlet.pt')
+
+    @property
+    def available(self):
+        if self.data.anonymous_only:
+            context = aq_inner(self.context)
+            mtool = getToolByName(context, 'portal_membership')
+            return mtool.isAnonymousUser()
+
+        return True
 
 
 class AddForm(static.AddForm):

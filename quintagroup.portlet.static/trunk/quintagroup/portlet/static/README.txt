@@ -32,11 +32,13 @@ Supported Plone version
 * Plone 4.x
 * Plone 3
 
-Authors
--------
+Contributors
+------------
 
 * Vitaliy Podoba
 * Roman Kozlovskyi
+* Malthe Borch
+* Volodymyr Maksymiv
 
 Copyright (c) "Quintagroup": http://quintagroup.com, 2011
 

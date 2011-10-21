@@ -12,5 +12,10 @@ class CSSHoverView(BrowserView):
         """Main method"""
         resource = file(os.path.join(os.path.dirname(__file__),
                                      'resources', 'csshover.htc'), 'r').read()
-        self.request.response.setHeader('Content-Type', 'text/x-component')
+        response = self.request.response
+        response.setHeader('Content-Type', 'text/x-component')
+
+        # cache in browser for 1 year and in proxy for 2 month
+        response.setHeader('Cache-Control',
+                           'max-age=31536000, s-maxage=5184000, public')
         return resource

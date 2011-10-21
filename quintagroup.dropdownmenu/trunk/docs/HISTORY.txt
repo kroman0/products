@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.2.5 - Oct 21, 2011
+
+* added cache header for csshover.htc view
+  to allow proxy and browser to cache it. 
+
 1.2.4 - Sep 07, 2011
 
 * documentation formatting fixed

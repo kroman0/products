@@ -406,11 +406,7 @@ class HeaderSet(NoCatalog, BaseContent):
 
         vary = self.getVaryValue(expr_context)
         if vary:
-            if pcs.getGzip() in ('accept-encoding', 'accept-encoding+user-agent'):
-                # Zope adds Accept-Encoding automatically
-                vary = ', '.join([v.strip() for v in vary.split(',') if v.strip() != 'Accept-Encoding'])
-            if vary:
-                headers_to_add.append(('Vary', vary))
+            headers_to_add.append(('Vary', vary))
 
         # a list of cache-control tokens
         control = []

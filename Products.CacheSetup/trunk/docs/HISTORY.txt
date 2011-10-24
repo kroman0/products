@@ -5,6 +5,10 @@ This file contains change information for previous versions of
 CacheFu. Change information for the current release can be found
 in the file CHANGES.txt.
 
+1.2.1-qg - released 2011-10-24
+------------------------------
+
+ - bad commit (http://dev.plone.org/changeset/81782/collective/Products.CacheSetup/trunk/Products/CacheSetup/content/header_set.py) was reverted
 
 1.2 - released 2008-05-02
 -------------------------

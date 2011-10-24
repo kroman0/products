@@ -4,6 +4,10 @@ Changelog
 Changelog for the current CacheFu release.  For a history of changes
 prior to this release, see docs/HISTORY.txt
 
+1.2.1-qg - released 2011-10-24
+------------------------------
+
+ - bad commit (http://dev.plone.org/changeset/81782/collective/Products.CacheSetup/trunk/Products/CacheSetup/content/header_set.py) was reverted
 
 1.2.1 - released 2009-05-17
 ---------------------------

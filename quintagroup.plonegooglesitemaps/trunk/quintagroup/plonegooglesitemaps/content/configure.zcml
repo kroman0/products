@@ -6,18 +6,6 @@
     <!-- configure your content components here -->
 
     <!-- -*- extra stuff goes here -*- -->
-    <class class=".sitemap.Sitemap">
-
-        <require
-            permission="zope2.View"
-            interface="..interfaces.ISitemap"
-            />
-
-        <require
-            permission="cmf.ModifyPortalContent"
-            set_schema="..interfaces.ISitemap"
-            />
-
-    </class>
+    <class class=".sitemap.Sitemap" />
 
 </configure>

@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.2.0.2 - Oct 28, 2011
+-----------------
+
+* enabled gzip compression for csshover.htc view.
+
 1.2.0.1 - Oct 21, 2011
 -----------------
 

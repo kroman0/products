@@ -1,10 +1,10 @@
 Changelog
 =========
 
-1.0.1 (unreleased)
+1.0.1 (2011-10-28)
 ------------------
 
-* Fixed problems with kss inline validation
+* Fixed kss inline validation
 
 1.0 (2010-04-29)
 ----------------

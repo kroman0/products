@@ -18,4 +18,7 @@ class CSSHoverView(BrowserView):
         # cache in browser for 1 year and in proxy for 2 month
         response.setHeader('Cache-Control',
                            'max-age=31536000, s-maxage=5184000, public')
+
+        # enabling gzip compression
+        response.enableHTTPCompression(REQUEST=self.request)
         return resource

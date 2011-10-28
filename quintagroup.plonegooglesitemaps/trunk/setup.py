@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.6.0'
+version = '1.7.0'
 
 tests_require = ['zope.testing',
                  'collective.testcaselayer']
@@ -45,5 +45,4 @@ setup(name='quintagroup.plonegooglesitemaps',
       [z3c.autoinclude.plugin]
       target = plone
       """,
-      paster_plugins=["ZopeSkel"],
       )

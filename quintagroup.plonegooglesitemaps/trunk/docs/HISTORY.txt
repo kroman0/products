@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.7.0 (2011-10-28)
+------------------
+
+* Plone 4.1 compatibility
+* ZCML cleanup no more DeprecationWarning
+
+
 1.6.0 (2010-11-12)
 ------------------
 

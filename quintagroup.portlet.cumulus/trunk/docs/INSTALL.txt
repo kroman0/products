@@ -1,43 +1,28 @@
 Installation
 ============
 
- * When you're reading this you have probably already run
-   ``easy_install quintagroup.portlet.cumulus``. Find out how to install setuptools
-   (and EasyInstall) here:
-   http://peak.telecommunity.com/DevCenter/EasyInstall
+* Add ``quintagroup.portlet.cumulus`` to the list of eggs to install, e.g.::
 
- * Create a file called ``quintagroup.portlet.cumulus-configure.zcml`` in the
-   ``/path/to/instance/etc/package-includes`` directory.  The file
-   should only contain this::
+   [buildout]
+   ...
+   eggs =
+       ...
+       quintagroup.portlet.cumulus
 
-       <include package="quintagroup.portlet.cumulus" />
+* Tell the plone.recipe.zope2instance recipe to install a ZCML slug::
 
-Alternatively, if you are using zc.buildout and the plone.recipe.zope2instance
-recipe to manage your project, you can do this:
+   [instance]
+   recipe = plone.recipe.zope2instance
+   ...
+   zcml =
+       quintagroup.portlet.cumulus
 
- * Add ``quintagroup.portlet.cumulus`` to the list of eggs to install, e.g.:
+* Re-run buildout, e.g. with::
 
-    [buildout]
-    ...
-    eggs =
-        ...
-        quintagroup.portlet.cumulus
+   $ ./bin/buildout
 
- * Tell the plone.recipe.zope2instance recipe to install a ZCML slug:
+* Restart instance, e.g. with::
 
-    [instance]
-    recipe = plone.recipe.zope2instance
-    ...
-    zcml =
-        quintagroup.portlet.cumulus
+   $ ./bin/instance restart
 
-  * Re-run buildout, e.g. with:
-
-    $ ./bin/buildout
-
-  * Restart instance, e.g. with:
-
-    $ ./bin/instance restart
-
-  * Install Tag cloud (cumulus) portlet with Quickinstaller in Plone. 
-
+* Install Tag cloud (cumulus) portlet with Quickinstaller in Plone. 

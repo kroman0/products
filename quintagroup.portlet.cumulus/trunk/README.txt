@@ -1,6 +1,3 @@
-Introduction
-============
-
 quintagroup.portlet.cumulus is a Plone product that allows you to add tag cloud
 portlets to your Plone site. Your site's tags (content categories are used as 
 tags) are displayed using a Flash movie that rotates them in 3D. It works just 
@@ -24,7 +21,7 @@ Usage
 * The portlet will now display a cloud of keywords/tags used on your Plone site. 
 
 Cumulus Portlet options
------------------------
+=======================
 
 It is possible to set cumulus portlet options so that it fits your site design, color
 scheme etc. When you create cumulus portlet you can specify:
@@ -37,8 +34,9 @@ scheme etc. When you create cumulus portlet you can specify:
 * Rotation speed 
 
 Supported Plone versions
-------------------------
+========================
 
+* Plone 4.1
 * Plone 4.0
 * Plone 3.x
 

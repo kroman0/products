@@ -11,7 +11,7 @@ Using quintagroup.formlib.captcha in a formlib form is simple. Just add a
 Captcha field to your schema, and away you go:
 
   >>> from zope.interface import Interface
-  >>> from quintagroup.formlib.captcha.form import Captcha
+  >>> from quintagroup.formlib.captcha import Captcha
   >>> class CaptchaSchema(Interface):
   ...     captcha = Captcha(
   ...         title=_(u'Type the code'),

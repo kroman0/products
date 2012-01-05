@@ -1,6 +1,12 @@
 Changelog
 =========
 
+In next release ...
+
+* Changed option to display portlet for anonymous users only to
+  instead two settings respectively requiring and excluding users with
+  a given role (from a set of roles), e.g. "Member".
+
 0.5 - September 26, 2011
 ------------------------
 

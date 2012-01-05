@@ -23,11 +23,22 @@ class IStaticStylishPortlet(static.IStaticPortlet):
     same.
     """
 
-    anonymous_only = schema.Bool(
-        title=_(u"Anonymous only"),
-        description=_(u"Check this to hide the portlet for logged-in users."),
+    roles_excluded = schema.Tuple(
+        title=_(u"Roles excluded"),
+        description=_(u"Select excluded user roles."),
+        value_type=schema.Choice(
+            vocabulary="quintagroup.portlet.static.vocabularies.GlobalRoles"
+            ),
         required=False,
-        default=False,
+        )
+
+    roles_required = schema.Tuple(
+        title=_(u"Roles required"),
+        description=_(u"Select required user roles."),
+        value_type=schema.Choice(
+            vocabulary="quintagroup.portlet.static.vocabularies.GlobalRoles"
+            ),
+        required=False,
         )
 
     styling = schema.Choice(title=_(u"Portlet style"),
@@ -49,15 +60,20 @@ class Assignment(static.Assignment):
 
     styling = ''
 
-    anonymous_only = False
+    roles_excluded = ()
+
+    roles_required = ()
 
     def __init__(self, header=u"", text=u"", omit_border=False, footer=u"",
-                 more_url='', hide=False, styling='', anonymous_only=False):
+                 more_url='', hide=False, styling='',
+                 roles_excluded=(), roles_required=()):
         super(Assignment, self).__init__(header=header, text=text, omit_border=omit_border, footer=footer,
                                          more_url=more_url)
 
         self.styling = styling
-        self.anonymous_only = anonymous_only
+        self.roles_excluded = roles_excluded
+        self.roles_required = roles_required
+
 
 class Renderer(static.Renderer):
     """Portlet renderer.
@@ -71,10 +87,27 @@ class Renderer(static.Renderer):
 
     @property
     def available(self):
-        if self.data.anonymous_only:
+        if self.data.roles_excluded or self.data.roles_required:
             context = aq_inner(self.context)
             mtool = getToolByName(context, 'portal_membership')
-            return mtool.isAnonymousUser()
+
+            # Determine roles
+            if not mtool.isAnonymousUser():
+                member = mtool.getAuthenticatedMember()
+                user = member.getUser()
+                roles = user.getRoles()
+            else:
+                roles = ()
+
+            roles = frozenset(roles)
+
+            # Test excluded roles
+            if roles & set(self.data.roles_excluded):
+                return False
+
+            # Test required roles
+            if not set(self.data.roles_required) <= roles:
+                return False
 
         return True
 

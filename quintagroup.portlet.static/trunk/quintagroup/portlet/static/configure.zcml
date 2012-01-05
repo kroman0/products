@@ -46,4 +46,9 @@
         name="quintagroup.portlet.static.vocabularies.PortletCSSVocabulary"
         />
 
+    <utility
+        component=".vocabularies.GlobalRolesVocabulary"
+        name="quintagroup.portlet.static.vocabularies.GlobalRoles"
+        />
+
 </configure>

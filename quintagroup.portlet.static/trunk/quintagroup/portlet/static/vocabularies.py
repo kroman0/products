@@ -1,6 +1,7 @@
 from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import implements
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
+from zope.i18n import translate
 
 from Products.CMFCore.utils import getToolByName
 
@@ -40,3 +41,20 @@ class PortletCSSVocabulary(object):
         return 'utf-8'
 
 PortletCSSVocabulary = PortletCSSVocabulary()
+
+
+class GlobalRolesVocabulary(object):
+    implements(IVocabularyFactory)
+
+    def __call__(self, context):
+        roles = context.getGlobalPortalRoles()
+
+        return SimpleVocabulary(
+            [SimpleTerm(
+                role, role,
+                translate(role, domain="plone", context=context.REQUEST) \
+                ) for role in roles]
+            )
+
+
+GlobalRolesVocabulary = GlobalRolesVocabulary()

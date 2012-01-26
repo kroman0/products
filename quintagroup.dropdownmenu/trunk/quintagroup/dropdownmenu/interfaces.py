@@ -3,9 +3,14 @@ from zope import schema
 from zope.interface import Interface
 
 from plone.theme.interfaces import IDefaultPloneLayer
+from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 
 from quintagroup.dropdownmenu import _
 
+cachings = SimpleVocabulary(
+    [SimpleTerm(value=u'anonymous', title=_(u'Cache only for anonymous')),
+     SimpleTerm(value=u'all', title=_(u'Cache for all users')),]
+    )
 
 class IDropDownMenuLayer(IDefaultPloneLayer):
     """Request marker installed via browserlayer.xml.
@@ -77,3 +82,17 @@ class IDropDownMenuSettings(Interface):
                       u"with action"),
         default=u"_sub",
         required=False)
+    
+    enable_caching = schema.Bool(
+        title=_(u"Enable menu caching"),
+        description=_(u"Caching of the menu viewlet improves page rendering "
+                      u"speed."),
+        default=True        
+        )
+
+    caching_strategy = schema.Choice(
+    title=_(u"Select caching strategy"),
+    description=_(u"Caching strategy defines how the cache key will be built."),
+    default="anonymous",
+    vocabulary=cachings        
+    )

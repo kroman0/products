@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.2.6 - Jan 26, 2012
+
+* revisited caching key strategies, added language and anonymous switch 
+* added caching switch to control panel
+
 1.2.5 - Oct 21, 2011
 
 * added cache header for csshover.htc view

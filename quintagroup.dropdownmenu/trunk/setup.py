@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.2.5'
+version = '1.2.6'
 
 tests_require = ['zope.testing',
                'collective.testcaselayer']
@@ -14,6 +14,8 @@ setup(name='quintagroup.dropdownmenu',
       classifiers=[
         "Framework :: Plone",
         "Programming Language :: Python",
+        "License :: OSI Approved :: GNU General Public License (GPL)",
+        "Operating System :: OS Independent"
         "Topic :: Software Development :: Libraries :: Python Modules",
         ],
       keywords='web plone menu',

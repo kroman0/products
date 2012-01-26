@@ -22,30 +22,43 @@ from time import time
 from plone.memoize import ram
 import copy
 
-
 def menu_cache_key(f, view):
+    # menu cache key conssits of:
+    # - selected item not only top tab
+    # - site can beaccessed on different domains 
+    # - language is important for multilingua sites
+
     portal_state = getMultiAdapter((view.context, view.request),
                                    name=u'plone_portal_state')
     site_len = len(portal_state.navigation_root_path().split('/'))
     content_path = view.context.getPhysicalPath()[site_len:]
     if view.conf.content_tabs_level > 0:
         content_path = content_path[:view.conf.content_tabs_level]
-    path_key = '/'.join(content_path)
+    path_key = view.request.physicalPathToURL(content_path)
+
+    language = portal_state.locale().getLocaleID()
+
+    # Cache for five minutes. Note that the HTTP RAM-cache
+    # typically purges entries after 60 minutes.
     return view.__name__ + \
            path_key + \
-           str(time() // (60 * 5))  # Every five minutes
-                                    # Note that the HTTP RAM-cache
-                                    # typically purges entries after
-                                    # 60 minutes.
+           language + \
+           str(time() // (60 * 5))  
 
-
+# we are gcaching the menu structure built out of portal_actions tool
+# this cache key does not take in account expressions and roles settings
 def tabs_cache_key(f, view, site_url):
     return site_url + str(time() // (60 * 60))
 
-
 def dropdowncache(f):
     def func(view):
-        if view.conf.show_actions_tabs:
+        portal_state = getMultiAdapter((view.context, view.request),
+                                        name=u'plone_portal_state')
+        # it is impossible to reliably cache entire rendered menu generated  
+        # with potral actions strategy.
+        if not view.conf.enable_caching or view.conf.show_actions_tabs or \
+           (not portal_state.anonymous() and \
+                view.conf.caching_strategy == 'anonymous'):
             return f(view)
         return ram.cache(menu_cache_key)(f)(view)
     return func
@@ -54,6 +67,7 @@ def dropdowncache(f):
 class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
     index = ViewPageTemplateFile('templates/sections.pt')
     recurse = ViewPageTemplateFile('templates/sections_recurse.pt')
+
 
     def update(self):
         # we may need some previously defined variables

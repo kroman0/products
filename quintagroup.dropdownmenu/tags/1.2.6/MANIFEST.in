@@ -1,4 +1,0 @@
-recursive-include docs *
-recursive-include quintagroup *
-global-exclude *.pyc
-global-exclude *.mo

@@ -3,6 +3,7 @@ Introduction
 
 This package allows to build dropdown menu through the web with portal_actions.
 Submenus are built from a tree of nested Category Actions and Actions.
+
 The other strategy used to populate submenus is Plone default NavigationStrategy, 
 the one used in navigation portlet.  
 
@@ -36,6 +37,18 @@ So, the actions structure can look like::
   | |-- 2010
      
 By default the root of dropdown menu is 'portal_tabs' category.
+
+Menu caching
+============
+
+If the menu built with Navigation strategy is entirely public it can be cached for
+all users. If Authenticaded users should see some non public items the menu can be
+cached for anonymous only.
+
+Caching in case of involving the portal_actions strategy is effective only in case
+if all the action are public and have no extra conditions. In case some conditions
+are applied per action switch off caching.
+
  
 Compatibility
 =============
@@ -50,4 +63,5 @@ Installation
 * add quintagroup.dropdownmenu to eggs in your buildout
 * install Plone DropDown Menu in Plone via Site Setup -> Add-ons
 
-Find more details inside docs/INSTALL.txt 
+Find more details on the topic inside docs/INSTALL.txt 
+

@@ -93,7 +93,8 @@ class IDropDownMenuSettings(Interface):
 
     caching_strategy = schema.Choice(
     title=_(u"Select caching strategy"),
-    description=_(u"Caching strategy defines how the cache key will be built."),
+    description=_(u"Caching strategy defines how the cache key will be built."
+                 ),
     default="anonymous",
     vocabulary=cachings
     )

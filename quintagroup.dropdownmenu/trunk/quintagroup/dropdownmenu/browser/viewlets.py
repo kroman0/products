@@ -25,7 +25,7 @@ import copy
 def menu_cache_key(f, view):
     # menu cache key conssits of:
     # - selected item not only top tab
-    # - site can beaccessed on different domains 
+    # - site can be accessed on different domains
     # - language is important for multilingua sites
 
     portal_state = getMultiAdapter((view.context, view.request),
@@ -43,18 +43,20 @@ def menu_cache_key(f, view):
     return view.__name__ + \
            path_key + \
            language + \
-           str(time() // (60 * 5))  
+           str(time() // (60 * 5))
 
-# we are gcaching the menu structure built out of portal_actions tool
+
+# we are caching the menu structure built out of portal_actions tool
 # this cache key does not take in account expressions and roles settings
 def tabs_cache_key(f, view, site_url):
     return site_url + str(time() // (60 * 60))
+
 
 def dropdowncache(f):
     def func(view):
         portal_state = getMultiAdapter((view.context, view.request),
                                         name=u'plone_portal_state')
-        # it is impossible to reliably cache entire rendered menu generated  
+        # it is impossible to reliably cache entire rendered menu generated
         # with potral actions strategy.
         if not view.conf.enable_caching or view.conf.show_actions_tabs or \
            (not portal_state.anonymous() and \
@@ -64,10 +66,17 @@ def dropdowncache(f):
     return func
 
 
+def tabscache(f):
+    def func(view, site_url):
+        if not view.conf.enable_caching:
+            return f(view, site_url)
+        return ram.cache(tabs_cache_key)(f)(view, site_url)
+    return func
+
+
 class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
     index = ViewPageTemplateFile('templates/sections.pt')
     recurse = ViewPageTemplateFile('templates/sections_recurse.pt')
-
 
     def update(self):
         # we may need some previously defined variables
@@ -142,7 +151,7 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         self._activate(res)
         return res
 
-    @ram.cache(tabs_cache_key)
+    @tabscache
     def prepare_tabs(self, site_url):
         def normalize_actions(category, object, level, parent_url=None):
             """walk through the tabs dictionary and build list of all tabs"""

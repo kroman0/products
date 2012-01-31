@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.2.7 - Jan 31, 2012
+
+* added cache switch for tabs
+
 1.2.6 - Jan 26, 2012
 
 * revisited caching key strategies, added language and anonymous switch 

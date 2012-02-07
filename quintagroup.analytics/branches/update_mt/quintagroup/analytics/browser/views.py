@@ -1,4 +1,5 @@
 from pprint import pprint
+from operator import itemgetter
 from Acquisition import aq_base
 from zope.component import getUtility, getMultiAdapter, queryMultiAdapter
 
@@ -10,6 +11,8 @@ from Products.Archetypes.interfaces import IBaseFolder
 from plone.portlets.interfaces import IPortletManager
 from plone.portlets.interfaces import IPortletAssignmentMapping
 from plone.portlets.interfaces import ILocalPortletAssignmentManager
+
+from plone.memoize import view
 
 try:
     from plone.portlets.interfaces import IPortletAssignmentSettings
@@ -535,7 +538,7 @@ def human_format(num):
         magnitude += 1
         num /= 1024.0
     # add more suffixes if you need them
-    return '%.2f %sB' % (num, ['', 'K', 'M', 'G', 'T', 'P'][magnitude])
+    return '%.0f %sB' % (num, ['', 'K', 'M', 'G', 'T', 'P'][magnitude])
 
 def getSize(brain):
     return float(brain.getObjSize.split()[0])*(
@@ -543,6 +546,9 @@ def getSize(brain):
                  or brain.getObjSize.endswith('MB') and 1024*1024 \
                  or 1)
 
+def matrix_tranform(a):
+    b = [0 for i in range(len(a)-1)]
+    return [b[:i]+[a[i]]+b[i:] for i in range(len(a))]
 
 class SizeByPath(BrowserView):
     def __init__(self, context, request):
@@ -554,7 +560,9 @@ class SizeByPath(BrowserView):
         self.DEBUG = True
         bpath = self.request.form.get('basepath')
         self.basepath = bpath and "/"+bpath.strip("/") or ""
-
+        # set default value for type by size stats
+        if not hasattr(self.request, 'type_name'):
+            self.request['type_name'] = "File"
 
     def _brainsByPath(self, path):
         return self.cat(path=path, Language="all")
@@ -613,3 +621,34 @@ class SizeByPath(BrowserView):
                 infos.append(self.getInfoForTableItem(size, brain))
         
         return infos
+
+    @view.memoize
+    def get_data(self, serh_type="File"):
+        if serh_type != "all":
+            objects_by_types_info = [i for i in self.getSizeInfoByPath() if i['type']==serh_type]
+        else:
+            objects_by_types_info = self.getSizeInfoByPath()
+        return sorted([ {'h_size': human_format(i['size']), 
+                          'size' : i['size'],
+                          'path' : i['path'],
+                          'id'   : i['path'].split('/')[-1]} 
+                        for i in objects_by_types_info ],
+                      key=itemgetter('size'),
+                      reverse=True)
+
+    def getChart(self):
+        type_name = self.request['type_name']
+        info_obj = self.get_data(type_name)[:10]
+        if not info_obj:
+            return "<h2>Not found objetcs of '%s' type</h2>" % type_name
+        path, data = zip(*map(itemgetter('path','size'), info_obj))
+        max_value = data[0]
+        #We need transpozed dataset, matrix_tranform does trabspozition
+        chart = VerticalBarStack(matrix_tranform(data))
+        chart.title('Objects of "%s" type by size'%type_name)
+        chart.bar('a', 10, 0).legend_pos("b")#.legend(*path)
+        chart.color(*COLORS)
+        chart.size(800, 375).scale(0,max_value)
+        chart.axes('xy').axes.type("y").axes.range(0,0,max_value)
+        return chart.img()
+        

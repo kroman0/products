@@ -69,8 +69,8 @@
         name="size_stats_path"
         for="*"
         permission="zope2.ViewManagementScreens"
-        attribute="getSizeInfoByPath"
         class=".views.SizeByPath"
+        template="objects_size_stat.pt"
         />
 
     <browser:resource

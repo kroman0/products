@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.2 (2012-02-24)
+------------------
+
+* Implemented max. number of tags to be displayed (Suresh V)
+
 1.1.1 (2011-10-28)
 ------------------
 

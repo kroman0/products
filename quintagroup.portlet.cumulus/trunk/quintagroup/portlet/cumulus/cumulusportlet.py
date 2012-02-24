@@ -98,6 +98,12 @@ class ICumulusPortlet(IPortletDataProvider):
         required=True,
         default=u'pt')
 
+    max_tags = schema.Int(
+        title=_(u'Maximum number of tags to display'),
+        description=_(u'Used when too many tags make the display ugly.'),
+        required=True,
+        default=50)
+
 class Assignment(base.Assignment):
     """Portlet assignment.
 
@@ -121,6 +127,7 @@ class Assignment(base.Assignment):
     smallest = 8
     largest  = 22
     unit     = u'pt'
+    max_tags = 50
 
     def __init__(self, **kw):
         for k, v in kw.items():
@@ -207,6 +214,9 @@ class Renderer(base.Renderer):
         tags = ITagsRetriever(self.context).getTags()
         if tags == []:
             return []
+
+        tags.sort(lambda x,y: (x[1]<y[1] and 1) or (x[1]>y[1] and -1) or 0)
+        tags = tags[:self.data.max_tags]
 
         number_of_entries = [i[1] for i in tags]
 

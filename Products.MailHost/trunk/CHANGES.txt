@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.13.1-qg (2012-02-28)
+-------------------
+
+- removed explicit override of mail from address
+
 2.13.1 (2010-09-25)
 -------------------
 

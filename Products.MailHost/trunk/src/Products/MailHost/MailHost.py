@@ -450,10 +450,8 @@ def _mungeHeaders(messageText, mto=None, mfrom=None, subject=None,
             raise MailHostError("No message recipients designated")
 
     if mfrom:
-        # XXX: do we really want to override an explicitly set From
-        # header in the messageText
-        del mo['From']
-        mo['From'] = _encode_address_string(mfrom, charset)
+        if not mo['From']:
+            mo['From'] = _encode_address_string(mfrom, charset)
     else:
         if mo.get('From') is None:
             raise MailHostError("Message missing SMTP Header 'From'")

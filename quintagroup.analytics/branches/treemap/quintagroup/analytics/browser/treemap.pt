@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="++resource++treemap.css" />
+    </head>
+    <body>
+        <div tal:replace="structure view/getTreemap">
+        </div>
+
+        <!--img tal:attributes="src view/getPNG"/-->
+        <!--img src="@@obt.png"/-->
+    </body>
+</html>
+

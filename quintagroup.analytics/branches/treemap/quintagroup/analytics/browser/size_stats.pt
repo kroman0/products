@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/prefs_main_template/macros/master">
+
+<metal:main metal:fill-slot="prefs_configlet_main"
+            i18n:domain="quintagroup.analytics"
+            tal:define="infos view/getSizeStats">
+    <body>
+        <div id="wrapper">
+            <h1>Quintagroup Analytics Tool for Plone</h1>
+            <ul class="formTabs" id="navigation">
+                <li class="formTab"><a href="@@qa_overview">Overview</a></li>
+                <li class="formTab"><a href="@@ownership_by_type">Ownership by type</a></li>
+                <li class="formTab"><a href="@@ownership_by_state">Ownership by state</a></li>
+                <li class="formTab"><a href="@@type_by_state">Types by state</a></li>
+                <li class="formTab"><a href="@@portlets_stats">Portlets stats</a></li>
+                <li class="formTab"><a href="@@legacy_portlets">Legacy portlets</a></li>
+                <li class="formTab"><a class="selected" href="@@properties_stats">Properties stats</a></li>
+                <li class="formTab"><a class="selected" href="@@size_stats">Size stats</a></li>
+            </ul>
+            <p>The following list can display summary sizes of objects, occupied by subfolders and objects in the certain base path. To generate the 
+               base path - path, which you want to view statystics for
+                Select CSV to render this information in .csv format.
+            </p>
+            <form action="" method="get">
+                Base path (/ means no root of the plone site):
+                <input type="text" name="basepath" size="40" tal:attributes="value request/basepath|string:" />
+                CSV
+                <input type="checkbox" name="csv" size="40" tal:attributes="checked request/csv|python:0" />
+                <input type="submit" name="submit" value="Search" />
+            </form>
+        </div>
+        <div tal:condition="request/csv|nothing">
+            <nobr>path,<span tal:replace="view/basepath" /><br /></nobr>
+            <nobr tal:repeat="info infos">
+                <span tal:replace="info/path">
+                    path
+                </span>,<span
+                tal:condition="info/slots">"<span
+                tal:condition="python:not isinstance(info['slots'],basestring)"
+                tal:repeat="slot info/slots"><span
+                tal:replace="slot" />;</span><span
+                tal:condition="python:isinstance(info['slots'],basestring)"
+                tal:replace="info/slots">string</span>"</span><span
+                tal:condition="python:info['slots'] is None">None</span><br />
+            </nobr>
+        </div>
+        <table class="listing"
+               tal:condition="not:request/csv|nothing">
+            <tr>
+                <th>Object</th>
+                <th>Size, Analyse Content</th>
+            </tr>
+            <tr tal:repeat="info view/getSizeStats">
+                <td><a href="#"
+                       tal:content="info/path"
+		       tal:attributes="href info/href">path</a></td>
+                <td><a href="#"
+		       tal:attributes="href info/analyse_url"
+		       tal:omit-tag="not:info/analyse_url"
+                       tal:content="info/human_size">slot</a></td>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <td tal:content="view/total">123</td>
+            </tr>
+        </table>
+    </body>
+  </metal:main>
+</html>

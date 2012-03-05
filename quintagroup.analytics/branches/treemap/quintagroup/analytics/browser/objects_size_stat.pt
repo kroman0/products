@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/prefs_main_template/macros/master">
+
+<metal:main metal:fill-slot="prefs_configlet_main"
+            i18n:domain="quintagroup.analytics"
+            tal:define="type_name request/type_name;
+                        data python:view.get_data(type_name)">
+
+   <body>
+       <div id="wrapper">
+           <h1>Quintagroup Analytics Tool for Plone</h1>
+           <ul class="formTabs" id="navigation">
+               <li class="formTab"><a href="@@qa_overview">Overview</a></li>
+               <li class="formTab"><a href="@@ownership_by_type">Ownership by type</a></li>
+               <li class="formTab"><a href="@@ownership_by_state">Ownership by state</a></li>
+               <li class="formTab"><a href="@@type_by_state">Types by state</a></li>
+               <li class="formTab"><a href="@@portlets_stats">Portlets stats</a></li>
+               <li class="formTab"><a href="@@legacy_portlets">Legacy portlets</a></li>
+               <li class="formTab"><a href="@@properties_stats">Properties stats</a></li>
+               <li class="formTab"><a class="selected" href="@@size_stats_path">Objects by size</a></li>
+           </ul>
+           <p>The following chart displays the objects size by choosen type. 
+            <form  action="@@size_stats_path" 
+                   method="post">
+                     Objects type (you can type 'all' to see all types):
+                     <br /> 
+                    <input type="input" id="type_name" name="type_name" 
+                           tal:attributes="value type_name"  />
+                    <input type="submit" 
+                           class="standalone" 
+                           value="View stats">
+            </form>
+            </p>
+       </div>
+       <div id="chart" tal:content="structure view/getChart">
+           Chart will be here
+       </div> 
+
+       <table tal:condition="data" class="listing">
+          <thead>
+               <tr>
+                  <th>ID</th>
+                  <th>Size</th>
+               </tr>
+           </thead>
+           <tbody> 
+              <tal:block  tal:repeat="file data">
+                    <tr tal:attributes="class python:repeat['file'].odd() and 'even' or 'odd'">
+                        <td><a tal:content="file/id" tal:attributes="href file/path">id</a></td>
+                        <td tal:content="file/h_size">123</td>                        
+                    </tr>
+              </tal:block>
+           </tbody>
+       </table>
+   </body>
+</metal:main>
+</html>

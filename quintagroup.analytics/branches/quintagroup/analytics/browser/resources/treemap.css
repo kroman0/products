@@ -1,0 +1,262 @@
+.horizontal > div:first-child {
+    height: 100%;
+    border:0;
+    float:left;
+}
+
+.horizontal > div:first-child + div {
+    height: 100%;
+    border:0;
+    float:left;
+}
+
+.vertical > div:first-child {
+    width: 100%;
+    border:0;
+    float:left;
+}
+.vertical > div:first-child + div {
+    width: 100%;
+    border:0;
+    float:left;
+}
+.horizontal.prop10 > div:first-child {
+    width: 10%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop10 > div:first-child + div{
+    width: 90%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop10 > div:first-child {
+    height: 10%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop10 > div:first-child + div {
+    height: 90%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop20 > div:first-child {
+    width: 20%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop20 > div:first-child + div{
+    width: 80%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop20 > div:first-child {
+    height: 20%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop20 > div:first-child + div {
+    height: 80%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop30 > div:first-child {
+    width: 30%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop30 > div:first-child + div{
+    width: 70%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop30 > div:first-child {
+    height: 30%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop30 > div:first-child + div {
+    height: 70%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop40 > div:first-child {
+    width: 40%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop40 > div:first-child + div{
+    width: 60%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop40 > div:first-child {
+    height: 40%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop40 > div:first-child + div {
+    height: 60%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop50 > div:first-child {
+    width: 50%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop50 > div:first-child + div{
+    width: 50%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop50 > div:first-child {
+    height: 50%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop50 > div:first-child + div {
+    height: 50%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop60 > div:first-child {
+    width: 60%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop60 > div:first-child + div{
+    width: 40%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop60 > div:first-child {
+    height: 60%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop60 > div:first-child + div {
+    height: 40%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop70 > div:first-child {
+    width: 70%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop70 > div:first-child + div{
+    width: 30%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop70 > div:first-child {
+    height: 70%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop70 > div:first-child + div {
+    height: 30%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop80 > div:first-child {
+    width: 80%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop80 > div:first-child + div{
+    width: 20%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop80 > div:first-child {
+    height: 80%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop80 > div:first-child + div {
+    height: 20%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop90 > div:first-child {
+    width: 90%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop90 > div:first-child + div{
+    width: 10%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop90 > div:first-child {
+    height: 90%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop90 > div:first-child + div {
+    height: 10%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop100 > div:first-child {
+    width: 100%;
+    border:0;
+    float:left;
+}
+
+.horizontal.prop100 > div:first-child + div{
+    width: 0%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop100 > div:first-child {
+    height: 100%;
+    border:0;
+    float:left;
+}
+
+.vertical.prop100 > div:first-child + div {
+    height: 0%;
+    border:0;
+    float:left;
+}
+

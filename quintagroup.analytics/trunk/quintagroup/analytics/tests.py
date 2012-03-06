@@ -379,23 +379,21 @@ class TestTypeByState(TestCase):
             'chtt=Content+type+by+state&amp;chdl=private|published|'\
             'No+workflow&amp;chdlp=b"/>'
         plone4chart_tag = \
-            '<imgsrc="http://chart.apis.google.com/chart?chxt=y&amp;'\
-            'chds=0,159&amp;chd=t:156.0,145.0,145.0,0.0|3.0,1.0,0.0,'\
-            '3.0|0.0,0.0,0.0,0.0&amp;chxr=0,0,159&amp;chco=669933,'\
-            'cc9966,993300,ff6633,e8e4e3,a9a486,dcb57e,ffcc99,996633,'\
-            '333300,00ff00&amp;chl=folder|document|event|topic&amp;'\
-            'chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;'\
-            'chtt=content+type+by+state&amp;chdl=private|published|'\
-            'no+workflow&amp;chdlp=b"/>'
+            '<imgsrc="http://chart.apis.google.com/chart?chxt=y&amp;chds=0,'\
+            '159&amp;chd=t:156.0,145.0,145.0,0.0|3.0,1.0,0.0,3.0|0.0,0.0,0.'\
+            '0,0.0&amp;chxr=0,0,159&amp;chco=669933,cc9966,993300,ff6633,e8'\
+            'e4e3,a9a486,dcb57e,ffcc99,996633,333300,00ff00&amp;chl=Folder|'\
+            'Document|Event|Topic&amp;chbh=a,10,0&amp;chs=800x375&amp;cht=b'\
+            'vs&amp;chtt=Content+type+by+state&amp;chdl=private|published|N'\
+            'o+workflow&amp;chdlp=b"/>'
         plone41chart_tag = \
-            '<imgsrc="http://chart.apis.google.com/chart?chxt=y&amp;'\
-            'chds=0,159&amp;chd=t:156.0,145.0,145.0,0.0|3.0,1.0,0.0,'\
-            '3.0|0.0,0.0,0.0,0.0&amp;chxr=0,0,159&amp;chco=669933,'\
-            'cc9966,993300,ff6633,e8e4e3,a9a486,dcb57e,ffcc99,996633,'\
-            '333300,00ff00&amp;chl=folder|document|event|topic&amp;'\
-            'chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;'\
-            'chtt=content+type+by+state&amp;chdl=private|published|'\
-            'no+workflow&amp;chdlp=b"/>'
+            '<imgsrc="http://chart.apis.google.com/chart?chxt=y&amp;chds=0,'\
+            '159&amp;chd=t:156.0,145.0,145.0,0.0|3.0,1.0,0.0,2.0|0.0,0.0,0.'\
+            '0,0.0&amp;chxr=0,0,159&amp;chco=669933,cc9966,993300,ff6633,e8'\
+            'e4e3,a9a486,dcb57e,ffcc99,996633,333300,00ff00&amp;chl=Folder|'\
+            'Document|Event|Topic&amp;chbh=a,10,0&amp;chs=800x375&amp;cht=b'\
+            'vs&amp;chtt=Content+type+by+state&amp;chdl=private|published|N'\
+            'o+workflow&amp;chdlp=b"/>'
 
         if self.plone_version < "4.0":
             chart_tag = plone33chart_tag

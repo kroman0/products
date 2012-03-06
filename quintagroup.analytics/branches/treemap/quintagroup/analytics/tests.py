@@ -436,6 +436,11 @@ class TestPortletsStats(TestCase):
 
 def test_suite():
     from unittest import TestSuite, makeSuite
+    from quintagroup.analytics.test_treemap import \
+                                      TestTreemapControl,\
+                                      TestTreemapBTree,\
+                                      TestTreemap,\
+                                      TestTreemapHtml
 
     test_suite = unittest.TestSuite([
 
@@ -459,6 +464,10 @@ def test_suite():
         #    test_class=TestCase),
 
         ])
+    test_suite.addTest(makeSuite(TestTreemapControl))
+    test_suite.addTest(makeSuite(TestTreemapBTree))
+    test_suite.addTest(makeSuite(TestTreemap))
+    test_suite.addTest(makeSuite(TestTreemapHtml))
 
     test_suite.addTest(makeSuite(TestQAInstallation))
     test_suite.addTest(makeSuite(TestOwnershipByType))

@@ -8,10 +8,14 @@ from Products.Five import fiveconfigure
 from zope.component import queryMultiAdapter, getUtility
 
 from Products.PloneTestCase import PloneTestCase as ptc
-from Products.PloneTestCase.version import PLONE40
 from Products.PloneTestCase import setup as ptc_setup
 from Products.PloneTestCase.layer import PloneSite
 from plone.portlets.interfaces import IPortletType
+try:
+    from Products.PloneTestCase.version import PLONE40
+    PLONE40 = PLONE40
+except ImportError:
+    PLONE40 = False
 
 import quintagroup.analytics
 

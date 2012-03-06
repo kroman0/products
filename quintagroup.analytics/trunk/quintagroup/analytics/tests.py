@@ -321,7 +321,8 @@ class TestTypeByState(TestCase):
                                  name="type_by_state")
         self.pc = self.portal.portal_catalog
         portal_migration = self.portal.portal_migration
-        self.plone_version = portal_migration.getSoftwareVersion()
+        version = portal_migration.getFileSystemVersion()
+        self.plone_version = version.replace(".","")
 
     def test_getTypes(self):
         """ Tests method that returns ordered list of types."""
@@ -395,9 +396,9 @@ class TestTypeByState(TestCase):
             'vs&amp;chtt=Content+type+by+state&amp;chdl=private|published|N'\
             'o+workflow&amp;chdlp=b"/>'
 
-        if self.plone_version < "4.0":
+        if self.plone_version < "40":
             chart_tag = plone33chart_tag
-        elif self.plone_version > "4.1":
+        elif self.plone_version > "41":
             chart_tag = plone41chart_tag
         else:
             chart_tag = plone4chart_tag

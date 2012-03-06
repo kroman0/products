@@ -320,6 +320,8 @@ class TestTypeByState(TestCase):
         self.view = queryMultiAdapter((self.portal, self.portal.REQUEST),
                                  name="type_by_state")
         self.pc = self.portal.portal_catalog
+        portal_migration = self.portal.portal_migration
+        self.plone_version = portal_migration.getInstanceVersion()
 
     def test_getTypes(self):
         """ Tests method that returns ordered list of types."""
@@ -381,14 +383,26 @@ class TestTypeByState(TestCase):
             'chds=0,159&amp;chd=t:156.0,145.0,145.0,0.0|3.0,1.0,0.0,'\
             '3.0|0.0,0.0,0.0,0.0&amp;chxr=0,0,159&amp;chco=669933,'\
             'cc9966,993300,ff6633,e8e4e3,a9a486,dcb57e,ffcc99,996633,'\
-            '333300,00ff00&amp;chl=Folder|Document|Event|Topic&amp;'\
+            '333300,00ff00&amp;chl=folder|document|event|topic&amp;'\
             'chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;'\
-            'chtt=Content+type+by+state&amp;chdl=private|published|'\
-            'No+workflow&amp;chdlp=b"/>'
+            'chtt=content+type+by+state&amp;chdl=private|published|'\
+            'no+workflow&amp;chdlp=b"/>'
+        plone41chart_tag = \
+            '<imgsrc="http://chart.apis.google.com/chart?chxt=y&amp;'\
+            'chds=0,159&amp;chd=t:156.0,145.0,145.0,0.0|3.0,1.0,0.0,'\
+            '3.0|0.0,0.0,0.0,0.0&amp;chxr=0,0,159&amp;chco=669933,'\
+            'cc9966,993300,ff6633,e8e4e3,a9a486,dcb57e,ffcc99,996633,'\
+            '333300,00ff00&amp;chl=folder|document|event|topic&amp;'\
+            'chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;'\
+            'chtt=content+type+by+state&amp;chdl=private|published|'\
+            'no+workflow&amp;chdlp=b"/>'
 
-        chart_tag = plone4chart_tag
-        if not PLONE40:
+        if self.plone_version < "4.0":
             chart_tag = plone33chart_tag
+        elif self.plone_version > "4.1":
+            chart_tag = plone41chart_tag
+        else:
+            chart_tag = plone4chart_tag
 
         self.loginAsPortalOwner()
         self.assertEqual(*map(lambda s: ''.join(s.split()),

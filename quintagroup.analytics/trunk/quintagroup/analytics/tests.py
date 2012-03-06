@@ -321,7 +321,7 @@ class TestTypeByState(TestCase):
                                  name="type_by_state")
         self.pc = self.portal.portal_catalog
         portal_migration = self.portal.portal_migration
-        self.plone_version = portal_migration.getInstanceVersion()
+        self.plone_version = portal_migration.getSoftwareVersion()
 
     def test_getTypes(self):
         """ Tests method that returns ordered list of types."""

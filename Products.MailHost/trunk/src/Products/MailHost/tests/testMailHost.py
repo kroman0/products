@@ -26,6 +26,8 @@ class DummyMailHost(MailHost):
         self.id = id
         self.sent = ''
     def _send(self, mfrom, mto, messageText, immediate=False):
+        self.mfrom = mfrom
+        self.mto = mto
         self.sent = messageText
         self.immediate = immediate
 
@@ -444,7 +446,8 @@ wqFVbiB0cnVjbyA8c3Ryb25nPmZhbnTDoXN0aWNvPC9zdHJvbmc+IQ=3D=3D
 
         # We need to make sure we didn't mutate the message we were passed
         self.failIfEqual(out.as_string(), msg.as_string())
-        self.failUnlessEqual(out['From'], 'Foo Bar <foo@domain.com>')
+        self.failUnlessEqual(out['From'],
+            '=?utf-8?q?Jos=C3=A9_Andr=C3=A9s?= <jose@example.com>')
         self.failUnlessEqual(msg['From'],
             '=?utf-8?q?Jos=C3=A9_Andr=C3=A9s?= <jose@example.com>')
         # The subject is encoded with the body encoding since no
@@ -636,6 +639,36 @@ D=EDt =EFs =E9=E9n test
         # (TypeError: expected string or buffer)
         mailhost.send(msg, charset='utf-8')
         self.assertEqual(mailhost.sent, msg)
+
+    def testSMTPMailFromHeaderSetup(self):
+        msg = message_from_string("""\
+From: =?utf-8?q?Jos=C3=A9_Andr=C3=A9s?= <jose@example.com>
+To: =?utf-8?q?Ferran_Adri=C3=A0?= <ferran@example.com>
+Subject: =?utf-8?q?=C2=BFEsferificaci=C3=B3n=3F?=
+Date: Sun, 27 Aug 2006 17:00:00 +0200
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.1
+
+wqFVbiB0cnVjbyA8c3Ryb25nPmZhbnTDoXN0aWNvPC9zdHJvbmc+IQ=3D=3D
+""")
+        mailhost = self._makeOne('MailHost')
+        mailhost.send(msg, mfrom='Foo Bar <foo@domain.com>')
+        out = message_from_string(mailhost.sent)
+
+        # We need to check if the 'From' header in message that we passed
+        # haven't changed.
+        self.failUnlessEqual(out['From'], msg['From'])
+
+        # We need to make sure that proper 'SMTP MAIL FROM' header was send.
+        self.failUnlessEqual(mailhost.mfrom, 'Foo Bar <foo@domain.com>')
+
+        # If 'From' header is missing in the message
+        # it should be added with 'MAIL FROM' SMTP Envelope header value.
+        del msg['From']
+        mailhost.send(msg, mfrom='Foo Bar <foo@domain.com>')
+        out = message_from_string(mailhost.sent)
+        self.failUnlessEqual(out['From'], 'Foo Bar <foo@domain.com>')
 
 
 def test_suite():

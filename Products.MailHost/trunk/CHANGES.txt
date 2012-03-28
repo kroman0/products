@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.13.2-qg (2012-03-28)
+-------------------
+
+- added tests for mail from header override fix
+
 2.13.1-qg (2012-02-28)
 -------------------
 

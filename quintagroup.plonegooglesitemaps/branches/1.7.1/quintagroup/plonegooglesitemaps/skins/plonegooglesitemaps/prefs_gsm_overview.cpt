@@ -6,36 +6,36 @@
       i18n:domain="qPloneGoogleSitemaps"> 
 
 <body>
-  <div metal:fill-slot="prefs_configlet_main"
+  <div metal:fill-slot="prefs_configlet_content"
        tal:define="errors python:request.get('errors', {});
                    portal context/@@plone_portal_state/portal;">
 
     <div class="documentEditable">
-        <ul class="contentViews">
-            <li class="selected">
-                <a href=""
-                   tal:attributes="href string:${template/id}"
-                   i18n:translate="label_properties">Overview</a>
-            </li>
-
-            <li class="">
-                <a href=""
-                   tal:attributes="href string: prefs_gsm_verification"
-                   i18n:translate="label_properties">Verification</a>
-            </li>
-
-            <li class="">
-               <a href=""
-                  tal:attributes="href string: prefs_gsm_settings">
-                  Settings</a>
-            </li>
-
-        </ul>
-
-        <div class="contentActions">
-        &nbsp;
+        <div id="edit-bar">
+            <ul class="contentViews" id="content-views">
+                <li class="selected">
+                    <a href=""
+                       tal:attributes="href string:${template/id}"
+                       i18n:translate="label_properties">Overview</a>
+                </li>
+    
+                <li class="">
+                    <a href=""
+                       tal:attributes="href string: prefs_gsm_verification"
+                       i18n:translate="label_properties">Verification</a>
+                </li>
+    
+                <li class="">
+                   <a href=""
+                      tal:attributes="href string: prefs_gsm_settings">
+                      Settings</a>
+                </li>
+    
+            </ul>
+    
+            <div class="contentActions"> &nbsp; </div>
         </div>
-        <div class="documentContent">
+        <div id=content class="documentContent">
             <h1 i18n:translate="heading_plonegooglesitemaps">Plone Google Sitemaps</h1>
             <a href=""
             class="link-parent"

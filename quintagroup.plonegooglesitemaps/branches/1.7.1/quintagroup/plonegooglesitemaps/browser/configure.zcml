@@ -49,4 +49,26 @@
       layer="quintagroup.plonegooglesitemaps.interfaces.IGoogleSitemapsLayer"
     />
 
+    <browser:page
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      name="deleteVerificationFile"
+      class=".configletview.ConfigletSettingsView"
+      permission="cmf.ManagePortal"
+      attribute="deleteVerificationFile"
+    />
+
+    <browser:resource                                                           
+      name="trash.gif"                                                          
+      image="./images/trash.gif"                                                
+      layer="quintagroup.plonegooglesitemaps.interfaces.IGoogleSitemapsLayer"
+      permission="cmf.ManagePortal"
+    />     
+    
+    <browser:resource
+      name="verify_file.css"
+      file="resources/verify_file.css"
+      layer="quintagroup.plonegooglesitemaps.interfaces.IGoogleSitemapsLayer"
+      permission="cmf.ManagePortal"
+    />
+
 </configure>

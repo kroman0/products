@@ -72,7 +72,7 @@ class ConfigletSettingsView(BrowserView):
                                      name="plone_portal_state")
         self.sitemaps = [i.getObject() for i in \
                          self.tools.catalog()(portal_type='Sitemap')]
-
+ 
     @property
     def sm_types(self):
         return [i.getSitemapType() for i in self.sitemaps]
@@ -143,24 +143,37 @@ class ConfigletSettingsView(BrowserView):
                     pass
         return (size, entries)
 
+    def deleteVerificationFile(self):
+        portal = self.pps.portal()
+        portal.manage_delObjects([self.request.id,])
+        if 'HTTP_REFERER' in self.request.keys():      
+            url = self.request.HTTP_REFERER
+        else:
+            url = self.context + 'prefs_gsm_verification'
+        self.request.RESPONSE.redirect(url)
+
     def getVerificationFiles(self):
         vfs = []
         props = getattr(self.tools.properties(), 'googlesitemap_properties')
+        portal = self.pps.portal()
         if props:
-            portal_ids = self.pps.portal().objectIds()
+            portal_ids = portal.objectIds()
             props_vfs = list(props.getProperty('verification_filenames', []))
+
             vfs = [vf for vf in props_vfs if vf in portal_ids]
             if not props_vfs == vfs:
                 props._updateProperty('verification_filenames', vfs)
-        return vfs
+
+        return [{'id': x, 'title': portal[x].title} for x in vfs]
 
     def uploadVerificationFile(self, request):
         vfilename = ""
         portal = self.pps.portal()
         try:
+            comment = request.get("comment")
             vfile = request.get("verification_file")
             vfilename, vftitle = cookId("", "", vfile)
-            portal.manage_addFile(id="", file=vfile)
+            portal.manage_addFile(id="", file=vfile, title=comment)
             portal[vfilename].manage_addProperty(
                 'CreatedBy', 'quintagroupt.plonegooglesitemaps', 'string')
         except BadRequestException, e:

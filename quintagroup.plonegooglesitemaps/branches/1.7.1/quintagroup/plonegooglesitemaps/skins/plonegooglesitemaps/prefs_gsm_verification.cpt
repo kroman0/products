@@ -5,7 +5,7 @@
       metal:use-macro="here/prefs_main_template/macros/master"
       i18n:domain="qPloneGoogleSitemaps"> 
 <body>
-    <div metal:fill-slot="prefs_configlet_main"
+    <div metal:fill-slot="prefs_configlet_content"
         tal:define="errors python:request.get('errors', {});
                     view here/@@sitemap_settings;
                     here_url context/@@plone_context_state/object_url;
@@ -13,31 +13,30 @@
                     template_id template/getId;">
 
         <div class="documentEditable">
-            <ul class="contentViews">
-                <li class="">
+            <div id="edit-bar">
+                <ul class="contentViews" id="content-views">
+                    <li class="">
+                        <a href=""
+                        tal:attributes="href string: prefs_gsm_overview"
+                        i18n:translate="label_properties">Overview</a>
+                    </li>
+
+                    <li class="selected">
+                        <a href=""
+                        tal:attributes="href string:${template/id}"
+                        i18n:translate="label_properties">Verification</a>
+                    </li>
+
+                    <li class="">
                     <a href=""
-                    tal:attributes="href string: prefs_gsm_overview"
-                    i18n:translate="label_properties">Overview</a>
-                </li>
+                        tal:attributes="href string:prefs_gsm_settings">
+                        Settings</a>
+                    </li>
 
-                <li class="selected">
-                    <a href=""
-                    tal:attributes="href string:${template/id}"
-                    i18n:translate="label_properties">Verification</a>
-                </li>
-
-                <li class="">
-                <a href=""
-                    tal:attributes="href string:prefs_gsm_settings">
-                    Settings</a>
-                </li>
-
-            </ul>
-
-            <div class="contentActions">
-            &nbsp;
+                </ul>
+                <div class="contentActions"> &nbsp; </div>
             </div>
-            <div class="documentContent">
+            <div id="content" class="documentContent">
                 <h1 i18n:translate="heading_plonegooglesitemaps">Plone Google Sitemaps</h1>
                 <a href=""
                 class="link-parent"
@@ -48,6 +47,7 @@
 
                 <form action="manage_addFile" method="post" enctype="multipart/form-data"
                       tal:define="vfiles view/getVerificationFiles;
+                                  user_id context/plone_portal_state/member;
                                   step1 python:test(vfiles, 'discreet', '');
                                   step2 python:test(not vfiles, 'discreet', '')"
                       tal:attributes="action string:$here_url/$template_id">
@@ -61,9 +61,10 @@
                         <li tal:attributes="class step1">Select verification file:
                             <p><input name="verification_file" id="verify_filename" type="file"></p>
                         </li>
-                        <li tal:attributes="class step1">
-                                <input name="form.button.CreateFile" id="create_file" type="submit" value="Upload verification file to the site"/>
-                                <input type="hidden" name="form.submitted" value="1" />
+                        <li tal:attributes="class step1">Comment:
+                                <p><input type="text" value="" tal:attributes="value user_id" name='comment'/>
+                                   <input name="form.button.CreateFile" id="create_file" type="submit" value="Upload verification file to the site"/>
+                                   <input type="hidden" name="form.submitted" value="1" /></p>
                         </li>
                         <li class="discreet"
                             tal:attributes="class step2">Go to <a href=""
@@ -74,9 +75,11 @@
                         <li class="discreet"
                             tal:attributes="class step2"
                             tal:condition="vfiles">
-                            <strong>Existent verification files:</strong>
-                            <ul><li tal:repeat="vf vfiles"
-                                    tal:content="vf">verification file id
+                            <strong>Existing verification files:</strong>
+                            <ul><li tal:repeat="vf vfiles">
+                                    <a tal:attributes="href string: ${vf/id}" tal:content="vf/id"></a>
+                                    <span tal:replace="string: (${vf/title})">comment to verification file</span>
+                                    <a tal:attributes="href string: ${context/absolute_url}/@@deleteVerificationFile?id=${vf/id}; class string:delete">Delete</a>
                             </li></ul>
                         </li>
                     </ol>

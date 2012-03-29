@@ -5,33 +5,33 @@
       metal:use-macro="here/prefs_main_template/macros/master"
       i18n:domain="qPloneGoogleSitemaps">
 <body>
-    <div metal:fill-slot="prefs_configlet_main"
+    <div metal:fill-slot="prefs_configlet_content"
         tal:define="errors python:request.get('errors', {});
                     here_url context/@@plone_context_state/object_url;
                     portal context/@@plone_portal_state/portal;">
 
         <div class="documentEditable">
-            <ul class="contentViews">
-                <li class="">
+            <div id="edit-bar">
+                <ul class="contentViews" id="content-views">
+                    <li class="">
+                        <a href=""
+                           tal:attributes="href string: prefs_gsm_overview">
+                           Overview</a>
+                    </li>
+                    <li class="">
+                        <a href=""
+                           tal:attributes="href string:prefs_gsm_verification">
+                           Verification</a>
+                    </li>
+                    <li class="selected">
                     <a href=""
-                       tal:attributes="href string: prefs_gsm_overview">
-                       Overview</a>
-                </li>
-                <li class="">
-                    <a href=""
-                       tal:attributes="href string:prefs_gsm_verification">
-                       Verification</a>
-                </li>
-                <li class="selected">
-                <a href=""
-                   tal:attributes="href string:${template/id}">
-                   Settings</a>
-                </li>
-            </ul>
-            <div class="contentActions">
-            &nbsp;
+                       tal:attributes="href string:${template/id}">
+                       Settings</a>
+                    </li>
+                </ul>
+                <div class="contentActions"> &nbsp; </div>
             </div>
-            <div class="documentContent">
+            <div id=content class="documentContent">
                 <h1 i18n:translate="heading_plonegooglesitemaps">Plone Google Sitemaps</h1>
                 <a href=""
                    class="link-parent"

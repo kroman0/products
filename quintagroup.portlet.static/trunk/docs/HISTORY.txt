@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.7 - March 29, 2012
+--------------------
+
+* Added z3c.autoinclude directives.
+  [potar]
+
 0.6 - January 05, 2012
 ----------------------
 

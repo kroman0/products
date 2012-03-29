@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.6'
+version = '0.7'
 
 setup(name='quintagroup.portlet.static',
       version=version,
@@ -29,6 +29,9 @@ setup(name='quintagroup.portlet.static',
           # -*- Extra requirements: -*-
       ],
       entry_points="""
+
       # -*- Entry points: -*-
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       )

@@ -72,7 +72,6 @@ class ConfigletSettingsView(BrowserView):
                                      name="plone_portal_state")
         self.sitemaps = [i.getObject() for i in \
                          self.tools.catalog()(portal_type='Sitemap')]
- 
     @property
     def sm_types(self):
         return [i.getSitemapType() for i in self.sitemaps]
@@ -145,8 +144,8 @@ class ConfigletSettingsView(BrowserView):
 
     def deleteVerificationFile(self):
         portal = self.pps.portal()
-        portal.manage_delObjects([self.request.id,])
-        if 'HTTP_REFERER' in self.request.keys():      
+        portal.manage_delObjects([self.request.id, ])
+        if 'HTTP_REFERER' in self.request.keys():
             url = self.request.HTTP_REFERER
         else:
             url = self.context + 'prefs_gsm_verification'

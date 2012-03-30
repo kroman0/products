@@ -24,7 +24,7 @@ def applyOperations(objects, operations):
     result = {}
     for ob in objects:
         url = _marker
-        if ob.has_key('canonical_link'):
+        if hasattr(ob, 'canonical_link'):
             url = ob.canonical_link
         if url in [Missing_Value, _marker]:
             url = ICanonicalLink(ob.getObject()).canonical_link

@@ -72,6 +72,7 @@ class ConfigletSettingsView(BrowserView):
                                      name="plone_portal_state")
         self.sitemaps = [i.getObject() for i in \
                          self.tools.catalog()(portal_type='Sitemap')]
+
     @property
     def sm_types(self):
         return [i.getSitemapType() for i in self.sitemaps]

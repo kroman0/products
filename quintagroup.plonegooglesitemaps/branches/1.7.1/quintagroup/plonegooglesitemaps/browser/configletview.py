@@ -5,6 +5,8 @@ from OFS.Image import cookId
 from OFS.ObjectManager import BadRequestException
 from Products.Five import BrowserView
 
+import urlparse
+
 
 def splitNum(num):
     res = []
@@ -143,14 +145,12 @@ class ConfigletSettingsView(BrowserView):
                     pass
         return (size, entries)
 
-    def deleteVerificationFile(self):
+    def deleteGSMVerificationFile(self):
         portal = self.pps.portal()
         portal.manage_delObjects([self.request.id, ])
-        if 'HTTP_REFERER' in self.request.keys():
-            url = self.request.HTTP_REFERER
-        else:
-            url = self.context + 'prefs_gsm_verification'
-        self.request.RESPONSE.redirect(url)
+        self.request.RESPONSE.redirect(
+                                urlparse.urljoin(self.context.absolute_url,
+                                'prefs_gsm_verification'))
 
     def getVerificationFiles(self):
         vfs = []

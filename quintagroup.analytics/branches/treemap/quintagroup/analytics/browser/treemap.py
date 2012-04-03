@@ -389,7 +389,8 @@ class TreemapImage(Treemap):
                         treemap.data.y + DIVERSION_TEXT_CHILD_V),
                         text = field_name, font = font, 
                         fill = self.getPilColor(treemap.data.color))
-        
+            return True
+
     def drawTreemap(self, treemap, image):
         """ Method generates treemap image """
         if treemap.data.color:

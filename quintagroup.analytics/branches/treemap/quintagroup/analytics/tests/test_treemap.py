@@ -1,6 +1,7 @@
 import unittest
 from unittest import TestSuite, makeSuite, TestCase
 from itertools import izip
+from PIL import ImageDraw
 
 from quintagroup.analytics.browser.treemap import TreemapBTree, Treemap, \
                                                   TreemapControl, \
@@ -46,7 +47,7 @@ from quintagroup.analytics.browser.treemap import TreemapBTree, Treemap, \
 #                             tuple(imap(isNumber, self.rect[1].getCoordinates())))
 
 
-def createTreemap(cls = Treemap):
+def createTreemap(cls=Treemap):
     """ Method dedicated to create tests instance """
     treemap = cls(x=0, y=0, w=100,h=100)
     treemap.addItems([Treemap(size=50, color='#ad3333', title='admin4'),
@@ -229,7 +230,7 @@ class TestTreemapHtml(unittest.TestCase):
             if x[0] and x[1]:
                 self.assertAlmostEqual(x[0], x[1], 1) 
 
-class TestTreemapHtml(unittest.TestCase):
+class TestTreemapImage(unittest.TestCase):
     """ Class dedicated to test treemap image """
     def setUp(self):
         self.treemap = createTreemap(cls=TreemapImage)
@@ -241,7 +242,6 @@ class TestTreemapHtml(unittest.TestCase):
         treemap = self.treemap.drawContainer()
         self.assertEqual(self.treemap.image.getbbox(), treemap.getbbox())
         self.assertEqual(('R', 'G', 'B'), treemap.getbands())
-        self.assertEqual((249, 241, 241), treemap.getpixel((10,10)))
     
     def test_rgbHexToDecimal(self):
         self.assertEqual((253, 229, 190),
@@ -274,24 +274,34 @@ class TestTreemapHtml(unittest.TestCase):
         self.assertEqual('hsl(37,144%,56%)', 
                           self.treemap.getPilColor('#fde5be'))
         
-    def checkImage(self):
-        return len([x for x in self.treemap.image.tostring().split('\xff') 
-                               if x != ''])
+#    def checkImage(self):
+#        return len([x for x in self.treemap.image.tostring().split('\xff') 
+#                               if x != ''])
 
     def test_writeText(self):
-        import ImageDraw
+        def istitle(self, result, width, height):
+            treemap = TreemapBTree(data=Treemap(w=width, h=height, x=0, y=0, 
+                                                color='#fde5be', title = 'test'))
+            self.treemap.writeText(treemap, image)
+            self.assertEqual(result, self.treemap.writeText(treemap, image)) 
+ 
         image = ImageDraw.Draw(self.treemap.image)
-        treemap = TreemapBTree(data=Treemap(w=50, h=50, x=0, y=0, 
-                                            color='#fde5be', title = 'test'))
-        self.treemap.writeText(treemap, image)
-        self.assertEqual(118, self.checkImage()) 
+
+        istitle(self, None, 10, 10)
+        istitle(self, True, 40, 40)
+
+    def test_drawTreemap(self):
+        image = ImageDraw.Draw(self.treemap.image)
+        self.assertEqual(None, self.treemap.drawTreemap(self.btree, image))
     
+
 def test_suite():
     test_suite = unittest.TestSuite([])
     test_suite.addTest(makeSuite(TestTreemapControl))
     test_suite.addTest(makeSuite(TestTreemapBTree))
     test_suite.addTest(makeSuite(TestTreemap))
     test_suite.addTest(makeSuite(TestTreemapHtml))
+    test_suite.addTest(makeSuite(TestTreemapImage))
     return test_suite
  
 if __name__ == '__main__':

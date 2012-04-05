@@ -10,24 +10,20 @@
             tal:define="infos view/getPropsList">
     <body>
         <div id="wrapper">
-            <h1>Quintagroup Analytics Tool for Plone</h1>
-            <ul class="formTabs" id="navigation">
-                <li class="formTab"><a href="@@qa_overview">Overview</a></li>
-                <li class="formTab"><a href="@@ownership_by_type">Ownership by type</a></li>
-                <li class="formTab"><a href="@@ownership_by_state">Ownership by state</a></li>
-                <li class="formTab"><a href="@@type_by_state">Types by state</a></li>
-                <li class="formTab"><a href="@@portlets_stats">Portlets stats</a></li>
-                <li class="formTab"><a href="@@legacy_portlets">Legacy portlets</a></li>
-                <li class="formTab"><a class="selected" href="@@properties_stats">Properties stats</a></li>
+            <h1 i18n:translate="qa_main_title">Quintagroup Analytics Tool for Plone</h1>
+            <ul class="formTabs" id="navigation"  tal:define="template_id template/getId">
+                <span tal:repeat="formTabItem view/analiticsNavigation">
+                    <li class="formTab"><a tal:attributes="class python:'selected' if formTabItem['href'] in template_id else '';href python:formTabItem['href']" tal:content="python:formTabItem['content']">content</a></li>
+                </span>
             </ul>
-            <p>The following list can display values for certain property for site objects. To generate the 
+            <p i18n:translate="prop_stats_desc">The following list can display values for certain property for site objects. To generate the 
                list - specify the search depth (objects on what level(s) will be included) and type in 
                property name (a list of all available properties is provided below). For example: to display
                all site objects titles type '-1' into 'Search depth' field and 'title' into 'Property name' field.
                 Select CSV to render this information in .csv format.
             </p>
             <form action="" method="get">
-                Search depth (-1 means no limit, 1 means that objects in the site root only will be searched):
+                <span i18n:translate="prop_stats_form_desc">Search depth (-1 means no limit, 1 means that objects in the site root only will be searched):</span>
                 <input type="text" name="level" size="5" value="1" tal:attributes="value request/level|python:1" />
                 <br>
                 Property name
@@ -56,7 +52,7 @@
                 tal:replace="slot" />;</span><span
                 tal:condition="python:isinstance(info['slots'],basestring)"
                 tal:replace="info/slots">string</span>"</span><span
-                tal:condition="python:info['slots'] is None">None</span><br />
+                tal:condition="python:info['slots'] is None" i18n:translate="span_none">None</span><br />
             </nobr>
         </div>
         <table class="listing"
@@ -72,15 +68,15 @@
                         <li tal:condition="python:not isinstance(info['slots'],basestring)" tal:repeat="slot info/slots" tal:content="slot">slot</li>
                         <li tal:condition="python:isinstance(info['slots'],basestring)" tal:content="info/slots">string</li>
                     </ul>
-                    <span class="none" tal:condition="python:info['slots'] is None">doesn't exist</span>
+                    <span class="none" tal:condition="python:info['slots'] is None" i18n:translate="span_doesnt_exist">doesn't exist</span>
                 </td>
             </tr>
             <tr>
-                <th>Total</th>
+                <th i18n:translate="table_header_total">Total</th>
                 <td tal:content="view/getTotal">123</td>
             </tr>
             <tr>
-                <th>Expressions</th>
+                <th i18n:translate="table_header_expressions">Expressions</th>
                 <td>
                     <ul>
                         <li tal:repeat="expr view/getAllPortletExpressions" tal:content="expr">expressions</li>

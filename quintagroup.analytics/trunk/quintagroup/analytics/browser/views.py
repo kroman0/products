@@ -17,13 +17,24 @@ except ImportError:
     IPortletAssignmentSettings = lambda assignment: {}
 
 from GChartWrapper import VerticalBarStack
-
 from quintagroup.analytics.config import COLORS, OTHER_TYPES, NO_WF_BIND
+from quintagroup.analytics import QuintagroupAnalyticsMessageFactory as _
+
+MENUEITEMS = [{'href':'qa_overview',         'content':_('Overview')},
+              {'href':'ownership_by_type',   'content':_('Ownership by type')},
+              {'href':'ownership_by_state',  'content':_('Ownership by state')},
+              {'href':'type_by_state',       'content':_('Types by state')},
+              {'href':'portlets_stats',      'content':_('Portlets stats')},
+              {'href':'legacy_portlets',     'content':_('Legacy portlets')},
+              {'href':'properties_stats',    'content':_('Properties stats')},]
+
+class AnalyticsBaseView(BrowserView):
+    def analiticsNavigation(self):
+        return MENUEITEMS
 
 
-class OwnershipByType(BrowserView):
+class OwnershipByType(AnalyticsBaseView):
     MAX = 10
-
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -96,7 +107,7 @@ class OwnershipByType(BrowserView):
         max_value = max(self.getTotal())
         chart = VerticalBarStack(data, encoding='text')
         types = other and types + OTHER_TYPES or types
-        chart.title('Content ownership by type').legend(*(types))
+        chart.title(_('Content ownership by type')).legend(*(types))
         chart.bar('a', 10, 0).legend_pos("b")
         chart.color(*COLORS)
         chart.size(800, 375).scale(0, max_value).axes('xy').label(*self.users)
@@ -105,7 +116,7 @@ class OwnershipByType(BrowserView):
         return chart.img()
 
 
-class OwnershipByState(BrowserView):
+class OwnershipByState(AnalyticsBaseView):
     MAX = 10
 
     def __init__(self, context, request):
@@ -188,7 +199,7 @@ class OwnershipByState(BrowserView):
         data.append(self.getNoWFContent())
         max_value = max(self.getTotal())
         chart = VerticalBarStack(data, encoding='text')
-        title = 'Content ownership by state'
+        title = _('Content ownership by state')
         chart.title(title).legend(*self.states + [NO_WF_BIND])
         chart.bar('a', 10, 0).legend_pos("b")
         chart.color(*COLORS)
@@ -198,7 +209,7 @@ class OwnershipByState(BrowserView):
         return chart.img()
 
 
-class TypeByState(BrowserView):
+class TypeByState(AnalyticsBaseView):
     MAX = 10
 
     def __init__(self, context, request):
@@ -280,7 +291,7 @@ class TypeByState(BrowserView):
         data.append(self.getContent(NO_WF_BIND))
         max_value = max(self.getTotal())
         chart = VerticalBarStack(data, encoding='text')
-        chart.title('Content type by state').legend(
+        chart.title(_('Content type by state')).legend(
             *self.states + [NO_WF_BIND])
         chart.bar('a', 10, 0).legend_pos("b")
         chart.color(*COLORS)
@@ -290,7 +301,7 @@ class TypeByState(BrowserView):
         return chart.img()
 
 
-class LegacyPortlets(BrowserView):
+class LegacyPortlets(AnalyticsBaseView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -357,7 +368,7 @@ class LegacyPortlets(BrowserView):
         return exprs
 
 
-class PropertiesStats(BrowserView):
+class PropertiesStats(AnalyticsBaseView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -426,7 +437,7 @@ class PropertiesStats(BrowserView):
         return exprs
 
 
-class PortletsStats(BrowserView):
+class PortletsStats(AnalyticsBaseView):
     def __init__(self, context, request):
         self.context = context
         self.request = request

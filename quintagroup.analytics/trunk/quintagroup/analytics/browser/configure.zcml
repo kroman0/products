@@ -6,6 +6,7 @@
         name="qa_overview"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         permission="zope2.ViewManagementScreens"
+        class=".views.AnalyticsBaseView"
         template="qa_overview.pt"
         />
 

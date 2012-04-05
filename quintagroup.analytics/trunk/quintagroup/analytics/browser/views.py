@@ -20,13 +20,14 @@ from GChartWrapper import VerticalBarStack
 from quintagroup.analytics.config import COLORS, OTHER_TYPES, NO_WF_BIND
 from quintagroup.analytics import QuintagroupAnalyticsMessageFactory as _
 
-MENUEITEMS = [{'href':'qa_overview',         'content':_('Overview')},
-              {'href':'ownership_by_type',   'content':_('Ownership by type')},
-              {'href':'ownership_by_state',  'content':_('Ownership by state')},
-              {'href':'type_by_state',       'content':_('Types by state')},
-              {'href':'portlets_stats',      'content':_('Portlets stats')},
-              {'href':'legacy_portlets',     'content':_('Legacy portlets')},
-              {'href':'properties_stats',    'content':_('Properties stats')},]
+MENUEITEMS = [{'href':'qa_overview', 'content':_('Overview')},
+              {'href':'ownership_by_type', 'content':_('Ownership by type')},
+              {'href':'ownership_by_state', 'content':_('Ownership by state')},
+              {'href':'type_by_state', 'content':_('Types by state')},
+              {'href':'portlets_stats', 'content':_('Portlets stats')},
+              {'href':'legacy_portlets', 'content':_('Legacy portlets')},
+              {'href':'properties_stats', 'content':_('Properties stats')}]
+
 
 class AnalyticsBaseView(BrowserView):
     def analiticsNavigation(self):
@@ -35,6 +36,7 @@ class AnalyticsBaseView(BrowserView):
 
 class OwnershipByType(AnalyticsBaseView):
     MAX = 10
+
     def __init__(self, context, request):
         self.context = context
         self.request = request

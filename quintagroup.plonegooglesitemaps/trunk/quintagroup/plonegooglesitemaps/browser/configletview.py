@@ -5,6 +5,8 @@ from OFS.Image import cookId
 from OFS.ObjectManager import BadRequestException
 from Products.Five import BrowserView
 
+import urlparse
+
 
 def splitNum(num):
     res = []
@@ -143,24 +145,35 @@ class ConfigletSettingsView(BrowserView):
                     pass
         return (size, entries)
 
+    def deleteGSMVerificationFile(self):
+        portal = self.pps.portal()
+        portal.manage_delObjects([self.request.id, ])
+        self.request.RESPONSE.redirect(
+                                urlparse.urljoin(self.context.absolute_url,
+                                'prefs_gsm_verification'))
+
     def getVerificationFiles(self):
         vfs = []
         props = getattr(self.tools.properties(), 'googlesitemap_properties')
+        portal = self.pps.portal()
         if props:
-            portal_ids = self.pps.portal().objectIds()
+            portal_ids = portal.objectIds()
             props_vfs = list(props.getProperty('verification_filenames', []))
+
             vfs = [vf for vf in props_vfs if vf in portal_ids]
             if not props_vfs == vfs:
                 props._updateProperty('verification_filenames', vfs)
-        return vfs
+
+        return [{'id': x, 'title': portal[x].title} for x in vfs]
 
     def uploadVerificationFile(self, request):
         vfilename = ""
         portal = self.pps.portal()
         try:
+            comment = request.get("comment")
             vfile = request.get("verification_file")
             vfilename, vftitle = cookId("", "", vfile)
-            portal.manage_addFile(id="", file=vfile)
+            portal.manage_addFile(id="", file=vfile, title=comment)
             portal[vfilename].manage_addProperty(
                 'CreatedBy', 'quintagroupt.plonegooglesitemaps', 'string')
         except BadRequestException, e:

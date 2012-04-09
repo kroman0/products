@@ -1,6 +1,15 @@
 Changelog
 =========
 
+1.7.1 - unreleased
+------------------
+
+* Added deleting (button) the verification file
+  [potar]
+
+* Updated view quintagroup.plonegooglesitemaps (tabs)
+  [potar]
+
 1.7.0 (2011-10-28)
 ------------------
 

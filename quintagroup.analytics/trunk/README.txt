@@ -56,4 +56,5 @@ Authors and contributors
 * Bohdan Koval'
 * Roman Kozlovskyi
 * Vitaliy Podoba
+* Julien Stegle
 

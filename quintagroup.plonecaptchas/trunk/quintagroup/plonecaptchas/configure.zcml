@@ -30,6 +30,10 @@
             factory=".validate.QGDiscussionCaptchaValidator"
             provides="z3c.form.interfaces.IValidator"
             />
+            
+        <adapter factory=".captcha.CaptchaExtender"
+                 provides="plone.z3cform.fieldsets.interfaces.IFormExtender" />
+
     </configure>
 
     <gs:registerProfile

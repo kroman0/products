@@ -1,6 +1,11 @@
 Changelog
 =========
 
+4.1.1-dev (unreleased)
+----------------------
+
+* fixed compatibility with plone.app.discussion
+
 4.1  - Sep 5, 2011
 ------------------
 

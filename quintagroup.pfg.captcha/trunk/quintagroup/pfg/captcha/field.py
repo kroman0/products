@@ -36,7 +36,6 @@ finalizeCaptchaFieldSchema(CaptchaFieldSchema)
 
 
 def addCaptchaField(self, id, **kwargs):
-    id = CAPTCHA_ID
     obj = CaptchaField(id)
     notify(ObjectCreatedEvent(obj))
     self._setObject(id, obj)
@@ -48,7 +47,7 @@ def addCaptchaField(self, id, **kwargs):
 
 class CaptchaField(FGStringField):
 
-    _at_rename_after_creation = False
+    _at_rename_after_creation = True
     schema = CaptchaFieldSchema
 
     def __init__(self, oid, **kwargs):

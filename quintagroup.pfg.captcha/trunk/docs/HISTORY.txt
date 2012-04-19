@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.0.5-dev (unreleased)
-----------------------
+1.0.5 (2012-04-19)
+------------------
 
 * Removed createObject overrides.
   (fix for #2 at plone.org. http://plone.org/products/quintagroup.pfg.captcha/issues/2)

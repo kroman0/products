@@ -1,4 +1,5 @@
 import unittest
+from quintagroup.pfg.captcha.field import CAPTCHA_ID
 from quintagroup.pfg.captcha.tests.base import TestCaseNotInstalled, \
     REQUIREMENTS
 
@@ -41,7 +42,7 @@ class TestMigration(TestCaseNotInstalled):
         # Add captcha field
         self.portal.invokeFactory("FormFolder", 'test_form')
         test_form = self.portal['test_form']
-        test_form.invokeFactory("CaptchaField", 'test_captcha_field')
+        test_form.invokeFactory("CaptchaField", CAPTCHA_ID)
         self.cf_path = "test_form/key"
         self.old_cf = self.portal.unrestrictedTraverse(self.cf_path)
         self.assert_(self.old_cf)

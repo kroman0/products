@@ -60,12 +60,7 @@ class TestCaptchaField(TestCase):
     def afterSetUp(self):
         self.folder.invokeFactory('FormFolder', 'ff1')
         self.ff1 = getattr(self.folder, 'ff1')
-        self.ff1.invokeFactory('CaptchaField', 'captcha_field')
-
-    def testId(self):
-        """CaptchaField has always CAPTCHA_ID id."""
-        self.assertEqual(CAPTCHA_ID in self.ff1, True)
-        self.assertNotEqual('captcha_field' in self.ff1, True)
+        self.ff1.invokeFactory('CaptchaField', CAPTCHA_ID)
 
     def testSchema(self):
         cf = getattr(self.ff1, CAPTCHA_ID)

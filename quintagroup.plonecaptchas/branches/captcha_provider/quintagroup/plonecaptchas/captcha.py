@@ -2,9 +2,8 @@ from plone.app.discussion.browser.captcha import CaptchaExtender
 from quintagroup.z3cform.captcha.widget import CaptchaWidgetFactory
 from plone.app.discussion import vocabularies
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
-from z3c.form import interfaces
-from quintagroup.plonecaptchas.config import CAPTCHA_NAME
-from quintagroup.plonecaptchas.interfaces import IQGDiscussionCaptchas, ICaptchaProvider
+from quintagroup.plonecaptchas.interfaces import IQGDiscussionCaptchas
+from quintagroup.plonecaptchas.interfaces import ICaptchaProvider
 from zope.interface import Interface
 from zope.component import adapts, getAdapters, queryAdapter
 from plone.app.discussion.browser.comments import CommentForm
@@ -25,7 +24,8 @@ class CaptchaExtender(CaptchaExtender):
         if self.captcha in (n for n, a in providers) and self.isAnon:
             captcha_provider = queryAdapter((self.context,), name=self.captcha)
             if captcha_provider:
-                self.form.fields['captcha'].widgetFactory = captcha_provider.widget_factory
+                self.form.fields['captcha'].widgetFactory = \
+                                                captcha_provider.widget_factory
                 self.form.fields['captcha'].mode = None
 
 

@@ -39,5 +39,5 @@ def captcha_vocabulary(context):
         if name and name not in captchas:
             terms.append(SimpleTerm(value=name.lower(),
                                     token=name.lower(),
-                                    title=name[0].upper()+name[1:]))
+                                    title=name[0].upper() + name[1:]))
     return SimpleVocabulary(terms)

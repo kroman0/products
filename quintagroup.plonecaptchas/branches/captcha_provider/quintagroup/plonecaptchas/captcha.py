@@ -32,10 +32,12 @@ class CaptchaExtender(CaptchaExtender):
 def captcha_vocabulary(context):
     """ Extend captcha vocabulary with quintagroup.plonecaptchas"""
     terms = vocabularies.captcha_vocabulary(context)._terms
+    captchas = [t.value for t in terms]
 
     adapters = getAdapters((context,), ICaptchaProvider)
     for name, adapter in adapters:
-        terms.append(SimpleTerm(value=name,
-                                token=name,
-                                title=name))
+        if name and name not in captchas:
+            terms.append(SimpleTerm(value=name.lower(),
+                                    token=name.lower(),
+                                    title=name[0].upper()+name[1:]))
     return SimpleVocabulary(terms)

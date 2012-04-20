@@ -3,7 +3,7 @@ from quintagroup.plonecaptchas.config import HAS_APP_DISCUSSION
 
 if HAS_APP_DISCUSSION:
     from zope.publisher.interfaces.browser import IDefaultBrowserLayer
-    from zope.interface import Interface
+    from zope.interface import Interface, Attribute
 
     class IQGDiscussionCaptchas(IDefaultBrowserLayer):
         """ quintagroup.plonecaptchas browser layer interface for

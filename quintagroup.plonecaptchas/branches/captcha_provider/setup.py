@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '4.1.1-dev'
+version = '4.2'
 
 setup(name='quintagroup.plonecaptchas',
       version=version,

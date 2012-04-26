@@ -10,10 +10,13 @@ if HAS_APP_DISCUSSION:
             plone.app.discussion
         """
 
-    class ICaptchaProvider(Interface):
-        """ Captcha Provider
-        """
-        widget_factory = Attribute("Chaptcha widget factory")
+    try:
+        from plone.app.discussion.interfaces import ICaptchaProvider
+    except ImportError:
+        class ICaptchaProvider(Interface):
+            """ Captcha Provider
+            """
+            widget_factory = Attribute("Chaptcha widget factory")
 
 
 class IQGPloneCaptchas(IDefaultPloneLayer):

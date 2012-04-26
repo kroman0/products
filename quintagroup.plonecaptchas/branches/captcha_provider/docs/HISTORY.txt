@@ -1,10 +1,11 @@
 Changelog
 =========
 
-4.1.1-dev (unreleased)
-----------------------
+4.2 - Apr 20, 2012
+------------------
 
 * fixed compatibility with plone.app.discussion
+  Overrided captcha_vocabulary utility to be able to choose quintagroup.plonecaptchas in discussion settings.
 
 4.1  - Sep 5, 2011
 ------------------

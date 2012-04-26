@@ -1,6 +1,12 @@
 Changelog
 =========
 
+4.3-dev (unreleased)
+----------------
+
+* implemented Captcha Provider feature.
+* added ability to include other captcha plugins who provides ICaptchaProvider.
+
 4.2 - Apr 20, 2012
 ------------------
 

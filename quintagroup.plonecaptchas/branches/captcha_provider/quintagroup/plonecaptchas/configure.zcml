@@ -26,9 +26,8 @@
 
     <configure zcml:condition="installed plone.app.discussion">
 
-        <adapter
+        <utility
             factory=".captcha.CaptchaProvider"
-            for="zope.component.Interface"
             provides="quintagroup.plonecaptchas.interfaces.ICaptchaProvider"
             name="plonecaptchas"
             />

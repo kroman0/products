@@ -12,6 +12,7 @@ if HAS_APP_DISCUSSION:
 
     try:
         from plone.app.discussion.interfaces import ICaptchaProvider
+        ICaptchaProvider  # keep pyflakes quiet
     except ImportError:
         class ICaptchaProvider(Interface):
             """ Captcha Provider

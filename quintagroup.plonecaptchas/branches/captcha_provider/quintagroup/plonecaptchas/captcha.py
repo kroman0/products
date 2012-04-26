@@ -21,7 +21,8 @@ class CaptchaExtender(CaptchaExtender):
     def update(self):
         super(CaptchaExtender, self).update()
         if self.isAnon:
-            captcha_provider = queryUtility(ICaptchaProvider, name=self.captcha)
+            captcha_provider = queryUtility(ICaptchaProvider,
+                                            name=self.captcha)
             if captcha_provider:
                 self.form.fields['captcha'].widgetFactory = \
                                                 captcha_provider.widget_factory

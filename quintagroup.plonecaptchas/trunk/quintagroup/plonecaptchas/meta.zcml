@@ -5,6 +5,10 @@
     <!-- Declare that quintagroup.plonecaptchas provides a Captcha field that 
          can be used by plone.app.discussion to add a Captcha field to comment 
          forms. -->
-    <meta:provides feature="plone.app.discussion-captcha" />
+
+    <configure zcml:condition="installed plone.app.discussion">
+        <meta:provides feature="plone.app.discussion-captcha" />
+        <meta:provides feature="plone.app.discussion-captcha-provider" />
+    </configure>
     
 </configure>

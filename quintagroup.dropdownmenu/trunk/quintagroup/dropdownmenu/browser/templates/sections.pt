@@ -1,7 +1,8 @@
-<tal:tabs tal:condition="view/portal_tabs"
+<tal:tabs tal:define="menu view/createMenu"
+          tal:condition="menu"
           i18n:domain="plone">
     <ul id="portal-globalnav">
-        <li tal:replace="structure view/createMenu">
+        <li tal:replace="structure menu">
             DropDown Menu
         </li>
     </ul>

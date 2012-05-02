@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.2.9 - May 2, 2012
+
+* fixed issue that significantly reduced menu caching performance
+  [malthe]
+
 1.2.8 - Apr 23, 2012
 
 * fixed styles for a drop-down menu list in IE7 [gvizdyk]

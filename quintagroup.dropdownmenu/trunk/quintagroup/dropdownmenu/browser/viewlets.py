@@ -257,7 +257,7 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
     @dropdowncache
     def createMenu(self):
         html = self.recurse(children=self.portal_tabs, level=1)
-        return xhtmlslimmer.compress(html)
+        return xhtmlslimmer.compress(html).strip('\n')
 
     def _old_update(self):
         context_state = getMultiAdapter((self.context, self.request),

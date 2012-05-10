@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.2.10 - May 10, 2012
+
+* property decorator removed - Plone 3.3.6 compatibility issue fix
+* fixed Plone 4.1.5 compatibility issue when accessing action id attribute
+
 1.2.9 - May 2, 2012
 
 * fixed issue that significantly reduced menu caching performance

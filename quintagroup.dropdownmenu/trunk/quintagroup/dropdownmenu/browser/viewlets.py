@@ -25,7 +25,7 @@ import copy
 
 def menu_cache_key(f, view):
     # menu cache key conssits of:
-    # - selected item not only top tab
+    # - path to selected item
     # - site can be accessed on different domains
     # - language is important for multilingua sites
 
@@ -97,7 +97,6 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         self.cat_sufix = self.conf.nested_category_sufix or ''
         self.cat_prefix = self.conf.nested_category_prefix or ''
 
-    @property
     def portal_tabs(self):
         tabs = []
 
@@ -172,7 +171,7 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
                                                          level + 1,
                                                          info['url'])
 
-                parent_id = category['id'].replace(self.cat_prefix,
+                parent_id = category.getId().replace(self.cat_prefix,
                                 '').replace(self.cat_sufix, '')
                 tab = {'id': info['id'],
                    'title': info['title'],
@@ -256,22 +255,8 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
 
     @dropdowncache
     def createMenu(self):
-        html = self.recurse(children=self.portal_tabs, level=1)
+        html = self.recurse(children=self.portal_tabs(), level=1)
         return xhtmlslimmer.compress(html).strip('\n')
-
-    def _old_update(self):
-        context_state = getMultiAdapter((self.context, self.request),
-                                        name=u'plone_context_state')
-        actions = context_state.actions()
-        portal_tabs_view = getMultiAdapter((self.context, self.request),
-                                           name='portal_tabs_view')
-        self.portal_tabs = portal_tabs_view.topLevelTabs(actions=actions)
-
-        selectedTabs = self.context.restrictedTraverse('selectedTabs')
-        self.selected_tabs = selectedTabs('index_html',
-                                          self.context,
-                                          self.portal_tabs)
-        self.selected_portal_tab = self.selected_tabs['portal']
 
     @memoize
     def is_plone_four(self):

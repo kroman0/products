@@ -6,9 +6,14 @@ from Products.Five.browser import BrowserView
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import IFolderish
 from Products.Archetypes.interfaces import IBaseFolder
-from plone.portlets.interfaces import IPortletManager
-from plone.portlets.interfaces import IPortletAssignmentMapping
-from plone.portlets.interfaces import ILocalPortletAssignmentManager
+try:
+    from plone.portlets.interfaces import IPortletManager
+    from plone.portlets.interfaces import IPortletAssignmentMapping
+    from plone.portlets.interfaces import ILocalPortletAssignmentManager
+except ImportError:
+    IPortletManager = lambda assignment: {}
+    IPortletAssignmentMapping = lambda assignment: {}
+    ILocalPortletAssignmentManager = lambda assignment: {}
 try:
     from plone.portlets.interfaces import IPortletAssignmentSettings
     IPortletAssignmentSettings

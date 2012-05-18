@@ -12,7 +12,7 @@
 <span tal:content="context/absolute_url"/>
             <ul class="formTabs" id="navigation"  tal:define="template_id template/getId">
                 <span tal:repeat="formTabItem view/analiticsNavigation">
-                    <li class="formTab"><a tal:attributes="class python:'selected' if formTabItem['href'] in template_id else '';href python:formTabItem['href']" tal:content="python:formTabItem['content']">content</a></li>
+                    <li class="formTab"><a tal:attributes="class python:formTabItem['href'] in template_id and 'selected' or '';href python:formTabItem['href']" tal:content="python:formTabItem['content']">content</a></li>
                 </span>
             </ul>
         </div>

@@ -10,16 +10,16 @@ try:
     from plone.portlets.interfaces import IPortletManager
     from plone.portlets.interfaces import IPortletAssignmentMapping
     from plone.portlets.interfaces import ILocalPortletAssignmentManager
-    IPortletManager #pyflakes
-    IPortletAssignmentMapping #pyflakes
-    ILocalPortletAssignmentManager #pyflakes
+    IPortletManager  # pyflakes
+    IPortletAssignmentMapping  # pyflakes
+    ILocalPortletAssignmentManager  # pyflakes
 except ImportError:
     IPortletManager = lambda assignment: {}
     IPortletAssignmentMapping = lambda assignment: {}
     ILocalPortletAssignmentManager = lambda assignment: {}
 try:
     from plone.portlets.interfaces import IPortletAssignmentSettings
-    IPortletAssignmentSettings #pyflakes
+    IPortletAssignmentSettings  # pyflakes
 except ImportError:
     # Before plon4 we don't have an annotation storage for settings.
     IPortletAssignmentSettings = lambda assignment: {}

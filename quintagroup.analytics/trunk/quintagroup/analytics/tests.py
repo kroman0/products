@@ -259,7 +259,7 @@ class TestOwnershipByType(TestCase):
             'user8|user7|user6|user5|user4|user3|user2|user1|user0&amp;'\
             'chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;'\
             'chtt=Content+ownership+by+type&amp;chdl=Folder|Document|'\
-            'Event|Collection&amp;chdlp=b"/>'            
+            'Event|Collection&amp;chdlp=b"/>'
 
         if self.plone_version < "40":
             chart_tag = plone33chart_tag

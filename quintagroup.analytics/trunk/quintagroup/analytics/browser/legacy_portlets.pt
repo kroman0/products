@@ -12,7 +12,7 @@
             <h1 i18n:translate="qa_main_title">Quintagroup Analytics Tool for Plone</h1>
             <ul class="formTabs" id="navigation"  tal:define="template_id template/getId">
                 <span tal:repeat="formTabItem view/analiticsNavigation">
-                    <li class="formTab"><a tal:attributes="class python:'selected' if formTabItem['href'] in template_id else '';href python:formTabItem['href']" tal:content="python:formTabItem['content']">content</a></li>
+                    <li class="formTab"><a tal:attributes="class python:formTabItem['href'] in template_id and 'selected' or '';href python:formTabItem['href']" tal:content="python:formTabItem['content']">content</a></li>
                 </span>
             </ul>
             <p i18n:translate="navigation_paragraph_portlets_desc">The following list can display site's legacy portlets, assigned as left and right slots on different

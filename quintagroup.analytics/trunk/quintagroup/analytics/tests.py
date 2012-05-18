@@ -173,6 +173,9 @@ class TestOwnershipByType(TestCase):
         self.view = queryMultiAdapter((self.portal, self.portal.REQUEST),
                                  name="ownership_by_type")
         self.pc = self.portal.portal_catalog
+        portal_migration = self.portal.portal_migration
+        version = portal_migration.getFileSystemVersion()
+        self.plone_version = version.replace(".", "")
 
     def test_getUsers(self):
         """ Tests method that returns ordered list of users."""
@@ -245,9 +248,25 @@ class TestOwnershipByType(TestCase):
             'chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;'\
             'chtt=Content+ownership+by+type&amp;chdl=Folder|Document|'\
             'Event|Topic&amp;chdlp=b" />'
-        chart_tag = plone4chart_tag
-        if not PLONE40:
+        plone42chart_tag = \
+            '<img src="http://chart.apis.google.com/chart?chxt=y&amp;'\
+            'chds=0,57&amp;chd=t:19.0,18.0,17.0,16.0,15.0,14.0,'\
+            '13.0,12.0,11.0,10.0|19.0,18.0,17.0,16.0,15.0,14.0,13.0,'\
+            '12.0,11.0,10.0|19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,'\
+            '11.0,10.0|0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0&amp;'\
+            'chxr=0,0,57&amp;chco=669933,cc9966,993300,ff6633,e8e4e3,'\
+            'a9a486,dcb57e,ffcc99,996633,333300,00ff00&amp;chl=user9|'\
+            'user8|user7|user6|user5|user4|user3|user2|user1|user0&amp;'\
+            'chbh=a,10,0&amp;chs=800x375&amp;cht=bvs&amp;'\
+            'chtt=Content+ownership+by+type&amp;chdl=Folder|Document|'\
+            'Event|Collection&amp;chdlp=b"/>'            
+
+        if self.plone_version < "40":
             chart_tag = plone33chart_tag
+        elif self.plone_version > "42":
+            chart_tag = plone42chart_tag
+        else:
+            chart_tag = plone4chart_tag
 
         self.loginAsPortalOwner()
         self.assertEqual(*map(lambda s: ''.join(s.split()),
@@ -395,13 +414,23 @@ class TestTypeByState(TestCase):
             'Document|Event|Topic&amp;chbh=a,10,0&amp;chs=800x375&amp;cht=b'\
             'vs&amp;chtt=Content+type+by+state&amp;chdl=private|published|N'\
             'o+workflow&amp;chdlp=b"/>'
+        plone42chart_tag = \
+            '<imgsrc="http://chart.apis.google.com/chart?chxt=y&amp;chds=0,'\
+            '159&amp;chd=t:156.0,145.0,145.0,0.0|3.0,1.0,0.0,2.0|0.0,0.0,0.'\
+            '0,0.0&amp;chxr=0,0,159&amp;chco=669933,cc9966,993300,ff6633,e8'\
+            'e4e3,a9a486,dcb57e,ffcc99,996633,333300,00ff00&amp;chl=Folder|'\
+            'Document|Event|Collection&amp;chbh=a,10,0&amp;chs=800x375&amp;'\
+            'cht=bvs&amp;chtt=Content+type+by+state&amp;chdl=private|publis'\
+            'hed|No+workflow&amp;chdlp=b"/>'
 
         if self.plone_version < "40":
             chart_tag = plone33chart_tag
-        elif self.plone_version > "41":
-            chart_tag = plone41chart_tag
-        else:
+        elif self.plone_version > "40" and self.plone_version < "41":
             chart_tag = plone4chart_tag
+        elif self.plone_version > "41" and self.plone_version < "42":
+            chart_tag = plone41chart_tag
+        elif self.plone_version > "42":
+            chart_tag = plone42chart_tag
 
         self.loginAsPortalOwner()
         self.assertEqual(*map(lambda s: ''.join(s.split()),

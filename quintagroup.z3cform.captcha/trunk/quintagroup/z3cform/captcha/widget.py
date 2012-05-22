@@ -9,7 +9,7 @@ from Products.CMFCore.utils import getToolByName
 from z3c.form.browser.text import TextWidget
 
 
-class CaptchaError(BaseException):
+class CaptchaError(Exception):
     def __init__(self, value):
         self.value = value
     def __str__(self):

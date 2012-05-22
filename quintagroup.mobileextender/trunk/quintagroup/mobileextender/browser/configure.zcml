@@ -19,17 +19,22 @@
         file="mobile.png"
         />
 
-    <vocabulary
+    <utility
         name="quintagroup.mobileextender.ptypes"
-        factory=".vocabularies.getPortalTypes"
+        component=".vocabularies.getPortalTypes"
+        provides="zope.schema.interfaces.IVocabularyFactory"
         />
-    <vocabulary
+
+    <utility
         name="quintagroup.mobileextender.sortindices"
-        factory=".vocabularies.getSortIndices"
+        component=".vocabularies.getSortIndices"
+        provides="zope.schema.interfaces.IVocabularyFactory"
         />
-    <vocabulary
+
+    <utility
         name="quintagroup.mobileextender.wfstates"
-        factory=".vocabularies.getWFStates"
+        component=".vocabularies.getWFStates"
+        provides="zope.schema.interfaces.IVocabularyFactory"
         />
 
     <adapter factory=".mobilecontrol.MobileControl" />

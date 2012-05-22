@@ -6,7 +6,10 @@ from zope.component import adapts, getMultiAdapter
 
 from zope.formlib import form
 from zope.app.form.browser import MultiSelectWidget, TextAreaWidget
-from Products.Five.formlib import formbase
+try:
+    from Products.Five.formlib import formbase
+except ImportError:
+    from five.formlib import formbase
 
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile

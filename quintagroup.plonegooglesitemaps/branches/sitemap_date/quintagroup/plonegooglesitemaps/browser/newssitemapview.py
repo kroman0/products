@@ -46,5 +46,6 @@ class NewsSitemapView(CommonSitemapView):
             portal_type=self.context.getPortalTypes(),
             review_state=self.context.getStates(),
             effective={"query": min_date,
-                       "range": "min"}
+                       "range": "min"},
+            is_default_page=False
             )

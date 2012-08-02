@@ -28,6 +28,13 @@
         <implements interface=".interfaces.INewsSitemapProvider" />
     </class>
 
+    <adapter name="sitemap_date" factory=".indexers.sitemap_date" />
+
+    <subscriber
+        for="zope.interface.Interface
+             Products.Archetypes.interfaces.IObjectEditedEvent"
+        handler=".handlers.reindexParentObjects" /> 
+
     <!-- Register default filters -->
     <adapter
         for="*

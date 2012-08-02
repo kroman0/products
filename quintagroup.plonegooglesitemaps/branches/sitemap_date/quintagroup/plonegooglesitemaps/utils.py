@@ -1,5 +1,6 @@
 from urllib2 import urlopen
 from urllib  import quote as urlquote
+from DateTime import DateTime
 
 from Globals import DevelopmentMode
 #from OFS.ObjectManager import BadRequestException
@@ -25,3 +26,8 @@ def ping_google(url, sitemap_id):
     g.close()
 
     return 0
+
+
+def dateTime(obj):
+    """ Method gets modification date """
+    return DateTime(obj.ModificationDate())

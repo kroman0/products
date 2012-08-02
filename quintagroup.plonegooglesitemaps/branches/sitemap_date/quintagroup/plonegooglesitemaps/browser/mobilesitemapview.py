@@ -12,7 +12,8 @@ class MobileSitemapView(CommonSitemapView):
     implements(ISitemapView)
 
     additional_maps = (
-        ('modification_date', lambda x: DateTime(x.ModificationDate).HTML4()),
+        ('modification_date',
+         lambda x: x.sitemap_date or DateTime(x.ModificationDate).HTML4()),
     )
 
     def getFilteredObjects(self):
@@ -21,4 +22,5 @@ class MobileSitemapView(CommonSitemapView):
             portal_type=self.context.getPortalTypes(),
             review_state=self.context.getStates(),
             object_provides=MOBILE_INTERFACES,
+            is_default_page=False,
             )

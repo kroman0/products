@@ -301,12 +301,72 @@ class TestContextSearch(TestCase):
                          [self.inner_path, ])
 
 
+class TestSitemapDate(TestCase):
+    """ Method dedicated to test index (sitemap_date) in portal_catalog
+    """
+    def afterSetUp(self):
+        super(TestSitemapDate, self).afterSetUp()
+
+        from time import sleep
+
+        # sequence is important for testing
+        # ("test-folder1", "test-folder2", "index_html")
+        self.folder1 = _createObjectByType("Folder", self.portal,
+                                           id="test-folder1")
+
+        # create objects with different sitemap_date
+        sleep(1)
+        self.folder2 = _createObjectByType("Folder", self.folder1,
+                                            id="test-folder2")
+        sleep(1)
+        self.page = _createObjectByType("Document", self.folder2,
+                                        id="index_html")
+
+    def getSitemapDate(self, obj):
+        """ Method get sitemap_date from portal_portal """
+        return self.portal.portal_catalog(id=obj.id)[0].sitemap_date
+
+    def testReindexParentObjects(self):
+        """ Method tests handler (reindexParentObjects) """
+        from quintagroup.plonegooglesitemaps.handlers import \
+                                                        reindexParentObjects
+        # set default page
+        self.folder2.setDefaultPage("index_html")
+        reindexParentObjects(self.page, None)
+
+        self.assertEqual(self.getSitemapDate(self.page),
+                         self.getSitemapDate(self.folder2))
+        self.assertNotEqual(self.getSitemapDate(self.page),
+                            self.getSitemapDate(self.folder1))
+
+        # set default page
+        self.folder1.setDefaultPage("test-folder2")
+        reindexParentObjects(self.folder2, None)
+        self.assertEqual(self.getSitemapDate(self.page),
+                         self.getSitemapDate(self.folder1))
+
+    def testSitemapIndex(self):
+        """ Method tests index (sitemap_date) """
+        from quintagroup.plonegooglesitemaps.indexers import sitemap_date
+
+        last_date = self.getSitemapDate(self.folder1)
+        sitemap_func = sitemap_date(self.folder1)
+        self.assertEqual(last_date,
+                         sitemap_func())
+
+        # set default page
+        self.folder1.setDefaultPage("test-folder2")
+        self.assertNotEqual(last_date,
+                            sitemap_func())
+
+
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestSitemapType))
     suite.addTest(unittest.makeSuite(TestSettings))
     suite.addTest(unittest.makeSuite(TestPinging))
     suite.addTest(unittest.makeSuite(TestContextSearch))
+    suite.addTest(unittest.makeSuite(TestSitemapDate))
     return suite
 
 if __name__ == '__main__':

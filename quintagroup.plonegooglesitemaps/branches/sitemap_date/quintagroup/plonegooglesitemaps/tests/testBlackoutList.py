@@ -108,7 +108,8 @@ class TestBlacklistFormProcessing(TestFilterMixin):
 
     def testGetNamedFilterUtility(self):
         catpaths, filtered = self.getPreparedLists("path:/doc1", "/plone/doc1")
-        excluded = ["%s/doc1" % self.portal.absolute_url()]
+        excluded = ["%s/doc1" % self.portal.absolute_url(),
+                    "%s/front-page" % self.portal.absolute_url()]
         self.assertTrue(set(catpaths) - set(filtered) == set(excluded),
             'Wrong filtered-out by "id" filter:\nsrc %s\nres %s\nexcluded %s' \
             % (catpaths, filtered, excluded))
@@ -116,6 +117,7 @@ class TestBlacklistFormProcessing(TestFilterMixin):
     def testDefaultFilterUtility(self):
         catpaths, filtered = self.getPreparedLists("id:doc1", "doc1")
         excluded = ["%s/doc1" % self.portal.absolute_url(),
+                    "%s/front-page" % self.portal.absolute_url(),
                     "%s/doc1" % self.folder.absolute_url()]
         self.assertTrue(set(catpaths) - set(filtered) == set(excluded),
             'Wrong filtered-out by "id" filter:\nsrc %s\nres %s\nexcluded %s' \

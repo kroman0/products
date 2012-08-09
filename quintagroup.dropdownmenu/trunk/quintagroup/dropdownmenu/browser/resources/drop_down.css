@@ -94,4 +94,17 @@ body {
   background-color:#ddd;
   color:#205C90;
   }
+#portal-globalnav-mobile {
+  display:none;
+  }
 
+@media (max-width:5in) {
+#portal-globalnav.mobileMenuOn {
+  display:none;
+  }
+#portal-globalnav-mobile {
+  display:block;
+  margin:0.5em;
+  min-width:150px;
+  }   
+}

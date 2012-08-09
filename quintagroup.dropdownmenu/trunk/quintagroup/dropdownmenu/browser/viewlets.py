@@ -78,6 +78,7 @@ def tabscache(f):
 class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
     index = ViewPageTemplateFile('templates/sections.pt')
     recurse = ViewPageTemplateFile('templates/sections_recurse.pt')
+    mobile = ViewPageTemplateFile('templates/sections_mobile.pt')
 
     def update(self):
         # we may need some previously defined variables
@@ -252,6 +253,11 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
     def _settings(self):
         """Fetch dropdown menu settings registry"""
         return getDropDownMenuSettings(self.context)
+
+    @dropdowncache
+    def createMenuMobile(self):
+        html = self.mobile(children=self.portal_tabs(), level=1)
+        return xhtmlslimmer.compress(html).strip('\n')
 
     @dropdowncache
     def createMenu(self):

@@ -92,9 +92,15 @@ class IDropDownMenuSettings(Interface):
         )
 
     caching_strategy = schema.Choice(
-    title=_(u"Select caching strategy"),
-    description=_(u"Caching strategy defines how the cache key will be built."
-                 ),
-    default="anonymous",
-    vocabulary=cachings
-    )
+        title=_(u"Select caching strategy"),
+        description=_(u"Caching strategy defines how the cache key will be "
+                      u"built."),
+        default="anonymous",
+        vocabulary=cachings
+        )
+
+    mobile_menu = schema.Bool(
+        title=_(u"Display menu as select for small screens"),
+        description=_(u"Use select tag to display menu for small screens"),
+        default=False,
+        )

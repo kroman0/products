@@ -17,8 +17,11 @@ def sitemap_date(obj):
 
         # get modification date
         child_mdate = dateTime(default_page)
-        last_date = folderish_date if folderish_date > child_mdate \
-                                else child_mdate
+
+        if folderish_date > child_mdate:
+            last_date = folderish_date 
+        else:
+            last_date = child_mdate
 
         child = getDefaultPage(default_page)
         if not child:

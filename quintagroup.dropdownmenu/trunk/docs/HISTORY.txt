@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.2.11 - August 10,2012
+
+* <select><option> layout added for mobile skins
+
 1.2.10 - May 10, 2012
 
 * property decorator removed - Plone 3.3.6 compatibility issue fix

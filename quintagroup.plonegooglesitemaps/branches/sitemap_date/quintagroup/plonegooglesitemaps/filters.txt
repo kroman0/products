@@ -156,7 +156,7 @@ Create regular expression, which will help us to test which urls pass the filter
     >>> import re
     >>> reloc = re.compile("<loc>%s([^\<]*)</loc>" % self.portal.absolute_url(), re.S)
 
-Test if all 4 documents and default front-page are in the sitemap without filters.
+Test if all 4 documents are in the sitemap without filters.
 
     >>> no_filters_res = reloc.findall(no_filters_content)
     >>> no_filters_res.sort()
@@ -165,25 +165,23 @@ Test if all 4 documents and default front-page are in the sitemap without filter
     /Members/test_user_1_/doc2
     /doc1
     /doc2
-    /front-page
 
 
 Check "id" filter
 =================
 
-Go to the sitemap edit form and add "doc1" and "front-page" lines with "id:" 
+Go to the sitemap edit form and add "doc1" line with "id:" 
 prefix to the "Blackout entries" field.
 
     >>> browser.open(smedit_url)
     >>> filtercontrol = browser.getControl("Blackout entries")
     >>> filtercontrol.value = """
     ...     id:doc1
-    ...     id:front-page
     ... """
     >>> browser.getControl("Save").click()
     >>> id_filter_content = browser.contents
 
-"doc1" and "front-page" documents should now be excluded from the
+"doc1" document should now be excluded from the
 sitemap.
 
     >>> id_filter_res = reloc.findall(id_filter_content)
@@ -196,20 +194,19 @@ sitemap.
 Check "path" filter
 ===================
 
-Suppose we want to exclude "front_page" from portal root and "doc2"
-document, located in test_user_1_ home folder, but leave "doc2" 
+Suppose we want to exclude "doc2" document, 
+located in test_user_1_ home folder, but leave "doc2" 
 untouched in portal root with all other objects.
 
     >>> browser.open(smedit_url)
     >>> filtercontrol = browser.getControl("Blackout entries")
     >>> filtercontrol.value = """
     ...    path:/Members/test_user_1_/doc2
-    ...    path:/front-page
     ... """
     >>> browser.getControl("Save").click()
     >>> path_filter_content = browser.contents
 
-"/Members/test_user_1_/doc2" and "/front_page" objects should
+"/Members/test_user_1_/doc2" object should
 be excluded from the sitemap.
 
     >>> path_filter_res = reloc.findall(path_filter_content)
@@ -226,21 +223,20 @@ Check default filter
 Now I have a question: "What filter will be used when no 
 filter name prefix is specified (e.g. old-fashion filters)?"
 
-Go to the sitemap edit form and add "doc1" and "front-page"
-lines without any filter name prefix to the "Blackout entries" 
+Go to the sitemap edit form and add "doc1" line
+without any filter name prefix to the "Blackout entries" 
 field.
 
     >>> browser.open(portal_url + "/sitemap.xml/edit")
     >>> filtercontrol = browser.getControl("Blackout entries")
     >>> filtercontrol.value = """
     ...     doc1
-    ...     front-page
     ... """
     >>> browser.getControl("Save").click()
     >>> default_filter_content = browser.contents
 
-"id" filter must be used as default filter. So, all "doc1" and
-"front-page" objects should be excluded from the sitemap.
+"id" filter must be used as default filter. So, "doc1"
+object should be excluded from the sitemap.
 
     >>> default_filter_res = reloc.findall(default_filter_content)
     >>> default_filter_res.sort()
@@ -336,4 +332,3 @@ the sitemap.
     >>> print "\n".join(signedid_filter_res)
     /Members/test_user_1_/doc2
     /doc2
-    /front-page

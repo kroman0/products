@@ -33,7 +33,8 @@ class PathBlackoutFilter(object):
         if fargs.startswith("/"):
             # absolute path filter
             portal_id = queryMultiAdapter((self.context, self.request),
-                         name=u"plone_portal_state").portal().getId()
+                                          name=u"plone_portal_state"
+                                          ).portal().getId()
             test_path = '/' + portal_id + fargs
         elif fargs.startswith("./"):
             # relative path filter

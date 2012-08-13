@@ -25,9 +25,9 @@ def pingGoogle(event):
         wftrans_name = "%s#%s" % (event.workflow.id, tr_id)
         obj_ptype = object.portal_type
         for sm in sitemaps:
-            if wftrans_name in sm.getPingTransitions() \
-               and obj_ptype in sm.getPortalTypes():
-                ping_google(plone_home, sm.id)
+            if wftrans_name in sm.getPingTransitions() and \
+                obj_ptype in sm.getPortalTypes():
+                    ping_google(plone_home, sm.id)
     return 0
 
 

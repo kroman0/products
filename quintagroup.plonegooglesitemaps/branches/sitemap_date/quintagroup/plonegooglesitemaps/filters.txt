@@ -102,7 +102,7 @@ Now we are landed on the newly-created sitemap edit form.
 What we are interested in is "Blackout entries" field on the edit 
 form, it should be empty by default settings.
 
-    >>> file("/tmp/browser.0.html","wb").write(browser.contents)
+    >>> file("/tmp/browser.test.html","wb").write(browser.contents)
     >>> blackout_list = browser.getControl("Blackout entries")
     >>> blackout_list
     <Control name='blackout_list:lines' type='textarea'>
@@ -142,7 +142,7 @@ No filters
 The created sitemap has no filters applied and all documents should appear in it.
 
     >>> browser.open(smview_url)
-    >>> file("/tmp/browser.1.html","wb").write(browser.contents)
+    >>> file("/tmp/browser.test.html","wb").write(browser.contents)
     >>> no_filters_content = browser.contents
 
 Check if result page is really a sitemap...

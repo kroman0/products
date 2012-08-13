@@ -35,7 +35,6 @@ setup(name='quintagroup.plonegooglesitemaps',
           'quintagroup.canonicalpath>=0.7',
           'quintagroup.catalogupdater',
           'archetypes.schemaextender',
-          'plone.indexer',
           # -*- Extra requirements: -*-
       ],
       tests_require=tests_require,

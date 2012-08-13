@@ -31,8 +31,8 @@ class TestConfigletSettings(FunctionalTestCase):
         self.assert_("Add Mobile Sitemap" in settings)
 
     def testAddContentSitemap(self):
-        resp = self.submitForm(
-                   {'form.button.AddContent': "Add Content Sitemap"})
+        resp = self.submitForm({'form.button.AddContent':
+                                "Add Content Sitemap"})
         self.assertEqual(resp.getStatus() / 100, 3)
         sm_edit = "sitemap.xml/edit"
         self.assertEqual(resp.getHeader("Location").endswith(sm_edit), True)
@@ -40,7 +40,7 @@ class TestConfigletSettings(FunctionalTestCase):
         self.portal["sitemap.xml"]
         #self.portal["sitemap.xml"].setPortalTypes(("Documents",))
         newform = self.publish(self.settingsURL, basic=self.auth).getBody()
-        self.assertEqual('href="http://nohost/plone/sitemap.xml/edit"' in \
+        self.assertEqual('href="http://nohost/plone/sitemap.xml/edit"' in
                          newform, True)
         self.assertEqual("form.button.AddContent" in newform, False)
 
@@ -53,7 +53,7 @@ class TestConfigletSettings(FunctionalTestCase):
         self.portal["news-sitemap.xml"]
         #self.portal["news-sitemap.xml"].setPortalTypes(("News Item",))
         newform = self.publish(self.settingsURL, basic=self.auth).getBody()
-        self.assertEqual('href="http://nohost/plone/news-sitemap.xml/edit"' \
+        self.assertEqual('href="http://nohost/plone/news-sitemap.xml/edit"'
                          in newform, True)
         self.assertEqual("form.button.AddNews" in newform, False)
 
@@ -66,7 +66,7 @@ class TestConfigletSettings(FunctionalTestCase):
         self.portal["mobile-sitemap.xml"]
         #self.portal["mobile-sitemap.xml"].setPortalTypes(("Documents",))
         newform = self.publish(self.settingsURL, basic=self.auth).getBody()
-        self.assertEqual('href="http://nohost/plone/mobile-sitemap.xml/edit"' \
+        self.assertEqual('href="http://nohost/plone/mobile-sitemap.xml/edit"'
                          in newform, True)
         self.assertEqual("form.button.AddMobile" in newform, False)
 

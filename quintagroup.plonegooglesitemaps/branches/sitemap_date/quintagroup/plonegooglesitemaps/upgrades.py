@@ -17,15 +17,13 @@ def migrateCanonical(plone_tools):
     purl = plone_tools.url()
     portal = purl.getPortalObject()
     allCTTypes = types.listContentTypes()
-    obj_metatypes = [m.content_meta_type for m in types.objectValues() \
+    obj_metatypes = [m.content_meta_type for m in types.objectValues()
                      if m.getId() in allCTTypes]
     convertor = CanonicalConvertor(portal_url=purl())
-    portal.ZopeFindAndApply(
-                            portal,
+    portal.ZopeFindAndApply(portal,
                             obj_metatypes=','.join(obj_metatypes),
                             apply_func=renameProperty,
-                            search_sub=1,
-                            )
+                            search_sub=1,)
     print convertor.getLogs()
 
 

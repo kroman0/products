@@ -1,5 +1,5 @@
 from urllib2 import urlopen
-from urllib  import quote as urlquote
+from urllib import quote as urlquote
 from DateTime import DateTime
 
 from Globals import DevelopmentMode
@@ -20,7 +20,7 @@ def ping_google(url, sitemap_id):
 
     sitemap_url = urlquote(resurl)
 
-    g = urlopen('http://www.google.com/webmasters/tools/ping?sitemap=' + \
+    g = urlopen('http://www.google.com/webmasters/tools/ping?sitemap=' +
                 sitemap_url)
     g.read()
     g.close()

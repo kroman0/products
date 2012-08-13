@@ -26,8 +26,8 @@ def pingGoogle(event):
         obj_ptype = object.portal_type
         for sm in sitemaps:
             if wftrans_name in sm.getPingTransitions() and \
-                obj_ptype in sm.getPortalTypes():
-                    ping_google(plone_home, sm.id)
+                    obj_ptype in sm.getPortalTypes():
+                ping_google(plone_home, sm.id)
     return 0
 
 

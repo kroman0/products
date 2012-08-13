@@ -14,27 +14,30 @@ class TestGoogleSitemapsInstallation(TestCase):
     def testType(self):
         pt = self.portal.portal_types
         self.assert_('Sitemap' in pt.objectIds(),
-            'No "Sitemap" type after installation')
+                     'No "Sitemap" type after installation')
         #Test views
         views = pt.getTypeInfo('Sitemap').view_methods
         self.assert_('sitemap.xml' in views,
-            'No "sitemap.xml" view for Sitemap type')
+                     'No "sitemap.xml" view for Sitemap type')
         self.assert_('mobile-sitemap.xml' in views,
-            'No "mobile-sitemap.xml" view for Sitemap type')
+                     'No "mobile-sitemap.xml" view for Sitemap type')
         self.assert_('news-sitemap.xml' in views,
-            'No "news-sitemap.xml" view for Sitemap type')
+                     'No "news-sitemap.xml" view for Sitemap type')
 
     def testGSMProperties(self):
         pp = self.portal.portal_properties
 
         # Test types_not_searched
-        self.assert_("Sitemap" in \
-            pp['site_properties'].getProperty('types_not_searched'),
-            'No "Sitemap" added to types not searched on installation')
+        self.assert_("Sitemap" in
+                     pp['site_properties'].getProperty('types_not_searched'),
+                     'No "Sitemap" added to types not searched '
+                     'on installation')
         # Test metaTypesNotToList
-        self.assert_("Sitemap" in \
-            pp['navtree_properties'].getProperty('metaTypesNotToList'),
-            'No "Sitemap" added to types not to list on installation')
+        self.assert_("Sitemap" in
+                     pp['navtree_properties'].
+                     getProperty('metaTypesNotToList'),
+                     'No "Sitemap" added to types not to '
+                     'list on installation')
 
         # Test 'googlesitemap_properties'
         self.assert_('googlesitemap_properties' in pp.objectIds(),

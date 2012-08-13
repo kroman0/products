@@ -88,7 +88,7 @@ class TestGoogleSitemaps(FunctionalTestCase):
         verifyConfigUrl = '/' + self.portal.absolute_url(1) + \
                           '/prefs_gsm_verification'
         verif_config = self.publish(verifyConfigUrl, self.auth).getBody()
-        rexp_input_acitve = re.compile('<input\s+name="verification_file"' \
+        rexp_input_acitve = re.compile('<input\s+name="verification_file"'
                                        '\s+([^>]*)>', re.I | re.S)
         rexp_button_acitve = re.compile(
             '<input\s+name="form.button.CreateFile"\s+([^>]*)>', re.I | re.S)
@@ -100,7 +100,7 @@ class TestGoogleSitemaps(FunctionalTestCase):
         delete_button = rexp_delete_button.match(verif_config)
 
         self.assert_(input_acitve and not 'disabled' in input_acitve.groups(1))
-        self.assert_(button_acitve and not 'disabled' in \
+        self.assert_(button_acitve and not 'disabled' in
                      button_acitve.groups(1))
         self.assert_(not delete_button)
 
@@ -142,15 +142,21 @@ class TestGoogleSitemaps(FunctionalTestCase):
                     fp.close()
 
             self.assertEqual(response.getStatus(), 200)
-            self.assert_(fname in \
-                 self.gsm_props.getProperty('verification_filenames', []),
-                 self.gsm_props.getProperty('verification_filenames', []))
+            self.assert_(fname in
+                         self.gsm_props.getProperty('verification_filenames',
+                                                    []),
+                         self.gsm_props.getProperty('verification_filenames',
+                                                    []))
             fnames.append(fname)
 
-        self.assertEqual(len([1 for vf in fnames \
-            if vf in \
-                self.gsm_props.getProperty('verification_filenames', [])]), 2,
-                self.gsm_props.getProperty('verification_filenames', []))
+        self.assertEqual(len([1 for vf in fnames
+                         if
+                         vf
+                         in
+                         self.gsm_props.getProperty('verification_filenames',
+                                                    [])]), 2,
+                         self.gsm_props.getProperty('verification_filenames',
+                                                    []))
 
 
 def test_suite():

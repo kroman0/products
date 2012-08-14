@@ -46,7 +46,7 @@ class TestNewsSitemapsXML(FunctionalTestCase):
 
     def reParse(self):
         # Parse news sitemap
-        self.sitemap = self.publish("/" + self.portal.absolute_url(1) + \
+        self.sitemap = self.publish("/" + self.portal.absolute_url(1) +
                                     "/news-sitemaps",
                                     "%s:%s" % (portal_owner,
                                                default_password)).getBody()
@@ -148,7 +148,7 @@ class TestNewsSitemapsXMLDefaultObject(FunctionalTestCase):
 
     def reParse(self):
         # Parse news sitemap
-        self.sitemap = self.publish("/" + self.portal.absolute_url(1) + \
+        self.sitemap = self.publish("/" + self.portal.absolute_url(1) +
                                     "/news-sitemaps",
                                     "%s:%s" % (portal_owner, default_password)
                                     ).getBody()
@@ -212,15 +212,16 @@ class TestSchemaExtending(TestCase):
         globalsm = getGlobalSiteManager()
         # Now register SchemaExtender adapter and
         # check if it present in Local SiteManger only
+        adapter = "quintagroup.plonegooglesitemaps.newssitemapextender"
         self.assertNotEqual(localsm, globalsm)
         self.assertNotEqual(localsm.queryAdapter(
-                self.my_news, ISchemaExtender,
-                name="quintagroup.plonegooglesitemaps.newssitemapextender"),
-            None)
+                            self.my_news, ISchemaExtender,
+                            name=adapter),
+                            None)
         self.assertEqual(globalsm.queryAdapter(
-                self.my_news, ISchemaExtender,
-                name="quintagroup.plonegooglesitemaps.newssitemapextender"),
-            None)
+                         self.my_news, ISchemaExtender,
+                         name=adapter),
+                         None)
 
 
 ##
@@ -269,9 +270,9 @@ class TestNotOverrideExistingSchemaExtender(TestCase):
         self.assert_(ITestTaggable.providedBy(self.taggable_news))
         self.assert_(INewsSitemapProvider.providedBy(self.taggable_news))
         schema = self.taggable_news.Schema().keys()
-        self.assert_("gsm_access" in schema, "no 'gsm_access' in schema: %s" \
+        self.assert_("gsm_access" in schema, "no 'gsm_access' in schema: %s"
                      % schema)
-        self.assert_("testField" in schema, "no 'testField' in schema: %s" \
+        self.assert_("testField" in schema, "no 'testField' in schema: %s"
                      % schema)
 
 
@@ -305,7 +306,7 @@ class TestAdditionalMaps(TestCase):
             try:
                 func(self.brain)
             except Exception, e:
-                self.fail("Wrong processing 'Missing' value for '%s': %s" \
+                self.fail("Wrong processing 'Missing' value for '%s': %s"
                           % (n, str(e)))
 
 

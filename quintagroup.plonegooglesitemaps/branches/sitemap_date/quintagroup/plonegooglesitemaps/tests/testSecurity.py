@@ -13,7 +13,7 @@ from Products.CMFPlone.utils import _createObjectByType
 class MixinSecurity(FunctionalTestCase):
 
     def getview(self, vpath):
-        return self.publish("/" + self.portal.absolute_url(1) + \
+        return self.publish("/" + self.portal.absolute_url(1) +
                             "/" + vpath, self.auth)
 
 
@@ -43,7 +43,10 @@ class TestSecurityConfigletNotManager(MixinSecurity):
     def afterSetUp(self):
         super(TestSecurityConfigletNotManager, self).afterSetUp()
         self.auth = "mem:mem"
-        self.portal.portal_membership.addMember('mem', 'mem', ('Member',), [])
+        self.portal.portal_membership.addMember('mem',
+                                                'mem',
+                                                ('Member',),
+                                                [])
 
     def testConfigOverview(self):
         resp = self.getview("prefs_gsm_overview")
@@ -58,11 +61,10 @@ class TestSecurityConfigletNotManager(MixinSecurity):
         self.assertNotEqual(resp.status / 100, 2)
 
 
-SM_TYPES = {
-  "content": {"id": "sitemap.xml", "types": ("Document",)},
-  "news": {"id": "news-sitemap.xml", "types": ("News Item",)},
-  "mobile": {"id": "mobile-sitemap.xml", "types": ("Document",)},
-}
+SM_TYPES = {"content": {"id": "sitemap.xml", "types": ("Document",)},
+            "news": {"id": "news-sitemap.xml", "types": ("News Item",)},
+            "mobile": {"id": "mobile-sitemap.xml", "types": ("Document",)},
+            }
 from DateTime import DateTime
 
 

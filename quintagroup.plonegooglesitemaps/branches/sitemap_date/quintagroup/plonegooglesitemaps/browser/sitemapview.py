@@ -20,4 +20,4 @@ class SitemapView(CommonSitemapView):
             portal_type=self.context.getPortalTypes(),
             review_state=self.context.getStates(),
             is_default_page=False
-            )
+        )

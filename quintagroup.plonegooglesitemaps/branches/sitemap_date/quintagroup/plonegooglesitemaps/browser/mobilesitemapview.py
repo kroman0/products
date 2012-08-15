@@ -23,4 +23,4 @@ class MobileSitemapView(CommonSitemapView):
             review_state=self.context.getStates(),
             object_provides=MOBILE_INTERFACES,
             is_default_page=False,
-            )
+        )

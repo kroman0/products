@@ -24,11 +24,11 @@ class IConfigletSettingsView(Interface):
     Sitemap view interface
     """
 
-    sitemaps = Attribute("Returns mapping of sitemap's type to list of " \
+    sitemaps = Attribute("Returns mapping of sitemap's type to list of "
                          "appropriate objects")
-    hasContentSM = Attribute("Returns boolean about existance of content " \
+    hasContentSM = Attribute("Returns boolean about existance of content "
                              "sitemap")
-    hasMobileSM = Attribute("Returns boolean about existance of mobile " \
+    hasMobileSM = Attribute("Returns boolean about existance of mobile "
                             "sitemap")
     hasNewsSM = Attribute("Returns boolean about existance of news sitemap")
     sm_types = Attribute("List of sitemap types")
@@ -72,7 +72,7 @@ class ConfigletSettingsView(BrowserView):
                                        name="plone_tools")
         self.pps = queryMultiAdapter((self.context, self.request),
                                      name="plone_portal_state")
-        self.sitemaps = [i.getObject() for i in \
+        self.sitemaps = [i.getObject() for i in
                          self.tools.catalog()(portal_type='Sitemap')]
 
     @property
@@ -96,9 +96,9 @@ class ConfigletSettingsView(BrowserView):
         for sm in self.sitemaps:
             smlist = sitemaps.setdefault(sm.getSitemapType(), [])
             smlist.append({'url': sm.absolute_url(), 'id': sm.id})
+
         sitemaps['all'] = sitemaps.setdefault('content', []) + \
-                          sitemaps.setdefault('mobile', []) + \
-                          sitemaps.setdefault('news', [])
+            sitemaps.setdefault('mobile', []) + sitemaps.setdefault('news', [])
         return sitemaps
 
     def sitemapsURLs(self):
@@ -127,7 +127,7 @@ class ConfigletSettingsView(BrowserView):
                 'sm_url': ob.absolute_url(),
                 'sm_size': size and splitNum(size) or '',
                 'sm_entries': entries and splitNum(entries) or '',
-               }
+                }
 
     def getSitemapData(self, ob):
         size, entries = (0, 0)
@@ -149,8 +149,8 @@ class ConfigletSettingsView(BrowserView):
         portal = self.pps.portal()
         portal.manage_delObjects([self.request.id, ])
         self.request.RESPONSE.redirect(
-                                urlparse.urljoin(self.context.absolute_url,
-                                'prefs_gsm_verification'))
+            urlparse.urljoin(self.context.absolute_url,
+                             'prefs_gsm_verification'))
 
     def getVerificationFiles(self):
         vfs = []

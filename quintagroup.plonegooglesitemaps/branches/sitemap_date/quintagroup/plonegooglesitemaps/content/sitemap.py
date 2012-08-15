@@ -51,7 +51,7 @@ SitemapSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         #schemata ='default',
         widget=atapi.MultiSelectionWidget(
             label=_(u"Review status"),
-            description=_(u"You may include items in sitemap depend of " \
+            description=_(u"You may include items in sitemap depend of "
                           u"their review state."),
         ),
     ),
@@ -64,12 +64,12 @@ SitemapSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         widget=atapi.LinesWidget(
             label=_(u"Blackout entries"),
             description=_(
-                u"Objects which match filter condition will be excluded " \
-                u"from the sitemap.Every record should follow the spec: " \
-                u"[<filter name>:]<filter arguments>. By default there are " \
-                u"\"id\" and \"path\" filters (\"id\" used if filter name " \
-                u"not specified). There is possibility to add new filters. " \
-                u"Look into README.txt of the " \
+                u"Objects which match filter condition will be excluded "
+                u"from the sitemap.Every record should follow the spec: "
+                u"[<filter name>:]<filter arguments>. By default there are "
+                u"\"id\" and \"path\" filters (\"id\" used if filter name "
+                u"not specified). There is possibility to add new filters. "
+                u"Look into README.txt of the "
                 u"quintagroup.plonegooglesitemaps package."),
         ),
     ),
@@ -81,15 +81,15 @@ SitemapSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         #schemata ='default',
         widget=atapi.LinesWidget(
             label=_(u"URL processing Regular Expressions"),
-            description=_(u"Provide regular expressions (in Perl syntax), " \
-                          u"one per line to be applied to URLs before " \
-                          u"including them into Sitemap. Example 1: " \
-                          u"\"s/\/index_html//\" will remove /index_html " \
-                          u"from URLs representing default documents. " \
-                          u"Example 2: " \
-                          u"\"s/[you_site\/internal\/path]/[domain]/\" will " \
-                          u"fix URLs in the sitemap in case they are " \
-                          u"generated on the basis of your site internal" \
+            description=_(u"Provide regular expressions (in Perl syntax), "
+                          u"one per line to be applied to URLs before "
+                          u"including them into Sitemap. Example 1: "
+                          u"\"s/\/index_html//\" will remove /index_html "
+                          u"from URLs representing default documents. "
+                          u"Example 2: "
+                          u"\"s/[you_site\/internal\/path]/[domain]/\" will "
+                          u"fix URLs in the sitemap in case they are "
+                          u"generated on the basis of your site internal"
                           u"path rather than your site domain URL. "),
         ),
     ),
@@ -102,7 +102,7 @@ SitemapSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         #schemata ='default',
         widget=atapi.LinesWidget(
             label=_(u"Additional URLs"),
-            description=_(u"Define additional URLs that are not objects and " \
+            description=_(u"Define additional URLs that are not objects and "
                           u"that should be included in sitemap."),
         ),
     ),
@@ -114,7 +114,7 @@ SitemapSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         #schemata="default",
         widget=atapi.MultiSelectionWidget(
             label=_(u"Pinging workflow transitions"),
-            description=_(u"Select workflow transitions for pinging " \
+            description=_(u"Select workflow transitions for pinging "
                           u"google on."),
         ),
     ),
@@ -169,9 +169,10 @@ class Sitemap(base.ATCTContent):
                 continue
             for wf_tr in wf.transitions.values():
                 if wf_tr.after_script_name in AVAILABLE_WF_SCRIPTS:
-                    wf_trans.append(("%s#%s" % (wf_id, wf_tr.id),
-                        "%s : %s (%s)" % (wf_id, wf_tr.id, \
-                                          wf_tr.title_or_id())))
+                    wf_trans.append(
+                        ("%s#%s" % (wf_id, wf_tr.id),
+                         "%s : %s (%s)" % (wf_id, wf_tr.id,
+                                           wf_tr.title_or_id())))
         return atapi.DisplayList(wf_trans)
 
     def setPingTransitions(self, value, **kw):

@@ -109,7 +109,8 @@ class CommonSitemapView(BrowserView):
             fargs = fspec.pop()
             fname = fspec and fspec.pop() or "id"
             fengine = queryMultiAdapter((self.context, self.request),
-                          interface=IBlackoutFilter, name=fname)
+                                        interface=IBlackoutFilter,
+                                        name=fname)
             if fengine:
                 objects = list(fengine.filterOut(objects, fargs))
         return objects

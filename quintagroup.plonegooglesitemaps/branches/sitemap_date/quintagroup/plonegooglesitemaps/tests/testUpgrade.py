@@ -41,9 +41,9 @@ class TestUpgrade(TestCase):
     def test_upgradeSetupRegistration(self):
         # Test registered upgrade profiles
         pids = [i['id'] for i in self.setup.listProfileInfo()]
-        self.assertEqual("quintagroup.plonegooglesitemaps:upgrade_1_0_to_1_1" \
+        self.assertEqual("quintagroup.plonegooglesitemaps:upgrade_1_0_to_1_1"
                          in pids, True)
-        self.assertEqual("quintagroup.plonegooglesitemaps:upgrade_1_1_to_1_2" \
+        self.assertEqual("quintagroup.plonegooglesitemaps:upgrade_1_1_to_1_2"
                          in pids, True)
 
     def test_step_1_0_to_1_1(self):

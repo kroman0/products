@@ -8,6 +8,7 @@ from quintagroup.plonegooglesitemaps.utils import dateTime
 # (Plone 3.0, Plone 3.1, Plone3.2)
 try:
     from plone.indexer import indexer
+    indexer
     IS_NEW = True
 except ImportError:
     IS_NEW = False

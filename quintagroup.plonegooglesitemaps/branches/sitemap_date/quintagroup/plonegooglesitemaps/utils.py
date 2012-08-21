@@ -4,6 +4,7 @@ from DateTime import DateTime
 
 from Globals import DevelopmentMode
 #from OFS.ObjectManager import BadRequestException
+from Products.CMFCore.utils import getToolByName
 
 from quintagroup.plonegooglesitemaps import config
 
@@ -26,6 +27,18 @@ def ping_google(url, sitemap_id):
     g.close()
 
     return 0
+
+
+def getDefaultPage(obj):
+    """ Method gets default page for object (folderish) """
+    plone_tool = getToolByName(obj, 'plone_utils')
+    return plone_tool.getDefaultPage(obj)
+
+
+def isDefaultPage(obj):
+    """ If object is default page then return True"""
+    plone_tool = getToolByName(obj, 'plone_utils')
+    return plone_tool.isDefaultPage(obj)
 
 
 def dateTime(obj):

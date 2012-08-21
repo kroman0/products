@@ -3,9 +3,8 @@ from Products.CMFCore.utils import getToolByName
 #from quintagroup.plonegooglesitemaps.events import AfterTransitionEvent
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from Acquisition import aq_parent
-from plone.app.layout.navigation.defaultpage import isDefaultPage
 
-from quintagroup.plonegooglesitemaps.utils import ping_google
+from quintagroup.plonegooglesitemaps.utils import ping_google, isDefaultPage
 
 
 @adapter(IAfterTransitionEvent)
@@ -37,7 +36,7 @@ def reindexParentObjects(obj, event):
     """
     def reindex(obj):
         container = aq_parent(obj)
-        if isDefaultPage(container, obj):
+        if isDefaultPage(obj):
             container.reindexObject(['sitemap_date'])
             reindex(container)
 

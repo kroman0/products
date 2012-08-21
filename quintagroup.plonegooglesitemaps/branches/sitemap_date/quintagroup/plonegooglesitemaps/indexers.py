@@ -1,14 +1,12 @@
-from plone.app.layout.navigation.defaultpage import getDefaultPage
-
 from zope.interface import Interface
 
-from quintagroup.plonegooglesitemaps.utils import dateTime
+from quintagroup.plonegooglesitemaps.utils import dateTime, getDefaultPage
 
 #BBB: for compatibility with older plone versions
 # (Plone 3.0, Plone 3.1, Plone3.2)
 try:
-    from plone.indexer import indexer
-    indexer
+    import plone.indexer
+    indexer = plone.indexer.indexer
     IS_NEW = True
 except ImportError:
     IS_NEW = False

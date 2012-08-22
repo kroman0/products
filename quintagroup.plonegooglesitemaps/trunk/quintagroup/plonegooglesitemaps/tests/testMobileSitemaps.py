@@ -39,7 +39,7 @@ class TestMobileSitemapsXML(FunctionalTestCase):
 
     def reParse(self):
         # Parse mobile sitemap
-        self.sitemap = self.publish("/" + self.portal.absolute_url(1) + \
+        self.sitemap = self.publish("/" + self.portal.absolute_url(1) +
                                     "/mobile-sitemap.xml",
                                     "%s:%s" % (portal_owner,
                                                default_password)).getBody()
@@ -63,13 +63,13 @@ class TestMobileSitemapsXML(FunctionalTestCase):
         self.assert_(self.portal.absolute_url() + "/my_mobile" in self.data)
 
     def test_lastmod(self):
-        md = [f for k, f in \
-              mobilesitemapview.MobileSitemapView.additional_maps \
+        md = [f for k, f in
+              mobilesitemapview.MobileSitemapView.additional_maps
               if k == 'modification_date'][0]
         bmobile = self.portal.portal_catalog(id="my_mobile")[0]
         self.assert_("lastmod" in self.start.keys())
-        self.assert_(md(bmobile) in self.data, "Wrong 'modified date':" \
-                     " must be '%s', but exist: '%s'" \
+        self.assert_(md(bmobile) in self.data, "Wrong 'modified date':"
+                     " must be '%s', but exist: '%s'"
                      % (md(bmobile), self.data))
 
 
@@ -84,7 +84,7 @@ class TestMobileSitemaps(TestCase):
         mobile_sm.at_post_create_script()
         self.default_layout = mobile_sm.getProperty('layout', "")
         self.mobile_view = queryMultiAdapter((mobile_sm, self.portal.REQUEST),
-                               name=self.default_layout)
+                                             name=self.default_layout)
 
     def testLayout(self):
         self.assert_(self.default_layout == "mobile-sitemap.xml")
@@ -99,7 +99,7 @@ class TestMobileSitemaps(TestCase):
 
     def testAdditionalMaps(self):
         self.assert_(hasattr(self.mobile_view, "additional_maps"))
-        self.assert_([1 for k, f in self.mobile_view.additional_maps \
+        self.assert_([1 for k, f in self.mobile_view.additional_maps
                       if k == "modification_date"])
 
 

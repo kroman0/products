@@ -27,8 +27,8 @@ def test_suite():
             'filters.txt', package='quintagroup.plonegooglesitemaps',
             test_class=DocTestCase, globs=globals(),
             optionflags=doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
-                       # | doctest.REPORT_ONLY_FIRST_FAILURE |
-        ])
+        # | doctest.REPORT_ONLY_FIRST_FAILURE |
+    ])
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

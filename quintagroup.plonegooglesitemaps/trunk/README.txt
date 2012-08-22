@@ -1,8 +1,8 @@
 Introduction
 ============
 
-Plone Google Sitemaps product allows Plone websites to get better visibility for Google search engine
-by providing it with complete listing of URLs to website content.
+Plone Google Sitemaps product allows Plone websites to get better visibility on Google search engine
+by providing it with a complete listing of content URLs to website.
 
 .. figure:: http://quintagroup.com/services/plone-development/products/google-sitemaps/plone-google-sitemaps.png
 
@@ -14,15 +14,14 @@ search by placing all the information on one page.
 With Plone Google Sitemaps product you can enable following Sitemap types on your Plone website:
 
 * ``Content Sitemap`` - is a regular list of pages on your website. Creating and submitting such a Sitemap 
-  lets Google know about all the pages on your Plone web site, including URLs that may not be discoverable
+  lets Google know about all the pages on your Plone website, including URLs that may not be discoverable
   by Google's normal crawling process.
-* ``Mobile Sitemap`` - is a specific type of Sitemap, that indexes all site URLs that serve content for 
-  mobile devices.
+* ``Mobile Sitemap`` - is a specific type of Sitemap, that indexes all site URLs that serve mobile-oriented content.
 * ``News Sitemap`` - is different from regular Sitemaps, since it is specific to Google News only.
-  It uses the Sitemap protocol, with additional News-specific tags, defined by Google. The package brings 
-  additional Google Sitempas tab to News Item content type for defining NewsSitemap-specific meta tags. 
+  It uses the Sitemap protocol, with additional News-specific tags, defined by Google. The package brings protocol with 
+  additional Google Sitemaps tab to News Item content type for defining NewsSitemap-specific meta tags. 
 
-Different Sitemap types index their own content and do not depend on other Sitemaps.
+Different Sitemap types index their own content and do not depend on other Sitemaps. 
 
 Usage
 -----
@@ -38,18 +37,18 @@ See detailed instructions on Plone Google Sitemaps usage at http://projects.quin
 MIGRATION
 =========
 
-If you UPGRADE older version of quintagroup.plonegooglesitemaps package to newer:
----------------------------------------------------------------------------------
+If you UPGRADE an older version of quintagroup.plonegooglesitemaps package to a newer one:
+------------------------------------------------------------------------------------------
 
-* In your zope instance configuration or buildout - replace old package version with a new one.
+* In your zope instance configuration or buildout replace old package version with a new one.
 * Run plone instance and reinstall package with Quickinstaller tool ("Add-on Products" in plone control panel).
 
-If your MIGRATE from Products.qPloneGoogleSitemaps to quintagroup.plonegooglesitemaps:
---------------------------------------------------------------------------------------
+If you MIGRATE from Products.qPloneGoogleSitemaps to quintagroup.plonegooglesitemaps:
+-------------------------------------------------------------------------------------
     
-* Add to new plone instance/buildout both qPloneGoogleSitemaps product and last version quintagroup.plonegooglesitemaps package.
+* Add to a new Plone instance/buildout both qPloneGoogleSitemaps product and last version quintagroup.plonegooglesitemaps package.
 * Copy Data.fs from old Plone instance to new one.
-* Start your new zope instance/buildout.
+* Start your new Zope instance/buildout.
 
 The following steps are performed in the plone instance:
 

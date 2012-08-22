@@ -30,9 +30,11 @@ def unregisterSchemaExtenderAdapters(site):
             provided = registration.provided
             name = registration.name
             lsm.unregisterAdapter(factory=factory,
-                required=required, provided=provided, name=name)
+                                  required=required,
+                                  provided=provided,
+                                  name=name)
             unregistered.append(str(required))
-    logger.info("Unregistered news schema extender adapters for: %s" \
+    logger.info("Unregistered news schema extender adapters for: %s"
                 % unregistered)
 
 
@@ -86,14 +88,14 @@ def cleanup(site):
     configlet_ids = [ai['id'] for ai in controlpanel.listActionInfos()]
     if old_product in configlet_ids:
         controlpanel.unregisterConfiglet(old_product)
-        logger.info("Unregistered '%s' configlet from "\
+        logger.info("Unregistered '%s' configlet from "
                     "portal_controlpanel tool." % old_product)
     # Remove qPloneGoogleSitemaps skin layer
     for skinName in skins.getSkinSelections():
         skin_paths = skins.getSkinPath(skinName).split(',')
         paths = [l.strip() for l in skin_paths if not l == old_product]
         if len(paths) < len(skin_paths):
-            logger.info("Removed '%s' from '%s' skin." \
+            logger.info("Removed '%s' from '%s' skin."
                         % (old_product, skinName))
         skins.addSkinSelection(skinName, ','.join(paths))
 
@@ -102,7 +104,7 @@ def recriateSitemaps(smaps):
     msg = "Recriation Sitemaps: "
     if smaps:
         logger.info(msg + "Process %s sitemaps." % (
-                [sm.getPath() for sm in smaps]))
+                    [sm.getPath() for sm in smaps]))
         fields = ['id', 'sitemapType', 'portalTypes', 'states',
                   'blackout_list', 'reg_exp', 'urls', 'pingTransitions']
         for smb in smaps:
@@ -126,7 +128,7 @@ def recriateSitemaps(smaps):
 def getOldGSitemaps(site):
     catalog = getToolByName(site, 'portal_catalog')
     smaps = catalog(portal_type="Sitemap")
-    old_smb = [smb for smb in smaps \
+    old_smb = [smb for smb in smaps
                if 'qPloneGoogleSitemaps' in str(smb.getObject().__class__)]
     return old_smb
 

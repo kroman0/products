@@ -14,57 +14,65 @@ class TestGoogleSitemapsInstallation(TestCase):
     def testType(self):
         pt = self.portal.portal_types
         self.assert_('Sitemap' in pt.objectIds(),
-            'No "Sitemap" type after installation')
+                     'No "Sitemap" type after installation')
         #Test views
         views = pt.getTypeInfo('Sitemap').view_methods
         self.assert_('sitemap.xml' in views,
-            'No "sitemap.xml" view for Sitemap type')
+                     'No "sitemap.xml" view for Sitemap type')
         self.assert_('mobile-sitemap.xml' in views,
-            'No "mobile-sitemap.xml" view for Sitemap type')
+                     'No "mobile-sitemap.xml" view for Sitemap type')
         self.assert_('news-sitemap.xml' in views,
-            'No "news-sitemap.xml" view for Sitemap type')
+                     'No "news-sitemap.xml" view for Sitemap type')
 
     def testGSMProperties(self):
         pp = self.portal.portal_properties
 
         # Test types_not_searched
-        self.assert_("Sitemap" in \
-            pp['site_properties'].getProperty('types_not_searched'),
-            'No "Sitemap" added to types not searched on installation')
+        self.assert_("Sitemap" in
+                     pp['site_properties'].getProperty('types_not_searched'),
+                     'No "Sitemap" added to types not searched '
+                     'on installation')
         # Test metaTypesNotToList
-        self.assert_("Sitemap" in \
-            pp['navtree_properties'].getProperty('metaTypesNotToList'),
-            'No "Sitemap" added to types not to list on installation')
+        self.assert_("Sitemap" in
+                     pp['navtree_properties'].
+                     getProperty('metaTypesNotToList'),
+                     'No "Sitemap" added to types not to '
+                     'list on installation')
 
         # Test 'googlesitemap_properties'
         self.assert_('googlesitemap_properties' in pp.objectIds(),
-            'No "googlesitemap_properties" after installation')
+                     'No "googlesitemap_properties" after installation')
         qsmprops = pp['googlesitemap_properties']
         self.assert_(qsmprops.hasProperty('verification_filenames'),
-            'No "verification_filenames" property added on installation')
+                     'No "verification_filenames" property added on '
+                     'installation')
 
     def testSkins(self):
         ps = self.portal.portal_skins
         self.assert_('plonegooglesitemaps' in ps.objectIds(),
-            'No "plonegooglesitemaps" skin layer in portal_skins')
-        self.assert_('plonegooglesitemaps' in \
+                     'No "plonegooglesitemaps" skin '
+                     'layer in portal_skins')
+        self.assert_('plonegooglesitemaps' in
                      ps.getSkinPath(ps.getDefaultSkin()),
-            'No "plonegooglesitemaps" skin layer in default skin')
+                     'No "plonegooglesitemaps" skin layer '
+                     'in default skin')
 
     def testConfiglet(self):
         cp = self.portal.portal_controlpanel
-        self.assert_([1 for ai in cp.listActionInfos() \
-                      if ai['id'] == 'GoogleSitemaps'],
-            'No "GoogleSitemaps" configlet added to plone control panel')
+        self.assert_([1 for ai in cp.listActionInfos()
+                     if ai['id'] == 'GoogleSitemaps'],
+                     'No "GoogleSitemaps" configlet '
+                     'added to plone control panel')
 
     def testNewsSchemaExtenderRegistered(self):
         lsm = getSiteManager(self.portal)
         news = self.portal.invokeFactory("News Item", id="test_news")
         news = getattr(self.portal, "test_news")
-        self.assertNotEqual(lsm.queryAdapter(
-                news, interface=ISchemaExtender,
-                name="quintagroup.plonegooglesitemaps.newssitemapextender"),
-            None)
+        adapter = "quintagroup.plonegooglesitemaps.newssitemapextender"
+        self.assertNotEqual(lsm.queryAdapter(news,
+                                             interface=ISchemaExtender,
+                                             name=adapter),
+                            None)
 
     def testUpdateCatalog(self):
         # Test added new columns in catalog
@@ -134,16 +142,17 @@ class TestGoogleSitemapsUninstallation(TestCase):
         news = self.portal.invokeFactory("News Item", id="test_news")
         news = getattr(self.portal, "test_news")
         self.assertEqual(lsm.queryAdapter(news, interface=ISchemaExtender),
-            None)
+                         None)
 
     def testConfigletUninstall(self):
         self.assertNotEqual(
             self.portal.portal_quickinstaller.isProductInstalled(PRODUCT),
             True, '%s is already installed' % PRODUCT)
         configTool = self.portal.portal_controlpanel
-        self.assertEqual('GoogleSitemaps' in [a.getId() for a in \
-                                              configTool.listActions()], False,
-            'Configlet found after uninstallation')
+        self.assertEqual('GoogleSitemaps' in [a.getId() for a in
+                                              configTool.listActions()],
+                         False,
+                         'Configlet found after uninstallation')
 
     def test_browserlayer_uninstall(self):
         if not SUPPORT_BLAYER:
@@ -151,7 +160,8 @@ class TestGoogleSitemapsUninstallation(TestCase):
 
         from plone.browserlayer import utils
         self.assertEqual(IGoogleSitemapsLayer in utils.registered_layers(),
-            False, "Still registered 'IGoogleSitemapsLayer' browser layer")
+                         False, "Still registered 'IGoogleSitemapsLayer' "
+                         "browser layer")
 
 
 def test_suite():

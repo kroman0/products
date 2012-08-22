@@ -1,9 +1,13 @@
 Changelog
 =========
 
+1.2.12 - Unreleased
+
+* Fixed 'no record' error [kroman0]
+
 1.2.11 - August 10,2012
 
-* <select><option> layout added for mobile skins
+* <select><option> layout added for mobile skins [kroman0]
 
 1.2.10 - May 10, 2012
 

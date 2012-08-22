@@ -1,6 +1,11 @@
 Introduction
 ------------
 
+The product allows you to build a responsive multilevel drop-down menu that will 
+provide your visitors with organized and intuitive navigation. On mobile devices 
+your top menu bar transforms into one drop-down. By clicking on the title or 
+a small arrow next to it all-level menu items appear below the title.
+
 This package allows to build dropdown menu through the web with portal_actions.
 Submenus are built from a tree of nested Category Actions and Actions.
 

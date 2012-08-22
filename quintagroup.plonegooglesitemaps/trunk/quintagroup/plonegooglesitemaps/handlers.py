@@ -2,7 +2,9 @@ from zope.component import adapter
 from Products.CMFCore.utils import getToolByName
 #from quintagroup.plonegooglesitemaps.events import AfterTransitionEvent
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
-from quintagroup.plonegooglesitemaps.utils import ping_google
+from Acquisition import aq_parent
+
+from quintagroup.plonegooglesitemaps.utils import ping_google, isDefaultPage
 
 
 @adapter(IAfterTransitionEvent)
@@ -22,7 +24,20 @@ def pingGoogle(event):
         wftrans_name = "%s#%s" % (event.workflow.id, tr_id)
         obj_ptype = object.portal_type
         for sm in sitemaps:
-            if wftrans_name in sm.getPingTransitions() \
-               and obj_ptype in sm.getPortalTypes():
+            if wftrans_name in sm.getPingTransitions() and \
+                    obj_ptype in sm.getPortalTypes():
                 ping_google(plone_home, sm.id)
     return 0
+
+
+def reindexParentObjects(obj, event):
+    """   Method reindexes folderish objects according
+        to modification date from default object
+    """
+    def reindex(obj):
+        container = aq_parent(obj)
+        if isDefaultPage(obj):
+            container.reindexObject(['sitemap_date'])
+            reindex(container)
+
+    reindex(obj)

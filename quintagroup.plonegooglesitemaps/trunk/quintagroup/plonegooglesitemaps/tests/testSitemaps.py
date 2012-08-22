@@ -51,7 +51,7 @@ class TestSitemapType(FunctionalTestCase):
         self.assert_('news' in sitemap_types)
 
     def testAutoSetLayout(self):
-        response = self.publish('/%s/createObject?type_name=Sitemap' \
+        response = self.publish('/%s/createObject?type_name=Sitemap'
                                 % self.portal.absolute_url(1), basic=self.auth)
         location = response.getHeader('location')
         newurl = location[location.find('/' + self.portal.absolute_url(1)):]
@@ -86,7 +86,7 @@ class TestSitemapType(FunctionalTestCase):
     def testWorkflowTransitions(self):
         wftrans = self.contentSM.getWorkflowTransitions()
         self.assertEqual(isinstance(wftrans, atapi.DisplayList), True)
-        self.assertEqual("simple_publication_workflow#publish" in \
+        self.assertEqual("simple_publication_workflow#publish" in
                          wftrans.keys(), True)
 
     def testSettingBlackout(self):
@@ -94,8 +94,9 @@ class TestSitemapType(FunctionalTestCase):
         expect = ("path:./el1", "id:index.html", "index_html")
         self.contentSM.edit(blackout_list=bolist)
         value = self.contentSM.getBlackout_list()
-        self.assertTrue(value == expect, "Blackout list was not cleaned "\
-             "up from whitespaces: %s" % str(value))
+        self.assertTrue(value == expect, "Blackout list was not cleaned "
+                                         "up from whitespaces: %s"
+                                         % str(value))
 
 
 class TestSettings(FunctionalTestCase):
@@ -178,8 +179,10 @@ class TestPinging(FunctionalTestCase):
 
     def afterSetUp(self):
         super(TestPinging, self).afterSetUp()
+        workflow = "simple_publication_workflow"
         self.workflow.setChainForPortalTypes(pt_names=('News Item',
-                 'Document'), chain="simple_publication_workflow")
+                                                       'Document'),
+                                             chain=workflow)
         gsm_properties = 'googlesitemap_properties'
         self.gsm_props = self.portal.portal_properties[gsm_properties]
         # Add sitemaps
@@ -209,10 +212,10 @@ class TestPinging(FunctionalTestCase):
         finally:
             sys.stdout = back_out
 
-        self.assert_('Pinged %s sitemap to Google' \
+        self.assert_('Pinged %s sitemap to Google'
                      % self.contentSM.absolute_url() in data,
                      "Not pinged %s: '%s'" % (self.contentSM.id, data))
-        self.assert_('Pinged %s sitemap to Google' \
+        self.assert_('Pinged %s sitemap to Google'
                      % self.newsSM.absolute_url() in data,
                      "Not pinged %s: '%s'" % (self.newsSM.id, data))
 
@@ -226,10 +229,10 @@ class TestPinging(FunctionalTestCase):
         finally:
             sys.stdout = back_out
 
-        self.assert_('Pinged %s sitemap to Google' \
+        self.assert_('Pinged %s sitemap to Google'
                      % self.newsSM.absolute_url() in data,
                      "Not pinged %s: '%s'" % (self.newsSM.id, data))
-        self.assert_(not 'Pinged %s sitemap to Google' \
+        self.assert_(not 'Pinged %s sitemap to Google'
                      % self.contentSM.absolute_url() in data,
                      "Pinged %s on news: '%s'" % (self.contentSM.id, data))
 
@@ -248,10 +251,10 @@ class TestPinging(FunctionalTestCase):
         finally:
             sys.stdout = back_out
 
-        self.assert_('Pinged %s sitemap to Google' \
+        self.assert_('Pinged %s sitemap to Google'
                      % self.contentSM.absolute_url() in data,
                      "Not pinged %s: '%s'" % (self.contentSM.id, data))
-        self.assert_('Pinged %s sitemap to Google' \
+        self.assert_('Pinged %s sitemap to Google'
                      % self.newsSM.absolute_url() in data,
                      "Not pinged %s: '%s'" % (self.newsSM.id, data))
 
@@ -284,7 +287,7 @@ class TestContextSearch(TestCase):
         self.prepareTestContent("content", ("Document",))
         filtered = SitemapView(self.sm, TestRequest()).getFilteredObjects()
         self.assertEqual(map(lambda x: x.getPath(), filtered),
-                        [self.inner_path, ])
+                         [self.inner_path, ])
 
     def testNewsSitemap(self):
         self.prepareTestContent("news", ("News Item",))
@@ -301,12 +304,79 @@ class TestContextSearch(TestCase):
                          [self.inner_path, ])
 
 
+class TestSitemapDate(TestCase):
+    """ Method dedicated to test index (sitemap_date) in portal_catalog
+    """
+    def afterSetUp(self):
+        super(TestSitemapDate, self).afterSetUp()
+
+        from time import sleep
+
+        # sequence is important for testing
+        # ("test-folder1", "test-folder2", "index_html")
+        self.folder1 = _createObjectByType("Folder", self.portal,
+                                           id="test-folder1")
+
+        # create objects with different sitemap_date
+        sleep(1)
+        self.folder2 = _createObjectByType("Folder", self.folder1,
+                                           id="test-folder2")
+        sleep(1)
+        self.page = _createObjectByType("Document", self.folder2,
+                                        id="index_html")
+
+    def getCatalogSitemapDate(self, obj):
+        """ Method gets sitemap_date from portal_catalog """
+        return self.portal.portal_catalog(id=obj.id)[0].sitemap_date
+
+    def getIndexerSitemapDate(self, obj):
+        """  Method gets modification date from
+            function sitemap_date (indexer)
+        """
+        from quintagroup.plonegooglesitemaps.indexers import sitemap_date
+
+        modification_date = sitemap_date(obj)
+        # you have had to use '__call__' since Plone 3.3
+        if callable(modification_date):
+            modification_date = modification_date()
+        return modification_date
+
+    def testReindexParentObjects(self):
+        """ Method tests handler (reindexParentObjects) """
+        from quintagroup.plonegooglesitemaps.handlers \
+            import reindexParentObjects
+
+        # set default page
+        self.folder2.setDefaultPage("index_html")
+        reindexParentObjects(self.page, None)
+
+        self.assertEqual(self.getCatalogSitemapDate(self.page),
+                         self.getCatalogSitemapDate(self.folder2))
+        self.assertNotEqual(self.getCatalogSitemapDate(self.page),
+                            self.getCatalogSitemapDate(self.folder1))
+
+        # set default page
+        self.folder1.setDefaultPage("test-folder2")
+        reindexParentObjects(self.folder2, None)
+        self.assertEqual(self.getCatalogSitemapDate(self.page),
+                         self.getCatalogSitemapDate(self.folder1))
+
+    def testSitemapDateIndexer(self):
+        """ Method tests index (sitemap_date) """
+        last_date = self.getCatalogSitemapDate(self.folder1)
+        self.assertEqual(last_date, self.getIndexerSitemapDate(self.folder1))
+        self.folder1.setDefaultPage("test-folder2")
+        self.assertNotEqual(last_date,
+                            self.getIndexerSitemapDate(self.folder1))
+
+
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestSitemapType))
     suite.addTest(unittest.makeSuite(TestSettings))
     suite.addTest(unittest.makeSuite(TestPinging))
     suite.addTest(unittest.makeSuite(TestContextSearch))
+    suite.addTest(unittest.makeSuite(TestSitemapDate))
     return suite
 
 if __name__ == '__main__':

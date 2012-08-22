@@ -10,12 +10,14 @@ class SitemapView(CommonSitemapView):
     implements(ISitemapView)
 
     additional_maps = (
-        ('modification_date', lambda x: DateTime(x.ModificationDate).HTML4()),
+        ('modification_date',
+         lambda x: x.sitemap_date or DateTime(x.ModificationDate).HTML4()),
     )
 
     def getFilteredObjects(self):
         return self.portal_catalog(
             path=self.search_path,
             portal_type=self.context.getPortalTypes(),
-            review_state=self.context.getStates()
-            )
+            review_state=self.context.getStates(),
+            is_default_page=False
+        )

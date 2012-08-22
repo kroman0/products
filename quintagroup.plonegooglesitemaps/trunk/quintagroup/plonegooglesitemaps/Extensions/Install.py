@@ -19,7 +19,7 @@ def install(self, reinstall=False):
     if reinstall and (isPlone3 or isPlone4):
         step = None
         profile_id = 'quintagroup.plonegooglesitemaps:default'
-        steps_to_run = [s['id'] for s in \
+        steps_to_run = [s['id'] for s in
                         ps.listUpgrades(profile_id, show_old=False)]
         for step_id in steps_to_run:
             step = _upgrade_registry.getUpgradeStep(profile_id, step_id)

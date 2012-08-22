@@ -11,7 +11,7 @@ except ImportError:
     class TransitionEvent(ObjectEvent):
         implements(ITransitionEvent)
 
-        def __init__(self, obj, workflow, old_state, new_state, transition, \
+        def __init__(self, obj, workflow, old_state, new_state, transition,
                      status, kwargs):
             ObjectEvent.__init__(self, obj)
             self.workflow = workflow

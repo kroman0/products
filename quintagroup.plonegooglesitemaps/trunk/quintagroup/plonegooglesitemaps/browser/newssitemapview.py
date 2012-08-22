@@ -20,16 +20,16 @@ class NewsSitemapView(CommonSitemapView):
     def additional_maps(self):
 
         return (
-            ('publication_date', lambda x: x.Date and \
-                                 formatDate(x.Date) or ""),
+            ('publication_date',
+             lambda x: x.Date and formatDate(x.Date) or ""),
             ('keywords', lambda x: x.Subject and ', '.join(x.Subject) or ""),
             ('title', lambda x: x.Title or x.getId or x.id),
-            ('name', lambda x: x.Title and \
-                     reTrailingParenthtical.sub("", x.Title) or ""),
+            ('name', lambda x: x.Title and
+                reTrailingParenthtical.sub("", x.Title) or ""),
             ('language', lambda x: x.Language or self.default_language()),
             ('access', lambda x: x.gsm_access or ""),
-            ('genres', lambda x: x.gsm_genres and \
-                       ", ".join(x.gsm_genres) or ""),
+            ('genres', lambda x: x.gsm_genres and
+                ", ".join(x.gsm_genres) or ""),
             ('stock', lambda x: x.gsm_stock or ""),
         )
 
@@ -46,5 +46,6 @@ class NewsSitemapView(CommonSitemapView):
             portal_type=self.context.getPortalTypes(),
             review_state=self.context.getStates(),
             effective={"query": min_date,
-                       "range": "min"}
-            )
+                       "range": "min"},
+            is_default_page=False
+        )

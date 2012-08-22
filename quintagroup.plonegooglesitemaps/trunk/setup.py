@@ -2,27 +2,27 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.7.1'
+version = '1.8.0'
 
 tests_require = ['zope.testing',
                  'collective.testcaselayer']
 
 setup(name='quintagroup.plonegooglesitemaps',
       version=version,
-      description="Allows Plone websites to get better visibility for " \
+      description="Allows Plone websites to get better visibility for "
                   "Google search engine",
       long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+           open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
-        "Framework :: Plone",
-        "Programming Language :: Python",
-        ],
+          "Framework :: Plone",
+          "Programming Language :: Python",
+      ],
       keywords='plone google sitemap quintagroup search engine',
       author='Quintagroup',
       author_email='info@quintagroup.com',
-      url='http://svn.quintagroup.com/products/' \
+      url='http://svn.quintagroup.com/products/'
           'quintagroup.plonegooglesitemaps',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),

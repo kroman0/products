@@ -1,14 +1,24 @@
 Changelog
 =========
 
-1.7.1 - unreleased
+1.8.0 (2012-08-22)
 ------------------
 
+* Updated modification date in Sitemaps for folderish objects which have
+  default pages.
+  Sitemap types have their own index (sitemap_date) 
+  which helps to generate Sitemaps without default pages. 
+  Index contains the last modification date from this object or  
+  from default page. As а result you will not see default pages 
+  in sitemap types.
+  [potar]
+* Added tests for index (sitemap_date), updated tests.
+  [potar]
 * Added deleting (button) the verification file
   [potar]
-
 * Updated view quintagroup.plonegooglesitemaps (tabs)
   [potar]
+  
 
 1.7.0 (2011-10-28)
 ------------------

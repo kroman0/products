@@ -10,9 +10,10 @@ class TestPinging(FunctionalTestCase):
 
     def afterSetUp(self):
         super(TestPinging, self).afterSetUp()
-        self.workflow.setChainForPortalTypes(
-                pt_names=('News Item', 'Document'),
-                chain="simple_publication_workflow")
+        workflow = "simple_publication_workflow"
+        self.workflow.setChainForPortalTypes(pt_names=('News Item',
+                                                       'Document'),
+                                             chain=workflow)
         gsm_properties = 'googlesitemap_properties'
         self.gsm_props = self.portal.portal_properties[gsm_properties]
         # Add sitemaps
@@ -42,10 +43,10 @@ class TestPinging(FunctionalTestCase):
         finally:
             sys.stdout = back_out
 
-        self.assert_('Pinged %s sitemap to Google' \
+        self.assert_('Pinged %s sitemap to Google'
                      % self.contentSM.absolute_url() in data,
                      "Not pinged %s: '%s'" % (self.contentSM.id, data))
-        self.assert_('Pinged %s sitemap to Google' \
+        self.assert_('Pinged %s sitemap to Google'
                      % self.newsSM.absolute_url() in data,
                      "Not pinged %s: '%s'" % (self.newsSM.id, data))
 
@@ -59,10 +60,10 @@ class TestPinging(FunctionalTestCase):
         finally:
             sys.stdout = back_out
 
-        self.assert_('Pinged %s sitemap to Google' \
+        self.assert_('Pinged %s sitemap to Google'
                      % self.newsSM.absolute_url() in data,
                      "Not pinged %s: '%s'" % (self.newsSM.id, data))
-        self.assert_(not 'Pinged %s sitemap to Google' \
+        self.assert_(not 'Pinged %s sitemap to Google'
                      % self.contentSM.absolute_url() in data,
                      "Pinged %s on news: '%s'" % (self.contentSM.id, data))
 
@@ -81,10 +82,10 @@ class TestPinging(FunctionalTestCase):
         finally:
             sys.stdout = back_out
 
-        self.assert_('Pinged %s sitemap to Google' \
+        self.assert_('Pinged %s sitemap to Google'
                      % self.contentSM.absolute_url() in data,
                      "Not pinged %s: '%s'" % (self.contentSM.id, data))
-        self.assert_('Pinged %s sitemap to Google' \
+        self.assert_('Pinged %s sitemap to Google'
                      % self.newsSM.absolute_url() in data,
                      "Not pinged %s: '%s'" % (self.newsSM.id, data))
 

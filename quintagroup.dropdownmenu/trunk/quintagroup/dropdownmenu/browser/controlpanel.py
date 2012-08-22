@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from zope.i18n import translate
+from zope.component import getUtility
 from zope.schema.interfaces import ITitledTokenizedTerm
 
 from Products.CMFCore.utils import getToolByName
 
 from plone.app.registry.browser import controlpanel
+from plone.registry.interfaces import IRegistry
 
 from quintagroup.dropdownmenu.interfaces import IDropDownMenuSettings, _
 
@@ -24,7 +26,12 @@ class DropDownMenuSettingsEditForm(controlpanel.RegistryEditForm):
 
     def update(self):
         """Also get values for a few fields from portal_properties tool"""
-        super(DropDownMenuSettingsEditForm, self).update()
+        try:
+            super(DropDownMenuSettingsEditForm, self).update()
+        except KeyError:
+            registry = getUtility(IRegistry)
+            registry.registerInterface(self.schema)
+            super(DropDownMenuSettingsEditForm, self).update()
         conf = self._settings()
         self._overrideValue(self.widgets['show_content_tabs'], not conf[0])
         self._overrideValue(self.widgets['show_nonfolderish_tabs'],

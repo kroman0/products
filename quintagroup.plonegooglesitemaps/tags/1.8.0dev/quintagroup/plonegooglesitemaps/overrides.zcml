@@ -1,7 +1,0 @@
-<configure
-    xmlns="http://namespaces.zope.org/zope">
-
-    <!-- Include dependent packages -->
-    <include package="quintagroup.catalogupdater" file="overrides.zcml" />
-
-</configure>

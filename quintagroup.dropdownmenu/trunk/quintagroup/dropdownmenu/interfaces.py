@@ -10,7 +10,7 @@ from quintagroup.dropdownmenu import _
 cachings = SimpleVocabulary(
     [SimpleTerm(value=u'anonymous', title=_(u'Cache only for anonymous')),
      SimpleTerm(value=u'all', title=_(u'Cache for all users')), ]
-    )
+)
 
 
 class IDropDownMenuLayer(IDefaultPloneLayer):
@@ -88,19 +88,16 @@ class IDropDownMenuSettings(Interface):
         title=_(u"Enable menu caching"),
         description=_(u"Caching of the menu viewlet improves page rendering "
                       u"speed."),
-        default=True
-        )
+        default=True)
 
     caching_strategy = schema.Choice(
         title=_(u"Select caching strategy"),
         description=_(u"Caching strategy defines how the cache key will be "
                       u"built."),
         default="anonymous",
-        vocabulary=cachings
-        )
+        vocabulary=cachings)
 
     mobile_menu = schema.Bool(
         title=_(u"Display menu as select for small screens"),
         description=_(u"Use select tag to display menu for small screens"),
-        default=False,
-        )
+        default=False)

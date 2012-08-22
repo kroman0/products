@@ -35,8 +35,8 @@ def fixQIUninstallDependencies(site):
     qiprod = getattr(qi, PROJECT_NAME, None)
     if qiprod:
         utilities = getattr(qiprod, 'utilities', [])
-        todel = filter(lambda k: not sum(map(
-                    lambda i: PROJECT_NAME in i, k)), utilities)
+        is_project = lambda i: PROJECT_NAME in i
+        todel = filter(lambda k: not sum(map(is_project, k)), utilities)
         for u in todel:
             uidx = utilities.index(u)
             del utilities[uidx]

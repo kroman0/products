@@ -20,8 +20,9 @@ class RegistryTest(TestCase):
     def test_dropdownmenu_in_controlpanel(self):
         # Check if dropdownmenu is in the control panel
         self.controlpanel = getToolByName(self.portal, "portal_controlpanel")
-        self.failUnless('dropdownmenu' in [a.getAction(self)['id']
-                            for a in self.controlpanel.listActions()])
+        self.failUnless('dropdownmenu' in [
+            a.getAction(self)['id']
+            for a in self.controlpanel.listActions()])
 
     def test_show_icons(self):
         # Check show_icons record

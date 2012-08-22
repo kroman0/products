@@ -42,9 +42,9 @@ def menu_cache_key(f, view):
     # Cache for five minutes. Note that the HTTP RAM-cache
     # typically purges entries after 60 minutes.
     return view.__name__ + \
-           path_key + \
-           language + \
-           str(time() // (60 * 5))
+        path_key + \
+        language + \
+        str(time() // (60 * 5))
 
 
 # we are caching the menu structure built out of portal_actions tool
@@ -56,11 +56,11 @@ def tabs_cache_key(f, view, site_url):
 def dropdowncache(f):
     def func(view):
         portal_state = getMultiAdapter((view.context, view.request),
-                                        name=u'plone_portal_state')
+                                       name=u'plone_portal_state')
         # it is impossible to reliably cache entire rendered menu generated
         # with potral actions strategy.
         if not view.conf.enable_caching or view.conf.show_actions_tabs or \
-           (not portal_state.anonymous() and \
+            (not portal_state.anonymous() and
                 view.conf.caching_strategy == 'anonymous'):
             return f(view)
         return ram.cache(menu_cache_key)(f)(view)
@@ -90,7 +90,7 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         self.tool = getToolByName(context, 'portal_actions')
         self.site_url = getToolByName(context, 'portal_url')()
         self.context_state = getMultiAdapter((self.context, self.request),
-                                              name="plone_context_state")
+                                             name="plone_context_state")
         self.context_url = self.context_state.is_default_page() and \
             '/'.join(self.context.absolute_url().split('/')[:-1]) or \
             self.context.absolute_url()
@@ -119,6 +119,8 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         """Return tree of tabs based on portal_actions tool configuration"""
         conf = self.conf
         tool = self.tool
+        url = self.context_url
+        starts = url.startswith
 
         # check if we have required root actions category inside tool
         if conf.actions_category not in tool.objectIds():
@@ -135,20 +137,17 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         current_item = -1
         delta = 1000
         for info in listtabs:
-            if  self.context_url.startswith(info['url']) and \
-                len(self.context_url) - len(info['url']) < delta:
+            if starts(info['url']) and len(url) - len(info['url']) < delta:
                 delta = len(self.context_url) - len(info['url'])
                 current_item = listtabs.index(info)
         self.id_chain = []
 
-        if current_item > -1 and current_item < len(listtabs) and \
-            (listtabs[current_item]['url'] != self.site_url or \
-            listtabs[current_item]['url'] == self.site_url and \
-            self.context_url == self.site_url):
-
+        active = listtabs[current_item]['url'] == self.site_url
+        active = active and self.context_url == self.site_url
+        active = listtabs[current_item]['url'] != self.site_url or active
+        if  current_item > -1 and current_item < len(listtabs) and active:
             self.mark_active(listtabs[current_item]['id'],
                              listtabs[current_item]['url'])
-
         self._activate(res)
         return res
 
@@ -164,20 +163,21 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
                 if bottomLevel < 1 or level < bottomLevel:
                     # try to find out appropriate subcategory
                     subcat_id = self.cat_prefix + info['id'] + self.cat_sufix
-                    if subcat_id != info['id'] and \
-                       subcat_id in category.objectIds():
+                    in_category = subcat_id in category.objectIds()
+                    if subcat_id != info['id'] and in_category:
                         subcat = category._getOb(subcat_id)
                         if IActionCategory.providedBy(subcat):
                             children = normalize_actions(subcat, object,
                                                          level + 1,
                                                          info['url'])
 
-                parent_id = category.getId().replace(self.cat_prefix,
-                                '').replace(self.cat_sufix, '')
+                parent_id = category.getId()
+                parent_id = parent_id.replace(self.cat_prefix, '')
+                parent_id = parent_id.replace(self.cat_sufix, '')
                 tab = {'id': info['id'],
-                   'title': info['title'],
-                   'url': info['url'],
-                   'parent': (parent_id, parent_url)}
+                       'title': info['title'],
+                       'url': info['url'],
+                       'parent': (parent_id, parent_url)}
                 tabslist.append(tab)
 
                 tab = {'id': info['id'],
@@ -217,7 +217,7 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         """Return action infos for a given category"""
         ec = self.tool._getExprContext(object)
         actions = [ActionInfo(action, ec) for action in category.objectValues()
-                    if IAction.providedBy(action)]
+                   if IAction.providedBy(action)]
 
         action_infos = []
         for ai in actions:

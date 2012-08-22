@@ -49,7 +49,8 @@ class DropDownMenuSettingsEditForm(controlpanel.RegistryEditForm):
             if ITitledTokenizedTerm.providedBy(term):
                 label = translate(term.title, context=widget.request,
                                   default=term.title)
-            widget.items.append({'id': id, 'name': widget.name + ':list',
+            widget.items.append({
+                'id': id, 'name': widget.name + ':list',
                 'value': term.token, 'label': label, 'checked': checked})
 
     def _settings(self, folder=None, nonfolderish=None):

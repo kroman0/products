@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<layers>
-   <layer name="quintagroup.plonegooglesitemaps"
-     interface="quintagroup.plonegooglesitemaps.interfaces.IGoogleSitemapsLayer"/>
-</layers>

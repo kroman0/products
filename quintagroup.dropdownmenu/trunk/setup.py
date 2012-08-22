@@ -4,20 +4,20 @@ import os
 version = '1.2.11'
 
 tests_require = ['zope.testing',
-               'collective.testcaselayer']
+                 'collective.testcaselayer']
 
 setup(name='quintagroup.dropdownmenu',
       version=version,
       description="Multilevel portal dropdown menu for Plone sites.",
-      long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+      long_description=open("README.txt").read(
+      ) + "\n" + open(os.path.join("docs", "HISTORY.txt")).read(),
       classifiers=[
-        "Framework :: Plone",
-        "Programming Language :: Python",
-        "License :: OSI Approved :: GNU General Public License (GPL)",
-        "Operating System :: OS Independent",
-        "Topic :: Software Development :: Libraries :: Python Modules",
-        ],
+          "Framework :: Plone",
+          "Programming Language :: Python",
+          "License :: OSI Approved :: GNU General Public License (GPL)",
+          "Operating System :: OS Independent",
+          "Topic :: Software Development :: Libraries :: Python Modules",
+      ],
       keywords='web plone menu',
       author='Quintagroup',
       author_email='support@quintagroup.com',

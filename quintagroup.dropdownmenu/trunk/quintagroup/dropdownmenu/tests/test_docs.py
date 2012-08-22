@@ -27,4 +27,4 @@ def test_suite():
         #    'browser.txt', package='quintagroup.dropdownmenu',
         #    test_class=TestCase),
 
-        ])
+    ])

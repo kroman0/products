@@ -1,0 +1,42 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone">
+
+    <include package="plone.contentrules" />
+    <include package="plone.contentrules" file="meta.zcml" />
+
+    <include package="Products.CMFCore" file="permissions.zcml"
+             xmlns:zcml="http://namespaces.zope.org/zcml"
+             zcml:condition="have plone-41" />
+
+    <!-- Email action definition -->
+    <adapter factory=".mail.MailActionExecutor" />
+
+    <browser:page
+       for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
+       name="quintagroup.actions.Mail"
+       class=".mail.MailAddForm"
+       permission="cmf.ManagePortal"
+       />
+
+     <browser:page
+       for=".mail.IMailAction"
+       name="edit"
+       class=".mail.MailEditForm"
+       permission="cmf.ManagePortal"
+       />
+
+     <plone:ruleAction
+         name="quintagroup.actions.Mail"
+         title="Advanced send email"
+         description="Send an email for all users on the triggering object"
+         for="*"
+         event="zope.component.interfaces.IObjectEvent"
+         addview="quintagroup.actions.Mail"
+         editview="edit"
+         schema=".mail.IMailAction"
+         factory=".mail.MailAction"
+         />
+
+</configure>

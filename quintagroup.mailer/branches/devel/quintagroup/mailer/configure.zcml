@@ -5,6 +5,8 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
 
+    <include package=".actions" />
+
     <genericsetup:registerProfile
         name="default"
         title="Quintagroup Mailer"

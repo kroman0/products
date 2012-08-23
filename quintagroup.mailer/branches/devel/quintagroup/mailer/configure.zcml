@@ -7,6 +7,12 @@
 
     <include package=".actions" />
 
+    <cmf:registerDirectory
+        name="skins"
+        directory="skins"
+        recursive="True"
+      />
+
     <genericsetup:registerProfile
         name="default"
         title="Quintagroup Mailer"

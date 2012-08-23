@@ -1,0 +1,17 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+
+    <genericsetup:registerProfile
+        name="default"
+        title="Quintagroup Mailer"
+        directory="profiles/default"
+        description='Install profile for Quintagroup Mailer.'
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+</configure>
+

@@ -13,5 +13,12 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+    <genericsetup:importStep
+            name="quintagroup.mailer.alert_subscribers"
+            title="quintagroup.mailer: miscellaneous import steps for install alert service"
+            description=""
+            handler="quintagroup.mailer.setuphandlers.setupVarious">
+    </genericsetup:importStep>
+
 </configure>
 

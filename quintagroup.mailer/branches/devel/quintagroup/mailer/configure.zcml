@@ -6,6 +6,7 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
 
     <include package=".actions" />
+    <include package=".browser" />
 
     <cmf:registerDirectory
         name="skins"
@@ -20,6 +21,19 @@
         description='Install profile for Quintagroup Mailer.'
         provides="Products.GenericSetup.interfaces.EXTENSION"
       />
+
+    <configure zcml:condition="not-installed plone.app.users">
+
+        <genericsetup:registerProfile
+            name="plone3_alert_subscribers"
+            title="Quintagroup Mailer: Alert Subscribers service"
+            directory="profiles/plone3_alert_subscribers"
+            description="Register 'Alert Subscribers' service."
+            provides="Products.GenericSetup.interfaces.EXTENSION"
+          />
+
+
+    </configure>
 
     <genericsetup:importStep
             name="quintagroup.mailer.alert_subscribers"

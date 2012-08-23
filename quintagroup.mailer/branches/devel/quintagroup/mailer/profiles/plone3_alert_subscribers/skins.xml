@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<object name="portal_skins">
+  <object name="quintagroupmailer" meta_type="Filesystem Directory View"
+     directory="quintagroup.mailer:skins/quintagroupmailer"/>
+  <skin-path name="*">
+   <layer name="quintagroupmailer" insert-after="custom"/>
+  </skin-path>
+</object>

@@ -35,6 +35,16 @@
 
     </configure>
 
+    <configure zcml:condition="installed plone.app.users">
+        <genericsetup:registerProfile
+            name="plone4_alert_subscribers"
+            title="Quintagroup Mailer: Alert Subscribers service"
+            directory="profiles/plone4_alert_subscribers"
+            description="Register 'Alert Subscribers' service."
+            provides="Products.GenericSetup.interfaces.EXTENSION"
+          />
+    </configure>
+
     <genericsetup:importStep
             name="quintagroup.mailer.alert_subscribers"
             title="quintagroup.mailer: miscellaneous import steps for install alert service"

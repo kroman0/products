@@ -1,0 +1,18 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+    <!--browser:page
+        for="plone.app.layout.navigation.interfaces.INavigationRoot"
+        name="personal-information"
+        class=".personalpreferences.QGMailerUserDataPanel"
+        permission="cmf.SetOwnProperties"
+        /-->
+
+    <adapter 
+        provides=".personalpreferences.IQGMailerUserDataSchema"
+        for="plone.app.layout.navigation.interfaces.INavigationRoot"
+        factory=".personalpreferences.QGMailerUserDataAdapter"
+        />
+
+</configure>

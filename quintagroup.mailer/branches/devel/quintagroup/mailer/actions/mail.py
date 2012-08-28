@@ -1,43 +1,44 @@
 from Acquisition import aq_inner
 from OFS.SimpleItem import SimpleItem
 from zope.component import adapts, getUtility
-from zope.component.interfaces import ComponentLookupError
 from zope.interface import Interface, implements
 from zope.formlib import form
 from zope import schema
 
-from plone.app.contentrules.browser.formhelper import AddForm, EditForm 
+from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 from plone.contentrules.rule.interfaces import IRuleElementData, IExecutable
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.utils import safe_unicode
 
-from zope.sendmail.interfaces import IQueuedMailDelivery, IMailDelivery
+from zope.sendmail.interfaces import IMailDelivery
 import email.MIMEText
 import email.Header
 import re
 attr_rexp = re.compile("\$\{item\.(\w+)\}")
 
+
 class IMailAction(Interface):
     """Definition of the configuration available for a mail action
     """
-    subject = schema.TextLine(title=_(u"Subject"),
-            description=_(u"Subject of the message. ${title} replaced with object title"),
-            required=True)
+    subject = schema.TextLine(title=_(u"Subject"), description=_(
+        u"Subject of the message. ${title} replaced with object title"),
+        required=True)
 
-    groups = schema.TextLine(title=_(u"Recipients"),
-            description=_("The group of users for whom you want to "
-                   "send this message. To send it to different groups, just separate them with ,"),
-            required=True)
+    groups = schema.TextLine(title=_(u"Recipients"), description=_(
+        "The group of users for whom you want to send this message. "
+        "To send it to different groups, just separate them with ,"),
+        required=True)
 
-    message = schema.Text(title=_(u"Message"),
-            description=_(u"Type in here the message that you \
-want to mail. Some defined content can be replaced: ${title} will be replaced \
-by the title of the item. ${url} will be replaced by the URL of the item.\
-${description} will be replaced by the description of the item.\
-${item.<attribute>} will be replaced by the attribute of the item."),
-            required=True)
+    message = schema.Text(title=_(u"Message"), description=_(
+        u"Type in here the message that you want to mail. Some defined "
+        "content can be replaced: ${title} will be replaced by the title of "
+        "the item. ${url} will be replaced by the URL of the item. "
+        "${description} will be replaced by the description of the item. "
+        "${item.<attribute>} will be replaced by the attribute of the item."),
+        required=True)
+
 
 class MailAction(SimpleItem):
     """
@@ -68,9 +69,7 @@ class MailActionExecutor(object):
         self.element = element
         self.event = event
 
-
     def getEmailAddresses(self, groups):
-        mtool = getToolByName(self.context, 'portal_membership')
         users_tool = getToolByName(self.context, 'acl_users')
         addresses = []
         for group_id in groups:
@@ -83,10 +82,9 @@ class MailActionExecutor(object):
 
         return addresses
 
-
     def __call__(self):
         groups = self.element.groups.split(',')
-        recipients = self.getEmailAddresses(groups) # list of email addresses
+        recipients = self.getEmailAddresses(groups)  # list of email addresses
 
         mailer = getUtility(IMailDelivery, 'iw.mailer')
 
@@ -100,18 +98,18 @@ class MailActionExecutor(object):
         email_charset = portal.getProperty('email_charset')
         from_address = portal.getProperty('email_from_address')
         if not from_address:
-            raise ValueError, 'You must enter an email in the portal properties'
+            raise ValueError('You must enter an email in the portal properties')
         from_name = portal.getProperty('email_from_name')
         source = "%s <%s>" % (from_name, from_address)
 
         subject = self.element.subject.replace("${title}", event_title)
-        
+
         for attr in attr_rexp.findall(subject):
             if getattr(obj, attr, None) is None:
                 continue
-            if callable(getattr(obj, attr)): 
+            if callable(getattr(obj, attr)):
                 value = safe_unicode(getattr(obj, attr)())
-            else: 
+            else:
                 value = safe_unicode(getattr(obj, attr))
             subject = subject.replace("${item.%s}" % attr, unicode(value))
 
@@ -121,12 +119,12 @@ class MailActionExecutor(object):
         for attr in attr_rexp.findall(body):
             if getattr(obj, attr, None) is None:
                 continue
-            if callable(getattr(obj, attr)): 
+            if callable(getattr(obj, attr)):
                 value = safe_unicode(getattr(obj, attr)())
-            else: 
+            else:
                 value = safe_unicode(getattr(obj, attr))
             body = body.replace("${item.%s}" % attr, unicode(value))
-        
+
         for userid, recipient in recipients:
             msgbody = body.replace('${userid}', userid)
             msg = email.MIMEText.MIMEText(msgbody.encode(email_charset), 'plain', email_charset)
@@ -136,6 +134,7 @@ class MailActionExecutor(object):
 
             mailer.send(source, [recipient], msg.as_string())
         return True
+
 
 class MailAddForm(AddForm):
     """
@@ -151,6 +150,7 @@ class MailAddForm(AddForm):
         form.applyChanges(a, self.form_fields, data)
         return a
 
+
 class MailEditForm(EditForm):
     """
     An edit form for the mail action
@@ -159,4 +159,3 @@ class MailEditForm(EditForm):
     label = _(u"Edit Mail Action")
     description = _(u"A mail action can mail different recipient.")
     form_name = _(u"Configure element")
-

@@ -11,7 +11,8 @@ from quintagroup.mailer.config import GROUP_ID
 
 
 class IQGMailerUserDataSchema(IUserDataSchema):
-    alertssubscribed = schema.Bool(title=_(u'label_alertssubscribed_status', default=u'alertssubscribed'), description=u'', required=False)
+    alertssubscribed = schema.Bool(title=_(u'label_alertssubscribed_status',
+        default=u'alertssubscribed'), description=u'', required=False)
 
 
 class QGMailerUserDataPanel(UserDataPanel):

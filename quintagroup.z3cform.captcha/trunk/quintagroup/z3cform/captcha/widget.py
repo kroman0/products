@@ -1,5 +1,5 @@
 from zope.interface import implementer
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 
 from z3c.form import interfaces
 from z3c.form import widget

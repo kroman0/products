@@ -4,7 +4,6 @@ import unittest
 from zope.interface import alsoProvides
 from zope.schema.interfaces import IField
 from zope.component import queryMultiAdapter
-from zope.publisher.browser import TestRequest
 
 from z3c.form import form
 from z3c.form.interfaces import IFormLayer
@@ -27,6 +26,7 @@ from quintagroup.z3cform.captcha import CaptchaWidget
 from quintagroup.z3cform.captcha import CaptchaWidgetFactory
 from quintagroup.z3cform.captcha.validator import CaptchaValidator
 
+
 @onsetup
 def setup_product():
     fiveconfigure.debug_mode = True
@@ -41,7 +41,7 @@ def setup_product():
     ztc.installPackage('quintagroup.captcha.core')
 
 setup_product()
-ptc.setupPloneSite(extension_profiles=['quintagroup.captcha.core:default',])
+ptc.setupPloneSite(extension_profiles=['quintagroup.captcha.core:default', ])
 
 
 class TestRegistrations(ptc.PloneTestCase):
@@ -54,7 +54,8 @@ class TestRegistrations(ptc.PloneTestCase):
         self.assertEqual(IField.implementedBy(Captcha), True)
 
     def testCaptchaWidgetInterface(self):
-        self.assertEqual(IFieldWidget.implementedBy(CaptchaWidgetFactory), True)
+        self.assertEqual(
+            IFieldWidget.implementedBy(CaptchaWidgetFactory), True)
 
     def testWidgetRegistration(self):
         cfield = Captcha()
@@ -63,8 +64,9 @@ class TestRegistrations(ptc.PloneTestCase):
 
     def testValidatorRegistration(self):
         cfield = Captcha()
-        cvalidator = queryMultiAdapter((None, self.request, None, cfield, None),
-                IValidator)
+        cvalidator = queryMultiAdapter(
+            (None, self.request, None, cfield, None),
+            IValidator)
         self.assertNotEqual(cvalidator, None)
 
     def testErrorViewRegistration(self):
@@ -95,7 +97,7 @@ class TestCaptchaWidget(ptc.PloneTestCase):
             '(?:name="hashkey"\s*)|' \
             '(?:value="(?P<value>[0-9a-fA-F]+)"\s*)' \
             '){3}/>'
-        open('/tmp/z3c.form.html','w').write(self.html)
+        open('/tmp/z3c.form.html', 'w').write(self.html)
         hidden = re.search(HIDDENTAG, self.html)
         self.assertTrue(hidden and hidden.group('value'))
 
@@ -109,7 +111,7 @@ class TestCaptchaWidget(ptc.PloneTestCase):
     def testTextField(self):
         FIELDTAG = '<input\s+[^>]*type=\"text\"\s*[^>]*>'
         self.assertEqual(re.search(FIELDTAG, self.html) is not None, True)
-        
+
 
 class TestCaptchaValidator(ptc.PloneTestCase):
 
@@ -129,19 +131,20 @@ class TestCaptchaValidator(ptc.PloneTestCase):
         cform.prefix = ""
         cwidget = CaptchaWidget(self.request)
         cwidget.form = cform
-        self.validator = CaptchaValidator(self.portal, self.request, None, None, cwidget)
+        self.validator = CaptchaValidator(self.portal, self.request, None,
+                                          None, cwidget)
 
     def testSubmitRightCaptcha(self):
         decrypted = decrypt(self.captcha_key, self.hashkey)
-        key = getWord(int(parseKey(decrypted)['key'])-1 )
+        key = getWord(int(parseKey(decrypted)['key']) - 1)
         try:
-            res = self.validator.validate(key)
+            self.validator.validate(key)
         except ConversionError, e:
             self.fail("Rised unexpected %s error on right captcha submit" % e)
 
     def testSubmitWrongCaptcha(self):
         try:
-            res = self.validator.validate("wrong key")
+            self.validator.validate("wrong key")
         except ValueError, e:
             self.assertEqual(str(e), u'Please re-enter validation code.')
         else:
@@ -149,14 +152,14 @@ class TestCaptchaValidator(ptc.PloneTestCase):
 
     def testSubmitRightCaptchaTwice(self):
         decrypted = decrypt(self.captcha_key, self.hashkey)
-        key = getWord(int(parseKey(decrypted)['key'])-1 )
+        key = getWord(int(parseKey(decrypted)['key']) - 1)
         self.validator.validate(key)
         try:
-            res = self.validator.validate(key)
+            self.validator.validate(key)
         except ValueError, e:
             self.assertEqual(str(e), u'Please re-enter validation code.')
         else:
-            self.fail("No ValueError rised on right captcha key " \
+            self.fail("No ValueError rised on right captcha key "
                       "submitting twice")
 
 

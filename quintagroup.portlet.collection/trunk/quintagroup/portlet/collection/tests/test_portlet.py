@@ -186,6 +186,14 @@ class TestQPortletCollectionQuery(TestCase):
         # LazyMap returned by the collection query, so let's try a bunch of scenarios
         # to make sure they work
 
+        def reset_memoize(inst):
+            # Decorator memoize adds attribute ('_memojito_') to class instance.
+            # It has cached function and their values so it should be deleted 
+            # for testing.
+            # Extra info: http://codereview.corp.quintagroup.com/171241/show
+            if hasattr(inst, '_memojito_'):
+                delattr(inst, '_memojito_')
+   
         # set up our portlet renderer
         mapping = PortletAssignmentMapping()
         request = self.folder.REQUEST
@@ -201,6 +209,7 @@ class TestQPortletCollectionQuery(TestCase):
 
         # collection with no criteria -- should return empty list, without error
         self.assertEqual(len(collectionrenderer.results()), 0)
+        reset_memoize(collectionrenderer)
 
         # let's make sure the results aren't being memoized
         old_func = self.folder.collection.queryCatalog
@@ -211,6 +220,7 @@ class TestQPortletCollectionQuery(TestCase):
             collection_was_called = True
         self.folder.collection.queryCatalog = mark_collection_called
         collectionrenderer.results()
+        reset_memoize(collectionrenderer)
         self.folder.collection.queryCatalog = old_func
         self.failUnless(collection_was_called)
 
@@ -218,6 +228,7 @@ class TestQPortletCollectionQuery(TestCase):
         crit = self.folder.collection.addCriterion('portal_type', 'ATSimpleStringCriterion')
         crit.setValue('Folder')
         self.assertEqual(len(collectionrenderer.results()), 1)
+        reset_memoize(collectionrenderer)
 
         # collection with multiple criteria -- should behave similarly
         crit = self.folder.collection.addCriterion('Creator', 'ATSimpleStringCriterion')
@@ -227,14 +238,17 @@ class TestQPortletCollectionQuery(TestCase):
         # collection with sorting -- should behave similarly (sort is ignored internally)
         self.folder.collection.setSortCriterion('modified', False)
         self.assertEqual(len(collectionrenderer.results()), 1)
+        reset_memoize(collectionrenderer)
 
         # same criteria, now with limit set to 2 -- should return 2 (random) folders
         collectionrenderer.data.limit = 2
         self.assertEqual(len(collectionrenderer.results()), 2)
+        reset_memoize(collectionrenderer)
 
         # make sure there's no error if the limit is greater than the # of results found
         collectionrenderer.data.limit = 10
         self.failUnless(len(collectionrenderer.results()) >= 6)
+        reset_memoize(collectionrenderer)
 
 
 def test_suite():

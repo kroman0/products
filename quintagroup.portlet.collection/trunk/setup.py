@@ -24,6 +24,7 @@ setup(name='quintagroup.portlet.collection',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'plone.portlet.collection'
           # -*- Extra requirements: -*-
       ],
       entry_points="""

@@ -87,18 +87,6 @@ class TestQPortletCollectionRenderer(TestCase):
         cat.indexObject(obj)
         return obj
 
-    def test_render(self):
-        r = self.renderer(context=self.portal, assignment=collection.Assignment(header=u"title"))
-        r = r.__of__(self.folder)
-        r.update()
-        output = r.render()
-
-        # this test failed due to changed behavior. We'll not output anything if the portlet does not point to a collection
-
-        #self.failUnless('title' in output)
-        #self.failUnless('<b>text</b>' in output)
-
-
     def test_collection_path_unicode(self):
         """
         Cover problem in #9184
@@ -188,12 +176,12 @@ class TestQPortletCollectionQuery(TestCase):
 
         def reset_memoize(inst):
             # Decorator memoize adds attribute ('_memojito_') to class instance.
-            # It has cached function and their values so it should be deleted 
+            # It has cached function and their values so it should be deleted
             # for testing.
             # Extra info: http://codereview.corp.quintagroup.com/171241/show
             if hasattr(inst, '_memojito_'):
                 delattr(inst, '_memojito_')
-   
+
         # set up our portlet renderer
         mapping = PortletAssignmentMapping()
         request = self.folder.REQUEST

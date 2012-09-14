@@ -1,5 +1,6 @@
 try:
-    from zope.schema.interfaces import IVocabularyFactory
+    from zope.schema import interfaces
+    IVocabularyFactory = interfaces.IVocabularyFactory
 except ImportError:
     from zope.app.schema.vocabulary import IVocabularyFactory
 from zope.interface import implements
@@ -11,18 +12,18 @@ from quintagroup.portlet.collection import MessageFactory as _
 from quintagroup.portlet.collection.utils import getStylesVocabulary
 
 PORTLET_CSS_STYLES = (
-     (u"class1", _(u"Class1")),
-     (u"class2", _(u"Class2")),
+    (u"class1", _(u"Class1")),
+    (u"class2", _(u"Class2")),
 )
 
 PORTLET_ATTRIBUTES_TO_SHOW = (
-     (u"Title", _(u"Title")),
-     (u"Description", _(u"Description")),
+    (u"Title", _(u"Title")),
+    (u"Description", _(u"Description")),
 )
+
 
 class PortletCSSVocabulary(object):
     implements(IVocabularyFactory)
-
 
     def __call__(self, context):
         styles = getStylesVocabulary(context)
@@ -48,12 +49,13 @@ class PortletCSSVocabulary(object):
 
 PortletCSSVocabulary = PortletCSSVocabulary()
 
-class PortletAttributesVocabulary(object):
-     implements(IVocabularyFactory)
 
-     def __call__(self, context):
-         items = [SimpleTerm(value, value, title) for value, title in PORTLET_ATTRIBUTES_TO_SHOW]
-         return SimpleVocabulary(items)
+class PortletAttributesVocabulary(object):
+    implements(IVocabularyFactory)
+
+    def __call__(self, context):
+        items = [SimpleTerm(value, value, title) for value,
+                 title in PORTLET_ATTRIBUTES_TO_SHOW]
+        return SimpleVocabulary(items)
 
 PortletAttributesVocabulary = PortletAttributesVocabulary()
-

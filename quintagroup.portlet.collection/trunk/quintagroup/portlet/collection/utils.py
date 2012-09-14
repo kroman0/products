@@ -1,6 +1,7 @@
 """Somme utility functions for common use"""
 from Products.CMFCore.utils import getToolByName
 
+
 def getStylesVocabulary(context):
     pp = getToolByName(context, 'portal_properties', None)
     styles = None
@@ -12,7 +13,7 @@ def getStylesVocabulary(context):
                 styles = []
                 value_list = []
                 for line in dropdown_list:
-                    values = filter(lambda x:x.strip(), line.split('|', 1))
+                    values = filter(lambda x: x.strip(), line.split('|', 1))
                     if len(values) == 0:
                         continue
                     elif len(values) == 1:

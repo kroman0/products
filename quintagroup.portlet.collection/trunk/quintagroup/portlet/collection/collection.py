@@ -1,81 +1,86 @@
-import random
-
 from zope.interface import implements
-from zope.component import getMultiAdapter
 
-from plone.portlets.interfaces import IPortletDataProvider
 from plone.portlet.collection import collection as base
 
 from zope import schema
 from zope.formlib import form
 
-from plone.memoize.instance import memoize
-from plone.memoize import ram
-from plone.memoize.compress import xhtml_compress
-
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone.app.vocabularies.catalog import SearchableTextSourceBinder
 from zope.schema import ValidationError
 from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
 
-from Products.ATContentTypes.interface import IATTopic
-from Products.CMFPlone.PloneBatch import Batch
 from plone.portlet.collection.collection import ICollectionPortlet
 
 from quintagroup.portlet.collection import MessageFactory as _
 
-MIN_BATCH_SIZE , MAX_BATCHSIZE = 1, 30
+MIN_BATCH_SIZE, MAX_BATCHSIZE = 1, 30
+
 
 class NotValidBatchSizeValue(ValidationError):
     """This is not valid batch size value.
 
     """
 
+
 def validate_batch_size(value):
     if MIN_BATCH_SIZE <= value <= MAX_BATCHSIZE:
         return True
     raise NotValidBatchSizeValue(value)
+
 
 class IQCollectionPortlet(ICollectionPortlet):
     """A portlet which based on plone.portlet.collection and
        adds more functionalities.
     """
 
-    item_attributes = schema.List(title=_(u"Attributes to display"),
-                                  description=_(u"description_attributes", default=u"Select attributes to show for collection item."),
-                                  required=False,
-                                  default=[u"Title", u"Description"],
-                                  value_type=schema.Choice(vocabulary='quintagroup.portlet.collection.vocabularies.PortletAttributesVocabulary'))
+    item_attributes = schema.List(
+        title=_(u"Attributes to display"),
+        description=_(u"description_attributes",
+                      default=u"Select attributes to show for collection "
+                      "item."),
+        required=False,
+        default=[u"Title", u"Description"],
+        value_type=schema.Choice(vocabulary='quintagroup.portlet.collection.\
+                vocabularies.PortletAttributesVocabulary'))
 
-    styling = schema.Choice(title=_(u"Portlet style"),
-                            description=_(u"description_styling", default=u"Choose a css style for the porlet."),
-                            required=False,
-                            default=u"",
-                            vocabulary='quintagroup.portlet.collection.vocabularies.PortletCSSVocabulary')
+    styling = schema.Choice(
+        title=_(u"Portlet style"),
+        description=_(u"description_styling",
+                      default=u"Choose a css style for the porlet."),
+        required=False,
+        default=u"",
+        vocabulary='quintagroup.portlet.collection.\
+                vocabularies.PortletCSSVocabulary')
 
+    show_item_more = schema.Bool(
+        title=_(u"Show more... link for collection items"),
+        description=_(u"If enabled, a more... link will appear in the bottom "
+                      "of the each collection item, linking to the "
+                      "corresponding item."),
+        required=True,
+        default=True)
 
-    show_item_more = schema.Bool(title=_(u"Show more... link for collection items"),
-                                 description=_(u"If enabled, a more... link will appear in the bottom of the each collection item, "
-                                                "linking to the corresponding item."),
-                                 required=True,
-                                 default=True)
+    link_title = schema.Bool(
+        title=_(u"Link title"),
+        description=_(u"If enabled, title will be shown as link to "
+                      "corresponding object."),
+        required=True,
+        default=True)
 
-    link_title = schema.Bool(title=_(u"Link title"),
-                                 description=_(u"If enabled, title will be shown as link to corresponding object. "),
-                                 required=True,
-                                 default=True)
+    allow_batching = schema.Bool(
+        title=_(u"Allow batching"),
+        description=_(u"If enabled, items will be split into pages."),
+        required=False,
+        default=False)
 
-    allow_batching = schema.Bool(title=_(u"Allow batching"),
-                                 description=_(u"If enabled, items will be split into pages."),
-                                 required=False,
-                                 default=False)
+    batch_size = schema.Int(
+        title=_(u"Batch size"),
+        description=_("Amount of items per page (if not set 3 items will be "
+                      "displayed as default)."),
+        required=False,
+        default=3,
+        constraint=validate_batch_size)
 
-    batch_size = schema.Int(title=_(u"Batch size"),
-                            description=_("Amount of items per page"
-                                          "(if not set 3 items will be displayed as default)."),
-                            required=False,
-                            default=3,
-                            constraint=validate_batch_size)
 
 class Assignment(base.Assignment):
     """
@@ -96,9 +101,10 @@ class Assignment(base.Assignment):
                  item_attributes=[], styling=u"", show_item_more=False,
                  link_title=True, allow_batching=False, batch_size=3):
 
-        super(Assignment, self).__init__(header=header,
-            target_collection=target_collection, limit=limit,
-            random=random, show_more=show_more, show_dates=show_dates)
+        super(Assignment, self).__init__(header=header, random=random,
+                                         target_collection=target_collection,
+                                         limit=limit, show_more=show_more,
+                                         show_dates=show_dates)
 
         if len(item_attributes) > 0:
             self.item_attributes = item_attributes
@@ -114,6 +120,7 @@ class Assignment(base.Assignment):
         "manage portlets" screen. Here, we use the title that the user gave.
         """
         return self.header
+
 
 class Renderer(base.Renderer):
     """Portlet renderer.
@@ -145,6 +152,7 @@ class Renderer(base.Renderer):
                             for index, batch in enumerate(self.batches())])
         return self.items_listing(portlet_items=self.results())
 
+
 class AddForm(base.AddForm):
     """Portlet add form.
 
@@ -157,10 +165,12 @@ class AddForm(base.AddForm):
     form_fields['target_collection'].custom_widget = UberSelectionWidget
 
     label = _(u"Add Collection Portlet")
-    description = _(u"This portlet display a listing of items from a Collection.")
+    description = _(
+        u"This portlet display a listing of items from a Collection.")
 
     def create(self, data):
         return Assignment(**data)
+
 
 class EditForm(base.EditForm):
     """Portlet edit form.
@@ -173,4 +183,5 @@ class EditForm(base.EditForm):
     form_fields['target_collection'].custom_widget = UberSelectionWidget
 
     label = _(u"Edit Collection Portlet")
-    description = _(u"This portlet display a listing of items from a Collection.")
+    description = _(
+        u"This portlet display a listing of items from a Collection.")

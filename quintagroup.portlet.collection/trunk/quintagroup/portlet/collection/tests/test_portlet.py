@@ -194,12 +194,12 @@ class TestQPortletCollectionQuery(TestCase):
             collection_num_items, len(collectionrenderer.results()))
 
     def testRandomQuery(self):
-        # we're being perhaps a bit too clever in random mode with the internals of the
-        # LazyMap returned by the collection query, so let's try a bunch of scenarios
-        # to make sure they work
+        # we're being perhaps a bit too clever in random mode with the
+        # internals of the LazyMap returned by the collection query, so let's
+        # try a bunch of scenarios to make sure they work
 
         def reset_memoize(inst):
-            # Decorator memoize adds attribute ('_memojito_') to class instance.
+            # Decorator memoize adds attribute('_memojito_') to class instance.
             # It has cached function and their values so it should be deleted
             # for testing.
             # Extra info: http://codereview.corp.quintagroup.com/171241/show
@@ -221,7 +221,8 @@ class TestQPortletCollectionQuery(TestCase):
             self.folder.invokeFactory('Folder', 'folder_%s' % i)
             getattr(self.folder, 'folder_%s' % i).reindexObject()
 
-        # collection with no criteria -- should return empty list, without error
+        # collection with no criteria -- should return empty list, without
+        # error
         self.assertEqual(len(collectionrenderer.results()), 0)
         reset_memoize(collectionrenderer)
 
@@ -252,17 +253,20 @@ class TestQPortletCollectionQuery(TestCase):
         crit.setValue('test_user_1_')
         collectionrenderer.results()
 
-        # collection with sorting -- should behave similarly (sort is ignored internally)
+        # collection with sorting -- should behave similarly (sort is
+        # ignored internally)
         self.folder.collection.setSortCriterion('modified', False)
         self.assertEqual(len(collectionrenderer.results()), 1)
         reset_memoize(collectionrenderer)
 
-        # same criteria, now with limit set to 2 -- should return 2 (random) folders
+        # same criteria, now with limit set to 2 -- should return 2 (random)
+        # folders
         collectionrenderer.data.limit = 2
         self.assertEqual(len(collectionrenderer.results()), 2)
         reset_memoize(collectionrenderer)
 
-        # make sure there's no error if the limit is greater than the # of results found
+        # make sure there's no error if the limit is greater than the # of
+        # results found
         collectionrenderer.data.limit = 10
         self.failUnless(len(collectionrenderer.results()) >= 6)
         reset_memoize(collectionrenderer)

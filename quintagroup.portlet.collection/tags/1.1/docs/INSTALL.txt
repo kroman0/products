@@ -1,0 +1,33 @@
+Installation
+------------
+
+To install  quintagroup.portlet.collection to your buildout installation, open buildout.cfg file and:
+
+* Add ``quintagroup.portlet.collection`` to the list of eggs to install, e.g.::
+
+    [buildout]
+    ...
+    eggs =
+        ...
+        quintagroup.portlet.collection
+
+* Tell the plone.recipe.zope2instance recipe to install a ZCML slug::
+
+    [instance]
+    recipe = plone.recipe.zope2instance
+    ...
+    zcml =
+        quintagroup.portlet.collection
+
+After that:
+
+* Re-run buildout, e.g. with::
+
+    $ ./bin/buildout
+
+* Restart Zope server process, for example, with the following command in the terminal::
+
+   $ ./bin/instance restart
+
+Then install Quintagroup collection portlet with Quickinstaller in Plone.
+

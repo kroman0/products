@@ -1,0 +1,30 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="quintagroup.portlet.collection">
+
+  <adapter factory=".configlet.QCollectionPortletControlPanelAdapter" />
+
+  <browser:page
+      name="qcollectionportlet-controlpanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".configlet.QCollectionPortletControlPanel"
+      permission="cmf.ManagePortal"
+      />
+
+  <browser:resource
+      name="batch.js"
+      file="resources/batch.js" />
+
+  <browser:resource
+      name="batch_size_enable.js"
+      file="resources/batch_size_enable.js" />
+
+  <!-- Register resources -->
+  <browser:resource
+      name="batch_qcollective.css"
+      file="resources/batch_qcollective.css"
+      />
+
+</configure>

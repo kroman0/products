@@ -1,0 +1,9 @@
+<tal:navigation>
+  <a class='prevlink' style="display:none">&#60;</a>
+  <tal:block repeat="batch options/batches">
+    <a class="navlink" style='display: none'>
+      <span class="navlinkValue" tal:content="repeat/batch/number"/>
+    </a><span class="navlinkSeparator" tal:condition="not:repeat/batch/end">|</span>
+  </tal:block>
+  <a class='nextlink' style="display:none">&#62;</a>
+</tal:navigation>

@@ -22,11 +22,14 @@ class IValueTitlePair(Interface):
     value = schema.TextLine(title=u"value", required=True)
     title = schema.TextLine(title=u"title", required=False)
 
+
 class ValueTitlePair(object):
     implements(IValueTitlePair)
+
     def __init__(self, value='', title=''):
         self.value = value
         self.title = title
+
 
 class IQCollectionPortletPanelSchema(Interface):
 
@@ -39,6 +42,7 @@ class IQCollectionPortletPanelSchema(Interface):
         required=True
     )
 
+
 class QCollectionPortletControlPanelAdapter(SchemaAdapterBase):
     adapts(IPloneSiteRoot)
     implements(IQCollectionPortletPanelSchema)
@@ -49,7 +53,8 @@ class QCollectionPortletControlPanelAdapter(SchemaAdapterBase):
         self.pp = getToolByName(context, 'portal_properties', None)
 
     def get_portlet_dropdown(self):
-        return  [ValueTitlePair(v,t) for (v,t) in getStylesVocabulary(self.context)]
+        return [ValueTitlePair(v, t) for (v, t) in getStylesVocabulary(
+            self.context)]
 
     def set_portlet_dropdown(self, value):
         dropdown_list = []
@@ -78,6 +83,7 @@ valuetitle_widget = CustomWidgetFactory(ObjectWidget, ValueTitlePair)
 combination_widget = CustomWidgetFactory(ListSequenceWidget,
                                          subwidget=valuetitle_widget)
 
+
 class QCollectionPortletControlPanel(ControlPanelForm):
 
     form_fields = form.FormFields(IQCollectionPortletPanelSchema)
@@ -85,5 +91,5 @@ class QCollectionPortletControlPanel(ControlPanelForm):
 
     label = _("QCollection portlet settings")
     description = _("This form is for managing QCollection portlet "
-                     "classes available on portlet add/edit form.")
+                    "classes available on portlet add/edit form.")
     form_name = _("QCollection portlet settings")

@@ -8,7 +8,8 @@ setup(name='quintagroup.portlet.collection',
       description="Extended collection portlet",
       long_description=open("README.txt").read() + "\n" +
       open(os.path.join("docs", "HISTORY.txt")).read(),
-      # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
+      # Get more strings from
+      # http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
           "Programming Language :: Python",
           "Topic :: Software Development :: Libraries :: Python Modules",

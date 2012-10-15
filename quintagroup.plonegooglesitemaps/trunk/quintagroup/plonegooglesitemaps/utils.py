@@ -1,5 +1,6 @@
 from urllib import quote as urlquote
 from DateTime import DateTime
+from urlparse import urljoin
 import logging
 import urllib2
 import socket
@@ -35,10 +36,9 @@ def urlopen(request, timeout=5.0, data=None, marker=[]):
             socket.setdefaulttimeout(global_timeout)
 
 
-def ping_google(url, sitemap_id):
+def ping_google(plone_home, sitemap_relative_path):
     """Ping sitemap to Google"""
-
-    resurl = url + "/" + sitemap_id
+    resurl = urljoin(plone_home, sitemap_relative_path)
 
     if DevelopmentMode or config.testing:
         #prevent pinging in debug or testing mode

@@ -46,22 +46,23 @@ elif req.get('form.button.AddNews', False):
         message = "Can't create news sitemap"
 else:
     smselected = req.get('smselected', [])
-
     if req.get('form.button.Delete', False):
-        portal.manage_delObjects(ids=smselected[:])
+        for sm_path in smselected:
+            sitemap = portal.restrictedTraverse(sm_path)
+            sitemap.aq_parent.manage_delObjects(sitemap.id)
         message = "Succesfully deleted: %s" % smselected
 
     elif req.get('form.button.Ping', False):
         pinged = []
         message = "Google pinged. It will review your sitemap as soon as it will be able to. Processed: %s"
-        for sm_id in smselected:
+        for sm_path in smselected:
             try:
-                ping_google(portalURL, sm_id)
+                ping_google(portalURL, sm_path)
             except:
                 message = "Cannot contact Google. Try again in a while. But pinged for: %s"
                 break
             else:
-                pinged.append(sm_id)
+                pinged.append(sm_path)
         message = message % pinged
 
 return state.set(next_action='traverse_to:string:prefs_gsm_settings',

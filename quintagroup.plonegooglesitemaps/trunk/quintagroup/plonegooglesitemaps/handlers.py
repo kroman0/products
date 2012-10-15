@@ -26,7 +26,7 @@ def pingGoogle(event):
         for sm in sitemaps:
             if wftrans_name in sm.getPingTransitions() and \
                     obj_ptype in sm.getPortalTypes():
-                ping_google(plone_home, sm.id)
+                ping_google(plone_home, url.getRelativeUrl(sm))
     return 0
 
 

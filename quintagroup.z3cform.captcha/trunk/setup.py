@@ -5,15 +5,13 @@ version = '1.0.2'
 
 setup(name='quintagroup.z3cform.captcha',
       version=version,
-      description="Captcha field for z3cform based on quintagroup.captcha.core package",
+      description="Captcha field for z3cform based on "
+                  "quintagroup.captcha.core package",
       long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
-      # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
-      classifiers=[
-        "Framework :: Plone",
-        "Programming Language :: Python",
-        "Topic :: Software Development :: Libraries :: Python Modules",
-        ],
+      open(os.path.join("docs", "HISTORY.txt")).read(),
+      classifiers=["Framework :: Plone",
+      "Programming Language :: Python",
+      "Topic :: Software Development :: Libraries :: Python Modules", ],
       keywords='plone z3c form captcha',
       author='Quintagroup',
       author_email='support@quintagroup.com',
@@ -40,5 +38,3 @@ setup(name='quintagroup.z3cform.captcha',
       target = plone
       """,
       )
-
-

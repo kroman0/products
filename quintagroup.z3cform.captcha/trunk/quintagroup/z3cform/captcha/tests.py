@@ -17,7 +17,7 @@ from Testing import ZopeTestCase as ztc
 from Products.PloneTestCase.layer import onsetup
 from Products.PloneTestCase import PloneTestCase as ptc
 
-from quintagroup.captcha.core.utils import *
+from quintagroup.captcha.core.utils import decrypt, getWord, parseKey, ConversionError
 from quintagroup.captcha.core.tests.base import testPatch
 from quintagroup.captcha.core.tests.testWidget import addTestLayer
 

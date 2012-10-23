@@ -33,10 +33,11 @@ class CaptchaWidget(TextWidget):
 
         return u"""<input type="hidden" value="%s" name="%shashkey" />
                    %s
-                   <img src="%s" alt="Enter the word"/>""" % (key,
-                                                              self.form.prefix,
-                                                              super(CaptchaWidget, self).render(),
-                                                              image_url)
+                   <img src="%s" alt="Enter the word"/>""" % (
+            key,
+            self.form.prefix,
+            super(CaptchaWidget, self).render(),
+            image_url)
         return super(CaptchaWidget, self).template(self)
 
 

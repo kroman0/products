@@ -10,7 +10,7 @@ from quintagroup.captcha.core.utils import decrypt, parseKey, encrypt1, getWord
 
 from z3c.form.validator import SimpleFieldValidator
 
-from interfaces import ICaptcha
+from quintagroup.z3cform.captcha.interfaces import ICaptcha
 
 _ = MessageFactory('quintagroup.z3cform.captcha')
 

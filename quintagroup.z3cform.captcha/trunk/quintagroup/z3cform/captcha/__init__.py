@@ -1,5 +1,4 @@
-from quintagroup.z3cform.catpcha import field
-from quintagroup.z3cform.captcha import widget
+from quintagroup.z3cform.catpcha import field, widget
 
 Captcha = field.Captcha
 CaptchaWidget = widget.CaptchaWidget

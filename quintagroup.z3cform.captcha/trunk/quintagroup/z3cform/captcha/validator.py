@@ -45,7 +45,8 @@ class CaptchaValidator(SimpleFieldValidator):
                 solution = getWord(int(index))
 
             captcha_tool = getToolByName(context, 'portal_captchas')
-            if (enc != solution) or (captcha_tool.has_key(decrypted_key)) or (DateTime().timeTime() - float(date) > 3600):
+            if (enc != solution) or (captcha_tool.has_key(decrypted_key)) or \
+               (DateTime().timeTime() - float(date) > 3600):
                 raise ValueError(_(u'Please re-enter validation code.'))
             else:
                 captcha_tool.addExpiredKey(decrypted_key)

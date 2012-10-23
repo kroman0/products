@@ -4,6 +4,7 @@ import unittest
 from zope.interface import alsoProvides
 from zope.schema.interfaces import IField
 from zope.component import queryMultiAdapter
+from zope.app.form.interfaces import ConversionError
 
 from z3c.form import form
 from z3c.form.interfaces import IFormLayer
@@ -17,8 +18,7 @@ from Testing import ZopeTestCase as ztc
 from Products.PloneTestCase.layer import onsetup
 from Products.PloneTestCase import PloneTestCase as ptc
 
-from quintagroup.captcha.core.utils import decrypt, getWord
-from quintagroup.captcha.core.utils import parseKey, ConversionError
+from quintagroup.captcha.core.utils import decrypt, getWord, parseKey
 from quintagroup.captcha.core.tests.base import testPatch
 from quintagroup.captcha.core.tests.testWidget import addTestLayer
 

@@ -40,15 +40,15 @@ class CatalogUpdaterUtility(object):
             raise AttributeError("%s - is not ZCatalog based catalog" % cat)
 
         if not type(cols) in AVAIL_COLTYPES:
-            raise TypeError("'columns' parameter must be one of the " \
-                "following types: %s" % AVAIL_COLTYPES)
+            raise TypeError("'columns' parameter must be one of the "
+                            "following types: %s" % AVAIL_COLTYPES)
         # Normalize columns
         if type(cols) in types.StringTypes:
             cols = [cols, ]
         # Check is every column present in the catalog
         for col in cols:
             if not col in _cat.schema:
-                raise AttributeError("'%s' - not presented column in " \
+                raise AttributeError("'%s' - not presented column in "
                                      "%s catalog " % (col, cat))
 
         return _cat, cols
@@ -92,7 +92,7 @@ class CatalogUpdaterUtility(object):
         schema = _catalog.schema
         paths = _catalog.paths
         getWrappedObject = (IS_NEW and self.getWrappedObjectNew
-                                    or self.getWrappedObjectOld)
+                            or self.getWrappedObjectOld)
         # For subtransaction support
         threshold = getattr(catalog, 'threshold', 10000)
         _v_total = 0

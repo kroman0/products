@@ -66,16 +66,16 @@ class TestUtility(TestCase):
         """
         mydoc = self.catalog.unrestrictedSearchResults(id='my_doc')[0]
         self.assertFalse(mydoc.test_column == 'my_doc',
-            "'test_column' metadata updated in catalog " \
-            "before utility call: '%s'" % mydoc.test_column)
+                         "'test_column' metadata updated in catalog "
+                         "before utility call: '%s'" % mydoc.test_column)
 
         cu = queryUtility(ICatalogUpdater, name="catalog_updater")
         cu.updateMetadata4All(self.catalog, 'test_column')
 
         mydoc = self.catalog.unrestrictedSearchResults(id='my_doc')[0]
         self.assertTrue(mydoc.test_column == 'my_doc',
-            "'test_column' metadata has wrong metadata in catalog: " \
-            "'%s'" % mydoc.test_column)
+                        "'test_column' metadata has wrong metadata in catalog:"
+                        " '%s'" % mydoc.test_column)
 
     def testOnlyPointedColumnUpdate(self):
         """ Update a title property for the my_doc object
@@ -95,7 +95,7 @@ class TestUtility(TestCase):
 
         mydoc = self.catalog.unrestrictedSearchResults(id='my_doc')[0]
         self.assertTrue(mydoc.Title == 'My document',
-            "Other metadata updated: Title='%s'" % mydoc.Title)
+                        "Other metadata updated: Title='%s'" % mydoc.Title)
 
     def testAllRecordsUpdate(self):
         """ Test is all records in catalog updated with utility
@@ -107,8 +107,8 @@ class TestUtility(TestCase):
         allcat = self.catalog.unrestrictedSearchResults(path='/')
         num_updated = sum([1 for b in allcat if b.test_column == b.id])
 
-        self.assertTrue(num_updated == num_recs, "Only %d records updated, " \
-            "must be - %d" % (num_updated, num_recs))
+        self.assertTrue(num_updated == num_recs, "Only %d records updated, "
+                        "must be - %d" % (num_updated, num_recs))
 
     def testTransaction(self):
         """ Test is commited subtransactions
@@ -132,9 +132,10 @@ class TestUtility(TestCase):
         cu = queryUtility(ICatalogUpdater, name="catalog_updater")
         cu.updateMetadata4All(self.catalog, 'test_column')
 
-        self.assertTrue(sp_commits == num_subcommits, "Wrong number of " \
-            "transaction subcommits: actual:%d, must be: %d" % (sp_commits,
-            num_subcommits))
+        self.assertTrue(sp_commits == num_subcommits,
+                        "Wrong number of transaction subcommits: "
+                        "actual:%d, must be: %d" % (sp_commits,
+                                                    num_subcommits))
 
         transaction.savepoint = orig_trsp
 
@@ -142,7 +143,7 @@ class TestUtility(TestCase):
 def test_suite():
     return unittest.TestSuite([
         unittest.makeSuite(TestUtility),
-        ])
+    ])
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

@@ -36,7 +36,7 @@ _CATALOG_UPDATE_BODY = """\
  <column value="eggs" update="True"/>
  <column value="spam" update="True"/>
 </object>
-""" % (PLONEFOUR and '<object name="old_plexicon" remove="True"/>' or \
+""" % (PLONEFOUR and '<object name="old_plexicon" remove="True"/>' or
                      '<object name="foo_vocabulary" remove="True"/>')
 
 
@@ -90,13 +90,13 @@ class CatalogUpdaterXMLAdapterTest(test_exportimport.ZCatalogXMLAdapterTests):
 
         message = self.getLastMessage()
         self.assertEqual(message[-1], "foo_catalog:['eggs', 'spam']",
-            "Not updated columns in catalog")
+                         "Not updated columns in catalog")
 
 
 def test_suite():
     return unittest.TestSuite((
         unittest.makeSuite(CatalogUpdaterXMLAdapterTest),
-        ))
+    ))
 
 if __name__ == '__main__':
     from Products.GenericSetup.testing import run

@@ -106,8 +106,8 @@ class TestQAInstallation(TestCase):
         """This test validates control panel action. """
         control_panel = self.portal.portal_controlpanel
         self.assert_(
-                'QAnalytics' in [a.id for a in control_panel.listActions()],
-                "Configlet for quintagroup.analitycs isn't registered.")
+            'QAnalytics' in [a.id for a in control_panel.listActions()],
+            "Configlet for quintagroup.analitycs isn't registered.")
 
     def test_OwnershipByType(self):
         """ This test validates registration of
@@ -171,7 +171,7 @@ class TestOwnershipByType(TestCase):
 
     def afterSetUp(self):
         self.view = queryMultiAdapter((self.portal, self.portal.REQUEST),
-                                 name="ownership_by_type")
+                                      name="ownership_by_type")
         self.pc = self.portal.portal_catalog
         portal_migration = self.portal.portal_migration
         version = portal_migration.getFileSystemVersion()
@@ -215,11 +215,13 @@ class TestOwnershipByType(TestCase):
         self.loginAsPortalOwner()
 
         for type_ in self.layer.types_:
-            self.assert_(False not in \
-            map(lambda i, j: i == j, [len(self.pc(portal_type=type_,
-                                               Creator=user))
-                                   for user in self.view.getUsers()],
-                                  self.view.getContent(type_)))
+            self.assert_(False not in
+                         map(
+                             lambda i, j: i == j, [len(
+                                 self.pc(portal_type=type_,
+                                         Creator=user))
+                for user in self.view.getUsers()],
+                             self.view.getContent(type_)))
 
     def test_getChart(self):
         """ This test verifies creation of chart image tag."""
@@ -282,7 +284,7 @@ class TestOwnershipByState(TestCase):
 
     def afterSetUp(self):
         self.view = queryMultiAdapter((self.portal, self.portal.REQUEST),
-                                 name="ownership_by_state")
+                                      name="ownership_by_state")
         self.pc = self.portal.portal_catalog
 
     def test_getUsers(self):
@@ -307,11 +309,13 @@ class TestOwnershipByState(TestCase):
         self.loginAsPortalOwner()
 
         for state in self.states:
-            self.assert_(False not in \
-            map(lambda i, j: i == j, [len(self.pc(review_state=state,
-                                              Creator=user))
-                                  for user in self.view.getUsers()],
-                                 self.view.getContent(state)))
+            self.assert_(False not in
+                         map(
+                             lambda i, j: i == j, [len(
+                                 self.pc(review_state=state,
+                                         Creator=user))
+                for user in self.view.getUsers()],
+                             self.view.getContent(state)))
 
     def test_getChart(self):
         """ This test verifies creation of chart image tag."""
@@ -337,7 +341,7 @@ class TestTypeByState(TestCase):
 
     def afterSetUp(self):
         self.view = queryMultiAdapter((self.portal, self.portal.REQUEST),
-                                 name="type_by_state")
+                                      name="type_by_state")
         self.pc = self.portal.portal_catalog
         portal_migration = self.portal.portal_migration
         version = portal_migration.getFileSystemVersion()
@@ -381,11 +385,13 @@ class TestTypeByState(TestCase):
         self.loginAsPortalOwner()
 
         for state in self.states:
-            self.assert_(False not in \
-            map(lambda i, j: i == j, [len(self.pc(portal_type=type_,
-                                               review_state=state))
-                                   for type_ in self.view.getTypes()],
-                                  self.view.getContent(state)))
+            self.assert_(False not in
+                         map(
+                             lambda i, j: i == j, [len(
+                                 self.pc(portal_type=type_,
+                                         review_state=state))
+                for type_ in self.view.getTypes()],
+                             self.view.getContent(state)))
 
     def test_getChart(self):
         """ This test verifies creation of chart image tag."""
@@ -442,7 +448,7 @@ class LegacyPortlets(TestCase):
 
     def afterSetUp(self):
         self.view = queryMultiAdapter((self.portal, self.portal.REQUEST),
-                                       name='legacy_portlets')
+                                      name='legacy_portlets')
 
     def test_getPortlets(self):
         """Tests method that returns portlets info."""
@@ -462,7 +468,7 @@ class TestPropertiesStats(TestCase):
 
     def afterSetUp(self):
         self.view = queryMultiAdapter((self.portal, self.portal.REQUEST),
-                                       name='properties_stats')
+                                      name='properties_stats')
 
     def test_getPropsList(self):
         self.view.propname = 'title'
@@ -471,7 +477,7 @@ class TestPropertiesStats(TestCase):
 
         for title in result:
             self.assert_(title in [prop_info['slots']
-                     for prop_info in self.view.getPropsList()])
+                                   for prop_info in self.view.getPropsList()])
 
 
 class TestPortletsStats(TestCase):
@@ -479,7 +485,7 @@ class TestPortletsStats(TestCase):
 
     def afterSetUp(self):
         self.view = queryMultiAdapter((self.portal, self.portal.REQUEST),
-                                       name='portlets_stats')
+                                      name='portlets_stats')
 
     def test_getPropsList(self):
         """Tests method that collects portlet information from site."""
@@ -487,7 +493,8 @@ class TestPortletsStats(TestCase):
         self.loginAsPortalOwner()
         portlet = getUtility(IPortletType, name='portlets.Calendar')
         mapping = \
-          self.portal.restrictedTraverse('++contextportlets++plone.leftcolumn')
+            self.portal.restrictedTraverse(
+                '++contextportlets++plone.leftcolumn')
         mapping.restrictedTraverse('+/' + portlet.addview)()
 
         plone_portlets_info = filter(lambda info: info['path'] == '/plone',
@@ -518,7 +525,7 @@ def test_suite():
         #    'browser.txt', package='quintagroup.contentstats',
         #    test_class=TestCase),
 
-        ])
+    ])
 
     test_suite.addTest(unittest.makeSuite(TestQAInstallation))
     test_suite.addTest(unittest.makeSuite(TestOwnershipByType))

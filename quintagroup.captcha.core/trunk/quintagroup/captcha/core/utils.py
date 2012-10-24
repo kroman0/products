@@ -13,8 +13,9 @@ from DateTime import DateTime
 
 from quintagroup.captcha.core.data import basic_english
 #import quintagroup.captcha.core configuration values
-from quintagroup.captcha.core.config import (DEFAULT_IMAGE_SIZE, DEFAULT_BG,
-    DEFAULT_FONT_COLOR, DEFAULT_DISTORTION, CAPTCHAS_COUNT)
+from quintagroup.captcha.core.config import (
+    DEFAULT_IMAGE_SIZE, DEFAULT_BG, DEFAULT_FONT_COLOR, DEFAULT_DISTORTION,
+    CAPTCHAS_COUNT)
 
 try:
     import Crypto.Cipher.DES as Crypto
@@ -118,7 +119,7 @@ def gen_captcha(**kwargs):
                  xRows[j + 1][i], yRows[j + 1][i],
                  xRows[j + 1][i + 1], yRows[j + 1][i + 1],
                  xRows[j][i + 1], yRows[j][i + 1]),
-                ))
+            ))
 
     img = image.transform(image.size, Image.MESH, mesh, Image.BILINEAR)
 

@@ -111,7 +111,7 @@ class OwnershipByType(AnalyticsBaseView):
         for type_ in types:
             data.append(self.getContent(type_))
         other = [self.getContent(t) for t in self.getTypes(
-                                                    all=True)[self.MAX:]]
+            all=True)[self.MAX:]]
         if other:
             data.append([sum(l) for l in zip(*other)])
         max_value = max(self.getTotal())
@@ -333,17 +333,17 @@ class LegacyPortlets(AnalyticsBaseView):
             if obj.hasProperty('left_slots'):
                 info['left_slots'] = obj.getProperty('left_slots')
                 self.expressions = self.expressions.union(
-                                            set(info['left_slots']))
+                    set(info['left_slots']))
             if obj.hasProperty('right_slots'):
                 info['right_slots'] = obj.getProperty('right_slots')
                 self.expressions = self.expressions.union(
-                                            set(info['right_slots']))
+                    set(info['right_slots']))
         return info
 
     def _walk(self, obj, level=-1):
         yield self._getInfo(obj)
-        if level != 0 and (IFolderish.providedBy(obj) \
-                       or IBaseFolder.providedBy(obj)):
+        if level != 0 and (IFolderish.providedBy(obj)
+                           or IBaseFolder.providedBy(obj)):
             for v in obj.contentValues():
                 for i in self._walk(v, level - 1):
                     yield i
@@ -357,7 +357,7 @@ class LegacyPortlets(AnalyticsBaseView):
         infos = []
         for i in self._walk(self.context, level):
             if self.DEBUG or i['left_slots'] is not None \
-                          or i['right_slots'] is not None:
+                    or i['right_slots'] is not None:
                 infos.append(i)
         self.total = len(infos)
         return infos
@@ -400,23 +400,23 @@ class PropertiesStats(AnalyticsBaseView):
         if IPropertyManager.providedBy(obj):
             obj = aq_base(obj)
             self.proplist.extend(
-                    [i for i in obj.propertyIds() if i not in self.proplist])
+                [i for i in obj.propertyIds() if i not in self.proplist])
             if obj.hasProperty(self.propname):
                 info['slots'] = obj.getProperty(self.propname)
                 if isinstance(info['slots'], int):
                     info['slots'] = str(info['slots'])
                 if not isinstance(info['slots'], basestring):
                     self.expressions = self.expressions.union(
-                                                set(info['slots']))
+                        set(info['slots']))
                 else:
                     self.expressions = self.expressions.union(
-                                                set([info['slots']]))
+                        set([info['slots']]))
         return info
 
     def _walk(self, obj, level=-1):
         yield self._getInfo(obj)
-        if level != 0 and (IFolderish.providedBy(obj) \
-                       or IBaseFolder.providedBy(obj)):
+        if level != 0 and (IFolderish.providedBy(obj)
+                           or IBaseFolder.providedBy(obj)):
             for v in obj.contentValues():
                 for i in self._walk(v, level - 1):
                     yield i
@@ -515,7 +515,7 @@ class PortletsStats(AnalyticsBaseView):
                 'title': assignments[idx].title,
                 'editview': editviewName,
                 'visible': settings.get('visible', True),
-                })
+            })
         return data
 
     def getPortlets(self, context, mapping, manager):
@@ -552,8 +552,8 @@ class PortletsStats(AnalyticsBaseView):
             yield self._getInfo(obj)
         except:
             pass
-        if level != 0 and (IFolderish.providedBy(obj) \
-                       or IBaseFolder.providedBy(obj)):
+        if level != 0 and (IFolderish.providedBy(obj)
+                           or IBaseFolder.providedBy(obj)):
             for v in obj.contentValues():
                 for i in self._walk(v, level - 1):
                     yield i
@@ -567,7 +567,7 @@ class PortletsStats(AnalyticsBaseView):
         infos = []
         for i in self._walk(self.context, level):
             if self.DEBUG or i['left_slots'] is not None \
-                          or i['right_slots'] is not None:
+                    or i['right_slots'] is not None:
                 infos.append(i)
         self.total = len(infos)
         return infos

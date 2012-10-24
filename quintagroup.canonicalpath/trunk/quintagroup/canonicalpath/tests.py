@@ -88,13 +88,13 @@ class TestIndexerRegistration(TestCase):
     def testCanonicalPathForAT(self):
         wrapper = self.get_indexable_wrapper(self.my_doc)
         self.assertTrue(hasattr(wrapper, 'canonical_path'),
-                        "'canonical_path' attribute not accessible with "\
+                        "'canonical_path' attribute not accessible with "
                         "indexer wrapper for Document object")
 
     def testCanonicalLinkForAT(self):
         wrapper = self.get_indexable_wrapper(self.my_doc)
         self.assertTrue(hasattr(wrapper, 'canonical_link'),
-                        "'canonical_link' attribute not accessible with "\
+                        "'canonical_link' attribute not accessible with "
                         "indexer wrapper for Document object")
 
 
@@ -108,31 +108,35 @@ class TestDefaultCanonicalPathAdapter(TestCase):
         self.logout()
 
         self.mydoc_cp = '/' + '/'.join(self.purl.getRelativeContentPath(
-                                            self.my_doc))
+            self.my_doc))
         self.portal_cp = '/' + '/'.join(self.purl.getRelativeContentPath(
-                                            self.portal))
+            self.portal))
 
     def testRegistration4Portal(self):
         cpadapter = queryAdapter(self.portal, ICanonicalPath)
         self.assertFalse(cpadapter is None,
-            "Can't get canonical path adapter for the plone site object")
+                         "Can't get canonical path adapter for the plone"
+                         " site object")
 
     def testRegistration4AT(self):
         cpadapter = queryAdapter(self.my_doc, ICanonicalPath)
         self.assertFalse(cpadapter is None,
-            "Can't get canonical path adapter for the Document object")
+                         "Can't get canonical path adapter for the Document"
+                         " object")
 
     def testGetDefault4Portal(self):
         cpadapter = queryAdapter(self.portal, ICanonicalPath)
         self.assertTrue(cpadapter.canonical_path == self.portal_cp,
-            "Canonical path adapter return '%s' for portal, must be: '%s'" % (
-            cpadapter.canonical_path, self.portal_cp))
+                        "Canonical path adapter return '%s' for portal,"
+                        " must be: '%s'" % (cpadapter.canonical_path,
+                                            self.portal_cp))
 
     def testGetDefault4AT(self):
         cpadapter = queryAdapter(self.my_doc, ICanonicalPath)
         self.assertTrue(cpadapter.canonical_path == self.mydoc_cp,
-            "Canonical path adapter return '%s' for document, "\
-            "must be: '%s'" % (cpadapter.canonical_path, self.mydoc_cp))
+                        "Canonical path adapter return '%s' for document, "
+                        "must be: '%s'" % (cpadapter.canonical_path,
+                                           self.mydoc_cp))
 
     def testSet4Portal(self):
         cpadapter = queryAdapter(self.portal, ICanonicalPath)
@@ -141,12 +145,14 @@ class TestDefaultCanonicalPathAdapter(TestCase):
         cpadapter.canonical_path = newcp
         prop = self.portal.getProperty(PROPERTY_PATH, None)
         self.assertTrue(prop == newcp,
-            "Canonical path adapter setter NOT SET new '%s' value to '%s' " \
-            "propery for the portal" % (newcp, PROPERTY_PATH))
+                        "Canonical path adapter setter NOT SET new '%s' value"
+                        " to '%s' propery for the portal" % (newcp,
+                                                             PROPERTY_PATH))
 
         self.assertTrue(cpadapter.canonical_path == newcp,
-            "Canonical path adapter GET '%s' canonical_path, for portal, " \
-            "must be: '%s'" % (cpadapter.canonical_path, newcp))
+                        "Canonical path adapter GET '%s' canonical_path, for"
+                        " portal, must be: '%s'" % (cpadapter.canonical_path,
+                                                    newcp))
 
     def testSet4AT(self):
         cpadapter = queryAdapter(self.my_doc, ICanonicalPath)
@@ -155,12 +161,14 @@ class TestDefaultCanonicalPathAdapter(TestCase):
         cpadapter.canonical_path = newcp
         prop = self.my_doc.getProperty(PROPERTY_PATH, None)
         self.assertTrue(prop == newcp,
-            "Canonical path adapter setter NOT SET new '%s' value to '%s' " \
-            "propery for the Document" % (newcp, PROPERTY_PATH))
+                        "Canonical path adapter setter NOT SET new '%s' value"
+                        " to '%s' propery for the Document" % (newcp,
+                                                               PROPERTY_PATH))
 
         self.assertTrue(cpadapter.canonical_path == newcp,
-            "Canonical path adapter GET '%s' canonical_path, for Document, " \
-            "must be: '%s'" % (cpadapter.canonical_path, newcp))
+                        "Canonical path adapter GET '%s' canonical_path, for "
+                        "Document, must be: '%s'" % (cpadapter.canonical_path,
+                                                     newcp))
 
     def testValidationWrong(self):
         cpadapter = queryAdapter(self.my_doc, ICanonicalPath)
@@ -171,7 +179,7 @@ class TestDefaultCanonicalPathAdapter(TestCase):
                 continue
             else:
                 raise self.failureException, "InvalidValue not raised when " \
-                      "'%s' wrong value try to set" % wrong
+                    "'%s' wrong value try to set" % wrong
 
     def testValidationGood(self):
         cpadapter = queryAdapter(self.my_doc, ICanonicalPath)
@@ -186,7 +194,8 @@ class TestDefaultCanonicalPathAdapter(TestCase):
 
         del cpadapter.canonical_path
         self.assertFalse(hasprop(PROPERTY_PATH),
-            "Not deleted Canonical path customization property for the portal")
+                         "Not deleted Canonical path customization property "
+                         "for the portal")
 
     def testDelCustomization(self):
         cpadapter = queryAdapter(self.portal, ICanonicalPath)
@@ -195,8 +204,8 @@ class TestDefaultCanonicalPathAdapter(TestCase):
 
         del cpadapter.canonical_path
         self.assertTrue(cpadapter.canonical_path == self.portal_cp,
-            "After deleted Canonical path customization property not set to "
-            "default value for the portal")
+                        "After deleted Canonical path customization property "
+                        "not set to default value for the portal")
 
 
 class TestDefaultCanonicalLinkAdapter(TestCase):
@@ -213,24 +222,27 @@ class TestDefaultCanonicalLinkAdapter(TestCase):
     def testRegistration4Portal(self):
         cladapter = queryAdapter(self.portal, ICanonicalLink)
         self.assertFalse(cladapter is None,
-            "Can't get canonical link adapter for the plone site object")
+                         "Can't get canonical link adapter for the plone site "
+                         "object")
 
     def testRegistration4AT(self):
         cladapter = queryAdapter(self.my_doc, ICanonicalLink)
         self.assertFalse(cladapter is None,
-            "Can't get canonical link adapter for the Document object")
+                         "Can't get canonical link adapter for the Document "
+                         " object")
 
     def testGetDefault4Portal(self):
         cladapter = queryAdapter(self.portal, ICanonicalLink)
         self.assertTrue(cladapter.canonical_link == self.purl(),
-            "Canonical link adapter return '%s' for portal, must be: '%s'" % (
-            cladapter.canonical_link, self.purl()))
+                        "Canonical link adapter return '%s' for portal, must "
+                        "be: '%s'" % (cladapter.canonical_link, self.purl()))
 
     def testGetDefault4AT(self):
         cladapter = queryAdapter(self.my_doc, ICanonicalLink)
         self.assertTrue(cladapter.canonical_link == self.mydoc_cl,
-            "Canonical link adapter return '%s' for document, "\
-            "must be: '%s'" % (cladapter.canonical_link, self.mydoc_cl))
+                        "Canonical link adapter return '%s' for document, "
+                        "must be: '%s'" % (cladapter.canonical_link,
+                                           self.mydoc_cl))
 
     def testSet4Portal(self):
         cladapter = queryAdapter(self.portal, ICanonicalLink)
@@ -239,12 +251,14 @@ class TestDefaultCanonicalLinkAdapter(TestCase):
         cladapter.canonical_link = newcl
         prop = self.portal.getProperty(PROPERTY_LINK, None)
         self.assertTrue(prop == newcl,
-            "Canonical link adapter setter NOT SET new '%s' value to '%s' " \
-            "propery for the portal" % (newcl, PROPERTY_LINK))
+                        "Canonical link adapter setter NOT SET new '%s' value "
+                        "to '%s' propery for the portal" % (newcl,
+                                                            PROPERTY_LINK))
 
         self.assertTrue(cladapter.canonical_link == newcl,
-            "Canonical link adapter GET '%s' canonical_link, for portal, " \
-            "must be: '%s'" % (cladapter.canonical_link, newcl))
+                        "Canonical link adapter GET '%s' canonical_link, for "
+                        "portal, must be: '%s'" % (cladapter.canonical_link,
+                                                   newcl))
 
     def testSet4AT(self):
         cladapter = queryAdapter(self.my_doc, ICanonicalLink)
@@ -253,12 +267,14 @@ class TestDefaultCanonicalLinkAdapter(TestCase):
         cladapter.canonical_link = newcl
         prop = self.my_doc.getProperty(PROPERTY_LINK, None)
         self.assertTrue(prop == newcl,
-            "Canonical link adapter setter NOT SET new '%s' value to '%s' " \
-            "propery for the Document" % (newcl, PROPERTY_LINK))
+                        "Canonical link adapter setter NOT SET new '%s' value "
+                        "to '%s' propery for the Document" % (newcl,
+                                                              PROPERTY_LINK))
 
         self.assertTrue(cladapter.canonical_link == newcl,
-            "Canonical link adapter GET '%s' canonical_link, for Document, " \
-            "must be: '%s'" % (cladapter.canonical_link, newcl))
+                        "Canonical link adapter GET '%s' canonical_link, for "
+                        "Document, must be: '%s'" % (cladapter.canonical_link,
+                                                     newcl))
 
     def testValidationWrong(self):
         cladapter = queryAdapter(self.my_doc, ICanonicalLink)
@@ -284,7 +300,8 @@ class TestDefaultCanonicalLinkAdapter(TestCase):
 
         del cladapter.canonical_link
         self.assertFalse(hasprop(PROPERTY_LINK),
-            "Not deleted Canonical link customization property for the portal")
+                         "Not deleted Canonical link customization property "
+                         "for the portal")
 
     def test_DelCustomization(self):
         cladapter = queryAdapter(self.portal, ICanonicalLink)
@@ -293,8 +310,8 @@ class TestDefaultCanonicalLinkAdapter(TestCase):
 
         del cladapter.canonical_link
         self.assertTrue(cladapter.canonical_link == self.purl(),
-            "After deleted Canonical link customization property not set to "
-            "default value for the portal")
+                        "After deleted Canonical link customization property "
+                        "not set to default value for the portal")
 
 ##
 ## Dummy object for converter tests
@@ -347,7 +364,7 @@ class TestConvertor(unittest.TestCase):
         # 1. check canonical link in result object
         result = ICanonicalLink(item).canonical_link
         expect = "http://domain.com/www/some/path"
-        self.assertEqual(result, expect, "Got %s canonical link, " \
+        self.assertEqual(result, expect, "Got %s canonical link, "
                          "expect: %s" % (result, expect))
         # 2. canonical path propery mast be delete from the object
         self.assertEqual(item.hasProperty(ICanonicalPath(item).prop), False,
@@ -360,7 +377,7 @@ class TestConvertor(unittest.TestCase):
         # 1. check canonical link in result object
         result = ICanonicalLink(item).canonical_link
         expect = "http://domain.com/www/some/path"
-        self.assertEqual(result, expect, "Got %s canonical link, " \
+        self.assertEqual(result, expect, "Got %s canonical link, "
                          "expect: %s" % (result, expect))
         # 2. custom_property mast be deleted from the object
         self.assertEqual(item.hasProperty("custom_property"), False,
@@ -396,12 +413,11 @@ class TestConvertor(unittest.TestCase):
         logs2 = self.convertor.getLogs()
         assert logs != ""
         self.assertEqual(logs == logs2, True,
-             "logs not equal: \"%s\" != \"%s\"" % (logs, logs2))
+                         "logs not equal: \"%s\" != \"%s\"" % (logs, logs2))
         self.convertor.convertIPathToLink(bad)
         logs3 = self.convertor.getLogs()
-        self.assertEqual(logs3 > logs2, True,
-             "Log was not updated - last: \"%s\", previous: \"%s\"" % (logs3,
-                                                                       logs2))
+        self.assertEqual(logs3 > logs2, True, "Log was not updated - "
+                         "last: \"%s\", previous: \"%s\"" % (logs3, logs2))
 
     def test_loggingCleanup(self):
         bad = NotPropertyProviderItem("item")
@@ -426,11 +442,13 @@ class TestAdaptersRegistration(unittest.TestCase):
             """Property and Traversable provider."""
         item = ProperyAndTraverseProvider("test")
         self.assertNotEqual(queryAdapter(item, ICanonicalLink), None,
-            self.cant % ICanonicalLink.__name__ + "IPropertyManager and "\
-                                                  "ITraversable.")
+                            self.cant % ICanonicalLink.__name__ +
+                            "IPropertyManager and "
+                            "ITraversable.")
         self.assertNotEqual(queryAdapter(item, ICanonicalPath), None,
-            self.cant % ICanonicalPath.__name__ + "IPropertyManager and "\
-                                                  "ITraversable.")
+                            self.cant % ICanonicalPath.__name__ +
+                            "IPropertyManager and "
+                            "ITraversable.")
 
     def test_Traversable(self):
         """Traversable enough for get adapter"""
@@ -438,9 +456,11 @@ class TestAdaptersRegistration(unittest.TestCase):
             """Only Traversable provider."""
         item = TraverseProvider("test")
         self.assertNotEqual(queryAdapter(item, ICanonicalLink), None,
-           self.cant % ICanonicalLink.__name__ + "only ITraversable.")
+                            self.cant % ICanonicalLink.__name__ +
+                            "only ITraversable.")
         self.assertNotEqual(queryAdapter(item, ICanonicalPath), None,
-           self.cant % ICanonicalPath.__name__ + "only ITraversable.")
+                            self.cant % ICanonicalPath.__name__ +
+                            "only ITraversable.")
 
     def test_PropertyManager(self):
         """Implementing only IPropertyManager - not enough, because of
@@ -450,20 +470,24 @@ class TestAdaptersRegistration(unittest.TestCase):
             """Only PropertyManager provider."""
         item = PropertyManagerProvider("test")
         self.assertEqual(queryAdapter(item, ICanonicalLink), None,
-           self.doget % ICanonicalLink.__name__ + "only IPropertyManager.")
+                         self.doget % ICanonicalLink.__name__ +
+                         "only IPropertyManager.")
         self.assertEqual(queryAdapter(item, ICanonicalPath), None,
-           self.doget % ICanonicalPath.__name__ + "only IPropertyManager.")
+                         self.doget % ICanonicalPath.__name__ +
+                         "only IPropertyManager.")
 
     def test_NotProvider(self):
         class NotProvider(BaseItem):
             """Nor Traversable not PropertyManager provider."""
         item = NotProvider("test")
         self.assertEqual(queryAdapter(item, ICanonicalLink), None,
-           self.doget % ICanonicalLink.__name__ + "nor ITraversabe not "\
-                                                  "IPropertyManager.")
+                         self.doget % ICanonicalLink.__name__ +
+                         "nor ITraversabe not "
+                         "IPropertyManager.")
         self.assertEqual(queryAdapter(item, ICanonicalPath), None,
-           self.doget % ICanonicalPath.__name__ + "nor ITraversabe not "\
-                                                  "IPropertyManager.")
+                         self.doget % ICanonicalPath.__name__ +
+                         "nor ITraversabe not "
+                         "IPropertyManager.")
 
 
 def test_suite():
@@ -473,7 +497,7 @@ def test_suite():
         unittest.makeSuite(TestDefaultCanonicalLinkAdapter),
         unittest.makeSuite(TestConvertor),
         unittest.makeSuite(TestAdaptersRegistration),
-        ])
+    ])
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

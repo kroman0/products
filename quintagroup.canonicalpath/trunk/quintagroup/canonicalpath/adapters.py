@@ -14,7 +14,8 @@ from quintagroup.canonicalpath.interfaces import ICanonicalLink
 PROPERTY_PATH = "canonical_path"
 PROPERTY_LINK = "canonical_link"
 
-_is_canonical = re.compile(r"\S*$").match  # non space and no new line(should be pickier)
+# non space and no new line(should be pickier)
+_is_canonical = re.compile(r"\S*$").match
 
 
 class DefaultPropertyAdapter(object):

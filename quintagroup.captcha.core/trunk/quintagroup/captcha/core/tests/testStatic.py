@@ -82,8 +82,9 @@ class TestStaticValidator(ptc.PloneTestCase):
         self.req = self.app.REQUEST
         # set up a dummy state object
         self.dummycs = ControllerState(id='prefs_captchas_setup_form',
-            context=self.portal, button='submit', status='success',
-            errors={}, ext_action=None,)
+                                       context=self.portal, button='submit',
+                                       status='success', errors={},
+                                       ext_action=None,)
 
     def testGoodData(self):
         hashkey = self.portal.getCaptcha()

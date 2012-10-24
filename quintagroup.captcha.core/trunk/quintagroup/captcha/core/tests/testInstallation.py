@@ -27,7 +27,7 @@ class TestInstallation(ptc.FunctionalTestCase):
         self.qi.uninstallProducts([PRODUCT_NAME])
         pp = getToolByName(self.portal, 'portal_properties')
         self.assert_(not PROPERTY_SHEET in pp.objectIds(),
-            'Property sheet found after uninstallation')
+                     'Property sheet found after uninstallation')
 
     def testConfigletInstall(self):
         list_ids = []
@@ -82,7 +82,7 @@ class TestInstallation(ptc.FunctionalTestCase):
     def testToolUninstall(self):
         self.qi.uninstallProducts([PRODUCT_NAME])
         self.assertNotEqual(self.qi.isProductInstalled(PRODUCT_NAME), True,
-            '%s is already installed' % PRODUCT_NAME)
+                            '%s is already installed' % PRODUCT_NAME)
         self.assert_(not TOOL_ID in self.portal.objectIds())
 
     def testCaptchaKey(self):

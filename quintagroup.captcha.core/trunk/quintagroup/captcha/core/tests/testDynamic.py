@@ -43,9 +43,9 @@ class TestPIL(unittest.TestCase):
 
     def testPILImageFont(self):
         if not DYNAMIC_WORKABLE:
-            self.fail("You can not use Dynamic Captchas, only Static one " \
-                "unless install PIL with _imagingft C module into python, " \
-                "that is used for the current Zope instance.")
+            self.fail("You can not use Dynamic Captchas, only Static one "
+                      "unless install PIL with _imagingft C module into "
+                      "python, that is used for the current Zope instance.")
 
 
 class TestDynamic(DynamicMixin, ptc.FunctionalTestCase):
@@ -86,10 +86,11 @@ class TestDynamic(DynamicMixin, ptc.FunctionalTestCase):
             self.portal.absolute_url(1) + "/getCaptchaImage/%s" % self.hashkey)
 
         img_ctype = img_html.getHeader('content-type')
-        self.assertTrue(img_ctype == 'image/jpeg', "Wrong content type for " \
-            "generated image: %s, must be 'image/jpeg'" % img_ctype)
-        self.assertTrue(img_html.status == 200, "Wrong response status: " \
-            "'%s', must be '200'" % img_html.status)
+        self.assertTrue(img_ctype == 'image/jpeg',
+                        "Wrong content type for generated image: %s, "
+                        "must be 'image/jpeg'" % img_ctype)
+        self.assertTrue(img_html.status == 200, "Wrong response status: "
+                        "'%s', must be '200'" % img_html.status)
 
 
 class TestDynamicValidator(DynamicMixin, TestStaticValidator):

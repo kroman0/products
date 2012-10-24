@@ -5,8 +5,8 @@ from StringIO import StringIO
 from zope.component import getAdapter
 from Acquisition import aq_base, aq_inner
 
-from quintagroup.canonicalpath.interfaces  import ICanonicalPath
-from quintagroup.canonicalpath.interfaces  import ICanonicalLink
+from quintagroup.canonicalpath.interfaces import ICanonicalPath
+from quintagroup.canonicalpath.interfaces import ICanonicalLink
 from quintagroup.canonicalpath.adapters import PROPERTY_LINK
 from quintagroup.canonicalpath.adapters import PROPERTY_PATH
 from quintagroup.canonicalpath.adapters import DefaultPropertyAdapter
@@ -65,9 +65,9 @@ class CanonicalConvertor(object):
            Log results in logger.
         """
         src_msg = type(src_iface) in StringTypes and src_iface \
-                                                 or src_iface.__name__
+            or src_iface.__name__
         msg = "Migrate %s into %s for %s object: " \
-               % (src_msg, dst_iface.__name__, obj.absolute_url())
+            % (src_msg, dst_iface.__name__, obj.absolute_url())
         try:
             src = self._getOrMakeAdapter(obj, src_iface)
             dst = getAdapter(obj, dst_iface)
@@ -116,7 +116,7 @@ class CanonicalConvertor(object):
         handler = StreamHandler(self._inout)
         handler.setLevel(DEBUG)
         formatter = Formatter(fmt="[%(asctime)s]: %(message)s",
-                                      datefmt="%H:%M:%S")
+                              datefmt="%H:%M:%S")
         handler.setFormatter(formatter)
         self._logger = Logger("quintagroup.canonicalpath", NOTSET)
         self._logger.addHandler(handler)

@@ -30,7 +30,7 @@ setup(name='quintagroup.pfg.captcha',
       keywords='plone captcha PloneFormGen',
       author='Quintagroup',
       author_email='support@quintagroup.com',
-      url='http://projects.quintagroup.com/products/wiki/'\
+      url='http://projects.quintagroup.com/products/wiki/'
           'quintagroup.pfg.captcha',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),

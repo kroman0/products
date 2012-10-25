@@ -53,9 +53,9 @@ def test_suite():
         ztc.ZopeDocFileSuite(
             'README.txt', package='quintagroup.formlib.captcha',
             test_class=FormlibCaptchaTestCase,
-            optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | \
-                        doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
-        ])
+            optionflags=doctest.REPORT_ONLY_FIRST_FAILURE |
+            doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
+    ])
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

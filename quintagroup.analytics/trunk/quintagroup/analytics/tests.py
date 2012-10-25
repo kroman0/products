@@ -220,7 +220,7 @@ class TestOwnershipByType(TestCase):
                              lambda i, j: i == j, [len(
                                  self.pc(portal_type=type_,
                                          Creator=user))
-                for user in self.view.getUsers()],
+                                 for user in self.view.getUsers()],
                              self.view.getContent(type_)))
 
     def test_getChart(self):
@@ -314,7 +314,7 @@ class TestOwnershipByState(TestCase):
                              lambda i, j: i == j, [len(
                                  self.pc(review_state=state,
                                          Creator=user))
-                for user in self.view.getUsers()],
+                                 for user in self.view.getUsers()],
                              self.view.getContent(state)))
 
     def test_getChart(self):
@@ -390,7 +390,7 @@ class TestTypeByState(TestCase):
                              lambda i, j: i == j, [len(
                                  self.pc(portal_type=type_,
                                          review_state=state))
-                for type_ in self.view.getTypes()],
+                                 for type_ in self.view.getTypes()],
                              self.view.getContent(state)))
 
     def test_getChart(self):

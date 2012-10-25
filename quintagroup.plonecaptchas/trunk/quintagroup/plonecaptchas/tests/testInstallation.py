@@ -25,7 +25,7 @@ class TestInstallation(TestCase):
             path = map(str.strip, path.split(','))
             for layer in LAYERS:
                 self.assert_(layer.split('/')[0] in self.skins.objectIds(),
-                             '%s directory view not found in portal_skins '\
+                             '%s directory view not found in portal_skins '
                              'after installation' % layer)
                 self.assert_(layer in path,
                              '%s layer not found in %s' % (PRODUCT_NAME, skin))
@@ -62,12 +62,11 @@ class TestUninstallation(TestCase):
             path = map(str.strip, path.split(','))
             for layer in LAYERS:
                 self.assertTrue(
-                        not layer.split('/')[0] in self.skins.objectIds(),
-                        '%s directory view found in portal_skins '\
-                        'after uninstallation' % layer)
-                self.assert_(not layer in path,
-                    '%s layer found in %s skin after uninstallation' % (layer,
-                                                                        skin))
+                    not layer.split('/')[0] in self.skins.objectIds(),
+                    '%s directory view found in portal_skins '
+                    'after uninstallation' % layer)
+                self.assert_(not layer in path, '%s layer found in %s skin '
+                             'after uninstallation' % (layer, skin))
 
     def testBrowserLayerUnregistration(self):
         # Test if IQGPloneCaptchas browser layer registered on installation

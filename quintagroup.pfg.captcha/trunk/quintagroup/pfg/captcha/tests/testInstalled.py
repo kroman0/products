@@ -25,7 +25,7 @@ class TestInstallations(TestCase):
             if p.startswith('Products'):
                 p = p[9:]
             self.assertEqual(p in installed, True,
-                '"%s" product not installed' % p)
+                             '"%s" product not installed' % p)
 
     def testType(self):
         pt = self.portal.portal_types
@@ -52,7 +52,8 @@ class TestInstallations(TestCase):
         for sname, spath in ps.getSkinPaths():
             paths = filter(None, map(string.strip, spath.split(',')))
             self.assertEqual("qplonecaptchafield" in paths, True,
-                '"qplonecaptchafield" layer not present in "%s" skin' % sname)
+                             '"qplonecaptchafield" layer not present '
+                             'in "%s" skin' % sname)
 
 
 class TestCaptchaField(TestCase):
@@ -69,7 +70,8 @@ class TestCaptchaField(TestCase):
             visibility = schema[field].widget.visible
             self.assertEqual(visibility, {'view': 'invisible',
                                           'edit': 'invisible'},
-                '"%s" field is not hidden, but %s:' % (field, visibility))
+                             '"%s" field is not hidden, but %s:' %
+                             (field, visibility))
 
     def testFGField(self):
         cf = getattr(self.ff1, CAPTCHA_ID)

@@ -23,5 +23,4 @@ def initialize(context):
         content_types=content_types,
         permission=ADD_PERMISSION,
         extra_constructors=constructors,
-        fti=ftis,
-        ).initialize(context)
+        fti=ftis,).initialize(context)

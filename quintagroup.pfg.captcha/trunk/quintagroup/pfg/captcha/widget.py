@@ -12,5 +12,4 @@ class CaptchaWidget(StringWidget):
 registerWidget(CaptchaWidget,
                title='Captcha widget',
                description=('Renders captcha image and string input',),
-               used_for=('quintagroup.pfg.captcha.field.CaptchaField',)
-              )
+               used_for=('quintagroup.pfg.captcha.field.CaptchaField',))

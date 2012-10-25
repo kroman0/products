@@ -105,7 +105,7 @@ class TestCaptchaWidgetToField(ptc.PloneTestCase):
         try:
             res = self.widget._toFieldValue(key)
         except ConversionError, e:
-            self.fail("Rised unexpected %s error on right captcha submit" % \
+            self.fail("Rised unexpected %s error on right captcha submit" %
                       e.doc())
         else:
             self.assertEqual(res, key)
@@ -127,7 +127,7 @@ class TestCaptchaWidgetToField(ptc.PloneTestCase):
         except ConversionError, e:
             self.assertEqual(e.doc(), u'Please re-enter validation code.')
         else:
-            self.fail("No ConversionError rised on right captcha key " \
+            self.fail("No ConversionError rised on right captcha key "
                       "submitting twice")
 
 

@@ -20,9 +20,9 @@ def migrateToPackage(context):
     cftype = getattr(ptypes, 'CaptchaField', None)
     if cftype and getattr(cftype, 'product', "") == "qPloneCaptchaField":
         catalog = plone_tools.catalog()
-        captcha_fields = [(cf.id, cf.getObject().aq_parent) \
+        captcha_fields = [(cf.id, cf.getObject().aq_parent)
                           for cf in catalog.search(
-                                {'portal_type': 'CaptchaField'})]
+                          {'portal_type': 'CaptchaField'})]
         logger.info("Old Products.qPloneCaptchaField fields collected.")
 
 

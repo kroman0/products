@@ -8,7 +8,7 @@ from Products.ATContentTypes.content.base import registerATCT
 from Products.PloneFormGen.content.fields import FGStringField
 from Products.PloneFormGen.content.fieldsBase import BaseFormField
 from Products.PloneFormGen.content.fieldsBase \
-        import BaseFieldSchemaStringDefault
+    import BaseFieldSchemaStringDefault
 
 from quintagroup.pfg.captcha.config import PROJECTNAME
 from quintagroup.pfg.captcha.widget import CaptchaWidget
@@ -56,11 +56,11 @@ class CaptchaField(FGStringField):
 
         # set a preconfigured field as an instance attribute
         self.fgField = StringField('fg_string_field',
-            searchable=0,
-            required=1,
-            write_permission=View,
-            validators=('isCaptchaCorrect',),
-            widget=CaptchaWidget(),
-            )
+                                   searchable=0,
+                                   required=1,
+                                   write_permission=View,
+                                   validators=('isCaptchaCorrect',),
+                                   widget=CaptchaWidget(),
+                                   )
 
 registerATCT(CaptchaField, PROJECTNAME)

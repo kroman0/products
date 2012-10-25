@@ -70,7 +70,8 @@ class TestFormMixin(FunctionalTestCase):
             stdin_data = StringIO(form_data)
         # Publish form and get response
         response = self.publish(form_url, self.basic_auth,
-            request_method=self.form_method, stdin=stdin_data)
+                                request_method=self.form_method,
+                                stdin=stdin_data)
         return response
 
     def _getauth(self):
@@ -89,13 +90,13 @@ class TestFormMixin(FunctionalTestCase):
         img_url = match_obj.group(1)
 
         content_type = self.publish('/plone' + img_url).getHeader(
-                                                            'content-type')
+            'content-type')
         self.assertTrue(content_type.startswith('image'),
-            "Wrong captcha image content type")
+                        "Wrong captcha image content type")
 
     def testSubmitRightCaptcha(self):
-        key = getWord(int(parseKey(decrypt(
-                self.captcha_key, self.hashkey))['key']) - 1)
+        key = getWord(int(parseKey(decrypt(self.captcha_key,
+                                           self.hashkey))['key']) - 1)
         self.form_data['key'] = key
 
         response = self.publishForm().getBody()
@@ -107,8 +108,8 @@ class TestFormMixin(FunctionalTestCase):
         self.assertTrue(NOT_VALID.search(response))
 
     def testSubmitRightCaptchaTwice(self):
-        key = getWord(int(parseKey(decrypt(
-                self.captcha_key, self.hashkey))['key']) - 1)
+        key = getWord(int(parseKey(decrypt(self.captcha_key,
+                                           self.hashkey))['key']) - 1)
         self.form_data['key'] = key
 
         self.publishForm()

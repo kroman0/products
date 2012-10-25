@@ -70,7 +70,8 @@ class TestFormMixin(FunctionalTestCase):
             stdin_data = StringIO(form_data)
         # Publish form and get response
         response = self.publish(form_url, self.basic_auth,
-            request_method=self.form_method, stdin=stdin_data)
+                                request_method=self.form_method,
+                                stdin=stdin_data)
         return response
 
     def _getauth(self):
@@ -89,7 +90,7 @@ class TestFormMixin(FunctionalTestCase):
                 l = logs.pop()
                 i += 1
                 open("/tmp/test.%s.error.%d.html" % (l["id"], i),
-                                                     "w").write(l["tb_html"])
+                     "w").write(l["tb_html"])
 
     def testImage(self):
         self.form_data = {}
@@ -101,9 +102,9 @@ class TestFormMixin(FunctionalTestCase):
         img_url = match_obj.group(1)
 
         content_type = self.publish(
-                            '/plone' + img_url).getHeader('content-type')
+            '/plone' + img_url).getHeader('content-type')
         self.assertTrue(content_type.startswith('image'),
-            "Wrong captcha image content type")
+                        "Wrong captcha image content type")
 
     def testSubmitRightCaptcha(self):
         key = getWord(int(parseKey(decrypt(self.captcha_key,
@@ -223,8 +224,8 @@ def test_suite():
                 'discussion.txt', package='quintagroup.plonecaptchas.tests',
                 test_class=FunctionalTestCase, globs=globals(),
                 optionflags=doctest.REPORT_ONLY_FIRST_FAILURE |
-                    doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
-            ]))
+                doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
+        ]))
 
     else:
         suite.addTest(unittest.makeSuite(TestDiscussionForm))

@@ -22,8 +22,7 @@ Compatibility
 -------------
 
 * Plone 3.x
-* Plone 4.0.x
-* Plone 4.1
+* Plone 4.x
 
 Links
 -----

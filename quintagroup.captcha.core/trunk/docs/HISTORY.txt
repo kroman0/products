@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.4.1 - (2013-02-11)
+------------------
+
+* Fixed ValueError on validation for dynamic captcha [kroman0]
+
+* Fixed AttributeError on validation [kroman0]
+
 0.4 - (2013-01-17)
 ------------------
 

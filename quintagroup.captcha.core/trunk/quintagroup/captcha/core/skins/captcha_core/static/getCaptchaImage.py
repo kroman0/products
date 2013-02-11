@@ -9,8 +9,17 @@
 from quintagroup.captcha.core.utils import gen_captcha, decrypt, \
     getWord, parseKey
 
-hk = context.REQUEST.traverse_subpath[0]
-dk = decrypt(context.captcha_key, hk)
+try:
+    hk = context.REQUEST.traverse_subpath[0]
+except IndexError:
+    return
+try:
+    dk = decrypt(context.captcha_key, hk)
+except:
+    return
 key = parseKey(dk)['key']
-img = getattr(context, '%s.jpg' % key)
+try:
+    img = getattr(context, '%s.jpg' % key)
+except AttributeError:
+    return
 return img.index_html(context.REQUEST, context.REQUEST.RESPONSE)

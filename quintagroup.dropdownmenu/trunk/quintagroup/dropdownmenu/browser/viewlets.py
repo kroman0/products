@@ -257,12 +257,12 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
     @dropdowncache
     def createMenuMobile(self):
         html = self.mobile(children=self.portal_tabs(), level=1)
-        return xhtmlslimmer.compress(html).strip('\n')
+        return xhtmlslimmer.compress(html).strip(' \n')
 
     @dropdowncache
     def createMenu(self):
         html = self.recurse(children=self.portal_tabs(), level=1)
-        return xhtmlslimmer.compress(html).strip('\n')
+        return xhtmlslimmer.compress(html).strip(' \n')
 
     @memoize
     def is_plone_four(self):

@@ -5,26 +5,25 @@
 
 <metal:main define-macro="sections_main">
 <tal:navitem repeat="node children">
-<li tal:define="show_children   node/show_children;
-                children        node/children;
-                item_url        node/getURL;
-                item_icon       node/item_icon;
-                is_current      node/currentItem;
+<li tal:define="is_current      node/currentItem;
                 is_in_path      node/currentParent;
                 li_curr_class   python:is_current and 'selected' or '';
                 li_extr_class   python:(is_in_path and not is_current) and 'selected' or '';
                 li_extr_class   python:(not (is_in_path or is_current)) and li_extr_class + 'plain' or li_extr_class;
-                item_type       node/normalized_portal_type | nothing;
                 li_class string:${li_curr_class}${li_extr_class};
-                li_class python:children and li_class or li_class"
-    tal:attributes="class string:$li_class">
+                li_class python:li_class or nothing"
+    tal:attributes="class li_class">
 
-    <tal:level define="show_icons view/conf/show_icons;
-                       a_class python:children and 'hasChildrens' or ''">
+    <tal:level define="show_children node/show_children;
+                       children node/children;
+                       show_icons view/conf/show_icons;
+                       item_icon node/item_icon;
+                       item_type node/normalized_portal_type | nothing;
+                       a_class python:children and 'hasChildrens' or nothing">
 
-    <a tal:attributes="href python:item_url;
-                       title node/Description;
-                       class string:${a_class}">
+    <a tal:attributes="href node/getURL;
+                       title node/Description|nothing;
+                       class a_class">
         <img tal:condition="python: show_icons and not plonefour"
              tal:replace="structure item_icon/html_tag | nothing" />
         <span tal:content="node/Title"

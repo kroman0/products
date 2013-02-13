@@ -26,14 +26,15 @@
                         /><span tal:content="node/Title"
                                 tal:attributes="class python: plonefour and show_icons and item_type and 'contenttype-'+ item_type or nothing"
                             >Selected Item Title</span
-                    ></a
-                ><ul tal:attributes="class python:'globalSectionsLevel'+str(level)"
-                       tal:condition="python: len(children) > 0 and show_children"
-                    ><li tal:replace="structure python:view.recurse(children=children, level=level+1)"
-                        >SubMenu</li
-                    ></ul
-                ></tal:level
-            ></li
-        ></tal:navitem
-    ></metal:main
-></tal:master>
+                        ></a
+                    ><ul tal:attributes="class python:'globalSectionsLevel'+str(level)"
+                         tal:condition="python: len(children) > 0 and show_children"
+                        ><li tal:replace="structure python:view.recurse(children=children, level=level+1)"
+                            >SubMenu</li
+                        ></ul
+                    ></tal:level
+                ></li
+            ></tal:navitem
+        ></metal:main
+    ></tal:master
+>

@@ -9,11 +9,14 @@
         ><li tal:replace="structure menu"
             >DropDown Menu</li
         ></ul
-    ><select id="portal-globalnav-mobile"
-             tal:condition="view/conf/mobile_menu"
-             tal:content="structure view/createMenuMobile"
-             onchange="location = this.options[this.selectedIndex].value;"
-        ><option value="" selected="selected"
-            >Menu</option
-        ></select
-    ></tal:tabs>
+    ><div class="mobileMenu"
+        ><select id="portal-globalnav-mobile"
+                 tal:condition="view/conf/mobile_menu"
+                tal:content="structure view/createMenuMobile"
+                onchange="location = this.options[this.selectedIndex].value;"
+            ><option value="" selected="selected"
+                >Menu</option
+            ></select
+        ></div
+    ></tal:tabs
+>

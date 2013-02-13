@@ -13,6 +13,8 @@ Changelog
 
 * Cleanup templates [kroman0]
 
+* Wraped mobile menu in div [kroman0]
+
 1.2.11 - August 10,2012
 
 * <select><option> layout added for mobile skins [kroman0]

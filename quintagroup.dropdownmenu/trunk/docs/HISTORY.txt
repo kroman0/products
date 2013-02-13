@@ -5,6 +5,8 @@ Changelog
 
 * Fixed 'no record' error [kroman0]
 
+* Added sections heading [kroman0]
+
 1.2.11 - August 10,2012
 
 * <select><option> layout added for mobile skins [kroman0]

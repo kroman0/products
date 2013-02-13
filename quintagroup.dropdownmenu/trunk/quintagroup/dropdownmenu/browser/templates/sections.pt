@@ -1,6 +1,7 @@
 <tal:tabs tal:define="menu view/createMenu"
           tal:condition="menu"
           i18n:domain="plone">
+    <p class="hiddenStructure" i18n:translate="heading_sections">Navigation</p>
     <ul id="portal-globalnav" tal:attributes="class python:view.conf.mobile_menu and 'mobileMenuOn' or ''">
         <li tal:replace="structure menu">
             DropDown Menu

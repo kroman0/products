@@ -6,4 +6,5 @@ Vitaliy Podoba  [piv]
 Yuriy Gvozdovych    [gvizdyk]
 Olha Pelishok   [olha]
 Taras Melnychuk [fenix]
+Roman Kozlovskyi    [kroman0]
 Malthe Borch

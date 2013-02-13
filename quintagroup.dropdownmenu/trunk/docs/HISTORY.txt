@@ -9,6 +9,10 @@ Changelog
 
 * Fixed empty class attributes [kroman0]
 
+* Fixed html validation of mobile layout [kroman0]
+
+* Cleanup templates [kroman0]
+
 1.2.11 - August 10,2012
 
 * <select><option> layout added for mobile skins [kroman0]

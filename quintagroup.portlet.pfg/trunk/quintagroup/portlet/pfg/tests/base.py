@@ -8,6 +8,7 @@ from Products.PloneTestCase.layer import onsetup
 
 ztc.installProduct('PloneFormGen')
 
+
 @onsetup
 def setup_product():
     """Set up additional products and ZCML required to test this product.
@@ -36,9 +37,11 @@ setup_product()
 ptc.setupPloneSite(products=['Products.PloneFormGen',
                              'quintagroup.portlet.pfg'])
 
+
 class TestCase(ptc.PloneTestCase):
     """Base class used for test cases
     """
+
 
 class FunctionalTestCase(ptc.FunctionalTestCase):
     """Test case class used for functional (doc-)tests

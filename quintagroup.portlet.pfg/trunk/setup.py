@@ -7,12 +7,11 @@ setup(name='quintagroup.portlet.pfg',
       version=version,
       description="Render form created by PloneFormGen package.",
       long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
-      # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
+      open(os.path.join("docs", "HISTORY.txt")).read(),
       classifiers=[
-        "Programming Language :: Python",
-        "Topic :: Software Development :: Libraries :: Python Modules",
-        ],
+          "Programming Language :: Python",
+          "Topic :: Software Development :: Libraries :: Python Modules",
+      ],
       keywords='portlet pfg',
       author='Quintagroup',
       author_email='support@quintagroup.com',

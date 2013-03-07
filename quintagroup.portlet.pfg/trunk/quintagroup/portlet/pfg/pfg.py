@@ -9,22 +9,23 @@ from plone.portlets.interfaces import IPortletDataProvider
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFPlone import PloneMessageFactory as _
-from Products.CMFCore.utils import getToolByName
 
-from Products.PloneFormGen.interfaces import  IPloneFormGenForm
+from Products.PloneFormGen.interfaces import IPloneFormGenForm
 from plone.app.vocabularies.catalog import SearchableTextSourceBinder
 from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
+
 
 class IPFGPortlet(IPortletDataProvider):
 
     target_form = schema.Choice(
-                    title=_(u"Target form"),
-                    description=_(u"Find the form which you want to be",
-                                   "displayed in portlet."),
-                    required=True,
-                    source=SearchableTextSourceBinder(
-                        {'object_provides':IPloneFormGenForm.__identifier__},
-                        default_query='path:'))
+        title=_(u"Target form"),
+        description=_(u"Find the form which you want to be",
+                      "displayed in portlet."),
+        required=True,
+        source=SearchableTextSourceBinder(
+            {'object_provides': IPloneFormGenForm.__identifier__},
+            default_query='path:'))
+
 
 class Assignment(base.Assignment):
     implements(IPFGPortlet)
@@ -36,6 +37,7 @@ class Assignment(base.Assignment):
     def title(self):
         return _(u"PFG Portlet")
 
+
 class Renderer(base.Renderer):
 
     _template = ViewPageTemplateFile('pfg.pt')
@@ -43,9 +45,8 @@ class Renderer(base.Renderer):
     def __init__(self, *args):
         base.Renderer.__init__(self, *args)
         self.portal_state = getMultiAdapter((self.context, self.request),
-                                       name=u'plone_portal_state')
+                                            name=u'plone_portal_state')
         self.portal = self.portal_state.portal()
-
 
     def render(self):
         return xhtml_compress(self._template())
@@ -69,9 +70,11 @@ class Renderer(base.Renderer):
         form = self.pfg_object()
         if form is not None:
             form_path = '/'.join(form.getPhysicalPath()[2:])
-            form_view = self.portal.restrictedTraverse('%s/@@embedded' % form_path)
+            form_view = self.portal.restrictedTraverse(
+                '%s/@@embedded' % form_path)
             form_view.prefix = 'pfgportlet'
             return form_view()
+
 
 class AddForm(base.AddForm):
 
@@ -83,6 +86,7 @@ class AddForm(base.AddForm):
 
     def create(self, data):
         return Assignment(target_form=data.get('target_form', ''))
+
 
 class EditForm(base.EditForm):
 

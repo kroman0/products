@@ -26,12 +26,22 @@ class IPFGPortlet(IPortletDataProvider):
             {'object_provides': IPloneFormGenForm.__identifier__},
             default_query='path:'))
 
+    show_text = schema.Bool(
+        title=_(u"Show form text"),
+        description=_(u"If selected, the form prologue and epilogue will "
+                      u"shown in portlet."),
+        default=False,
+        required=False)
+
 
 class Assignment(base.Assignment):
     implements(IPFGPortlet)
 
-    def __init__(self, target_form=''):
+    show_text = False
+
+    def __init__(self, target_form='', show_text=False):
         self.target_form = target_form
+        self.show_text = show_text
 
     @property
     def title(self):
@@ -85,7 +95,8 @@ class AddForm(base.AddForm):
     description = _(u"This portlet displays pfg content.")
 
     def create(self, data):
-        return Assignment(target_form=data.get('target_form', ''))
+        return Assignment(target_form=data.get('target_form', ''),
+                          show_text=data.get('show_text', False))
 
 
 class EditForm(base.EditForm):

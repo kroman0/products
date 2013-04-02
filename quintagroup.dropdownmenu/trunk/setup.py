@@ -10,6 +10,7 @@ setup(name='quintagroup.dropdownmenu',
       version=version,
       description="Multilevel portal dropdown menu for Plone sites.",
       long_description=open("README.txt").read(
+      ) + "\n" + open(os.path.join("docs", "CONTRIBUTORS.txt")).read(
       ) + "\n" + open(os.path.join("docs", "HISTORY.txt")).read(),
       classifiers=[
           "Environment :: Web Environment",

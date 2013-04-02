@@ -1,7 +1,7 @@
 Contributors
 ============
 
-Volodymyr Cherepanyak   [chevol]
+Volodymyr Cherepanyak   [chervol]
 Vitaliy Podoba  [piv]
 Yuriy Gvozdovych    [gvizdyk]
 Olha Pelishok   [olha]

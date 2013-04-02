@@ -58,13 +58,13 @@ are applied per action switch off caching.
 Compatibility
 =============
 
-* **Plone 4** sample CSS file based on Sunburst theme provided
-* **Plone 3.0-3.3** the default CSS file has to be overridden
+* **Plone 4.x** sample CSS file based on Sunburst theme provided
+* **Plone 3.x** the default CSS file has to be overridden
 
 Installation
 ============
 
-* add http://good-py.appspot.com/release/plone.app.registry/1.0b2 to versions in your buildout
+* add http://good-py.appspot.com/release/plone.app.registry/1.0b2 to versions in your buildout for Plone<4.1
 * add quintagroup.dropdownmenu to eggs in your buildout
 * install Plone DropDown Menu in Plone via Site Setup -> Add-ons
 

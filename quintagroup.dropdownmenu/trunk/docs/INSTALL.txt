@@ -1,7 +1,7 @@
 Installation
 ------------
 
-* Fix version of ``plone.app.registry``::
+* Fix version of ``plone.app.registry`` for Plone<4.1::
 
     [buildout]
     ...

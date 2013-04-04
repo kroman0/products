@@ -98,7 +98,7 @@ body {
   display:none;
   }
 
-@media (max-width:5in) {
+@media (max-width:767px) {
 #portal-globalnav.mobileMenuOn {
   display:none;
   }
@@ -106,5 +106,5 @@ body {
   display:block;
   margin:0.5em;
   min-width:150px;
-  }   
+  }
 }

@@ -7,6 +7,10 @@
             ><li tal:define="is_current      node/currentItem;
                              is_in_path      node/currentParent;
                              li_id           string:portaltab-${node/id}-level$level;
+                             item_url        node/getURL;
+                             item_remote_url node/getRemoteUrl;
+                             link_remote     node/link_remote|nothing;
+                             item_url        python:link_remote and item_remote_url or item_url;
                              li_curr_class   python:is_current and 'selected' or '';
                              li_extr_class   python:(is_in_path and not is_current) and 'selected' or '';
                              li_extr_class   python:(not (is_in_path or is_current)) and li_extr_class + 'plain' or li_extr_class;
@@ -19,7 +23,7 @@
                             item_icon node/item_icon;
                             item_type node/normalized_portal_type | nothing;
                             a_class python:children and 'hasChildrens' or nothing"
-                    ><a tal:attributes="href node/getURL;
+                    ><a tal:attributes="href item_url;
                                         title node/Description|nothing;
                                         class a_class"
                         ><img tal:condition="python: show_icons and not plonefour"

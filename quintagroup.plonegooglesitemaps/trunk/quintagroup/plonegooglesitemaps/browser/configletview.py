@@ -173,7 +173,12 @@ class ConfigletSettingsView(BrowserView):
             comment = request.get("comment")
             vfile = request.get("verification_file")
             vfilename, vftitle = cookId("", "", vfile)
-            portal.manage_addFile(id="", file=vfile, title=comment)
+            portal.manage_addFile(
+                id="",
+                file=vfile,
+                title=comment,
+                content_type='text/plain',
+            )
             portal[vfilename].manage_addProperty(
                 'CreatedBy', 'quintagroupt.plonegooglesitemaps', 'string')
         except BadRequestException, e:

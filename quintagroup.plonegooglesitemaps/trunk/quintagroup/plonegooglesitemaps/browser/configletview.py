@@ -149,8 +149,8 @@ class ConfigletSettingsView(BrowserView):
         portal = self.pps.portal()
         portal.manage_delObjects([self.request.id, ])
         self.request.RESPONSE.redirect(
-            urlparse.urljoin(self.context.absolute_url,
-                             'prefs_gsm_verification'))
+            self.context.absolute_url() + '/' + 'prefs_gsm_verification'
+        )
 
     def getVerificationFiles(self):
         vfs = []

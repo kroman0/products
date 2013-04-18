@@ -5,8 +5,6 @@ from OFS.Image import cookId
 from OFS.ObjectManager import BadRequestException
 from Products.Five import BrowserView
 
-import urlparse
-
 
 def splitNum(num):
     res = []

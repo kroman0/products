@@ -3,9 +3,13 @@ Changelog
 
 1.2.14dev - April 18, 2013
 
+* Updated css media for package [gvizdyk]
+
 * Hidden mobile menu for print [gvizdyk]
 
 * Updated styles for mobile navigations [gvizdyk]
+
+* Updated condition for include styles for mobile device [gvizdyk]
 
 1.2.13 - April 04, 2013
 

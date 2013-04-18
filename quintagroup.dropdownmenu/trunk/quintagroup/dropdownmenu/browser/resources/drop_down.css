@@ -1,5 +1,6 @@
-/* DropDown Menu Styles */
+@media screen {
 
+/* DropDown Menu Styles */
 * html body {
   behavior:url("/@@csshover.htc");
   }
@@ -99,6 +100,7 @@
 #portal-globalnav-mobile {
   display:none;
   }
+}
 
 @media (max-width:767px) {
 #portal-globalnav.mobileMenuOn {
@@ -116,7 +118,7 @@
 }
 
 @media print {
-  .mobileMenu {
-    display: none;
-    }
+.mobileMenu {
+  display: none;
+  }
 }

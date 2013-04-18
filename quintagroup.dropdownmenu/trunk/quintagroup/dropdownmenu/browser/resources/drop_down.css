@@ -1,6 +1,6 @@
 /* DropDown Menu Styles */
 
-body {
+* html body {
   behavior:url("/@@csshover.htc");
   }
 #portal-top {
@@ -9,13 +9,15 @@ body {
 #portal-searchbox {
   position:relative;
   z-index:2;
-  }  
+  }
 
 /*---------- BASIC STYLE one level ----------*/
 #portal-globalnav {
   list-style-image:none;
-  position:relative; /* fix ie */
-  zoom:1; /* fix ie */
+  }
+* html #portal-globalnav {
+  position:relative;
+  zoom:1;
   }
 #portal-globalnav:after {
   content:"";
@@ -102,9 +104,19 @@ body {
 #portal-globalnav.mobileMenuOn {
   display:none;
   }
+.mobileMenu {
+  background-color: #ddd;
+  margin: 0 0 0.5em;
+  padding:0.5em;
+  }
 #portal-globalnav-mobile {
   display:block;
-  margin:0.5em;
   min-width:150px;
   }
+}
+
+@media print {
+  .mobileMenu {
+    display: none;
+    }
 }

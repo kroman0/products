@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.2.14dev - April 18, 2013
+
+* Hidden mobile menu for print [gvizdyk]
+
+* Updated styles for mobile navigations [gvizdyk]
+
 1.2.13 - April 04, 2013
 
 * Use getRemoteUrl for links [kroman0]

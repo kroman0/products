@@ -10,10 +10,10 @@
             >DropDown Menu</li
         ></ul
     ><div class="mobileMenu"
+          tal:condition="view/conf/mobile_menu"
         ><select id="portal-globalnav-mobile"
-                 tal:condition="view/conf/mobile_menu"
-                tal:content="structure view/createMenuMobile"
-                onchange="location = this.options[this.selectedIndex].value;"
+                 tal:content="structure view/createMenuMobile"
+                 onchange="location = this.options[this.selectedIndex].value;"
             ><option value="" selected="selected"
                 >Menu</option
             ></select

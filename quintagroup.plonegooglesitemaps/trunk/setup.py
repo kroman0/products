@@ -18,8 +18,6 @@ setup(name='quintagroup.plonegooglesitemaps',
       classifiers=[
           "Development Status :: 5 - Production/Stable",
           "Environment :: Web Environment",
-          "Framework :: Plone :: 3.0",
-          "Framework :: Plone :: 3.1",
           "Framework :: Plone :: 3.2",
           "Framework :: Plone :: 3.3",
           "Framework :: Plone :: 4.0",

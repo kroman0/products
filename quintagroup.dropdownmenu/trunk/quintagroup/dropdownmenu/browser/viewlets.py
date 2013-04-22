@@ -82,7 +82,7 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
 
     def update(self):
         # we may need some previously defined variables
-        #super(GlobalSectionsViewlet, self).update()
+        # super(GlobalSectionsViewlet, self).update()
 
         # prepare to gather portal tabs
         context = aq_inner(self.context)
@@ -145,7 +145,7 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         active = listtabs[current_item]['url'] == self.site_url
         active = active and self.context_url == self.site_url
         active = listtabs[current_item]['url'] != self.site_url or active
-        if  current_item > -1 and current_item < len(listtabs) and active:
+        if current_item > -1 and current_item < len(listtabs) and active:
             self.mark_active(listtabs[current_item]['id'],
                              listtabs[current_item]['url'])
         self._activate(res)

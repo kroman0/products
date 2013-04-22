@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.8.1-dev'
+version = '1.8.1'
 
 tests_require = ['zope.testing',
                  'collective.testcaselayer']

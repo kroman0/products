@@ -1,6 +1,11 @@
 Changelog
 =========
 
+
+1.8.2-dev (unreleased)
+----------------------
+* Updated the classifiers in setup.py[naomin]
+
 1.8.1 (2013-04-22)
 ------------------
 * Set the Content-type header for the verification file which

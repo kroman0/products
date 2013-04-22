@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.8.1-dev(unreleased)
----------------------
+1.8.1 (2013-04-22)
+------------------
 * Set the Content-type header for the verification file which
   is added by user. 
   [potar]

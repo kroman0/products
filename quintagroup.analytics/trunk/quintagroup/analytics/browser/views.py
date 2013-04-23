@@ -28,13 +28,14 @@ from GChartWrapper import VerticalBarStack
 from quintagroup.analytics.config import COLORS, OTHER_TYPES, NO_WF_BIND
 from quintagroup.analytics import QuintagroupAnalyticsMessageFactory as _
 
-MENUEITEMS = [{'href':'qa_overview', 'content':_('Overview')},
-              {'href':'ownership_by_type', 'content':_('Ownership by type')},
-              {'href':'ownership_by_state', 'content':_('Ownership by state')},
-              {'href':'type_by_state', 'content':_('Types by state')},
-              {'href':'portlets_stats', 'content':_('Portlets stats')},
-              {'href':'legacy_portlets', 'content':_('Legacy portlets')},
-              {'href':'properties_stats', 'content':_('Properties stats')}]
+MENUEITEMS = [{'href': 'qa_overview', 'content': _('Overview')},
+              {'href': 'ownership_by_type', 'content': _('Ownership by type')},
+              {'href': 'ownership_by_state', 'content': _(
+                  'Ownership by state')},
+              {'href': 'type_by_state', 'content': _('Types by state')},
+              {'href': 'portlets_stats', 'content': _('Portlets stats')},
+              {'href': 'legacy_portlets', 'content': _('Legacy portlets')},
+              {'href': 'properties_stats', 'content': _('Properties stats')}]
 
 
 class AnalyticsBaseView(BrowserView):
@@ -443,7 +444,7 @@ class PropertiesStats(AnalyticsBaseView):
             name = name.strip()
             if name not in exprs:
                 exprs.append(name)
-        #exprs.sort()
+        # exprs.sort()
         return exprs
 
 
@@ -519,7 +520,7 @@ class PortletsStats(AnalyticsBaseView):
         return data
 
     def getPortlets(self, context, mapping, manager):
-        #import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         return mapping.keys()
 
     def _getInfo(self, obj):
@@ -532,17 +533,18 @@ class PortletsStats(AnalyticsBaseView):
             'right_slots': None,
         }
         left, right = self.getPortletsManager(obj)
-        #leftmapping, rightmapping = self.getPortletsMapping(obj)
-        #leftmanager, rightmanager = self.getLocalPortletsManager(obj)
-        #info['left_slots'] = self.getPortlets(obj, leftmapping, leftmanager)
-        #info['right_slots'] = self.getPortlets(obj, rightmapping,rightmanager)
+        # leftmapping, rightmapping = self.getPortletsMapping(obj)
+        # leftmanager, rightmanager = self.getLocalPortletsManager(obj)
+        # info['left_slots'] = self.getPortlets(obj, leftmapping, leftmanager)
+        # info['right_slots'] = self.getPortlets(obj,
+        # rightmapping,rightmanager)
         lass = self.getAssignmentsForManager(obj, left)
         rass = self.getAssignmentsForManager(obj, right)
         lurl = self.getAssignmentMappingUrl(obj, left)
         rurl = self.getAssignmentMappingUrl(obj, right)
         plass = self.portlets_for_assignments(lass, left, lurl)
         prass = self.portlets_for_assignments(rass, right, rurl)
-        #print obj, plass, prass
+        # print obj, plass, prass
         info['left_slots'] = plass  # [i['title'] for i in plass]
         info['right_slots'] = prass  # [i['title'] for i in prass]
         return info
@@ -581,5 +583,5 @@ class PortletsStats(AnalyticsBaseView):
             name = name.strip()
             if name not in exprs:
                 exprs.append(name)
-        #exprs.sort()
+        # exprs.sort()
         return exprs

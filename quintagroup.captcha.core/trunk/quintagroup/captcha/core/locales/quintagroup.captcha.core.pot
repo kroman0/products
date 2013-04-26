@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-05-13 10:29+0000\n"
+"POT-Creation-Date: 2013-04-26 10:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,8 +41,8 @@ msgstr ""
 msgid "Period"
 msgstr ""
 
-#: ./skins/captcha_core/dynamic/captcha_validator.vpy:24
-#: ./skins/captcha_core/static/captcha_validator.vpy:26
+#: ./skins/captcha_core/dynamic/captcha_validator.vpy:8
+#: ./skins/captcha_core/static/captcha_validator.vpy:9
 msgid "Please re-enter validation code."
 msgstr ""
 

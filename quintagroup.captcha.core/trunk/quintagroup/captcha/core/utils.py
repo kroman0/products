@@ -1,6 +1,8 @@
 import os
 import re
 import math
+import inspect
+import operator
 try:
     import hashlib as md5
     md5.md5
@@ -10,6 +12,8 @@ from string import atoi
 from random import randint
 
 from DateTime import DateTime
+
+from plone.memoize import forever
 
 from quintagroup.captcha.core.data import basic_english
 #import quintagroup.captcha.core configuration values
@@ -22,6 +26,18 @@ try:
     Crypto
 except ImportError:
     import Crypto
+
+
+@forever.memoize
+def get_source_file_path(obj):
+    return inspect.getsourcefile(obj)
+
+
+def detectInlineValidation(validation_module):
+    validation_module_path = get_source_file_path(validation_module)
+    path = operator.itemgetter(1)
+    return any(path(frame) == validation_module_path
+               for frame in inspect.stack())
 
 
 def encrypt1(s):

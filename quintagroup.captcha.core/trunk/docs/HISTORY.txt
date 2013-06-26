@@ -1,6 +1,16 @@
 Changelog
 =========
 
+0.4.2 - (2013-06-26)
+--------------------
+
+* Added transifex config [kroman0]
+
+* Updated French translations from transifex, many thanks to Marc Sokolovitch
+  [kroman0]
+
+* Added inline validation detector [vmaksymiv]
+
 0.4.1 - (2013-02-11)
 --------------------
 

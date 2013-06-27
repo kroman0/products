@@ -15,7 +15,17 @@ from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import ISiteRoot
 
-from quintagroup.captcha.core.utils import decrypt, parseKey, encrypt1, getWord
+from quintagroup.captcha.core.utils import (decrypt, parseKey,
+                                            encrypt1, getWord,
+                                            detectInlineValidation)
+
+try:
+    from plone.app.form import inline_validation
+except ImportError:
+    # BBB Plone < 4.3 compatibility.
+    # The implementation of inline validation was switched
+    # to a non-KSS-based in plone.app.form-2.2.0
+    from plone.app.form.kss import validation as inline_validation
 
 _ = MessageFactory('quintagroup.formlib.captcha')
 
@@ -62,9 +72,13 @@ class CaptchaWidget(ASCIIWidget):
                                                      key)
 
     def _toFieldValue(self, input):
-        # Verify the user input against the captcha
+        # Captcha validation is one-time process to prevent hacking
+        # This is the reason for in-line validation to be disabled.
+        if detectInlineValidation(inline_validation):
+            return input
 
-        # get captcha type (static or dynamic)
+        # Verify the user input against the captcha.
+        # Get captcha type (static or dynamic)
         site = self.get_site()
         captcha_type = site.getCaptchaType()
 

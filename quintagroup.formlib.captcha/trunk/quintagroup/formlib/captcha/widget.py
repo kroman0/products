@@ -71,6 +71,20 @@ class CaptchaWidget(ASCIIWidget):
                                                      portal_url,
                                                      key)
 
+    def hasInput(self):
+        # The validator looks for the captcha only if the captcha field
+        # is present. If the captcha field is omitted from the request,
+        # then the captcha validation never happens. That's why 'required'
+        # option is useless. So, we have to simulate 'required': set up 'True'
+        # for the captcha input.
+        return True
+
+    def _getFormInput(self):
+        """ It returns current form input. """
+        # The original method isn't suitable when the captcha field 
+        # is omitted from the request.
+        return self.request.get(self.name, u'')
+
     def _toFieldValue(self, input):
         # Captcha validation is one-time process to prevent hacking
         # This is the reason for in-line validation to be disabled.

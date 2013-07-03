@@ -33,12 +33,16 @@ def get_source_file_path(obj):
     return inspect.getsourcefile(obj)
 
 
-# BBB: Python 2.4 support
-def any(iterable):
-    for element in iterable:
-        if element:
-            return True
-    return False
+try:
+    # introduced in Python 2.5
+    from __builtin__ import any
+except ImportError:
+    # BBB: Python 2.4 support
+    def any(iterable):
+        for element in iterable:
+            if element:
+                return True
+        return False
 
 
 def detectInlineValidation(validation_module):

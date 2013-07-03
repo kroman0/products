@@ -81,7 +81,7 @@ class CaptchaWidget(ASCIIWidget):
 
     def _getFormInput(self):
         """ It returns current form input. """
-        # The original method isn't suitable when the captcha field 
+        # The original method isn't suitable when the captcha field
         # is omitted from the request.
         return self.request.get(self.name, u'')
 

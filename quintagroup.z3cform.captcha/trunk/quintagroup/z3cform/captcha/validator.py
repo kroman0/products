@@ -4,9 +4,16 @@ from zope.interface import Interface
 from zope.component import adapts
 from zope.i18n import MessageFactory
 
+try:
+    from plone.app.z3cform import inline_validation
+except ImportError:
+    # BBB Plone < 4.3 compatibility
+    from plone.app.form.kss import validation as inline_validation
+
 from Products.CMFCore.utils import getToolByName
 
-from quintagroup.captcha.core.utils import decrypt, parseKey, encrypt1, getWord
+from quintagroup.captcha.core.utils import (decrypt, parseKey, encrypt1,
+                                            getWord, detectInlineValidation)
 
 from z3c.form.validator import SimpleFieldValidator
 
@@ -22,8 +29,12 @@ class CaptchaValidator(SimpleFieldValidator):
 
     def validate(self, value):
         # Verify the user input against the captcha
-        if 'kss_z3cform_inline_validation' in self.request['URL']:
+
+        # Captcha validation is one-time process to prevent hacking
+        # This is the reason for in-line validation to be disabled.
+        if detectInlineValidation(inline_validation):
             return
+
         context = self.context
         request = self.request
         value = value or ''

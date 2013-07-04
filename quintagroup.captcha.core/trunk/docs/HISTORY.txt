@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.4.3 - (2013-07-04)
+--------------------
+* Added the backward compatibility with Python 2.4 [potar]
+
 0.4.2 - (2013-06-26)
 --------------------
 

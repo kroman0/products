@@ -25,7 +25,12 @@ except ImportError:
     # BBB Plone < 4.3 compatibility.
     # The implementation of inline validation was switched
     # to a non-KSS-based in plone.app.form-2.2.0
-    from plone.app.form.kss import validation as inline_validation
+    try:
+        from plone.app.form.kss import validation as inline_validation
+    # BBB: Plone 3.0 compatibility.
+    # The KSS validation was added in plone.app.form-1.1.0.
+    except:
+        inline_validation = None
 
 _ = MessageFactory('quintagroup.formlib.captcha')
 
@@ -88,7 +93,7 @@ class CaptchaWidget(ASCIIWidget):
     def _toFieldValue(self, input):
         # Captcha validation is one-time process to prevent hacking
         # This is the reason for in-line validation to be disabled.
-        if detectInlineValidation(inline_validation):
+        if inline_validation and detectInlineValidation(inline_validation):
             return input
 
         # Verify the user input against the captcha.

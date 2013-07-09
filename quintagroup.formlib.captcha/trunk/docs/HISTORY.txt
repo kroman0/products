@@ -1,10 +1,19 @@
 Changelog
 =========
 
-1.4.1 (2011-11-02)
-----------------
+1.4.2 (2013-07-09)
+------------------
 
-* updated documentation
+* The in-line validation for captcha was disabled
+  (issue: http://plone.org/products/plone-captchas/issues/6).
+  [potar]
+* The captcha field was made required for preventing hacks (thanks: Sean Fulmer).
+  [potar]
+
+1.4.1 (2011-11-02)
+------------------
+
+* Updated documentation [fenix]
 
 1.4 (2011-08-25)
 ----------------

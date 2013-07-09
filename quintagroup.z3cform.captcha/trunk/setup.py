@@ -38,7 +38,7 @@ setup(name='quintagroup.z3cform.captcha',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'quintagroup.captcha.core',
+          'quintagroup.captcha.core >= 0.4.3',
           'z3c.form',
           # 'zope.schema',
           # 'zope.i18n',

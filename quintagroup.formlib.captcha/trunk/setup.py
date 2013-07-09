@@ -39,7 +39,7 @@ setup(name='quintagroup.formlib.captcha',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
-          'quintagroup.captcha.core',
+          'quintagroup.captcha.core >= 0.4.3',
           'zope.app.form',
           'zope.formlib',
       ],

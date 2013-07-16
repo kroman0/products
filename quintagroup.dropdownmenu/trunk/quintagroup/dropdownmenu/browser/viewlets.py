@@ -50,7 +50,12 @@ def menu_cache_key(f, view):
 # we are caching the menu structure built out of portal_actions tool
 # this cache key does not take in account expressions and roles settings
 def tabs_cache_key(f, view, site_url):
-    return site_url + str(time() // (60 * 60))
+    portal_state = getMultiAdapter(
+        (view.context, view.request),
+        name=u'plone_portal_state',
+    )
+    language = portal_state.locale().getLocaleID()
+    return site_url + language + str(time() // (60 * 60))
 
 
 def dropdowncache(f):

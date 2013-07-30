@@ -93,10 +93,12 @@ class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
         context = aq_inner(self.context)
         self.conf = self._settings()
         self.tool = getToolByName(context, 'portal_actions')
-        self.site_url = getToolByName(context, 'portal_url')()
-        self.context_state = getMultiAdapter((self.context, self.request),
+        plone_portal_state = getMultiAdapter((self.context, self.request),
+                                                  name="plone_portal_state")
+        self.site_url = plone_portal_state.navigation_root_url()
+        context_state = getMultiAdapter((self.context, self.request),
                                              name="plone_context_state")
-        self.context_url = self.context_state.is_default_page() and \
+        self.context_url = context_state.is_default_page() and \
             '/'.join(self.context.absolute_url().split('/')[:-1]) or \
             self.context.absolute_url()
 

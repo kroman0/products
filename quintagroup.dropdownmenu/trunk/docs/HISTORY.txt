@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.13 - July 16, 2013
+1.2.13 - July 30, 2013
 
 * Updated condition for 'mobileMenu' [kroman0]
 
@@ -19,6 +19,8 @@ Changelog
 
 * The cache key of portal tabs was updated (thanks: richardc).
   [potar]
+
+* Fixed getting navigation root [kroman0]
 
 1.2.12 - April 02, 2013
 

@@ -94,7 +94,7 @@ class CaptchaWidget(ASCIIWidget):
         # Captcha validation is one-time process to prevent hacking
         # This is the reason for in-line validation to be disabled.
         if inline_validation and detectInlineValidation(inline_validation):
-            return input
+            return super(CaptchaWidget, self)._toFieldValue(input)
 
         # Verify the user input against the captcha.
         # Get captcha type (static or dynamic)

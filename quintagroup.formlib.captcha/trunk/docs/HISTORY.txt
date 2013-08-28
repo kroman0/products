@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.4.3-dev (2013-08-16)
+----------------------
+
+* The captcha value was decoded during the in-line validation
+  (compatibility with bugfixed plone.app.form-2.2.3,
+  thanks: Maurits van Rees, issue: http://plone.org/products/plone-captchas/issues/6).
+  [potar]
+
 1.4.2 (2013-07-09)
 ------------------
 

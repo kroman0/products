@@ -4,9 +4,6 @@
 * html body {
   behavior:url("/@@csshover.htc");
   }
-#portal-top {
-  z-index:1;
-  }
 #portal-searchbox {
   position:relative;
   z-index:2;
